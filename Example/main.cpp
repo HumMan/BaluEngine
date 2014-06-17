@@ -39,8 +39,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,WPARAM wParam, LPARAM lParam)
 				//va_list list=&dd[0];
 				//vsprintf(&buf1[curr_buf1],"%c _ %c %i",list);
 				//curr_buf1+=vsprintf(&buf1[curr_buf1],"%c",list);
-				curr_buf1+=sprintf(&buf1[curr_buf1],"%c",wParam);
-				SetWindowText(hWnd,&buf1[0]);
+				//curr_buf1+=sprintf_s(buf1[curr_buf1],"%c",wParam);
+				//SetWindowText(hWnd,&buf1[0]);
 			}
 		}
 		break;
@@ -72,8 +72,8 @@ void UpdateControls()
 	if(!ClientToScreen(hWnd,&local_corner))
 	{
 		int i=GetLastError();
-		sprintf(&buf1[0],"%i\nWindow handle: %i",i,hWnd);
-		MessageBox(0,&buf1[0],"Error",MB_OK);
+		sprintf_s(buf1,"%i\nWindow handle: %i",i,hWnd);
+		//MessageBox(0,buf1,L"Error",MB_OK);
 	}
 	v[0]-=local_corner.x;
 	v[1]-=local_corner.y;
@@ -84,8 +84,8 @@ void InitEngine()
 {
 	curr_buf1=0;
 	{
-		engine->AddMaterial("mat1","textures\\Crate005_ebox.png",TVec4(Randf(),Randf(),Randf(),1));
-		engine->AddMaterial("mat2","textures\\container_001a.png",TVec4(Randf(),Randf(),Randf(),1));
+		engine->AddMaterial("mat1","..\\textures\\Crate005_ebox.png",TVec4(Randf(),Randf(),Randf(),1));
+		engine->AddMaterial("mat2","..\\textures\\container_001a.png",TVec4(Randf(),Randf(),Randf(),1));
 		TBaluShape shape;
 		float density=0.001;
 		float rad=0.3;
@@ -194,12 +194,12 @@ int WINAPI WinMain (HINSTANCE hInstance,
 	wc.hCursor = LoadCursor (NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH) GetStockObject (BLACK_BRUSH);
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = "Sample";
+	wc.lpszClassName = L"Sample";
 	RegisterClass (&wc);
 
 	/* create main window */
 	hWnd = CreateWindow (
-		wc.lpszClassName, "Sample",
+		wc.lpszClassName, L"Sample",
 		WS_OVERLAPPEDWINDOW| WS_VISIBLE|WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_POPUPWINDOW | WS_VISIBLE,
 		50, 50, 500,500,/*GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),*/
 		NULL, NULL, hInstance, NULL);

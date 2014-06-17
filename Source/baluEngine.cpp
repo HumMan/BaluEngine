@@ -19,29 +19,30 @@ void TBaluScreen::SetSize(TVec2& use_size)
 void TBaluEngine::Start()
 {
 	//create and compile script
-	char* source=new char[10e6];
+	const int source_len = 10e6;
+	char* source=new char[source_len];
 	int c=0;
 
-	c=sprintf(source,"\n class TGame \n{");
-	strcpy(&source[c],script_base_classes);
-	c+=strlen(script_base_classes);
+	c=sprintf_s(source,source_len,"\n class TGame \n{");
+
+	c += sprintf_s(&source[c], source_len-c, "%s" ,script_base_classes);
 	//c+=sprintf(&source[c],script_base_classes);//TODO нужно просто копировать а то проблемы с форматированием(проценты и т.д. упр. символы)
-	c+=sprintf(&source[c],script_mouse);
-	c+=sprintf(&source[c],script_keyboard);//TODO это же можно одной коммандой сделать
-	c+=sprintf(&source[c],script_time);
-	c+=sprintf(&source[c],script_screen);
-	c+=sprintf(&source[c],script_texture);
-	c+=sprintf(&source[c],script_material);
-	c+=sprintf(&source[c],script_shape);
-	c+=sprintf(&source[c],script_body);
-	c+=sprintf(&source[c],script_sprite);
-	c+=sprintf(&source[c],script_instance);
+	c += sprintf_s(&source[c], source_len - c, "%s" ,script_mouse);
+	c += sprintf_s(&source[c], source_len - c, "%s", script_keyboard);//TODO это же можно одной коммандой сделать
+	c += sprintf_s(&source[c], source_len-c, "%s" ,script_time);
+	c += sprintf_s(&source[c], source_len-c, "%s" ,script_screen);
+	c += sprintf_s(&source[c], source_len-c, "%s" ,script_texture);
+	c += sprintf_s(&source[c], source_len-c, "%s", script_material);
+	c += sprintf_s(&source[c], source_len-c, "%s" ,script_shape);
+	c += sprintf_s(&source[c], source_len-c, "%s" ,script_body);
+	c += sprintf_s(&source[c], source_len-c, "%s" ,script_sprite);
+	c += sprintf_s(&source[c], source_len-c, "%s" ,script_instance);
 	std::map<std::string,TBaluClass>::iterator i;
 
 	for(i=classes.begin();i!=classes.end();i++)
 	{
 		TBaluClass* cl=&i->second;
-		c+=sprintf(&source[c],
+		c += sprintf_s(&source[c], source_len - c,
 			"\n class T%s:TInstance\
 			\n {\
 			\n\t %s"
@@ -56,7 +57,7 @@ void TBaluEngine::Start()
 				case EVENT_STEP:
 				case EVENT_GLOBALMOUSEMOVE:
 					{
-						c+=sprintf(&source[c],
+					c += sprintf_s(&source[c], source_len - c,
 							"\n func %s\
 							\n {\
 							\n %s\
@@ -66,7 +67,7 @@ void TBaluEngine::Start()
 				case EVENT_GLOBALMOUSEDOWN:
 				case EVENT_GLOBALMOUSEUP:
 					{
-						c+=sprintf(&source[c],
+					c += sprintf_s(&source[c], source_len - c,
 							"\n func %s(TMouseButton button)\
 							\n {\
 							\n %s\
@@ -75,7 +76,7 @@ void TBaluEngine::Start()
 					break;
 				case EVENT_GLOBALMOUSEWHEEL:
 					{
-						c+=sprintf(&source[c],
+					c += sprintf_s(&source[c], source_len - c,
 							"\n func %s(float delta)\
 							\n {\
 							\n %s\
@@ -85,7 +86,7 @@ void TBaluEngine::Start()
 				case EVENT_KEYDOWN:
 				case EVENT_KEYUP:
 					{
-						c+=sprintf(&source[c],
+					c += sprintf_s(&source[c], source_len - c,
 							"\n func %s(TKey key)\
 							\n {\
 							\n %s\
@@ -96,19 +97,19 @@ void TBaluEngine::Start()
 				}
 			}
 		}
-		c+=sprintf(&source[c],"\n }");
+		c += sprintf_s(&source[c], source_len-c, "%s" ,"\n }");
 	}
 
-	c+=sprintf(&source[c],script_global_vars);
+	c += sprintf_s(&source[c], source_len-c, "%s" ,script_global_vars);
 
 	for(i=classes.begin();i!=classes.end();i++)
 	{
 		TBaluClass* cl=&i->second;
-		c+=sprintf(&source[c],
+		c += sprintf_s(&source[c], source_len - c,
 			"\n T%s[] static %s;"
 			,cl->class_name.c_str(),cl->class_name.c_str());
 	}
-	c+=sprintf(&source[c],
+	c += sprintf_s(&source[c], source_len - c,
 		"\n }");
 
 	char buf1[1000];
@@ -136,18 +137,18 @@ void TBaluEngine::Start()
 				case EVENT_DESTROY:
 				case EVENT_STEP:
 				case EVENT_GLOBALMOUSEMOVE:
-					sprintf(buff,"func TGame.T%s.%s",cl->class_name.c_str(),event_name[k]);
+					sprintf_s(buff, "func TGame.T%s.%s", cl->class_name.c_str(), event_name[k]);
 					break;
 				case EVENT_GLOBALMOUSEDOWN:
 				case EVENT_GLOBALMOUSEUP:
-					sprintf(buff,"func TGame.T%s.%s(TMouseButton button)",cl->class_name.c_str(),event_name[k]);
+					sprintf_s(buff, "func TGame.T%s.%s(TMouseButton button)", cl->class_name.c_str(), event_name[k]);
 					break;
 				case EVENT_GLOBALMOUSEWHEEL:
-					sprintf(buff,"func TGame.T%s.%s(float delta)",cl->class_name.c_str(),event_name[k]);
+					sprintf_s(buff, "func TGame.T%s.%s(float delta)", cl->class_name.c_str(), event_name[k]);
 					break;
 				case EVENT_KEYDOWN:
 				case EVENT_KEYUP:
-					sprintf(buff,"func TGame.T%s.%s(TKey key)",cl->class_name.c_str(),event_name[k]);
+					sprintf_s(buff, "func TGame.T%s.%s(TKey key)", cl->class_name.c_str(), event_name[k]);
 					break;
 				default:assert(false);
 				}
@@ -184,7 +185,7 @@ void TBaluEngine::Start()
 	{
 		TBaluClass* cl=&i->second;
 		char buff[1000];
-		sprintf(buff,"TGame.%s",cl->class_name.c_str());
+		sprintf_s(buff, "TGame.%s", cl->class_name.c_str());
 		cl->objects_array=(TVirtualMachine::TDynArr*)&vmachine.Get(syntax.GetStaticField(buff)->GetOffset());
 	}
 
@@ -199,7 +200,7 @@ void TBaluEngine::Start()
 	b2AABB aabb;
 	aabb.lowerBound.Set(-1000,-1000);
 	aabb.upperBound.Set(1000,10000);
-	phys_world=new b2World(aabb,b2Vec2(0,-10),true);
+	phys_world=new b2World(b2Vec2(0,-10));
 	//
 
 	vmachine.ConstructStaticVars();
@@ -335,10 +336,10 @@ void TBaluEngine::Step(float step,double time)
 	}
 	render.EndScene();
 	if(step<0.015f)
-		phys_world->Step(step,10);
+		phys_world->Step(step,10,10);
 	else
 	{
-		phys_world->Step(0.015f,10);
+		phys_world->Step(0.015f,10,10);
 		/*int iter_count=int(step/0.015f)+1;
 		for(int i=0;i<iter_count;i++)
 			phys_world->Step(step/iter_count,10);*/

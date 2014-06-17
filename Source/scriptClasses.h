@@ -696,38 +696,39 @@ struct TBaluShape
 			{
 			case TBaluShape::FT_CIRCLE:
 				{		
-					b2CircleDef circle;
-					circle.radius=radius;
-					circle.density=density;
-					body->CreateShape(&circle);
-					body->SetMassFromShapes();
+					b2CircleShape circle;
+					circle.m_radius=radius;
+					b2FixtureDef fd;
+					fd.shape = &circle;
+					fd.density = density;
+					body->CreateFixture(&fd);
 				}
 				break;
-			case TBaluShape::FT_POLYGON:
-				{			
-					b2PolygonDef poly;
-					poly.density=density;
-					poly.vertexCount=vertex_count;
-					for(int i=0;i<vertex_count;i++)
-						poly.vertices[i].Set(vertices[i][0],vertices[i][0]);
-					body->CreateShape(&poly);
-				}
-				break;
-			case TBaluShape::FT_BOX:
-				{
-					b2PolygonDef poly;
-					poly.density=density;
-					poly.SetAsBox(box_size_x,box_size_y);
-					if(body->GetShapeList()!=NULL)
-					{
-						b2Shape* s=body->GetShapeList();
-						body->DestroyShape(s);
-					}
-					body->CreateShape(&poly);	
-				}
-				break;
+			//case TBaluShape::FT_POLYGON:
+			//	{			
+			//		b2PolygonShape poly;
+			//		poly.density=density;
+			//		poly.vertexCount=vertex_count;
+			//		for(int i=0;i<vertex_count;i++)
+			//			poly.vertices[i].Set(vertices[i][0],vertices[i][0]);
+			//		body->CreateShape(&poly);
+			//	}
+			//	break;
+			//case TBaluShape::FT_BOX:
+			//	{
+			//		b2PolygonDef poly;
+			//		poly.density=density;
+			//		poly.SetAsBox(box_size_x,box_size_y);
+			//		if(body->GetShapeList()!=NULL)
+			//		{
+			//			b2Shape* s=body->GetShapeList();
+			//			body->DestroyShape(s);
+			//		}
+			//		body->CreateShape(&poly);	
+			//	}
+			//	break;
 			}
-			body->SetMassFromShapes();
+			//body->SetMassFromShapes();
 		}
 	}
 	BSCRIPT_VOID_METHOD2(TBaluShape,SetAsBox,TVec2,use_box_size,float,use_density)
