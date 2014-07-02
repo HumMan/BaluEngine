@@ -186,7 +186,7 @@ void TBaluEngine::Start()
 		TBaluClass* cl=&i->second;
 		char buff[1000];
 		sprintf_s(buff, "TGame.%s", cl->class_name.c_str());
-		cl->objects_array=(TVirtualMachine::TDynArr*)&vmachine.Get(syntax.GetStaticField(buff)->GetOffset());
+		cl->objects_array=(TDynArr*)&vmachine.Get(syntax.GetStaticField(buff)->GetOffset());
 	}
 
 	//получаем необходимые для взаимодействия со скриптом адреса
@@ -212,7 +212,7 @@ void TBaluEngine::Start()
 	Screen->Pos=TVec2(0,0);
 
 	//инициализируем instances
-	for(int i=0;i<=start_instances.GetHigh();i++)
+	for(int i=0;i<start_instances.size();i++)
 	{
 		TBaluInstance* inst=(TBaluInstance*)(start_instances[i].class_pointer->objects_array->IncHigh(&vmachine));
 		*inst=start_instances[i];

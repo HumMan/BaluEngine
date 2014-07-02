@@ -41,7 +41,7 @@ class TBaluClass
 private:
 	TBaluSprite sprite;
 	int events[MAX_EVENTS];
-	TVirtualMachine::TDynArr* objects_array;
+	TDynArr* objects_array;
 	std::string events_code[MAX_EVENTS];
 	std::string class_members;
 	std::string class_name;
@@ -88,7 +88,7 @@ public:
 	std::map<std::string,TBaluShape> shapes;
 	std::map<std::string,TBaluSprite> sprites;
 	std::map<std::string,TBaluClass> classes;
-	TVector<TBaluInstance> start_instances;
+	std::vector<TBaluInstance> start_instances;
 	//global script classes
 	TBaluMouse* Mouse;
 	TBaluKeyboard* Keyboard;
@@ -170,7 +170,8 @@ public:
 	}
 	void AddInstance(char* class_name,TVec2 use_pos,float use_angle)
 	{
-		TBaluInstance* inst=start_instances.Push();//TODO проверить наличие имени класса
+		start_instances.push_back(TBaluInstance());//TODO проверить наличие имени класса
+		TBaluInstance* inst = &start_instances.back();
 		TBaluClass* cl=&classes[class_name];
 		inst->angle=use_angle;
 		inst->pos=use_pos;

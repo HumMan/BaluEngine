@@ -209,7 +209,7 @@ static const char* script_base_classes="\
 
 class TBaluEngine;
 
-typedef TVirtualMachine::TStaticArr<b2_maxPolygonVertices,TVec2> TVertices;
+typedef TStaticArr TVertices;
 
 struct TExternMethod
 {
@@ -439,8 +439,8 @@ struct TBaluKeyboard
 	friend class TBaluEngine;
 private:
 	TBaluEngine* engine;
-	TVirtualMachine::TStaticArr<256,int> chars;
-	TVirtualMachine::TStaticArr<BVK_MAX,int> special;
+	TStaticArr chars;
+	TStaticArr special;
 public:
 	BSCRIPT_METHOD1(int,TBaluKeyboard,PressedChar,char,key)
 	{
@@ -814,7 +814,7 @@ struct TBaluBody
 	};	
 	b2World* world;
 	b2Body* body;
-	TVirtualMachine::TDynArr shapes;
+	TDynArr shapes;
 	BSCRIPT_VOID_METHOD(TBaluBody,Constr)
 	{
 	}
