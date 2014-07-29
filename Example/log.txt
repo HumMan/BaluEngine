@@ -220,6 +220,7 @@ GL_IBM_texture_mirrored_repeat
 GL_KHR_debug
 GL_KTX_buffer_region
 GL_NV_bindless_multi_draw_indirect
+GL_NV_bindless_multi_draw_indirect_count
 GL_NV_bindless_texture
 GL_NV_blend_equation_advanced
 GL_NV_blend_square

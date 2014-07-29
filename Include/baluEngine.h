@@ -4,7 +4,7 @@
 #include <baluScript.h>
 #include <box2d.h>
 
-#include "../Source/scriptClasses.h"
+#include "../Source/scriptClasses.h""
 
 enum TBaluEvent
 {
@@ -40,7 +40,7 @@ class TBaluClass
 	friend class TBaluEngine;
 private:
 	TBaluSprite sprite;
-	int events[MAX_EVENTS];
+	TSMethod* events[MAX_EVENTS];
 	TDynArr* objects_array;
 	std::string events_code[MAX_EVENTS];
 	std::string class_members;
@@ -48,7 +48,7 @@ private:
 	void Clear(){
 		for(int i=0;i<=MAX_EVENTS;i++)
 		{
-			events[i]=-1;
+			events[i]=NULL;
 		}
 	}
 public:
@@ -72,7 +72,10 @@ class TBaluEngine
 	friend struct TBaluTime;
 private:
 	TBaluRender render;
-	TVirtualMachine vmachine;
+	//TVirtualMachine vmachine;
+
+	std::vector<TStaticValue> static_objects;
+
 	TSyntaxAnalyzer syntax;
 	TProgram program;
 	//
@@ -100,20 +103,21 @@ public:
 		for(i=classes.begin();i!=classes.end();i++)
 		{
 			TBaluClass* cl=&i->second;
-			for(int k=0;k<=cl->objects_array->GetHigh();k++)//TODO проход по всем объектам не нужен, можно в начале опеределить для каких объектов как события вызывать
-				if(cl->events[use_event]!=-1)
+			for(int k=0;k<cl->objects_array->v->size();k+=cl->objects_array->el_class->GetSize())//TODO проход по всем объектам не нужен, можно в начале опеределить для каких объектов как события вызывать
+				if(cl->events[use_event]!=NULL)
 				{
-					TBaluInstance* inst=(TBaluInstance*)cl->objects_array->Get(k);
-					vmachine.Push((int)inst);
-					vmachine.Push(par0);
-					vmachine.Execute(cl->events[use_event],vmachine.GetHigh(),(int*)inst);
-					inst=(TBaluInstance*)cl->objects_array->Get(k);
+					TBaluInstance* inst=(TBaluInstance*)&cl->objects_array->v[k];
+					//TODO
+					//vmachine.Push((int)inst);
+					//vmachine.Push(par0);
+					//vmachine.Execute(cl->events[use_event],vmachine.GetHigh(),(int*)inst);
+					//inst=(TBaluInstance*)cl->objects_array->Get(k);
 				}
 		}
 	}
 public:
 	TBaluEngine(HWND hWnd,TVec2i use_size)
-		:render(hWnd,use_size),vmachine(100000),syntax()
+		:render(hWnd,use_size)///,vmachine(100000),syntax()
 	{
 		keyboard_init=false;
 		mouse_init=false;
@@ -123,7 +127,7 @@ public:
 		Screen=NULL;
 	}
 	~TBaluEngine(){
-		vmachine.DestructStaticVars();
+		//vmachine.DestructStaticVars();
 		delete phys_world;
 	}
 	void Start();

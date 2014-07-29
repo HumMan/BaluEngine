@@ -87,66 +87,69 @@ void InitEngine()
 		engine->AddMaterial("mat1","..\\textures\\Crate005_ebox.png",TVec4(Randf(),Randf(),Randf(),1));
 		engine->AddMaterial("mat2","..\\textures\\container_001a.png",TVec4(Randf(),Randf(),Randf(),1));
 		TBaluShape shape;
-		float density=0.001;
+		float density=1;
 		float rad=0.3;
 		//shape.SetAsCircle(rad,density);
-		shape.SetAsBox(TVec2(0.3,0.3),density);
+		float k = 0.35;
+		shape.SetAsBox(TVec2(1*k, 1*k), density);
 		engine->AddShape("shape1",shape);
 		density=0;
-		shape.SetAsBox(TVec2(6.7,2.4),density);
+		shape.SetAsBox(TVec2(65*k, 2*k), density);
 		engine->AddShape("shape2",shape);
 
 		engine->AddSprite("sprite1","shape1","mat1",TVec2(1,1),0,TVec2(0,0),-1);
-		engine->AddSprite("sprite2","shape2","mat2",TVec2(16,8),0,TVec2(0,0),-1);
+		engine->AddSprite("sprite2","shape2","mat2",TVec2(65,2),0,TVec2(0,0),-1);
 
 		TBaluClass o;
 		o.SetMembers("float t;");
-		o.SetEvent(EVENT_CREATE,
-			"\n t=0;//t=Randf();vec2 tttt=Cross(vec2(0,1),vec2(1,1));\
-			//sprite.shape.SetAsBox(vec2(0.3,0.3),0.01);");
-		o.SetEvent(EVENT_STEP,
-			"\n vec2 v=Normalize(Mouse.WorldPos-pos);\
-			\n //sprite.local_angle=Sign(v[1])*Acos(v[0])+t;\
-			\n if(Mouse.Button.Left){t-=0.2;}if(Mouse.Button.Right){t+=0.2;}");
-		o.SetEvent(EVENT_GLOBALMOUSEDOWN,
-			"\n if(button==TMouseButton.Middle)t+=0.2;");
-		o.SetEvent(EVENT_KEYUP,
-			"\n");
-		o.SetEvent(EVENT_KEYDOWN,
-			"\n");
+		//o.SetEvent(EVENT_CREATE,
+		//	"\n t=0;//t=Randf();vec2 tttt=Cross(vec2(0,1),vec2(1,1));\
+		//	//sprite.shape.SetAsBox(vec2(0.3,0.3),0.01);");
+		//o.SetEvent(EVENT_STEP,
+		//	"\n vec2 v=Normalize(Mouse.WorldPos-pos);\
+		//	\n //sprite.local_angle=Sign(v[1])*Acos(v[0])+t;\
+		//	\n if(Mouse.Button.Left){t-=0.2;}if(Mouse.Button.Right){t+=0.2;}");
+		//o.SetEvent(EVENT_GLOBALMOUSEDOWN,
+		//	"\n if(button==TMouseButton.Middle)t+=0.2;");
+		//o.SetEvent(EVENT_KEYUP,
+		//	"\n");
+		//o.SetEvent(EVENT_KEYDOWN,
+		//	"\n");
 
 		TBaluClass o1;
-		o1.SetMembers("int[][10] arr;");
-		o1.SetEvent(EVENT_STEP,
-			"\n if(Mouse.Button.Left){}TBody b; float[] dsfs;\
-			\n //sprite.local_angle+=Time.Step;");
+		o1.SetMembers("float arr;");
+		//o1.SetMembers("int[][10] arr;");
+		//o1.SetEvent(EVENT_STEP,
+		//	"\n// if(Mouse.Button.Left){}TBody b; float[] dsfs;\
+		//	\n //sprite.local_angle+=Time.Step;");
 
 		TBaluClass mouse_contrl;
-		mouse_contrl.SetEvent(EVENT_STEP,
-			"\n float ox=0,oy=0,coeff=1.0;\
-			\n if(Keyboard.Pressed('A'))ox=-1;\
-			\n if(Keyboard.Pressed('D'))ox=1;\
-			\n if(Keyboard.Pressed('S'))oy=-1;\
-			\n if(Keyboard.Pressed('W'))oy=1;\
-			\n if(Keyboard.Pressed(TVirtKey.LShift))coeff=5.0;\
-			\n Screen.SetPos(Screen.Pos+vec2(ox,oy)*Screen.Size[0]*0.01*coeff);");
+		mouse_contrl.SetMembers("float arr;");
+		//mouse_contrl.SetEvent(EVENT_STEP,
+		//	"\n float ox=0,oy=0,coeff=1.0;\
+		//	\n if(Keyboard.Pressed('A'))ox=-1;\
+		//	\n if(Keyboard.Pressed('D'))ox=1;\
+		//	\n if(Keyboard.Pressed('S'))oy=-1;\
+		//	\n if(Keyboard.Pressed('W'))oy=1;\
+		//	\n if(Keyboard.Pressed(TVirtKey.LShift))coeff=5.0;\
+		//	\n Screen.SetPos(Screen.Pos+vec2(ox,oy)*Screen.Size[0]*0.01*coeff);");
 
 
-		mouse_contrl.SetEvent(EVENT_GLOBALMOUSEWHEEL,
-			"Screen.SetSize(Screen.Size*(1.0+0.1*delta));");
+		//mouse_contrl.SetEvent(EVENT_GLOBALMOUSEWHEEL,
+		//	"Screen.SetSize(Screen.Size*(1.0+0.1*delta));");
 
 		engine->AddClass("Obj2","sprite2",o1);
 		engine->AddClass("Obj1","sprite1",o);
 		engine->AddClass("MouseContrl","sprite1",mouse_contrl);
 		////
 		engine->AddInstance("MouseContrl",TVec2(0,-10),0);
-		engine->AddInstance("Obj2",TVec2(0,-10),0);
-		engine->AddInstance("Obj2",TVec2(12,-5),45*M_PI/180);
-		engine->AddInstance("Obj2",TVec2(-12,-5),-45*M_PI/180);
-		for(int i=-5;i<=25;i++)
+		engine->AddInstance("Obj2",TVec2(0,-0.6),0);
+		engine->AddInstance("Obj2",TVec2(6,-1),45*M_PI/180);
+		engine->AddInstance("Obj2",TVec2(-6,-0.8),-45*M_PI/180);
+		for(int i=5;i<=150;i++)
 			for(int k=-8;k<=8;k++)
 			{
-				engine->AddInstance("Obj1",TVec2(k*0.6+i*0.01,i),0);
+				engine->AddInstance("Obj1",TVec2(k*1+i*0.2,i*4),0);
 			}
 	}
 	UpdateControls();
@@ -201,7 +204,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
 	hWnd = CreateWindow (
 		wc.lpszClassName, L"Sample",
 		WS_OVERLAPPEDWINDOW| WS_VISIBLE|WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_POPUPWINDOW | WS_VISIBLE,
-		50, 50, 500,500,/*GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),*/
+		50, 50, 1000,1000,/*GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),*/
 		NULL, NULL, hInstance, NULL);
 
 	RECT rect;
