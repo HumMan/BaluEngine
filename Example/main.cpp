@@ -87,7 +87,7 @@ void InitEngine()
 		engine->AddMaterial("mat1","..\\textures\\Crate005_ebox.png",TVec4(Randf(),Randf(),Randf(),1));
 		engine->AddMaterial("mat2","..\\textures\\container_001a.png",TVec4(Randf(),Randf(),Randf(),1));
 		TBaluShape shape;
-		float density=1;
+		float density=0.01;
 		float rad=0.3;
 		//shape.SetAsCircle(rad,density);
 		float k = 0.35;
@@ -119,9 +119,8 @@ void InitEngine()
 		TBaluClass o1;
 		o1.SetMembers("float arr;");
 		//o1.SetMembers("int[][10] arr;");
-		//o1.SetEvent(EVENT_STEP,
-		//	"\n// if(Mouse.Button.Left){}TBody b; float[] dsfs;\
-		//	\n //sprite.local_angle+=Time.Step;");
+		o1.SetEvent(EVENT_STEP,
+			"sprite.local_angle+=Time.Step;\n");
 
 		TBaluClass mouse_contrl;
 		mouse_contrl.SetMembers("float arr;");
@@ -146,7 +145,7 @@ void InitEngine()
 		engine->AddInstance("Obj2",TVec2(0,-0.6),0);
 		engine->AddInstance("Obj2",TVec2(6,-1),45*M_PI/180);
 		engine->AddInstance("Obj2",TVec2(-6,-0.8),-45*M_PI/180);
-		for(int i=5;i<=150;i++)
+		for(int i=5;i<=10;i++)
 			for(int k=-8;k<=8;k++)
 			{
 				engine->AddInstance("Obj1",TVec2(k*1+i*0.2,i*4),0);

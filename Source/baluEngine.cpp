@@ -245,6 +245,8 @@ void TBaluEngine::Start()
 		//	vmachine.Execute(m,NULL,(int*)inst);
 		//}
 	}
+
+	render.Set.VSync(true);
 }
 void TBaluEngine::Step(float step,double time)
 {
@@ -269,9 +271,9 @@ void TBaluEngine::Step(float step,double time)
 				TBaluInstance* inst=(TBaluInstance*)(&(*cl->objects_array->v)[k]);
 				std::vector<TStackValue> without_params;
 				TStackValue result;
-				TStackValue obj;
+				TStackValue obj(true,cl->objects_array->el_class);
 				obj.SetAsReference(inst);
-				cl->events[EVENT_STEP]->Run(static_objects, without_params, result, obj);
+				//cl->events[EVENT_STEP]->Run(static_objects, without_params, result, obj);
 			}
 	}
 	//physics
@@ -360,11 +362,12 @@ void TBaluEngine::Step(float step,double time)
 		render.Blend.Enable(false);
 	}
 	render.EndScene();
-	if(step<0.015f)
-		phys_world->Step(step,10,10);
-	else
+	//if(step<0.015f)
+	for (int i = 0; i < 5;i++)
+		phys_world->Step(0.005,1,1);
+	//else
 	{
-		phys_world->Step(0.015f,10,10);
+		//phys_world->Step(0.0035f,30,10);
 		/*int iter_count=int(step/0.015f)+1;
 		for(int i=0;i<iter_count;i++)
 			phys_world->Step(step/iter_count,10);*/

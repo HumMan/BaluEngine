@@ -401,7 +401,7 @@ static const char* script_screen="\
 \n 	func extern SetSize(vec2 size);\
 \n 	func extern ScreenToWorld(vec2 screen_pos):vec2;\
 \n 	func extern WorldToScreen(vec2 world_pos):vec2;\
-\n 	constr {engine=0;}\
+\n 	default {engine=0;}\
 \n }";
 
 
@@ -412,7 +412,7 @@ static const char* script_texture="\
 \n private:\
 \n 	int id;\
 \n public:\
-\n 	constr \
+\n 	default \
 \n 	{\
 \n 		id=0;\
 \n 	}\
@@ -579,7 +579,7 @@ static const char* script_shape="\
 \n	vec2 box_size;\
 \n	int shape_id;\
 \n 	public:\
-\n 	constr extern;\
+\n 	default extern;\
 \n 	func extern SetAsBox(vec2 size,float density); \
 \n 	func extern SetAsPoly(vec2[8] vertices,int count,float density); \
 \n }";
@@ -639,9 +639,9 @@ static const char* script_body	="\
 \n 	int phys_body;//pointer used by external methods\
 \n 	TDynArray<TShape> shapes;\
 \n 	readonly:\
-\n 	constr extern;\
+\n 	default extern;\
 \n 	destr extern;\
-\n 	constr extern (TBody& copy_from);\
+\n 	copy extern (TBody& copy_from);\
 \n 	operator extern static +=(TBody& body,TShape shape);\
 \n 	func extern Push(TShape& shape,int& shape_id);\
 \n 	func extern Erase(int shape_id);\
@@ -694,7 +694,7 @@ static const char* script_instance="\
 \n 	vec2 pos;\
 \n 	float angle;\
 \n 	TSprite sprite;\
-\n 	constr\
+\n 	default\
 \n 	{\
 \n 		class_pointer=0;\
 \n 		//pos=vec2(0.0,0.0);\

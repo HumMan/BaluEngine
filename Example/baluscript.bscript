@@ -5,8 +5,7 @@
 	private:
 		dword unnamed;
 	public:
-		constr(int v) bytecode{ASM_INT_CONSTR;};
-		constr(float v) bytecode{ASM_FLOAT_TO_INT;ASM_INT_CONSTR;};
+		copy(float v) bytecode{ASM_FLOAT_TO_INT;ASM_INT_CONSTR;};
 		
 		operator static = (int& l,int r)bytecode{ASM_ASSIGN 0,1;};
 		operator static +=(int& l,int r)bytecode{ASM_INT_PLUS_A;};
@@ -46,7 +45,7 @@
 	private:
 		dword unnamed;
 	public:
-		constr(float v) bytecode{ASM_FLOAT_CONSTR;};
+		copy(float v) bytecode{ASM_FLOAT_CONSTR;};
 		
 		operator static = (float& l,float r)bytecode{ASM_ASSIGN 0,1;};
 		operator static +=(float& l,float r)bytecode{ASM_FLOAT_PLUS_A;};
@@ -106,7 +105,7 @@
 	private:
 		dword unnamed;
 	public:
-		constr(bool v) bytecode{ASM_BOOL_CONSTR;};
+		copy(bool v) bytecode{ASM_BOOL_CONSTR;};
 		operator static = (bool& l,bool r)bytecode{ASM_ASSIGN 0,1;};
 
 		operator static ==(bool l,bool r):bool bytecode{ASM_EQUAL 0,0,1;};
@@ -123,8 +122,8 @@
 	{
 	public:
 		float x,y;
-		constr(int v) bytecode{ASM_INT_TO_VEC2;};
-		constr(float v) bytecode{ASM_FLOAT_TO_VEC2;};
+		copy(int v) bytecode{ASM_INT_TO_VEC2;};
+		copy(float v) bytecode{ASM_FLOAT_TO_VEC2;};
 		
  		operator static = (vec2& l,vec2 r)bytecode{ASM_ASSIGN 0,2;};
  		operator static +=(vec2& l,vec2 r)bytecode{ASM_VEC2_PLUS_A;};
@@ -280,14 +279,14 @@
  	func extern SetSize(vec2 size);
  	func extern ScreenToWorld(vec2 screen_pos):vec2;
  	func extern WorldToScreen(vec2 world_pos):vec2;
- 	constr {engine=0;}
+ 	default {engine=0;}
  }
  class TTexture
  {
  private:
  	int id;
  public:
- 	constr 
+ 	default 
  	{
  		id=0;
  	}
@@ -316,7 +315,7 @@
 	vec2 box_size;
 	int shape_id;
  	public:
- 	constr extern;
+ 	default extern;
  	func extern SetAsBox(vec2 size,float density); 
  	func extern SetAsPoly(vec2[8] vertices,int count,float density); 
  }
@@ -327,9 +326,9 @@
  	int phys_body;//pointer used by external methods
  	TDynArray<TShape> shapes;
  	readonly:
- 	constr extern;
+ 	default extern;
  	destr extern;
- 	constr extern (TBody& copy_from);
+ 	copy extern (TBody& copy_from);
  	operator extern static +=(TBody& body,TShape shape);
  	func extern Push(TShape& shape,int& shape_id);
  	func extern Erase(int shape_id);
@@ -352,7 +351,7 @@
  	vec2 pos;
  	float angle;
  	TSprite sprite;
- 	constr
+ 	default
  	{
  		class_pointer=0;
  		//pos=vec2(0.0,0.0);
@@ -370,6 +369,11 @@
  class TObj2:TInstance			
  {			
 	 float arr;
+ func OnStep							
+ {							
+ sprite.local_angle+=Time.Step;
+							
+ }
  }
  TMouse static Mouse;
  TKeyboard static Keyboard;
