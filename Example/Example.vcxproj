@@ -62,7 +62,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\..\glew-1.11.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\..\glew-1.11.0\lib\Release\Win32;$(ProjectDir)\..\..\BaluEngine\Output\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;BaluEngine.lib;Box2D.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

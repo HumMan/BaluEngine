@@ -1,5 +1,9 @@
 
-#include "baluEngine.h"
+#include <box2d.h>
+#include <baluRender.h>
+#include <baluEngine.h>
+#include <baluScript.h>
+#include "../Source/scriptClasses.h"
 
 TBaluEngine* engine;
 
@@ -119,7 +123,7 @@ void InitEngine()
 		TBaluClass o1;
 		o1.SetMembers("float arr;");
 		//o1.SetMembers("int[][10] arr;");
-		o1.SetEvent(EVENT_STEP,
+		o1.SetEvent(TBaluEvent::EVENT_STEP,
 			"sprite.local_angle+=Time.Step;\n");
 
 		TBaluClass mouse_contrl;
