@@ -297,7 +297,7 @@ void TBaluEngine::Start()
 
 	char* script_base_classes = NULL;
 	{
-		TFileData file("../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
+		TFileData file("../../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
 		char* base_source = new char[source_len];
 		base_source = file.ReadAll();
 		base_source[file.GetSize()] = '\0';
