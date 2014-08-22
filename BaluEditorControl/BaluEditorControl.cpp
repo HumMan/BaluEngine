@@ -120,6 +120,8 @@ namespace Editor
 {
 	void BaluEditorControl::Render()
 	{
+		if (DesignMode)
+			return;
 		//time.Tick();
 		//if(time.ShowFPS())
 		//{
@@ -138,18 +140,25 @@ namespace Editor
 			engine->Step(step_time, GetTickCount() / 1000.0f);
 		}
 	}
+
 	Void BaluEditorControl::OnResize(EventArgs^ e)
 	{
+		if (DesignMode)
+			return;
 		__super::OnResize(e);
-
 		engine->SetViewport(TVec2i(this->Width, this->Height));
 	}
+
 	BaluEditorControl::BaluEditorControl()
 	{
-		if (System::ComponentModel::LicenseManager::UsageMode==System::ComponentModel::LicenseUsageMode::Designtime)
-			return; 
+		if (System::ComponentModel::LicenseManager::UsageMode == System::ComponentModel::LicenseUsageMode::Designtime)
+		{
+			DesignMode = true;
+			return;
+		}
 		else
 		{
+			DesignMode = false;
 			hWnd = static_cast<HWND>(this->Handle.ToPointer());
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -166,5 +175,112 @@ namespace Editor
 	BaluEditorControl::~BaluEditorControl()
 	{
 
+	}
+
+	Void BaluEditorControl::OnPaint(PaintEventArgs^ e)
+	{
+		if (DesignMode || !Activated)
+		{
+			__super::OnPaint(e);
+			return;
+		}
+	}
+
+	Void BaluEditorControl::OnPaintBackground(PaintEventArgs^ e)
+	{
+		if (DesignMode || !Activated)
+			__super::OnPaintBackground(e);
+	}
+
+	Void BaluEditorControl::OnKeyDown(KeyEventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnKeyPress(KeyPressEventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnKeyUp(KeyEventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnMouseClick(MouseEventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnMouseDoubleClick(MouseEventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnMouseDown(MouseEventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnMouseEnter(EventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnMouseHover(EventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnMouseLeave(EventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnMouseMove(MouseEventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnMouseUp(MouseEventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnMouseWheel(MouseEventArgs^ e)
+	{
+		if (!Activated || DesignMode)
+			return;
+	}
+
+	Void BaluEditorControl::OnLoad(EventArgs^ e)
+	{
+	}
+
+	Void BaluEditorControl::WndProc(Message% m)
+	{
+		switch (m.Msg)
+		{
+		case WM_PAINT:
+			OnPaint(gcnew PaintEventArgs(Graphics::FromHwnd(Handle), ClientRectangle));
+			break;
+
+		case WM_ERASEBKGND:
+			OnPaintBackground(gcnew PaintEventArgs(Graphics::FromHwnd(Handle), ClientRectangle));
+			break;
+		}
+
+		__super::WndProc(m);
 	}
 }

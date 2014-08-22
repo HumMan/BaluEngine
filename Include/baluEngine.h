@@ -91,3 +91,65 @@ public:
 	void UpdateKeyStates(unsigned char new_keystates[]);
 	void UpdateMouseState(bool lpressed, bool mpressed, bool rpressed, TVec2i use_client_mouse_pos);
 };
+
+class TBaluMaterial
+{
+	std::string material_name;
+	std::string image_path;
+	TTextureId texture_id;
+	TVec4 color;
+	enum TTransparentMode
+	{
+		TM_NONE,
+		TM_ALPHA_BLEND,
+		TM_ALPHA_TEST,
+	};
+	TTextureId texture;
+	TTransparentMode blend_mode;
+	
+	float alpha_test_value;
+	TBaluRender::TAlphaTest::TAlphaTestFunc alpha_test_func;
+
+	TBaluRender::TBlend::TBlendFunc blend_func;
+	TBaluRender::TBlend::TBlendEquation blend_left, blend_right;
+	TTexFilter::Enum texture_filter;
+	TTexClamp::Enum texture_clamp;
+public:
+};
+
+class TBaluSprite
+{
+	TBaluMaterial* material;
+	std::vector<TVec2> polygon_vertices;
+	std::vector<TVec2> tex_coordinates;
+	TPolygonMode::Enum polygone_mode;
+	TPrimitive::Enum primitive;
+};
+
+class TBaluPhysShape
+{
+
+};
+
+class TBaluPhysBody
+{
+
+};
+
+class TTransform
+{
+public:
+	TVec2 offset;
+	float rotation;
+};
+
+class TBaluObject
+{
+	std::vector<TBaluSprite*> sprites;
+	std::vector<TTransform> sprites_transform;
+
+	std::vector<TBaluPhysBody*> bodies;
+	std::vector<TTransform> bodies_transform;
+
+	//std::vector<TBaluJoint> joints;
+};

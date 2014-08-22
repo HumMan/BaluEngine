@@ -2,26 +2,20 @@
 
 namespace Editor
 {
-	//----------------------------------------------------
 	using namespace System;
 	using namespace System::Drawing;
 	using namespace System::Windows::Forms;
 	using namespace System::Windows::Forms::Design;
-	//----------------------------------------------------
-
 
 	public ref class BaluEditorControlDesigner : ControlDesigner
 	{
 	protected:
-		// methods
 		virtual Void OnPaintAdornments(PaintEventArgs^ e) override
 		{
-			// draw the cross
 			Pen^ SimplePen = gcnew Pen(Color::Black, 1);
 			e->Graphics->DrawLine(SimplePen, 0, 0, Control->Width - 1, Control->Height - 1);
 			e->Graphics->DrawLine(SimplePen, Control->Width - 1, 0, 0, Control->Height - 1);
 
-			// draw the title text
 			Font^ TitleFont = gcnew Font(L"Microsoft Sans Serif", 10, FontStyle::Bold, GraphicsUnit::Point);
 			String^ TitleText = L"BaluEditor";
 			SizeF TitleSize = e->Graphics->MeasureString(TitleText, TitleFont);
@@ -29,7 +23,6 @@ namespace Editor
 			e->Graphics->FillRectangle(gcnew SolidBrush(Control->BackColor), TitlePosition.X - 1.0F, TitlePosition.Y - 1.0F, TitleSize.Width + 1.0F, TitleSize.Height + 1.0F);
 			e->Graphics->DrawString(TitleText, TitleFont, gcnew SolidBrush(Color::Black), TitlePosition);
 
-			// draw the rectangle
 			e->Graphics->DrawRectangle(SimplePen, 0, 0, Control->Width - 1, Control->Height - 1);
 		}
 	};

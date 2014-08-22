@@ -4,10 +4,10 @@
 #include <map>
 
 #include <baluRender.h>
-#include <baluScript.h>
+//#include <baluScript.h>
 #include <box2d.h>
 
-#include "../Source/scriptClasses.h""
+//#include "../Source/scriptClasses.h""
 
 class TBaluClassInternal
 {
