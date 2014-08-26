@@ -80,6 +80,11 @@
     <ClInclude Include="Source\baluEditor.h" />
     <ClInclude Include="Source\baluEditorDefs.h" />
     <ClInclude Include="Source\baluEditorRuntime.h" />
+    <ClInclude Include="Source\Editors\abstractEditor.h" />
+    <ClInclude Include="Source\Editors\physBodyEditor.h" />
+    <ClInclude Include="Source\Editors\sceneEditor.h" />
+    <ClInclude Include="Source\Editors\physShapeEditor.h" />
+    <ClInclude Include="Source\Editors\spriteEditor.h" />
     <ClInclude Include="Source\scriptClasses.h" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +94,7 @@
     <ClCompile Include="Source\baluEngine.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Source\Editors\spriteEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -98,17 +98,19 @@
 //	void UpdateMouseState(bool lpressed, bool mpressed, bool rpressed, TVec2i use_client_mouse_pos);
 //};
 
-class TBaluEngineInternal;
-class Archive;
-class BALUENGINEDLL_API TBaluEngine
-{
-private:
-	std::unique_ptr<TBaluEngineInternal> p;
-public:
-	TBaluEngine(HWND hWnd, TVec2i use_size);
-	~TBaluEngine();
-	void Render();
-	void SetViewport(TVec2i use_size);
-	void OnMouseMove(TVec2i use_client_mouse_pos);
-	void OnMouseScroll(float delta);
-};
+//class TBaluEngineInternal;
+//class Archive;
+//class BALUENGINEDLL_API TBaluEngine
+//{
+//private:
+//	std::unique_ptr<TBaluEngineInternal> p;
+//public:
+//	TBaluEngine(HWND hWnd, TVec2i use_size);
+//	~TBaluEngine();
+//	void Render();
+//	void SetViewport(TVec2i use_size);
+//	void OnMouseMove(TVec2i use_client_mouse_pos);
+//	void OnMouseScroll(float delta);
+//};
+
+#include "../Source/baluEditor.h"
