@@ -17,6 +17,8 @@ namespace pugi
 class TBaluMaterialDef
 {
 public:
+	TTextureId text_id; //временно, только для прототипа редактора
+
 	std::string material_name;
 	std::string image_path;
 	TVec4 color;

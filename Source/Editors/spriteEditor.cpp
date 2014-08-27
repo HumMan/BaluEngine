@@ -1,7 +1,10 @@
 #include "spriteEditor.h"
 
-TSpriteEditor::TSpriteEditor()
+#include "abstractEditor.h"
+
+TSpriteEditor::TSpriteEditor(TBaluWorldDef* world)
 {
+	this->world = world;
 	curr_state = CurrState::None;
 }
 
@@ -110,56 +113,17 @@ void TSpriteEditor::SetAsBox(TVec2 size)
 	sprite->tex_coordinates = sprite->polygon_vertices;
 }
 
-void DrawSpriteContour(TBaluRender* render, TBaluSpriteDef* sprite)
-{
-	TStreamsDesc desc;
-	desc.Clear();
-	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*sprite->polygon_vertices.begin());
-	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*sprite->tex_coordinates.begin());
-	render->Draw(desc, TPrimitive::LineLoop, sprite->polygon_vertices.size());
-}
-
-void DrawSprite(TBaluRender* render, TBaluSpriteDef* sprite)
-{
-	std::vector<TVec2> pos, tex;
-	pos.push_back(TVec2(0, 0));
-	pos.insert(pos.end(), sprite->polygon_vertices.begin(), sprite->polygon_vertices.end());
-	pos.insert(pos.end(), sprite->polygon_vertices[0]);
-	tex = pos;
-	TStreamsDesc desc;
-	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
-	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
-	render->Draw(desc, TPrimitive::TriangleFan, sprite->polygon_vertices.size() + 2);
-}
-
-void DrawLine(TBaluRender* render, TVec2 p0, TVec2 p1)
-{
-	TVec2 v[2] = { p0, p1 };
-	TStreamsDesc desc;
-	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &v[0]);
-	render->Draw(desc, TPrimitive::Lines, 2);
-}
-
-void DrawPoint(TBaluRender* render, TVec2 p)
-{
-	TVec2 v[1] = { p};
-	TStreamsDesc desc;
-	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &v[0]);
-
-	render->Set.PointSize(5);
-
-	render->Draw(desc, TPrimitive::Points, 1);
-
-	render->Set.PointSize(1);
-}
-
 void TSpriteEditor::Render(TBaluRender* render)
 {
+	//if (world->materials.find(sprite->material_name) != world->materials.end())
+	//	ActivateMaterial(render, &world->materials[sprite->material_name]);
 	DrawSprite(render, sprite);
+	//if (world->materials.find(sprite->material_name) != world->materials.end())
+	//	DeactivateMaterial(render, &world->materials[sprite->material_name]);
 	
-	//render->Texture.Enable(false);
 	render->Set.Color(0, 1, 0);
 	DrawSpriteContour(render, sprite);
+	
 	//render->Texture.Enable(true);
 
 	if (curr_state == CurrState::CanSubdivide)

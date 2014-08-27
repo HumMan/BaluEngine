@@ -25,9 +25,9 @@ class TSpriteEditor
 	TVec2 cursor_pos;
 
 	TVec2 old_cursor_pos;
-
+	TBaluWorldDef* world;
 public:
-	TSpriteEditor();
+	TSpriteEditor(TBaluWorldDef* world);
 	void StartEdit(TBaluSpriteDef* use_sprite);
 	void EndEdit();
 

@@ -65,5 +65,8 @@
     <ClCompile Include="Source\Editors\spriteEditor.cpp">
       <Filter>Source Files\Editors</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Editors\abstractEditor.cpp">
+      <Filter>Source Files\Editors</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
