@@ -91,7 +91,21 @@ public:
 
 		boundary = TOBB<float, 2>(TVec2(0, 0), TMatrix2::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(4, 2)));
 
-		control_points.emplace_back(TControlType::Pivot,false,false,boundary.GetPos());
+		control_points.emplace_back(TControlType::Pivot,0,0,boundary.GetPos());
+
+		control_points.emplace_back(TControlType::Resize, 1, 1, boundary.GetPos());
+		control_points.emplace_back(TControlType::Resize, 1, 0, boundary.GetPos());
+		control_points.emplace_back(TControlType::Resize, 1, -1, boundary.GetPos());
+		control_points.emplace_back(TControlType::Resize, 0, 1, boundary.GetPos());
+		
+		control_points.emplace_back(TControlType::Resize, 0, -1, boundary.GetPos());
+		control_points.emplace_back(TControlType::Resize, -1, 1, boundary.GetPos());
+		control_points.emplace_back(TControlType::Resize, -1, 0, boundary.GetPos());
+		control_points.emplace_back(TControlType::Resize, -1, -1, boundary.GetPos());
+
+		control_points.emplace_back(TControlType::Rotate, 1, 0, boundary.GetPos());
+
+		UpdatePointsPos();
 	}
 
 	void Collide(TVec2 cursor_pos)
@@ -136,9 +150,47 @@ public:
 				break;
 			case TControlType::Resize:
 			{
+				TAABB<float, 2> aabb = boundary.GetLocalAABB();
+				TMatrix<float, 2> or = boundary.GetOrient();
+				TVec2 pos = boundary.GetPos();
+				if (p.x_resize == -1)
+					p.pos[0] = aabb[0][0];
+				if (p.x_resize == 0)
+					p.pos[0] = 0;
+				if (p.x_resize == 1)
+					p.pos[0] = aabb[1][0];
+
+				if (p.y_resize == -1)
+					p.pos[1] = aabb[0][1];
+				if (p.y_resize == 0)
+					p.pos[1] = 0;
+				if (p.y_resize == 1)
+					p.pos[1] = aabb[1][1];
+
+				p.pos = or*p.pos+pos;
 			}
 				break;
 			case TControlType::Rotate:
+			{
+				TAABB<float, 2> aabb = boundary.GetLocalAABB();
+				TMatrix<float, 2> or = boundary.GetOrient();
+				TVec2 pos = boundary.GetPos();
+				if (p.x_resize == -1)
+					p.pos[0] = aabb[0][0]-0.2;
+				if (p.x_resize == 0)
+					p.pos[0] = 0;
+				if (p.x_resize == 1)
+					p.pos[0] = aabb[1][0] + 0.2;
+
+				if (p.y_resize == -1)
+					p.pos[1] = aabb[0][1] - 0.2;
+				if (p.y_resize == 0)
+					p.pos[1] = 0;
+				if (p.y_resize == 1)
+					p.pos[1] = aabb[1][1] + 0.2;
+
+				p.pos = or*p.pos + pos;
+			}
 				break;
 			default:
 				break;
@@ -166,9 +218,24 @@ public:
 					break;
 				case TControlType::Resize:
 				{
-					TAABB<float, 2> old_b = boundary.GetAABB();
+					TAABB<float, 2> old_b = boundary.GetLocalAABB();
 					
 					TVec2 local_diff = boundary.GetOrient().TransMul(diff);
+
+					if (p.x_resize == -1)
+						local_diff[0] = -local_diff[0];
+					if (p.x_resize == 0)
+						local_diff[0] = 0;
+					if (p.x_resize == 1)
+						local_diff[0] = local_diff[0];
+
+					if (p.y_resize == -1)
+						local_diff[1] = -local_diff[1];
+					if (p.y_resize == 0)
+						local_diff[1] = 0;
+					if (p.y_resize == 1)
+						local_diff[1] = local_diff[1];
+
 					old_b.Extend(local_diff);
 					boundary.SetAABB(old_b);
 
@@ -176,6 +243,12 @@ public:
 				}
 					break;
 				case TControlType::Rotate:
+				{
+					TVec2 rot_pos = boundary.GetPos();
+					TVec2 xb = (cursor_pos - rot_pos).GetNormalized();
+					boundary.SetOrient(TMatrix2(xb, xb.Cross()));
+					UpdatePointsPos();
+				}
 					break;
 				default:
 					break;

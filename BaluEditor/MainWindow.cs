@@ -16,10 +16,13 @@ namespace BaluEditor
         {
             InitializeComponent();
         }
-
+        bool times_is_work = false;
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (times_is_work) return;
+            times_is_work = true;
             baluEditorControl1.Render();
+            times_is_work = false;
         }
     }
 }

@@ -29,26 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.baluEditorControl1 = new Editor.BaluEditorControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.baluEditorControl1 = new Editor.BaluEditorControl();
             this.SuspendLayout();
-            // 
-            // baluEditorControl1
-            // 
-            this.baluEditorControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.baluEditorControl1.Location = new System.Drawing.Point(305, 12);
-            this.baluEditorControl1.Name = "baluEditorControl1";
-            this.baluEditorControl1.Size = new System.Drawing.Size(549, 622);
-            this.baluEditorControl1.TabIndex = 0;
             // 
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 10;
+            this.timer1.Interval = 14;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // propertyGrid1
@@ -66,6 +56,16 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(287, 622);
             this.treeView1.TabIndex = 2;
+            // 
+            // baluEditorControl1
+            // 
+            this.baluEditorControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.baluEditorControl1.Location = new System.Drawing.Point(305, 12);
+            this.baluEditorControl1.Name = "baluEditorControl1";
+            this.baluEditorControl1.Size = new System.Drawing.Size(549, 622);
+            this.baluEditorControl1.TabIndex = 0;
             // 
             // MainWindow
             // 

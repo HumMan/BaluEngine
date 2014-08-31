@@ -43,6 +43,7 @@ TBaluEditor::TBaluEditor(HWND hWnd, TVec2i use_size)
 	p->screen_pos = TVec2(0, 0);
 	p->render.reset(new TBaluRender(hWnd, use_size));
 	p->world.reset(new TBaluWorldDef());
+	p->render->BeginScene();
 }
 
 TBaluEditor::~TBaluEditor()
@@ -62,8 +63,8 @@ void TBaluEditor::Render()
 	TMatrix<float, 4> ortho_m_inv = ortho_m.GetInverted();
 	p->render->Set.Projection(ortho_m);
 
-	p->render->BeginScene();
-	{
+	//p->render->BeginScene();
+	if(true){
 		p->render->Set.ClearColor(0, 0, 0);
 		p->render->Set.Color(1, 1, 1, 1);
 		p->render->Clear(true);
@@ -83,7 +84,7 @@ void TBaluEditor::Render()
 
 		//p->render->Texture.Enable(false);
 		//p->render->AlphaTest.Enable(false);
-		p->render->Blend.Enable(false);
+		//p->render->Blend.Enable(false);
 	}
 	p->render->EndScene();
 }
