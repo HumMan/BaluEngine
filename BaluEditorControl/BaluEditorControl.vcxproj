@@ -76,10 +76,12 @@
   <ItemGroup>
     <ClInclude Include="BaluEditorControl.h" />
     <ClInclude Include="BaluEditorControlDesigner.h" />
+    <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="BaluEditorControl.cpp" />
+    <ClCompile Include="Source\PropertiesRegistry\propertiesRegistry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

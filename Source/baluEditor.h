@@ -1,6 +1,6 @@
 #pragma once
 
-#include <baluEngine.h>
+#include "exportMacro.h"
 
 #include "baluEditorDefs.h"
 
@@ -21,7 +21,7 @@ class BALUENGINEDLL_API TBaluEditor
 private:
 	std::unique_ptr<TBaluEditorInternal> p;
 public:
-	TBaluEditor(HWND hWnd, TVec2i use_size);
+	TBaluEditor(int hWnd, TVec2i use_size);
 	~TBaluEditor();
 	void Render();
 

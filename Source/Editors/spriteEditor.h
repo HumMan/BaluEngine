@@ -1,4 +1,8 @@
+#pragma once
+
 #include "../baluEditorDefs.h"
+
+#include "DrawingHelper.h"
 
 class TSpriteEditor
 {
@@ -38,5 +42,5 @@ public:
 
 	void SetAsBox(TVec2 size);
 
-	void Render(TBaluRender* render);
+	void Render(TDrawingHelper* drawing_helper);
 };

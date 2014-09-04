@@ -4,8 +4,9 @@
 #include <map>
 #include <vector>
 
+#include "exportMacro.h"
+
 #include <baluLib.h>
-#include <baluRender.h>
 
 #include <Box2D.h>
 
@@ -14,10 +15,14 @@ namespace pugi
 	class xml_node;
 }
 
-class TBaluMaterialDef
+class TWorldObjectDef
+{
+};
+
+class BALUENGINEDLL_API TBaluMaterialDef : public TWorldObjectDef
 {
 public:
-	TTextureId text_id; //временно, только для прототипа редактора
+	//extureId text_id; //временно, только для прототипа редактора
 
 	std::string material_name;
 	std::string image_path;
@@ -31,18 +36,61 @@ public:
 	TTransparentMode blend_mode;
 
 	float alpha_test_value;
-	TBaluRender::TAlphaTest::TAlphaTestFunc alpha_test_func;
 
-	TBaluRender::TBlend::TBlendFunc blend_func;
-	TBaluRender::TBlend::TBlendEquation blend_left, blend_right;
-	TTexFilter::Enum texture_filter;
-	TTexClamp::Enum texture_clamp;
+	enum class TAlphaTestFunc
+	{
+		AT_ALWAYS,
+		AT_NEVER,
+		AT_LEQUAL,
+		AT_LESS,
+		AT_EQUAL,
+		AT_NOTEQUAL,
+		AT_GEQUAL,
+		AT_GREATER
+	};
+	TAlphaTestFunc alpha_test_func;
+	enum class TBlendFunc
+	{
+		BF_ADD,
+		BF_SUBTRACT
+	};
+	TBlendFunc blend_func;
+	enum TBlendEquation
+	{
+		BE_SRC_COLOR,
+		BE_SRC_ALPHA,
+		BE_DST_COLOR,
+		BE_DST_ALPHA,
+		BE_CONSTANT_COLOR,
+		BE_CONSTANT_ALPHA
+	};
+	TBlendEquation blend_left, blend_right;
+	enum class TTexFilter
+	{
+		Nearest,
+		Linear,
+		Bilinear,
+		Trilinear,
+		BilinearAniso,
+		TrilinearAniso
+	};
+	TTexFilter texture_filter;
+	enum class TTexClamp
+	{
+		NONE = 0,
+		S = 1,
+		T = 2,
+		R = 4,
+		ST = 1 | 2,
+		STR = 1 | 2 | 4
+	};
+	TTexClamp texture_clamp;
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& node, const int version);
 };
 
-class TBaluSpriteDef
+class TBaluSpriteDef : public TWorldObjectDef
 {
 public:
 	std::string sprite_name;
@@ -51,14 +99,38 @@ public:
 	std::vector<TVec2> polygon_vertices;
 	std::vector<TVec2> tex_coordinates;
 
-	TPolygonMode::Enum polygone_mode;
-	TPrimitive::Enum primitive;
+	enum class TPolygonMode
+		{
+			Points,
+			Lines,
+			LineLoop,
+			LineStrip,
+			Triangles,
+			TriangleStrip,
+			TriangleFan,
+			Quads,
+			QuadStrip
+		};
+	TPolygonMode polygone_mode;
+	enum class TPrimitive
+	{
+		Points,
+		Lines,
+		LineLoop,
+		LineStrip,
+		Triangles,
+		TriangleStrip,
+		TriangleFan,
+		Quads,
+		QuadStrip
+	};
+	TPrimitive primitive;
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& node, const int version);
 };
 
-class TBaluShapeDef
+class TBaluShapeDef : public TWorldObjectDef
 {
 public:
 	virtual ~TBaluShapeDef()=0;
@@ -73,7 +145,7 @@ public:
 	void Save(pugi::xml_node& parent_node, const int version);
 };
 
-class TBaluPhysBodyDef
+class TBaluPhysBodyDef : public TWorldObjectDef
 {
 public:
 	std::string phys_body_name;
@@ -112,7 +184,7 @@ public:
 	b2Rot rotation;
 };
 
-class TBaluClass
+class TBaluClass : public TWorldObjectDef
 {
 public:
 	std::string class_name;
@@ -129,7 +201,7 @@ public:
 	void Save(pugi::xml_node& parent_node, const int version);
 };
 
-class TBaluInstanceDef
+class TBaluInstanceDef : public TWorldObjectDef
 {
 public:
 	std::string name;
@@ -138,7 +210,7 @@ public:
 	void Save(pugi::xml_node& parent_node, const int version);
 };
 
-class TBaluSceneDef
+class TBaluSceneDef : public TWorldObjectDef
 {
 public:
 	std::string name;

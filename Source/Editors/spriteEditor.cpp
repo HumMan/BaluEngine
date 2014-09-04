@@ -113,16 +113,15 @@ void TSpriteEditor::SetAsBox(TVec2 size)
 	sprite->tex_coordinates = sprite->polygon_vertices;
 }
 
-void TSpriteEditor::Render(TBaluRender* render)
+void TSpriteEditor::Render(TDrawingHelper* drawing_helper)
 {
 	//if (world->materials.find(sprite->material_name) != world->materials.end())
 	//	ActivateMaterial(render, &world->materials[sprite->material_name]);
-	DrawSprite(render, sprite);
+	drawing_helper->DrawSprite(sprite);
 	//if (world->materials.find(sprite->material_name) != world->materials.end())
 	//	DeactivateMaterial(render, &world->materials[sprite->material_name]);
 	
-	render->Set.Color(0, 1, 0);
-	DrawSpriteContour(render, sprite);
+	drawing_helper->DrawSpriteContour(sprite);
 	
 	//render->Texture.Enable(true);
 
@@ -131,15 +130,15 @@ void TSpriteEditor::Render(TBaluRender* render)
 		if (nearest_line != -1)
 		{
 			int size = sprite->polygon_vertices.size();
-			DrawLine(render, cursor_pos, sprite->polygon_vertices[nearest_line]);
-			DrawLine(render, cursor_pos, sprite->polygon_vertices[(nearest_line+1)%size]);
+			drawing_helper->DrawLine(cursor_pos, sprite->polygon_vertices[nearest_line]);
+			drawing_helper->DrawLine(cursor_pos, sprite->polygon_vertices[(nearest_line + 1) % size]);
 		}
 	}
 	else if (curr_state == CurrState::CanMoveSelected)
 	{
 		if (nearest_point != -1)
 		{
-			DrawPoint(render, sprite->polygon_vertices[nearest_point]);
+			drawing_helper->DrawPoint(sprite->polygon_vertices[nearest_point]);
 		}
 	}
 }

@@ -48,6 +48,18 @@
     <ClInclude Include="Source\Editors\spriteEditor.h">
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editors\BoundaryEditor.h">
+      <Filter>Source Files\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\DrawingHelper.h">
+      <Filter>Source Files\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\editorResourses.h">
+      <Filter>Source Files\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\exportMacro.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">
@@ -66,6 +78,15 @@
       <Filter>Source Files\Editors</Filter>
     </ClCompile>
     <ClCompile Include="Source\Editors\abstractEditor.cpp">
+      <Filter>Source Files\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\BoundaryEditor.cpp">
+      <Filter>Source Files\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\DrawingHelper.cpp">
+      <Filter>Source Files\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\editorResourses .cpp">
       <Filter>Source Files\Editors</Filter>
     </ClCompile>
   </ItemGroup>

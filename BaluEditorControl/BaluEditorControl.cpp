@@ -1,7 +1,7 @@
 
 #include "BaluEditorControlDesigner.h"
 #include "BaluEditorControl.h"
-
+#include "Source/PropertiesRegistry/propertiesRegistry.h"
 #include <box2d.h>
 #include <baluRender.h>
 #include <baluEngine.h>
@@ -119,6 +119,12 @@ static DWORD last_tick_count;
 
 namespace Editor
 {
+	//void BaluEditorControl::GetProps()
+	//{
+	//	TPropertiesRegistry^ r = gcnew TPropertiesRegistry();
+	//	TBaluSpriteDef*  sprite = new TBaluSpriteDef();
+	//	SelectedObjectProperty->SelectedObject = r->CreateProperties(sprite);
+	//}
 	void BaluEditorControl::Render()
 	{
 		if (DesignMode)
@@ -167,7 +173,7 @@ namespace Editor
 			GetClientRect(hWnd, &rect);
 
 			//engine = new TBaluEngine(hWnd, TVec2i(rect.right - rect.left, rect.bottom - rect.top));
-			engine = new TBaluEditor(hWnd, TVec2i(rect.right - rect.left, rect.bottom - rect.top));
+			engine = new TBaluEditor(*(int*)&hWnd, TVec2i(rect.right - rect.left, rect.bottom - rect.top));
 
 			//InitEngine();
 			engine->NewSprite();

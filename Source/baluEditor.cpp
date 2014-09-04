@@ -3,6 +3,9 @@
 #include "Editors\spriteEditor.h"
 
 #include "Editors\abstractEditor.h"
+#include "Editors\BoundaryEditor.h"
+
+#include <baluRender.h>
 
 enum class TCurrEditor
 {
@@ -36,7 +39,7 @@ public:
 	}
 };
 
-TBaluEditor::TBaluEditor(HWND hWnd, TVec2i use_size)
+TBaluEditor::TBaluEditor(int hWnd, TVec2i use_size)
 {
 	p.reset(new TBaluEditorInternal());
 	p->screen_size = TVec2(10,10);
@@ -77,10 +80,10 @@ void TBaluEditor::Render()
 		//p->render->AlphaTest.Func(">=", 0.1);
 		//p->render->Blend.Func("dc*(1-sa)+sc*sa");
 
-		if (p->curr_editor_mode == TCurrEditor::SPRITE)
-			p->sprite_editor.Render(p->render.get());
-		if (p->curr_editor_mode == TCurrEditor::BOUNDARY)
-			p->boundary_editor.Render(p->render.get());
+		//if (p->curr_editor_mode == TCurrEditor::SPRITE)
+		//	p->sprite_editor.Render(p->render.get());
+		//if (p->curr_editor_mode == TCurrEditor::BOUNDARY)
+		//	p->boundary_editor.Render(p->render.get());
 
 		//p->render->Texture.Enable(false);
 		//p->render->AlphaTest.Enable(false);

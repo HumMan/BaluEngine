@@ -38,6 +38,9 @@ namespace Editor
 		virtual Void WndProc(Message% m) override;
 
 		virtual Void Render();
+
+		property PropertyGrid^ SelectedObjectProperty;
+		property TreeView^ WorldTreeView;
 	protected:
 
 		~BaluEditorControl();
