@@ -79,7 +79,9 @@
     <ClInclude Include="Include\baluEngine.h" />
     <ClInclude Include="Source\baluEditor.h" />
     <ClInclude Include="Source\baluEditorDefs.h" />
+    <ClInclude Include="Source\baluEditorDefsSerializer.h" />
     <ClInclude Include="Source\baluEditorRuntime.h" />
+    <ClInclude Include="Source\baluEngineApi.h" />
     <ClInclude Include="Source\Editors\abstractEditor.h" />
     <ClInclude Include="Source\Editors\physBodyEditor.h" />
     <ClInclude Include="Source\Editors\sceneEditor.h" />
@@ -90,6 +92,7 @@
   <ItemGroup>
     <ClCompile Include="Source\baluEditor.cpp" />
     <ClCompile Include="Source\baluEditorDefs.cpp" />
+    <ClCompile Include="Source\baluEditorDefsSerializer.cpp" />
     <ClCompile Include="Source\baluEditorRuntime.cpp" />
     <ClCompile Include="Source\baluEngine.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

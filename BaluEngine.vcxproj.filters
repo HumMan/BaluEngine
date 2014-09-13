@@ -48,6 +48,12 @@
     <ClInclude Include="Source\Editors\spriteEditor.h">
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
+    <ClInclude Include="Source\baluEditorDefsSerializer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\baluEngineApi.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">
@@ -67,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="Source\Editors\abstractEditor.cpp">
       <Filter>Source Files\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\baluEditorDefsSerializer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

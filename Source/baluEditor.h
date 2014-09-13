@@ -3,7 +3,7 @@
 #include <baluEngine.h>
 
 #include "baluEditorDefs.h"
-
+#include "baluEngineApi.h"
 //class TAbstractEditorObject
 //{
 //
