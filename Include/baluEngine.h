@@ -1,6 +1,10 @@
 #pragma once
 
+<<<<<<< HEAD
 #include "../Source/exportMacro.h"
+=======
+
+>>>>>>> origin/master
 
 #include <memory>
 #include <windows.h>
