@@ -1,7 +1,7 @@
 #pragma once
 
 #include "baluEditorDefs.h"
-#include "baluEngineApi.h"
+#include "exportMacro.h"
 
 class BALUENGINEDLL_API TBaluEditorDefsSerializer
 {

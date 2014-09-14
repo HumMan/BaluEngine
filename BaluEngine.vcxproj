@@ -81,7 +81,6 @@
     <ClInclude Include="Source\baluEditorDefs.h" />
     <ClInclude Include="Source\baluEditorDefsSerializer.h" />
     <ClInclude Include="Source\baluEditorRuntime.h" />
-    <ClInclude Include="Source\baluEngineApi.h" />
     <ClInclude Include="Source\Editors\abstractEditor.h" />
     <ClInclude Include="Source\Editors\BoundaryEditor.h" />
     <ClInclude Include="Source\Editors\DrawingHelper.h" />
@@ -96,14 +95,10 @@
   <ItemGroup>
     <ClCompile Include="Source\baluEditor.cpp" />
     <ClCompile Include="Source\baluEditorDefs.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="Source\baluEditorRuntime.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-=======
     <ClCompile Include="Source\baluEditorDefsSerializer.cpp" />
-    <ClCompile Include="Source\baluEditorRuntime.cpp" />
->>>>>>> origin/master
     <ClCompile Include="Source\baluEngine.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>

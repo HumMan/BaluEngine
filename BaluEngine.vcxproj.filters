@@ -48,7 +48,6 @@
     <ClInclude Include="Source\Editors\spriteEditor.h">
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Source\Editors\BoundaryEditor.h">
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
@@ -59,12 +58,9 @@
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
     <ClInclude Include="Source\exportMacro.h">
-=======
-    <ClInclude Include="Source\baluEditorDefsSerializer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\baluEngineApi.h">
->>>>>>> origin/master
+    <ClInclude Include="Source\baluEditorDefsSerializer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -87,7 +83,6 @@
     <ClCompile Include="Source\Editors\abstractEditor.cpp">
       <Filter>Source Files\Editors</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Source\Editors\BoundaryEditor.cpp">
       <Filter>Source Files\Editors</Filter>
     </ClCompile>
@@ -96,10 +91,9 @@
     </ClCompile>
     <ClCompile Include="Source\Editors\editorResourses .cpp">
       <Filter>Source Files\Editors</Filter>
-=======
+    </ClCompile>
     <ClCompile Include="Source\baluEditorDefsSerializer.cpp">
       <Filter>Source Files</Filter>
->>>>>>> origin/master
     </ClCompile>
   </ItemGroup>
 </Project>
