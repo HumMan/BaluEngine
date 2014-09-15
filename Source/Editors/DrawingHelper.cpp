@@ -4,6 +4,12 @@
 #include "BoundaryEditor.h"
 #include "editorResourses.h"
 
+TDrawingHelper::TDrawingHelper(TBaluRender* render, TEditorResourses* resources)
+{
+	this->render = render;
+	this->resources = resources;
+}
+
 void TDrawingHelper::DrawSprite(TBaluSpriteDef* sprite)
 {
 	std::vector<TVec2> pos, tex;
@@ -14,6 +20,7 @@ void TDrawingHelper::DrawSprite(TBaluSpriteDef* sprite)
 	TStreamsDesc desc;
 	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
 	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
+	//render->Set.PolygonMode(TPolygonMode::Line);
 	render->Draw(desc, TPrimitive::TriangleFan, sprite->polygon_vertices.size() + 2);
 }
 
@@ -72,13 +79,13 @@ void TDrawingHelper::DeactivateMaterial(TBaluMaterialDef* material)
 
 void TDrawingHelper::SetSelectedPointColor()
 {
-
+	render->Set.Color(0, 1, 0);
 }
 void TDrawingHelper::SetSelectedBoundaryColor()
 {
-
+	render->Set.Color(1, 0, 0);
 }
 void TDrawingHelper::UnsetColor()
 {
-
+	render->Set.Color(1, 1, 1, 1);
 }

@@ -11,4 +11,5 @@ class TEditorResourses
 public:
 	TEditorResourses(TBaluRender* render);
 	TTextureId CreateTextureFromFile(std::string path);
+	~TEditorResourses();
 };

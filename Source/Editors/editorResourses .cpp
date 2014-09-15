@@ -12,3 +12,13 @@ TTextureId TEditorResourses::CreateTextureFromFile(std::string path)
 {
 	return TTextureId();
 }
+
+TEditorResourses::TEditorResourses(TBaluRender* render)
+{
+	p.reset(new TEditorResoursesInternal());
+}
+
+TEditorResourses::~TEditorResourses()
+{
+
+}

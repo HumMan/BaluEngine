@@ -4,6 +4,7 @@
 
 #include "Editors\abstractEditor.h"
 #include "Editors\BoundaryEditor.h"
+#include "Editors\editorResourses.h"
 
 #include <baluRender.h>
 
@@ -25,6 +26,10 @@ public:
 	std::unique_ptr<TBaluRender> render;
 	std::unique_ptr<TBaluWorldDef> world;
 	
+	std::unique_ptr<TDrawingHelper> drawing_helper;
+
+	std::unique_ptr<TEditorResourses> resourses;
+
 	TCurrEditor curr_editor_mode;
 
 	TSpriteEditor sprite_editor;
@@ -34,7 +39,8 @@ public:
 	TVec2 screen_size;
 	TBaluEditorInternal() :sprite_editor(world.get())
 	{
-		curr_editor_mode = TCurrEditor::BOUNDARY;
+		//curr_editor_mode = TCurrEditor::BOUNDARY;
+		curr_editor_mode = TCurrEditor::SPRITE;
 		boundary_editor.objects.push_back(TBoundaryObjectBehaivor());
 	}
 };
@@ -46,6 +52,8 @@ TBaluEditor::TBaluEditor(int hWnd, TVec2i use_size)
 	p->screen_pos = TVec2(0, 0);
 	p->render.reset(new TBaluRender(hWnd, use_size));
 	p->world.reset(new TBaluWorldDef());
+	p->resourses.reset(new TEditorResourses(p->render.get()));
+	p->drawing_helper.reset(new TDrawingHelper(p->render.get(), p->resourses.get()));
 	p->render->BeginScene();
 }
 
@@ -80,10 +88,10 @@ void TBaluEditor::Render()
 		//p->render->AlphaTest.Func(">=", 0.1);
 		//p->render->Blend.Func("dc*(1-sa)+sc*sa");
 
-		//if (p->curr_editor_mode == TCurrEditor::SPRITE)
-		//	p->sprite_editor.Render(p->render.get());
-		//if (p->curr_editor_mode == TCurrEditor::BOUNDARY)
-		//	p->boundary_editor.Render(p->render.get());
+		if (p->curr_editor_mode == TCurrEditor::SPRITE)
+			p->sprite_editor.Render(p->drawing_helper.get());
+		if (p->curr_editor_mode == TCurrEditor::BOUNDARY)
+			p->boundary_editor.Render(p->drawing_helper.get());
 
 		//p->render->Texture.Enable(false);
 		//p->render->AlphaTest.Enable(false);

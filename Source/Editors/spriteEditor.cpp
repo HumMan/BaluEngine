@@ -113,13 +113,47 @@ void TSpriteEditor::SetAsBox(TVec2 size)
 	sprite->tex_coordinates = sprite->polygon_vertices;
 }
 
+bool isConvex(TVec2 p2, TVec2 p1, TVec2 p0)
+{
+	return (p1-p0).GetNormalized().Cross()*(p2-p1)<0;
+}
+
+//обход по часовой стрелке
+bool isConvex(std::vector<TVec2> v)
+{
+	int size = v.size();
+	if (size >= 3)
+	{
+		for (int i = 0; i < v.size(); i++)
+		{
+			if (!isConvex(v[(i + 2) % size], v[(i + 1) % size], v[(i + 0) % size]))
+				return false;
+		}
+	}
+	else
+		return false;
+	return true;
+}
+
+
+//void ConvexDecompose(std::vector<TVec2> v)
+//{
+//	int i = 0;
+//	int j = v.size();
+//	if (isConvex(i+2,i+1,i)
+//}
+
 void TSpriteEditor::Render(TDrawingHelper* drawing_helper)
 {
 	//if (world->materials.find(sprite->material_name) != world->materials.end())
 	//	ActivateMaterial(render, &world->materials[sprite->material_name]);
+	
+	if (isConvex(sprite->polygon_vertices))
+		drawing_helper->SetSelectedBoundaryColor();
 	drawing_helper->DrawSprite(sprite);
 	//if (world->materials.find(sprite->material_name) != world->materials.end())
 	//	DeactivateMaterial(render, &world->materials[sprite->material_name]);
+
 	
 	drawing_helper->DrawSpriteContour(sprite);
 	
@@ -129,6 +163,7 @@ void TSpriteEditor::Render(TDrawingHelper* drawing_helper)
 	{
 		if (nearest_line != -1)
 		{
+			drawing_helper->SetSelectedPointColor();
 			int size = sprite->polygon_vertices.size();
 			drawing_helper->DrawLine(cursor_pos, sprite->polygon_vertices[nearest_line]);
 			drawing_helper->DrawLine(cursor_pos, sprite->polygon_vertices[(nearest_line + 1) % size]);
@@ -141,4 +176,5 @@ void TSpriteEditor::Render(TDrawingHelper* drawing_helper)
 			drawing_helper->DrawPoint(sprite->polygon_vertices[nearest_point]);
 		}
 	}
+	drawing_helper->UnsetColor();
 }
