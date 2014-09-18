@@ -1,24 +1,46 @@
+#pragma once
 
+#include "abstractEditor.h"
+#include "BoundaryEditor.h"
 
-class TEditorPhysShape
+class TPhysBodyEditor:public TAbstractEditor
 {
+	TBoundaryEditor boundary_editor;
+
 public:
-	void CanMove();
-	void CanResize();
-	void CanRotate();
-	void OnMove();
-	void OnResize();
-	void OnRotate();
-	void Clone();
-	void Draw();
+	void Initialize(TWorldObjectDef* obj);
+	void Initialize(TBaluPhysBodyDef* obj);
 
-	bool CanEdit();
-	TAbstractEditor* Edit();
+	bool CanSetSelectedAsWork();
+	void SetSelectedAsWork();
 
-	TOBB<float, 2> bounding_box;
+	bool CanEndSelectedAsWork();
+	void EndSelectedAsWork();
+
+	void OnMouseDown(TMouseEventArgs e);
+	void OnMouseMove(TMouseEventArgs e);
+	void OnMouseUp(TMouseEventArgs e);
 };
 
-class TPhysBodyEditor : public TAbstractEditor
-{
-
-};
+//class TEditorPhysShape
+//{
+//public:
+//	void CanMove();
+//	void CanResize();
+//	void CanRotate();
+//	void OnMove();
+//	void OnResize();
+//	void OnRotate();
+//	void Clone();
+//	void Draw();
+//
+//	bool CanEdit();
+//	TAbstractEditor* Edit();
+//
+//	TOBB<float, 2> bounding_box;
+//};
+//
+//class TPhysBodyEditor : public TAbstractEditor
+//{
+//
+//};

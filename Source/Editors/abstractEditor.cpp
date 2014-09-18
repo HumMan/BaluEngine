@@ -1,1 +1,0 @@
-#include "abstractEditor.h"

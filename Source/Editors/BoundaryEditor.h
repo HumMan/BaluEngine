@@ -49,6 +49,7 @@ public:
 	TVec2 old_cursor_pos;
 
 	TBoundaryObjectBehaivor();
+	TBoundaryObjectBehaivor(TOBB<float, 2> boundary);
 
 	void Collide(TVec2 cursor_pos);
 	void UpdatePointsPos();

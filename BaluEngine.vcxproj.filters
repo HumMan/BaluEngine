@@ -80,9 +80,6 @@
     <ClCompile Include="Source\Editors\spriteEditor.cpp">
       <Filter>Source Files\Editors</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Editors\abstractEditor.cpp">
-      <Filter>Source Files\Editors</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Editors\BoundaryEditor.cpp">
       <Filter>Source Files\Editors</Filter>
     </ClCompile>
@@ -94,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="Source\baluEditorDefsSerializer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\physBodyEditor.cpp">
+      <Filter>Source Files\Editors</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

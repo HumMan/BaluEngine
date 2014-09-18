@@ -135,14 +135,22 @@ class TBaluShapeDef : public TWorldObjectDef
 public:
 	virtual ~TBaluShapeDef()=0;
 	virtual void Save(pugi::xml_node& parent_node, const int version)=0;
+	virtual TOBB<float, 2> GetOBB() = 0;
 };
 
 class TBaluPolygonShapeDef : public TBaluShapeDef
 {
 public:
+	TAABB<float, 2> aabb;
+
+	TVec2 pos;
+	b2Rot angle;
+
 	b2PolygonShape b2shape;
 	b2FixtureDef b2fixture_def;
 	void Save(pugi::xml_node& parent_node, const int version);
+
+	TOBB<float, 2> GetOBB();
 };
 
 class TBaluPhysBodyDef : public TWorldObjectDef
@@ -153,6 +161,7 @@ public:
 	b2BodyDef b2body_def;
 
 	void Save(pugi::xml_node& parent_node, const int version);
+	~TBaluPhysBodyDef();
 };
 
 class TBaluJointDef

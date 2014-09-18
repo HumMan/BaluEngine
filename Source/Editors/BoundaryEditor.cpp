@@ -9,21 +9,40 @@ TBoundaryObjectBehaivor::TBoundaryObjectBehaivor()
 
 	boundary = TOBB<float, 2>(TVec2(0, 0), TMatrix2::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(4, 2)));
 
-	control_points.emplace_back(TControlType::Pivot, 0, 0, boundary.GetPos());
-
-	control_points.emplace_back(TControlType::Resize, 1, 1, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, 1, 0, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, 1, -1, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, 0, 1, boundary.GetPos());
-
-	control_points.emplace_back(TControlType::Resize, 0, -1, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, -1, 1, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, -1, 0, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, -1, -1, boundary.GetPos());
-
-	control_points.emplace_back(TControlType::Rotate, 1, 0, boundary.GetPos());
+	control_points=InitControlPointsByBoundary(boundary);
 
 	UpdatePointsPos();
+}
+
+TBoundaryObjectBehaivor::TBoundaryObjectBehaivor(TOBB<float, 2> boundary)
+{
+	point_under_cursor = -1;
+	object_under_cursor = false;
+	state = TState::None;
+
+	this->boundary = boundary;
+
+	control_points = InitControlPointsByBoundary(boundary);
+
+	UpdatePointsPos();
+}
+
+std::vector<TBoundaryObjectBehaivor::TControlPoint> InitControlPointsByBoundary(TOBB<float, 2> boundary)
+{
+	std::vector<TBoundaryObjectBehaivor::TControlPoint> control_points;
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Pivot, 0, 0, boundary.GetPos());
+
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Resize, 1, 1, boundary.GetPos());
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Resize, 1, 0, boundary.GetPos());
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Resize, 1, -1, boundary.GetPos());
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Resize, 0, 1, boundary.GetPos());
+
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Resize, 0, -1, boundary.GetPos());
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Resize, -1, 1, boundary.GetPos());
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Resize, -1, 0, boundary.GetPos());
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Resize, -1, -1, boundary.GetPos());
+
+	control_points.emplace_back(TBoundaryObjectBehaivor::TControlType::Rotate, 1, 0, boundary.GetPos());
 }
 
 void TBoundaryObjectBehaivor::Collide(TVec2 cursor_pos)

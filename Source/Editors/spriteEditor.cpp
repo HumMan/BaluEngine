@@ -2,10 +2,14 @@
 
 #include "abstractEditor.h"
 
+#include <boost/signals2.hpp>
+
 TSpriteEditor::TSpriteEditor(TBaluWorldDef* world)
 {
 	this->world = world;
 	curr_state = CurrState::None;
+
+	boost::signals2::signal<void(int)> s;
 }
 
 void TSpriteEditor::StartEdit(TBaluSpriteDef* use_sprite)
