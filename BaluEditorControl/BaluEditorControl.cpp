@@ -219,7 +219,6 @@ namespace Editor
 	{
 		if (!Activated || DesignMode)
 			return;
-		engine->OnMiddleUp();
 	}
 
 	Void BaluEditorControl::OnMouseClick(MouseEventArgs^ e)
@@ -234,12 +233,28 @@ namespace Editor
 			return;
 	}
 
+	TMouseEventArgs Convert(MouseEventArgs^ e)
+	{
+		TMouseEventArgs result;
+		switch (e->Button)
+		{
+		case MouseButtons::Left:
+			result.button = TMouseButton::Left; break;
+		case MouseButtons::Middle:
+			result.button = TMouseButton::Middle; break;
+		case MouseButtons::Right:
+			result.button = TMouseButton::Right; break;
+		}
+		result.location[0] = e->X;
+		result.location[1] = e->Y;
+		return result;
+	}
+
 	Void BaluEditorControl::OnMouseDown(MouseEventArgs^ e)
 	{
 		if (!Activated || DesignMode)
 			return;
-
-		engine->OnMouseDown();
+		engine->OnMouseDown(Convert(e));
 	}
 
 	Void BaluEditorControl::OnMouseEnter(EventArgs^ e)
@@ -264,20 +279,21 @@ namespace Editor
 	{
 		if (!Activated || DesignMode)
 			return;
-		engine->OnMouseMove(TVec2i(e->Location.X, e->Location.Y));
+		engine->OnMouseMove(Convert(e));
 	}
 
 	Void BaluEditorControl::OnMouseUp(MouseEventArgs^ e)
 	{
 		if (!Activated || DesignMode)
 			return;
-		engine->OnMouseUp();
+		engine->OnMouseUp(Convert(e));
 	}
 
 	Void BaluEditorControl::OnMouseWheel(MouseEventArgs^ e)
 	{
 		if (!Activated || DesignMode)
 			return;
+		engine->OnMouseWheel(e->Delta);
 	}
 
 	Void BaluEditorControl::OnLoad(EventArgs^ e)

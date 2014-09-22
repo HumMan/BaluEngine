@@ -3,22 +3,24 @@
 #include "Editors\spriteEditor.h"
 
 #include "Editors\abstractEditor.h"
-#include "Editors\BoundaryEditor.h"
+//#include "Editors\BoundaryEditor.h"
 #include "Editors\editorResourses.h"
+#include "Editors\physBodyEditor.h"
+#include "Editors\physBodyEditorTools.h"
 
 #include <baluRender.h>
 
-enum class TCurrEditor
-{
-	SPRITE,
-	PHYS_SHAPE,
-	PHYS_BODY,
-	CLASS,
-	SCENE,
-
-	//testing only
-	BOUNDARY
-};
+//enum class TCurrEditor
+//{
+//	SPRITE,
+//	PHYS_SHAPE,
+//	PHYS_BODY,
+//	CLASS,
+//	SCENE,
+//
+//	//testing only
+//	BOUNDARY
+//};
 
 class TBaluEditorInternal
 {
@@ -30,18 +32,28 @@ public:
 
 	std::unique_ptr<TEditorResourses> resourses;
 
-	TCurrEditor curr_editor_mode;
+	//TCurrEditor curr_editor_mode;
 
-	TSpriteEditor sprite_editor;
-	TBoundaryEditor boundary_editor;
+	//TSpriteEditor sprite_editor;
+	//TBoundaryEditor boundary_editor;
+	TAbstractEditor* active_editor;
 
 	TVec2 screen_pos;
 	TVec2 screen_size;
-	TBaluEditorInternal() :sprite_editor(world.get())
+
+	bool screen_moving;
+	TVec2i old_cursor_pos;
+
+	TBaluEditorInternal()// :sprite_editor(world.get())
 	{
+		screen_moving = false;
 		//curr_editor_mode = TCurrEditor::BOUNDARY;
-		curr_editor_mode = TCurrEditor::SPRITE;
-		boundary_editor.objects.push_back(TBoundaryObjectBehaivor());
+		//curr_editor_mode = TCurrEditor::SPRITE;
+		//boundary_editor.objects.push_back(TBoundaryObjectBehaivor());
+		auto ed = new TPhysBodyEditor();
+		ed->SetActiveTool(new TCreatePolygonTool(ed));
+		active_editor = ed;
+		
 	}
 };
 
@@ -88,10 +100,7 @@ void TBaluEditor::Render()
 		//p->render->AlphaTest.Func(">=", 0.1);
 		//p->render->Blend.Func("dc*(1-sa)+sc*sa");
 
-		if (p->curr_editor_mode == TCurrEditor::SPRITE)
-			p->sprite_editor.Render(p->drawing_helper.get());
-		if (p->curr_editor_mode == TCurrEditor::BOUNDARY)
-			p->boundary_editor.Render(p->drawing_helper.get());
+		p->active_editor->Render(p->drawing_helper.get());
 
 		//p->render->Texture.Enable(false);
 		//p->render->AlphaTest.Enable(false);
@@ -104,58 +113,80 @@ TVec2 TBaluEditor::ScreenToWorld(const TVec2& v)
 {
 	return p->screen_pos + (v + TVec2(-0.5, -0.5)).ComponentMul(p->screen_size);
 }
+
+TVec2 TBaluEditor::DirScreenToWorld(const TVec2& v)
+{
+	return (v).ComponentMul(p->screen_size);
+}
+
 TVec2 TBaluEditor::WorldToScreen(const TVec2& v)
 {
 	return (v - p->screen_pos) / p->screen_size + TVec2(-0.5f, -0.5f);
 }
 
-void TBaluEditor::OnMouseMove(TVec2i use_client_mouse_pos)
+TVec2 TBaluEditor::ScreenToWorld(const TVec2i& screen)
 {
+	TVec2i use_client_mouse_pos = screen;
 	TVec2i screen_size = p->render->ScreenSize();
 	TVec2 pos = TVec2(use_client_mouse_pos[0] / (float)screen_size[0], 1 - use_client_mouse_pos[1] / (float)screen_size[1]);
 	TVec2 world_pos = ScreenToWorld(pos);
-	
-	if (p->curr_editor_mode == TCurrEditor::SPRITE)
-		p->sprite_editor.MouseMove(world_pos);
-	if (p->curr_editor_mode == TCurrEditor::BOUNDARY)
-		p->boundary_editor.OnMouseMove(world_pos);
+	return world_pos;
 }
 
-void TBaluEditor::OnMouseClick(TVec2i use_client_mouse_pos)
+TVec2 TBaluEditor::DirScreenToWorld(const TVec2i& screen)
 {
-
-	
+	TVec2i use_client_mouse_pos = screen;
+	TVec2i screen_size = p->render->ScreenSize();
+	TVec2 pos = TVec2(use_client_mouse_pos[0] / (float)screen_size[0], - use_client_mouse_pos[1] / (float)screen_size[1]);
+	TVec2 world_pos = DirScreenToWorld(pos);
+	return world_pos;
 }
 
-void TBaluEditor::OnMouseDown()
+void TBaluEditor::OnMouseMove(TMouseEventArgs e)
 {
-	if (p->curr_editor_mode == TCurrEditor::SPRITE)
-		p->sprite_editor.MouseDown();
-	if (p->curr_editor_mode == TCurrEditor::BOUNDARY)
-		p->boundary_editor.OnMouseDown();
+	TVec2 world_pos = ScreenToWorld(e.location);
+	if (p->screen_moving)
+	{
+		p->screen_pos -= DirScreenToWorld( e.location - p->old_cursor_pos);
+		p->old_cursor_pos = e.location;
+	}
+	else
+	{
+		p->active_editor->OnMouseMove(e, world_pos);
+	}
 }
 
-void TBaluEditor::OnMouseUp()
+void TBaluEditor::OnMouseDown(TMouseEventArgs e)
 {
-	if (p->curr_editor_mode == TCurrEditor::SPRITE)
-		p->sprite_editor.MouseUp();
-	if (p->curr_editor_mode == TCurrEditor::BOUNDARY)
-		p->boundary_editor.OnMouseUp();
+	if (e.button == TMouseButton::Middle)
+	{
+		p->screen_moving = true;
+		TVec2 world_pos = ScreenToWorld(e.location);
+		p->old_cursor_pos = e.location;
+	}
+	else
+	{
+		TVec2 world_pos = ScreenToWorld(e.location);
+		p->active_editor->OnMouseDown(e, world_pos);
+	}
 }
 
-void TBaluEditor::OnMiddleDown()
+void TBaluEditor::OnMouseUp(TMouseEventArgs e)
 {
-
+	if (e.button == TMouseButton::Middle)
+	{
+		p->screen_moving = false;
+	}
+	else
+	{
+		TVec2 world_pos = ScreenToWorld(e.location);
+		p->active_editor->OnMouseUp(e, world_pos);
+	}
 }
 
-void TBaluEditor::OnMiddleUp()
+void TBaluEditor::OnMouseWheel(float delta)
 {
-	
-}
-
-void TBaluEditor::OnMouseScroll(float delta)
-{
-
+	p->screen_size += (p->screen_size*0.1* delta / abs(delta));
 }
 
 void TBaluEditor::NewScene()
@@ -179,7 +210,7 @@ void TBaluEditor::NewSprite()
 	p->world->sprites[buf].sprite_name = buf;
 
 	//p->curr_editor_mode = TCurrEditor::SPRITE;
-	p->sprite_editor.StartEdit(&p->world->sprites[buf]);
+	//p->sprite_editor.StartEdit(&p->world->sprites[buf]);
 }
 void TBaluEditor::NewMaterial()
 {

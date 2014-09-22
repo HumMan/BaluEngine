@@ -132,10 +132,13 @@ public:
 
 class TBaluShapeDef : public TWorldObjectDef
 {
+protected:
+	 
 public:
 	virtual ~TBaluShapeDef()=0;
 	virtual void Save(pugi::xml_node& parent_node, const int version)=0;
 	virtual TOBB<float, 2> GetOBB() = 0;
+	virtual b2Shape& GetB2Shape() = 0;
 };
 
 class TBaluPolygonShapeDef : public TBaluShapeDef

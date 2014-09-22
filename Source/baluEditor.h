@@ -4,6 +4,7 @@
 
 #include "baluEditorDefs.h"
 #include "exportMacro.h"
+#include "Editors\abstractEditor.h"
 //class TAbstractEditorObject
 //{
 //
@@ -25,17 +26,19 @@ public:
 	~TBaluEditor();
 	void Render();
 
+	TVec2 DirScreenToWorld(const TVec2& v);
 	TVec2 ScreenToWorld(const TVec2& v);
+	TVec2 ScreenToWorld(const TVec2i& screen);
+	TVec2 DirScreenToWorld(const TVec2i& screen);
 	TVec2 WorldToScreen(const TVec2& v);
 
+	void OnMouseDown(TMouseEventArgs e);
+	void OnMouseMove(TMouseEventArgs e);
+	void OnMouseUp(TMouseEventArgs e);
+
 	void SetViewport(TVec2i use_size);
-	void OnMouseMove(TVec2i use_client_mouse_pos);
-	void OnMouseClick(TVec2i use_client_mouse_pos);
-	void OnMouseDown();
-	void OnMouseUp();
-	void OnMiddleDown();
-	void OnMiddleUp();
-	void OnMouseScroll(float delta);
+
+	void OnMouseWheel(float delta);
 
 	//
 	void NewScene();

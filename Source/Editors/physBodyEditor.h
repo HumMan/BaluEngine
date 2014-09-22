@@ -5,9 +5,18 @@
 
 class TPhysBodyEditor:public TAbstractEditor
 {
-	TBoundaryEditor boundary_editor;
+	//TBoundaryEditor boundary_editor;
+	std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
+	std::vector<std::unique_ptr<TJointAdornment>> joints;
 
+	TEditorTool* active_tool;
 public:
+	void SetActiveTool(TEditorTool* use_tool);
+	void UnsetAcitveTool();
+
+	void AddBoundary(TBoundaryBoxAdornment* box);
+	void AddJoint(TJointAdornment* joint);
+
 	void Initialize(TWorldObjectDef* obj);
 	void Initialize(TBaluPhysBodyDef* obj);
 
@@ -17,9 +26,11 @@ public:
 	bool CanEndSelectedAsWork();
 	void EndSelectedAsWork();
 
-	void OnMouseDown(TMouseEventArgs e);
-	void OnMouseMove(TMouseEventArgs e);
-	void OnMouseUp(TMouseEventArgs e);
+	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
+
+	void Render(TDrawingHelper* drawing_helper);
 };
 
 //class TEditorPhysShape

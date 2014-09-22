@@ -8,6 +8,8 @@
 
 #include "../baluEditorDefs.h"
 
+class TDrawingHelper;
+
 enum class TMouseButton
 {
 	Left,
@@ -38,13 +40,19 @@ public:
 
 	//std::map<std::string, TAbstractEditorObject*> CanCreateObjects();
 
-	virtual void OnMouseDown(TMouseEventArgs e) = 0;
-	virtual void OnMouseMove(TMouseEventArgs e) = 0;
-	virtual void OnMouseUp(TMouseEventArgs e) = 0;
+	virtual void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
+	virtual void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
+	virtual void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
 
-	void Render(TDrawingHelper* drawing_helper);
+	virtual void Render(TDrawingHelper* drawing_helper) = 0;
 };
 
-
-
+class TEditorTool
+{
+public:
+	virtual void OnMouseDown(TMouseEventArgs e, TVec2 wolrd_cursor_location) = 0;
+	virtual void OnMouseMove(TMouseEventArgs e, TVec2 wolrd_cursor_location) = 0;
+	virtual void OnMouseUp(TMouseEventArgs e, TVec2 wolrd_cursor_location) = 0;
+	virtual void Render(TDrawingHelper* drawing_helper) = 0;
+};
 

@@ -11,7 +11,7 @@ TOBB<float, 2> TBaluPolygonShapeDef::GetOBB()
 	for (int i = 0; i < b2shape.GetVertexCount(); i++)
 	{
 		auto v = b2shape.GetVertex(i);
-		aabb.operator+=*(TVec2*)&v;
+		aabb.operator+=(*(TVec2*)&v);
 	}
 	this->aabb = aabb;
 	return TOBB<float, 2>(pos, TMatrix2(*(TVec2*)&angle.GetXAxis(), *(TVec2*)&angle.GetYAxis()), aabb);
