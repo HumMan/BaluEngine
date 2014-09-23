@@ -11,6 +11,6 @@ namespace Editor
 	public ref class TPropertiesRegistry
 	{
 	public:
-		TPropertiesObject^ CreateProperties(TWorldObjectDef* obj_def);
+		static TPropertiesObject^ CreateProperties(TWorldObjectDef* obj_def);
 	};
 }

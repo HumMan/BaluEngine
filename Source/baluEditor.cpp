@@ -57,6 +57,18 @@ public:
 	}
 };
 
+void TBaluEditor::AddSelectionChangedCallback(void* calle, SelectionChangedCallbackRefType MyCallback)
+{
+	SelectionChangedCallbackRef = MyCallback;
+	SelectionChangedCallbackRef_calle = calle;
+}
+
+void TBaluEditor::RemoveSelectionChangedCallback(SelectionChangedCallbackRefType MyCallback)
+{
+	SelectionChangedCallbackRef = NULL;
+	SelectionChangedCallbackRef_calle = NULL;
+}
+
 TBaluEditor::TBaluEditor(int hWnd, TVec2i use_size)
 {
 	p.reset(new TBaluEditorInternal());
@@ -101,6 +113,8 @@ void TBaluEditor::Render()
 		//p->render->Blend.Func("dc*(1-sa)+sc*sa");
 
 		p->active_editor->Render(p->drawing_helper.get());
+
+		
 
 		//p->render->Texture.Enable(false);
 		//p->render->AlphaTest.Enable(false);
@@ -211,6 +225,7 @@ void TBaluEditor::NewSprite()
 
 	//p->curr_editor_mode = TCurrEditor::SPRITE;
 	//p->sprite_editor.StartEdit(&p->world->sprites[buf]);
+	SelectionChangedCallbackRef(SelectionChangedCallbackRef_calle, NULL, new TBaluPolygonShapeDef());
 }
 void TBaluEditor::NewMaterial()
 {

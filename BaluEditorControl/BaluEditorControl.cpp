@@ -1,4 +1,6 @@
 
+#include <vcclr.h>
+
 #include "BaluEditorControlDesigner.h"
 #include "BaluEditorControl.h"
 #include "Source/PropertiesRegistry/propertiesRegistry.h"
@@ -19,6 +21,8 @@ char buf[1000];
 TBaluEditor* engine;
 char buf1[1000];
 int curr_buf1;
+
+
 //
 //void InitEngine()
 //{
@@ -117,6 +121,17 @@ static DWORD last_tick_count;
 //	engine->UpdateMouseState(KeyDown(VK_LBUTTON), KeyDown(VK_MBUTTON), KeyDown(VK_RBUTTON), v);
 //}
 
+class TCallbackManagedBridge
+{
+	gcroot<Editor::BaluEditorControl^> managed_object;
+public:
+	TCallbackManagedBridge(Editor::BaluEditorControl^ use_obj){ managed_object = use_obj; }
+	static void Callback(void* calle, TWorldObjectDef* old_selection, TWorldObjectDef* new_selection)
+	{
+		((TCallbackManagedBridge*)calle)->managed_object->OnSelectionChangedByEditor(old_selection, new_selection);
+	}
+};
+
 namespace Editor
 {
 	//void BaluEditorControl::GetProps()
@@ -125,6 +140,23 @@ namespace Editor
 	//	TBaluSpriteDef*  sprite = new TBaluSpriteDef();
 	//	SelectedObjectProperty->SelectedObject = r->CreateProperties(sprite);
 	//}
+
+	
+
+	void BaluEditorControl::OnSelectionChangedByEditor(TWorldObjectDef* old_selection, TWorldObjectDef* new_selection)
+	{
+		try
+
+		{
+			TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(new_selection);
+			SelectedObjectProperty->SelectedObject = obj;
+		}
+		catch (Exception^ ex)
+		{
+
+		}
+	}
+
 	void BaluEditorControl::Render()
 	{
 		if (DesignMode)
@@ -166,6 +198,9 @@ namespace Editor
 		}
 		else
 		{
+
+			callbackbridge = new TCallbackManagedBridge(this);
+
 			Activated = true;
 			DesignMode = false;
 			hWnd = static_cast<HWND>(this->Handle.ToPointer());
@@ -176,7 +211,11 @@ namespace Editor
 			engine = new TBaluEditor(*(int*)&hWnd, TVec2i(rect.right - rect.left, rect.bottom - rect.top));
 
 			//InitEngine();
-			engine->NewSprite();
+			
+
+			engine->AddSelectionChangedCallback(callbackbridge,TCallbackManagedBridge::Callback);
+
+			
 
 			last_tick_count = GetTickCount();
 
@@ -185,7 +224,7 @@ namespace Editor
 	}
 	BaluEditorControl::~BaluEditorControl()
 	{
-
+		delete callbackbridge;
 	}
 
 	Void BaluEditorControl::OnPaint(PaintEventArgs^ e)
@@ -207,6 +246,7 @@ namespace Editor
 	{
 		if (!Activated || DesignMode)
 			return;
+		engine->NewSprite();
 	}
 
 	Void BaluEditorControl::OnKeyPress(KeyPressEventArgs^ e)

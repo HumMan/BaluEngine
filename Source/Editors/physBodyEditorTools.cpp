@@ -28,6 +28,18 @@ void TCreatePolygonTool::Render(TDrawingHelper* drawing_helper)
 
 }
 
+
+TCreateCircleTool::TCreateCircleTool(TPhysBodyEditor* phys_body_editor) :TCreatePolygonTool(phys_body_editor)
+{
+}
+
+void TCreateCircleTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	auto new_box = new TPolygonShapeAdornment(world_cursor_location);
+	phys_body_editor->AddBoundary(new_box);
+}
+
+
 TPolygonShapeAdornment::TPolygonShapeAdornment(TVec2 pos) :TBoundaryBoxAdornment(pos)
 {
 }
@@ -40,4 +52,6 @@ void TPolygonShapeAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> 
 void TPolygonShapeAdornment::Render(TDrawingHelper* drawing_helper)
 {
 	TBoundaryBoxAdornment::Render(drawing_helper);
+
+
 }

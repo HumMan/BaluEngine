@@ -1,4 +1,8 @@
 #pragma once
+
+class TWorldObjectDef;
+class TCallbackManagedBridge;
+
 namespace Editor
 {
 	using namespace System;
@@ -16,8 +20,12 @@ namespace Editor
 	private:
 		bool DesignMode;
 		bool Activated;
+
+		TCallbackManagedBridge* callbackbridge;
 	public:
 		BaluEditorControl();
+
+		void OnSelectionChangedByEditor(TWorldObjectDef* old_selection, TWorldObjectDef* new_selection);
 
 		virtual Void OnPaint(PaintEventArgs^ e) override;
 		virtual Void OnPaintBackground(PaintEventArgs^ e) override;

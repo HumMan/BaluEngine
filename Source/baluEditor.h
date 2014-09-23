@@ -21,7 +21,21 @@ class BALUENGINEDLL_API TBaluEditor
 {
 private:
 	std::unique_ptr<TBaluEditorInternal> p;
+
+	typedef void(*SelectionChangedCallbackRefType)(void* calle, TWorldObjectDef* old_selection, TWorldObjectDef* new_selection);
+	SelectionChangedCallbackRefType SelectionChangedCallbackRef;
+	void* SelectionChangedCallbackRef_calle;
+
+	typedef void(*PropertiesChangedCallbackRefType)(void* calle, TWorldObjectDef* changed_object);
+	PropertiesChangedCallbackRefType PropertiesChangedCallbackRef;
+	void* PropertiesChangedCallbackRef_calle;
 public:
+	void AddSelectionChangedCallback(void* calle, SelectionChangedCallbackRefType MyCallback);
+	void RemoveSelectionChangedCallback(SelectionChangedCallbackRefType MyCallback);
+
+	void AddPropertiesChangedCallback(void* calle, PropertiesChangedCallbackRefType MyCallback);
+	void RemovePropertiesChangedCallback(PropertiesChangedCallbackRefType MyCallback);
+
 	TBaluEditor(int hWnd, TVec2i use_size);
 	~TBaluEditor();
 	void Render();

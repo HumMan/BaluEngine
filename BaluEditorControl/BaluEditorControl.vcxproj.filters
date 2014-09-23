@@ -25,7 +25,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\PropertiesRegistry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

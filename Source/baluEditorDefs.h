@@ -17,6 +17,8 @@ namespace pugi
 
 class TWorldObjectDef
 {
+public:
+	virtual ~TWorldObjectDef(){}
 };
 
 class BALUENGINEDLL_API TBaluMaterialDef : public TWorldObjectDef
@@ -135,7 +137,7 @@ class TBaluShapeDef : public TWorldObjectDef
 protected:
 	 
 public:
-	virtual ~TBaluShapeDef()=0;
+	virtual ~TBaluShapeDef(){}
 	virtual void Save(pugi::xml_node& parent_node, const int version)=0;
 	virtual TOBB<float, 2> GetOBB() = 0;
 	virtual b2Shape& GetB2Shape() = 0;
@@ -154,6 +156,8 @@ public:
 	void Save(pugi::xml_node& parent_node, const int version);
 
 	TOBB<float, 2> GetOBB();
+
+	b2Shape& GetB2Shape(){ return b2shape; }
 };
 
 class TBaluPhysBodyDef : public TWorldObjectDef
