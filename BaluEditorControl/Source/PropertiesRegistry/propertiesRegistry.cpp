@@ -3,6 +3,7 @@
 namespace Editor
 {
 	using namespace System::ComponentModel;
+	using namespace System;
 
 	value class TVecProperties
 	{
@@ -30,12 +31,25 @@ namespace Editor
 		property float Y {float get(){ return box->GetPos()[1]; }}
 	};
 
+	ref class TMaterialProperties : public TPropertiesObject
+	{
+		TBaluMaterialDef* obj_def;
+	public:
+		TMaterialProperties(TBaluMaterialDef* obj_def){ this->obj_def = obj_def; }
+		property String^ Name {String^ get() { return gcnew String(obj_def->material_name.c_str()); } };
+		property String^ Image {String^ get() { return gcnew String(obj_def->image_path.c_str()); } };
+		property TBaluMaterialDef::TTransparentMode BlendMode {TBaluMaterialDef::TTransparentMode get() { return obj_def->blend_mode; }
+	};
+	};
+
 	ref class TSpriteProperties : public TPropertiesObject
 	{
 		TBaluSpriteDef* obj_def;
 	public:
 		TSpriteProperties(TBaluSpriteDef* obj_def){ this->obj_def = obj_def; }
-		property int TestProp;
+		property String^ Name {String^ get() { return gcnew String(obj_def->sprite_name.c_str()); } };
+		property String^ Material {String^ get() { return gcnew String(obj_def->material_name.c_str()); } };
+		property TBaluSpriteDef::TPolygonMode PolygonMode {TBaluSpriteDef::TPolygonMode get() { return obj_def->polygone_mode; } };
 	};
 
 	ref class TBaluPhysShapeProperties : public TPropertiesObject
@@ -67,15 +81,31 @@ namespace Editor
 		{
 			this->obj_def = obj_def; 
 		}
-		property int testprop;
+		property int polygon_testprop;
+	};
+
+	ref class TBaluPhysBodyProperties : public TPropertiesObject
+	{
+		TBaluPhysBodyDef* obj_def;
+	public:
+		TBaluPhysBodyProperties(TBaluPhysBodyDef* obj_def)
+		{
+			this->obj_def = obj_def;
+		}
+		property int phys_body_testprop;
 	};
 
 	TPropertiesObject^ TPropertiesRegistry::CreateProperties(TWorldObjectDef* obj_def)
 	{
+		if ((dynamic_cast<TBaluMaterialDef*>(obj_def)) != nullptr)
+			return gcnew TMaterialProperties(dynamic_cast<TBaluMaterialDef*>(obj_def));
+
 		if ((dynamic_cast<TBaluSpriteDef*>(obj_def)) != nullptr)
 			return gcnew TSpriteProperties(dynamic_cast<TBaluSpriteDef*>(obj_def));
 
-		if ((dynamic_cast<TBaluPolygonShapeDef*>(obj_def)) != nullptr)
-			return gcnew TBaluPolygonShapeProperties(dynamic_cast<TBaluPolygonShapeDef*>(obj_def));
+		if ((dynamic_cast<TBaluPhysBodyDef*>(obj_def)) != nullptr)
+			return gcnew TBaluPhysBodyProperties(dynamic_cast<TBaluPhysBodyDef*>(obj_def));
+
+		return gcnew TPropertiesObject();
 	}
 }

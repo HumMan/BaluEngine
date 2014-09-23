@@ -2,6 +2,7 @@
 
 class TWorldObjectDef;
 class TCallbackManagedBridge;
+class TBaluWorldDef;
 
 namespace Editor
 {
@@ -14,6 +15,34 @@ namespace Editor
 	using namespace System::Collections::Generic;
 	using namespace System::Runtime::InteropServices;
 
+	public enum class TNodeType
+	{
+		World,
+		Material,
+		Sprite,
+		PhysBody,
+		Class,
+		Scene
+	};
+	public ref class TWolrdTreeNodeTag
+	{
+	public:
+		TWorldObjectDef* world_object;
+		TNodeType NodeType;
+		bool IsSpecialNode;
+		TWolrdTreeNodeTag(TNodeType NodeType)
+		{
+			IsSpecialNode = true;
+			this->NodeType = NodeType;
+		}
+		TWolrdTreeNodeTag(TNodeType NodeType, TWorldObjectDef* world_object)
+		{
+			IsSpecialNode = false;
+			this->NodeType = NodeType;
+			this->world_object = world_object;
+		}
+	};
+
 	[DesignerAttribute(BaluEditorControlDesigner::typeid)]
 	public ref class BaluEditorControl : public System::Windows::Forms::UserControl
 	{
@@ -22,10 +51,16 @@ namespace Editor
 		bool Activated;
 
 		TCallbackManagedBridge* callbackbridge;
-	public:
-		BaluEditorControl();
 
+		Void CreateWorldTree(TreeView^ WorldTreeView, TBaluWorldDef* world);
+
+	public:
+		//called by balu editor
 		void OnSelectionChangedByEditor(TWorldObjectDef* old_selection, TWorldObjectDef* new_selection);
+		void OnPropertiesChangedByEditor(TWorldObjectDef* changed_obj);
+		void OnObjectCreatedByEditor(TWorldObjectDef* new_object);
+
+		BaluEditorControl();
 
 		virtual Void OnPaint(PaintEventArgs^ e) override;
 		virtual Void OnPaintBackground(PaintEventArgs^ e) override;
@@ -36,7 +71,7 @@ namespace Editor
 		virtual Void OnMouseClick(MouseEventArgs^ e) override;
 		virtual Void OnMouseDoubleClick(MouseEventArgs^ e) override;
 		virtual Void OnMouseDown(MouseEventArgs^ e) override;
-		virtual Void OnMouseEnter(EventArgs^ e) override;
+		//virtual Void OnMouseEnter(EventArgs^ e) override;
 		virtual Void OnMouseHover(EventArgs^ e) override;
 		virtual Void OnMouseLeave(EventArgs^ e) override;
 		virtual Void OnMouseMove(MouseEventArgs^ e) override;
@@ -46,6 +81,17 @@ namespace Editor
 		virtual Void WndProc(Message% m) override;
 
 		virtual Void Render();
+
+		Void InitializeEngine();
+
+		Void CreateMaterial();
+		Void CreateSprite();
+		Void CreatePhysBody();
+		Void CreateClass();
+		Void CreateScene();
+
+		Void SetSelectedWorldNode(TWolrdTreeNodeTag^ node);
+		Void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
 
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;

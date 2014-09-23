@@ -3,6 +3,11 @@
 #include "../baluEditorDefs.h"
 #include "physBodyEditorTools.h"
 
+TPhysBodyEditor::TPhysBodyEditor()
+{
+	active_tool = nullptr;
+}
+
 void TPhysBodyEditor::Initialize(TBaluPhysBodyDef* obj)
 {
 	for (const std::unique_ptr<TBaluShapeDef>& v : obj->fixtures)
@@ -47,17 +52,20 @@ void TPhysBodyEditor::EndSelectedAsWork()
 
 void TPhysBodyEditor::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	active_tool->OnMouseDown(e, world_cursor_location);
+	if (active_tool!=nullptr)
+		active_tool->OnMouseDown(e, world_cursor_location);
 }
 
 void TPhysBodyEditor::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	active_tool->OnMouseMove(e, world_cursor_location);
+	if (active_tool != nullptr)
+		active_tool->OnMouseMove(e, world_cursor_location);
 }
 
 void TPhysBodyEditor::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	active_tool->OnMouseUp(e, world_cursor_location);
+	if (active_tool != nullptr)
+		active_tool->OnMouseUp(e, world_cursor_location);
 }
 
 void TPhysBodyEditor::Initialize(TWorldObjectDef* obj)

@@ -29,7 +29,7 @@ public:
 	std::string material_name;
 	std::string image_path;
 	TVec4 color;
-	enum TTransparentMode
+	enum class TTransparentMode
 	{
 		TM_NONE,
 		TM_ALPHA_BLEND,

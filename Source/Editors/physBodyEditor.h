@@ -11,6 +11,7 @@ class TPhysBodyEditor:public TAbstractEditor
 
 	TEditorTool* active_tool;
 public:
+	TPhysBodyEditor();
 	void SetActiveTool(TEditorTool* use_tool);
 	void UnsetAcitveTool();
 

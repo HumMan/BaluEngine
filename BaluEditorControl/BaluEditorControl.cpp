@@ -10,6 +10,7 @@
 #include <baluScript.h>
 #include "../Source/scriptClasses.h"
 
+
 HDC hDC;
 HWND hWnd;
 
@@ -126,11 +127,20 @@ class TCallbackManagedBridge
 	gcroot<Editor::BaluEditorControl^> managed_object;
 public:
 	TCallbackManagedBridge(Editor::BaluEditorControl^ use_obj){ managed_object = use_obj; }
-	static void Callback(void* calle, TWorldObjectDef* old_selection, TWorldObjectDef* new_selection)
+	static void OnSelectionChanged(void* calle, TWorldObjectDef* old_selection, TWorldObjectDef* new_selection)
 	{
 		((TCallbackManagedBridge*)calle)->managed_object->OnSelectionChangedByEditor(old_selection, new_selection);
 	}
+	static void OnPropertiesChanged(void* calle, TWorldObjectDef* changed_obj)
+	{
+		((TCallbackManagedBridge*)calle)->managed_object->OnPropertiesChangedByEditor(changed_obj);
+	}
+	static void OnObjectCreated(void* calle, TWorldObjectDef* new_object)
+	{
+		((TCallbackManagedBridge*)calle)->managed_object->OnObjectCreatedByEditor(new_object);
+	}
 };
+
 
 namespace Editor
 {
@@ -145,16 +155,106 @@ namespace Editor
 
 	void BaluEditorControl::OnSelectionChangedByEditor(TWorldObjectDef* old_selection, TWorldObjectDef* new_selection)
 	{
-		try
+		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(new_selection);
+		SelectedObjectProperty->SelectedObject = obj;
+	}
+	
+	void BaluEditorControl::OnPropertiesChangedByEditor(TWorldObjectDef* changed_obj)
+	{
+	}
+
+	void BaluEditorControl::OnObjectCreatedByEditor(TWorldObjectDef* new_object)
+	{
+		WorldTreeView->Nodes->Clear();
+		CreateWorldTree(WorldTreeView, engine->GetWorld());
+	}
+
+	void BaluEditorControl::InitializeEngine()
+	{
+		CreateWorldTree(WorldTreeView, engine->GetWorld());
+	}
+
+	Void BaluEditorControl::CreateMaterial()
+	{
+		engine->CreateMaterial();
+	}
+	Void BaluEditorControl::CreateSprite()
+	{
+		engine->CreateSprite();
+	}
+	Void BaluEditorControl::CreatePhysBody()
+	{
+		engine->CreatePhysBody();
+	}
+	Void BaluEditorControl::CreateClass()
+	{
+		engine->CreateClass();
+	}
+	Void BaluEditorControl::CreateScene()
+	{
+		engine->CreateScene();
+	}
+
+	Void BaluEditorControl::SetSelectedWorldNode(TWolrdTreeNodeTag^ node)
+	{
+		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(node->world_object);
+		SelectedObjectProperty->SelectedObject = obj;
+	}
+
+
+
+	Void BaluEditorControl::SetEditedWorldNode(TWolrdTreeNodeTag^ node)
+	{
+		engine->Edit(node->world_object);
+	}
+
+	void BaluEditorControl::CreateWorldTree(TreeView^ WorldTreeView, TBaluWorldDef* world)
+	{
+		auto world_node = gcnew TreeNode("World");
+		world_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::World);
+		WorldTreeView->Nodes->Add(world_node);
+		{
+			auto Materialst_node = gcnew TreeNode("Materials");
+			Materialst_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
+			world_node->Nodes->Add(Materialst_node);
+			for (auto i = world->materials.begin(); i != world->materials.end(); i++)
+			{
+				auto new_sprite_node = gcnew TreeNode(gcnew String(i->first.c_str()));
+				new_sprite_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material, &i->second);
+				Materialst_node->Nodes->Add(new_sprite_node);
+			}
+		}
 
 		{
-			TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(new_selection);
-			SelectedObjectProperty->SelectedObject = obj;
+			auto Sprites_node = gcnew TreeNode("Sprites");
+			Sprites_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
+			world_node->Nodes->Add(Sprites_node);
+			for (auto i = world->sprites.begin(); i != world->sprites.end(); i++)
+			{
+				auto new_sprite_node = gcnew TreeNode(gcnew String(i->first.c_str()));
+				new_sprite_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Sprite,&i->second);
+				Sprites_node->Nodes->Add(new_sprite_node);
+			}
 		}
-		catch (Exception^ ex)
 		{
-
+			auto PhysBodies_node = gcnew TreeNode("PhysBodies");
+			PhysBodies_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
+			world_node->Nodes->Add(PhysBodies_node);
+			for (auto i = world->phys_bodies.begin(); i != world->phys_bodies.end(); i++)
+			{
+				auto new_physbody_node = gcnew TreeNode(gcnew String(i->first.c_str()));
+				new_physbody_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::PhysBody, &i->second);
+				PhysBodies_node->Nodes->Add(new_physbody_node);
+			}
 		}
+
+		auto Classes_node = gcnew TreeNode("Classes");
+		Classes_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
+		world_node->Nodes->Add(Classes_node);
+
+		auto Scenes_node = gcnew TreeNode("Scenes");
+		Scenes_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
+		world_node->Nodes->Add(Scenes_node);
 	}
 
 	void BaluEditorControl::Render()
@@ -207,15 +307,11 @@ namespace Editor
 			RECT rect;
 			GetClientRect(hWnd, &rect);
 
-			//engine = new TBaluEngine(hWnd, TVec2i(rect.right - rect.left, rect.bottom - rect.top));
 			engine = new TBaluEditor(*(int*)&hWnd, TVec2i(rect.right - rect.left, rect.bottom - rect.top));
 
-			//InitEngine();
-			
-
-			engine->AddSelectionChangedCallback(callbackbridge,TCallbackManagedBridge::Callback);
-
-			
+			engine->AddSelectionChangedCallback(callbackbridge, TCallbackManagedBridge::OnSelectionChanged);
+			engine->AddPropertiesChangedCallback(callbackbridge, TCallbackManagedBridge::OnPropertiesChanged);
+			engine->AddObjectCreatedCallback(callbackbridge, TCallbackManagedBridge::OnObjectCreated);
 
 			last_tick_count = GetTickCount();
 
@@ -246,7 +342,6 @@ namespace Editor
 	{
 		if (!Activated || DesignMode)
 			return;
-		engine->NewSprite();
 	}
 
 	Void BaluEditorControl::OnKeyPress(KeyPressEventArgs^ e)
@@ -297,11 +392,11 @@ namespace Editor
 		engine->OnMouseDown(Convert(e));
 	}
 
-	Void BaluEditorControl::OnMouseEnter(EventArgs^ e)
-	{
-		if (!Activated || DesignMode)
-			return;
-	}
+	//Void BaluEditorControl::OnMouseEnter(EventArgs^ e)
+	//{
+	//	if (!Activated || DesignMode)
+	//		return;
+	//}
 
 	Void BaluEditorControl::OnMouseHover(EventArgs^ e)
 	{

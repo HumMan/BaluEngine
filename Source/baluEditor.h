@@ -29,12 +29,21 @@ private:
 	typedef void(*PropertiesChangedCallbackRefType)(void* calle, TWorldObjectDef* changed_object);
 	PropertiesChangedCallbackRefType PropertiesChangedCallbackRef;
 	void* PropertiesChangedCallbackRef_calle;
+
+	typedef void(*ObjectCreatedCallbackRefType)(void* calle, TWorldObjectDef* new_object);
+	ObjectCreatedCallbackRefType ObjectCreatedCallbackRef;
+	void* ObjectCreatedCallbackRef_calle;
+
 public:
 	void AddSelectionChangedCallback(void* calle, SelectionChangedCallbackRefType MyCallback);
 	void RemoveSelectionChangedCallback(SelectionChangedCallbackRefType MyCallback);
 
 	void AddPropertiesChangedCallback(void* calle, PropertiesChangedCallbackRefType MyCallback);
 	void RemovePropertiesChangedCallback(PropertiesChangedCallbackRefType MyCallback);
+
+	void AddObjectCreatedCallback(void* calle, ObjectCreatedCallbackRefType MyCallback);
+	void RemoveObjectCreatedCallback(ObjectCreatedCallbackRefType MyCallback);
+
 
 	TBaluEditor(int hWnd, TVec2i use_size);
 	~TBaluEditor();
@@ -55,14 +64,14 @@ public:
 	void OnMouseWheel(float delta);
 
 	//
-	void NewScene();
-	void NewClass();
-	void NewPhysBody();
-	void NewSprite();
-	void NewMaterial();
+	void CreateScene();
+	void CreateClass();
+	void CreatePhysBody();
+	void CreateSprite();
+	void CreateMaterial();
 
 	void SetWorld(TBaluWorldDef* world);
+	TBaluWorldDef* GetWorld();
 
-	void Edit(TBaluSceneDef* scene);
-	void Edit(TBaluShapeDef* phys_shape);
+	void Edit(TWorldObjectDef* obj_to_edit);
 };
