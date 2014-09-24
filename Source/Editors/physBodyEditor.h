@@ -3,6 +3,23 @@
 #include "abstractEditor.h"
 #include "BoundaryEditor.h"
 
+class TPhysBodyEditor;
+
+class TPhysBodyEditorToolsRegistry//: public TEditorToolsRegistry
+{
+	std::vector<TToolWithDescription> tools;
+	TPhysBodyEditor* phys_body_editor;
+public:
+	TPhysBodyEditorToolsRegistry(TPhysBodyEditor* phys_body_editor);
+	TPhysBodyEditorToolsRegistry(TPhysBodyEditorToolsRegistry&& o) 
+	{
+		tools = std::move(o.tools);
+		phys_body_editor = std::move(o.phys_body_editor);
+	}
+	const std::vector<TToolWithDescription>& GetTools();
+	~TPhysBodyEditorToolsRegistry();
+};
+
 class TPhysBodyEditor:public TAbstractEditor
 {
 	//TBoundaryEditor boundary_editor;
@@ -10,6 +27,8 @@ class TPhysBodyEditor:public TAbstractEditor
 	std::vector<std::unique_ptr<TJointAdornment>> joints;
 
 	TEditorTool* active_tool;
+
+	TPhysBodyEditorToolsRegistry tools_registry;
 public:
 	TPhysBodyEditor();
 	void SetActiveTool(TEditorTool* use_tool);
@@ -32,6 +51,7 @@ public:
 	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
 
 	void Render(TDrawingHelper* drawing_helper);
+	const std::vector<TToolWithDescription>& GetAvailableTools();
 };
 
 //class TEditorPhysShape

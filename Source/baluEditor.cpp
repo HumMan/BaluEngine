@@ -329,3 +329,9 @@ void TBaluEditor::Edit(TWorldObjectDef* obj_to_edit)
 		p->active_editor = ed;
 	}
 }
+
+const std::vector<TToolWithDescription>& TBaluEditor::GetAvailableTools()
+{
+	assert(p->active_editor != nullptr);
+	return p->active_editor->GetAvailableTools();
+}

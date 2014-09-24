@@ -95,6 +95,7 @@ namespace Editor
 
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;
+		property ToolStrip^ EditorToolsBar;
 	protected:
 
 		~BaluEditorControl();

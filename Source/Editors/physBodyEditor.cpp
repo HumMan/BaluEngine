@@ -3,7 +3,7 @@
 #include "../baluEditorDefs.h"
 #include "physBodyEditorTools.h"
 
-TPhysBodyEditor::TPhysBodyEditor()
+TPhysBodyEditor::TPhysBodyEditor() :tools_registry(this)
 {
 	active_tool = nullptr;
 }
@@ -88,4 +88,9 @@ void TPhysBodyEditor::Render(TDrawingHelper* drawing_helper)
 	{
 		box->Render(drawing_helper);
 	}
+}
+
+const std::vector<TToolWithDescription>& TPhysBodyEditor::GetAvailableTools()
+{
+	return tools_registry.GetTools();
 }

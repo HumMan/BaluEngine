@@ -349,6 +349,7 @@
             this.baluEditorControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
             this.baluEditorControl1.Location = new System.Drawing.Point(305, 52);
             this.baluEditorControl1.Name = "baluEditorControl1";
             this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;

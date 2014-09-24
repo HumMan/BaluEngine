@@ -151,7 +151,18 @@ namespace Editor
 	//	SelectedObjectProperty->SelectedObject = r->CreateProperties(sprite);
 	//}
 
-	
+	ref class TUtils
+	{
+	public:
+		static void CreateEditorToolsToolBar(ToolStrip^ tool_strip, const std::vector<TToolWithDescription>& tools)
+		{
+			tool_strip->Items->Clear();
+			for (const TToolWithDescription& tool : tools)
+			{
+				tool_strip->Items->Add(gcnew String(tool.name.c_str()));
+			}
+		}
+	};
 
 	void BaluEditorControl::OnSelectionChangedByEditor(TWorldObjectDef* old_selection, TWorldObjectDef* new_selection)
 	{
@@ -201,12 +212,13 @@ namespace Editor
 		SelectedObjectProperty->SelectedObject = obj;
 	}
 
-
-
 	Void BaluEditorControl::SetEditedWorldNode(TWolrdTreeNodeTag^ node)
 	{
 		engine->Edit(node->world_object);
+		auto &tools = engine->GetAvailableTools();
+		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools);
 	}
+
 
 	void BaluEditorControl::CreateWorldTree(TreeView^ WorldTreeView, TBaluWorldDef* world)
 	{
