@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Editors">
       <UniqueIdentifier>{0e0a68c2-a099-4d5b-951e-f39fcc82c6e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Editors\PhysBodyEditor">
+      <UniqueIdentifier>{cd113f48-fece-4ee9-9580-90c6b2283fde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\baluEngine.h">
@@ -34,9 +37,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Editors\sceneEditor.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\physBodyEditor.h">
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
     <ClInclude Include="Source\Editors\physShapeEditor.h">
@@ -63,7 +63,19 @@
     <ClInclude Include="Source\baluEditorDefsSerializer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Editors\physBodyEditorTools.h">
+    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditor.h">
+      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.h">
+      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorScene.h">
+      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.h">
+      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\EditorControls.h">
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
   </ItemGroup>
@@ -95,10 +107,13 @@
     <ClCompile Include="Source\baluEditorDefsSerializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Editors\physBodyEditor.cpp">
-      <Filter>Source Files\Editors</Filter>
+    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditor.cpp">
+      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Editors\physBodyEditorTools.cpp">
+    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp">
+      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\EditorControls.cpp">
       <Filter>Source Files\Editors</Filter>
     </ClCompile>
   </ItemGroup>

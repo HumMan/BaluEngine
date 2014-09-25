@@ -1,6 +1,6 @@
 #include "physBodyEditor.h"
 
-#include "../baluEditorDefs.h"
+#include "../../baluEditorDefs.h"
 #include "physBodyEditorTools.h"
 
 TPhysBodyEditor::TPhysBodyEditor() :tools_registry(this)
@@ -19,11 +19,6 @@ void TPhysBodyEditor::Initialize(TBaluPhysBodyDef* obj)
 			boundaries.emplace_back(std::unique_ptr<TPolygonShapeAdornment>(new_box));
 		}
 	}
-}
-
-void TPhysBodyEditor::SetActiveTool(TEditorTool* use_tool)
-{
-	active_tool = use_tool;
 }
 
 void TPhysBodyEditor::UnsetAcitveTool()
@@ -93,4 +88,9 @@ void TPhysBodyEditor::Render(TDrawingHelper* drawing_helper)
 const std::vector<TToolWithDescription>& TPhysBodyEditor::GetAvailableTools()
 {
 	return tools_registry.GetTools();
+}
+
+void TPhysBodyEditor::SetActiveTool(TEditorTool* tool)
+{
+	active_tool = tool;
 }

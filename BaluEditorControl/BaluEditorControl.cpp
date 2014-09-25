@@ -151,15 +151,35 @@ namespace Editor
 	//	SelectedObjectProperty->SelectedObject = r->CreateProperties(sprite);
 	//}
 
+	ref class TEditorToolEvent
+	{
+		TEditorTool* tool;
+		TBaluEditor* engine;
+	public:
+		TEditorToolEvent(TEditorTool* tool, TBaluEditor* engine)
+		{
+			this->tool = tool;
+			this->engine = engine;
+		}
+		void OnClick(Object ^ sender, EventArgs ^ e)
+		{
+			engine->SetActiveTool(tool);
+		}
+	};
+
 	ref class TUtils
 	{
 	public:
-		static void CreateEditorToolsToolBar(ToolStrip^ tool_strip, const std::vector<TToolWithDescription>& tools)
+		static void CreateEditorToolsToolBar(ToolStrip^ tool_strip, const std::vector<TToolWithDescription>& tools, TBaluEditor* engine)
 		{
 			tool_strip->Items->Clear();
 			for (const TToolWithDescription& tool : tools)
 			{
-				tool_strip->Items->Add(gcnew String(tool.name.c_str()));
+				auto handler = gcnew TEditorToolEvent(tool.tool.get(),engine);
+				ToolStripItem^ i = gcnew ToolStripButton(gcnew String(tool.name.c_str()));
+				i->Click += gcnew EventHandler(handler, &TEditorToolEvent::OnClick);
+				tool_strip->Items->Add(i);
+				//gcnew Action<int>(this, &foo::moo)
 			}
 		}
 	};
@@ -216,7 +236,7 @@ namespace Editor
 	{
 		engine->Edit(node->world_object);
 		auto &tools = engine->GetAvailableTools();
-		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools);
+		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools,engine);
 	}
 
 

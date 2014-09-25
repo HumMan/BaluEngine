@@ -5,8 +5,8 @@
 #include "Editors\abstractEditor.h"
 //#include "Editors\BoundaryEditor.h"
 #include "Editors\editorResourses.h"
-#include "Editors\physBodyEditor.h"
-#include "Editors\physBodyEditorTools.h"
+#include "Editors\PhysBodyEditor\physBodyEditor.h"
+#include "Editors\PhysBodyEditor\physBodyEditorTools.h"
 
 #include <baluRender.h>
 
@@ -323,11 +323,18 @@ void TBaluEditor::Edit(TWorldObjectDef* obj_to_edit)
 {
 	SelectionChangedCallbackRef(SelectionChangedCallbackRef_calle, NULL, obj_to_edit);
 	auto ed = GetEditorOfWorldObject(obj_to_edit);
+	assert(ed != nullptr);
 	if (ed != nullptr)
 	{
 		ed->Initialize(obj_to_edit);
 		p->active_editor = ed;
 	}
+}
+
+void TBaluEditor::SetActiveTool(TEditorTool* tool)
+{
+	assert(p->active_editor != nullptr);
+	p->active_editor->SetActiveTool(tool);
 }
 
 const std::vector<TToolWithDescription>& TBaluEditor::GetAvailableTools()

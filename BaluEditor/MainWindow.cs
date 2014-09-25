@@ -87,5 +87,15 @@ namespace BaluEditor
                 }
             }
         }
+
+        private void baluEditorControl1_MouseHover(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void baluEditorControl1_MouseEnter_1(object sender, EventArgs e)
+        {
+            baluEditorControl1.Focus();
+        }
     }
 }

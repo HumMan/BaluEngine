@@ -64,9 +64,11 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.baluEditorControl1 = new Editor.BaluEditorControl();
             this.menuStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -336,43 +338,52 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.toolStrip1);
+            this.panel1.Controls.Add(this.baluEditorControl1);
+            this.panel1.Location = new System.Drawing.Point(305, 52);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(549, 582);
+            this.panel1.TabIndex = 5;
+            // 
             // toolStrip1
             // 
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1112, 25);
-            this.toolStrip1.TabIndex = 4;
+            this.toolStrip1.Size = new System.Drawing.Size(549, 25);
+            this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // baluEditorControl1
             // 
-            this.baluEditorControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.baluEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
-            this.baluEditorControl1.Location = new System.Drawing.Point(305, 52);
+            this.baluEditorControl1.Location = new System.Drawing.Point(0, 0);
             this.baluEditorControl1.Name = "baluEditorControl1";
             this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
             this.baluEditorControl1.Size = new System.Drawing.Size(549, 582);
-            this.baluEditorControl1.TabIndex = 0;
+            this.baluEditorControl1.TabIndex = 1;
             this.baluEditorControl1.WorldTreeView = this.treeView1;
-            this.baluEditorControl1.MouseEnter += new System.EventHandler(this.baluEditorControl1_MouseEnter);
+            this.baluEditorControl1.MouseEnter += new System.EventHandler(this.baluEditorControl1_MouseEnter_1);
+            this.baluEditorControl1.MouseHover += new System.EventHandler(this.baluEditorControl1_MouseHover);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1112, 646);
-            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.propertyGrid1);
-            this.Controls.Add(this.baluEditorControl1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.panel1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -380,12 +391,10 @@
 
         #endregion
 
-        private Editor.BaluEditorControl baluEditorControl1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ContextMenuStrip WorldContextMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -416,6 +425,9 @@
         private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Panel panel1;
+        private Editor.BaluEditorControl baluEditorControl1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
     }
 }
 

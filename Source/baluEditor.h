@@ -6,7 +6,7 @@
 #include "exportMacro.h"
 #include "Editors\abstractEditor.h"
 
-#include "Editors\physBodyEditorTools.h"
+#include "Editors\PhysBodyEditor\physBodyEditorTools.h"
 
 //class TAbstractEditorObject
 //{
@@ -77,6 +77,6 @@ public:
 	TBaluWorldDef* GetWorld();
 
 	void Edit(TWorldObjectDef* obj_to_edit);
-
+	void SetActiveTool(TEditorTool* tool);
 	const std::vector<TToolWithDescription>& GetAvailableTools();
 };

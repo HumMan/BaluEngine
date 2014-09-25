@@ -84,9 +84,12 @@
     <ClInclude Include="Source\Editors\abstractEditor.h" />
     <ClInclude Include="Source\Editors\BoundaryEditor.h" />
     <ClInclude Include="Source\Editors\DrawingHelper.h" />
+    <ClInclude Include="Source\Editors\EditorControls.h" />
     <ClInclude Include="Source\Editors\editorResourses.h" />
-    <ClInclude Include="Source\Editors\physBodyEditor.h" />
-    <ClInclude Include="Source\Editors\physBodyEditorTools.h" />
+    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditor.h" />
+    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.h" />
+    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorScene.h" />
+    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.h" />
     <ClInclude Include="Source\Editors\sceneEditor.h" />
     <ClInclude Include="Source\Editors\physShapeEditor.h" />
     <ClInclude Include="Source\Editors\spriteEditor.h" />
@@ -105,9 +108,10 @@
     </ClCompile>
     <ClCompile Include="Source\Editors\BoundaryEditor.cpp" />
     <ClCompile Include="Source\Editors\DrawingHelper.cpp" />
+    <ClCompile Include="Source\Editors\EditorControls.cpp" />
     <ClCompile Include="Source\Editors\editorResourses .cpp" />
-    <ClCompile Include="Source\Editors\physBodyEditor.cpp" />
-    <ClCompile Include="Source\Editors\physBodyEditorTools.cpp" />
+    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditor.cpp" />
+    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp" />
     <ClCompile Include="Source\Editors\spriteEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -26,9 +26,9 @@ struct TMouseEventArgs
 class TEditorTool
 {
 public:
-	virtual void OnMouseDown(TMouseEventArgs e, TVec2 wolrd_cursor_location) = 0;
-	virtual void OnMouseMove(TMouseEventArgs e, TVec2 wolrd_cursor_location) = 0;
-	virtual void OnMouseUp(TMouseEventArgs e, TVec2 wolrd_cursor_location) = 0;
+	virtual void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
+	virtual void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
+	virtual void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
 	virtual void Render(TDrawingHelper* drawing_helper) = 0;
 	virtual ~TEditorTool(){}
 };
@@ -56,6 +56,7 @@ class TAbstractEditor
 protected:
 	std::vector<TAbstractEditor*> parent_editors;
 	TAbstractEditor* current_local_editor;
+	TEditorTool* active_tool;
 public:
 	
 	virtual void Initialize(TWorldObjectDef* obj) = 0;
@@ -74,6 +75,7 @@ public:
 
 	virtual void Render(TDrawingHelper* drawing_helper) = 0;
 	virtual const std::vector<TToolWithDescription>& GetAvailableTools()=0;
+	virtual void SetActiveTool(TEditorTool* tool)=0;
 };
 
 

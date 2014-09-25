@@ -1,7 +1,7 @@
 #pragma once
 
-#include "abstractEditor.h"
-#include "BoundaryEditor.h"
+#include "../abstractEditor.h"
+#include "../BoundaryEditor.h"
 
 class TPhysBodyEditor;
 
@@ -22,16 +22,16 @@ public:
 
 class TPhysBodyEditor:public TAbstractEditor
 {
+public:
 	//TBoundaryEditor boundary_editor;
 	std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
 	std::vector<std::unique_ptr<TJointAdornment>> joints;
 
-	TEditorTool* active_tool;
+	
 
 	TPhysBodyEditorToolsRegistry tools_registry;
 public:
 	TPhysBodyEditor();
-	void SetActiveTool(TEditorTool* use_tool);
 	void UnsetAcitveTool();
 
 	void AddBoundary(TBoundaryBoxAdornment* box);
@@ -52,6 +52,7 @@ public:
 
 	void Render(TDrawingHelper* drawing_helper);
 	const std::vector<TToolWithDescription>& GetAvailableTools();
+	void SetActiveTool(TEditorTool* tool);
 };
 
 //class TEditorPhysShape
