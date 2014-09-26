@@ -2,23 +2,23 @@
 
 #include "../BoundaryEditor.h"
 
-class TPhysBodyEditor;
+class TPhysBodyEditorScene;
 
 class TPhysEditorTools : public TEditorTool
 {
 protected:
-	TPhysBodyEditor* phys_body_editor;
+	TPhysBodyEditorScene* phys_body_editor_scene;
 };
 
 
-class TPolygonShapeAdornment : public  TBoundaryBoxAdornment
+
+class TPhysBodyEditorToolsRegistry//: public TEditorToolsRegistry
 {
-
+	std::vector<TToolWithDescription> tools;
+	TPhysBodyEditorScene* phys_body_editor_scene;
 public:
-	TBaluPolygonShapeDef* polygon;
-
-	TPolygonShapeAdornment(TVec2 pos);
-	void OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box);
-	void Render(TDrawingHelper* drawing_helper);
+	TPhysBodyEditorToolsRegistry(TPhysBodyEditorScene* phys_body_editor_scene);
+	TPhysBodyEditorToolsRegistry(TPhysBodyEditorToolsRegistry&& o);
+	const std::vector<TToolWithDescription>& GetTools();
+	~TPhysBodyEditorToolsRegistry();
 };
-

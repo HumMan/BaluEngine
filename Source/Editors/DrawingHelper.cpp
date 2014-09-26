@@ -24,6 +24,35 @@ void TDrawingHelper::DrawSprite(TBaluSpriteDef* sprite)
 	render->Draw(desc, TPrimitive::TriangleFan, sprite->polygon_vertices.size() + 2);
 }
 
+void TDrawingHelper::DrawPolygon(TBaluPolygonShapeDef* polygon)
+{
+	std::vector<TVec2> pos, tex;
+	//pos.push_back(TVec2(0, 0));
+	for (int i = 0; i < polygon->b2shape.m_count; i++)
+	{
+		pos.push_back(*(TVec2*)&polygon->b2shape.m_vertices[i]+polygon->pos);
+	}
+	tex = pos;
+	TStreamsDesc desc;
+	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
+	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
+	//render->Set.PolygonMode(TPolygonMode::Line);
+	render->Draw(desc, TPrimitive::TriangleFan, polygon->b2shape.m_count);
+}
+
+void TDrawingHelper::DrawCircle(TBaluCircleShapeDef* circle)
+{
+	std::vector<TVec2> pos, tex;
+
+	TSphere<float, 2> sp(circle->pos,circle->b2shape.m_radius);
+	sp.DrawLines(pos);
+	TStreamsDesc desc;
+	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
+	render->Set.PolygonMode(TPolygonMode::Line);
+	render->Draw(desc, TPrimitive::TriangleFan, pos.size());
+	render->Set.PolygonMode(TPolygonMode::Fill);
+}
+
 void TDrawingHelper::DrawBoundary(TOBB<float, 2> boundary)
 {
 	std::vector<TVec2> v;

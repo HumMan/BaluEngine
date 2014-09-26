@@ -67,6 +67,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.baluEditorControl1 = new Editor.BaluEditorControl();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -74,25 +75,27 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 14;
+            this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // propertyGrid1
             // 
             this.propertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.propertyGrid1.Location = new System.Drawing.Point(860, 52);
+            this.propertyGrid1.Location = new System.Drawing.Point(860, 27);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(240, 582);
+            this.propertyGrid1.Size = new System.Drawing.Size(240, 594);
             this.propertyGrid1.TabIndex = 1;
             // 
             // treeView1
             // 
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.treeView1.ContextMenuStrip = this.WorldContextMenu;
             this.treeView1.HotTracking = true;
-            this.treeView1.Location = new System.Drawing.Point(12, 52);
+            this.treeView1.Location = new System.Drawing.Point(12, 27);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(287, 582);
+            this.treeView1.Size = new System.Drawing.Size(287, 594);
             this.treeView1.TabIndex = 2;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -340,11 +343,14 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.toolStrip1);
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.baluEditorControl1);
-            this.panel1.Location = new System.Drawing.Point(305, 52);
+            this.panel1.Controls.Add(this.toolStrip1);
+            this.panel1.Location = new System.Drawing.Point(305, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(549, 582);
+            this.panel1.Size = new System.Drawing.Size(549, 594);
             this.panel1.TabIndex = 5;
             // 
             // toolStrip1
@@ -359,20 +365,29 @@
             // 
             this.baluEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
-            this.baluEditorControl1.Location = new System.Drawing.Point(0, 0);
+            this.baluEditorControl1.Location = new System.Drawing.Point(0, 25);
             this.baluEditorControl1.Name = "baluEditorControl1";
             this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
-            this.baluEditorControl1.Size = new System.Drawing.Size(549, 582);
+            this.baluEditorControl1.Size = new System.Drawing.Size(549, 569);
             this.baluEditorControl1.TabIndex = 1;
             this.baluEditorControl1.WorldTreeView = this.treeView1;
             this.baluEditorControl1.MouseEnter += new System.EventHandler(this.baluEditorControl1_MouseEnter_1);
             this.baluEditorControl1.MouseHover += new System.EventHandler(this.baluEditorControl1_MouseHover);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 624);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1112, 22);
+            this.statusStrip1.TabIndex = 6;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1112, 646);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.menuStrip1);
@@ -428,6 +443,7 @@
         private System.Windows.Forms.Panel panel1;
         private Editor.BaluEditorControl baluEditorControl1;
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
     }
 }
 

@@ -5,6 +5,16 @@
 
 using namespace pugi;
 
+void TBaluCircleShapeDef::Save(pugi::xml_node& parent_node, const int version)
+{
+
+}
+
+TOBB<float, 2> TBaluCircleShapeDef::GetOBB()
+{
+	return TOBB<float, 2>(pos, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(b2shape.m_radius)));
+}
+
 TOBB<float, 2> TBaluPolygonShapeDef::GetOBB()
 {
 	auto aabb = TAABB<float, 2>();

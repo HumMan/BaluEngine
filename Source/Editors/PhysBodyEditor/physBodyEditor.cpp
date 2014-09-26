@@ -3,20 +3,29 @@
 #include "../../baluEditorDefs.h"
 #include "physBodyEditorTools.h"
 
-TPhysBodyEditor::TPhysBodyEditor() :tools_registry(this)
+#include "physBodyEditorAdornments.h"
+
+TPhysBodyEditor::TPhysBodyEditor() :tools_registry(&scene)
 {
 	active_tool = nullptr;
 }
 
 void TPhysBodyEditor::Initialize(TBaluPhysBodyDef* obj)
 {
+	scene.Initialize(obj);
 	for (const std::unique_ptr<TBaluShapeDef>& v : obj->fixtures)
 	{
 		if (dynamic_cast<TBaluPolygonShapeDef*>(v.get()) != nullptr)
 		{
 			auto b = v->GetOBB();
-			auto new_box = new TPolygonShapeAdornment(b.GetPos());
-			boundaries.emplace_back(std::unique_ptr<TPolygonShapeAdornment>(new_box));
+			auto new_box = new TPolygonShapeAdornment(dynamic_cast<TBaluPolygonShapeDef*>(v.get()));
+			scene.boundaries.emplace_back(std::unique_ptr<TPolygonShapeAdornment>(new_box));
+		}
+		if (dynamic_cast<TBaluCircleShapeDef*>(v.get()) != nullptr)
+		{
+			auto b = v->GetOBB();
+			auto new_box = new TCircleShapeAdornment(dynamic_cast<TBaluCircleShapeDef*>(v.get()));
+			scene.boundaries.emplace_back(std::unique_ptr<TCircleShapeAdornment>(new_box));
 		}
 	}
 }
@@ -65,21 +74,21 @@ void TPhysBodyEditor::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 
 void TPhysBodyEditor::Initialize(TWorldObjectDef* obj)
 {
-
+	Initialize(dynamic_cast<TBaluPhysBodyDef*>(obj));
 }
 
 void TPhysBodyEditor::AddBoundary(TBoundaryBoxAdornment* box)
 {
-	boundaries.push_back(std::unique_ptr<TBoundaryBoxAdornment>(box));
+	scene.boundaries.push_back(std::unique_ptr<TBoundaryBoxAdornment>(box));
 }
 void TPhysBodyEditor::AddJoint(TJointAdornment* joint)
 {
-	joints.push_back(std::unique_ptr<TJointAdornment>(joint));
+	scene.joints.push_back(std::unique_ptr<TJointAdornment>(joint));
 }
 
 void TPhysBodyEditor::Render(TDrawingHelper* drawing_helper)
 {
-	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : boundaries)
+	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : scene.boundaries)
 	{
 		box->Render(drawing_helper);
 	}

@@ -13,6 +13,8 @@ class TDrawingHelper
 public:
 	TDrawingHelper(TBaluRender* render, TEditorResourses* resources);
 	void DrawSprite(TBaluSpriteDef* sprite);
+	void DrawPolygon(TBaluPolygonShapeDef* polygon);
+	void DrawCircle(TBaluCircleShapeDef* circle);
 	void DrawLine( TVec2 p0, TVec2 p1);
 	void DrawPoint( TVec2 p);
 	void DrawSpriteContour(TBaluSpriteDef* sprite);

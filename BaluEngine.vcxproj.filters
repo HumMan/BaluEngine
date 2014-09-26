@@ -116,5 +116,8 @@
     <ClCompile Include="Source\Editors\EditorControls.cpp">
       <Filter>Source Files\Editors</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp">
+      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

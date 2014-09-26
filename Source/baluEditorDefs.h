@@ -152,7 +152,21 @@ public:
 	b2Rot angle;
 
 	b2PolygonShape b2shape;
-	b2FixtureDef b2fixture_def;
+	//b2FixtureDef b2fixture_def;
+	void Save(pugi::xml_node& parent_node, const int version);
+
+	TOBB<float, 2> GetOBB();
+
+	b2Shape& GetB2Shape(){ return b2shape; }
+};
+
+class TBaluCircleShapeDef : public TBaluShapeDef
+{
+public:
+	TVec2 pos;
+	b2Rot angle;
+	b2CircleShape b2shape;
+
 	void Save(pugi::xml_node& parent_node, const int version);
 
 	TOBB<float, 2> GetOBB();
