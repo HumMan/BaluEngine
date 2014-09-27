@@ -4,6 +4,8 @@
 #include "BoundaryEditor.h"
 #include "editorResourses.h"
 
+using namespace TBaluRenderEnums;
+
 TDrawingHelper::TDrawingHelper(TBaluRender* render, TEditorResourses* resources)
 {
 	this->render = render;
@@ -124,12 +126,14 @@ void TDrawingHelper::ActivateMaterial(TBaluMaterialDef* material)
 		{
 			render->Blend.Enable(true);
 			render->Blend.Func("sc*sa+dc*(1-sa)");
+			//render->Blend.Func(TBlendEquation::BE_SRC_ALPHA, TBlendFunc::BF_ADD, TBlendEquation::BE_ONE_MINUS_SRC_ALPHA);
 		}
 		if (material->blend_mode == TBaluMaterialDef::TTransparentMode::TM_ALPHA_TEST)
 		{
 			render->AlphaTest.Enable(true);
 			render->AlphaTest.Func(">=", 0.5);
 		}
+		render->Texture.SetFilter(tex_id, (TBaluRenderEnums::TTexFilter)material->texture_filter, (TBaluRenderEnums::TTexClamp)material->texture_clamp);
 		render->Texture.Bind(tex_id);
 	}
 }

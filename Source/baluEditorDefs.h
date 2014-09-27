@@ -25,6 +25,14 @@ class BALUENGINEDLL_API TBaluMaterialDef : public TWorldObjectDef
 {
 public:
 	//extureId text_id; //временно, только для прототипа редактора
+	TBaluMaterialDef()
+	{
+		color = TVec4(1, 1, 1, 1);
+		blend_mode = TTransparentMode::TM_NONE;
+		alpha_test_value = 0.5;
+		texture_filter = TTexFilter::Bilinear;
+		texture_clamp = TTexClamp::NONE;
+	}
 
 	std::string material_name;
 	std::string image_path;
@@ -38,6 +46,33 @@ public:
 	TTransparentMode blend_mode;
 
 	float alpha_test_value;
+	enum class TPolygonMode
+	{
+		Point,
+		Line,
+		Fill
+	};
+
+	enum class TBlendFunc
+	{
+		BF_ADD,
+		BF_SUBTRACT
+	};
+	enum class TBlendEquation
+	{
+		BE_SRC_COLOR,
+		BE_ONE_MINUS_SRC_COLOR,
+		BE_SRC_ALPHA,
+		BE_ONE_MINUS_SRC_ALPHA,
+		BE_DST_COLOR,
+		BE_ONE_MINUS_DST_COLOR,
+		BE_DST_ALPHA,
+		BE_ONE_MINUS_DST_ALPHA,
+		BE_CONSTANT_COLOR,
+		BE_ONE_MINUS_CONSTANT_COLOR,
+		BE_CONSTANT_ALPHA,
+		BE_ONE_MINUS_CONSTANT_ALPHA
+	};
 
 	enum class TAlphaTestFunc
 	{
@@ -50,23 +85,6 @@ public:
 		AT_GEQUAL,
 		AT_GREATER
 	};
-	TAlphaTestFunc alpha_test_func;
-	enum class TBlendFunc
-	{
-		BF_ADD,
-		BF_SUBTRACT
-	};
-	TBlendFunc blend_func;
-	enum TBlendEquation
-	{
-		BE_SRC_COLOR,
-		BE_SRC_ALPHA,
-		BE_DST_COLOR,
-		BE_DST_ALPHA,
-		BE_CONSTANT_COLOR,
-		BE_CONSTANT_ALPHA
-	};
-	TBlendEquation blend_left, blend_right;
 	enum class TTexFilter
 	{
 		Nearest,
@@ -76,7 +94,7 @@ public:
 		BilinearAniso,
 		TrilinearAniso
 	};
-	TTexFilter texture_filter;
+
 	enum class TTexClamp
 	{
 		NONE = 0,
@@ -86,6 +104,14 @@ public:
 		ST = 1 | 2,
 		STR = 1 | 2 | 4
 	};
+	TAlphaTestFunc alpha_test_func;
+
+	TBlendFunc blend_func;
+
+	TBlendEquation blend_left, blend_right;
+
+	TTexFilter texture_filter;
+
 	TTexClamp texture_clamp;
 
 	void Save(pugi::xml_node& parent_node, const int version);

@@ -35,6 +35,66 @@ namespace Editor
 		property float Y {float get(){ return box->GetPos()[1]; }}
 	};
 
+	ref class DrinkDosesConverter :EnumConverter
+	{
+	private:
+		System::Type^ _enumType;
+		/// <summary />Initializing instance</summary />
+		/// <param name=""type"" />type Enum</param />
+		/// this is only one function, that you must
+		/// change. All another functions for enums
+		/// you can use by Ctrl+C/Ctrl+V
+	public:
+		DrinkDosesConverter(Type type)
+			: base(type)
+		{
+			_enumType = type;
+		}
+
+		bool CanConvertTo(ITypeDescriptorContext context,
+			Type destType)
+		{
+			return destType == typeof(string);
+		}
+
+		System::Object^ ConvertTo(ITypeDescriptorContext context,
+			CultureInfo culture,
+			object value, Type destType)
+		{
+			FieldInfo fi = _enumType.GetField(Enum.GetName(_enumType, value));
+			DescriptionAttribute dna =
+				(DescriptionAttribute)Attribute.GetCustomAttribute(
+				fi, typeof(DescriptionAttribute));
+
+			if (dna != null)
+				return dna.Description;
+			else
+				return value.ToString();
+		}
+
+		bool CanConvertFrom(ITypeDescriptorContext context,
+			Type srcType)
+		{
+			return srcType == typeof(string);
+		}
+
+		System::Object ConvertFrom(ITypeDescriptorContext context,
+			CultureInfo culture,
+			object value)
+		{
+			foreach(FieldInfo fi in _enumType.GetFields())
+			{
+				DescriptionAttribute dna =
+					(DescriptionAttribute)Attribute.GetCustomAttribute(
+					fi, typeof(DescriptionAttribute));
+
+				if ((dna != null) && ((string)value == dna.Description))
+					return Enum.Parse(_enumType, fi.Name);
+			}
+			return Enum.Parse(_enumType, (string)value);
+		}
+	};
+
 	ref class TMaterialProperties : public TPropertiesObject
 	{
 		TBaluMaterialDef* obj_def;
@@ -76,6 +136,18 @@ namespace Editor
 			void set(TTransparentMode value)
 			{
 				obj_def->blend_mode = (TBaluMaterialDef::TTransparentMode)value;
+			}
+		};
+
+		property TBaluMaterialDef::TTexFilter TextureFilter
+		{
+			TBaluMaterialDef::TTexFilter get()
+			{
+				return (TBaluMaterialDef::TTexFilter)obj_def->blend_mode;
+			}
+			void set(TBaluMaterialDef::TTexFilter value)
+			{
+				obj_def->texture_filter = (TBaluMaterialDef::TTexFilter)value;
 			}
 		};
 	};
