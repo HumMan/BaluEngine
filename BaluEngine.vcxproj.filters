@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Editors\PhysBodyEditor">
       <UniqueIdentifier>{cd113f48-fece-4ee9-9580-90c6b2283fde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Editors\MaterialEditor">
+      <UniqueIdentifier>{ccebb029-bec2-41aa-8ca3-85b20955c5bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\baluEngine.h">
@@ -78,6 +81,18 @@
     <ClInclude Include="Source\Editors\EditorControls.h">
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editors\MaterialEditor\materialEditorTools.h">
+      <Filter>Source Files\Editors\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\MaterialEditor\materialEditorScene.h">
+      <Filter>Source Files\Editors\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\MaterialEditor\materialEditorAdornments.h">
+      <Filter>Source Files\Editors\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\MaterialEditor\materialEditor.h">
+      <Filter>Source Files\Editors\MaterialEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">
@@ -118,6 +133,15 @@
     </ClCompile>
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp">
       <Filter>Source Files\Editors\PhysBodyEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorTools.cpp">
+      <Filter>Source Files\Editors\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorAdornments.cpp">
+      <Filter>Source Files\Editors\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\MaterialEditor\materialEditor.cpp">
+      <Filter>Source Files\Editors\MaterialEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

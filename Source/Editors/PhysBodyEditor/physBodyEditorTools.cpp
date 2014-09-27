@@ -21,6 +21,18 @@ public:
 	void Render(TDrawingHelper* drawing_helper);
 };
 
+class TCreateBoxTool : public TCreateFixtureTool
+{
+protected:
+	TPhysBodyEditorScene* phys_body_editor_scene;
+public:
+	TCreateBoxTool(TPhysBodyEditorScene* phys_body_editor_scene);
+	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
+	void Render(TDrawingHelper* drawing_helper);
+};
+
 class TCreateCircleTool : public TCreatePolygonTool
 {
 
@@ -70,7 +82,13 @@ void TCreatePolygonTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_locat
 {
 	auto new_shape = new TBaluPolygonShapeDef();
 	new_shape->pos = world_cursor_location;
-	new_shape->b2shape.SetAsBox(1, 1);
+	
+	new_shape->b2shape.m_count = 8;
+	for (int i = 0; i < 8; i++)
+	{
+		new_shape->b2shape.m_vertices[i] = *(b2Vec2*)&TVec2(1,1).GetRotated(DegToRad(45.0f)*i);
+	}
+
 	phys_body_editor_scene->phys_body->fixtures.push_back(std::unique_ptr<TBaluShapeDef>(new_shape));
 	
 	auto new_box = new TPolygonShapeAdornment(new_shape);
@@ -90,6 +108,34 @@ void TCreatePolygonTool::Render(TDrawingHelper* drawing_helper)
 
 }
 
+TCreateBoxTool::TCreateBoxTool(TPhysBodyEditorScene* phys_body_editor_scene)
+{
+	this->phys_body_editor_scene = phys_body_editor_scene;
+}
+
+void TCreateBoxTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	auto new_shape = new TBaluPolygonShapeDef();
+	new_shape->pos = world_cursor_location;
+	new_shape->b2shape.SetAsBox(1, 1);
+	phys_body_editor_scene->phys_body->fixtures.push_back(std::unique_ptr<TBaluShapeDef>(new_shape));
+
+	auto new_box = new TPolygonShapeAdornment(new_shape);
+	phys_body_editor_scene->boundaries.push_back(std::unique_ptr<TBoundaryBoxAdornment>(new_box));
+}
+
+void TCreateBoxTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+
+}
+void TCreateBoxTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+
+}
+void TCreateBoxTool::Render(TDrawingHelper* drawing_helper)
+{
+
+}
 
 TCreateCircleTool::TCreateCircleTool(TPhysBodyEditorScene* phys_body_editor_scene) :TCreatePolygonTool(phys_body_editor_scene)
 {
@@ -110,6 +156,7 @@ TPhysBodyEditorToolsRegistry::TPhysBodyEditorToolsRegistry(TPhysBodyEditorScene*
 {
 	this->phys_body_editor_scene = phys_body_editor_scene;
 	tools.emplace_back(new TCreatePolygonTool(phys_body_editor_scene), "Polygon");
+	tools.emplace_back(new TCreateBoxTool(phys_body_editor_scene), "Box");
 	tools.emplace_back(new TCreateCircleTool(phys_body_editor_scene), "Circle");
 	tools.emplace_back(new TCreateDistanceJointTool(phys_body_editor_scene), "DistanceJoint");
 	tools.emplace_back(new TModifyTool(phys_body_editor_scene), "Modify");
@@ -170,7 +217,8 @@ void TModifyTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
 	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : phys_body_editor_scene->boundaries)
 	{
 		box->IsCollide(world_cursor_location);
-		box->OnMouseDown(e, world_cursor_location);
+		if (box->IsCollideWithAdornment(world_cursor_location))
+			box->OnMouseDown(e, world_cursor_location);
 	}
 }
 

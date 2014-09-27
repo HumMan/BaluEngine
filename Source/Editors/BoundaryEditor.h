@@ -88,7 +88,7 @@ public:
 
 class TBoundaryBoxAdornment : public TEditorObjectControls
 {
-private:
+protected:
 	TOBB<float, 2> start_edit_boundary;
 	TOBB<float, 2> boundary;
 	bool box_under_cursor;

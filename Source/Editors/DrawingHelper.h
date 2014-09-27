@@ -20,7 +20,7 @@ public:
 	void DrawSpriteContour(TBaluSpriteDef* sprite);
 	void ActivateMaterial( TBaluMaterialDef* material);
 	void DeactivateMaterial( TBaluMaterialDef* material);
-	void DrawBoundary(TOBB<float, 2> boundary);
+	void DrawBoundary(TOBB<float, 2> boundary,bool fill);
 
 	void SetSelectedPointColor();
 	void SetSelectedBoundaryColor();

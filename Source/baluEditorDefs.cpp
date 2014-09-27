@@ -17,7 +17,7 @@ TOBB<float, 2> TBaluCircleShapeDef::GetOBB()
 
 TOBB<float, 2> TBaluPolygonShapeDef::GetOBB()
 {
-	auto aabb = TAABB<float, 2>();
+	auto aabb = TAABB<float, 2>(TVec2(0,0),TVec2(0,0));
 	for (int i = 0; i < b2shape.GetVertexCount(); i++)
 	{
 		auto v = b2shape.GetVertex(i);

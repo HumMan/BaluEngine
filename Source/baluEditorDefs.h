@@ -146,9 +146,15 @@ public:
 class TBaluPolygonShapeDef : public TBaluShapeDef
 {
 public:
+	TBaluPolygonShapeDef()
+	{
+		aabb = TAABB<float, 2>(TVec2(0, 0), TVec2(0, 0));
+		pos = TVec2(0, 0);
+		angle.Set(0);
+	}
 	TAABB<float, 2> aabb;
 
-	TVec2 pos;
+	TVec2 pos;//TODO все трансформации применять не к объекту, а хранить отдельно
 	b2Rot angle;
 
 	b2PolygonShape b2shape;

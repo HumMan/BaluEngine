@@ -86,6 +86,10 @@
     <ClInclude Include="Source\Editors\DrawingHelper.h" />
     <ClInclude Include="Source\Editors\EditorControls.h" />
     <ClInclude Include="Source\Editors\editorResourses.h" />
+    <ClInclude Include="Source\Editors\MaterialEditor\materialEditor.h" />
+    <ClInclude Include="Source\Editors\MaterialEditor\materialEditorAdornments.h" />
+    <ClInclude Include="Source\Editors\MaterialEditor\materialEditorScene.h" />
+    <ClInclude Include="Source\Editors\MaterialEditor\materialEditorTools.h" />
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditor.h" />
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.h" />
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorScene.h" />
@@ -110,6 +114,9 @@
     <ClCompile Include="Source\Editors\DrawingHelper.cpp" />
     <ClCompile Include="Source\Editors\EditorControls.cpp" />
     <ClCompile Include="Source\Editors\editorResourses .cpp" />
+    <ClCompile Include="Source\Editors\MaterialEditor\materialEditor.cpp" />
+    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorAdornments.cpp" />
+    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorTools.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditor.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp" />

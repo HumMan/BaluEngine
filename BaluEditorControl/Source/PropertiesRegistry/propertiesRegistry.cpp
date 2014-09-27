@@ -1,5 +1,9 @@
 #include "propertiesRegistry.h"
 
+#include <msclr/marshal_cppstd.h>
+
+
+
 namespace Editor
 {
 	using namespace System::ComponentModel;
@@ -35,11 +39,45 @@ namespace Editor
 	{
 		TBaluMaterialDef* obj_def;
 	public:
-		TMaterialProperties(TBaluMaterialDef* obj_def){ this->obj_def = obj_def; }
-		property String^ Name {String^ get() { return gcnew String(obj_def->material_name.c_str()); } };
-		property String^ Image {String^ get() { return gcnew String(obj_def->image_path.c_str()); } };
-		property TBaluMaterialDef::TTransparentMode BlendMode {TBaluMaterialDef::TTransparentMode get() { return obj_def->blend_mode; }
-	};
+		TMaterialProperties(TBaluMaterialDef* obj_def)
+		{
+			this->obj_def = obj_def;
+		}
+		property String^ Name {
+			String^ get()
+			{
+				return gcnew String(obj_def->material_name.c_str());
+			}
+			
+		};
+		property String^ Image
+		{
+			String^ get()
+			{
+				return gcnew String(obj_def->image_path.c_str());
+			}
+			void set(String^ value)
+			{
+				obj_def->image_path = msclr::interop::marshal_as< std::string >(value);
+			}
+		};
+		enum class TTransparentMode : int
+		{//TODO тестирование и смешивание может работать одновременно
+			TM_NONE,
+			TM_ALPHA_BLEND,
+			TM_ALPHA_TEST,
+		};
+		property TTransparentMode BlendMode
+		{
+			TTransparentMode get()
+			{
+				return (TTransparentMode)obj_def->blend_mode;
+			}
+			void set(TTransparentMode value)
+			{
+				obj_def->blend_mode = (TBaluMaterialDef::TTransparentMode)value;
+			}
+		};
 	};
 
 	ref class TSpriteProperties : public TPropertiesObject

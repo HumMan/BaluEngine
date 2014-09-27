@@ -41,6 +41,8 @@ public:
 	virtual void OnControlMove(int changed_control, TVec2 new_pos) = 0;
 
 	virtual void Render(TDrawingHelper* drawing_helper);
+	virtual bool IsCollideWithAdornment(TVec2 world_cursor_location) = 0;
+	virtual bool IsCollideWithObject(TVec2 world_cursor_location) = 0;
 };
 
 class TEditorControlPoint : public TEditorControl

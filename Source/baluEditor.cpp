@@ -5,8 +5,12 @@
 #include "Editors\abstractEditor.h"
 //#include "Editors\BoundaryEditor.h"
 #include "Editors\editorResourses.h"
+
 #include "Editors\PhysBodyEditor\physBodyEditor.h"
 #include "Editors\PhysBodyEditor\physBodyEditorTools.h"
+
+#include "Editors\MaterialEditor\materialEditor.h"
+#include "Editors\MaterialEditor\materialEditorTools.h"
 
 #include <baluRender.h>
 
@@ -307,8 +311,8 @@ void TBaluEditor::CreatePhysBody()
 
 TAbstractEditor* GetEditorOfWorldObject(TWorldObjectDef* obj)
 {
-	//if ((dynamic_cast<TBaluMaterialDef*>(obj)) != nullptr)
-	//	return gcnew TMaterialProperties(dynamic_cast<TBaluMaterialDef*>(obj_def));
+	if ((dynamic_cast<TBaluMaterialDef*>(obj)) != nullptr)
+		return new TMaterialEditor();
 
 	//if ((dynamic_cast<TBaluSpriteDef*>(obj)) != nullptr)
 	//	return gcnew TSpriteProperties(dynamic_cast<TBaluSpriteDef*>(obj_def));

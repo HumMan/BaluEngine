@@ -28,9 +28,11 @@ void TDrawingHelper::DrawPolygon(TBaluPolygonShapeDef* polygon)
 {
 	std::vector<TVec2> pos, tex;
 	//pos.push_back(TVec2(0, 0));
+	auto ang = polygon->angle;
+	auto rot_mat = TMatrix2(*(TVec2*)&ang.GetXAxis(), *(TVec2*)&ang.GetYAxis());
 	for (int i = 0; i < polygon->b2shape.m_count; i++)
 	{
-		pos.push_back(*(TVec2*)&polygon->b2shape.m_vertices[i]+polygon->pos);
+		pos.push_back(rot_mat*(*(TVec2*)&polygon->b2shape.m_vertices[i]) + polygon->pos);
 	}
 	tex = pos;
 	TStreamsDesc desc;
@@ -49,18 +51,34 @@ void TDrawingHelper::DrawCircle(TBaluCircleShapeDef* circle)
 	TStreamsDesc desc;
 	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
 	render->Set.PolygonMode(TPolygonMode::Line);
-	render->Draw(desc, TPrimitive::TriangleFan, pos.size());
+	render->Draw(desc, TPrimitive::Lines, pos.size());
 	render->Set.PolygonMode(TPolygonMode::Fill);
 }
 
-void TDrawingHelper::DrawBoundary(TOBB<float, 2> boundary)
+void TDrawingHelper::DrawBoundary(TOBB<float, 2> boundary,bool fill)
 {
-	std::vector<TVec2> v;
-	boundary.DrawLines(v);
-	TStreamsDesc desc;
-	desc.Clear();
-	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*v.begin());
-	render->Draw(desc, TPrimitive::Lines, v.size());
+	if (fill)
+	{
+		std::vector<TVec2> pos,tex;
+		std::vector<unsigned int> indices;
+		boundary.DrawTriangles(pos,indices);
+		tex = pos;
+		TStreamsDesc desc;
+		desc.Clear();
+		desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
+		desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
+		desc.AddStream(TStream::Index, TDataType::UInt, 1, &*indices.begin());
+		render->Draw(desc, TPrimitive::Triangles, indices.size());
+	}
+	else
+	{
+		std::vector<TVec2> v;
+		boundary.DrawLines(v);
+		TStreamsDesc desc;
+		desc.Clear();
+		desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*v.begin());
+		render->Draw(desc, TPrimitive::Lines, v.size());
+	}
 }
 
 void TDrawingHelper::DrawLine(TVec2 p0, TVec2 p1)
@@ -96,14 +114,31 @@ void TDrawingHelper::DrawSpriteContour(TBaluSpriteDef* sprite)
 
 void TDrawingHelper::ActivateMaterial(TBaluMaterialDef* material)
 {
-	TTextureId tex_id = resources->CreateTextureFromFile(material->image_path);
-	render->Texture.Enable(true);
-	render->Texture.Bind(tex_id);
+	if (material->image_path == "")
+		material->image_path = "Textures/Crate005_ebox.png";//TODO текстура отсутствует
+	if (material->image_path != "")
+	{
+		TTextureId tex_id = resources->CreateTextureFromFile(material->image_path);
+		render->Texture.Enable(true);
+		if (material->blend_mode == TBaluMaterialDef::TTransparentMode::TM_ALPHA_BLEND)
+		{
+			render->Blend.Enable(true);
+			render->Blend.Func("sc*sa+dc*(1-sa)");
+		}
+		if (material->blend_mode == TBaluMaterialDef::TTransparentMode::TM_ALPHA_TEST)
+		{
+			render->AlphaTest.Enable(true);
+			render->AlphaTest.Func(">=", 0.5);
+		}
+		render->Texture.Bind(tex_id);
+	}
 }
 
 void TDrawingHelper::DeactivateMaterial(TBaluMaterialDef* material)
 {
 	render->Texture.Enable(false);
+	render->Blend.Enable(false);
+	render->AlphaTest.Enable(false);
 }
 
 void TDrawingHelper::SetSelectedPointColor()
