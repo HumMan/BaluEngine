@@ -35,7 +35,7 @@ namespace Editor
 		property float Y {float get(){ return box->GetPos()[1]; }}
 	};
 
-	ref class DrinkDosesConverter :EnumConverter
+	/*ref class DrinkDosesConverter :EnumConverter
 	{
 	private:
 		System::Type^ _enumType;
@@ -93,7 +93,7 @@ namespace Editor
 			}
 			return Enum.Parse(_enumType, (string)value);
 		}
-	};
+	};*/
 
 	ref class TMaterialProperties : public TPropertiesObject
 	{

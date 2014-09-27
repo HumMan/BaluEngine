@@ -83,6 +83,7 @@
     <ClInclude Include="Source\baluEditorRuntime.h" />
     <ClInclude Include="Source\Editors\abstractEditor.h" />
     <ClInclude Include="Source\Editors\BoundaryEditor.h" />
+    <ClInclude Include="Source\Editors\ClassEditor\classEditor.h" />
     <ClInclude Include="Source\Editors\DrawingHelper.h" />
     <ClInclude Include="Source\Editors\EditorControls.h" />
     <ClInclude Include="Source\Editors\editorResourses.h" />
@@ -94,9 +95,8 @@
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.h" />
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorScene.h" />
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.h" />
-    <ClInclude Include="Source\Editors\sceneEditor.h" />
-    <ClInclude Include="Source\Editors\physShapeEditor.h" />
-    <ClInclude Include="Source\Editors\spriteEditor.h" />
+    <ClInclude Include="Source\Editors\SceneEditor\sceneEditor.h" />
+    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditor.h" />
     <ClInclude Include="Source\exportMacro.h" />
     <ClInclude Include="Source\scriptClasses.h" />
   </ItemGroup>
@@ -111,6 +111,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\Editors\BoundaryEditor.cpp" />
+    <ClCompile Include="Source\Editors\ClassEditor\classEditor.cpp" />
     <ClCompile Include="Source\Editors\DrawingHelper.cpp" />
     <ClCompile Include="Source\Editors\EditorControls.cpp" />
     <ClCompile Include="Source\Editors\editorResourses .cpp" />
@@ -120,7 +121,7 @@
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditor.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp" />
-    <ClCompile Include="Source\Editors\spriteEditor.cpp" />
+    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

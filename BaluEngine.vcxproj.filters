@@ -22,6 +22,15 @@
     <Filter Include="Source Files\Editors\MaterialEditor">
       <UniqueIdentifier>{ccebb029-bec2-41aa-8ca3-85b20955c5bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Editors\SpriteEditor">
+      <UniqueIdentifier>{3f583d7f-7846-4e93-9e2a-40e24173e95c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Editors\SceneEditor">
+      <UniqueIdentifier>{23ade99a-30ae-4767-8f72-cd1e9ac0bd84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Editors\ClassEditor">
+      <UniqueIdentifier>{04f2f9b3-d15f-4bef-b788-9f432da13848}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\baluEngine.h">
@@ -39,16 +48,7 @@
     <ClInclude Include="Source\baluEditorRuntime.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Editors\sceneEditor.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\physShapeEditor.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Editors\abstractEditor.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\spriteEditor.h">
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
     <ClInclude Include="Source\Editors\BoundaryEditor.h">
@@ -93,6 +93,15 @@
     <ClInclude Include="Source\Editors\MaterialEditor\materialEditor.h">
       <Filter>Source Files\Editors\MaterialEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditor.h">
+      <Filter>Source Files\Editors\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\ClassEditor\classEditor.h">
+      <Filter>Source Files\Editors\ClassEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\SceneEditor\sceneEditor.h">
+      <Filter>Source Files\Editors\SceneEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">
@@ -106,9 +115,6 @@
     </ClCompile>
     <ClCompile Include="Source\baluEditor.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\spriteEditor.cpp">
-      <Filter>Source Files\Editors</Filter>
     </ClCompile>
     <ClCompile Include="Source\Editors\BoundaryEditor.cpp">
       <Filter>Source Files\Editors</Filter>
@@ -142,6 +148,12 @@
     </ClCompile>
     <ClCompile Include="Source\Editors\MaterialEditor\materialEditor.cpp">
       <Filter>Source Files\Editors\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditor.cpp">
+      <Filter>Source Files\Editors\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\ClassEditor\classEditor.cpp">
+      <Filter>Source Files\Editors\ClassEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
