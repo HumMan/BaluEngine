@@ -1,6 +1,6 @@
 #include "baluEditor.h"
 
-#include "Editors\spriteEditor.h"
+#include "Editors\SpriteEditor\spriteEditor.h"
 
 #include "Editors\abstractEditor.h"
 //#include "Editors\BoundaryEditor.h"
@@ -314,8 +314,8 @@ TAbstractEditor* GetEditorOfWorldObject(TWorldObjectDef* obj)
 	if ((dynamic_cast<TBaluMaterialDef*>(obj)) != nullptr)
 		return new TMaterialEditor();
 
-	//if ((dynamic_cast<TBaluSpriteDef*>(obj)) != nullptr)
-	//	return gcnew TSpriteProperties(dynamic_cast<TBaluSpriteDef*>(obj_def));
+	if ((dynamic_cast<TBaluSpriteDef*>(obj)) != nullptr)
+		return new TSpriteEditor();
 
 	if ((dynamic_cast<TBaluPhysBodyDef*>(obj)) != nullptr)
 		return new TPhysBodyEditor();

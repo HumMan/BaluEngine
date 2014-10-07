@@ -9,7 +9,6 @@
 class TPhysBodyEditor:public TAbstractEditor
 {
 public:
-	
 	TPhysBodyEditorScene scene;
 	TPhysBodyEditorToolsRegistry tools_registry;
 public:
@@ -18,10 +17,11 @@ public:
 
 	void AddBoundary(TBoundaryBoxAdornment* box);
 	void AddJoint(TJointAdornment* joint);
-
-	void Initialize(TWorldObjectDef* obj);
 	void Initialize(TBaluPhysBodyDef* obj);
 
+	//override:
+	void Initialize(TWorldObjectDef* obj);
+	
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
 

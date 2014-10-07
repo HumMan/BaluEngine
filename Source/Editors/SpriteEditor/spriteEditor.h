@@ -1,10 +1,12 @@
 #pragma once
 
-#include "../baluEditorDefs.h"
+#include "../abstractEditor.h"
+#include "../BoundaryEditor.h"
 
-#include "DrawingHelper.h"
+#include "spriteEditorScene.h"
+#include "spriteEditorTools.h"
 
-class TSpriteEditor
+class TSpriteEditor :public TAbstractEditor
 {
 	TBaluSpriteDef* sprite;
 
@@ -32,15 +34,27 @@ class TSpriteEditor
 	TBaluWorldDef* world;
 public:
 	TSpriteEditor(TBaluWorldDef* world);
-	void StartEdit(TBaluSpriteDef* use_sprite);
-	void EndEdit();
+	//void StartEdit(TBaluSpriteDef* use_sprite);
+	//void EndEdit();
 
-	void MouseMove(TVec2 new_pos);
-	//void MouseClick(TVec2 new_pos);
-	void MouseDown();
-	void MouseUp();
 
 	void SetAsBox(TVec2 size);
 
+
+	//override:
+	void Initialize(TWorldObjectDef* obj);
+
+	bool CanSetSelectedAsWork();
+	void SetSelectedAsWork();
+
+	bool CanEndSelectedAsWork();
+	void EndSelectedAsWork();
+
+	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
+
 	void Render(TDrawingHelper* drawing_helper);
+	const std::vector<TToolWithDescription>& GetAvailableTools();
+	void SetActiveTool(TEditorTool* tool);
 };

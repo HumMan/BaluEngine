@@ -1,33 +1,59 @@
 #include "spriteEditor.h"
 
-#include "abstractEditor.h"
-
-//#include <boost/signals2.hpp>
+#include "../abstractEditor.h"
 
 TSpriteEditor::TSpriteEditor(TBaluWorldDef* world)
 {
 	this->world = world;
 	curr_state = CurrState::None;
-
-	//boost::signals2::signal<void(int)> s;
 }
 
-void TSpriteEditor::StartEdit(TBaluSpriteDef* use_sprite)
+void TSpriteEditor::Initialize(TWorldObjectDef* obj)
 {
-	sprite = use_sprite;
-	if (use_sprite->polygon_vertices.size() == 0)
+
+}
+
+bool TSpriteEditor::CanSetSelectedAsWork()
+{
+
+}
+void SetSelectedAsWork()
+{
+
+}
+
+bool TSpriteEditor::CanEndSelectedAsWork()
+{
+
+}
+void TSpriteEditor::EndSelectedAsWork()
+{
+
+}
+
+void TSpriteEditor::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	if (curr_state == CurrState::CanSubdivide)
 	{
-		SetAsBox(TVec2(1, 1));
+		if (nearest_line != -1)
+		{
+			sprite->polygon_vertices.insert(sprite->polygon_vertices.begin() + nearest_line + 1, 1, cursor_pos);
+		}
+	}
+	else if (curr_state == CurrState::CanMoveSelected)
+	{
+		if (nearest_point != -1)
+		{
+			selected_points.clear();
+			selected_points.push_back(nearest_point);
+			old_cursor_pos = cursor_pos;
+			curr_state = CurrState::MovingSelected;
+		}
 	}
 }
-
-void TSpriteEditor::EndEdit()
+void TSpriteEditor::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	sprite = NULL;
-}
-
-void TSpriteEditor::MouseMove(TVec2 new_pos)
-{
+	TVec2 new_pos = world_cursor_location;
 	cursor_pos = new_pos;
 	if (curr_state == CurrState::MovingSelected)
 	{
@@ -37,7 +63,7 @@ void TSpriteEditor::MouseMove(TVec2 new_pos)
 	}
 	else
 	{
-		
+
 		int size = sprite->polygon_vertices.size();
 		nearest_point = -1;
 		nearest_point_dist = 0;
@@ -76,35 +102,26 @@ void TSpriteEditor::MouseMove(TVec2 new_pos)
 		}
 	}
 }
-
-void TSpriteEditor::MouseDown()
-{
-	if (curr_state == CurrState::CanSubdivide)
-	{
-		if (nearest_line != -1)
-		{
-			sprite->polygon_vertices.insert(sprite->polygon_vertices.begin()+nearest_line+1, 1, cursor_pos);
-		}
-	}
-	else if (curr_state == CurrState::CanMoveSelected)
-	{
-		if (nearest_point != -1)
-		{
-			selected_points.clear();
-			selected_points.push_back(nearest_point);
-			old_cursor_pos = cursor_pos;
-			curr_state = CurrState::MovingSelected;
-		}
-	}
-}
-
-void TSpriteEditor::MouseUp()
+void TSpriteEditor::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 {
 	if (curr_state == CurrState::MovingSelected)
 	{
 		selected_points.clear();
 		curr_state = CurrState::None;
 	}
+}
+
+void Render(TDrawingHelper* drawing_helper)
+{
+
+}
+const std::vector<TToolWithDescription>& TSpriteEditor::GetAvailableTools()
+{
+
+}
+void TSpriteEditor::SetActiveTool(TEditorTool* tool)
+{
+
 }
 
 void TSpriteEditor::SetAsBox(TVec2 size)
