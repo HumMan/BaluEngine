@@ -102,6 +102,12 @@
     <ClInclude Include="Source\Editors\SceneEditor\sceneEditor.h">
       <Filter>Source Files\Editors\SceneEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorTools.h">
+      <Filter>Source Files\Editors\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorScene.h">
+      <Filter>Source Files\Editors\SpriteEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">

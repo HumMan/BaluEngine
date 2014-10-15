@@ -97,6 +97,8 @@
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.h" />
     <ClInclude Include="Source\Editors\SceneEditor\sceneEditor.h" />
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditor.h" />
+    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorScene.h" />
+    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorTools.h" />
     <ClInclude Include="Source\exportMacro.h" />
     <ClInclude Include="Source\scriptClasses.h" />
   </ItemGroup>
