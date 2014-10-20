@@ -99,6 +99,9 @@
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditor.h" />
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorScene.h" />
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorTools.h" />
+    <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.h" />
+    <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditorScene.h" />
+    <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditorTools.h" />
     <ClInclude Include="Source\exportMacro.h" />
     <ClInclude Include="Source\scriptClasses.h" />
   </ItemGroup>
@@ -124,6 +127,7 @@
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp" />
     <ClCompile Include="Source\Editors\SpriteEditor\spriteEditor.cpp" />
+    <ClCompile Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

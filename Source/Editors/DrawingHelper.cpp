@@ -12,7 +12,7 @@ TDrawingHelper::TDrawingHelper(TBaluRender* render, TEditorResourses* resources)
 	this->resources = resources;
 }
 
-void TDrawingHelper::DrawSprite(TBaluSpriteDef* sprite)
+void TDrawingHelper::DrawSpritePolygon(TBaluSpritePolygonDef* sprite)
 {
 	std::vector<TVec2> pos, tex;
 	pos.push_back(TVec2(0, 0));
@@ -105,7 +105,7 @@ void TDrawingHelper::DrawPoint(TVec2 p)
 }
 
 
-void TDrawingHelper::DrawSpriteContour(TBaluSpriteDef* sprite)
+void TDrawingHelper::DrawSpritePolygonContour(TBaluSpritePolygonDef* sprite)
 {
 	TStreamsDesc desc;
 	desc.Clear();

@@ -4,7 +4,7 @@
 
 class TPhysBodyEditorScene;
 
-class TPhysEditorTools : public TEditorTool
+class TPhysEditorTools : public TBoundaryBoxesModifyTool
 {
 protected:
 	TPhysBodyEditorScene* phys_body_editor_scene;

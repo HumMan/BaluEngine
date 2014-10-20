@@ -96,10 +96,9 @@ void TBaluMaterialDef::Load(const pugi::xml_node& node, const int version)
 	color = LoadColor(node.child("color"));
 }
 
-void TBaluSpriteDef::Save(pugi::xml_node& parent_node, const int version)
+void TBaluSpritePolygonDef::Save(pugi::xml_node& parent_node, const int version)
 {
-	xml_node new_node = parent_node.append_child("Sprite");
-	new_node.append_attribute("name").set_value(sprite_name.c_str());
+	xml_node new_node = parent_node.append_child("SpritePolygon");
 	new_node.append_attribute("material_name").set_value(material_name.c_str());
 	new_node.append_attribute("polygon_mode").set_value((int)polygone_mode);
 	new_node.append_attribute("primitive").set_value((int)primitive);
@@ -117,6 +116,21 @@ void TBaluSpriteDef::Save(pugi::xml_node& parent_node, const int version)
 		{
 			SaveCoord(polygons_node, "vertex", v);
 		}
+	}
+}
+
+void TBaluSpritePolygonDef::Load(const pugi::xml_node& node, const int version)
+{
+}
+
+void TBaluSpriteDef::Save(pugi::xml_node& parent_node, const int version)
+{
+	xml_node new_node = parent_node.append_child("Sprite");
+	new_node.append_attribute("name").set_value(sprite_name.c_str());
+	xml_node polygons_node = new_node.append_child("polygons");
+	for (int i = 0; i < polygons.size(); i++)
+	{
+		polygons[i]->Save(polygons_node, version);
 	}
 }
 

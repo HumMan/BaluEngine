@@ -158,8 +158,8 @@ namespace Editor
 	public:
 		TSpriteProperties(TBaluSpriteDef* obj_def){ this->obj_def = obj_def; }
 		property String^ Name {String^ get() { return gcnew String(obj_def->sprite_name.c_str()); } };
-		property String^ Material {String^ get() { return gcnew String(obj_def->material_name.c_str()); } };
-		property TBaluSpriteDef::TPolygonMode PolygonMode {TBaluSpriteDef::TPolygonMode get() { return obj_def->polygone_mode; } };
+		//property String^ Material {String^ get() { return gcnew String(obj_def->material_name.c_str()); } };
+		//property TBaluSpriteDef::TPolygonMode PolygonMode {TBaluSpriteDef::TPolygonMode get() { return obj_def->polygone_mode; } };
 	};
 
 	ref class TBaluPhysShapeProperties : public TPropertiesObject

@@ -3,7 +3,13 @@
 #include <vector>
 #include <memory>
 
-class TPhysBodyEditorScene
+class TBoundaryBoxWithJointsScene : public TBoundaryBoxScene
+{
+public:
+	std::vector<std::unique_ptr<TJointAdornment>> joints;
+};
+
+class TPhysBodyEditorScene : public TBoundaryBoxWithJointsScene
 {
 public:
 	TBaluPhysBodyDef* phys_body;
@@ -12,6 +18,5 @@ public:
 	{
 		this->phys_body = phys_body;
 	}
-	std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
-	std::vector<std::unique_ptr<TJointAdornment>> joints;
+	
 };

@@ -66,9 +66,9 @@ class TModifyTool : public TPhysEditorTools
 	TBoundaryBoxAdornment* boundary_under_cursor;
 public:
 	TModifyTool(TPhysBodyEditorScene* phys_body_editor_scene);
-	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
+	//void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
+	//void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
+	//void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
 	void Render(TDrawingHelper* drawing_helper);
 };
 
@@ -210,33 +210,6 @@ TModifyTool::TModifyTool(TPhysBodyEditorScene* phys_body_editor_scene)
 {
 	this->phys_body_editor_scene = phys_body_editor_scene;
 	boundary_under_cursor = nullptr;
-}
-
-void TModifyTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : phys_body_editor_scene->boundaries)
-	{
-		box->IsCollide(world_cursor_location);
-		if (box->IsCollideWithAdornment(world_cursor_location))
-			box->OnMouseDown(e, world_cursor_location);
-	}
-}
-
-void TModifyTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : phys_body_editor_scene->boundaries)
-	{
-		//box->IsCollide(world_cursor_location);
-		box->OnMouseMove(e, world_cursor_location);
-	}
-}
-void TModifyTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : phys_body_editor_scene->boundaries)
-	{
-		//box->IsCollide(world_cursor_location);
-		box->OnMouseUp(e, world_cursor_location);
-	}
 }
 
 void TModifyTool::Render(TDrawingHelper* drawing_helper)

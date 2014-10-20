@@ -1,61 +1,6 @@
 #pragma once
 
 #include "EditorControls.h"
-//
-//enum class TControlType
-//{
-//	Pivot,
-//	Resize,
-//	Rotate
-//};
-//
-//class TControlPoint
-//{
-//public:
-//	TControlType type;
-//	int x_resize;
-//	int y_resize;
-//	TVec2 pos;
-//	TControlPoint(){}
-//	TControlPoint(TControlType type, int x_resize, int y_resize, TVec2 pos)
-//	{
-//		this->type = type;
-//		this->x_resize = x_resize;
-//		this->y_resize = y_resize;
-//		this->pos = pos;
-//	}
-//};
-//
-//class TAdornment
-//{
-//protected:
-//	enum class TState
-//	{
-//		None,
-//		PointMove,
-//	} state;
-//	int point_under_cursor;
-//	TVec2 old_cursor_pos;
-//
-//	void Collide(TVec2 cursor_pos);
-//	void OnMouseMove(TVec2 cursor_pos);
-//	void OnMouseDown();
-//	void OnMouseUp();
-//
-//protected:
-//	TWorldObjectDef* decorated_object;
-//	std::vector<TControlPoint> control_points;
-//public:
-//	TAdornment();
-//	virtual void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-//	virtual void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-//	virtual void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
-//	virtual bool IsCursorCaptured() = 0;
-//	virtual bool IsCollide(TVec2 point) = 0;
-//	virtual void OnControlMove(int changed_control, TVec2 old_pos, TVec2 new_pos) = 0;
-//
-//	virtual void Render(TDrawingHelper* drawing_helper);
-//};
 
 class TJointAdornment : public TEditorObjectControls
 {
@@ -64,11 +9,11 @@ public:
 };
 
 enum class TControlType
-	{
-		Pivot,
-		Resize,
-		Rotate
-	};
+{
+	Pivot,
+	Resize,
+	Rotate
+};
 
 class TBoundaryBoxControlPoint: public TEditorControlPoint
 {
@@ -111,4 +56,24 @@ public:
 	virtual void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
 	virtual void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
 	virtual bool IsCursorCaptured();
+};
+
+class TBoundaryBoxScene
+{
+public:
+	std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
+};
+
+class TBoundaryBoxesModifyTool : public TEditorTool
+{
+protected:
+	TBoundaryBoxScene* boundary_box_scene;
+public:
+	TBoundaryBoxesModifyTool(){}
+	TBoundaryBoxesModifyTool(TBoundaryBoxScene* boundary_box_scene);
+	void SetScene(TBoundaryBoxScene* boundary_box_scene);
+	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
+	void Render(TDrawingHelper* drawing_helper);
 };

@@ -55,8 +55,6 @@ void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)
 
 void TBoundaryBoxAdornment::Render(TDrawingHelper* drawing_helper)
 {
-	
-
 	if (box_under_cursor)
 	{
 		TEditorObjectControls::Render(drawing_helper);
@@ -232,5 +230,37 @@ void TBoundaryBoxAdornment::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_loca
 }
 bool TBoundaryBoxAdornment::IsCursorCaptured()
 {
-	return false;
+	return TEditorObjectControls::IsCursorCaptured();
+}
+
+
+void TBoundaryBoxesModifyTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : boundary_box_scene->boundaries)
+	{
+		box->IsCollide(world_cursor_location);
+		if (box->IsCollideWithAdornment(world_cursor_location))
+			box->OnMouseDown(e, world_cursor_location);
+	}
+}
+
+void TBoundaryBoxesModifyTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : boundary_box_scene->boundaries)
+	{
+		//box->IsCollide(world_cursor_location);
+		box->OnMouseMove(e, world_cursor_location);
+	}
+}
+void TBoundaryBoxesModifyTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : boundary_box_scene->boundaries)
+	{
+		//box->IsCollide(world_cursor_location);
+		box->OnMouseUp(e, world_cursor_location);
+	}
+}
+
+void TBoundaryBoxesModifyTool::Render(TDrawingHelper* drawing_helper)
+{
 }

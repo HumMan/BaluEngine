@@ -65,9 +65,10 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.baluEditorControl1 = new Editor.BaluEditorControl();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -89,13 +90,11 @@
             // 
             // treeView1
             // 
-            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.treeView1.ContextMenuStrip = this.WorldContextMenu;
             this.treeView1.HotTracking = true;
             this.treeView1.Location = new System.Drawing.Point(12, 27);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(287, 594);
+            this.treeView1.Size = new System.Drawing.Size(287, 296);
             this.treeView1.TabIndex = 2;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -353,14 +352,6 @@
             this.panel1.Size = new System.Drawing.Size(549, 594);
             this.panel1.TabIndex = 5;
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(549, 25);
-            this.toolStrip1.TabIndex = 5;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
             // baluEditorControl1
             // 
             this.baluEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -374,6 +365,14 @@
             this.baluEditorControl1.MouseEnter += new System.EventHandler(this.baluEditorControl1_MouseEnter_1);
             this.baluEditorControl1.MouseHover += new System.EventHandler(this.baluEditorControl1_MouseHover);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(549, 25);
+            this.toolStrip1.TabIndex = 5;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 624);
@@ -382,11 +381,22 @@
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // listBox1
+            // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(12, 329);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(287, 290);
+            this.listBox1.TabIndex = 7;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1112, 646);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.propertyGrid1);
@@ -444,6 +454,7 @@
         private Editor.BaluEditorControl baluEditorControl1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

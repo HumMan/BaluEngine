@@ -6,7 +6,7 @@
 #include "exportMacro.h"
 #include "Editors\abstractEditor.h"
 
-#include "Editors\PhysBodyEditor\physBodyEditorTools.h"
+//#include "Editors\PhysBodyEditor\physBodyEditorTools.h"
 
 //class TAbstractEditorObject
 //{

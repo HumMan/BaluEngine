@@ -7,10 +7,8 @@
 #include "Editors\editorResourses.h"
 
 #include "Editors\PhysBodyEditor\physBodyEditor.h"
-#include "Editors\PhysBodyEditor\physBodyEditorTools.h"
 
 #include "Editors\MaterialEditor\materialEditor.h"
-#include "Editors\MaterialEditor\materialEditorTools.h"
 
 #include <baluRender.h>
 

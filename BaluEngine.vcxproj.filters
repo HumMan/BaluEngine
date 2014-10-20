@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Editors\ClassEditor">
       <UniqueIdentifier>{04f2f9b3-d15f-4bef-b788-9f432da13848}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Editors\SpritePolygonEditor">
+      <UniqueIdentifier>{b6226e45-8a3d-44e0-b746-ece0a5204d78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\baluEngine.h">
@@ -105,6 +108,15 @@
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorTools.h">
       <Filter>Source Files\Editors\SpriteEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditorScene.h">
+      <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.h">
+      <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditorTools.h">
+      <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorScene.h">
       <Filter>Source Files\Editors\SpriteEditor</Filter>
     </ClInclude>
@@ -160,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="Source\Editors\ClassEditor\classEditor.cpp">
       <Filter>Source Files\Editors\ClassEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.cpp">
+      <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

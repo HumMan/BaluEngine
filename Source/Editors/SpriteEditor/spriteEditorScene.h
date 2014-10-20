@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-class TSpriteEditorScene
+class TSpriteEditorScene : public TBoundaryBoxScene
 {
 public:
 	TBaluSpriteDef* sprite;
@@ -12,5 +12,4 @@ public:
 	{
 		this->sprite = sprite;
 	}
-	std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
 };

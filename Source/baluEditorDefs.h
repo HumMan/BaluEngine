@@ -118,27 +118,26 @@ public:
 	void Load(const pugi::xml_node& node, const int version);
 };
 
-class TBaluSpriteDef : public TWorldObjectDef
+class TBaluSpritePolygonDef : public TWorldObjectDef
 {
 public:
-	std::string sprite_name;
 	std::string material_name;
 
 	std::vector<TVec2> polygon_vertices;
 	std::vector<TVec2> tex_coordinates;
 
 	enum class TPolygonMode
-		{
-			Points,
-			Lines,
-			LineLoop,
-			LineStrip,
-			Triangles,
-			TriangleStrip,
-			TriangleFan,
-			Quads,
-			QuadStrip
-		};
+	{
+		Points,
+		Lines,
+		LineLoop,
+		LineStrip,
+		Triangles,
+		TriangleStrip,
+		TriangleFan,
+		Quads,
+		QuadStrip
+	};
 	TPolygonMode polygone_mode;
 	enum class TPrimitive
 	{
@@ -153,6 +152,17 @@ public:
 		QuadStrip
 	};
 	TPrimitive primitive;
+
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& node, const int version);
+};
+
+class TBaluSpriteDef : public TWorldObjectDef
+{
+public:
+	std::string sprite_name;
+	
+	std::vector<std::unique_ptr<TBaluSpritePolygonDef>> polygons;
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& node, const int version);
