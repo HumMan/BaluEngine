@@ -69,9 +69,9 @@ class TBoundaryBoxesModifyTool : public TEditorTool
 protected:
 	TBoundaryBoxScene* boundary_box_scene;
 public:
-	TBoundaryBoxesModifyTool(){}
+	//TBoundaryBoxesModifyTool(){}
 	TBoundaryBoxesModifyTool(TBoundaryBoxScene* boundary_box_scene);
-	void SetScene(TBoundaryBoxScene* boundary_box_scene);
+	//void SetScene(TBoundaryBoxScene* boundary_box_scene);
 	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
 	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
 	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);

@@ -61,7 +61,7 @@ class TCreatePrismaticJointTool :public TCreateJointTool
 
 };
 
-class TModifyTool : public TPhysEditorTools
+class TModifyTool : public TBoundaryBoxesModifyTool
 {
 	TBoundaryBoxAdornment* boundary_under_cursor;
 public:
@@ -159,7 +159,7 @@ TPhysBodyEditorToolsRegistry::TPhysBodyEditorToolsRegistry(TPhysBodyEditorScene*
 	tools.emplace_back(new TCreateBoxTool(phys_body_editor_scene), "Box");
 	tools.emplace_back(new TCreateCircleTool(phys_body_editor_scene), "Circle");
 	tools.emplace_back(new TCreateDistanceJointTool(phys_body_editor_scene), "DistanceJoint");
-	tools.emplace_back(new TModifyTool(phys_body_editor_scene), "Modify");
+	tools.emplace_back(new TBoundaryBoxesModifyTool(phys_body_editor_scene), "Modify");
 }
 
 TPhysBodyEditorToolsRegistry::TPhysBodyEditorToolsRegistry(TPhysBodyEditorToolsRegistry&& o)
@@ -206,10 +206,8 @@ void TCreateDistanceJointTool::Render(TDrawingHelper* drawing_helper)
 
 }
 
-TModifyTool::TModifyTool(TPhysBodyEditorScene* phys_body_editor_scene)
+TModifyTool::TModifyTool(TPhysBodyEditorScene* phys_body_editor_scene) :TBoundaryBoxesModifyTool(phys_body_editor_scene)
 {
-	this->phys_body_editor_scene = phys_body_editor_scene;
-	boundary_under_cursor = nullptr;
 }
 
 void TModifyTool::Render(TDrawingHelper* drawing_helper)

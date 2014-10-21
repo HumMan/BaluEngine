@@ -2,14 +2,6 @@
 
 #include "../BoundaryEditor.h"
 
-class TSpriteEditorScene;
-
-class TSpriteEditorTools : public TEditorTool
-{
-protected:
-	TSpriteEditorScene* sprite_polygon_editor_scene;
-};
-
 class TSpriteEditorRegistry
 {
 	std::vector<TToolWithDescription> tools;
@@ -17,9 +9,13 @@ class TSpriteEditorRegistry
 public:
 	TSpriteEditorRegistry(TSpriteEditorScene* scene)
 	{
-
+		this->scene = scene;
+		tools.emplace_back(new TBoundaryBoxesModifyTool(scene), "Modify");
 	}
 	TSpriteEditorRegistry(TSpriteEditorRegistry&& o);
-	const std::vector<TToolWithDescription>& GetTools();
+	const std::vector<TToolWithDescription>& GetTools()
+	{
+		return tools;
+	}
 	~TSpriteEditorRegistry();
 };

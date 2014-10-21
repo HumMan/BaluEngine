@@ -233,6 +233,10 @@ bool TBoundaryBoxAdornment::IsCursorCaptured()
 	return TEditorObjectControls::IsCursorCaptured();
 }
 
+TBoundaryBoxesModifyTool::TBoundaryBoxesModifyTool(TBoundaryBoxScene* boundary_box_scene)
+{
+	this->boundary_box_scene = boundary_box_scene;
+}
 
 void TBoundaryBoxesModifyTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
 {

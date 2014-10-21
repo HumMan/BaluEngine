@@ -30,7 +30,7 @@ void TSpriteEditor::EndSelectedAsWork()
 
 const std::vector<TToolWithDescription>& TSpriteEditor::GetAvailableTools()
 {
-	return std::vector<TToolWithDescription>();
+	return tools_registry.GetTools();
 }
 void TSpriteEditor::SetActiveTool(TEditorTool* tool)
 {

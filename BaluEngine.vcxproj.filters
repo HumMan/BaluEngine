@@ -176,5 +176,8 @@
     <ClCompile Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.cpp">
       <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorTools.cpp">
+      <Filter>Source Files\Editors\SpriteEditor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

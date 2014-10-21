@@ -127,6 +127,9 @@
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp" />
     <ClCompile Include="Source\Editors\SpriteEditor\spriteEditor.cpp" />
+    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorTools.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
