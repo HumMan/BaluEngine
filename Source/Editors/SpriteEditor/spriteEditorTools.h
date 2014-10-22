@@ -2,20 +2,16 @@
 
 #include "../BoundaryEditor.h"
 
+class TSpriteEditorScene;
+
 class TSpriteEditorRegistry
 {
+public:
 	std::vector<TToolWithDescription> tools;
 	TSpriteEditorScene* scene;
 public:
-	TSpriteEditorRegistry(TSpriteEditorScene* scene)
-	{
-		this->scene = scene;
-		tools.emplace_back(new TBoundaryBoxesModifyTool(scene), "Modify");
-	}
+	TSpriteEditorRegistry(TSpriteEditorScene* scene);
 	TSpriteEditorRegistry(TSpriteEditorRegistry&& o);
-	const std::vector<TToolWithDescription>& GetTools()
-	{
-		return tools;
-	}
+	const std::vector<TToolWithDescription>& GetTools();
 	~TSpriteEditorRegistry();
 };

@@ -65,12 +65,15 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.baluEditorControl1 = new Editor.BaluEditorControl();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.EditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.baluEditorControl1 = new Editor.BaluEditorControl();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.EditorContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -352,19 +355,6 @@
             this.panel1.Size = new System.Drawing.Size(549, 594);
             this.panel1.TabIndex = 5;
             // 
-            // baluEditorControl1
-            // 
-            this.baluEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
-            this.baluEditorControl1.Location = new System.Drawing.Point(0, 25);
-            this.baluEditorControl1.Name = "baluEditorControl1";
-            this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
-            this.baluEditorControl1.Size = new System.Drawing.Size(549, 569);
-            this.baluEditorControl1.TabIndex = 1;
-            this.baluEditorControl1.WorldTreeView = this.treeView1;
-            this.baluEditorControl1.MouseEnter += new System.EventHandler(this.baluEditorControl1_MouseEnter_1);
-            this.baluEditorControl1.MouseHover += new System.EventHandler(this.baluEditorControl1_MouseHover);
-            // 
             // toolStrip1
             // 
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -391,6 +381,35 @@
             this.listBox1.Size = new System.Drawing.Size(287, 290);
             this.listBox1.TabIndex = 7;
             // 
+            // EditorContextMenu
+            // 
+            this.EditorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.EditorContextMenu.Name = "EditorContextMenu";
+            this.EditorContextMenu.Size = new System.Drawing.Size(153, 48);
+            this.EditorContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.EditorContextMenu_Opening);
+            this.EditorContextMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.EditorContextMenu_ItemClicked);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Text = "Edit in view";
+            // 
+            // baluEditorControl1
+            // 
+            this.baluEditorControl1.ContextMenuStrip = this.EditorContextMenu;
+            this.baluEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
+            this.baluEditorControl1.Location = new System.Drawing.Point(0, 25);
+            this.baluEditorControl1.Name = "baluEditorControl1";
+            this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
+            this.baluEditorControl1.Size = new System.Drawing.Size(549, 569);
+            this.baluEditorControl1.TabIndex = 1;
+            this.baluEditorControl1.WorldTreeView = this.treeView1;
+            this.baluEditorControl1.MouseEnter += new System.EventHandler(this.baluEditorControl1_MouseEnter_1);
+            this.baluEditorControl1.MouseHover += new System.EventHandler(this.baluEditorControl1_MouseHover);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -409,6 +428,7 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.EditorContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -455,6 +475,8 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ContextMenuStrip EditorContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 

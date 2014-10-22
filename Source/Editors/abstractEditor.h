@@ -57,9 +57,10 @@ protected:
 	std::vector<TAbstractEditor*> parent_editors;
 	TAbstractEditor* current_local_editor;
 	TEditorTool* active_tool;
+	TVec2 editor_global_pos;
 public:
 	
-	virtual void Initialize(TWorldObjectDef* obj) = 0;
+	virtual void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos) = 0;
 
 	virtual bool CanSetSelectedAsWork() = 0;
 	virtual void SetSelectedAsWork() = 0;

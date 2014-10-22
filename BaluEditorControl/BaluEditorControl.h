@@ -93,6 +93,12 @@ namespace Editor
 		Void SetSelectedWorldNode(TWolrdTreeNodeTag^ node);
 		Void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
 
+		bool CanSetSelectedAsWork();
+		void SetSelectedAsWork();
+
+		bool CanEndSelectedAsWork();
+		void EndSelectedAsWork();
+
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;
 		property ToolStrip^ EditorToolsBar;

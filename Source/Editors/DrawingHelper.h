@@ -10,6 +10,8 @@ class TDrawingHelper
 {
 	TBaluRender* render;
 	TEditorResourses* resources;
+	bool use_global_alpha;
+	float global_alpha;
 public:
 	TDrawingHelper(TBaluRender* render, TEditorResourses* resources);
 	void DrawSpritePolygon(TBaluSpritePolygonDef* sprite);
@@ -25,4 +27,7 @@ public:
 	void SetSelectedPointColor();
 	void SetSelectedBoundaryColor();
 	void UnsetColor();
+	void SetGlobalAlpha(float alpha);
+	void UnsetGlobalAlpha();
+	void SetGlobalAlphaColor();
 };

@@ -12,29 +12,51 @@ TDrawingHelper::TDrawingHelper(TBaluRender* render, TEditorResourses* resources)
 	this->resources = resources;
 }
 
-void TDrawingHelper::DrawSpritePolygon(TBaluSpritePolygonDef* sprite)
+//void TDrawingHelper::DrawSpritePolygon(TBaluSpritePolygonDef* sprite)
+//{
+//	std::vector<TVec2> pos, tex;
+//	pos.push_back(TVec2(0, 0));
+//	pos.insert(pos.end(), sprite->polygon_vertices.begin(), sprite->polygon_vertices.end());
+//	pos.insert(pos.end(), sprite->polygon_vertices[0]);
+//	tex = pos;
+//	TStreamsDesc desc;
+//	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
+//	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
+//	//render->Set.PolygonMode(TPolygonMode::Line);
+//	render->Draw(desc, TPrimitive::TriangleFan, sprite->polygon_vertices.size() + 2);
+//}
+
+void TDrawingHelper::DrawSpritePolygon(TBaluSpritePolygonDef* polygon)
 {
 	std::vector<TVec2> pos, tex;
-	pos.push_back(TVec2(0, 0));
-	pos.insert(pos.end(), sprite->polygon_vertices.begin(), sprite->polygon_vertices.end());
-	pos.insert(pos.end(), sprite->polygon_vertices[0]);
-	tex = pos;
+	//pos.push_back(TVec2(0, 0));
+	auto ang = polygon->transform.angle;
+	auto rot_mat = TMatrix2(*(TVec2*)&ang.GetXAxis(), *(TVec2*)&ang.GetYAxis());
+	for (int i = 0; i < polygon->polygon_vertices.size(); i++)
+	{
+		pos.push_back(rot_mat*(*(TVec2*)&polygon->polygon_vertices[i]) + polygon->transform.position);
+	}
+	for (int i = 0; i < polygon->tex_coordinates.size(); i++)
+	{
+		tex.push_back(polygon->tex_coordinates[i]);
+	}
+
 	TStreamsDesc desc;
 	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
-	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
+	//desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
 	//render->Set.PolygonMode(TPolygonMode::Line);
-	render->Draw(desc, TPrimitive::TriangleFan, sprite->polygon_vertices.size() + 2);
+	render->Draw(desc, TPrimitive::TriangleFan, polygon->polygon_vertices.size());
 }
 
 void TDrawingHelper::DrawPolygon(TBaluPolygonShapeDef* polygon)
 {
 	std::vector<TVec2> pos, tex;
 	//pos.push_back(TVec2(0, 0));
-	auto ang = polygon->angle;
+	auto ang = polygon->transform.angle;
 	auto rot_mat = TMatrix2(*(TVec2*)&ang.GetXAxis(), *(TVec2*)&ang.GetYAxis());
 	for (int i = 0; i < polygon->b2shape.m_count; i++)
 	{
-		pos.push_back(rot_mat*(*(TVec2*)&polygon->b2shape.m_vertices[i]) + polygon->pos);
+		pos.push_back(rot_mat*(*(TVec2*)&polygon->b2shape.m_vertices[i]) + polygon->transform.position);
 	}
 	tex = pos;
 	TStreamsDesc desc;
@@ -48,7 +70,7 @@ void TDrawingHelper::DrawCircle(TBaluCircleShapeDef* circle)
 {
 	std::vector<TVec2> pos, tex;
 
-	TSphere<float, 2> sp(circle->pos,circle->b2shape.m_radius);
+	TSphere<float, 2> sp(circle->transform.position, circle->b2shape.m_radius);
 	sp.DrawLines(pos);
 	TStreamsDesc desc;
 	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
@@ -110,7 +132,7 @@ void TDrawingHelper::DrawSpritePolygonContour(TBaluSpritePolygonDef* sprite)
 	TStreamsDesc desc;
 	desc.Clear();
 	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*sprite->polygon_vertices.begin());
-	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*sprite->tex_coordinates.begin());
+	//desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*sprite->tex_coordinates.begin());
 	render->Draw(desc, TPrimitive::LineLoop, sprite->polygon_vertices.size());
 }
 
@@ -147,13 +169,33 @@ void TDrawingHelper::DeactivateMaterial(TBaluMaterialDef* material)
 
 void TDrawingHelper::SetSelectedPointColor()
 {
-	render->Set.Color(0, 1, 0);
+	render->Set.Color(0, 1, 0, use_global_alpha?global_alpha:1);
 }
 void TDrawingHelper::SetSelectedBoundaryColor()
 {
-	render->Set.Color(1, 0, 0);
+	render->Set.Color(1, 0, 0, use_global_alpha ? global_alpha : 1);
 }
 void TDrawingHelper::UnsetColor()
 {
-	render->Set.Color(1, 1, 1, 1);
+	render->Set.Color(1, 1, 1, use_global_alpha ? global_alpha : 1);
+}
+
+void TDrawingHelper::SetGlobalAlphaColor()
+{
+	render->Set.Color(1, 1, 1, use_global_alpha ? global_alpha : 1);
+}
+
+void TDrawingHelper::SetGlobalAlpha(float alpha)
+{
+	global_alpha = alpha;
+	use_global_alpha = true;
+	render->Blend.Enable(true);
+	render->Blend.Func("sc*sa+dc*(1-sa)");
+}
+
+void TDrawingHelper::UnsetGlobalAlpha()
+{
+	global_alpha = 1;
+	use_global_alpha = false;
+	render->Blend.Enable(false);
 }

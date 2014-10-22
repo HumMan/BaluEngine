@@ -239,6 +239,23 @@ namespace Editor
 		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools,engine);
 	}
 
+	bool BaluEditorControl::CanSetSelectedAsWork()
+	{
+		return engine->CanSetSelectedAsWork();
+	}
+	void BaluEditorControl::SetSelectedAsWork()
+	{
+		engine->SetSelectedAsWork();
+	}
+
+	bool BaluEditorControl::CanEndSelectedAsWork()
+	{
+		return engine->CanEndSelectedAsWork();
+	}
+	void BaluEditorControl::EndSelectedAsWork()
+	{
+		engine->EndSelectedAsWork();
+	}
 
 	void BaluEditorControl::CreateWorldTree(TreeView^ WorldTreeView, TBaluWorldDef* world)
 	{

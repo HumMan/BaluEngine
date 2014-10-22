@@ -5,6 +5,17 @@
 
 using namespace pugi;
 
+TOBB<float, 2> TBaluSpritePolygonDef::GetOBB()
+{
+	auto aabb = TAABB<float, 2>(TVec2(0, 0), TVec2(0, 0));
+	for (int i = 0; i < polygon_vertices.size(); i++)
+	{
+		aabb+=polygon_vertices[i];
+	}
+	this->aabb = aabb;
+	return TOBB<float, 2>(transform.position, TMatrix2(FromB2Vec(transform.angle.GetXAxis()), FromB2Vec(transform.angle.GetYAxis())), aabb);
+}
+
 void TBaluCircleShapeDef::Save(pugi::xml_node& parent_node, const int version)
 {
 
@@ -12,7 +23,7 @@ void TBaluCircleShapeDef::Save(pugi::xml_node& parent_node, const int version)
 
 TOBB<float, 2> TBaluCircleShapeDef::GetOBB()
 {
-	return TOBB<float, 2>(pos, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(b2shape.m_radius)));
+	return TOBB<float, 2>(transform.position, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(b2shape.m_radius)));
 }
 
 TOBB<float, 2> TBaluPolygonShapeDef::GetOBB()
@@ -24,7 +35,7 @@ TOBB<float, 2> TBaluPolygonShapeDef::GetOBB()
 		aabb.operator+=(*(TVec2*)&v);
 	}
 	this->aabb = aabb;
-	return TOBB<float, 2>(pos, TMatrix2(*(TVec2*)&angle.GetXAxis(), *(TVec2*)&angle.GetYAxis()), aabb);
+	return TOBB<float, 2>(transform.position, TMatrix2(FromB2Vec(transform.angle.GetXAxis()), FromB2Vec(transform.angle.GetYAxis())), aabb);
 }
 
 TBaluPhysBodyDef::~TBaluPhysBodyDef()
@@ -66,18 +77,18 @@ TVec2 LoadCoord(pugi::xml_node& node)
 	return coord;
 }
 
-void SaveTransform(pugi::xml_node& parent_node, std::string name, TTransform transform)
+void SaveTransform(pugi::xml_node& parent_node, std::string name, TBaluTransform transform)
 {
 	xml_node new_node = parent_node.append_child(name.c_str());
-	SaveCoord(new_node, "Offset", transform.offset);
-	new_node.append_attribute("rotation").set_value(transform.rotation.GetAngle());
+	SaveCoord(new_node, "Offset", transform.position);
+	new_node.append_attribute("rotation").set_value(transform.angle.GetAngle());
 }
 
-TTransform LoadTransform(pugi::xml_node& node)
+TBaluTransform LoadTransform(pugi::xml_node& node)
 {
-	TTransform transform;
-	transform.offset = LoadCoord(node.child("Offset"));
-	transform.rotation.Set(node.attribute("rotation").as_float());
+	TBaluTransform transform;
+	transform.position = LoadCoord(node.child("Offset"));
+	transform.angle.Set(node.attribute("rotation").as_float());
 	return transform;
 }
 

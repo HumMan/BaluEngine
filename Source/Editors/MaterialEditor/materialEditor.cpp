@@ -57,8 +57,9 @@ void TMaterialEditor::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 		active_tool->OnMouseUp(e, world_cursor_location);
 }
 
-void TMaterialEditor::Initialize(TWorldObjectDef* obj)
+void TMaterialEditor::Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos)
 {
+	this->editor_global_pos = editor_global_pos;
 	Initialize(dynamic_cast<TBaluMaterialDef*>(obj));
 }
 

@@ -62,6 +62,8 @@ class TBoundaryBoxScene
 {
 public:
 	std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
+	std::vector<TBoundaryBoxAdornment*> selected_boundaries; //TODO
+	TBoundaryBoxAdornment* boundary_under_cursor;
 };
 
 class TBoundaryBoxesModifyTool : public TEditorTool

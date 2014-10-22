@@ -31,18 +31,18 @@ class TSpritePolygonEditor :public TAbstractEditor
 	TVec2 cursor_pos;
 
 	TVec2 old_cursor_pos;
-	TBaluWorldDef* world;
+	//TBaluWorldDef* world;
 public:
-	TSpritePolygonEditor(TBaluWorldDef* world);
+	TSpritePolygonEditor();
 	//void StartEdit(TBaluSpriteDef* use_sprite);
 	//void EndEdit();
 
-
+	void Initialize(TBaluSpritePolygonDef* obj);
 	void SetAsBox(TVec2 size);
 
 
 	//override:
-	void Initialize(TWorldObjectDef* obj);
+	void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos);
 
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();

@@ -15,6 +15,23 @@ namespace pugi
 	class xml_node;
 }
 
+class TBaluTransform
+{
+public:
+	TVec2 position;
+	b2Rot angle;
+};
+
+inline b2Vec2 ToB2Vec(TVec2 vec)
+{
+	return *(b2Vec2*)&vec;
+}
+
+inline TVec2 FromB2Vec(b2Vec2 vec)
+{
+	return *(TVec2*)&vec;
+}
+
 class TWorldObjectDef
 {
 public:
@@ -123,6 +140,9 @@ class TBaluSpritePolygonDef : public TWorldObjectDef
 public:
 	std::string material_name;
 
+	TAABB<float, 2> aabb;
+	TBaluTransform transform;//TODO все трансформации применять не к объекту, а хранить отдельно
+
 	std::vector<TVec2> polygon_vertices;
 	std::vector<TVec2> tex_coordinates;
 
@@ -152,6 +172,8 @@ public:
 		QuadStrip
 	};
 	TPrimitive primitive;
+
+	TOBB<float, 2> GetOBB();
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& node, const int version);
@@ -185,13 +207,12 @@ public:
 	TBaluPolygonShapeDef()
 	{
 		aabb = TAABB<float, 2>(TVec2(0, 0), TVec2(0, 0));
-		pos = TVec2(0, 0);
-		angle.Set(0);
+		transform.position = TVec2(0, 0);
+		transform.angle.Set(0);
 	}
 	TAABB<float, 2> aabb;
 
-	TVec2 pos;//TODO все трансформации применять не к объекту, а хранить отдельно
-	b2Rot angle;
+	TBaluTransform transform;//TODO все трансформации применять не к объекту, а хранить отдельно
 
 	b2PolygonShape b2shape;
 	//b2FixtureDef b2fixture_def;
@@ -205,8 +226,7 @@ public:
 class TBaluCircleShapeDef : public TBaluShapeDef
 {
 public:
-	TVec2 pos;
-	b2Rot angle;
+	TBaluTransform transform;
 	b2CircleShape b2shape;
 
 	void Save(pugi::xml_node& parent_node, const int version);
@@ -249,24 +269,17 @@ public:
 	void Save(pugi::xml_node& parent_node, const int version);
 };
 
-class TTransform
-{
-public:
-	TVec2 offset;
-	b2Rot rotation;
-};
-
 class TBaluClass : public TWorldObjectDef
 {
 public:
 	std::string class_name;
 	std::vector<std::string> sprites;
 	std::vector<std::string> sprites_tags;
-	std::vector<TTransform> sprites_transform;
+	std::vector<TBaluTransform> sprites_transform;
 
 	std::vector<std::string> bodies;
 	std::vector<std::string> bodies_tags;
-	std::vector<TTransform> bodies_transform;
+	std::vector<TBaluTransform> bodies_transform;
 
 	std::vector<std::unique_ptr<TBaluJointDef>> joints;
 
@@ -278,7 +291,7 @@ class TBaluInstanceDef : public TWorldObjectDef
 public:
 	std::string name;
 	std::string class_name;
-	TTransform instance_transform;
+	TBaluTransform instance_transform;
 	void Save(pugi::xml_node& parent_node, const int version);
 };
 

@@ -81,7 +81,7 @@ TCreatePolygonTool::TCreatePolygonTool(TPhysBodyEditorScene* phys_body_editor_sc
 void TCreatePolygonTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
 {
 	auto new_shape = new TBaluPolygonShapeDef();
-	new_shape->pos = world_cursor_location;
+	new_shape->transform.position = world_cursor_location;
 	
 	new_shape->b2shape.m_count = 8;
 	for (int i = 0; i < 8; i++)
@@ -116,7 +116,7 @@ TCreateBoxTool::TCreateBoxTool(TPhysBodyEditorScene* phys_body_editor_scene)
 void TCreateBoxTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
 {
 	auto new_shape = new TBaluPolygonShapeDef();
-	new_shape->pos = world_cursor_location;
+	new_shape->transform.position = world_cursor_location;
 	new_shape->b2shape.SetAsBox(1, 1);
 	phys_body_editor_scene->phys_body->fixtures.push_back(std::unique_ptr<TBaluShapeDef>(new_shape));
 
@@ -144,7 +144,7 @@ TCreateCircleTool::TCreateCircleTool(TPhysBodyEditorScene* phys_body_editor_scen
 void TCreateCircleTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
 {
 	auto new_shape = new TBaluCircleShapeDef();
-	new_shape->pos = world_cursor_location;
+	new_shape->transform.position = world_cursor_location;
 	new_shape->b2shape.m_radius = 1;
 	phys_body_editor_scene->phys_body->fixtures.push_back(std::unique_ptr<TBaluShapeDef>(new_shape));
 

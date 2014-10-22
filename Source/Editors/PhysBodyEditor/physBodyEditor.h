@@ -20,7 +20,7 @@ public:
 	void Initialize(TBaluPhysBodyDef* obj);
 
 	//override:
-	void Initialize(TWorldObjectDef* obj);
+	void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos);
 	
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();

@@ -17,13 +17,11 @@ void TPhysBodyEditor::Initialize(TBaluPhysBodyDef* obj)
 	{
 		if (dynamic_cast<TBaluPolygonShapeDef*>(v.get()) != nullptr)
 		{
-			auto b = v->GetOBB();
 			auto new_box = new TPolygonShapeAdornment(dynamic_cast<TBaluPolygonShapeDef*>(v.get()));
 			scene.boundaries.emplace_back(std::unique_ptr<TPolygonShapeAdornment>(new_box));
 		}
 		if (dynamic_cast<TBaluCircleShapeDef*>(v.get()) != nullptr)
 		{
-			auto b = v->GetOBB();
 			auto new_box = new TCircleShapeAdornment(dynamic_cast<TBaluCircleShapeDef*>(v.get()));
 			scene.boundaries.emplace_back(std::unique_ptr<TCircleShapeAdornment>(new_box));
 		}
@@ -37,7 +35,7 @@ void TPhysBodyEditor::UnsetAcitveTool()
 
 bool TPhysBodyEditor::CanSetSelectedAsWork()
 {
-	return true;
+	return scene.boundary_under_cursor != nullptr;
 }
 
 void TPhysBodyEditor::SetSelectedAsWork()
@@ -47,7 +45,7 @@ void TPhysBodyEditor::SetSelectedAsWork()
 
 bool TPhysBodyEditor::CanEndSelectedAsWork()
 {
-	return true;
+	return parent_editors.size()>0;
 }
 void TPhysBodyEditor::EndSelectedAsWork()
 {
@@ -72,8 +70,9 @@ void TPhysBodyEditor::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 		active_tool->OnMouseUp(e, world_cursor_location);
 }
 
-void TPhysBodyEditor::Initialize(TWorldObjectDef* obj)
+void TPhysBodyEditor::Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos)
 {
+	this->editor_global_pos = editor_global_pos;
 	Initialize(dynamic_cast<TBaluPhysBodyDef*>(obj));
 }
 

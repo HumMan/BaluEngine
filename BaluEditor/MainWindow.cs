@@ -97,5 +97,16 @@ namespace BaluEditor
         {
             baluEditorControl1.Focus();
         }
+
+        private void EditorContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            EditorContextMenu.Items[0].Enabled = baluEditorControl1.CanSetSelectedAsWork();
+        }
+
+        private void EditorContextMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem == toolStripMenuItem1)
+                baluEditorControl1.SetSelectedAsWork();
+        }
     }
 }

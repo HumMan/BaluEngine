@@ -7,10 +7,10 @@ TPolygonShapeAdornment::TPolygonShapeAdornment(TBaluPolygonShapeDef* polygon_wor
 
 void TPolygonShapeAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 {
-	polygon_world_object->pos = new_box.GetPos();
+	polygon_world_object->transform.position = new_box.GetPos();
 	auto orient = new_box.GetOrient();
-	polygon_world_object->angle.c = orient[0][0];
-	polygon_world_object->angle.s = orient[0][1];
+	polygon_world_object->transform.angle.c = orient[0][0];
+	polygon_world_object->transform.angle.s = orient[0][1];
 
 	auto old_aabb = old_box.GetLocalAABB();
 	auto new_aabb = new_box.GetLocalAABB();
@@ -45,7 +45,7 @@ TCircleShapeAdornment::TCircleShapeAdornment(TBaluCircleShapeDef* circle_world_o
 }
 void TCircleShapeAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 {
-	circle_world_object->pos = new_box.GetPos();
+	circle_world_object->transform.position = new_box.GetPos();
 	auto aabb = new_box.GetLocalAABB();
 	circle_world_object->b2shape.m_radius = b2Min(aabb.GetSize()[0], aabb.GetSize()[1]);
 }

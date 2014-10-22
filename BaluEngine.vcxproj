@@ -97,6 +97,7 @@
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.h" />
     <ClInclude Include="Source\Editors\SceneEditor\sceneEditor.h" />
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditor.h" />
+    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorAdornments.h" />
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorScene.h" />
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorTools.h" />
     <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.h" />
@@ -127,6 +128,7 @@
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp" />
     <ClCompile Include="Source\Editors\SpriteEditor\spriteEditor.cpp" />
+    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorAdornments.cpp" />
     <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorTools.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>

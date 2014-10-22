@@ -16,7 +16,7 @@ public:
 	TMaterialEditor();
 	void UnsetAcitveTool();
 
-	void Initialize(TWorldObjectDef* obj);
+	void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos);
 	void Initialize(TBaluMaterialDef* obj);
 
 	bool CanSetSelectedAsWork();

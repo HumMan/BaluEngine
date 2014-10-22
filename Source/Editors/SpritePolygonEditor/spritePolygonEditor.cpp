@@ -2,20 +2,26 @@
 
 #include "../abstractEditor.h"
 
-TSpritePolygonEditor::TSpritePolygonEditor(TBaluWorldDef* world)
+TSpritePolygonEditor::TSpritePolygonEditor()
 {
-	this->world = world;
+	//this->world = world;
 	curr_state = CurrState::None;
 }
 
-void TSpritePolygonEditor::Initialize(TWorldObjectDef* obj)
+void TSpritePolygonEditor::Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos)
 {
+	this->editor_global_pos = editor_global_pos;
+	Initialize(dynamic_cast<TBaluSpritePolygonDef*>(obj));
+}
 
+void TSpritePolygonEditor::Initialize(TBaluSpritePolygonDef* obj)
+{
+	this->sprite = obj;
 }
 
 bool TSpritePolygonEditor::CanSetSelectedAsWork()
 {
-	return true;
+	return false;
 }
 void TSpritePolygonEditor::SetSelectedAsWork()
 {
@@ -24,7 +30,7 @@ void TSpritePolygonEditor::SetSelectedAsWork()
 
 bool TSpritePolygonEditor::CanEndSelectedAsWork()
 {
-	return true;
+	return parent_editors.size()>0;
 }
 void TSpritePolygonEditor::EndSelectedAsWork()
 {

@@ -120,6 +120,9 @@
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorScene.h">
       <Filter>Source Files\Editors\SpriteEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorAdornments.h">
+      <Filter>Source Files\Editors\SpriteEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">
@@ -177,6 +180,9 @@
       <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
     </ClCompile>
     <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorTools.cpp">
+      <Filter>Source Files\Editors\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorAdornments.cpp">
       <Filter>Source Files\Editors\SpriteEditor</Filter>
     </ClCompile>
   </ItemGroup>

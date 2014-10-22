@@ -79,4 +79,10 @@ public:
 	void Edit(TWorldObjectDef* obj_to_edit);
 	void SetActiveTool(TEditorTool* tool);
 	const std::vector<TToolWithDescription>& GetAvailableTools();
+
+	bool CanSetSelectedAsWork();
+	void SetSelectedAsWork();
+
+	bool CanEndSelectedAsWork();
+	void EndSelectedAsWork();
 };

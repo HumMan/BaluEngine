@@ -1,13 +1,12 @@
 #include "baluEditor.h"
 
-#include "Editors\SpriteEditor\spriteEditor.h"
-
 #include "Editors\abstractEditor.h"
 //#include "Editors\BoundaryEditor.h"
 #include "Editors\editorResourses.h"
 
+#include "Editors\SpritePolygonEditor\spritePolygonEditor.h"
+#include "Editors\SpriteEditor\spriteEditor.h"
 #include "Editors\PhysBodyEditor\physBodyEditor.h"
-
 #include "Editors\MaterialEditor\materialEditor.h"
 
 #include <baluRender.h>
@@ -216,7 +215,7 @@ void TBaluEditor::OnMouseDown(TMouseEventArgs e)
 		TVec2 world_pos = ScreenToWorld(e.location);
 		p->old_cursor_pos = e.location;
 	}
-	else
+	else if (e.button == TMouseButton::Left)
 	{
 		TVec2 world_pos = ScreenToWorld(e.location);
 		if (p->active_editor != nullptr)
@@ -230,7 +229,7 @@ void TBaluEditor::OnMouseUp(TMouseEventArgs e)
 	{
 		p->screen_moving = false;
 	}
-	else
+	else if (e.button == TMouseButton::Left)
 	{
 		TVec2 world_pos = ScreenToWorld(e.location);
 		if (p->active_editor != nullptr)
@@ -312,6 +311,9 @@ TAbstractEditor* GetEditorOfWorldObject(TWorldObjectDef* obj)
 	if ((dynamic_cast<TBaluMaterialDef*>(obj)) != nullptr)
 		return new TMaterialEditor();
 
+	if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
+		return new TSpritePolygonEditor();
+
 	if ((dynamic_cast<TBaluSpriteDef*>(obj)) != nullptr)
 		return new TSpriteEditor();
 
@@ -328,7 +330,7 @@ void TBaluEditor::Edit(TWorldObjectDef* obj_to_edit)
 	assert(ed != nullptr);
 	if (ed != nullptr)
 	{
-		ed->Initialize(obj_to_edit);
+		ed->Initialize(obj_to_edit,TVec2(0,0));
 		p->active_editor = ed;
 	}
 }
@@ -341,6 +343,31 @@ void TBaluEditor::SetActiveTool(TEditorTool* tool)
 
 const std::vector<TToolWithDescription>& TBaluEditor::GetAvailableTools()
 {
-	assert(p->active_editor != nullptr);
+	assert(p->active_editor != nullptr);//не должно вызываться если не запущен редактор
 	return p->active_editor->GetAvailableTools();
+}
+
+bool TBaluEditor::CanSetSelectedAsWork()
+{
+	assert(p->active_editor != nullptr);
+	return p->active_editor != nullptr && p->active_editor->CanSetSelectedAsWork();
+}
+
+void TBaluEditor::SetSelectedAsWork()
+{
+	assert(p->active_editor != nullptr);
+	if(p->active_editor != nullptr)
+		p->active_editor->SetSelectedAsWork();
+}
+
+bool TBaluEditor::CanEndSelectedAsWork()
+{
+	assert(p->active_editor != nullptr);
+	return p->active_editor != nullptr && p->active_editor->CanEndSelectedAsWork();
+}
+void TBaluEditor::EndSelectedAsWork()
+{
+	assert(p->active_editor != nullptr);
+	if (p->active_editor != nullptr)
+		p->active_editor->EndSelectedAsWork();
 }
