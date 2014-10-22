@@ -47,9 +47,9 @@ bool TPhysBodyEditor::CanEndSelectedAsWork()
 {
 	return parent_editors.size()>0;
 }
-void TPhysBodyEditor::EndSelectedAsWork()
+bool TPhysBodyEditor::EndSelectedAsWork()
 {
-
+	return false;
 }
 
 void TPhysBodyEditor::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)

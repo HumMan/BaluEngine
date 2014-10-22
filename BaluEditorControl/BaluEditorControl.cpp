@@ -246,6 +246,8 @@ namespace Editor
 	void BaluEditorControl::SetSelectedAsWork()
 	{
 		engine->SetSelectedAsWork();
+		auto &tools = engine->GetAvailableTools();
+		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools, engine);
 	}
 
 	bool BaluEditorControl::CanEndSelectedAsWork()

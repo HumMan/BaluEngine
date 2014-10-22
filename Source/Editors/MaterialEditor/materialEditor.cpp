@@ -34,9 +34,9 @@ bool TMaterialEditor::CanEndSelectedAsWork()
 {
 	return true;
 }
-void TMaterialEditor::EndSelectedAsWork()
+bool TMaterialEditor::EndSelectedAsWork()
 {
-
+	return false;
 }
 
 void TMaterialEditor::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)

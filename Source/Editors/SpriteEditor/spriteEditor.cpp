@@ -46,6 +46,9 @@ void TSpriteEditor::SetSelectedAsWork()
 
 		current_local_editor = new TSpritePolygonEditor();
 
+		current_local_editor->parent_editors = parent_editors;
+		current_local_editor->parent_editors.push_back(this);
+
 		auto sprite_polygon = (dynamic_cast<TSpritePolygonAdornment*>(scene.boundary_under_cursor))->GetSprite();
 
 		current_local_editor->Initialize(sprite_polygon, sprite_polygon->transform.position);
@@ -61,26 +64,39 @@ bool TSpriteEditor::CanEndSelectedAsWork()
 	else
 		return parent_editors.size()>0;
 }
-void TSpriteEditor::EndSelectedAsWork()
+bool TSpriteEditor::EndSelectedAsWork()
 {
 	assert(current_local_editor != nullptr);
 	if (current_local_editor != nullptr)
 	{
-		delete current_local_editor;
-		current_local_editor = nullptr;
+		if (current_local_editor->EndSelectedAsWork())
+		{
+			delete current_local_editor;
+			current_local_editor = nullptr;
+		}
+		return false;
 	}
 	else
 	{
-
+		return true;
 	}
 }
 
 const std::vector<TToolWithDescription>& TSpriteEditor::GetAvailableTools()
 {
-	return tools_registry.GetTools();
+	if (current_local_editor != nullptr)
+	{
+		return current_local_editor->GetAvailableTools();
+	}else
+		return tools_registry.GetTools();
 }
 void TSpriteEditor::SetActiveTool(TEditorTool* tool)
 {
+	if (current_local_editor != nullptr)
+	{
+		return current_local_editor->SetActiveTool(tool);
+	}
+	else
 	active_tool = tool;
 }
 

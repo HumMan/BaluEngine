@@ -12,6 +12,9 @@ class TDrawingHelper
 	TEditorResourses* resources;
 	bool use_global_alpha;
 	float global_alpha;
+
+	TVec2 active_transform;
+	TMatrix4 last_transform;
 public:
 	TDrawingHelper(TBaluRender* render, TEditorResourses* resources);
 	void DrawSpritePolygon(TBaluSpritePolygonDef* sprite);
@@ -30,4 +33,8 @@ public:
 	void SetGlobalAlpha(float alpha);
 	void UnsetGlobalAlpha();
 	void SetGlobalAlphaColor();
+
+	void PushTransform();
+	void PopTransform();
+	void SetTransform(TVec2 transform);
 };

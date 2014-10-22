@@ -199,3 +199,19 @@ void TDrawingHelper::UnsetGlobalAlpha()
 	use_global_alpha = false;
 	render->Blend.Enable(false);
 }
+
+void TDrawingHelper::PushTransform()
+{
+	
+}
+void TDrawingHelper::PopTransform()
+{
+	render->Set.ModelView(last_transform);
+}
+void TDrawingHelper::SetTransform(TVec2 transform)
+{
+	last_transform = render->Get.ModelView();
+	auto mat = last_transform;
+	mat.SetOffset(mat.GetOffset() + TVec3(transform, 0));
+	render->Set.ModelView(mat);
+}

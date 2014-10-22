@@ -53,20 +53,23 @@ public:
 
 class TAbstractEditor
 {
-protected:
+public:
 	std::vector<TAbstractEditor*> parent_editors;
 	TAbstractEditor* current_local_editor;
 	TEditorTool* active_tool;
 	TVec2 editor_global_pos;
 public:
-	
+	TAbstractEditor()
+	{
+		editor_global_pos = TVec2(0, 0);
+	}
 	virtual void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos) = 0;
 
 	virtual bool CanSetSelectedAsWork() = 0;
 	virtual void SetSelectedAsWork() = 0;
 
 	virtual bool CanEndSelectedAsWork() = 0;
-	virtual void EndSelectedAsWork() = 0;
+	virtual bool EndSelectedAsWork() = 0;
 
 	//std::map<std::string, TAbstractEditorObject*> CanCreateObjects();
 

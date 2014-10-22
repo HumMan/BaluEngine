@@ -32,13 +32,15 @@ bool TSpritePolygonEditor::CanEndSelectedAsWork()
 {
 	return parent_editors.size()>0;
 }
-void TSpritePolygonEditor::EndSelectedAsWork()
+bool TSpritePolygonEditor::EndSelectedAsWork()
 {
-
+	return true;
 }
 
 void TSpritePolygonEditor::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
 {
+	world_cursor_location -= editor_global_pos;
+
 	if (curr_state == CurrState::CanSubdivide)
 	{
 		if (nearest_line != -1)
@@ -59,6 +61,8 @@ void TSpritePolygonEditor::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_loc
 }
 void TSpritePolygonEditor::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
 {
+	world_cursor_location -= editor_global_pos;
+
 	TVec2 new_pos = world_cursor_location;
 	cursor_pos = new_pos;
 	if (curr_state == CurrState::MovingSelected)
@@ -110,6 +114,8 @@ void TSpritePolygonEditor::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_loc
 }
 void TSpritePolygonEditor::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 {
+	world_cursor_location -= editor_global_pos;
+
 	if (curr_state == CurrState::MovingSelected)
 	{
 		selected_points.clear();
@@ -119,7 +125,7 @@ void TSpritePolygonEditor::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_locat
 
 const std::vector<TToolWithDescription>& TSpritePolygonEditor::GetAvailableTools()
 {
-	return std::vector<TToolWithDescription>();
+	return tools;
 }
 void TSpritePolygonEditor::SetActiveTool(TEditorTool* tool)
 {
@@ -160,12 +166,15 @@ bool isConvex(std::vector<TVec2> v)
 
 void TSpritePolygonEditor::Render(TDrawingHelper* drawing_helper)
 {
+	//
 	//if (world->materials.find(sprite->material_name) != world->materials.end())
 	//	ActivateMaterial(render, &world->materials[sprite->material_name]);
 	
 	if (isConvex(sprite->polygon_vertices))
 		drawing_helper->SetSelectedBoundaryColor();
 	drawing_helper->DrawSpritePolygon(sprite);
+
+	drawing_helper->SetTransform(editor_global_pos);
 	//if (world->materials.find(sprite->material_name) != world->materials.end())
 	//	DeactivateMaterial(render, &world->materials[sprite->material_name]);
 
@@ -192,4 +201,5 @@ void TSpritePolygonEditor::Render(TDrawingHelper* drawing_helper)
 		}
 	}
 	drawing_helper->UnsetColor();
+	drawing_helper->PopTransform();
 }

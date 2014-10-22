@@ -27,7 +27,7 @@ public:
 	void SetSelectedAsWork();
 
 	bool CanEndSelectedAsWork();
-	void EndSelectedAsWork();
+	bool EndSelectedAsWork();
 
 	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
 	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
