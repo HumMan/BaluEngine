@@ -123,6 +123,15 @@
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorAdornments.h">
       <Filter>Source Files\Editors\SpriteEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editors\ClassEditor\classEditorTools.h">
+      <Filter>Source Files\Editors\ClassEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\ClassEditor\classEditorAdornments.h">
+      <Filter>Source Files\Editors\ClassEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\ClassEditor\classEditorScene.h">
+      <Filter>Source Files\Editors\ClassEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">
@@ -184,6 +193,12 @@
     </ClCompile>
     <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorAdornments.cpp">
       <Filter>Source Files\Editors\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\ClassEditor\classEditorTools.cpp">
+      <Filter>Source Files\Editors\ClassEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\ClassEditor\classEditorAdornments.cpp">
+      <Filter>Source Files\Editors\ClassEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

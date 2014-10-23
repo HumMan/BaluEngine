@@ -244,7 +244,7 @@ public:
 	b2BodyDef b2body_def;
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	~TBaluPhysBodyDef();
+	virtual ~TBaluPhysBodyDef();
 };
 
 class TBaluJointDef
@@ -269,13 +269,25 @@ public:
 	void Save(pugi::xml_node& parent_node, const int version);
 };
 
+class TBaluSpriteInstanceDef: public TWorldObjectDef
+{
+public:
+	std::string sprite_name;
+	std::string tag;
+	TBaluTransform sprites_transform;
+};
+
+class TBaluBodyInstanceDef : public TWorldObjectDef
+{
+
+};
+
 class TBaluClass : public TWorldObjectDef
 {
 public:
 	std::string class_name;
-	std::vector<std::string> sprites;
-	std::vector<std::string> sprites_tags;
-	std::vector<TBaluTransform> sprites_transform;
+	
+	std::vector<std::unique_ptr<TBaluSpriteInstanceDef>> sprites;
 
 	std::vector<std::string> bodies;
 	std::vector<std::string> bodies_tags;
@@ -284,6 +296,7 @@ public:
 	std::vector<std::unique_ptr<TBaluJointDef>> joints;
 
 	void Save(pugi::xml_node& parent_node, const int version);
+	virtual ~TBaluClass();
 };
 
 class TBaluInstanceDef : public TWorldObjectDef
@@ -302,6 +315,7 @@ public:
 	std::vector<TBaluInstanceDef> instances;
 	std::vector<std::unique_ptr<TBaluJointDef>> scene_joints;
 	void Save(pugi::xml_node& parent_node, const int version);
+	virtual ~TBaluSceneDef();
 };
 
 class TBaluWorldDef
@@ -315,4 +329,5 @@ public:
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& node, const int version);
+	virtual ~TBaluWorldDef();
 };

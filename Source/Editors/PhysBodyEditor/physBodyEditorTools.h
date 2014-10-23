@@ -4,14 +4,6 @@
 
 class TPhysBodyEditorScene;
 
-class TPhysEditorTools : public TEditorTool
-{
-protected:
-	TPhysBodyEditorScene* phys_body_editor_scene;
-};
-
-
-
 class TPhysBodyEditorToolsRegistry//: public TEditorToolsRegistry
 {
 	std::vector<TToolWithDescription> tools;

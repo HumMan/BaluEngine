@@ -4,6 +4,12 @@
 
 #include "physBodyEditorAdornments.h"
 
+class TPhysEditorTools : public TEditorTool
+{
+protected:
+	TPhysBodyEditorScene* phys_body_editor_scene;
+};
+
 class TCreateFixtureTool : public TPhysEditorTools
 {
 

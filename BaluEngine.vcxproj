@@ -84,6 +84,9 @@
     <ClInclude Include="Source\Editors\abstractEditor.h" />
     <ClInclude Include="Source\Editors\BoundaryEditor.h" />
     <ClInclude Include="Source\Editors\ClassEditor\classEditor.h" />
+    <ClInclude Include="Source\Editors\ClassEditor\classEditorAdornments.h" />
+    <ClInclude Include="Source\Editors\ClassEditor\classEditorScene.h" />
+    <ClInclude Include="Source\Editors\ClassEditor\classEditorTools.h" />
     <ClInclude Include="Source\Editors\DrawingHelper.h" />
     <ClInclude Include="Source\Editors\EditorControls.h" />
     <ClInclude Include="Source\Editors\editorResourses.h" />
@@ -118,6 +121,8 @@
     </ClCompile>
     <ClCompile Include="Source\Editors\BoundaryEditor.cpp" />
     <ClCompile Include="Source\Editors\ClassEditor\classEditor.cpp" />
+    <ClCompile Include="Source\Editors\ClassEditor\classEditorAdornments.cpp" />
+    <ClCompile Include="Source\Editors\ClassEditor\classEditorTools.cpp" />
     <ClCompile Include="Source\Editors\DrawingHelper.cpp" />
     <ClCompile Include="Source\Editors\EditorControls.cpp" />
     <ClCompile Include="Source\Editors\editorResourses .cpp" />
