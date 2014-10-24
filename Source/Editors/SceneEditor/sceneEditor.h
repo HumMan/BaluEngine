@@ -6,7 +6,7 @@
 #include "sceneEditorScene.h"
 #include "sceneEditorTools.h"
 
-class TClassEditor :public TAbstractEditor
+class TSceneEditor :public TAbstractEditor
 {
 
 	TClassEditorScene scene;

@@ -148,7 +148,7 @@ public:
 		return "SpritePolygon";
 	}
 
-	std::string material_name;
+	TBaluMaterialDef* material;
 
 	TAABB<float, 2> aabb;
 	TBaluTransform transform;//TODO все трансформации применять не к объекту, а хранить отдельно
@@ -310,7 +310,7 @@ public:
 	{
 		return "SpriteInstance";
 	}
-	std::string sprite_name;
+	TBaluSpriteDef* sprite;
 	std::string tag;
 	TBaluTransform transform;
 
@@ -326,7 +326,7 @@ public:
 	{
 		return "BodyInstance";
 	}
-	std::string body_name;
+	TBaluPhysBodyDef* body;
 	std::string tag;
 	TBaluTransform transform;
 

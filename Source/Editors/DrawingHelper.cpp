@@ -12,19 +12,30 @@ TDrawingHelper::TDrawingHelper(TBaluRender* render, TEditorResourses* resources)
 	this->resources = resources;
 }
 
-//void TDrawingHelper::DrawSpritePolygon(TBaluSpritePolygonDef* sprite)
-//{
-//	std::vector<TVec2> pos, tex;
-//	pos.push_back(TVec2(0, 0));
-//	pos.insert(pos.end(), sprite->polygon_vertices.begin(), sprite->polygon_vertices.end());
-//	pos.insert(pos.end(), sprite->polygon_vertices[0]);
-//	tex = pos;
-//	TStreamsDesc desc;
-//	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
-//	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
-//	//render->Set.PolygonMode(TPolygonMode::Line);
-//	render->Draw(desc, TPrimitive::TriangleFan, sprite->polygon_vertices.size() + 2);
-//}
+void TDrawingHelper::DrawPhysBody(TBaluPhysBodyDef* body)
+{
+	for (int i = 0; i < body->fixtures.size(); i++)
+	{
+		{
+			auto sh = dynamic_cast<TBaluPolygonShapeDef*>(body->fixtures[i].get());
+			if (sh != nullptr)
+				DrawPolygon(sh);
+		}
+		{
+			auto sh = dynamic_cast<TBaluCircleShapeDef*>(body->fixtures[i].get());
+			if (sh != nullptr)
+				DrawCircle(sh);
+		}
+	}
+}
+
+void TDrawingHelper::DrawSprite(TBaluSpriteDef* sprite)
+{
+	for (int i = 0; i < sprite->polygons.size(); i++)
+	{
+		DrawSpritePolygon(sprite->polygons[i].get());
+	}
+}
 
 void TDrawingHelper::DrawSpritePolygon(TBaluSpritePolygonDef* polygon)
 {
@@ -43,7 +54,7 @@ void TDrawingHelper::DrawSpritePolygon(TBaluSpritePolygonDef* polygon)
 
 	TStreamsDesc desc;
 	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*pos.begin());
-	//desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
+	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
 	//render->Set.PolygonMode(TPolygonMode::Line);
 	render->Draw(desc, TPrimitive::TriangleFan, polygon->polygon_vertices.size());
 }
@@ -132,7 +143,7 @@ void TDrawingHelper::DrawSpritePolygonContour(TBaluSpritePolygonDef* sprite)
 	TStreamsDesc desc;
 	desc.Clear();
 	desc.AddStream(TStream::Vertex, TDataType::Float, 2, &*sprite->polygon_vertices.begin());
-	//desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*sprite->tex_coordinates.begin());
+	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*sprite->tex_coordinates.begin());
 	render->Draw(desc, TPrimitive::LineLoop, sprite->polygon_vertices.size());
 }
 

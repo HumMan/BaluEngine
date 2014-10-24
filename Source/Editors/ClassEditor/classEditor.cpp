@@ -5,6 +5,9 @@
 
 #include "classEditorAdornments.h"
 
+#include "../SpriteEditor/spriteEditor.h"
+#include "../PhysBodyEditor/physBodyEditor.h"
+
 TClassEditor::TClassEditor() :tools_registry(&scene)
 {
 	active_tool = nullptr;
@@ -13,19 +16,16 @@ TClassEditor::TClassEditor() :tools_registry(&scene)
 void TClassEditor::Initialize(TBaluClass* obj)
 {
 	scene.Initialize(obj);
-	//for (const std::unique_ptr<TBaluShapeDef>& v : obj->fixtures)
-	//{
-	//	if (dynamic_cast<TBaluPolygonShapeDef*>(v.get()) != nullptr)
-	//	{
-	//		auto new_box = new TPolygonShapeAdornment(dynamic_cast<TBaluPolygonShapeDef*>(v.get()));
-	//		scene.boundaries.emplace_back(std::unique_ptr<TPolygonShapeAdornment>(new_box));
-	//	}
-	//	if (dynamic_cast<TBaluCircleShapeDef*>(v.get()) != nullptr)
-	//	{
-	//		auto new_box = new TCircleShapeAdornment(dynamic_cast<TBaluCircleShapeDef*>(v.get()));
-	//		scene.boundaries.emplace_back(std::unique_ptr<TCircleShapeAdornment>(new_box));
-	//	}
-	//}
+	for (const std::unique_ptr<TBaluSpriteInstanceDef>& v : obj->sprites)
+	{
+		auto new_box = new TClassSpriteAdornment(v.get());
+		scene.boundaries.emplace_back(std::unique_ptr<TClassSpriteAdornment>(new_box));
+	}
+	for (const std::unique_ptr<TBaluBodyInstanceDef>& v : obj->bodies)
+	{
+		auto new_box = new TClassPhysBodyAdornment(v.get());
+		scene.boundaries.emplace_back(std::unique_ptr<TClassPhysBodyAdornment>(new_box));
+	}
 }
 
 void TClassEditor::Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos)
@@ -46,20 +46,39 @@ bool TClassEditor::CanSetSelectedAsWork()
 
 void TClassEditor::SetSelectedAsWork()
 {
-	//assert(scene.boundary_under_cursor != nullptr);
-	//if (scene.boundary_under_cursor != nullptr)
-	//{
-	//	delete current_local_editor;
+	assert(scene.boundary_under_cursor != nullptr);
+	if (scene.boundary_under_cursor != nullptr)
+	{
+		delete current_local_editor;
+		{
+			auto sprite_adornment = dynamic_cast<TClassSpriteAdornment*>(scene.boundary_under_cursor);
+			if (sprite_adornment != nullptr)
+			{
+				current_local_editor = new TSpriteEditor();
 
-	//	current_local_editor = new TSpritePolygonEditor();
+				current_local_editor->parent_editors = parent_editors;
+				current_local_editor->parent_editors.push_back(this);
 
-	//	current_local_editor->parent_editors = parent_editors;
-	//	current_local_editor->parent_editors.push_back(this);
+				auto sprite_instance = sprite_adornment->GetSpriteInstance();
 
-	//	auto sprite_polygon = (dynamic_cast<TSpritePolygonAdornment*>(scene.boundary_under_cursor))->GetSprite();
+				current_local_editor->Initialize(sprite_instance->sprite, sprite_instance->transform.position);
+			}
+		}
+		{
+			auto phys_body_adornment = dynamic_cast<TClassPhysBodyAdornment*>(scene.boundary_under_cursor);
+			if (phys_body_adornment != nullptr)
+			{
+				current_local_editor = new TPhysBodyEditor();
 
-	//	current_local_editor->Initialize(sprite_polygon, sprite_polygon->transform.position);
-	//}
+				current_local_editor->parent_editors = parent_editors;
+				current_local_editor->parent_editors.push_back(this);
+
+				auto phys_body_instance = phys_body_adornment->GetPhysBodyInstance();
+
+				current_local_editor->Initialize(phys_body_instance->body, phys_body_instance->transform.position);
+			}
+		}
+	}
 }
 
 bool TClassEditor::CanEndSelectedAsWork()

@@ -110,7 +110,7 @@ void TBaluMaterialDef::Load(const pugi::xml_node& node, const int version)
 void TBaluSpritePolygonDef::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("SpritePolygon");
-	new_node.append_attribute("material_name").set_value(material_name.c_str());
+	new_node.append_attribute("material_name").set_value(material->material_name.c_str());
 	new_node.append_attribute("polygon_mode").set_value((int)polygone_mode);
 	new_node.append_attribute("primitive").set_value((int)primitive);
 
@@ -196,27 +196,27 @@ void TBaluPrismaticJointDef::Save(pugi::xml_node& parent_node, const int version
 void TBaluSpriteInstanceDef::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node sprite_node = parent_node.append_child("sprite");
-	sprite_node.append_attribute("sprite_name").set_value(sprite_name.c_str());
+	sprite_node.append_attribute("sprite_name").set_value(sprite->sprite_name.c_str());
 	sprite_node.append_attribute("sprite_tag").set_value(tag.c_str());
 	SaveTransform(sprite_node, "Transform", transform);
 }
 
 TOBB<float, 2> TBaluSpriteInstanceDef::GetOBB()
 {
-	return TOBB<float, 2>(transform.position, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(0.1,0.1)));
+	return TOBB<float, 2>(transform.position, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(0.5,0.5)));
 }
 
 void TBaluBodyInstanceDef::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node body_node = parent_node.append_child("body");
-	body_node.append_attribute("body_name").set_value(body_name.c_str());
+	body_node.append_attribute("body_name").set_value(body->phys_body_name.c_str());
 	body_node.append_attribute("body_tag").set_value(tag.c_str());
 	SaveTransform(body_node, "Transform", transform);
 }
 
 TOBB<float, 2> TBaluBodyInstanceDef::GetOBB()
 {
-	return TOBB<float, 2>(transform.position, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(0.1, 0.1)));
+	return TOBB<float, 2>(transform.position, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(0.5, 0.5)));
 }
 
 void TBaluClass::Save(pugi::xml_node& parent_node, const int version)

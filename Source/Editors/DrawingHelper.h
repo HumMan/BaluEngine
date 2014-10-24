@@ -17,7 +17,9 @@ class TDrawingHelper
 	TMatrix4 last_transform;
 public:
 	TDrawingHelper(TBaluRender* render, TEditorResourses* resources);
-	void DrawSpritePolygon(TBaluSpritePolygonDef* sprite);
+	void DrawPhysBody(TBaluPhysBodyDef* body);
+	void DrawSprite(TBaluSpriteDef* sprite);
+	void DrawSpritePolygon(TBaluSpritePolygonDef* sprite_poly);
 	void DrawPolygon(TBaluPolygonShapeDef* polygon);
 	void DrawCircle(TBaluCircleShapeDef* circle);
 	void DrawLine( TVec2 p0, TVec2 p1);

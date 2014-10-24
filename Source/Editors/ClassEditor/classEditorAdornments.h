@@ -19,7 +19,7 @@ class TClassPhysBodyAdornment : public  TBoundaryBoxAdornment
 {
 	TBaluBodyInstanceDef* body_instance;
 public:
-	TBaluBodyInstanceDef* GetSprite(){ return body_instance; }
+	TBaluBodyInstanceDef* GetPhysBodyInstance(){ return body_instance; }
 	TClassPhysBodyAdornment(TBaluBodyInstanceDef* body_instance);
 	void OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box);
 	void Render(TDrawingHelper* drawing_helper);
