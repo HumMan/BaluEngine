@@ -10,6 +10,7 @@
 #include <baluScript.h>
 #include "../Source/scriptClasses.h"
 
+#include <msclr\marshal_cppstd.h>
 
 HDC hDC;
 HWND hWnd;
@@ -155,27 +156,44 @@ namespace Editor
 	{
 		TEditorTool* tool;
 		TBaluEditor* engine;
+		BaluEditorControl^ editor_control;
 	public:
-		TEditorToolEvent(TEditorTool* tool, TBaluEditor* engine)
+		TEditorToolEvent(TEditorTool* tool, TBaluEditor* engine, BaluEditorControl^ editor_control)
 		{
 			this->tool = tool;
 			this->engine = engine;
+			this->editor_control = editor_control;
 		}
 		void OnClick(Object ^ sender, EventArgs ^ e)
 		{
 			engine->SetActiveTool(tool);
+			auto obj_sel = tool->NeedObjectSelect();
+			if (obj_sel != TWorldObjectType::None)
+			{
+				editor_control->ToolObjectSelect->Enabled = true;
+				editor_control->ToolObjectSelect->Items->Clear();
+				std::vector<TWorldObjectDef*> selection_list;
+				engine->ToolNeedObjectSelect(selection_list);
+				for (auto v : selection_list)
+					editor_control->ToolObjectSelect->Items->Add(gcnew String(v->GetName().c_str()));
+			}
+			else
+			{
+				editor_control->ToolObjectSelect->Enabled = false;
+				editor_control->ToolObjectSelect->Items->Clear();
+			}
 		}
 	};
 
 	ref class TUtils
 	{
 	public:
-		static void CreateEditorToolsToolBar(ToolStrip^ tool_strip, const std::vector<TToolWithDescription>& tools, TBaluEditor* engine)
+		static void CreateEditorToolsToolBar(ToolStrip^ tool_strip, const std::vector<TToolWithDescription>& tools, TBaluEditor* engine, BaluEditorControl^ editor_control)
 		{
 			tool_strip->Items->Clear();
 			for (const TToolWithDescription& tool : tools)
 			{
-				auto handler = gcnew TEditorToolEvent(tool.tool.get(),engine);
+				auto handler = gcnew TEditorToolEvent(tool.tool.get(), engine, editor_control);
 				ToolStripItem^ i = gcnew ToolStripButton(gcnew String(tool.name.c_str()));
 				i->Click += gcnew EventHandler(handler, &TEditorToolEvent::OnClick);
 				tool_strip->Items->Add(i);
@@ -236,7 +254,7 @@ namespace Editor
 	{
 		engine->Edit(node->world_object);
 		auto &tools = engine->GetAvailableTools();
-		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools,engine);
+		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools,engine, this);
 	}
 
 	bool BaluEditorControl::CanSetSelectedAsWork()
@@ -247,7 +265,7 @@ namespace Editor
 	{
 		engine->SetSelectedAsWork();
 		auto &tools = engine->GetAvailableTools();
-		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools, engine);
+		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools, engine, this);
 	}
 
 	bool BaluEditorControl::CanEndSelectedAsWork()
@@ -257,6 +275,11 @@ namespace Editor
 	void BaluEditorControl::EndSelectedAsWork()
 	{
 		engine->EndSelectedAsWork();
+	}
+
+	void BaluEditorControl::SetToolSelectedObject(String^ name)
+	{
+		engine->SetToolSelectedObject(msclr::interop::marshal_as<std::string>(name));
 	}
 
 	void BaluEditorControl::CreateWorldTree(TreeView^ WorldTreeView, TBaluWorldDef* world)
@@ -275,7 +298,6 @@ namespace Editor
 				Materialst_node->Nodes->Add(new_sprite_node);
 			}
 		}
-
 		{
 			auto Sprites_node = gcnew TreeNode("Sprites");
 			Sprites_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
@@ -298,14 +320,28 @@ namespace Editor
 				PhysBodies_node->Nodes->Add(new_physbody_node);
 			}
 		}
-
-		auto Classes_node = gcnew TreeNode("Classes");
-		Classes_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
-		world_node->Nodes->Add(Classes_node);
-
-		auto Scenes_node = gcnew TreeNode("Scenes");
-		Scenes_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
-		world_node->Nodes->Add(Scenes_node);
+		{
+			auto Classes_node = gcnew TreeNode("Classes");
+			Classes_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
+			world_node->Nodes->Add(Classes_node);
+			for (auto i = world->classes.begin(); i != world->classes.end(); i++)
+			{
+				auto new_class_node = gcnew TreeNode(gcnew String(i->first.c_str()));
+				new_class_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::PhysBody, &i->second);
+				Classes_node->Nodes->Add(new_class_node);
+			}
+		}
+		{
+			auto Scenes_node = gcnew TreeNode("Scenes");
+			Scenes_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
+			world_node->Nodes->Add(Scenes_node);
+			for (auto i = world->scenes.begin(); i != world->scenes.end(); i++)
+			{
+				auto new_scene_node = gcnew TreeNode(gcnew String(i->first.c_str()));
+				new_scene_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::PhysBody, &i->second);
+				Scenes_node->Nodes->Add(new_scene_node);
+			}
+		}
 	}
 
 	void BaluEditorControl::Render()

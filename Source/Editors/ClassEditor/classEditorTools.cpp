@@ -10,6 +10,10 @@ class TCreateClassSpriteTool : public TEditorTool
 protected:
 	TClassEditorScene* class_editor_scene;
 public:
+	TWorldObjectType NeedObjectSelect()
+	{
+		return TWorldObjectType::Sprite;
+	}
 	TCreateClassSpriteTool(TClassEditorScene* class_editor_scene);
 	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
 	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);

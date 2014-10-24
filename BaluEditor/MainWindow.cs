@@ -115,5 +115,10 @@ namespace BaluEditor
                 baluEditorControl1.EndSelectedAsWork();
             }
         }
+
+        private void listBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            baluEditorControl1.SetToolSelectedObject(listBox1.SelectedItem as string);
+        }
     }
 }

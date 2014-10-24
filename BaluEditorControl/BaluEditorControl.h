@@ -99,9 +99,12 @@ namespace Editor
 		bool CanEndSelectedAsWork();
 		void EndSelectedAsWork();
 
+		void SetToolSelectedObject(String^ name);
+
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;
 		property ToolStrip^ EditorToolsBar;
+		property ListBox^ ToolObjectSelect;
 	protected:
 
 		~BaluEditorControl();

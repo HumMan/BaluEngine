@@ -8,6 +8,8 @@
 #include "Editors\SpriteEditor\spriteEditor.h"
 #include "Editors\PhysBodyEditor\physBodyEditor.h"
 #include "Editors\MaterialEditor\materialEditor.h"
+#include "Editors\ClassEditor\classEditor.h"
+//#include "Editors\SceneEditor\sceneEditor.h"
 
 #include <baluRender.h>
 
@@ -242,16 +244,6 @@ void TBaluEditor::OnMouseWheel(float delta)
 	p->screen_size += (p->screen_size*0.1* delta / abs(delta));
 }
 
-void TBaluEditor::CreateScene()
-{
-
-}
-void TBaluEditor::CreateClass()
-{
-
-}
-
-
 std::string GetNewMaterialDefaultName()
 {
 	int static material_id = 0;
@@ -276,6 +268,24 @@ std::string GetNewPhysBodyDefaultName()
 	physBody_id++;
 	char buf[100];
 	sprintf_s(buf, "physBody%i", physBody_id);
+	return std::string(buf);
+}
+
+std::string GetNewClassDefaultName()
+{
+	int static class_id = 0;
+	class_id++;
+	char buf[100];
+	sprintf_s(buf, "class%i", class_id);
+	return std::string(buf);
+}
+
+std::string GetNewSceneDefaultName()
+{
+	int static scene_id = 0;
+	scene_id++;
+	char buf[100];
+	sprintf_s(buf, "class%i", scene_id);
 	return std::string(buf);
 }
 
@@ -306,6 +316,24 @@ void TBaluEditor::CreatePhysBody()
 	p->editor->Edit(&p->world->phys_bodies[new_name]);
 }
 
+void TBaluEditor::CreateClass()
+{
+	auto new_name = GetNewClassDefaultName();
+	p->world->classes[new_name].class_name = new_name;
+
+	ObjectCreatedCallbackRef(ObjectCreatedCallbackRef_calle, &p->world->classes[new_name]);
+	p->editor->Edit(&p->world->classes[new_name]);
+}
+
+void TBaluEditor::CreateScene()
+{
+	auto new_name = GetNewSceneDefaultName();
+	p->world->scenes[new_name].scene_name = new_name;
+
+	ObjectCreatedCallbackRef(ObjectCreatedCallbackRef_calle, &p->world->scenes[new_name]);
+	p->editor->Edit(&p->world->scenes[new_name]);
+}
+
 TAbstractEditor* GetEditorOfWorldObject(TWorldObjectDef* obj)
 {
 	if ((dynamic_cast<TBaluMaterialDef*>(obj)) != nullptr)
@@ -319,6 +347,12 @@ TAbstractEditor* GetEditorOfWorldObject(TWorldObjectDef* obj)
 
 	if ((dynamic_cast<TBaluPhysBodyDef*>(obj)) != nullptr)
 		return new TPhysBodyEditor();
+
+	if ((dynamic_cast<TBaluClass*>(obj)) != nullptr)
+		return new TClassEditor();
+
+	//if ((dynamic_cast<TBaluSceneDef*>(obj)) != nullptr)
+	//	return new TSceneEditor();
 
 	return nullptr;
 }
@@ -370,4 +404,66 @@ void TBaluEditor::EndSelectedAsWork()
 	assert(p->active_editor != nullptr);
 	if (p->active_editor != nullptr)
 		p->active_editor->EndSelectedAsWork();
+}
+
+bool TBaluEditor::ToolNeedObjectSelect(std::vector<TWorldObjectDef*>& selection_list)
+{
+	selection_list.clear();
+	assert(p->active_editor != nullptr);
+	if (p->active_editor != nullptr)
+	{
+		auto need_obj = p->active_editor->active_tool->NeedObjectSelect();
+		switch (need_obj)
+		{
+		case TWorldObjectType::Material:
+			for (const auto& v : p->world->materials)
+				selection_list.push_back((TWorldObjectDef*)&(v.second));
+			break;
+		case TWorldObjectType::Sprite:
+			for (const auto& v : p->world->sprites)
+				selection_list.push_back((TWorldObjectDef*)&(v.second));
+			break;
+		case TWorldObjectType::PhysBody:
+			for (const auto& v : p->world->phys_bodies)
+				selection_list.push_back((TWorldObjectDef*)&(v.second));
+			break;
+		case TWorldObjectType::Class:
+			for (const auto& v : p->world->classes)
+				selection_list.push_back((TWorldObjectDef*)&(v.second));
+			break;
+		default:
+			assert(false);
+			return false;
+			break;
+		}
+		return true;
+	}
+	return false;
+}
+
+void TBaluEditor::SetToolSelectedObject(std::string obj_name)
+{
+	assert(p->active_editor != nullptr);
+	if (p->active_editor != nullptr)
+	{
+		auto need_obj = p->active_editor->active_tool->NeedObjectSelect();
+		switch (need_obj)
+		{
+		case TWorldObjectType::Material:
+			p->active_editor->active_tool->SetSelectedObject(&p->world->materials[obj_name]);
+			break;
+		case TWorldObjectType::Sprite:
+			p->active_editor->active_tool->SetSelectedObject(&p->world->sprites[obj_name]);
+			break;
+		case TWorldObjectType::PhysBody:
+			p->active_editor->active_tool->SetSelectedObject(&p->world->phys_bodies[obj_name]);
+			break;
+		case TWorldObjectType::Class:
+			p->active_editor->active_tool->SetSelectedObject(&p->world->classes[obj_name]);
+			break;
+		default:
+			assert(false);
+			break;
+		}
+	}
 }

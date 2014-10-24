@@ -1,59 +1,37 @@
 #pragma once
 
+#include "../abstractEditor.h"
+#include "../BoundaryEditor.h"
 
-class TSceneObject
+#include "sceneEditorScene.h"
+#include "sceneEditorTools.h"
+
+class TClassEditor :public TAbstractEditor
 {
+
+	TClassEditorScene scene;
+	TClassEditorToolsRegistry tools_registry;
 public:
-	void CanMove();
-	void CanResize();
-	void CanRotate();
-	void OnMove();
-	void OnResize();
-	void OnRotate();
-	void Clone();
-	void Draw();
+	TClassEditor();
+	//void StartEdit(TBaluClassDef* use_Class);
+	//void EndEdit();
 
-	bool CanEdit();
-	void Edit();
+	void Initialize(TBaluClass* obj);
 
-	TOBB<float, 2> bounding_box;
+	//override:
+	void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos);
 
-	TBaluInstanceDef target_object;
-};
+	bool CanSetSelectedAsWork();
+	void SetSelectedAsWork();
 
-class TJointCreator
-{
-public:
-	virtual void MoveTo() = 0;
-	virtual void MouseDown() = 0;
-	virtual void MouseUp() = 0;
-};
+	bool CanEndSelectedAsWork();
+	bool EndSelectedAsWork();
 
-class TDistanceJointCreator : public TJointCreator
-{
-	void MoveTo();
-	void MouseDown();
-	void MouseUp();
-};
+	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
 
-class TControlPoint
-{
-public:
-	void CanMove();
-	void OnMove();
-};
-
-class TSceneJoint
-{
-public:
-	std::vector<TControlPoint*> control_points;
-};
-
-class TSceneEditor : public TAbstractEditor
-{
-	std::vector<TSceneObject> scene_objects;
-	std::vector<TSceneJoint> scene_joints;
-
-	void SetScene(TBaluScene* scene_to_edit);
-	void Render(TBaluRender* render);
+	void Render(TDrawingHelper* drawing_helper);
+	const std::vector<TToolWithDescription>& GetAvailableTools();
+	void SetActiveTool(TEditorTool* tool);
 };

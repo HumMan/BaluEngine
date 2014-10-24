@@ -5,11 +5,10 @@
 
 class TClassSpriteAdornment : public  TBoundaryBoxAdornment
 {
-	TBaluClass* balu_class;
-	int sprite_id;
+	TBaluSpriteInstanceDef* sprite_instance;
 public:
-	//TBaluSpritePolygonDef* GetSprite(){ return sprite_polygon_def; }
-	TClassSpriteAdornment(TBaluSpritePolygonDef* sprite_polygon_def);
+	TBaluSpriteInstanceDef* GetSpriteInstance(){ return sprite_instance; }
+	TClassSpriteAdornment(TBaluSpriteInstanceDef* sprite_instance);
 	void OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box);
 	void Render(TDrawingHelper* drawing_helper);
 	bool IsCollideWithAdornment(TVec2 world_cursor_location);
@@ -18,10 +17,10 @@ public:
 
 class TClassPhysBodyAdornment : public  TBoundaryBoxAdornment
 {
-	TBaluPhysBodyDef* sprite_polygon_def;
+	TBaluBodyInstanceDef* body_instance;
 public:
-	//TBaluSpritePolygonDef* GetSprite(){ return sprite_polygon_def; }
-	TClassPhysBodyAdornment(TBaluSpritePolygonDef* sprite_polygon_def);
+	TBaluBodyInstanceDef* GetSprite(){ return body_instance; }
+	TClassPhysBodyAdornment(TBaluBodyInstanceDef* body_instance);
 	void OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box);
 	void Render(TDrawingHelper* drawing_helper);
 	bool IsCollideWithAdornment(TVec2 world_cursor_location);

@@ -193,6 +193,32 @@ void TBaluPrismaticJointDef::Save(pugi::xml_node& parent_node, const int version
 	TBaluJointDef::Save(new_node, version);
 }
 
+void TBaluSpriteInstanceDef::Save(pugi::xml_node& parent_node, const int version)
+{
+	xml_node sprite_node = parent_node.append_child("sprite");
+	sprite_node.append_attribute("sprite_name").set_value(sprite_name.c_str());
+	sprite_node.append_attribute("sprite_tag").set_value(tag.c_str());
+	SaveTransform(sprite_node, "Transform", transform);
+}
+
+TOBB<float, 2> TBaluSpriteInstanceDef::GetOBB()
+{
+	return TOBB<float, 2>(transform.position, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(0.1,0.1)));
+}
+
+void TBaluBodyInstanceDef::Save(pugi::xml_node& parent_node, const int version)
+{
+	xml_node body_node = parent_node.append_child("body");
+	body_node.append_attribute("body_name").set_value(body_name.c_str());
+	body_node.append_attribute("body_tag").set_value(tag.c_str());
+	SaveTransform(body_node, "Transform", transform);
+}
+
+TOBB<float, 2> TBaluBodyInstanceDef::GetOBB()
+{
+	return TOBB<float, 2>(transform.position, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(0.1, 0.1)));
+}
+
 void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Class");
@@ -201,20 +227,14 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 		xml_node sprites_node = new_node.append_child("sprites");
 		for (int i = 0; i < sprites.size(); i++)
 		{
-			xml_node sprite_node = sprites_node.append_child("sprite");
-			sprite_node.append_attribute("sprite_name").set_value(sprites[i].c_str());
-			sprite_node.append_attribute("sprite_tag").set_value(sprites_tags[i].c_str());
-			SaveTransform(sprite_node, "Transform", sprites_transform[i]);
+			sprites[i]->Save(sprites_node, version);
 		}
 	}
 	{
 		xml_node bodies_node = new_node.append_child("bodies");
 		for (int i = 0; i < bodies.size(); i++)
 		{
-			xml_node body_node = bodies_node.append_child("body");
-			body_node.append_attribute("body_name").set_value(bodies[i].c_str());
-			body_node.append_attribute("body_tag").set_value(bodies_tags[i].c_str());
-			SaveTransform(body_node, "Transform", bodies_transform[i]);
+			bodies[i]->Save(bodies_node, version);
 		}
 	}
 	{
@@ -224,6 +244,11 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 			joints[i]->Save(joints_node, version);
 		}
 	}
+}
+
+TBaluClass::~TBaluClass()
+{
+
 }
 
 void TBaluInstanceDef::Save(pugi::xml_node& parent_node, const int version)
@@ -237,7 +262,7 @@ void TBaluInstanceDef::Save(pugi::xml_node& parent_node, const int version)
 void TBaluSceneDef::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Scene");
-	new_node.append_attribute("name").set_value(name.c_str());
+	new_node.append_attribute("name").set_value(scene_name.c_str());
 	{
 		xml_node instances_node = new_node.append_child("instances");
 		for (int i = 0; i < instances.size(); i++)
@@ -252,6 +277,11 @@ void TBaluSceneDef::Save(pugi::xml_node& parent_node, const int version)
 			scene_joints[i]->Save(joints_node, version);
 		}
 	}
+}
+
+TBaluSceneDef::~TBaluSceneDef()
+{
+
 }
 
 void TBaluWorldDef::Save(pugi::xml_node& parent_node, const int version)
@@ -289,8 +319,12 @@ void TBaluWorldDef::Save(pugi::xml_node& parent_node, const int version)
 		xml_node scenes_node = new_node.append_child("Scenes");
 		for (auto i = scenes.begin(); i != scenes.end(); i++)
 		{
-			i->Save(scenes_node, version);
+			i->second.Save(scenes_node, version);
 		}
 	}
 }
 
+TBaluWorldDef::~TBaluWorldDef()
+{
+
+}

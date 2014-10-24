@@ -35,12 +35,17 @@ inline TVec2 FromB2Vec(b2Vec2 vec)
 class TWorldObjectDef
 {
 public:
+	virtual std::string GetName() = 0;
 	virtual ~TWorldObjectDef(){}
 };
 
 class BALUENGINEDLL_API TBaluMaterialDef : public TWorldObjectDef
 {
 public:
+	std::string GetName()
+	{
+		return material_name;
+	}
 	//extureId text_id; //временно, только для прототипа редактора
 	TBaluMaterialDef()
 	{
@@ -138,6 +143,11 @@ public:
 class TBaluSpritePolygonDef : public TWorldObjectDef
 {
 public:
+	std::string GetName()
+	{
+		return "SpritePolygon";
+	}
+
 	std::string material_name;
 
 	TAABB<float, 2> aabb;
@@ -182,6 +192,10 @@ public:
 class TBaluSpriteDef : public TWorldObjectDef
 {
 public:
+	std::string GetName()
+	{
+		return sprite_name;
+	}
 	std::string sprite_name;
 	
 	std::vector<std::unique_ptr<TBaluSpritePolygonDef>> polygons;
@@ -195,6 +209,10 @@ class TBaluShapeDef : public TWorldObjectDef
 protected:
 	 
 public:
+	std::string GetName()
+	{
+		return "PhysShape";
+	}
 	virtual ~TBaluShapeDef(){}
 	virtual void Save(pugi::xml_node& parent_node, const int version)=0;
 	virtual TOBB<float, 2> GetOBB() = 0;
@@ -204,6 +222,10 @@ public:
 class TBaluPolygonShapeDef : public TBaluShapeDef
 {
 public:
+	std::string GetName()
+	{
+		return "PolygonShape";
+	}
 	TBaluPolygonShapeDef()
 	{
 		aabb = TAABB<float, 2>(TVec2(0, 0), TVec2(0, 0));
@@ -226,6 +248,10 @@ public:
 class TBaluCircleShapeDef : public TBaluShapeDef
 {
 public:
+	std::string GetName()
+	{
+		return "CircleShape";
+	}
 	TBaluTransform transform;
 	b2CircleShape b2shape;
 
@@ -239,6 +265,10 @@ public:
 class TBaluPhysBodyDef : public TWorldObjectDef
 {
 public:
+	std::string GetName()
+	{
+		return phys_body_name;
+	}
 	std::string phys_body_name;
 	std::vector<std::unique_ptr<TBaluShapeDef>> fixtures;
 	b2BodyDef b2body_def;
@@ -265,6 +295,10 @@ public:
 class TBaluPrismaticJointDef :public TBaluJointDef
 {
 public:
+	std::string GetName()
+	{
+		return "PrismaticJoint";
+	}
 	b2PrismaticJointDef b2joint_def;
 	void Save(pugi::xml_node& parent_node, const int version);
 };
@@ -272,26 +306,46 @@ public:
 class TBaluSpriteInstanceDef: public TWorldObjectDef
 {
 public:
+	std::string GetName()
+	{
+		return "SpriteInstance";
+	}
 	std::string sprite_name;
 	std::string tag;
-	TBaluTransform sprites_transform;
+	TBaluTransform transform;
+
+	TOBB<float, 2> GetOBB();
+
+	void Save(pugi::xml_node& parent_node, const int version);
 };
 
 class TBaluBodyInstanceDef : public TWorldObjectDef
 {
+public:
+	std::string GetName()
+	{
+		return "BodyInstance";
+	}
+	std::string body_name;
+	std::string tag;
+	TBaluTransform transform;
 
+	TOBB<float, 2> GetOBB();
+
+	void Save(pugi::xml_node& parent_node, const int version);
 };
 
 class TBaluClass : public TWorldObjectDef
 {
 public:
+	std::string GetName()
+	{
+		return class_name;
+	}
 	std::string class_name;
 	
 	std::vector<std::unique_ptr<TBaluSpriteInstanceDef>> sprites;
-
-	std::vector<std::string> bodies;
-	std::vector<std::string> bodies_tags;
-	std::vector<TBaluTransform> bodies_transform;
+	std::vector<std::unique_ptr<TBaluBodyInstanceDef>> bodies;
 
 	std::vector<std::unique_ptr<TBaluJointDef>> joints;
 
@@ -302,6 +356,10 @@ public:
 class TBaluInstanceDef : public TWorldObjectDef
 {
 public:
+	std::string GetName()
+	{
+		return "ClassInstance";
+	}
 	std::string name;
 	std::string class_name;
 	TBaluTransform instance_transform;
@@ -311,7 +369,11 @@ public:
 class TBaluSceneDef : public TWorldObjectDef
 {
 public:
-	std::string name;
+	std::string GetName()
+	{
+		return scene_name;
+	}
+	std::string scene_name;
 	std::vector<TBaluInstanceDef> instances;
 	std::vector<std::unique_ptr<TBaluJointDef>> scene_joints;
 	void Save(pugi::xml_node& parent_node, const int version);
@@ -325,7 +387,7 @@ public:
 	std::map<std::string, TBaluSpriteDef> sprites;
 	std::map<std::string, TBaluPhysBodyDef> phys_bodies;
 	std::map<std::string, TBaluClass> classes;
-	std::vector<TBaluSceneDef> scenes;
+	std::map<std::string, TBaluSceneDef> scenes;
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& node, const int version);

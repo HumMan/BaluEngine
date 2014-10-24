@@ -71,6 +71,10 @@ class TBoundaryBoxesModifyTool : public TEditorTool
 protected:
 	TBoundaryBoxScene* boundary_box_scene;
 public:
+	TWorldObjectType NeedObjectSelect()
+	{
+		return TWorldObjectType::None;
+	}
 	//TBoundaryBoxesModifyTool(){}
 	TBoundaryBoxesModifyTool(TBoundaryBoxScene* boundary_box_scene);
 	//void SetScene(TBoundaryBoxScene* boundary_box_scene);

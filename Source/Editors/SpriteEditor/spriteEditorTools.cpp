@@ -10,6 +10,10 @@ class TCreateSpritePolygonTool : public TEditorTool
 protected:
 	TSpriteEditorScene* sprite_editor_scene;
 public:
+	TWorldObjectType NeedObjectSelect()
+	{
+		return TWorldObjectType::None;
+	}
 	TCreateSpritePolygonTool(TSpriteEditorScene* sprite_editor_scene);
 	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
 	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);

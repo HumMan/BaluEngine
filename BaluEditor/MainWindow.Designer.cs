@@ -68,10 +68,10 @@
             this.baluEditorControl1 = new Editor.BaluEditorControl();
             this.EditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.EditorContextMenu.SuspendLayout();
@@ -366,6 +366,7 @@
             this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
             this.baluEditorControl1.Size = new System.Drawing.Size(549, 569);
             this.baluEditorControl1.TabIndex = 1;
+            this.baluEditorControl1.ToolObjectSelect = this.listBox1;
             this.baluEditorControl1.WorldTreeView = this.treeView1;
             this.baluEditorControl1.MouseEnter += new System.EventHandler(this.baluEditorControl1_MouseEnter_1);
             this.baluEditorControl1.MouseHover += new System.EventHandler(this.baluEditorControl1_MouseHover);
@@ -376,15 +377,21 @@
             this.toolStripMenuItem1,
             this.toolStripMenuItem2});
             this.EditorContextMenu.Name = "EditorContextMenu";
-            this.EditorContextMenu.Size = new System.Drawing.Size(153, 70);
+            this.EditorContextMenu.Size = new System.Drawing.Size(139, 48);
             this.EditorContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.EditorContextMenu_Opening);
             this.EditorContextMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.EditorContextMenu_ItemClicked);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
             this.toolStripMenuItem1.Text = "Edit in view";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItem2.Text = "Stop editing";
             // 
             // toolStrip1
             // 
@@ -393,14 +400,6 @@
             this.toolStrip1.Size = new System.Drawing.Size(549, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 624);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1112, 22);
-            this.statusStrip1.TabIndex = 6;
-            this.statusStrip1.Text = "statusStrip1";
             // 
             // listBox1
             // 
@@ -412,12 +411,15 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(287, 290);
             this.listBox1.TabIndex = 7;
+            this.listBox1.SelectedValueChanged += new System.EventHandler(this.listBox1_SelectedValueChanged);
             // 
-            // toolStripMenuItem2
+            // statusStrip1
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "Stop editing";
+            this.statusStrip1.Location = new System.Drawing.Point(0, 624);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1112, 22);
+            this.statusStrip1.TabIndex = 6;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // MainWindow
             // 

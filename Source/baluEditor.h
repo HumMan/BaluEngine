@@ -85,4 +85,7 @@ public:
 
 	bool CanEndSelectedAsWork();
 	void EndSelectedAsWork();
+
+	bool ToolNeedObjectSelect(std::vector<TWorldObjectDef*>& selection_list);
+	void SetToolSelectedObject(std::string obj_name);
 };
