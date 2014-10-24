@@ -152,6 +152,35 @@ namespace Editor
 		};
 	};
 
+	ref class TSpritePolygonProperties : public TPropertiesObject
+	{
+		TBaluSpritePolygonDef* obj_def;
+		TBaluWorldDef* world;
+	public:
+		TSpritePolygonProperties(TBaluWorldDef* world, TBaluSpritePolygonDef* obj_def)
+		{
+			this->world = world;
+			this->obj_def = obj_def; 
+		}
+		property String^ Name {String^ get() { return gcnew String(obj_def->GetName().c_str()); } };
+		property String^ Material
+		{
+			String^ get() 
+			{
+				if (obj_def->material!=nullptr)
+					return gcnew String(obj_def->material->material_name.c_str()); 
+				else return "";
+			}
+			void set(String^ value)
+			{
+				auto mat_name = msclr::interop::marshal_as<std::string>(value);
+				if (world->materials.find(mat_name) != world->materials.end())
+					obj_def->material = &world->materials[mat_name];
+			}
+		};
+		//property TBaluSpriteDef::TPolygonMode PolygonMode {TBaluSpriteDef::TPolygonMode get() { return obj_def->polygone_mode; } };
+	};
+
 	ref class TSpriteProperties : public TPropertiesObject
 	{
 		TBaluSpriteDef* obj_def;
@@ -205,10 +234,13 @@ namespace Editor
 		property int phys_body_testprop;
 	};
 
-	TPropertiesObject^ TPropertiesRegistry::CreateProperties(TWorldObjectDef* obj_def)
+	TPropertiesObject^ TPropertiesRegistry::CreateProperties(TBaluWorldDef* world, TWorldObjectDef* obj_def)
 	{
 		if ((dynamic_cast<TBaluMaterialDef*>(obj_def)) != nullptr)
 			return gcnew TMaterialProperties(dynamic_cast<TBaluMaterialDef*>(obj_def));
+
+		if ((dynamic_cast<TBaluSpritePolygonDef*>(obj_def)) != nullptr)
+			return gcnew TSpritePolygonProperties(world, dynamic_cast<TBaluSpritePolygonDef*>(obj_def));
 
 		if ((dynamic_cast<TBaluSpriteDef*>(obj_def)) != nullptr)
 			return gcnew TSpriteProperties(dynamic_cast<TBaluSpriteDef*>(obj_def));

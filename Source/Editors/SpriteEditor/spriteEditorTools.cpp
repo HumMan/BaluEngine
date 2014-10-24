@@ -39,6 +39,11 @@ void TCreateSpritePolygonTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor
 	{
 		new_sprite_polygon->polygon_vertices[i] = TVec2(1, 1).GetRotated(DegToRad(45.0f)*i);
 	}
+	new_sprite_polygon->tex_coordinates.resize(8);
+	for (int i = 0; i < 8; i++)
+	{
+		new_sprite_polygon->tex_coordinates[i] = TVec2(1, 1).GetRotated(DegToRad(45.0f)*i);
+	}
 
 	sprite_editor_scene->sprite->polygons.push_back(std::unique_ptr<TBaluSpritePolygonDef>(new_sprite_polygon));
 

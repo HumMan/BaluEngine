@@ -204,7 +204,7 @@ namespace Editor
 
 	void BaluEditorControl::OnSelectionChangedByEditor(TWorldObjectDef* old_selection, TWorldObjectDef* new_selection)
 	{
-		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(new_selection);
+		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(engine->GetWorld(), new_selection);
 		SelectedObjectProperty->SelectedObject = obj;
 	}
 	
@@ -246,7 +246,7 @@ namespace Editor
 
 	Void BaluEditorControl::SetSelectedWorldNode(TWolrdTreeNodeTag^ node)
 	{
-		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(node->world_object);
+		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(engine->GetWorld(), node->world_object);
 		SelectedObjectProperty->SelectedObject = obj;
 	}
 

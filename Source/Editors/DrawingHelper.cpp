@@ -149,6 +149,8 @@ void TDrawingHelper::DrawSpritePolygonContour(TBaluSpritePolygonDef* sprite)
 
 void TDrawingHelper::ActivateMaterial(TBaluMaterialDef* material)
 {
+	if (material == nullptr)
+		return;
 	if (material->image_path == "")
 		material->image_path = "Textures/Crate005_ebox.png";//TODO текстура отсутствует
 	if (material->image_path != "")
@@ -173,6 +175,8 @@ void TDrawingHelper::ActivateMaterial(TBaluMaterialDef* material)
 
 void TDrawingHelper::DeactivateMaterial(TBaluMaterialDef* material)
 {
+	if (material == nullptr)
+		return;
 	render->Texture.Enable(false);
 	render->Blend.Enable(false);
 	render->AlphaTest.Enable(false);
