@@ -4,7 +4,7 @@
 
 #include "baluEditorDefs.h"
 #include "exportMacro.h"
-#include "Editors\abstractEditor.h"
+#include "Editors\Tools.h"
 
 //#include "Editors\PhysBodyEditor\physBodyEditorTools.h"
 

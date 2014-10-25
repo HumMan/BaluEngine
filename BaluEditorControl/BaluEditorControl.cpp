@@ -145,13 +145,6 @@ public:
 
 namespace Editor
 {
-	//void BaluEditorControl::GetProps()
-	//{
-	//	TPropertiesRegistry^ r = gcnew TPropertiesRegistry();
-	//	TBaluSpriteDef*  sprite = new TBaluSpriteDef();
-	//	SelectedObjectProperty->SelectedObject = r->CreateProperties(sprite);
-	//}
-
 	ref class TEditorToolEvent
 	{
 		TEditorTool* tool;
@@ -197,7 +190,6 @@ namespace Editor
 				ToolStripItem^ i = gcnew ToolStripButton(gcnew String(tool.name.c_str()));
 				i->Click += gcnew EventHandler(handler, &TEditorToolEvent::OnClick);
 				tool_strip->Items->Add(i);
-				//gcnew Action<int>(this, &foo::moo)
 			}
 		}
 	};

@@ -132,6 +132,9 @@
     <ClInclude Include="Source\Editors\ClassEditor\classEditorScene.h">
       <Filter>Source Files\Editors\ClassEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editors\Tools.h">
+      <Filter>Source Files\Editors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">

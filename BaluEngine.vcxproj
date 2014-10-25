@@ -106,6 +106,7 @@
     <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.h" />
     <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditorScene.h" />
     <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditorTools.h" />
+    <ClInclude Include="Source\Editors\Tools.h" />
     <ClInclude Include="Source\exportMacro.h" />
     <ClInclude Include="Source\scriptClasses.h" />
   </ItemGroup>
