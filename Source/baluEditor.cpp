@@ -12,6 +12,7 @@
 //#include "Editors\SceneEditor\sceneEditor.h"
 
 #include <baluRender.h>
+#include <pugixml.hpp>
 
 //enum class TCurrEditor
 //{
@@ -357,10 +358,16 @@ TAbstractEditor* GetEditorOfWorldObject(TWorldObjectDef* obj)
 	return nullptr;
 }
 
+void TBaluEditor::OnSelectionChangedEvent(TWorldObjectDef* old_selection, TWorldObjectDef* new_selection)
+{
+	SelectionChangedCallbackRef(SelectionChangedCallbackRef_calle, NULL, new_selection);
+}
+
 void TBaluEditor::Edit(TWorldObjectDef* obj_to_edit)
 {
 	SelectionChangedCallbackRef(SelectionChangedCallbackRef_calle, NULL, obj_to_edit);
 	auto ed = GetEditorOfWorldObject(obj_to_edit);
+	ed->OnSelectionChanged.connect(boost::bind(&TBaluEditor::OnSelectionChangedEvent, this, _1, _2));
 	assert(ed != nullptr);
 	if (ed != nullptr)
 	{
@@ -466,4 +473,18 @@ void TBaluEditor::SetToolSelectedObject(std::string obj_name)
 			break;
 		}
 	}
+}
+
+void TBaluEditor::SaveWorldTo(std::string path)
+{
+	pugi::xml_document doc;
+	auto doc_el = doc.append_child("BaluEditorWorldFile");
+	p->world->Save(doc_el,1);
+	doc.save_file(path.c_str());
+}
+
+void TBaluEditor::LoadWorldFrom(std::string path)
+{
+	pugi::xml_document doc;
+
 }

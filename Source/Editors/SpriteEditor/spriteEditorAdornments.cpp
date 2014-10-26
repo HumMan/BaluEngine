@@ -27,7 +27,10 @@ void TSpritePolygonAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2>
 void TSpritePolygonAdornment::Render(TDrawingHelper* drawing_helper)
 {
 	TBoundaryBoxAdornment::Render(drawing_helper);
+	
+
 	drawing_helper->DrawSpritePolygon(sprite_polygon_def);
+
 }
 
 bool TSpritePolygonAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)

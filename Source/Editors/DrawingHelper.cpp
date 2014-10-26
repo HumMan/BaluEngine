@@ -39,6 +39,8 @@ void TDrawingHelper::DrawSprite(TBaluSpriteDef* sprite)
 
 void TDrawingHelper::DrawSpritePolygon(TBaluSpritePolygonDef* polygon)
 {
+	ActivateMaterial(polygon->material);
+
 	std::vector<TVec2> pos, tex;
 	//pos.push_back(TVec2(0, 0));
 	auto ang = polygon->transform.angle;
@@ -57,6 +59,8 @@ void TDrawingHelper::DrawSpritePolygon(TBaluSpritePolygonDef* polygon)
 	desc.AddStream(TStream::TexCoord, TDataType::Float, 2, &*tex.begin());
 	//render->Set.PolygonMode(TPolygonMode::Line);
 	render->Draw(desc, TPrimitive::TriangleFan, polygon->polygon_vertices.size());
+
+	DeactivateMaterial(polygon->material);
 }
 
 void TDrawingHelper::DrawPolygon(TBaluPolygonShapeDef* polygon)

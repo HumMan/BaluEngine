@@ -37,6 +37,7 @@ private:
 	ObjectCreatedCallbackRefType ObjectCreatedCallbackRef;
 	void* ObjectCreatedCallbackRef_calle;
 
+	void OnSelectionChangedEvent(TWorldObjectDef* old_selection, TWorldObjectDef* new_selection);
 public:
 	void AddSelectionChangedCallback(void* calle, SelectionChangedCallbackRefType MyCallback);
 	void RemoveSelectionChangedCallback(SelectionChangedCallbackRefType MyCallback);
@@ -88,4 +89,7 @@ public:
 
 	bool ToolNeedObjectSelect(std::vector<TWorldObjectDef*>& selection_list);
 	void SetToolSelectedObject(std::string obj_name);
+
+	void SaveWorldTo(std::string path);
+	void LoadWorldFrom(std::string path);
 };

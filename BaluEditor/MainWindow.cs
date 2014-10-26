@@ -120,5 +120,18 @@ namespace BaluEditor
         {
             baluEditorControl1.SetToolSelectedObject(listBox1.SelectedItem as string);
         }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "BaluWorld files (*.bew)|*.bew";
+            saveFileDialog1.FilterIndex = 1;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                baluEditorControl1.SaveWorldTo(saveFileDialog1.FileName);
+            }
+        }
     }
 }

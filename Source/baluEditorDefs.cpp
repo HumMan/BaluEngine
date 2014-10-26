@@ -110,7 +110,8 @@ void TBaluMaterialDef::Load(const pugi::xml_node& node, const int version)
 void TBaluSpritePolygonDef::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("SpritePolygon");
-	new_node.append_attribute("material_name").set_value(material->material_name.c_str());
+	if (material!=nullptr)
+		new_node.append_attribute("material_name").set_value(material->material_name.c_str());
 	new_node.append_attribute("polygon_mode").set_value((int)polygone_mode);
 	new_node.append_attribute("primitive").set_value((int)primitive);
 

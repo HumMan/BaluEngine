@@ -274,6 +274,11 @@ namespace Editor
 		engine->SetToolSelectedObject(msclr::interop::marshal_as<std::string>(name));
 	}
 
+	void BaluEditorControl::SaveWorldTo(String^ path)
+	{
+		engine->SaveWorldTo(msclr::interop::marshal_as<std::string>(path));
+	}
+
 	void BaluEditorControl::CreateWorldTree(TreeView^ WorldTreeView, TBaluWorldDef* world)
 	{
 		auto world_node = gcnew TreeNode("World");

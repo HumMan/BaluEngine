@@ -14,7 +14,7 @@ public:
 	TVec2 editor_global_pos;
 public:
 
-	boost::signals2::signal<void()> OnSelectionChanged;
+	boost::signals2::signal<void(TWorldObjectDef* old_selection, TWorldObjectDef* new_selectio)> OnSelectionChanged;
 
 	TAbstractEditor()
 	{

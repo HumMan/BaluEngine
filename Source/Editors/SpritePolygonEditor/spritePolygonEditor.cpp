@@ -170,7 +170,7 @@ void TSpritePolygonEditor::Render(TDrawingHelper* drawing_helper)
 	//if (world->materials.find(sprite->material_name) != world->materials.end())
 	///ActivateMaterial(render, &world->materials[sprite->material_name]);
 
-	drawing_helper->ActivateMaterial(sprite->material);
+	//drawing_helper->ActivateMaterial(sprite->material);
 	
 	if (isConvex(sprite->polygon_vertices))
 		drawing_helper->SetSelectedBoundaryColor();
@@ -180,7 +180,7 @@ void TSpritePolygonEditor::Render(TDrawingHelper* drawing_helper)
 	//if (world->materials.find(sprite->material_name) != world->materials.end())
 	//	DeactivateMaterial(render, &world->materials[sprite->material_name]);
 
-	drawing_helper->DeactivateMaterial(sprite->material);
+	//drawing_helper->DeactivateMaterial(sprite->material);
 	
 	drawing_helper->DrawSpritePolygonContour(sprite);
 	

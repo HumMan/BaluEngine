@@ -101,6 +101,8 @@ namespace Editor
 
 		void SetToolSelectedObject(String^ name);
 
+		void SaveWorldTo(String^ path);
+
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;
 		property ToolStrip^ EditorToolsBar;

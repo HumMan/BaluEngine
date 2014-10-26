@@ -1,3 +1,5 @@
+#define _SCL_SECURE_NO_WARNINGS
+
 #include "spriteEditor.h"
 
 #include "spriteEditorAdornments.h"
@@ -52,6 +54,10 @@ void TSpriteEditor::SetSelectedAsWork()
 		auto sprite_polygon = (dynamic_cast<TSpritePolygonAdornment*>(scene.boundary_under_cursor))->GetSprite();
 
 		current_local_editor->Initialize(sprite_polygon, sprite_polygon->transform.position);
+
+		current_local_editor->OnSelectionChanged.connect(OnSelectionChanged);
+
+		OnSelectionChanged((TWorldObjectDef*) this->scene.sprite, (TWorldObjectDef*)sprite_polygon);
 	}
 }
 
@@ -66,7 +72,6 @@ bool TSpriteEditor::CanEndSelectedAsWork()
 }
 bool TSpriteEditor::EndSelectedAsWork()
 {
-	assert(current_local_editor != nullptr);
 	if (current_local_editor != nullptr)
 	{
 		if (current_local_editor->EndSelectedAsWork())

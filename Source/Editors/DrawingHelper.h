@@ -19,6 +19,7 @@ public:
 	TDrawingHelper(TBaluRender* render, TEditorResourses* resources);
 	void DrawPhysBody(TBaluPhysBodyDef* body);
 	void DrawSprite(TBaluSpriteDef* sprite);
+
 	void DrawSpritePolygon(TBaluSpritePolygonDef* sprite_poly);
 	void DrawPolygon(TBaluPolygonShapeDef* polygon);
 	void DrawCircle(TBaluCircleShapeDef* circle);
