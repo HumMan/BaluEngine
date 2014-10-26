@@ -486,5 +486,6 @@ void TBaluEditor::SaveWorldTo(std::string path)
 void TBaluEditor::LoadWorldFrom(std::string path)
 {
 	pugi::xml_document doc;
-
+	doc.load_file(path.c_str());
+	p->world->Load(doc, 1);
 }

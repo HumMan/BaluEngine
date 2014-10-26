@@ -188,10 +188,30 @@ void TBaluJointDef::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
+void TBaluJointDef::Load(const pugi::xml_node& parent_node, const int version)
+{
+	xml_node new_node = parent_node.child("JointCommon");
+	bodyA = new_node.attribute("bodyA").as_string();
+	bodyB = new_node.attribute("bodyB").as_string();
+
+	is_interinstance_joint = new_node.attribute("is_interinstance_joint").as_bool();
+	if (is_interinstance_joint)
+	{
+		instanceA = new_node.attribute("instanceA").as_string();
+		instanceB = new_node.attribute("instanceB").as_string();
+	}
+}
+
 void TBaluPrismaticJointDef::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("PrismaticJoint");
 	TBaluJointDef::Save(new_node, version);
+}
+
+void TBaluPrismaticJointDef::Load(const pugi::xml_node& parent_node, const int version)
+{
+	xml_node new_node = parent_node.child("PrismaticJoint");
+	TBaluJointDef::Load(new_node, version);
 }
 
 void TBaluSpriteInstanceDef::Save(pugi::xml_node& parent_node, const int version)
@@ -200,6 +220,14 @@ void TBaluSpriteInstanceDef::Save(pugi::xml_node& parent_node, const int version
 	sprite_node.append_attribute("sprite_name").set_value(sprite->sprite_name.c_str());
 	sprite_node.append_attribute("sprite_tag").set_value(tag.c_str());
 	SaveTransform(sprite_node, "Transform", transform);
+}
+
+void TBaluSpriteInstanceDef::Load(const pugi::xml_node& parent_node, const int version)
+{
+	xml_node sprite_node = parent_node.child("sprite");
+	sprite->sprite_name = sprite_node.append_attribute("sprite_name").as_string();
+	tag = sprite_node.append_attribute("sprite_tag").as_string();
+	transform = LoadTransform(sprite_node.child("Transform"));
 }
 
 TOBB<float, 2> TBaluSpriteInstanceDef::GetOBB()
@@ -213,6 +241,14 @@ void TBaluBodyInstanceDef::Save(pugi::xml_node& parent_node, const int version)
 	body_node.append_attribute("body_name").set_value(body->phys_body_name.c_str());
 	body_node.append_attribute("body_tag").set_value(tag.c_str());
 	SaveTransform(body_node, "Transform", transform);
+}
+
+void TBaluBodyInstanceDef::Load(const pugi::xml_node& parent_node, const int version)
+{
+	xml_node body_node = parent_node.child("body");
+	body->phys_body_name = body_node.append_attribute("body_name").as_string();
+	tag = body_node.append_attribute("body_tag").as_string();
+	transform = LoadTransform(body_node.child("Transform"));
 }
 
 TOBB<float, 2> TBaluBodyInstanceDef::GetOBB()
@@ -247,6 +283,33 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
+void TBaluClass::Load(const pugi::xml_node& parent_node, const int version)
+{
+	xml_node new_node = parent_node.child("Class");
+	class_name = new_node.attribute("class_name").as_string();
+	{
+		xml_node sprites_node = new_node.child("sprites");
+		for (int i = 0; i < sprites.size(); i++)
+		{
+			sprites[i]->Load(sprites_node, version);
+		}
+	}
+	{
+		xml_node bodies_node = new_node.child("bodies");
+		for (int i = 0; i < bodies.size(); i++)
+		{
+			bodies[i]->Load(bodies_node, version);
+		}
+	}
+	{
+		xml_node joints_node = new_node.child("joints");
+		for (int i = 0; i < joints.size(); i++)
+		{
+			joints[i]->Load(joints_node, version);
+		}
+	}
+}
+
 TBaluClass::~TBaluClass()
 {
 
@@ -258,6 +321,14 @@ void TBaluInstanceDef::Save(pugi::xml_node& parent_node, const int version)
 	new_node.append_attribute("name").set_value(name.c_str());
 	new_node.append_attribute("class_name").set_value(class_name.c_str());
 	SaveTransform(new_node, "Transform", instance_transform);
+}
+
+void TBaluInstanceDef::Load(const pugi::xml_node& parent_node, const int version)
+{
+	xml_node new_node = parent_node.child("Instance");
+	name = new_node.append_attribute("name").as_string();
+	class_name = new_node.append_attribute("class_name").as_string();
+	instance_transform = LoadTransform(new_node.child("Transform"));
 }
 
 void TBaluSceneDef::Save(pugi::xml_node& parent_node, const int version)
@@ -276,6 +347,26 @@ void TBaluSceneDef::Save(pugi::xml_node& parent_node, const int version)
 		for (int i = 0; i < scene_joints.size(); i++)
 		{
 			scene_joints[i]->Save(joints_node, version);
+		}
+	}
+}
+
+void TBaluSceneDef::Load(const pugi::xml_node& parent_node, const int version)
+{
+	xml_node new_node = parent_node.child("Scene");
+	scene_name = new_node.attribute("name").as_string();
+	{
+		xml_node instances_node = new_node.child("instances");
+		for (int i = 0; i < instances.size(); i++)
+		{
+			instances[i].Load(instances_node, version);
+		}
+	}
+	{
+		xml_node joints_node = new_node.child("joints");
+		for (int i = 0; i < scene_joints.size(); i++)
+		{
+			scene_joints[i]->Load(joints_node, version);
 		}
 	}
 }
@@ -321,6 +412,46 @@ void TBaluWorldDef::Save(pugi::xml_node& parent_node, const int version)
 		for (auto i = scenes.begin(); i != scenes.end(); i++)
 		{
 			i->second.Save(scenes_node, version);
+		}
+	}
+}
+
+void TBaluWorldDef::Load(const pugi::xml_node& parent_node, const int version)
+{
+	xml_node new_node = parent_node.child("World");
+	{
+		xml_node materials_node = new_node.child("Materials");
+		for (auto i = materials.begin(); i != materials.end(); i++)
+		{
+			i->second.Load(materials_node, version);
+		}
+	}
+	{
+		xml_node sprites_node = new_node.child("Sprites");
+		for (auto i = sprites.begin(); i != sprites.end(); i++)
+		{
+			i->second.Load(sprites_node, version);
+		}
+	}
+	{
+		xml_node bodies_node = new_node.child("PhysBodies");
+		for (auto i = phys_bodies.begin(); i != phys_bodies.end(); i++)
+		{
+			i->second.Load(bodies_node, version);
+		}
+	}
+	{
+		xml_node classes_node = new_node.child("Classes");
+		for (auto i = classes.begin(); i != classes.end(); i++)
+		{
+			i->second.Load(classes_node, version);
+		}
+	}
+	{
+		xml_node scenes_node = new_node.child("Scenes");
+		for (auto i = scenes.begin(); i != scenes.end(); i++)
+		{
+			i->second.Load(scenes_node, version);
 		}
 	}
 }
