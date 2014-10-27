@@ -9,14 +9,14 @@
 class TSceneEditor :public TAbstractEditor
 {
 
-	TClassEditorScene scene;
-	TClassEditorToolsRegistry tools_registry;
+	TSceneEditorScene scene;
+	TSceneEditorToolsRegistry tools_registry;
 public:
-	TClassEditor();
+	TSceneEditor();
 	//void StartEdit(TBaluClassDef* use_Class);
 	//void EndEdit();
 
-	void Initialize(TBaluClass* obj);
+	void Initialize(TBaluSceneDef* obj);
 
 	//override:
 	void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos);

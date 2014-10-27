@@ -325,6 +325,11 @@ void TBaluBodyInstanceDef::Load(const pugi::xml_node& node, const int version, T
 	transform = LoadTransform(node.child("Transform"));
 }
 
+TOBB<float, 2> TBaluInstanceDef::GetOBB()
+{
+	return TOBB<float, 2>(this->instance_transform.position, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(0.5, 0.5)));
+}
+
 TOBB<float, 2> TBaluBodyInstanceDef::GetOBB()
 {
 	return TOBB<float, 2>(transform.position, TMatrix<float, 2>::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(0.5, 0.5)));
@@ -394,7 +399,7 @@ void TBaluInstanceDef::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Instance");
 	new_node.append_attribute("name").set_value(name.c_str());
-	new_node.append_attribute("class_name").set_value(class_name.c_str());
+	new_node.append_attribute("class_name").set_value(instance_class->class_name.c_str());
 	SaveTransform(new_node, "Transform", instance_transform);
 }
 
@@ -402,7 +407,7 @@ void TBaluInstanceDef::Load(const pugi::xml_node& parent_node, const int version
 {
 	xml_node new_node = parent_node.child("Instance");
 	name = new_node.append_attribute("name").as_string();
-	class_name = new_node.append_attribute("class_name").as_string();
+	instance_class = &world->classes[new_node.attribute("class_name").as_string()];
 	instance_transform = LoadTransform(new_node.child("Transform"));
 }
 
@@ -414,7 +419,7 @@ void TBaluSceneDef::Save(pugi::xml_node& parent_node, const int version)
 		xml_node instances_node = new_node.append_child("instances");
 		for (int i = 0; i < instances.size(); i++)
 		{
-			instances[i].Save(instances_node, version);
+			instances[i]->Save(instances_node, version);
 		}
 	}
 	{
@@ -434,7 +439,7 @@ void TBaluSceneDef::Load(const pugi::xml_node& parent_node, const int version, T
 		xml_node instances_node = new_node.child("instances");
 		for (int i = 0; i < instances.size(); i++)
 		{
-			instances[i].Load(instances_node, version, world);
+			instances[i]->Load(instances_node, version, world);
 		}
 	}
 	{

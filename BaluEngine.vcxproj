@@ -99,6 +99,9 @@
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorScene.h" />
     <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.h" />
     <ClInclude Include="Source\Editors\SceneEditor\sceneEditor.h" />
+    <ClInclude Include="Source\Editors\SceneEditor\sceneEditorAdornments.h" />
+    <ClInclude Include="Source\Editors\SceneEditor\sceneEditorScene.h" />
+    <ClInclude Include="Source\Editors\SceneEditor\sceneEditorTools.h" />
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditor.h" />
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorAdornments.h" />
     <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorScene.h" />
@@ -133,6 +136,9 @@
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditor.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp" />
     <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp" />
+    <ClCompile Include="Source\Editors\SceneEditor\sceneEditor.cpp" />
+    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorAdornments.cpp" />
+    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorTools.cpp" />
     <ClCompile Include="Source\Editors\SpriteEditor\spriteEditor.cpp" />
     <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorAdornments.cpp" />
     <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorTools.cpp">

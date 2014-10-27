@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <list>
 
 #include "exportMacro.h"
 
@@ -397,10 +398,12 @@ public:
 		return "ClassInstance";
 	}
 	std::string name;
-	std::string class_name;
+	TBaluClass* instance_class;
 	TBaluTransform instance_transform;
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
+
+	TOBB<float, 2> GetOBB();
 };
 
 class TBaluSceneDef : public TWorldObjectDef
@@ -411,7 +414,7 @@ public:
 		return scene_name;
 	}
 	std::string scene_name;
-	std::vector<TBaluInstanceDef> instances;
+	std::vector<std::unique_ptr<TBaluInstanceDef>> instances;
 	std::vector<std::unique_ptr<TBaluJointDef>> scene_joints;
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);

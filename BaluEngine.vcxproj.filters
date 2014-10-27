@@ -135,6 +135,15 @@
     <ClInclude Include="Source\Editors\Tools.h">
       <Filter>Source Files\Editors</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editors\SceneEditor\sceneEditorAdornments.h">
+      <Filter>Source Files\Editors\SceneEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\SceneEditor\sceneEditorScene.h">
+      <Filter>Source Files\Editors\SceneEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editors\SceneEditor\sceneEditorTools.h">
+      <Filter>Source Files\Editors\SceneEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">
@@ -202,6 +211,15 @@
     </ClCompile>
     <ClCompile Include="Source\Editors\ClassEditor\classEditorAdornments.cpp">
       <Filter>Source Files\Editors\ClassEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SceneEditor\sceneEditor.cpp">
+      <Filter>Source Files\Editors\SceneEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorAdornments.cpp">
+      <Filter>Source Files\Editors\SceneEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorTools.cpp">
+      <Filter>Source Files\Editors\SceneEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

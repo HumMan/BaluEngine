@@ -17,6 +17,7 @@ class TDrawingHelper
 	TMatrix4 last_transform;
 public:
 	TDrawingHelper(TBaluRender* render, TEditorResourses* resources);
+	void DrawClass(TBaluClass* balu_class);
 	void DrawPhysBody(TBaluPhysBodyDef* body);
 	void DrawSprite(TBaluSpriteDef* sprite);
 

@@ -1,7 +1,7 @@
 
 #include "classEditorTools.h"
 
-#include "classEditor.h"
+#include "classEditorScene.h"
 
 #include "classEditorAdornments.h"
 
