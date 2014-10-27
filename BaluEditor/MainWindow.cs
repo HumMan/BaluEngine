@@ -133,5 +133,17 @@ namespace BaluEditor
                 baluEditorControl1.SaveWorldTo(saveFileDialog1.FileName);
             }
         }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "BaluWorld files (*.bew)|*.bew";
+            openFileDialog.FilterIndex = 1;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                baluEditorControl1.LoadWorldFrom(openFileDialog.FileName);
+            }
+        }
     }
 }

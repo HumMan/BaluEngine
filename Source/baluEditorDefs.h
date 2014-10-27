@@ -39,6 +39,8 @@ public:
 	virtual ~TWorldObjectDef(){}
 };
 
+class TBaluWorldDef;
+
 class BALUENGINEDLL_API TBaluMaterialDef : public TWorldObjectDef
 {
 public:
@@ -137,7 +139,7 @@ public:
 	TTexClamp texture_clamp;
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
 };
 
 class TBaluSpritePolygonDef : public TWorldObjectDef
@@ -186,12 +188,13 @@ public:
 	TOBB<float, 2> GetOBB();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
 };
 
 class TBaluSpriteDef : public TWorldObjectDef
 {
 public:
+	
 	std::string GetName()
 	{
 		return sprite_name;
@@ -201,7 +204,15 @@ public:
 	std::vector<std::unique_ptr<TBaluSpritePolygonDef>> polygons;
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
+	
+	TBaluSpriteDef(){}
+	TBaluSpriteDef(TBaluSpriteDef&& right)
+	{
+		sprite_name = std::move(right.sprite_name);
+		polygons = std::move(right.polygons);
+	}
+	~TBaluSpriteDef(){}
 };
 
 class TBaluShapeDef : public TWorldObjectDef
@@ -215,7 +226,7 @@ public:
 	}
 	virtual ~TBaluShapeDef(){}
 	virtual void Save(pugi::xml_node& parent_node, const int version)=0;
-	virtual void Load(const pugi::xml_node& parent_node, const int version)=0;
+	virtual void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world)=0;
 	virtual TOBB<float, 2> GetOBB() = 0;
 	virtual b2Shape& GetB2Shape() = 0;
 };
@@ -240,7 +251,7 @@ public:
 	b2PolygonShape b2shape;
 	//b2FixtureDef b2fixture_def;
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
 
 	TOBB<float, 2> GetOBB();
 
@@ -258,7 +269,7 @@ public:
 	b2CircleShape b2shape;
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
 
 	TOBB<float, 2> GetOBB();
 
@@ -277,7 +288,15 @@ public:
 	b2BodyDef b2body_def;
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
+	
+	TBaluPhysBodyDef(){}
+	TBaluPhysBodyDef(TBaluPhysBodyDef&& right)
+	{
+		phys_body_name = std::move(right.phys_body_name);
+		fixtures = std::move(right.fixtures);
+		b2body_def = std::move(right.b2body_def);
+	}
 	virtual ~TBaluPhysBodyDef();
 };
 
@@ -294,7 +313,7 @@ public:
 	std::string instanceB;
 
 	virtual void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	virtual void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
 };
 
 class TBaluPrismaticJointDef :public TBaluJointDef
@@ -306,7 +325,7 @@ public:
 	}
 	b2PrismaticJointDef b2joint_def;
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
 };
 
 class TBaluSpriteInstanceDef: public TWorldObjectDef
@@ -323,7 +342,7 @@ public:
 	TOBB<float, 2> GetOBB();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
 };
 
 class TBaluBodyInstanceDef : public TWorldObjectDef
@@ -340,7 +359,7 @@ public:
 	TOBB<float, 2> GetOBB();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
 };
 
 class TBaluClass : public TWorldObjectDef
@@ -358,7 +377,15 @@ public:
 	std::vector<std::unique_ptr<TBaluJointDef>> joints;
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
+	TBaluClass(){}
+	TBaluClass(TBaluClass&& right)
+	{
+		class_name = std::move(right.class_name);
+		sprites = std::move(right.sprites);
+		bodies = std::move(right.bodies);
+		joints = std::move(right.joints);
+	}
 	virtual ~TBaluClass();
 };
 
@@ -373,7 +400,7 @@ public:
 	std::string class_name;
 	TBaluTransform instance_transform;
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
 };
 
 class TBaluSceneDef : public TWorldObjectDef
@@ -387,7 +414,14 @@ public:
 	std::vector<TBaluInstanceDef> instances;
 	std::vector<std::unique_ptr<TBaluJointDef>> scene_joints;
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world);
+	TBaluSceneDef(){}
+	TBaluSceneDef(TBaluSceneDef&& right)
+	{
+		scene_name = std::move(right.scene_name);
+		instances = std::move(right.instances);
+		scene_joints = std::move(right.scene_joints);
+	}
 	virtual ~TBaluSceneDef();
 };
 
@@ -401,6 +435,6 @@ public:
 	std::map<std::string, TBaluSceneDef> scenes;
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& node, const int version);
+	void Load(const pugi::xml_node& parent_node, const int version);
 	virtual ~TBaluWorldDef();
 };

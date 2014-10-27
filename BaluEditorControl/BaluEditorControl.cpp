@@ -278,6 +278,13 @@ namespace Editor
 	{
 		engine->SaveWorldTo(msclr::interop::marshal_as<std::string>(path));
 	}
+	
+	void BaluEditorControl::LoadWorldFrom(String^ path)
+	{
+		WorldTreeView->Nodes->Clear();
+		engine->LoadWorldFrom(msclr::interop::marshal_as<std::string>(path));
+		CreateWorldTree(WorldTreeView, engine->GetWorld());
+	}
 
 	void BaluEditorControl::CreateWorldTree(TreeView^ WorldTreeView, TBaluWorldDef* world)
 	{

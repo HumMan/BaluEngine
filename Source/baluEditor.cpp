@@ -487,5 +487,5 @@ void TBaluEditor::LoadWorldFrom(std::string path)
 {
 	pugi::xml_document doc;
 	doc.load_file(path.c_str());
-	p->world->Load(doc, 1);
+	p->world->Load(doc.child("BaluEditorWorldFile"), 1);
 }
