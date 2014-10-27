@@ -376,18 +376,20 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorldD
 	}
 	{
 		xml_node bodies_node = node.child("bodies");
-		for (int i = 0; i < bodies.size(); i++)
+		for (pugi::xml_node body_node = bodies_node.first_child(); body_node; body_node = body_node.next_sibling())
 		{
-			bodies[i]->Load(bodies_node, version, world);
+			TBaluBodyInstanceDef* new_sprite_instance = new TBaluBodyInstanceDef();
+			new_sprite_instance->Load(body_node, version, world);
+			bodies.push_back(std::unique_ptr<TBaluBodyInstanceDef>(new_sprite_instance));
 		}
 	}
-	{
-		xml_node joints_node = node.child("joints");
-		for (int i = 0; i < joints.size(); i++)
-		{
-			joints[i]->Load(joints_node, version, world);
-		}
-	}
+	//{
+	//	xml_node joints_node = node.child("joints");
+	//	for (int i = 0; i < joints.size(); i++)
+	//	{
+	//		joints[i]->Load(joints_node, version, world);
+	//	}
+	//}
 }
 
 TBaluClass::~TBaluClass()

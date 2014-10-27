@@ -9,7 +9,7 @@
 #include "Editors\PhysBodyEditor\physBodyEditor.h"
 #include "Editors\MaterialEditor\materialEditor.h"
 #include "Editors\ClassEditor\classEditor.h"
-//#include "Editors\SceneEditor\sceneEditor.h"
+#include "Editors\SceneEditor\sceneEditor.h"
 
 #include <baluRender.h>
 #include <pugixml.hpp>
@@ -352,8 +352,8 @@ TAbstractEditor* GetEditorOfWorldObject(TWorldObjectDef* obj)
 	if ((dynamic_cast<TBaluClass*>(obj)) != nullptr)
 		return new TClassEditor();
 
-	//if ((dynamic_cast<TBaluSceneDef*>(obj)) != nullptr)
-	//	return new TSceneEditor();
+	if ((dynamic_cast<TBaluSceneDef*>(obj)) != nullptr)
+		return new TSceneEditor();
 
 	return nullptr;
 }
