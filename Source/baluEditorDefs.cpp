@@ -405,12 +405,11 @@ void TBaluInstanceDef::Save(pugi::xml_node& parent_node, const int version)
 	SaveTransform(new_node, "Transform", instance_transform);
 }
 
-void TBaluInstanceDef::Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world)
+void TBaluInstanceDef::Load(const pugi::xml_node& instance_node, const int version, TBaluWorldDef* world)
 {
-	xml_node new_node = parent_node.child("Instance");
-	name = new_node.append_attribute("name").as_string();
-	instance_class = &world->classes[new_node.attribute("class_name").as_string()];
-	instance_transform = LoadTransform(new_node.child("Transform"));
+	name = instance_node.attribute("name").as_string();
+	instance_class = &world->classes[instance_node.attribute("class_name").as_string()];
+	instance_transform = LoadTransform(instance_node.child("Transform"));
 }
 
 void TBaluSceneDef::Save(pugi::xml_node& parent_node, const int version)
@@ -433,24 +432,25 @@ void TBaluSceneDef::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TBaluSceneDef::Load(const pugi::xml_node& parent_node, const int version, TBaluWorldDef* world)
+void TBaluSceneDef::Load(const pugi::xml_node& scene_node, const int version, TBaluWorldDef* world)
 {
-	xml_node new_node = parent_node.child("Scene");
-	scene_name = new_node.attribute("name").as_string();
+	scene_name = scene_node.attribute("name").as_string();
 	{
-		xml_node instances_node = new_node.child("instances");
-		for (int i = 0; i < instances.size(); i++)
+		xml_node instances_node = scene_node.child("instances");
+		for (pugi::xml_node instance_node = instances_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
-			instances[i]->Load(instances_node, version, world);
+			TBaluInstanceDef* new_instance = new TBaluInstanceDef();
+			new_instance->Load(instance_node, version, world);
+			instances.push_back(std::unique_ptr<TBaluInstanceDef>(new_instance));
 		}
 	}
-	{
-		xml_node joints_node = new_node.child("joints");
-		for (int i = 0; i < scene_joints.size(); i++)
-		{
-			scene_joints[i]->Load(joints_node, version, world);
-		}
-	}
+	//{
+	//	xml_node joints_node = scene_node.child("joints");
+	//	for (int i = 0; i < scene_joints.size(); i++)
+	//	{
+	//		scene_joints[i]->Load(joints_node, version, world);
+	//	}
+	//}
 }
 
 TBaluSceneDef::~TBaluSceneDef()
@@ -498,11 +498,11 @@ void TBaluWorldDef::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TBaluWorldDef::Load(const pugi::xml_node& parent_node, const int version)
+void TBaluWorldDef::Load(const pugi::xml_node& document_node, const int version)
 {
-	xml_node new_node = parent_node.child("World");
+	xml_node world_node = document_node.child("World");
 	{
-		xml_node materials_node = new_node.child("Materials");
+		xml_node materials_node = world_node.child("Materials");
 		for (pugi::xml_node material = materials_node.first_child(); material; material = material.next_sibling())
 		{
 			TBaluMaterialDef new_material;
@@ -511,7 +511,7 @@ void TBaluWorldDef::Load(const pugi::xml_node& parent_node, const int version)
 		}
 	}
 	{
-		xml_node sprites_node = new_node.child("Sprites");
+		xml_node sprites_node = world_node.child("Sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
 			TBaluSpriteDef new_sprite;
@@ -520,7 +520,7 @@ void TBaluWorldDef::Load(const pugi::xml_node& parent_node, const int version)
 		}
 	}
 	{
-		xml_node bodies_node = new_node.child("PhysBodies");
+		xml_node bodies_node = world_node.child("PhysBodies");
 		for (pugi::xml_node body_node = bodies_node.first_child(); body_node; body_node = body_node.next_sibling())
 		{
 			TBaluPhysBodyDef new_body;
@@ -529,7 +529,7 @@ void TBaluWorldDef::Load(const pugi::xml_node& parent_node, const int version)
 		}
 	}
 	{
-		xml_node classes_node = new_node.child("Classes");
+		xml_node classes_node = world_node.child("Classes");
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
 		{
 			TBaluClass new_class;
@@ -538,7 +538,7 @@ void TBaluWorldDef::Load(const pugi::xml_node& parent_node, const int version)
 		}
 	}
 	{
-		xml_node scenes_node = new_node.child("Scenes");
+		xml_node scenes_node = world_node.child("Scenes");
 		for (pugi::xml_node scene_node = scenes_node.first_child(); scene_node; scene_node = scene_node.next_sibling())
 		{
 			TBaluSceneDef new_scene;

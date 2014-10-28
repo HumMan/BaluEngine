@@ -62,6 +62,10 @@ void TClassEditor::SetSelectedAsWork()
 				auto sprite_instance = sprite_adornment->GetSpriteInstance();
 
 				current_local_editor->Initialize(sprite_instance->sprite, sprite_instance->transform.position);
+
+				current_local_editor->OnSelectionChanged.connect(OnSelectionChanged);
+
+				OnSelectionChanged(nullptr, (TWorldObjectDef*)sprite_adornment->GetSpriteInstance());
 			}
 		}
 		{
@@ -76,6 +80,10 @@ void TClassEditor::SetSelectedAsWork()
 				auto phys_body_instance = phys_body_adornment->GetPhysBodyInstance();
 
 				current_local_editor->Initialize(phys_body_instance->body, phys_body_instance->transform.position);
+
+				current_local_editor->OnSelectionChanged.connect(OnSelectionChanged);
+
+				OnSelectionChanged(nullptr, (TWorldObjectDef*)phys_body_adornment->GetPhysBodyInstance());
 			}
 		}
 	}

@@ -248,6 +248,8 @@ namespace Editor
 		if ((dynamic_cast<TBaluPhysBodyDef*>(obj_def)) != nullptr)
 			return gcnew TBaluPhysBodyProperties(dynamic_cast<TBaluPhysBodyDef*>(obj_def));
 
+		assert(false);
+
 		return gcnew TPropertiesObject();
 	}
 }

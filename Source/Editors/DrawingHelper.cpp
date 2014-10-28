@@ -14,10 +14,14 @@ TDrawingHelper::TDrawingHelper(TBaluRender* render, TEditorResourses* resources)
 
 void TDrawingHelper::DrawClass(TBaluClass* balu_class)
 {
-	/*for (int i = 0; i < balu_class->bodies.size(); i++)
+	for (int i = 0; i < balu_class->bodies.size(); i++)
 	{
-		DrawPhysBody(balu_class->bodies[i].get());
-	}*/
+		DrawPhysBody(balu_class->bodies[i]->body);
+	}
+	for (int i = 0; i < balu_class->sprites.size(); i++)
+	{
+		DrawSprite(balu_class->sprites[i]->sprite);
+	}
 }
 
 void TDrawingHelper::DrawPhysBody(TBaluPhysBodyDef* body)
