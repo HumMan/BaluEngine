@@ -3,21 +3,8 @@
 #include "exportMacro.h"
 
 #include "baluEditorDefs.h"
-#include "exportMacro.h"
 #include "Editors\Tools.h"
 
-//#include "Editors\PhysBodyEditor\physBodyEditorTools.h"
-
-//class TAbstractEditorObject
-//{
-//
-//};
-//
-//
-//class TTextEditor : public TAbstractEditor
-//{
-//
-//};
 
 class TBaluEditorInternal;
 class BALUENGINEDLL_API TBaluEditor

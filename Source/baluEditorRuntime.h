@@ -2,25 +2,9 @@
 
 #include "baluEditorDefs.h"
 
-#include <string>
-#include <map>
-#include <vector>
-
-#include <baluLib.h>
-#include <baluRender.h>
-
-#include <Box2D.h>
-
-class TBaluMaterial
-{
-	TBaluMaterialDef material_def;
-	TTextureId texture_id;
-public:
-};
-
 class TBaluSprite
 {
-	TBaluMaterial* material;
+	TBaluMaterialDef* material;
 	TBaluSpriteDef sprite_def;
 };
 
@@ -61,7 +45,7 @@ class TBaluInstance
 	TBaluInstanceDef instance_def;
 
 	std::vector<TBaluSprite*> sprites;
-	std::vector<TTransform> sprites_transform;
+	std::vector<TBaluTransform> sprites_transform;
 
 	std::vector<TBaluPhysBody> bodies;
 
@@ -69,7 +53,7 @@ class TBaluInstance
 
 public:
 
-	void AddSprite(TBaluSprite* sprite, TTransform sprite_transform);
+	void AddSprite(TBaluSprite* sprite, TBaluTransform sprite_transform);
 	void RemoveSprite(TBaluSprite* sprite);
 
 	TBaluPhysBody* CreatePhysBody(TBaluPhysBodyDef phys_body_def);
