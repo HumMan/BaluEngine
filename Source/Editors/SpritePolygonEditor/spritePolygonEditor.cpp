@@ -70,6 +70,7 @@ void TSpritePolygonEditor::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_loc
 		for (int i : selected_points)
 			sprite->polygon_vertices[i] += new_pos - old_cursor_pos;
 		old_cursor_pos = new_pos;
+		sprite->tex_coordinates = sprite->polygon_vertices;
 	}
 	else
 	{

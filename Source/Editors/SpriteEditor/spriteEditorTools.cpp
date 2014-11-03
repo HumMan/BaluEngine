@@ -64,10 +64,67 @@ void TCreateSpritePolygonTool::Render(TDrawingHelper* drawing_helper)
 
 }
 
+
+class TCreateSpriteBoxTool : public TEditorTool
+{
+protected:
+	TSpriteEditorScene* sprite_editor_scene;
+public:
+	TWorldObjectType NeedObjectSelect()
+	{
+		return TWorldObjectType::None;
+	}
+	void SetSelectedObject(TWorldObjectDef* obj)
+	{
+	}
+	TCreateSpriteBoxTool(TSpriteEditorScene* sprite_editor_scene);
+	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
+	void Render(TDrawingHelper* drawing_helper);
+};
+
+TCreateSpriteBoxTool::TCreateSpriteBoxTool(TSpriteEditorScene* sprite_editor_scene)
+{
+	this->sprite_editor_scene = sprite_editor_scene;
+}
+
+void TCreateSpriteBoxTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	auto new_sprite_polygon = new TBaluSpritePolygonDef();
+	new_sprite_polygon->transform.position = world_cursor_location;
+	new_sprite_polygon->transform.angle.Set(0);
+	new_sprite_polygon->polygon_vertices.resize(4);
+	for (int i = 0; i < 4; i++)
+	{
+		new_sprite_polygon->polygon_vertices[i] = TVec2(1, 1).GetRotated(DegToRad(90.0f)*i);
+	}
+	new_sprite_polygon->tex_coordinates = new_sprite_polygon->polygon_vertices;
+
+	sprite_editor_scene->sprite->polygons.push_back(std::unique_ptr<TBaluSpritePolygonDef>(new_sprite_polygon));
+
+	auto new_box = new TSpritePolygonAdornment(new_sprite_polygon);
+	sprite_editor_scene->boundaries.push_back(std::unique_ptr<TSpritePolygonAdornment>(new_box));
+}
+
+void TCreateSpriteBoxTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+
+}
+void TCreateSpriteBoxTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+
+}
+void TCreateSpriteBoxTool::Render(TDrawingHelper* drawing_helper)
+{
+
+}
+
 TSpriteEditorRegistry::TSpriteEditorRegistry(TSpriteEditorScene* scene)
 {
 	this->scene = scene;
 	tools.emplace_back(new TCreateSpritePolygonTool(scene), "Polygon");
+	tools.emplace_back(new TCreateSpriteBoxTool(scene), "Box");
 	tools.emplace_back(new TBoundaryBoxesModifyTool(scene), "Modify");
 }
 TSpriteEditorRegistry::TSpriteEditorRegistry(TSpriteEditorRegistry&& o)

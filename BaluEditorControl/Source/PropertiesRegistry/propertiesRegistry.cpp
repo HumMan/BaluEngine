@@ -234,6 +234,61 @@ namespace Editor
 		property int phys_body_testprop;
 	};
 
+	ref class TBaluClassProperties : public TPropertiesObject
+	{
+		TBaluClass* obj_def;
+	public:
+		TBaluClassProperties(TBaluClass* obj_def)
+		{
+			this->obj_def = obj_def;
+		}
+		property int TBaluClass_testprop;
+	};
+
+	ref class TBaluBodyInstanceProperties : public TPropertiesObject
+	{
+		TBaluBodyInstanceDef* obj_def;
+	public:
+		TBaluBodyInstanceProperties(TBaluBodyInstanceDef* obj_def)
+		{
+			this->obj_def = obj_def;
+		}
+		property int TBaluBodyInstanceDef_testprop;
+	};
+
+	ref class TBaluSpriteInstanceProperties : public TPropertiesObject
+	{
+		TBaluSpriteInstanceDef* obj_def;
+	public:
+		TBaluSpriteInstanceProperties(TBaluSpriteInstanceDef* obj_def)
+		{
+			this->obj_def = obj_def;
+		}
+		property int TTBaluSpriteInstanceDef_testprop;
+	};
+
+	ref class TBaluInstanceDefProperties : public TPropertiesObject
+	{
+		TBaluInstanceDef* obj_def;
+	public:
+		TBaluInstanceDefProperties(TBaluInstanceDef* obj_def)
+		{
+			this->obj_def = obj_def;
+		}
+		property int TBaluInstanceDef_testprop;
+	};
+
+	ref class TBaluSceneProperties : public TPropertiesObject
+	{
+		TBaluSceneDef* obj_def;
+	public:
+		TBaluSceneProperties(TBaluSceneDef* obj_def)
+		{
+			this->obj_def = obj_def;
+		}
+		property int TBaluSceneDef_testprop;
+	};
+
 	TPropertiesObject^ TPropertiesRegistry::CreateProperties(TBaluWorldDef* world, TWorldObjectDef* obj_def)
 	{
 		if ((dynamic_cast<TBaluMaterialDef*>(obj_def)) != nullptr)
@@ -247,6 +302,21 @@ namespace Editor
 
 		if ((dynamic_cast<TBaluPhysBodyDef*>(obj_def)) != nullptr)
 			return gcnew TBaluPhysBodyProperties(dynamic_cast<TBaluPhysBodyDef*>(obj_def));
+
+		if ((dynamic_cast<TBaluBodyInstanceDef*>(obj_def)) != nullptr)
+			return gcnew TBaluBodyInstanceProperties(dynamic_cast<TBaluBodyInstanceDef*>(obj_def));
+
+		if ((dynamic_cast<TBaluSpriteInstanceDef*>(obj_def)) != nullptr)
+			return gcnew TBaluSpriteInstanceProperties(dynamic_cast<TBaluSpriteInstanceDef*>(obj_def));
+
+		if ((dynamic_cast<TBaluClass*>(obj_def)) != nullptr)
+			return gcnew TBaluClassProperties(dynamic_cast<TBaluClass*>(obj_def));
+
+		if ((dynamic_cast<TBaluInstanceDef*>(obj_def)) != nullptr)
+			return gcnew TBaluInstanceDefProperties(dynamic_cast<TBaluInstanceDef*>(obj_def));
+
+		if ((dynamic_cast<TBaluSceneDef*>(obj_def)) != nullptr)
+			return gcnew TBaluSceneProperties(dynamic_cast<TBaluSceneDef*>(obj_def));
 
 		assert(false);
 

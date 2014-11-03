@@ -100,7 +100,6 @@ bool TClassEditor::CanEndSelectedAsWork()
 }
 bool TClassEditor::EndSelectedAsWork()
 {
-	assert(current_local_editor != nullptr);
 	if (current_local_editor != nullptr)
 	{
 		if (current_local_editor->EndSelectedAsWork())
