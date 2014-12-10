@@ -218,5 +218,8 @@
     <ClCompile Include="Source\Editors\SceneEditor\sceneEditorTools.cpp">
       <Filter>Source Files\Editors\SceneEditor</Filter>
     </ClCompile>
+    <ClCompile Include="Source\scriptClasses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

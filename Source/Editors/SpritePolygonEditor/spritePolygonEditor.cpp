@@ -93,7 +93,7 @@ void TSpritePolygonEditor::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_loc
 		{
 			float t;
 			TVec2 p;
-			float dist = DistanceBetweenLinePoint(new_pos, sprite->polygon_vertices[i%size], sprite->polygon_vertices[(i + 1) % size], t, p);
+			float dist = DistanceBetweenPointSegment(new_pos, TSegment<float,2>(sprite->polygon_vertices[i%size], sprite->polygon_vertices[(i + 1) % size]), t, p);
 			if (t>0 && t < 1)
 			{
 				if (nearest_line == -1 || dist < nearest_line_dist)

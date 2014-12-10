@@ -1,9 +1,8 @@
-
-#include <box2d.h>
-#include <baluRender.h>
 #include <baluEngine.h>
-#include <baluScript.h>
+#include <baluLib.h>
 #include "../Source/scriptClasses.h"
+
+#include <windows.h>
 
 TBaluEngine* engine;
 
@@ -213,7 +212,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
 	RECT rect;
 	GetClientRect(hWnd,&rect);
 
-	engine=new TBaluEngine(hWnd,TVec2i(rect.right-rect.left,rect.bottom-rect.top));
+	engine=new TBaluEngine((int)hWnd,TVec2i(rect.right-rect.left,rect.bottom-rect.top));
 
 	InitEngine();
 

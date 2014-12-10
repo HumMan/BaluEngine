@@ -34,7 +34,7 @@ void TClassInstanceAdornment::Render(TDrawingHelper* drawing_helper)
 
 bool TClassInstanceAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)
 {
-	return boundary.Contain(world_cursor_location);
+	return boundary.PointCollide(world_cursor_location);
 }
 
 bool TClassInstanceAdornment::IsCollideWithObject(TVec2 world_cursor_location)

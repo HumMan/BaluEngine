@@ -34,7 +34,7 @@ void TClassSpriteAdornment::Render(TDrawingHelper* drawing_helper)
 
 bool TClassSpriteAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)
 {
-	return boundary.Contain(world_cursor_location);
+	return boundary.PointCollide(world_cursor_location);
 }
 
 bool TClassSpriteAdornment::IsCollideWithObject(TVec2 world_cursor_location)
@@ -77,7 +77,7 @@ void TClassPhysBodyAdornment::Render(TDrawingHelper* drawing_helper)
 
 bool TClassPhysBodyAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)
 {
-	return boundary.Contain(world_cursor_location);
+	return boundary.PointCollide(world_cursor_location);
 }
 
 bool TClassPhysBodyAdornment::IsCollideWithObject(TVec2 world_cursor_location)

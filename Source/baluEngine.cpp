@@ -1,13 +1,17 @@
 
 #include <baluEngine.h>
 
+#include "../Source/exportMacro.h"
+
 #include <map>
 
 #include <baluRender.h>
-//#include <baluScript.h>
+
 #include <box2d.h>
 
-//#include "../Source/scriptClasses.h""
+#include "../Source/scriptClasses.h""
+
+using namespace TBaluRenderEnums;
 
 class TBaluClassInternal
 {
@@ -94,7 +98,7 @@ void TBaluEngine::CallEvent(TBaluEvent use_event, int par0)
 			}
 	}
 }
-TBaluEngine::TBaluEngine(HWND hWnd, TVec2i use_size)
+TBaluEngine::TBaluEngine(int hWnd, TVec2i use_size)
 {
 	p.reset(new TBaluEngineInternal());
 	p->render.reset(new TBaluRender(hWnd, use_size));///,vmachine(100000),syntax()
@@ -297,7 +301,7 @@ void TBaluEngine::Start()
 
 	char* script_base_classes = NULL;
 	{
-		TFileData file("../../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
+		TFileData file("../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
 		char* base_source = new char[source_len];
 		base_source = file.ReadAll();
 		base_source[file.GetSize()] = '\0';

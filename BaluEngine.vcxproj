@@ -114,36 +114,79 @@
     <ClInclude Include="Source\scriptClasses.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\baluEditor.cpp" />
-    <ClCompile Include="Source\baluEditorDefs.cpp" />
+    <ClCompile Include="Source\baluEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\baluEditorDefs.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\baluEditorRuntime.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\baluEngine.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\BoundaryEditor.cpp" />
-    <ClCompile Include="Source\Editors\ClassEditor\classEditor.cpp" />
-    <ClCompile Include="Source\Editors\ClassEditor\classEditorAdornments.cpp" />
-    <ClCompile Include="Source\Editors\ClassEditor\classEditorTools.cpp" />
-    <ClCompile Include="Source\Editors\DrawingHelper.cpp" />
-    <ClCompile Include="Source\Editors\EditorControls.cpp" />
-    <ClCompile Include="Source\Editors\editorResourses .cpp" />
-    <ClCompile Include="Source\Editors\MaterialEditor\materialEditor.cpp" />
-    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorAdornments.cpp" />
-    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorTools.cpp" />
-    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditor.cpp" />
-    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp" />
-    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp" />
-    <ClCompile Include="Source\Editors\SceneEditor\sceneEditor.cpp" />
-    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorAdornments.cpp" />
-    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorTools.cpp" />
-    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditor.cpp" />
-    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorAdornments.cpp" />
-    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorTools.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.cpp" />
+    <ClCompile Include="Source\Editors\BoundaryEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\ClassEditor\classEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\ClassEditor\classEditorAdornments.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\ClassEditor\classEditorTools.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\DrawingHelper.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\EditorControls.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\editorResourses .cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\MaterialEditor\materialEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorAdornments.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorTools.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SceneEditor\sceneEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorAdornments.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorTools.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorAdornments.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorTools.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\scriptClasses.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -32,7 +32,7 @@ void TPolygonShapeAdornment::Render(TDrawingHelper* drawing_helper)
 
 bool TPolygonShapeAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)
 {
-	return boundary.Contain(world_cursor_location);
+	return boundary.PointCollide(world_cursor_location);
 }
 bool TPolygonShapeAdornment::IsCollideWithObject(TVec2 world_cursor_location)
 {
@@ -57,7 +57,7 @@ void TCircleShapeAdornment::Render(TDrawingHelper* drawing_helper)
 
 bool TCircleShapeAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)
 {
-	return boundary.Contain(world_cursor_location);
+	return boundary.PointCollide(world_cursor_location);
 }
 bool TCircleShapeAdornment::IsCollideWithObject(TVec2 world_cursor_location)
 {

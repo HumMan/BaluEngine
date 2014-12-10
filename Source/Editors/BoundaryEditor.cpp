@@ -70,7 +70,7 @@ bool TBoundaryBoxAdornment::IsCollide(TVec2 point)
 	const float point_select_threshold = 0.3;
 	float nearest_point_dist = 0;
 	float nearest_point_id = GetNearestControl(point, nearest_point_dist);
-	bool obj_collide = boundary.Contain(cursor_pos);
+	bool obj_collide = boundary.PointCollide(cursor_pos);
 	if (nearest_point_id != -1 && nearest_point_dist < point_select_threshold)
 	{
 		box_under_cursor = false;
@@ -220,7 +220,7 @@ void TBoundaryBoxAdornment::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_lo
 }
 void TBoundaryBoxAdornment::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	box_under_cursor = boundary.Contain(world_cursor_location);
+	box_under_cursor = boundary.PointCollide(world_cursor_location);
 	TEditorObjectControls::OnMouseMove(e, world_cursor_location);
 	
 }

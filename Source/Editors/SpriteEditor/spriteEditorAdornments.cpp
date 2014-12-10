@@ -35,7 +35,7 @@ void TSpritePolygonAdornment::Render(TDrawingHelper* drawing_helper)
 
 bool TSpritePolygonAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)
 {
-	return boundary.Contain(world_cursor_location);
+	return boundary.PointCollide(world_cursor_location);
 }
 bool TSpritePolygonAdornment::IsCollideWithObject(TVec2 world_cursor_location)
 {
