@@ -1,5 +1,6 @@
 Context creation... passed
-Initialization... passed
+Initialization...Loading image library... passed
+ passed
 OpenGL INFO START:
 4.2.0
 Quadro K2000D/PCIe/SSE2
@@ -288,5 +289,5 @@ GL_WIN_swap_hint
 WGL_EXT_swap_control
 
 OpenGL INFO END:
-Texture loading (..\textures\Crate005_ebox.png)... passed
-Texture loading (..\textures\container_001a.png)... passed
+ passed
+ passed

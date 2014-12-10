@@ -206,7 +206,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
 	hWnd = CreateWindow (
 		wc.lpszClassName, L"Sample",
 		WS_OVERLAPPEDWINDOW| WS_VISIBLE|WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_POPUPWINDOW | WS_VISIBLE,
-		50, 50, 1000,1000,/*GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),*/
+		50, 50, 150,150,/*GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),*/
 		NULL, NULL, hInstance, NULL);
 
 	RECT rect;

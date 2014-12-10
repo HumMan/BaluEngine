@@ -112,6 +112,7 @@
     <ClInclude Include="Source\Editors\Tools.h" />
     <ClInclude Include="Source\exportMacro.h" />
     <ClInclude Include="Source\scriptClasses.h" />
+    <ClInclude Include="Source\scriptClasses2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEditor.cpp">

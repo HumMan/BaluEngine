@@ -144,6 +144,9 @@
     <ClInclude Include="Source\baluEngine.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\scriptClasses2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">

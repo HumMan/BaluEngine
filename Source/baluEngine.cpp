@@ -11,6 +11,22 @@
 
 #include "../Source/scriptClasses.h""
 
+const int MAX_EVENTS = (int)TBaluEvent::MAX_EVENTS;
+
+const static char* event_name[MAX_EVENTS] =
+{
+	"OnCreate",
+	"OnDestroy",
+	"OnStep",
+	"OnDraw",
+	"OnGlobalMouseDown",
+	"OnGlobalMouseUp",
+	"OnGlobalMouseMove",
+	"OnGlobalMouseWheel",
+	"OnKeyDown",
+	"OnKeyUp",
+};
+
 using namespace TBaluRenderEnums;
 
 class TBaluClassInternal
