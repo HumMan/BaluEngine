@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include <baluScript.h>
 
 #include <baluRender.h>
@@ -107,21 +109,6 @@ public:
 class TBaluSpritePolygon
 {
 public:
-
-	TBaluMaterial* material;
-
-	TAABB<float, 2> aabb;
-	TBaluTransform transform;//TODO все трансформации применять не к объекту, а хранить отдельно
-
-	std::vector<TVec2> polygon_vertices;
-	std::vector<TVec2> tex_coordinates;
-public:
-	std::string GetName()
-	{
-		return "SpritePolygon";
-	}
-
-
 	enum class TPolygonMode
 	{
 		Points,
@@ -134,7 +121,7 @@ public:
 		Quads,
 		QuadStrip
 	};
-	TPolygonMode polygone_mode;
+
 	enum class TPrimitive
 	{
 		Points,
@@ -147,14 +134,144 @@ public:
 		Quads,
 		QuadStrip
 	};
+private:
+	TBaluMaterial* material;
+
+	TAABB<float, 2> aabb;
+
+	std::vector<TVec2> polygon_vertices;
+	std::vector<TVec2> tex_coordinates;
+	TPolygonMode polygone_mode;
 	TPrimitive primitive;
 
+	TBaluTransform sprite_polygon_transform;
+public:
 	TOBB<float, 2> GetOBB();
+};
 
+class TBaluPhysShape
+{
+protected:
+	TBaluTransform phys_shape_transform;
+public:
+	std::string GetName()
+	{
+		return "PhysShape";
+	}
+	virtual ~TBaluPhysShape(){}
+	virtual TOBB<float, 2> GetOBB() = 0;
+	virtual b2Shape& GetB2Shape() = 0;
+	virtual void BuildFixture(b2Body &body) = 0;
 };
 
 
+class TBaluPolygonShape : public TBaluPhysShape
+{
+private:
+	b2PolygonShape b2shape;
+public:
+	std::string GetName()
+	{
+		return "PolygonShape";
+	}
+	TBaluPolygonShape()
+	{
+	}
+	TOBB<float, 2> GetOBB();
+
+	b2Shape& GetB2Shape(){ return b2shape; }
+};
 
 
+class TBaluSprite
+{
+private:
+	std::string sprite_name;
+	TBaluSpritePolygon sprite_polygon;
+	
+	std::unique_ptr<TBaluPhysShape> phys_shape;
+	
+public:
+	std::string GetName()
+	{
+		return sprite_name;
+	}
+	TBaluSprite(){}
+};
+
+class TBaluSpriteInstance
+{
+public:
+	std::string GetName()
+	{
+		return "SpriteInstance";
+	}
+	TBaluSprite* sprite;
+	std::string tag;
+	TBaluTransform transform;
+
+	TOBB<float, 2> GetOBB();
+};
 
 
+class TBaluClass
+{
+private:
+	std::string class_name;
+	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
+public:
+	std::string GetName()
+	{
+		return class_name;
+	}
+	TBaluClass(){}
+	TBaluClass(TBaluClass&& right)
+	{
+		class_name = std::move(right.class_name);
+		sprites = std::move(right.sprites);
+	}
+	virtual ~TBaluClass();
+	void BuildFixtures(b2Body& body);
+};
+
+
+class TBaluInstance
+{
+private:
+	std::string name;
+	TBaluClass* instance_class;
+	TBaluTransform instance_transform;
+public:
+	void Build();
+	TOBB<float, 2> GetOBB();
+};
+
+
+class TBaluScene
+{
+private:
+	std::string scene_name;
+	std::vector<std::unique_ptr<TBaluInstance>> instances;
+public:
+	std::string GetName()
+	{
+		return scene_name;
+	}
+	TBaluScene(){}
+	TBaluScene(TBaluScene&& right)
+	{
+		scene_name = std::move(right.scene_name);
+		instances = std::move(right.instances);
+	}
+};
+
+class TBaluWorldDef
+{
+private:
+	std::map<std::string, TBaluMaterial> materials;
+	std::map<std::string, TBaluSprite> sprites;
+	std::map<std::string, TBaluClass> classes;
+	std::map<std::string, TBaluScene> scenes;
+public:
+	virtual ~TBaluWorldDef();
+};
