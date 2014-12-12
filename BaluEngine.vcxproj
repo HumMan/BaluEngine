@@ -51,13 +51,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\boost_1_56_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\boost_1_56_0;$(ProjectDir)\..\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;glew32s.lib;pugixmlsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\glew-1.11.0\lib\Release\Win32;$(ProjectDir)\..\pugixml\scripts\vs2010\x32\;$(ProjectDir)\..\Boost\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;glew32s.lib;pugixmlsd.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\glew-1.11.0\lib\Release\Win32;$(ProjectDir)\..\pugixml\scripts\vs2010\x32\;$(ProjectDir)\..\Boost\lib;$(ProjectDir)\..\SDL2-2.0.3\VisualC\SDL\Win32\Debug\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,7 +125,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\baluEngine.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\Editors\BoundaryEditor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -188,6 +188,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\scriptClasses.cpp" />
+    <ClCompile Include="Source\scriptClasses2.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

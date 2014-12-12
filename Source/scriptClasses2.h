@@ -7,6 +7,8 @@
 #include <baluRender.h>
 #include <Box2D.h>
 
+#include "exportMacro.h"
+
 class TBaluEngine;
 
 namespace pugi
@@ -145,6 +147,10 @@ private:
 	TPrimitive primitive;
 
 	TBaluTransform sprite_polygon_transform;
+
+	//compiled geometry
+	std::vector<int> indices;
+	std::vector<TVec2> vertices;
 public:
 	TOBB<float, 2> GetOBB();
 };
@@ -154,10 +160,6 @@ class TBaluPhysShape
 protected:
 	TBaluTransform phys_shape_transform;
 public:
-	std::string GetName()
-	{
-		return "PhysShape";
-	}
 	virtual ~TBaluPhysShape(){}
 	virtual TOBB<float, 2> GetOBB() = 0;
 	virtual b2Shape& GetB2Shape() = 0;
@@ -170,13 +172,7 @@ class TBaluPolygonShape : public TBaluPhysShape
 private:
 	b2PolygonShape b2shape;
 public:
-	std::string GetName()
-	{
-		return "PolygonShape";
-	}
-	TBaluPolygonShape()
-	{
-	}
+
 	TOBB<float, 2> GetOBB();
 
 	b2Shape& GetB2Shape(){ return b2shape; }
@@ -191,28 +187,27 @@ private:
 	
 	std::unique_ptr<TBaluPhysShape> phys_shape;
 	
+	int layer;
+
+	
 public:
-	std::string GetName()
-	{
-		return sprite_name;
-	}
 	TBaluSprite(){}
+
+	void SetPhysShape(TBaluPhysShape* shape);
 };
 
 class TBaluSpriteInstance
 {
 public:
-	std::string GetName()
-	{
-		return "SpriteInstance";
-	}
 	TBaluSprite* sprite;
 	std::string tag;
 	TBaluTransform transform;
 
 	TOBB<float, 2> GetOBB();
-};
 
+	void GetSpriteGeometry(std::vector<int> index, std::vector<TVec2> vertex);
+	void GetSpriteGeometrySize(int& indices, int& vertices);
+};
 
 class TBaluClass
 {
@@ -231,16 +226,26 @@ public:
 		sprites = std::move(right.sprites);
 	}
 	virtual ~TBaluClass();
-	void BuildFixtures(b2Body& body);
+	void ConstructPhysBody(b2Body& body);
+
+	TBaluSpriteInstance* AddSprite(TBaluSprite* sprite);
+	void RemoveSprite(TBaluSprite* sprite);
 };
 
 
 class TBaluInstance
 {
 private:
-	std::string name;
+	int uid;
 	TBaluClass* instance_class;
 	TBaluTransform instance_transform;
+
+	//TCustomMembersValues custom_values;
+
+	//runtime
+	//b2Body* phys_body
+	//sprite_geometry_indices, vertices
+	//
 public:
 	void Build();
 	TOBB<float, 2> GetOBB();
@@ -263,6 +268,11 @@ public:
 		scene_name = std::move(right.scene_name);
 		instances = std::move(right.instances);
 	}
+
+	TBaluInstance* CreateInstance(char* class_name);
+
+	TVec2 WorldToScene(const TVec2& v);
+	TVec2 SceneToWorld(const TVec2& v);
 };
 
 class TBaluWorldDef
@@ -274,4 +284,44 @@ private:
 	std::map<std::string, TBaluScene> scenes;
 public:
 	virtual ~TBaluWorldDef();
+
+	TBaluMaterial* CreateMaterial(char* mat_name, char* tex_path, TVec4 use_color);
+	TBaluSprite* CreateSprite(char* sprite_name, char* mat_name, TVec2 use_size, float use_local_angle, TVec2 use_local_pos, float use_z_bias);
+	TBaluClass* CreateClass(char* class_name);
+	TBaluScene* CreateScene(char* scene_name);
+
+	TVec2 ScreenToWorld(const TVec2& v);
+	TVec2 WorldToScreen(const TVec2& v);
+
+	void SetAcitveScene();
+};
+
+class TBaluEngineInternal;
+
+BALUENGINEDLL_API int Init();
+
+class BALUENGINEDLL_API  TBaluEngine
+{
+private:
+	std::unique_ptr<TBaluEngineInternal> p;
+public:
+
+	//void CallEvent(TBaluEvent use_event, int par0);
+public:
+	TBaluEngine(int hWnd, TVec2i use_size);
+	~TBaluEngine();
+	void Start();
+	void Step(float step, double time);
+	void SetViewport(TVec2i use_size);
+
+	void OnMouseLeftUp();
+	void OnMouseLeftDown();
+	void OnMouseRightUp();
+	void OnMouseRightDown();
+	void OnMouseMiddleUp();
+	void OnMouseMiddleDown();
+	void OnMouseMove(TVec2i use_client_mouse_pos);
+	void OnMouseScroll(float delta);
+	void UpdateKeyStates(unsigned char new_keystates[]);
+	void UpdateMouseState(bool lpressed, bool mpressed, bool rpressed, TVec2i use_client_mouse_pos);
 };
