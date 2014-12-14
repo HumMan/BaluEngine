@@ -32,9 +32,7 @@ public:
 		TM_ALPHA_BLEND,
 		TM_ALPHA_TEST,
 	};
-	TTransparentMode blend_mode;
-
-	float alpha_test_value;
+	
 	enum class TPolygonMode
 	{
 		Point,
@@ -94,6 +92,8 @@ public:
 		STR = 1 | 2 | 4
 	};
 private:
+	TTransparentMode blend_mode;
+	float alpha_test_value;
 	TAlphaTestFunc alpha_test_func;
 	TBlendFunc blend_func;
 	TBlendEquation blend_left, blend_right;
@@ -104,55 +104,38 @@ private:
 	std::string image_path;
 	TVec4 color;
 public:
-
+	void SetBlendMode(TTransparentMode mode);
+	void SetAlphaTestValue(float alpha_test_value);
+	void SetName(std::string name);
+	std::string GetName();
+	void SetImagePath(std::string image_path);
+	void SetColor(TVec4 color);
 };
 
 
 class TBaluSpritePolygon
 {
-public:
-	enum class TPolygonMode
-	{
-		Points,
-		Lines,
-		LineLoop,
-		LineStrip,
-		Triangles,
-		TriangleStrip,
-		TriangleFan,
-		Quads,
-		QuadStrip
-	};
-
-	enum class TPrimitive
-	{
-		Points,
-		Lines,
-		LineLoop,
-		LineStrip,
-		Triangles,
-		TriangleStrip,
-		TriangleFan,
-		Quads,
-		QuadStrip
-	};
 private:
 	TBaluMaterial* material;
 
-	TAABB<float, 2> aabb;
-
 	std::vector<TVec2> polygon_vertices;
 	std::vector<TVec2> tex_coordinates;
-	TPolygonMode polygone_mode;
-	TPrimitive primitive;
 
 	TBaluTransform sprite_polygon_transform;
 
 	//compiled geometry
 	std::vector<int> indices;
 	std::vector<TVec2> vertices;
+
 public:
-	TOBB<float, 2> GetOBB();
+	void SetMaterial(TBaluMaterial* material);
+	void SetVertices(std::vector<TVec2> polygon_vertices);
+	std::vector<TVec2> GetVertices();
+	int GetVerticesCount();
+	void SetVertex(int id, TVec2 pos);
+	TVec2 GetVertex(int id);
+	void SetTexCoords(std::vector<TVec2> tex_coordinates);
+	void SetTexCoordsFromVertices(TVec2 origin, TVec2 scale);
 };
 
 class TBaluPhysShape
@@ -161,8 +144,6 @@ protected:
 	TBaluTransform phys_shape_transform;
 public:
 	virtual ~TBaluPhysShape(){}
-	virtual TOBB<float, 2> GetOBB() = 0;
-	virtual b2Shape& GetB2Shape() = 0;
 	virtual void BuildFixture(b2Body &body) = 0;
 };
 
@@ -173,9 +154,7 @@ private:
 	b2PolygonShape b2shape;
 public:
 
-	TOBB<float, 2> GetOBB();
-
-	b2Shape& GetB2Shape(){ return b2shape; }
+	void BuildFixture(b2Body &body);
 };
 
 
@@ -194,6 +173,12 @@ public:
 	TBaluSprite(){}
 
 	void SetPhysShape(TBaluPhysShape* shape);
+
+	void SetPhysShapeFromGeometry();
+
+	void CreateAnimationLine();
+	void CreateFramesAsGrid();
+	void CreateFrame(TVec2 tex_coord_pos, TVec2 tex_coord_size);
 };
 
 class TBaluSpriteInstance
@@ -207,13 +192,21 @@ public:
 
 	void GetSpriteGeometry(std::vector<int> index, std::vector<TVec2> vertex);
 	void GetSpriteGeometrySize(int& indices, int& vertices);
+
+	void PlayAnimation(std::string animation_name, bool loop);
+	void PauseAnimation(bool pause);
+	void StopAnimation();
 };
+
+typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);
 
 class TBaluClass
 {
 private:
 	std::string class_name;
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
+
+	void ConstructPhysBody(b2Body& body);
 public:
 	std::string GetName()
 	{
@@ -226,10 +219,18 @@ public:
 		sprites = std::move(right.sprites);
 	}
 	virtual ~TBaluClass();
-	void ConstructPhysBody(b2Body& body);
-
+	
+	void OnMouseMove(TMouseMoveCallback);
 	TBaluSpriteInstance* AddSprite(TBaluSprite* sprite);
 	void RemoveSprite(TBaluSprite* sprite);
+	void SetPhysBodyType();//static dynamic
+
+	void CreateBone();
+	void AttachSpriteToBone();
+	void CreateAnimationLine();
+	void SetBoneTransform();
+	void CreateKeyFrame();
+	void SetAnimationTime();
 };
 
 
@@ -247,8 +248,8 @@ private:
 	//sprite_geometry_indices, vertices
 	//
 public:
-	void Build();
-	TOBB<float, 2> GetOBB();
+	void SetStringValue();
+	void SetDoubleValue();
 };
 
 
@@ -298,7 +299,7 @@ public:
 
 class TBaluEngineInternal;
 
-BALUENGINEDLL_API int Init();
+BALUENGINEDLL_API int SDLTest();
 
 class BALUENGINEDLL_API  TBaluEngine
 {

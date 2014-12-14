@@ -192,7 +192,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
 					LPSTR lpCmdLine,
 					int iCmdShow)
 {
-	Init();
+	SDLTest();
 	//MSG msg;
 	///* register window class */
 	//WNDCLASS wc = {0};

@@ -57,7 +57,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;glew32s.lib;pugixmlsd.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\glew-1.11.0\lib\Release\Win32;$(ProjectDir)\..\pugixml\scripts\vs2010\x32\;$(ProjectDir)\..\Boost\lib;$(ProjectDir)\..\SDL2-2.0.3\VisualC\SDL\Win32\Debug\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\glew-1.11.0\lib\Release\Win32;$(ProjectDir)\..\pugixml\scripts\vs2010\x32\;$(ProjectDir)\..\Boost\lib;$(ProjectDir)\..\SDL2-2.0.3\lib\x86\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -111,8 +111,10 @@
     <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditorTools.h" />
     <ClInclude Include="Source\Editors\Tools.h" />
     <ClInclude Include="Source\exportMacro.h" />
+    <ClInclude Include="Source\polygon_decomp.h" />
     <ClInclude Include="Source\scriptClasses.h" />
     <ClInclude Include="Source\scriptClasses2.h" />
+    <ClInclude Include="Source\texture_polygon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEditor.cpp">
@@ -187,8 +189,10 @@
     <ClCompile Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Source\polygon_decomp.cpp" />
     <ClCompile Include="Source\scriptClasses.cpp" />
     <ClCompile Include="Source\scriptClasses2.cpp" />
+    <ClCompile Include="Source\texture_polygon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

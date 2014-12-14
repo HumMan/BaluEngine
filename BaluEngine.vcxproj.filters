@@ -147,6 +147,12 @@
     <ClInclude Include="Source\scriptClasses2.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\polygon_decomp.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\texture_polygon.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\baluEngine.cpp">
@@ -225,6 +231,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\scriptClasses2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\polygon_decomp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\texture_polygon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
