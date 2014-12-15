@@ -2,6 +2,12 @@
 
 #include <SDL.h>
 
+//testing only
+#include "texture_polygon.h"
+#include <IL/ilut.h>
+
+#undef max
+
 class TBaluEngineInternal
 {
 public:
@@ -17,6 +23,54 @@ void Finalize()
 void Display()
 {
 
+}
+
+void TextureToolTest()
+{
+	ILuint handle;
+	ilInit();
+	ilGenImages(1, &handle);
+	ilBindImage(handle);
+	ilLoadImage("..\\textures\\Crate005_ebox.png");
+
+	auto w = ilGetInteger(IL_IMAGE_WIDTH); // getting image width
+	auto h = ilGetInteger(IL_IMAGE_HEIGHT); // and height
+	printf("Our image resolution: %dx%d\n", w, h);
+	/* how much memory will we need? */
+	int memory_needed = w * h * sizeof(unsigned int);
+	/* We multiply by 3 here because we want 3 components per pixel */
+	ILuint * data = (ILuint *)malloc(memory_needed);
+	/* finally get the image data */
+	ilCopyPixels(0, 0, 0, w, h, 1, IL_ALPHA, IL_UNSIGNED_INT, data);
+	/* We want to do something with the image, right? */
+	//int i;
+	int temp = std::numeric_limits<unsigned int>().max() / 255;
+	for (int i = 0; i < w * h; i++)
+		data[i] = data[i] / temp;
+	/* And maybe we want to save that all... */
+
+	auto vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, w*h, w);
+
+	memory_needed = w * h * 4* sizeof(unsigned char);
+	/* We multiply by 3 here because we want 3 components per pixel */
+	ILubyte * data2 = (ILubyte *)malloc(memory_needed);
+	/* finally get the image data */
+	ilCopyPixels(0, 0, 0, w, h, 1, IL_RGBA, IL_UNSIGNED_BYTE, data2);
+
+	//for (int i = 0; i < w * h; i++)
+	//	data[i] = d;
+
+	for (TVec2 v : vertices)
+	{
+		int x = v[0];
+		int y = v[1];
+		TVec<unsigned char, 4>& vvv = *(TVec<unsigned char, 4>*)&(data2[(y*w + x) * 4]);
+		vvv[0] = 255;
+	}
+
+	ilSetPixels(0, 0, 0, w, h, 1, IL_RGBA, IL_UNSIGNED_BYTE, data2);
+	/* and dump them to the disc... */
+	ilSaveImage("our_result.png");
 }
 
 int SDLTest()

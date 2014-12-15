@@ -2,13 +2,17 @@
 #include <baluLib.h>
 #include "../Source/scriptClasses2.h"
 
-//int main()
-//{
-//	Init();
-//}
-//
-//
 #include <windows.h>
+
+int WINAPI WinMain(HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	LPSTR lpCmdLine,
+	int iCmdShow)
+{
+	TextureToolTest();
+	return 0;
+}
+
 //
 //TBaluEngine* engine;
 //
@@ -187,12 +191,14 @@
 //	}
 //}
 //
-int WINAPI WinMain (HINSTANCE hInstance,
-					HINSTANCE hPrevInstance,
-					LPSTR lpCmdLine,
-					int iCmdShow)
-{
-	SDLTest();
+//int WINAPI WinMain (HINSTANCE hInstance,
+//					HINSTANCE hPrevInstance,
+//					LPSTR lpCmdLine,
+//					int iCmdShow)
+//{
+//
+
+	//SDLTest();
 	//MSG msg;
 	///* register window class */
 	//WNDCLASS wc = {0};
@@ -249,6 +255,6 @@ int WINAPI WinMain (HINSTANCE hInstance,
 
 	///* destroy the window explicitly */
 	//DestroyWindow(hWnd);
-
-	return 0;
-}
+//
+//	return 0;
+//}

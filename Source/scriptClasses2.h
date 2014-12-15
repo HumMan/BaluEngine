@@ -299,7 +299,6 @@ public:
 
 class TBaluEngineInternal;
 
-BALUENGINEDLL_API int SDLTest();
 
 class BALUENGINEDLL_API  TBaluEngine
 {
@@ -326,3 +325,7 @@ public:
 	void UpdateKeyStates(unsigned char new_keystates[]);
 	void UpdateMouseState(bool lpressed, bool mpressed, bool rpressed, TVec2i use_client_mouse_pos);
 };
+
+//tesing only
+BALUENGINEDLL_API int SDLTest();
+BALUENGINEDLL_API void TextureToolTest();
