@@ -304,10 +304,13 @@ class BALUENGINEDLL_API  TBaluEngine
 {
 private:
 	std::unique_ptr<TBaluEngineInternal> p;
+
+	int MainLoop();
 public:
 
 	//void CallEvent(TBaluEvent use_event, int par0);
 public:
+	TBaluEngine();
 	TBaluEngine(int hWnd, TVec2i use_size);
 	~TBaluEngine();
 	void Start();
@@ -327,5 +330,5 @@ public:
 };
 
 //tesing only
-BALUENGINEDLL_API int SDLTest();
+//BALUENGINEDLL_API int SDLTest();
 BALUENGINEDLL_API void TextureToolTest();

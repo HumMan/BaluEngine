@@ -66,6 +66,7 @@ void TextureToolTest()
 		int y = v[1];
 		TVec<unsigned char, 4>& vvv = *(TVec<unsigned char, 4>*)&(data2[(y*w + x) * 4]);
 		vvv[0] = 255;
+		vvv[3] = 255;
 	}
 
 	ilSetPixels(0, 0, 0, w, h, 1, IL_RGBA, IL_UNSIGNED_BYTE, data2);
@@ -73,7 +74,7 @@ void TextureToolTest()
 	ilSaveImage("our_result.png");
 }
 
-int SDLTest()
+int TBaluEngine::MainLoop()
 {
 	SDL_Window *mainwindow; /* Our window handle */
 
@@ -132,6 +133,11 @@ int SDLTest()
 	return 0;
 }
 
+
+TBaluEngine::TBaluEngine()
+{
+	MainLoop();
+}
 
 TBaluEngine::TBaluEngine(int hWnd, TVec2i use_size)
 {

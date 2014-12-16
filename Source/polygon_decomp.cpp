@@ -163,7 +163,8 @@ void swap(int &a, int &b) {
 	b = c;
 }
 
-void decomposePoly(Polygon poly) {
+void decomposePoly(Polygon poly) 
+{
 	Point upperInt, lowerInt, p, closestVert;
 	Scalar upperDist, lowerDist, d, closestDist;
 	int upperIndex, lowerIndex, closestIndex =0;
