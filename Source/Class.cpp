@@ -28,7 +28,7 @@ void TBaluClass::OnMouseMove(TMouseMoveCallback)
 }
 TBaluClass::TBaluSpriteInstance* TBaluClass::AddSprite(TBaluSprite* sprite)
 {
-
+	return nullptr;
 }
 void TBaluClass::RemoveSprite(TBaluSprite* sprite)
 {

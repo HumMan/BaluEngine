@@ -20,5 +20,5 @@ public:
 	TVec2 WorldToScene(const TVec2& v);
 	TVec2 SceneToWorld(const TVec2& v);
 	
-	void QueryAABB(TAABB frustum, std::vector<TSpritePolyInstance);
+	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 };
