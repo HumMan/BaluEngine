@@ -1,8 +1,10 @@
 #include "Material.h"
 
-class TMaterialId
+#include <baluRender.h>
+
+class TMaterialInstance
 {
 	TTextureId texture;
 	TBaluMaterial* source_material;
-	public:
-}
+public:
+};

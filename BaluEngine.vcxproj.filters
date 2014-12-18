@@ -13,236 +13,101 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Editors">
-      <UniqueIdentifier>{0e0a68c2-a099-4d5b-951e-f39fcc82c6e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Editors\PhysBodyEditor">
-      <UniqueIdentifier>{cd113f48-fece-4ee9-9580-90c6b2283fde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Editors\MaterialEditor">
-      <UniqueIdentifier>{ccebb029-bec2-41aa-8ca3-85b20955c5bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Editors\SpriteEditor">
-      <UniqueIdentifier>{3f583d7f-7846-4e93-9e2a-40e24173e95c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Editors\SceneEditor">
-      <UniqueIdentifier>{23ade99a-30ae-4767-8f72-cd1e9ac0bd84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Editors\ClassEditor">
-      <UniqueIdentifier>{04f2f9b3-d15f-4bef-b788-9f432da13848}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Editors\SpritePolygonEditor">
-      <UniqueIdentifier>{b6226e45-8a3d-44e0-b746-ece0a5204d78}</UniqueIdentifier>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{b5dd86ef-e477-417a-9bb9-bc086950a82f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\baluEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scriptClasses.h">
+    <ClInclude Include="Source\WorldInstance.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\baluEditor.h">
+    <ClInclude Include="Source\World.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\baluEditorDefs.h">
+    <ClInclude Include="Source\SpritePolyInstance.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\baluEditorRuntime.h">
+    <ClInclude Include="Source\SpritePoly.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Editors\abstractEditor.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\BoundaryEditor.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\DrawingHelper.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\editorResourses.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\exportMacro.h">
+    <ClInclude Include="Source\SpriteInstance.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditor.h">
-      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.h">
-      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorScene.h">
-      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.h">
-      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\EditorControls.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\MaterialEditor\materialEditorTools.h">
-      <Filter>Source Files\Editors\MaterialEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\MaterialEditor\materialEditorScene.h">
-      <Filter>Source Files\Editors\MaterialEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\MaterialEditor\materialEditorAdornments.h">
-      <Filter>Source Files\Editors\MaterialEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\MaterialEditor\materialEditor.h">
-      <Filter>Source Files\Editors\MaterialEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditor.h">
-      <Filter>Source Files\Editors\SpriteEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\ClassEditor\classEditor.h">
-      <Filter>Source Files\Editors\ClassEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SceneEditor\sceneEditor.h">
-      <Filter>Source Files\Editors\SceneEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorTools.h">
-      <Filter>Source Files\Editors\SpriteEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditorScene.h">
-      <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.h">
-      <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SpritePolygonEditor\spritePolygonEditorTools.h">
-      <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorScene.h">
-      <Filter>Source Files\Editors\SpriteEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SpriteEditor\spriteEditorAdornments.h">
-      <Filter>Source Files\Editors\SpriteEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\ClassEditor\classEditorTools.h">
-      <Filter>Source Files\Editors\ClassEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\ClassEditor\classEditorAdornments.h">
-      <Filter>Source Files\Editors\ClassEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\ClassEditor\classEditorScene.h">
-      <Filter>Source Files\Editors\ClassEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\Tools.h">
-      <Filter>Source Files\Editors</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SceneEditor\sceneEditorAdornments.h">
-      <Filter>Source Files\Editors\SceneEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SceneEditor\sceneEditorScene.h">
-      <Filter>Source Files\Editors\SceneEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editors\SceneEditor\sceneEditorTools.h">
-      <Filter>Source Files\Editors\SceneEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\baluEngine.h">
+    <ClInclude Include="Source\Sprite.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\scriptClasses2.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\polygon_decomp.h">
+    <ClInclude Include="Source\SceneInstance.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\texture_polygon.h">
+    <ClInclude Include="Source\Scene.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\polygon_vertices.h">
+    <ClInclude Include="Source\RenderCommand.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PhysShapeInstance.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PhysShape.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MaterialInstance.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Material.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\exportMacro.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ClassInstance.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Class.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\texture_polygon.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\polygon_vertices.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\polygon_decomp.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\baluEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\baluEditorDefs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\baluEditorRuntime.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\baluEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\BoundaryEditor.cpp">
-      <Filter>Source Files\Editors</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\DrawingHelper.cpp">
-      <Filter>Source Files\Editors</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\editorResourses .cpp">
-      <Filter>Source Files\Editors</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditor.cpp">
-      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorTools.cpp">
-      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\EditorControls.cpp">
-      <Filter>Source Files\Editors</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\PhysBodyEditor\physBodyEditorAdornments.cpp">
-      <Filter>Source Files\Editors\PhysBodyEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorTools.cpp">
-      <Filter>Source Files\Editors\MaterialEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\MaterialEditor\materialEditorAdornments.cpp">
-      <Filter>Source Files\Editors\MaterialEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\MaterialEditor\materialEditor.cpp">
-      <Filter>Source Files\Editors\MaterialEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditor.cpp">
-      <Filter>Source Files\Editors\SpriteEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\ClassEditor\classEditor.cpp">
-      <Filter>Source Files\Editors\ClassEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\SpritePolygonEditor\spritePolygonEditor.cpp">
-      <Filter>Source Files\Editors\SpritePolygonEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorTools.cpp">
-      <Filter>Source Files\Editors\SpriteEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\SpriteEditor\spriteEditorAdornments.cpp">
-      <Filter>Source Files\Editors\SpriteEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\ClassEditor\classEditorTools.cpp">
-      <Filter>Source Files\Editors\ClassEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\ClassEditor\classEditorAdornments.cpp">
-      <Filter>Source Files\Editors\ClassEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\SceneEditor\sceneEditor.cpp">
-      <Filter>Source Files\Editors\SceneEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorAdornments.cpp">
-      <Filter>Source Files\Editors\SceneEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Editors\SceneEditor\sceneEditorTools.cpp">
-      <Filter>Source Files\Editors\SceneEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\scriptClasses.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\scriptClasses2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\polygon_decomp.cpp">
+    <ClCompile Include="Source\Utils\texture_polygon.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\polygon_vertices.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\polygon_decomp.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpritePoly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\texture_polygon.cpp">
+    <ClCompile Include="Source\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\polygon_vertices.cpp">
+    <ClCompile Include="Source\SpritePolyInstance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Class.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ClassInstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
