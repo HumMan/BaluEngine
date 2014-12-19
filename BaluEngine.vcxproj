@@ -76,6 +76,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\poly2tri\poly2tri\common\shapes.h" />
+    <ClInclude Include="..\poly2tri\poly2tri\common\utils.h" />
+    <ClInclude Include="..\poly2tri\poly2tri\poly2tri.h" />
+    <ClInclude Include="..\poly2tri\poly2tri\sweep\advancing_front.h" />
+    <ClInclude Include="..\poly2tri\poly2tri\sweep\cdt.h" />
+    <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep.h" />
+    <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep_context.h" />
     <ClInclude Include="Include\baluEngine.h" />
     <ClInclude Include="Source\Class.h" />
     <ClInclude Include="Source\ClassInstance.h" />
@@ -99,19 +106,25 @@
     <ClInclude Include="Source\WorldInstance.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\poly2tri\poly2tri\common\shapes.cc" />
+    <ClCompile Include="..\poly2tri\poly2tri\sweep\advancing_front.cc" />
+    <ClCompile Include="..\poly2tri\poly2tri\sweep\cdt.cc" />
+    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep.cc" />
+    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Source\Class.cpp" />
     <ClCompile Include="Source\ClassInstance.cpp" />
     <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneInstance.cpp" />
     <ClCompile Include="Source\scriptClasses2.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\SpritePoly.cpp" />
     <ClCompile Include="Source\SpritePolyInstance.cpp" />
     <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
     <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
     <ClCompile Include="Source\Utils\texture_polygon.cpp" />
+    <ClCompile Include="Source\WorldInstance.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

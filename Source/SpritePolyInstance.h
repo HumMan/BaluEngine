@@ -16,10 +16,11 @@ private:
 
 	//compiled geometry
 	bool is_dirty;
-	std::vector<int> indices;
+	//std::vector<int> indices;
 	std::vector<TVec2> vertices; //in scene coordinates
 	
-	void TriangulateGeometry();
+	
+	void UpdateGeometry();
 public:
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 

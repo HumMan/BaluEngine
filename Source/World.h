@@ -1,3 +1,11 @@
+#pragma once
+
+#include "Material.h"
+#include "Sprite.h"
+#include "Class.h"
+#include "Scene.h"
+
+#include <map>
 
 class TBaluWorld
 {
@@ -7,7 +15,7 @@ private:
 	std::map<std::string, TBaluClass> classes;
 	std::map<std::string, TBaluScene> scenes;
 public:
-	virtual ~TBaluWorldDef();
+	virtual ~TBaluWorld();
 
 	TBaluMaterial* CreateMaterial(char* mat_name, char* tex_path, TVec4 use_color);
 	TBaluSprite* CreateSprite(char* sprite_name, char* mat_name, TVec2 use_size, float use_local_angle, TVec2 use_local_pos, float use_z_bias);

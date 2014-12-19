@@ -3,10 +3,11 @@
 #include <SDL.h>
 
 //testing only
-#include "texture_polygon.h"
-#include <IL/ilut.h>
+//#include "texture_polygon.h"
+//#include <IL/ilut.h>
 
-#undef max
+#include "World.h"
+#include "WorldInstance.h"
 
 class TBaluEngineInternal
 {
@@ -25,56 +26,90 @@ void Display()
 
 }
 
-void TextureToolTest()
+void PlayerJump(TBaluInstance* object)
 {
-	ILuint handle;
-	ilInit();
-	ilGenImages(1, &handle);
-	ilBindImage(handle);
-	ilLoadImage("..\\textures\\Crate005_ebox.png");
-
-	auto w = ilGetInteger(IL_IMAGE_WIDTH); // getting image width
-	auto h = ilGetInteger(IL_IMAGE_HEIGHT); // and height
-	printf("Our image resolution: %dx%d\n", w, h);
-	/* how much memory will we need? */
-	int memory_needed = w * h * sizeof(unsigned int);
-	/* We multiply by 3 here because we want 3 components per pixel */
-	ILuint * data = (ILuint *)malloc(memory_needed);
-	/* finally get the image data */
-	ilCopyPixels(0, 0, 0, w, h, 1, IL_ALPHA, IL_UNSIGNED_INT, data);
-	/* We want to do something with the image, right? */
-	//int i;
-	int temp = std::numeric_limits<unsigned int>().max() / 255;
-	for (int i = 0; i < w * h; i++)
-		data[i] = data[i] / temp;
-	/* And maybe we want to save that all... */
-
-	auto vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, w*h, w);
-
-	memory_needed = w * h * 4* sizeof(unsigned char);
-	/* We multiply by 3 here because we want 3 components per pixel */
-	ILubyte * data2 = (ILubyte *)malloc(memory_needed);
-	/* finally get the image data */
-	ilCopyPixels(0, 0, 0, w, h, 1, IL_RGBA, IL_UNSIGNED_BYTE, data2);
-
-	//for (int i = 0; i < w * h; i++)
-	//	data[i] = d;
-
-	for (TVec2 v : vertices)
+	if (object->GetBool("can_jump"))
 	{
-		int x = v[0];
-		int y = v[1];
-		TVec<unsigned char, 4>& vvv = *(TVec<unsigned char, 4>*)&(data2[(y*w + x) * 4]);
-		vvv[0] = 255;
-		vvv[3] = 255;
+		auto speed = object->PhysBody()->GetLinearVelocity();
+		speed.Y = 1;
+		object->PhysBody()->SetSpeed(speed);
 	}
-
-	ilSetPixels(0, 0, 0, w, h, 1, IL_RGBA, IL_UNSIGNED_BYTE, data2);
-	/* and dump them to the disc... */
-	ilSaveImage("our_result.png");
+}
+void PlayerLeft(TBaluInstance* object)
+{
+	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
+	auto speed = object->PhysBody()->GetLinearVelocity();
+	speed.X = -0.4*mult;
+	object->PhysBody()->SetSpeed(speed);
+}
+void PlayerRight(TBaluInstance* object)
+{
+	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
+	auto speed = object->PhysBody()->GetLinearVelocity();
+	speed.X = 0.4*mult;
+	object->PhysBody()->SetSpeed(speed);
 }
 
-int TBaluEngine::MainLoop()
+void PlayerJumpSensorCollide(TBaluInstance* source, TSensor* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+{
+	source->SetBool("can_jump", true);
+}
+
+void PlayerPrePhysStep(TBaluInstance* object)
+{
+	object->SetBool("can_jump", false);
+}
+
+TBaluWorld* CreateDemoWorld()
+{
+	auto world = new TBaluWorld();
+
+	auto brick_mat = world->CreateMaterial("brick", "images\brick.png", TVec4(1, 1, 1, 1));
+
+	auto box_sprite = world->CreateSprite("box0");
+	box_sprite->SetMaterial(brick_mat);
+	box_sprite->GetPolygone()->SetAsBox(1, 1);
+	box_sprite->SetPhysShape(new TBaluBoxShape(1, 1));
+
+	auto box_class = world->CreateClass("box");
+	auto box_class_instance = box_class->AddSprite(box_sprite);
+	box_class->SetPhysBodyType(TPhysBodyType::Static);
+	
+	auto player_mat = world->CreateMaterial("player_skin", "images\player.png");
+	auto player_sprite = world->CreateSprite("player");
+
+	player_sprite->SetMaterial(player_mat);
+	player_sprite->GetPolygone()->SetAsBox(1, 1);
+	player_sprite->SetPhysShape(new TBaluCircleShape(0.5));
+	
+	player_sprite->SetFramesGrid(512 / 8, 256 / 4);
+	player_sprite->CreateAnimationLine("run_right", 0, 12);
+	player_sprite->CreateAnimationLine("run_left", 15, 15+8);
+
+	auto player_class = world->CreateClass("player");
+	auto player_class_instance = player_class->AddSprite(player_class);
+	player_class_instance->tag = "character_sprite";
+	player_class->SetPhysBodyType(TPhysBodyType::Dynamic);
+	player_class->SetPhysBodyFixedRotation(true);
+
+	auto can_jump_sensor = new TSensor(new TBaluCircleShape(0.2, TVec2(-0.5, 0)));
+	player_class->AddSensor(can_jump_sensor);
+
+	player_class->OnKeyDown(Key::Up, PlayerJump);
+	player_class->OnKeyDown(Key::Left, PlayerLeft);
+	player_class->OnKeyDown(Key::Right, PlayerRight);
+
+	player_class->PrePhysStep(PlayerPrePhysStep);
+	player_class->OnSesorCollide(TPhysBodyType::Static | TPhysBodyType::Kinematic, PlayerJumpSensorCollide);
+}
+
+void TextureToolTest()
+{
+	
+}
+
+//int TBaluEngine::MainLoop()
+int MainLoop()
 {
 	SDL_Window *mainwindow; /* Our window handle */
 
@@ -132,65 +167,65 @@ int TBaluEngine::MainLoop()
 
 	return 0;
 }
-
-
-TBaluEngine::TBaluEngine()
-{
-	MainLoop();
-}
-
-TBaluEngine::TBaluEngine(int hWnd, TVec2i use_size)
-{
-	p.reset(new TBaluEngineInternal());
-	p->render.reset(new TBaluRender(hWnd, use_size));
-	p->phys_world = NULL;
-}
-TBaluEngine::~TBaluEngine()
-{
-	delete p->phys_world;
-}
-
-void TBaluEngine::SetViewport(TVec2i use_size)
-{
-	p->render->Set.Viewport(use_size);
-}
-
-void TBaluEngine::OnMouseLeftUp()
-{
-	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEUP, LEFT);
-}
-
-void TBaluEngine::OnMouseLeftDown()
-{
-	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEDOWN, LEFT);
-}
-
-void TBaluEngine::OnMouseRightUp()
-{
-	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEUP, RIGHT);
-}
-
-void TBaluEngine::OnMouseRightDown()
-{
-	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEDOWN, RIGHT);
-}
-
-void TBaluEngine::OnMouseMiddleUp()
-{
-	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEUP, MIDDLE);
-}
-
-void TBaluEngine::OnMouseMiddleDown()
-{
-	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEDOWN, MIDDLE);
-}
-
-void TBaluEngine::OnMouseMove(TVec2i use_client_mouse_pos)
-{
-}
-
-void TBaluEngine::OnMouseScroll(float delta)
-{
-	delta /= 120.f;
-	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEWHEEL, *(int*)&delta);
-}
+//
+//
+//TBaluEngine::TBaluEngine()
+//{
+//	MainLoop();
+//}
+//
+//TBaluEngine::TBaluEngine(int hWnd, TVec2i use_size)
+//{
+//	p.reset(new TBaluEngineInternal());
+//	p->render.reset(new TBaluRender(hWnd, use_size));
+//	p->phys_world = NULL;
+//}
+//TBaluEngine::~TBaluEngine()
+//{
+//	delete p->phys_world;
+//}
+//
+//void TBaluEngine::SetViewport(TVec2i use_size)
+//{
+//	p->render->Set.Viewport(use_size);
+//}
+//
+//void TBaluEngine::OnMouseLeftUp()
+//{
+//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEUP, LEFT);
+//}
+//
+//void TBaluEngine::OnMouseLeftDown()
+//{
+//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEDOWN, LEFT);
+//}
+//
+//void TBaluEngine::OnMouseRightUp()
+//{
+//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEUP, RIGHT);
+//}
+//
+//void TBaluEngine::OnMouseRightDown()
+//{
+//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEDOWN, RIGHT);
+//}
+//
+//void TBaluEngine::OnMouseMiddleUp()
+//{
+//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEUP, MIDDLE);
+//}
+//
+//void TBaluEngine::OnMouseMiddleDown()
+//{
+//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEDOWN, MIDDLE);
+//}
+//
+//void TBaluEngine::OnMouseMove(TVec2i use_client_mouse_pos)
+//{
+//}
+//
+//void TBaluEngine::OnMouseScroll(float delta)
+//{
+//	delta /= 120.f;
+//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEWHEEL, *(int*)&delta);
+//}

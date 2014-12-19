@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{b5dd86ef-e477-417a-9bb9-bc086950a82f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utils\poly2tri">
+      <UniqueIdentifier>{bc5d7d16-cdd1-4666-b8f0-d2b01c005486}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\baluEngine.h">
@@ -81,6 +84,27 @@
     <ClInclude Include="Source\Utils\polygon_decomp.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\poly2tri\poly2tri\common\shapes.h">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\poly2tri\poly2tri\common\utils.h">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\poly2tri\poly2tri\poly2tri.h">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\poly2tri\poly2tri\sweep\advancing_front.h">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\poly2tri\poly2tri\sweep\cdt.h">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep.h">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep_context.h">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\scriptClasses2.cpp">
@@ -114,6 +138,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneInstance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\poly2tri\poly2tri\common\shapes.cc">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\poly2tri\poly2tri\sweep\advancing_front.cc">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\poly2tri\poly2tri\sweep\cdt.cc">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep.cc">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc">
+      <Filter>Source Files\Utils\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WorldInstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

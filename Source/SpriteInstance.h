@@ -18,7 +18,7 @@ class TBaluSpriteInstance
 	std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
 	TBaluSpritePolygonInstance polygon;
 	
-	TOBB<float, 2> GetOBB();
+	TAABB2 GetAABB();
 
 	void GetSpriteGeometry(std::vector<int> index, std::vector<TVec2> vertex);
 	void GetSpriteGeometrySize(int& indices, int& vertices);
@@ -26,4 +26,6 @@ class TBaluSpriteInstance
 	void PlayAnimation(std::string animation_name, bool loop);
 	void PauseAnimation(bool pause);
 	void StopAnimation();
+
+	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 };

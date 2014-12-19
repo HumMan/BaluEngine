@@ -9,13 +9,10 @@ private:
 	TBaluScene* source;
 	std::vector<std::unique_ptr<TBaluInstance>> instances;
 public:
-	TBaluSceneInstance(){}
-	TBaluSceneInstance(TBaluSceneInstance&& right)
-	{
-		instances = std::move(right.instances);
-	}
+	TBaluSceneInstance(TBaluScene* source);
+	TBaluSceneInstance(TBaluSceneInstance&& right);
 
-	TBaluInstance* CreateInstance(char* class_name);
+	TBaluInstance* CreateInstance(TBaluClass* use_class);
 
 	TVec2 WorldToScene(const TVec2& v);
 	TVec2 SceneToWorld(const TVec2& v);

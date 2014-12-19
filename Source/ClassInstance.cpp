@@ -1,24 +1,31 @@
-#pragma once
+#include "ClassInstance.h"
 
-#include "Class.h"
-#include "SpriteInstance.h"
-
-class TBaluInstance
+TBaluInstance::TBaluInstance(TBaluClass* source)
 {
-private:
-	int uid;
-	TBaluClass* instance_class;
-	TBaluTransform instance_transform;
-	
-	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
 
-	//TCustomMembersValues custom_values;
+}
 
-	//runtime
-	//b2Body* phys_body
-	//sprite_geometry_indices, vertices
-	//
-public:
-	void SetStringValue();
-	void SetDoubleValue();
-};
+void TBaluInstance::SetTransform(TBaluTransform transform)
+{
+
+}
+
+void TBaluInstance::SetStringValue()
+{
+
+}
+
+void TBaluInstance::SetDoubleValue()
+{
+
+}
+
+TAABB2 TBaluInstance::GetAABB()
+{
+
+}
+
+void TBaluInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results)
+{
+
+}

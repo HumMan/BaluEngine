@@ -6,6 +6,7 @@
 
 #include <IL/ilut.h>
 
+#include "../poly2tri/poly2tri/poly2tri.h"
 
 void TBaluSpritePolygon::SetPolygonFromTexture()
 {
@@ -39,6 +40,34 @@ void TBaluSpritePolygon::SetPolygonFromTexture()
 		UpdatePolyVertices();
 	}
 }
+
+
+void TBaluSpritePolygon::TriangulateGeometry()
+{
+	std::vector<p2t::Point> points;
+	points.resize(polygon_vertices.size());
+	for (int i = 0; i < points.size(); i++)
+		points[i] = p2t::Point(polygon_vertices[i][0], polygon_vertices[i][1]);
+
+	std::vector<p2t::Point*> polyline;
+	polyline.resize(points.size());
+	for (int i = 0; i < polyline.size(); i++)
+		polyline[i] = &points[i];
+
+	p2t::CDT cdt(polyline);
+	cdt.Triangulate();
+	auto triangles = cdt.GetTriangles();
+	triangulated.resize(triangles.size() * 3);
+	for (int i = 0; i < triangles.size(); i++)
+	{
+		for (int k = 0; k < 3; k++)
+		{
+			auto tri_point = triangles[i]->GetPoint(k);
+			triangulated[i * 3 + k] = TVec2(tri_point->x, tri_point->y);
+		}
+	}
+}
+
 void TBaluSpritePolygon::UpdatePolyVertices()
 {
 	polygon_vertices = vertices;
@@ -80,15 +109,15 @@ TVec2 TBaluSpritePolygon::GetVertex(int id)
 {
 	return vertices[id];
 }
-void TBaluSpritePolygon::SetTexCoords(std::vector<TVec2> tex_coordinates)
-{
-	this->tex_coordinates = tex_coordinates;
-}
+//void TBaluSpritePolygon::SetTexCoords(std::vector<TVec2> tex_coordinates)
+//{
+//	this->tex_coordinates = tex_coordinates;
+//}
 void TBaluSpritePolygon::SetTexCoordsFromVertices(TVec2 origin, TVec2 scale)
 {
-	tex_coordinates = vertices;
+	tex_coordinates = triangulated;
 	for (int i = 0; i < tex_coordinates.size(); i++)
 	{
-		tex_coordinates[i] = tex_coordinates[i].ComponentMul(scale) - origin;
+		tex_coordinates[i] = ((triangulated[i]-this->origin)/this->size).ComponentMul(scale) - origin;
 	}
 }

@@ -17,3 +17,22 @@ public:
 
 	void BuildFixture(b2Body &body);
 };
+
+
+class TBaluCircleShape : public TBaluPhysShape
+{
+private:
+	b2PolygonShape b2shape;
+public:
+
+	void BuildFixture(b2Body &body);
+};
+
+class TBaluBoxShape : public TBaluPhysShape
+{
+private:
+	b2PolygonShape b2shape;
+public:
+
+	void BuildFixture(b2Body &body);
+};

@@ -19,6 +19,13 @@ private:
 	//sprite_geometry_indices, vertices
 	//
 public:
+	TBaluInstance(TBaluClass* source);
+	void SetTransform(TBaluTransform transform);
+
 	void SetStringValue();
 	void SetDoubleValue();
+
+	TAABB2 GetAABB();
+
+	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 };
