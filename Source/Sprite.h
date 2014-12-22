@@ -17,10 +17,11 @@ public:
 	TBaluSprite(){}
 
 	void SetPhysShape(TBaluPhysShape* shape);
-
 	void SetPhysShapeFromGeometry();
 
-	void CreateAnimationLine();
-	void CreateFramesAsGrid();
+	TBaluSpritePolygon& GetPolygone();
+
+	void SetFramesGrid(int pixels_in_cell_x, int pixels_in_cell_y);
+	void CreateAnimationLine(std::string line_name, int start_cell, int end_cell);
 	void CreateFrame(TVec2 tex_coord_pos, TVec2 tex_coord_size);
 };

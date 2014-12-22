@@ -17,8 +17,8 @@ private:
 public:
 	virtual ~TBaluWorld();
 
-	TBaluMaterial* CreateMaterial(char* mat_name, char* tex_path, TVec4 use_color);
-	TBaluSprite* CreateSprite(char* sprite_name, char* mat_name, TVec2 use_size, float use_local_angle, TVec2 use_local_pos, float use_z_bias);
+	TBaluMaterial* CreateMaterial(char* mat_name);
+	TBaluSprite* CreateSprite(char* sprite_name);
 	TBaluClass* CreateClass(char* class_name);
 	TBaluScene* CreateScene(char* scene_name);
 

@@ -3,7 +3,17 @@
 #include "Class.h"
 #include "SpriteInstance.h"
 
-class TBaluInstance
+class TBaluClassPhysBodyIntance
+{
+private:
+public:
+	void SetFixedRotation(bool fixed);
+
+	TVec2 GetLinearVelocity();
+	void SetLinearVelocity(TVec2 velocity);
+};
+
+class TBaluInstance: public TProperties
 {
 private:
 	int uid;
@@ -22,8 +32,7 @@ public:
 	TBaluInstance(TBaluClass* source);
 	void SetTransform(TBaluTransform transform);
 
-	void SetStringValue();
-	void SetDoubleValue();
+	TBaluClassPhysBodyIntance& GetPhysBody();
 
 	TAABB2 GetAABB();
 

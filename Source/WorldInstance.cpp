@@ -11,7 +11,7 @@ TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 }
 void TBaluWorldInstance::StopScene(TBaluSceneInstance* scene)
 {
-	auto iter = std::find(instances.begin(), instances.end(), scene);
+	auto iter = std::find_if(instances.begin(), instances.end(), [&](std::unique_ptr<TBaluSceneInstance>& p){return p.get() == scene; });
 	if (iter != instances.end())
 	{
 		instances.erase(iter);

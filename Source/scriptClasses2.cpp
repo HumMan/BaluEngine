@@ -30,27 +30,27 @@ void PlayerJump(TBaluInstance* object)
 {
 	if (object->GetBool("can_jump"))
 	{
-		auto speed = object->PhysBody()->GetLinearVelocity();
-		speed.Y = 1;
-		object->PhysBody()->SetSpeed(speed);
+		auto speed = object->GetPhysBody().GetLinearVelocity();
+		speed[1] = 1;
+		object->GetPhysBody().SetLinearVelocity(speed);
 	}
 }
 void PlayerLeft(TBaluInstance* object)
 {
 	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
-	auto speed = object->PhysBody()->GetLinearVelocity();
-	speed.X = -0.4*mult;
-	object->PhysBody()->SetSpeed(speed);
+	auto speed = object->GetPhysBody().GetLinearVelocity();
+	speed[0] = -0.4*mult;
+	object->GetPhysBody().SetLinearVelocity(speed);
 }
 void PlayerRight(TBaluInstance* object)
 {
 	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
-	auto speed = object->PhysBody()->GetLinearVelocity();
-	speed.X = 0.4*mult;
-	object->PhysBody()->SetSpeed(speed);
+	auto speed = object->GetPhysBody().GetLinearVelocity();
+	speed[0] = 0.4*mult;
+	object->GetPhysBody().SetLinearVelocity(speed);
 }
 
-void PlayerJumpSensorCollide(TBaluInstance* source, TSensor* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+void PlayerJumpSensorCollide(TBaluInstance* source, TBaluClass::TSensor* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 {
 	source->SetBool("can_jump", true);
 }
@@ -64,22 +64,27 @@ TBaluWorld* CreateDemoWorld()
 {
 	auto world = new TBaluWorld();
 
-	auto brick_mat = world->CreateMaterial("brick", "images\brick.png", TVec4(1, 1, 1, 1));
+	auto brick_mat = world->CreateMaterial("brick");
+
+	brick_mat->SetImagePath("images\brick.png");
+	brick_mat->SetColor(TVec4(1, 1, 1, 1));
 
 	auto box_sprite = world->CreateSprite("box0");
-	box_sprite->SetMaterial(brick_mat);
-	box_sprite->GetPolygone()->SetAsBox(1, 1);
+	box_sprite->GetPolygone().SetMaterial(brick_mat);
+	box_sprite->GetPolygone().SetAsBox(1, 1);
 	box_sprite->SetPhysShape(new TBaluBoxShape(1, 1));
 
 	auto box_class = world->CreateClass("box");
 	auto box_class_instance = box_class->AddSprite(box_sprite);
-	box_class->SetPhysBodyType(TPhysBodyType::Static);
+	box_class->GetPhysBody().Enable(true);
+	box_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Static);
 	
-	auto player_mat = world->CreateMaterial("player_skin", "images\player.png");
+	auto player_mat = world->CreateMaterial("player_skin");
+	player_mat->SetImagePath("images\player.png");
 	auto player_sprite = world->CreateSprite("player");
 
-	player_sprite->SetMaterial(player_mat);
-	player_sprite->GetPolygone()->SetAsBox(1, 1);
+	player_sprite->GetPolygone().SetMaterial(player_mat);
+	player_sprite->GetPolygone().SetAsBox(1, 1);
 	player_sprite->SetPhysShape(new TBaluCircleShape(0.5));
 	
 	player_sprite->SetFramesGrid(512 / 8, 256 / 4);
@@ -87,25 +92,29 @@ TBaluWorld* CreateDemoWorld()
 	player_sprite->CreateAnimationLine("run_left", 15, 15+8);
 
 	auto player_class = world->CreateClass("player");
-	auto player_class_instance = player_class->AddSprite(player_class);
+	auto player_class_instance = player_class->AddSprite(player_sprite);
 	player_class_instance->tag = "character_sprite";
-	player_class->SetPhysBodyType(TPhysBodyType::Dynamic);
-	player_class->SetPhysBodyFixedRotation(true);
+	player_class->GetPhysBody().Enable(true);
+	player_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Dynamic);
+	player_class->GetPhysBody().SetFixedRotation(true);
 
-	auto can_jump_sensor = new TSensor(new TBaluCircleShape(0.2, TVec2(-0.5, 0)));
-	player_class->AddSensor(can_jump_sensor);
+	auto sensor = player_class->CreateSensor(new TBaluCircleShape(0.2, TVec2(-0.5, 0)));
 
-	player_class->OnKeyDown(Key::Up, PlayerJump);
-	player_class->OnKeyDown(Key::Left, PlayerLeft);
-	player_class->OnKeyDown(Key::Right, PlayerRight);
+	player_class->OnKeyDown(TKey::Up, PlayerJump);
+	player_class->OnKeyDown(TKey::Left, PlayerLeft);
+	player_class->OnKeyDown(TKey::Right, PlayerRight);
 
-	player_class->PrePhysStep(PlayerPrePhysStep);
-	player_class->OnSesorCollide(TPhysBodyType::Static | TPhysBodyType::Kinematic, PlayerJumpSensorCollide);
+	player_class->OnBeforePhysicsStep(PlayerPrePhysStep);
+	player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
+
+	return world;
 }
 
 void TextureToolTest()
 {
-	
+	auto demo_world = CreateDemoWorld();
+
+	//MainLoop();
 }
 
 //int TBaluEngine::MainLoop()

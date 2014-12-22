@@ -34,10 +34,6 @@ void TBaluClass::RemoveSprite(TBaluSprite* sprite)
 {
 
 }
-void TBaluClass::SetPhysBodyType()
-{
-
-}
 
 void TBaluClass::CreateBone()
 {

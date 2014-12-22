@@ -10,19 +10,10 @@ void TBaluInstance::SetTransform(TBaluTransform transform)
 
 }
 
-void TBaluInstance::SetStringValue()
-{
-
-}
-
-void TBaluInstance::SetDoubleValue()
-{
-
-}
-
 TAABB2 TBaluInstance::GetAABB()
 {
-
+	//TODO
+	return TAABB2();
 }
 
 void TBaluInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results)

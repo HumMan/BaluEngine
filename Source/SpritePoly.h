@@ -24,6 +24,7 @@ public:
 	
 	void SetMaterial(TBaluMaterial* material);
 	void SetPolygonVertices(std::vector<TVec2> polygon_vertices);
+	void SetAsBox(float width, float height);
 	void SetVertices(std::vector<TVec2> vertices);
 	std::vector<TVec2> GetVertices();
 	int GetVerticesCount();
