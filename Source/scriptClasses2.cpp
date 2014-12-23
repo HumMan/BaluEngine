@@ -107,12 +107,30 @@ TBaluWorld* CreateDemoWorld()
 	player_class->OnBeforePhysicsStep(PlayerPrePhysStep);
 	player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
 
+	auto scene0 = world->CreateScene("scene0");
+	
+	auto inst0 = scene0->CreateInstance(player_class);
+	inst0->transform = TBaluTransform(TVec2(0, 0), b2Rot(0));
+
+	for (int i = 0; i < 20; i++)
+	{
+		inst0 = scene0->CreateInstance(box_class);
+		inst0->transform = TBaluTransform(TVec2(-5+i*0.5, -5), b2Rot(0));
+	}
+
+	auto viewport = scene0->CreateViewport("main_viewport");
+	viewport->SetTransform(TBaluTransform());
+	viewport->SetAspectRatio(1);
+	viewport->SetWidth(5);
+
 	return world;
 }
 
 void TextureToolTest()
 {
 	auto demo_world = CreateDemoWorld();
+	auto demo_world_instance = new TBaluWorldInstance(demo_world);
+	auto scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
 
 	//MainLoop();
 }

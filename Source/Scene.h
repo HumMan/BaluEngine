@@ -21,7 +21,7 @@ public:
 	int GetInstancesCount();
 	TClassInstance* GetInstance(int index);
 
-	TBaluScene::TClassInstance* CreateInstance(char* class_name);
+	TBaluScene::TClassInstance* CreateInstance(TBaluClass* balu_class);
 	void DestroyIntance(TBaluScene::TClassInstance*);
 
 	TVec2 WorldToScene(const TVec2& v);

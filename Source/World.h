@@ -22,6 +22,8 @@ public:
 	TBaluClass* CreateClass(char* class_name);
 	TBaluScene* CreateScene(char* scene_name);
 
+	TBaluScene* GetScene(char* scene_name);
+
 	TVec2 ScreenToWorld(const TVec2& v);
 	TVec2 WorldToScreen(const TVec2& v);
 

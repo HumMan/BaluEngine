@@ -10,6 +10,7 @@ class TBaluTransform
 public:
 	TVec2 position;
 	b2Rot angle;
+	TBaluTransform(TVec2 position, b2Rot angle);
 };
 
 class TBaluMaterial
