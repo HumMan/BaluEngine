@@ -15,7 +15,6 @@ private:
 	std::map<std::string, TBaluClass> classes;
 	std::map<std::string, TBaluScene> scenes;
 public:
-	virtual ~TBaluWorld();
 
 	TBaluMaterial* CreateMaterial(char* mat_name);
 	TBaluSprite* CreateSprite(char* sprite_name);
@@ -23,9 +22,4 @@ public:
 	TBaluScene* CreateScene(char* scene_name);
 
 	TBaluScene* GetScene(char* scene_name);
-
-	TVec2 ScreenToWorld(const TVec2& v);
-	TVec2 WorldToScreen(const TVec2& v);
-
-	void SetAcitveScene();
 };

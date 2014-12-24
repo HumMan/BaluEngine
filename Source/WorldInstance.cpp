@@ -18,6 +18,26 @@ void TBaluWorldInstance::StopScene(TBaluSceneInstance* scene)
 	}
 	else
 	{
-		throw std::invalid_argument("");
+		throw std::invalid_argument("Отсутствует сцена с данным имененем");
 	}
+}
+
+void TBaluWorldInstance::OnPrePhysStep()
+{
+
+}
+
+void TBaluWorldInstance::PhysStep()
+{
+
+}
+
+void TBaluWorldInstance::OnProcessCollisions()
+{
+
+}
+void TBaluWorldInstance::OnStep(float step)
+{
+	for (int i = 0; i < instances.size(); i++)
+		instances[i]->OnStep(step);
 }

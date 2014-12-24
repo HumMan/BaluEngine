@@ -13,13 +13,32 @@ enum TPhysBodyType
 	Kinematic
 };
 
+class TSensor
+{
+public:
+	std::unique_ptr<TBaluPhysShape> shape;
+	TSensor(TBaluPhysShape* shape)
+	{
+		this->shape.reset(shape);
+	}
+};
+
 class TBaluClassPhysBody
 {
 private:
+	b2BodyDef body_def;
+	bool enable;
+	std::vector<std::unique_ptr<TSensor>> sensors;
 public:
+	TBaluClassPhysBody();
+	int GetSensorsCount();
+	TSensor* GetSensor(int index);
 	void SetFixedRotation(bool fixed);
 	void SetPhysBodyType(TPhysBodyType type);
 	void Enable(bool enable);
+	bool IsEnable();
+	b2BodyDef GetBodyDef();
+	TSensor* CreateSensor(TBaluPhysShape* shape);
 };
 
 enum TKey
@@ -79,11 +98,10 @@ public:
 		TBaluSprite* sprite;
 		std::string tag;
 		TBaluTransform local;
-	};
-	class TSensor
-	{
-	public:
-
+		TBaluSpriteInstance(TBaluSprite* sprite)
+		{
+			this->sprite = sprite;
+		}
 	};
 
 	typedef void (KeyDownCallback)(TBaluInstance* object);
@@ -93,10 +111,13 @@ public:
 private:
 	std::string class_name;
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
+	
 
-	void ConstructPhysBody(b2Body& body);
+	TBaluClassPhysBody phys_body;
 public:
 	std::string GetName();
+	void SetName(std::string name);
+
 	TBaluClass();
 	TBaluClass(TBaluClass&& right);
 	virtual ~TBaluClass();
@@ -108,7 +129,7 @@ public:
 	
 	TBaluClassPhysBody& GetPhysBody();
 
-	TSensor CreateSensor(TBaluPhysShape* shape);
+	
 
 	void CreateBone();
 	void AttachSpriteToBone();
@@ -120,5 +141,5 @@ public:
 
 	void OnKeyDown(TKey key, KeyDownCallback callback);
 	void OnBeforePhysicsStep(BeforePhysicsCallback callback);
-	void OnSensorCollide(TSensor sensor, SensorCollideCallback callback);
+	void OnSensorCollide(TSensor* sensor, SensorCollideCallback callback);
 };

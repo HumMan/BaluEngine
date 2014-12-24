@@ -9,6 +9,7 @@
 
 class TBaluSpriteInstance
 {
+private:
 	TBaluClass::TBaluSpriteInstance* source;
 	TBaluTransform local;
 	TBaluTransform global;
@@ -17,15 +18,14 @@ class TBaluSpriteInstance
 	
 	std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
 	TBaluSpritePolygonInstance polygon;
-	
+public:
 	TAABB2 GetAABB();
 
-	void GetSpriteGeometry(std::vector<int> index, std::vector<TVec2> vertex);
-	void GetSpriteGeometrySize(int& indices, int& vertices);
+	TBaluPhysShapeInstance* GetPhysShape();
+
+	TBaluSpritePolygonInstance& GetPolygon();
 
 	void PlayAnimation(std::string animation_name, bool loop);
 	void PauseAnimation(bool pause);
 	void StopAnimation();
-
-	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 };

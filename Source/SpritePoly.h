@@ -21,7 +21,8 @@ private:
 	void UpdatePolyVertices();
 	void TriangulateGeometry();
 public:
-	
+	TBaluSpritePolygon();
+
 	void SetMaterial(TBaluMaterial* material);
 	void SetPolygonVertices(std::vector<TVec2> polygon_vertices);
 	void SetAsBox(float width, float height);

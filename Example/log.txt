@@ -1,4 +1,3 @@
-Context creation... passed
 Initialization...Loading image library... passed
  passed
 OpenGL INFO START:
@@ -289,5 +288,3 @@ GL_WIN_swap_hint
 WGL_EXT_swap_control
 
 OpenGL INFO END:
- passed
- passed

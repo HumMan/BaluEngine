@@ -12,4 +12,10 @@ public:
 	TBaluWorldInstance(TBaluWorld* source);
 	TBaluSceneInstance* RunScene(TBaluScene* scene_source);
 	void StopScene(TBaluSceneInstance*);
+
+	void OnPrePhysStep();
+	void PhysStep();
+
+	void OnProcessCollisions();
+	void OnStep(float step);
 };

@@ -114,16 +114,21 @@
     <ClCompile Include="Source\Class.cpp" />
     <ClCompile Include="Source\ClassInstance.cpp" />
     <ClCompile Include="Source\Material.cpp" />
+    <ClCompile Include="Source\PhysShape.cpp" />
+    <ClCompile Include="Source\PhysShapeInstance.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneInstance.cpp" />
     <ClCompile Include="Source\scriptClasses2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Source\Sprite.cpp" />
+    <ClCompile Include="Source\SpriteInstance.cpp" />
     <ClCompile Include="Source\SpritePoly.cpp" />
     <ClCompile Include="Source\SpritePolyInstance.cpp" />
     <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
     <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
     <ClCompile Include="Source\Utils\texture_polygon.cpp" />
+    <ClCompile Include="Source\World.cpp" />
     <ClCompile Include="Source\WorldInstance.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

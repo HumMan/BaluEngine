@@ -9,7 +9,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	LPSTR lpCmdLine,
 	int iCmdShow)
 {
-	TextureToolTest();
+	MainLoop();
 	return 0;
 }
 

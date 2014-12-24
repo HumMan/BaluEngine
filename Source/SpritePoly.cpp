@@ -8,6 +8,17 @@
 
 #include "../poly2tri/poly2tri/poly2tri.h"
 
+TBaluSpritePolygon::TBaluSpritePolygon()
+{
+	material = nullptr;
+
+	size = TVec2(1,1);
+	origin = TVec2(0,0);
+
+	tex_coord_origin = TVec2(0, 0);
+	tex_coord_scale = TVec2(1, 1);
+}
+
 void TBaluSpritePolygon::SetPolygonFromTexture()
 {
 	if (material != nullptr)
@@ -15,29 +26,36 @@ void TBaluSpritePolygon::SetPolygonFromTexture()
 		ILuint handle;
 		ilGenImages(1, &handle);
 		ilBindImage(handle);
-		ilLoadImage(material->GetImagePath().c_str());
+		if (ilLoadImage(material->GetImagePath().c_str()))
+		{
+			auto w = ilGetInteger(IL_IMAGE_WIDTH);
+			auto h = ilGetInteger(IL_IMAGE_HEIGHT);
+			int memory_needed = w * h * sizeof(unsigned int);
+			ILuint * data = new ILuint[memory_needed];
+			ilCopyPixels(0, 0, 0, w, h, 1, IL_ALPHA, IL_UNSIGNED_INT, data);
 
-		auto w = ilGetInteger(IL_IMAGE_WIDTH);
-		auto h = ilGetInteger(IL_IMAGE_HEIGHT);
-		int memory_needed = w * h * sizeof(unsigned int);
-		ILuint * data = new ILuint[memory_needed];
-		ilCopyPixels(0, 0, 0, w, h, 1, IL_ALPHA, IL_UNSIGNED_INT, data);
 
+			int temp = std::numeric_limits<unsigned int>().max() / 255;
+			for (int i = 0; i < w * h; i++)
+				data[i] = data[i] / temp;
 
-		int temp = std::numeric_limits<unsigned int>().max() / 255;
-		for (int i = 0; i < w * h; i++)
-			data[i] = data[i] / temp;
+			vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, w*h, w);
 
-		vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, w*h, w);
+			delete[] data;
 
-		delete[] data;
+			ilDeleteImage(handle);
 
-		ilDeleteImage(handle);
+			for (int i = 0; i < vertices.size(); i++)
+				vertices[i] = vertices[i] / TVec2(w, h);
 
-		for (int i = 0; i < vertices.size(); i++)
-			vertices[i] = vertices[i] / TVec2(w, h);
-
-		UpdatePolyVertices();
+			UpdatePolyVertices();
+		}
+		else
+		{
+			auto err = ilGetError();
+			auto err_string = iluErrorString(err);
+			ilDeleteImage(handle);
+		}
 	}
 }
 
@@ -84,6 +102,16 @@ void TBaluSpritePolygon::SetPolygonVertices(std::vector<TVec2> polygon_vertices)
 {
 	this->polygon_vertices = polygon_vertices;
 }
+
+void TBaluSpritePolygon::SetAsBox(float width, float height)
+{
+	polygon_vertices.resize(4);
+	polygon_vertices[0] = TVec2(-width / 2, -height / 2);
+	polygon_vertices[1] = TVec2(width / 2, -height / 2);
+	polygon_vertices[2] = TVec2(width / 2, height / 2);
+	polygon_vertices[3] = TVec2(-width / 2, height / 2);
+}
+
 void TBaluSpritePolygon::SetVertices(std::vector<TVec2> vertices)
 {
 	this->vertices = vertices;

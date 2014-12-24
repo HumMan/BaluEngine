@@ -14,7 +14,10 @@ private:
 	int layer;
 
 public:
-	TBaluSprite(){}
+	TBaluSprite();
+
+	std::string GetName();
+	void SetName(std::string name);
 
 	void SetPhysShape(TBaluPhysShape* shape);
 	void SetPhysShapeFromGeometry();

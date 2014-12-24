@@ -54,4 +54,4 @@ namespace pugi
 
 //tesing only
 //BALUENGINEDLL_API int SDLTest();
-BALUENGINEDLL_API void TextureToolTest();
+BALUENGINEDLL_API int MainLoop();

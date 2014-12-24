@@ -9,22 +9,13 @@
 #include "World.h"
 #include "WorldInstance.h"
 
+using namespace TBaluRenderEnums;
+
 class TBaluEngineInternal
 {
 public:
 	std::unique_ptr<TBaluRender> render;
-
-	b2World* phys_world;
 };
-
-void Finalize()
-{
-
-}
-void Display()
-{
-
-}
 
 void PlayerJump(TBaluInstance* object)
 {
@@ -50,7 +41,7 @@ void PlayerRight(TBaluInstance* object)
 	object->GetPhysBody().SetLinearVelocity(speed);
 }
 
-void PlayerJumpSensorCollide(TBaluInstance* source, TBaluClass::TSensor* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+void PlayerJumpSensorCollide(TBaluInstance* source, TSensor* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 {
 	source->SetBool("can_jump", true);
 }
@@ -66,7 +57,7 @@ TBaluWorld* CreateDemoWorld()
 
 	auto brick_mat = world->CreateMaterial("brick");
 
-	brick_mat->SetImagePath("images\brick.png");
+	brick_mat->SetImagePath("d:\\Downloads\\github\\BaluEngine\\Output\\Debug\\textures\\brick.png");
 	brick_mat->SetColor(TVec4(1, 1, 1, 1));
 
 	auto box_sprite = world->CreateSprite("box0");
@@ -80,7 +71,7 @@ TBaluWorld* CreateDemoWorld()
 	box_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Static);
 	
 	auto player_mat = world->CreateMaterial("player_skin");
-	player_mat->SetImagePath("images\player.png");
+	player_mat->SetImagePath("d:\\Downloads\\github\\BaluEngine\\Output\\Debug\\textures\\player.png");
 	auto player_sprite = world->CreateSprite("player");
 
 	player_sprite->GetPolygone().SetMaterial(player_mat);
@@ -98,7 +89,7 @@ TBaluWorld* CreateDemoWorld()
 	player_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Dynamic);
 	player_class->GetPhysBody().SetFixedRotation(true);
 
-	auto sensor = player_class->CreateSensor(new TBaluCircleShape(0.2, TVec2(-0.5, 0)));
+	auto sensor = player_class->GetPhysBody().CreateSensor(new TBaluCircleShape(0.2, TVec2(-0.5, 0)));
 
 	player_class->OnKeyDown(TKey::Up, PlayerJump);
 	player_class->OnKeyDown(TKey::Left, PlayerLeft);
@@ -119,23 +110,64 @@ TBaluWorld* CreateDemoWorld()
 	}
 
 	auto viewport = scene0->CreateViewport("main_viewport");
-	viewport->SetTransform(TBaluTransform());
+	viewport->SetTransform(TBaluTransform(TVec2(0,0),b2Rot(0)));
 	viewport->SetAspectRatio(1);
 	viewport->SetWidth(5);
 
 	return world;
 }
 
-void TextureToolTest()
+TBaluWorldInstance* demo_world_instance;
+TBaluSceneInstance* scene_instance;
+
+TBaluRender* render;
+
+void InitDemoWorld()
 {
 	auto demo_world = CreateDemoWorld();
-	auto demo_world_instance = new TBaluWorldInstance(demo_world);
-	auto scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
 
-	//MainLoop();
+	demo_world_instance = new TBaluWorldInstance(demo_world);
+	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
 }
 
-//int TBaluEngine::MainLoop()
+void Render(std::vector<TRenderCommand>& render_commands)
+{
+	for (int i = 0; i < render_commands.size(); i++)
+	{
+		auto& c = render_commands[i];
+		TStreamsDesc streams;
+		streams.AddStream(TStream::Vertex, TDataType::Float, 2, c.vertices);
+		streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
+		streams.AddStream(TStream::Color, TDataType::Float, 4, c.colors);
+		render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
+	}
+}
+
+void Step(float step)
+{
+
+	demo_world_instance->OnPrePhysStep();
+	demo_world_instance->PhysStep();
+	
+	auto viewport = scene_instance->GetViewport("main");
+
+	std::vector<TBaluSpritePolygonInstance*> polygons;
+	scene_instance->QueryAABB(viewport->GetAABB(), polygons);
+
+	std::vector<TRenderCommand> render_commands;
+	render_commands.resize(polygons.size());
+	for (int i = 0; i < render_commands.size(); i++)
+	{
+		polygons[i]->Render(render_commands[i]);
+	}
+
+	Render(render_commands);
+
+	demo_world_instance->OnProcessCollisions();
+
+	demo_world_instance->OnStep(step);
+}
+
 int MainLoop()
 {
 	SDL_Window *mainwindow; /* Our window handle */
@@ -149,8 +181,8 @@ int MainLoop()
 	}
 	/* Request opengl 4.4 context. */
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 	/* Turn on double buffering with a 24bit Z buffer.
 	* You may need to change this to 16 or 32 for your system */
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -159,34 +191,74 @@ int MainLoop()
 	/* Create our window centered at 512x512 resolution */
 
 	mainwindow = SDL_CreateWindow("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		512, 512, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+		512, 512, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if (!mainwindow)
 	{ /* Die if creation failed */
 
 		SDL_Quit();
 		return 1;
 	}
-
+	
 	/* Create our opengl context and attach it to our window */
 
 	maincontext = SDL_GL_CreateContext(mainwindow);
+
+	auto err = SDL_GetError();
 	/* This makes our buffer swap syncronized with the monitor's vertical refresh */
-	SDL_GL_SetSwapInterval(1);
+	//SDL_GL_SetSwapInterval(1);
+	
 	bool quit = false;
 	SDL_Event event;
+
+	render = new TBaluRender(TVec2i(512, 512));
+
+	InitDemoWorld();
+
+	auto last_tick = SDL_GetTicks();
+
 	while (!quit)
 	{
-		Display();
+		auto curr_tick = SDL_GetTicks();
+		float step = (curr_tick - last_tick)/1000.0;
+		last_tick = curr_tick;
+
+		Step(step);
+
 		SDL_GL_SwapWindow(mainwindow);
-		while (SDL_PollEvent(&event)){
-			if (event.type == SDL_QUIT){
+		while (SDL_PollEvent(&event))
+		{
+			if (event.type == SDL_QUIT)
+			{
 				quit = true;
+			}
+			else if (event.type == SDL_KEYUP)
+			{
+				//demo_world_instance->OnKeyUp()
+			}
+			else if (event.type == SDL_KEYDOWN)
+			{
+				SDL_SetWindowTitle(mainwindow, "keydown");
+			}
+			else if (event.type == SDL_MOUSEMOTION)
+			{
+				char b[100];
+				sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
+				SDL_SetWindowTitle(mainwindow, b);
+			}
+			else if (event.type == SDL_MOUSEBUTTONDOWN)
+			{
+
+			}
+			else if (event.type == SDL_MOUSEBUTTONUP)
+			{
+			}
+			else if (event.type == SDL_MOUSEWHEEL)
+			{
 
 			}
 		}
 	}
 
-	Finalize();
 	/* Delete our opengl context, destroy our window, and shutdown SDL */
 	SDL_GL_DeleteContext(maincontext);
 	SDL_DestroyWindow(mainwindow);
@@ -194,65 +266,3 @@ int MainLoop()
 
 	return 0;
 }
-//
-//
-//TBaluEngine::TBaluEngine()
-//{
-//	MainLoop();
-//}
-//
-//TBaluEngine::TBaluEngine(int hWnd, TVec2i use_size)
-//{
-//	p.reset(new TBaluEngineInternal());
-//	p->render.reset(new TBaluRender(hWnd, use_size));
-//	p->phys_world = NULL;
-//}
-//TBaluEngine::~TBaluEngine()
-//{
-//	delete p->phys_world;
-//}
-//
-//void TBaluEngine::SetViewport(TVec2i use_size)
-//{
-//	p->render->Set.Viewport(use_size);
-//}
-//
-//void TBaluEngine::OnMouseLeftUp()
-//{
-//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEUP, LEFT);
-//}
-//
-//void TBaluEngine::OnMouseLeftDown()
-//{
-//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEDOWN, LEFT);
-//}
-//
-//void TBaluEngine::OnMouseRightUp()
-//{
-//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEUP, RIGHT);
-//}
-//
-//void TBaluEngine::OnMouseRightDown()
-//{
-//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEDOWN, RIGHT);
-//}
-//
-//void TBaluEngine::OnMouseMiddleUp()
-//{
-//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEUP, MIDDLE);
-//}
-//
-//void TBaluEngine::OnMouseMiddleDown()
-//{
-//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEDOWN, MIDDLE);
-//}
-//
-//void TBaluEngine::OnMouseMove(TVec2i use_client_mouse_pos)
-//{
-//}
-//
-//void TBaluEngine::OnMouseScroll(float delta)
-//{
-//	delta /= 120.f;
-//	//CallEvent(TBaluEvent::EVENT_GLOBALMOUSEWHEEL, *(int*)&delta);
-//}
