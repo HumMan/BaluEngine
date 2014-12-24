@@ -14,11 +14,12 @@ private:
 	TBaluTransform local;
 	TBaluTransform global;
 	
-	TBaluSprite* sprite;
-	
 	std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
 	TBaluSpritePolygonInstance polygon;
 public:
+
+	TBaluSpriteInstance(TBaluClass::TBaluSpriteInstance* source);
+
 	TAABB2 GetAABB();
 
 	TBaluPhysShapeInstance* GetPhysShape();

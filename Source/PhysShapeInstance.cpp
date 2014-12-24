@@ -5,6 +5,7 @@ TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source)
 {
 	this->source = source;
 }
+
 void TBaluPhysShapeInstance::BuildFixture(b2Body* body)
 {
 	b2FixtureDef fixture_def;

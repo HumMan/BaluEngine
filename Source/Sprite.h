@@ -20,6 +20,7 @@ public:
 	void SetName(std::string name);
 
 	void SetPhysShape(TBaluPhysShape* shape);
+	TBaluPhysShape* GetPhysShape();
 	void SetPhysShapeFromGeometry();
 
 	TBaluSpritePolygon& GetPolygone();

@@ -125,6 +125,8 @@ public:
 	void OnMouseMove(TMouseMoveCallback);
 	TBaluSpriteInstance* AddSprite(TBaluSprite* sprite);
 	void RemoveSprite(TBaluSprite* sprite);
+	int GetSpritesCount();
+	TBaluSpriteInstance* GetSprite(int index);
 
 	
 	TBaluClassPhysBody& GetPhysBody();

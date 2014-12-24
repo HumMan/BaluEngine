@@ -5,6 +5,11 @@ TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world) :phys_body
 {
 	this->instance_class = source;
 	this->phys_world = phys_world;
+
+	for (int i = 0; i < source->GetSpritesCount(); i++)
+	{
+		sprites.push_back(std::make_unique<TBaluSpriteInstance>(source->GetSprite(i)));
+	}
 }
 
 void TBaluInstance::SetTransform(TBaluTransform transform)
