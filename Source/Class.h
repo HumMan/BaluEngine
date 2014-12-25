@@ -25,7 +25,8 @@ class TSensor
 {
 public:
 	std::unique_ptr<TBaluPhysShape> shape;
-	std::vector<SensorCollideCallback> on_sensor_collide_callbacks;
+	//std::vector<SensorCollideCallback> on_sensor_collide_callbacks;
+	std::vector<SensorCollideCallback> on_begin_contact, on_end_contact;
 	TSensor(TBaluPhysShape* shape)
 	{
 		this->shape.reset(shape);
@@ -152,5 +153,7 @@ public:
 
 	void OnKeyDown(TKey key, KeyDownCallback callback);
 	void OnBeforePhysicsStep(BeforePhysicsCallback callback);
-	void OnSensorCollide(TSensor* sensor, SensorCollideCallback callback);
+	//void OnSensorCollide(TSensor* sensor, SensorCollideCallback callback);
+	void OnBeginContact(TSensor* sensor, SensorCollideCallback callback);
+	void OnEndContact(TSensor* sensor, SensorCollideCallback callback);
 };

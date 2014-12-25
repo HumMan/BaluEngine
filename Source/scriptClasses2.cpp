@@ -22,7 +22,7 @@ void PlayerJump(TBaluInstance* object)
 	if (object->GetBool("can_jump"))
 	{
 		auto speed = object->GetPhysBody()->GetLinearVelocity();
-		speed[1] = 1;
+		speed[1] = 4;
 		object->GetPhysBody()->SetLinearVelocity(speed);
 	}
 }
@@ -30,22 +30,31 @@ void PlayerLeft(TBaluInstance* object)
 {
 	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
-	speed[0] = -0.4*mult;
+	speed[0] = -1.4*mult;
 	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 void PlayerRight(TBaluInstance* object)
 {
 	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
-	speed[0] = 0.4*mult;
+	speed[0] = 1.4*mult;
 	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 
-void PlayerJumpSensorCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+//void PlayerJumpSensorCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+//{
+//	source->SetBool("can_jump", true);
+//}
+
+void PlayerJumpSensorBeginCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 {
 	source->SetBool("can_jump", true);
 }
 
+void PlayerJumpSensorEndCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+{
+	//source->SetBool("can_jump", false);
+}
 void PlayerPrePhysStep(TBaluInstance* object)
 {
 	object->SetBool("can_jump", false);
@@ -96,7 +105,9 @@ TBaluWorld* CreateDemoWorld()
 	player_class->OnKeyDown(TKey::Right, PlayerRight);
 
 	player_class->OnBeforePhysicsStep(PlayerPrePhysStep);
-	player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
+	//player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
+	player_class->OnBeginContact(sensor, PlayerJumpSensorBeginCollide);
+	player_class->OnEndContact(sensor, PlayerJumpSensorEndCollide);
 
 	auto scene0 = world->CreateScene("scene0");
 
@@ -182,8 +193,13 @@ void Step(float step)
 	demo_world_instance->DebugDraw();
 }
 
+bool left_key_down, right_key_down;
+
 int MainLoop()
 {
+	left_key_down = false;
+	right_key_down = false;
+
 	SDL_Window *mainwindow; /* Our window handle */
 
 	SDL_GLContext maincontext; /* Our opengl context handle */
@@ -249,7 +265,17 @@ int MainLoop()
 			}
 			else if (event.type == SDL_KEYUP)
 			{
-				//demo_world_instance->OnKeyUp()
+				switch (event.key.keysym.sym)
+				{
+				case SDLK_LEFT:
+					//demo_world_instance->OnKeyDown(TKey::Left);
+					left_key_down = false;
+					break;
+				case SDLK_RIGHT:
+					//demo_world_instance->OnKeyDown(TKey::Right);
+					right_key_down = false;
+					break;
+				}
 			}
 			else if (event.type == SDL_KEYDOWN)
 			{
@@ -258,7 +284,12 @@ int MainLoop()
 				switch (event.key.keysym.sym)
 				{
 				case SDLK_LEFT:
-					demo_world_instance->OnKeyDown(TKey::Left);
+					//demo_world_instance->OnKeyDown(TKey::Left);
+					left_key_down = true;
+					break;
+				case SDLK_RIGHT:
+					//demo_world_instance->OnKeyDown(TKey::Right);
+					right_key_down = true;
 					break;
 				case SDLK_UP:
 					demo_world_instance->OnKeyDown(TKey::Up);
@@ -266,9 +297,7 @@ int MainLoop()
 				case SDLK_DOWN:
 					demo_world_instance->OnKeyDown(TKey::Down);
 					break;
-				case SDLK_RIGHT:
-					demo_world_instance->OnKeyDown(TKey::Right);
-					break;
+
 				}				
 			}
 			else if (event.type == SDL_MOUSEMOTION)
@@ -288,7 +317,12 @@ int MainLoop()
 			{
 
 			}
+			
 		}
+		if (left_key_down)
+			demo_world_instance->OnKeyDown(TKey::Left);
+		if (right_key_down)
+			demo_world_instance->OnKeyDown(TKey::Right);
 	}
 
 	/* Delete our opengl context, destroy our window, and shutdown SDL */

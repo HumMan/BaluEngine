@@ -8,9 +8,11 @@ void TBaluSceneInstance::BeginContact(b2Contact* contact)
 	if (fixtureA->GetParent() != fixtureB->GetParent())
 	{
 		if (fixtureA->IsSensor())
-			collisions.push_back(TCollisionInfo(fixtureA, fixtureB));
-		else if (fixtureA->IsSensor())
-			collisions.push_back(TCollisionInfo(fixtureB, fixtureA));
+			//collisions.push_back(TCollisionInfo(fixtureA, fixtureB));
+			begin_contact.push_back(TCollisionInfo(fixtureA, fixtureB));
+		else if (fixtureB->IsSensor())
+			//collisions.push_back(TCollisionInfo(fixtureB, fixtureA));
+			begin_contact.push_back(TCollisionInfo(fixtureB, fixtureA));
 	}
 }
 void TBaluSceneInstance::EndContact(b2Contact* contact)
@@ -20,13 +22,19 @@ void TBaluSceneInstance::EndContact(b2Contact* contact)
 
 	if (fixtureA->GetParent() != fixtureB->GetParent())
 	{
-		auto iter = std::find_if(collisions.begin(), collisions.end(),
+		if (fixtureA->IsSensor())
+			//collisions.push_back(TCollisionInfo(fixtureA, fixtureB));
+			end_contact.push_back(TCollisionInfo(fixtureA, fixtureB));
+		else if (fixtureB->IsSensor())
+			//collisions.push_back(TCollisionInfo(fixtureB, fixtureA));
+			end_contact.push_back(TCollisionInfo(fixtureB, fixtureA));
+		/*auto iter = std::find_if(collisions.begin(), collisions.end(),
 			[&](TBaluSceneInstance::TCollisionInfo& p)
 		{
 			return (p.A == fixtureA && p.B == fixtureB) || (p.A == fixtureB && p.B == fixtureA);
 		});
 		if (iter != collisions.end())
-			collisions.erase(iter);
+			collisions.erase(iter);*/
 	}
 }
 void TBaluSceneInstance::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
@@ -102,14 +110,24 @@ void TBaluSceneInstance::OnPrePhysStep()
 void TBaluSceneInstance::PhysStep(float step)
 {
 	//collisions.clear();
+	begin_contact.clear();
+	end_contact.clear();
 	phys_world->Step(step * 5, 3, 5);
 }
 
 void TBaluSceneInstance::OnProcessCollisions()
 {
-	for (int i = 0; i < collisions.size(); i++)
+	//for (int i = 0; i < collisions.size(); i++)
+	//{
+	//	collisions[i].A->GetParent()->DoSensorCollide(collisions[i].A->GetParentSensor(), collisions[i].B->GetParent(), collisions[i].B);
+	//}
+	for (int i = 0; i < begin_contact.size(); i++)
 	{
-		collisions[i].A->GetParent()->DoSensorCollide(collisions[i].A->GetParentSensor(), collisions[i].B->GetParent(), collisions[i].B);
+		begin_contact[i].A->GetParent()->DoBeginContact(begin_contact[i].A->GetParentSensor(), begin_contact[i].B->GetParent(), begin_contact[i].B);
+	}
+	for (int i = 0; i < end_contact.size(); i++)
+	{
+		end_contact[i].A->GetParent()->DoEndContact(end_contact[i].A->GetParentSensor(), end_contact[i].B->GetParent(), end_contact[i].B);
 	}
 }
 

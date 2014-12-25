@@ -86,6 +86,7 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 		
 		body_def.position = *(b2Vec2*)&instance_transform.position;
 		body_def.angle = instance_transform.angle.GetAngle();
+		body_def.linearDamping = 1;
 
 		phys_body = phys_world->CreateBody(&body_def);
 
@@ -141,10 +142,26 @@ void TBaluInstance::DoBeforePhysicsStep()
 		i(this);
 	}
 }
-void TBaluInstance::DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
+//void TBaluInstance::DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
+//{
+//	for (const SensorCollideCallback& i : sensor->source->on_sensor_collide_callbacks)
+//	{
+//		i(this, sensor, obstancle, obstacle_shape);
+//	}	
+//}
+
+void TBaluInstance::DoBeginContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
 {
-	for (const SensorCollideCallback& i : sensor->source->on_sensor_collide_callbacks)
+	for (const SensorCollideCallback& i : sensor->source->on_begin_contact)
 	{
 		i(this, sensor, obstancle, obstacle_shape);
 	}	
+}
+
+void TBaluInstance::DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
+{
+	for (const SensorCollideCallback& i : sensor->source->on_end_contact)
+	{
+		i(this, sensor, obstancle, obstacle_shape);
+	}
 }

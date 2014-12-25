@@ -147,7 +147,17 @@ void TBaluClass::OnBeforePhysicsStep(BeforePhysicsCallback callback)
 	before_physics_callbacks.push_back(callback);
 }
 
-void TBaluClass::OnSensorCollide(TSensor* sensor, SensorCollideCallback callback)
+//void TBaluClass::OnSensorCollide(TSensor* sensor, SensorCollideCallback callback)
+//{
+//	sensor->on_sensor_collide_callbacks.push_back(callback);
+//}
+
+void TBaluClass::OnBeginContact(TSensor* sensor, SensorCollideCallback callback)
 {
-	sensor->on_sensor_collide_callbacks.push_back(callback);
+	sensor->on_begin_contact.push_back(callback);
+}
+
+void TBaluClass::OnEndContact(TSensor* sensor, SensorCollideCallback callback)
+{
+	sensor->on_end_contact.push_back(callback);
 }

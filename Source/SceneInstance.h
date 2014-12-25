@@ -27,7 +27,7 @@ private:
 			this->B = B;
 		}
 	};
-	std::vector<TCollisionInfo> collisions;
+	std::vector<TCollisionInfo> begin_contact, end_contact;
 public:
 
 	void BeginContact(b2Contact* contact);
