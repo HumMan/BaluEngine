@@ -24,20 +24,42 @@ void TBaluWorldInstance::StopScene(TBaluSceneInstance* scene)
 
 void TBaluWorldInstance::OnPrePhysStep()
 {
-
+	for (int i = 0; i < instances.size(); i++)
+		instances[i]->OnPrePhysStep();
 }
 
-void TBaluWorldInstance::PhysStep()
+void TBaluWorldInstance::PhysStep(float step)
 {
-
+	for (int i = 0; i < instances.size(); i++)
+		instances[i]->PhysStep(step);
 }
 
 void TBaluWorldInstance::OnProcessCollisions()
 {
-
+	for (int i = 0; i < instances.size(); i++)
+		instances[i]->OnProcessCollisions();
 }
 void TBaluWorldInstance::OnStep(float step)
 {
 	for (int i = 0; i < instances.size(); i++)
 		instances[i]->OnStep(step);
+}
+
+void TBaluWorldInstance::OnKeyDown(TKey key)
+{
+	for (int i = 0; i < instances.size(); i++)
+		instances[i]->OnKeyDown(key);
+}
+
+
+void TBaluWorldInstance::UpdateTransform()
+{
+	for (int i = 0; i < instances.size(); i++)
+		instances[i]->UpdateTransform();
+}
+
+void TBaluWorldInstance::DebugDraw()
+{
+	for (int i = 0; i < instances.size(); i++)
+		instances[i]->DebugDraw();
 }

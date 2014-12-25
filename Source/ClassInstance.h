@@ -8,11 +8,12 @@ class TSensorInstance
 public:
 	TSensor* source;
 	std::unique_ptr<TBaluPhysShapeInstance> shape;
-	TSensorInstance(TSensor* source)
-	{
-		this->source = source;
-		shape = std::make_unique<TBaluPhysShapeInstance>(source->shape.get());
-	}
+	TBaluInstance* parent;
+
+
+
+	TSensorInstance(TSensor* source, TBaluInstance* parent);
+	void BuildFixture(b2Body* body);
 };
 
 class TBaluInstance;
@@ -25,11 +26,16 @@ private:
 	b2World* phys_world;
 	std::vector<std::unique_ptr<TSensorInstance>> sensors;
 	TBaluInstance* parent;
+
+	TBaluTransform local;
 public:
 	TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluInstance* parent);
 	void SetFixedRotation(bool fixed);
 	TVec2 GetLinearVelocity();
+	bool IsEnable();
+	b2BodyDef GetBodyDef();
 	void SetLinearVelocity(TVec2 velocity);
+	TBaluTransform GetTransform();
 };
 
 class TBaluInstance: public TProperties
@@ -40,25 +46,17 @@ private:
 	TBaluTransform instance_transform;
 	b2World* phys_world;
 
-	
-
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
 
-	TBaluClassPhysBodyIntance phys_body;
-
-	//TCustomMembersValues custom_values;
-
-	//runtime
-	//b2Body* phys_body
-	//sprite_geometry_indices, vertices
-	//
+	std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
 
 public:
 	
-	TBaluInstance(TBaluClass* source, b2World* phys_world);
+	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform);
 	void SetTransform(TBaluTransform transform);
+	TBaluTransform GetTransform();
 
-	TBaluClassPhysBodyIntance& GetPhysBody();
+	TBaluClassPhysBodyIntance* GetPhysBody();
 
 	int GetSpritesCount();
 	TBaluSpriteInstance* GetSprite(int index);
@@ -66,4 +64,10 @@ public:
 	TAABB2 GetAABB();
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
+
+	void UpdateTranform();
+
+	void DoKeyDown(TKey key);
+	void DoBeforePhysicsStep();
+	void DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 };

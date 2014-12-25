@@ -13,10 +13,19 @@ enum TPhysBodyType
 	Kinematic
 };
 
+class TBaluInstance;
+class TBaluPhysShapeInstance;
+class TSensorInstance;
+
+typedef void (*KeyDownCallback)(TBaluInstance* object);
+typedef void (*BeforePhysicsCallback)(TBaluInstance* object);
+typedef void (*SensorCollideCallback)(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape);
+
 class TSensor
 {
 public:
 	std::unique_ptr<TBaluPhysShape> shape;
+	std::vector<SensorCollideCallback> on_sensor_collide_callbacks;
 	TSensor(TBaluPhysShape* shape)
 	{
 		this->shape.reset(shape);
@@ -41,7 +50,7 @@ public:
 	TSensor* CreateSensor(TBaluPhysShape* shape);
 };
 
-enum TKey
+enum TKey:int
 {
 	Left,
 	Right,
@@ -86,8 +95,7 @@ public:
 	}
 };
 
-class TBaluInstance;
-class TBaluPhysShapeInstance;
+
 
 class TBaluClass: public TProperties
 {
@@ -104,17 +112,18 @@ public:
 		}
 	};
 
-	typedef void (KeyDownCallback)(TBaluInstance* object);
-	typedef void (BeforePhysicsCallback)(TBaluInstance* object);
-	typedef void (SensorCollideCallback)(TBaluInstance* source, TSensor* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape);
+	
 
 private:
 	std::string class_name;
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
-	
-
 	TBaluClassPhysBody phys_body;
+
+	
 public:
+	std::map<TKey, std::vector<KeyDownCallback>> one_key_down_callbacks;
+	std::vector<BeforePhysicsCallback> before_physics_callbacks;
+
 	std::string GetName();
 	void SetName(std::string name);
 

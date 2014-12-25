@@ -14,8 +14,14 @@ public:
 	void StopScene(TBaluSceneInstance*);
 
 	void OnPrePhysStep();
-	void PhysStep();
+	void PhysStep(float step);
 
 	void OnProcessCollisions();
 	void OnStep(float step);
+
+	void OnKeyDown(TKey key);
+
+	void UpdateTransform();
+
+	void DebugDraw();
 };

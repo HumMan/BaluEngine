@@ -2,6 +2,9 @@
 
 #include "PhysShape.h"
 
+class TBaluInstance;
+class TSensorInstance;
+
 class TBaluPhysShapeInstance
 {
 protected:
@@ -9,9 +12,19 @@ protected:
 	TBaluTransform global;
 	b2Fixture* fixture;
 	b2Body* body;
+	TBaluInstance* parent;
+
+	bool is_sensor;
+	TSensorInstance* sensor;
 public:
-	TBaluPhysShapeInstance(TBaluPhysShape* source);
+	bool IsSensor()
+	{
+		return is_sensor;
+	}
+	TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TSensorInstance* sensor=nullptr);
 	void BuildFixture(b2Body* body);
+	TBaluInstance* GetParent();
+	TSensorInstance* GetParentSensor();
 };
 
 //

@@ -105,6 +105,9 @@
     <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep_context.h">
       <Filter>Source Files\Utils\poly2tri</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Utils\DebugDraw.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\scriptClasses2.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Source\SpriteInstance.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\DebugDraw.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

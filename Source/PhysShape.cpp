@@ -23,7 +23,7 @@ b2CircleShape* TBaluCircleShape::GetShape()
 
 TBaluBoxShape::TBaluBoxShape(float width, float height)
 {
-	b2shape.SetAsBox(height, width);
+	b2shape.SetAsBox(height/2, width/2);
 }
 
 b2PolygonShape* TBaluBoxShape::GetShape()

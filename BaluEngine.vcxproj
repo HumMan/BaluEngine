@@ -99,6 +99,7 @@
     <ClInclude Include="Source\SpriteInstance.h" />
     <ClInclude Include="Source\SpritePoly.h" />
     <ClInclude Include="Source\SpritePolyInstance.h" />
+    <ClInclude Include="Source\Utils\DebugDraw.h" />
     <ClInclude Include="Source\Utils\polygon_decomp.h" />
     <ClInclude Include="Source\Utils\polygon_vertices.h" />
     <ClInclude Include="Source\Utils\texture_polygon.h" />
@@ -125,6 +126,7 @@
     <ClCompile Include="Source\SpriteInstance.cpp" />
     <ClCompile Include="Source\SpritePoly.cpp" />
     <ClCompile Include="Source\SpritePolyInstance.cpp" />
+    <ClCompile Include="Source\Utils\DebugDraw.cpp" />
     <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
     <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
     <ClCompile Include="Source\Utils\texture_polygon.cpp" />

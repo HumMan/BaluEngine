@@ -22,10 +22,14 @@ private:
 	
 	void UpdateGeometry();
 public:
+	TBaluSpritePolygonInstance(TBaluSpritePolygon* source);
+
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 
 	void Render(TRenderCommand& command);
-	void UpdateTransform(TBaluTransform parent_transform);
+
+	void UpdateTransform(TBaluTransform parent);
+
 	void SetSpritePolygon(std::string name);
 	TBaluSpritePolygon* GetSpritePolygon();
 };

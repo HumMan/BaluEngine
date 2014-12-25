@@ -16,9 +16,11 @@ private:
 	
 	std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
 	TBaluSpritePolygonInstance polygon;
+
+	TBaluInstance* parent;
 public:
 
-	TBaluSpriteInstance(TBaluClass::TBaluSpriteInstance* source);
+	TBaluSpriteInstance(TBaluClass::TBaluSpriteInstance* source, TBaluInstance* parent);
 
 	TAABB2 GetAABB();
 
@@ -29,4 +31,6 @@ public:
 	void PlayAnimation(std::string animation_name, bool loop);
 	void PauseAnimation(bool pause);
 	void StopAnimation();
+
+	void UpdateTranform(TBaluTransform parent);
 };

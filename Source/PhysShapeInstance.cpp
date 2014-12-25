@@ -1,16 +1,34 @@
 #include "PhysShapeInstance.h"
 
 
-TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source)
+TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TSensorInstance* sensor)
 {
+	this->parent = parent;
 	this->source = source;
+	this->sensor = sensor;
+	this->is_sensor = sensor!=nullptr;
 }
 
 void TBaluPhysShapeInstance::BuildFixture(b2Body* body)
 {
+	this->body = body;
+
 	b2FixtureDef fixture_def;
 	fixture_def.shape = source->GetShape();
+	fixture_def.isSensor = is_sensor;
+	fixture_def.userData = this;
 	fixture = body->CreateFixture(&fixture_def);
+}
+
+TBaluInstance* TBaluPhysShapeInstance::GetParent()
+{
+	return parent;
+}
+
+TSensorInstance* TBaluPhysShapeInstance::GetParentSensor()
+{
+	assert(is_sensor);
+	return sensor;
 }
 
 //

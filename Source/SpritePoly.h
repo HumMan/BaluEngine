@@ -8,7 +8,7 @@ private:
 	TBaluMaterial* material;
 
 	TVec2 size;
-	TVec2 origin;
+	TBaluTransform local;
 
 	std::vector<TVec2> vertices;
 	std::vector<TVec2> polygon_vertices;
@@ -22,6 +22,8 @@ private:
 	void TriangulateGeometry();
 public:
 	TBaluSpritePolygon();
+
+	TBaluTransform GetTransform();
 
 	void SetMaterial(TBaluMaterial* material);
 	void SetPolygonVertices(std::vector<TVec2> polygon_vertices);

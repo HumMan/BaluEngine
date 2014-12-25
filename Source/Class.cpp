@@ -102,6 +102,16 @@ void TBaluClass::RemoveSprite(TBaluSprite* sprite)
 
 }
 
+int TBaluClass::GetSpritesCount()
+{
+	return sprites.size();
+}
+
+TBaluClass::TBaluSpriteInstance* TBaluClass::GetSprite(int index)
+{
+	return sprites[index].get();
+}
+
 void TBaluClass::CreateBone()
 {
 
@@ -129,15 +139,15 @@ void TBaluClass::SetAnimationTime()
 
 void TBaluClass::OnKeyDown(TKey key, KeyDownCallback callback)
 {
-
+	one_key_down_callbacks[key].push_back(callback);
 }
 
 void TBaluClass::OnBeforePhysicsStep(BeforePhysicsCallback callback)
 {
-
+	before_physics_callbacks.push_back(callback);
 }
 
 void TBaluClass::OnSensorCollide(TSensor* sensor, SensorCollideCallback callback)
 {
-
+	sensor->on_sensor_collide_callbacks.push_back(callback);
 }

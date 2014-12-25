@@ -21,27 +21,27 @@ void PlayerJump(TBaluInstance* object)
 {
 	if (object->GetBool("can_jump"))
 	{
-		auto speed = object->GetPhysBody().GetLinearVelocity();
+		auto speed = object->GetPhysBody()->GetLinearVelocity();
 		speed[1] = 1;
-		object->GetPhysBody().SetLinearVelocity(speed);
+		object->GetPhysBody()->SetLinearVelocity(speed);
 	}
 }
 void PlayerLeft(TBaluInstance* object)
 {
 	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
-	auto speed = object->GetPhysBody().GetLinearVelocity();
+	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	speed[0] = -0.4*mult;
-	object->GetPhysBody().SetLinearVelocity(speed);
+	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 void PlayerRight(TBaluInstance* object)
 {
 	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
-	auto speed = object->GetPhysBody().GetLinearVelocity();
+	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	speed[0] = 0.4*mult;
-	object->GetPhysBody().SetLinearVelocity(speed);
+	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 
-void PlayerJumpSensorCollide(TBaluInstance* source, TSensor* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+void PlayerJumpSensorCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 {
 	source->SetBool("can_jump", true);
 }
@@ -89,7 +89,7 @@ TBaluWorld* CreateDemoWorld()
 	player_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Dynamic);
 	player_class->GetPhysBody().SetFixedRotation(true);
 
-	auto sensor = player_class->GetPhysBody().CreateSensor(new TBaluCircleShape(0.2, TVec2(-0.5, 0)));
+	auto sensor = player_class->GetPhysBody().CreateSensor(new TBaluCircleShape(0.4, TVec2(0, -0.5)));
 
 	player_class->OnKeyDown(TKey::Up, PlayerJump);
 	player_class->OnKeyDown(TKey::Left, PlayerLeft);
@@ -99,14 +99,17 @@ TBaluWorld* CreateDemoWorld()
 	player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
 
 	auto scene0 = world->CreateScene("scene0");
-	
-	auto inst0 = scene0->CreateInstance(player_class);
-	inst0->transform = TBaluTransform(TVec2(0, 0), b2Rot(0));
 
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 1; i++)
 	{
-		inst0 = scene0->CreateInstance(box_class);
-		inst0->transform = TBaluTransform(TVec2(-5+i*0.5, -5), b2Rot(0));
+		auto inst0 = scene0->CreateInstance(player_class);
+		inst0->transform = TBaluTransform(TVec2(0, 0+i), b2Rot(0));
+	}
+
+	for (int i = -10; i < 40; i++)
+	{
+		auto inst0 = scene0->CreateInstance(box_class);
+		inst0->transform = TBaluTransform(TVec2(-5+i*0.9+0.3, -7+sinf(i*0.3)*3), b2Rot(i));
 	}
 
 	auto viewport = scene0->CreateViewport("main_viewport");
@@ -137,8 +140,8 @@ void Render(std::vector<TRenderCommand>& render_commands)
 		auto& c = render_commands[i];
 		TStreamsDesc streams;
 		streams.AddStream(TStream::Vertex, TDataType::Float, 2, c.vertices);
-		streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
-		streams.AddStream(TStream::Color, TDataType::Float, 4, c.colors);
+		//streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
+		//streams.AddStream(TStream::Color, TDataType::Float, 4, c.colors);
 		render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
 	}
 }
@@ -147,8 +150,10 @@ void Step(float step)
 {
 
 	demo_world_instance->OnPrePhysStep();
-	demo_world_instance->PhysStep();
+	demo_world_instance->PhysStep(step);
 	
+	demo_world_instance->UpdateTransform();
+
 	auto viewport = scene_instance->GetViewport("main");
 
 	std::vector<TBaluSpritePolygonInstance*> polygons;
@@ -161,11 +166,20 @@ void Step(float step)
 		polygons[i]->Render(render_commands[i]);
 	}
 
+	render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
+
 	Render(render_commands);
 
 	demo_world_instance->OnProcessCollisions();
 
 	demo_world_instance->OnStep(step);
+
+	g_camera.m_height = 512;
+	g_camera.m_width = 512;
+	g_camera.m_extent = 10;
+	g_camera.m_zoom = 1;
+
+	demo_world_instance->DebugDraw();
 }
 
 int MainLoop()
@@ -222,6 +236,8 @@ int MainLoop()
 		float step = (curr_tick - last_tick)/1000.0;
 		last_tick = curr_tick;
 
+		render->Clear(true);
+
 		Step(step);
 
 		SDL_GL_SwapWindow(mainwindow);
@@ -238,6 +254,22 @@ int MainLoop()
 			else if (event.type == SDL_KEYDOWN)
 			{
 				SDL_SetWindowTitle(mainwindow, "keydown");
+
+				switch (event.key.keysym.sym)
+				{
+				case SDLK_LEFT:
+					demo_world_instance->OnKeyDown(TKey::Left);
+					break;
+				case SDLK_UP:
+					demo_world_instance->OnKeyDown(TKey::Up);
+					break;
+				case SDLK_DOWN:
+					demo_world_instance->OnKeyDown(TKey::Down);
+					break;
+				case SDLK_RIGHT:
+					demo_world_instance->OnKeyDown(TKey::Right);
+					break;
+				}				
 			}
 			else if (event.type == SDL_MOUSEMOTION)
 			{

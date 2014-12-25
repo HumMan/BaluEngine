@@ -13,10 +13,15 @@ TBaluSpritePolygon::TBaluSpritePolygon()
 	material = nullptr;
 
 	size = TVec2(1,1);
-	origin = TVec2(0,0);
+	local.position = TVec2(0,0);
 
 	tex_coord_origin = TVec2(0, 0);
 	tex_coord_scale = TVec2(1, 1);
+}
+
+TBaluTransform TBaluSpritePolygon::GetTransform()
+{
+	return local;
 }
 
 void TBaluSpritePolygon::SetPolygonFromTexture()
@@ -90,7 +95,7 @@ void TBaluSpritePolygon::UpdatePolyVertices()
 {
 	polygon_vertices = vertices;
 	for (int i = 0; i < polygon_vertices.size(); i++)
-		polygon_vertices[i] = polygon_vertices[i].ComponentMul(size) - origin;
+		polygon_vertices[i] = polygon_vertices[i].ComponentMul(size) - local.position;
 }
 
 void TBaluSpritePolygon::SetMaterial(TBaluMaterial* material)
@@ -146,6 +151,6 @@ void TBaluSpritePolygon::SetTexCoordsFromVertices(TVec2 origin, TVec2 scale)
 	tex_coordinates = triangulated;
 	for (int i = 0; i < tex_coordinates.size(); i++)
 	{
-		tex_coordinates[i] = ((triangulated[i]-this->origin)/this->size).ComponentMul(scale) - origin;
+		tex_coordinates[i] = ((triangulated[i] - this->local.position) / this->size).ComponentMul(scale) - origin;
 	}
 }

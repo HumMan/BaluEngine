@@ -9,6 +9,12 @@ void TBaluSprite::SetPhysShape(TBaluPhysShape* shape)
 {
 	phys_shape.reset(shape);
 }
+
+TBaluPhysShape* TBaluSprite::GetPhysShape()
+{
+	return phys_shape.get();
+}
+
 void TBaluSprite::SetPhysShapeFromGeometry()
 {
 	phys_shape = std::make_unique<TBaluPolygonShape>();
