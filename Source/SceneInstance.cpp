@@ -60,7 +60,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluScene* source)
 	phys_debug.Create();
 
 	phys_world->SetDebugDraw(&phys_debug);
-	phys_world->SetContactListener(this);
+	//phys_world->SetContactListener(this);
 
 	for (int i = 0; i < source->GetInstancesCount(); i++)
 	{
@@ -112,7 +112,7 @@ void TBaluSceneInstance::PhysStep(float step)
 	//collisions.clear();
 	begin_contact.clear();
 	end_contact.clear();
-	phys_world->Step(step * 5, 3, 5);
+	phys_world->Step(step, 3, 5);
 }
 
 void TBaluSceneInstance::OnProcessCollisions()

@@ -86,7 +86,9 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 		
 		body_def.position = *(b2Vec2*)&instance_transform.position;
 		body_def.angle = instance_transform.angle.GetAngle();
-		body_def.linearDamping = 1;
+		body_def.linearDamping = 0.1;
+		body_def.fixedRotation = false;
+		//body_def.angularVelocity = 0.1;
 
 		phys_body = phys_world->CreateBody(&body_def);
 

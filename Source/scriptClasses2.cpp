@@ -28,14 +28,14 @@ void PlayerJump(TBaluInstance* object)
 }
 void PlayerLeft(TBaluInstance* object)
 {
-	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
+	float mult = (object->GetBool("can_jump")) ? 1 : 0.6;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	speed[0] = -1.4*mult;
 	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 void PlayerRight(TBaluInstance* object)
 {
-	float mult = (object->GetBool("can_jump")) ? 1 : 0.3;
+	float mult = (object->GetBool("can_jump")) ? 1 : 0.6;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	speed[0] = 1.4*mult;
 	object->GetPhysBody()->SetLinearVelocity(speed);
@@ -46,18 +46,31 @@ void PlayerRight(TBaluInstance* object)
 //	source->SetBool("can_jump", true);
 //}
 
+std::vector<TBaluPhysShapeInstance*> obstacle_shapes;
+
 void PlayerJumpSensorBeginCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 {
-	source->SetBool("can_jump", true);
+	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
+	if (it == obstacle_shapes.end())
+	{
+		obstacle_shapes.push_back(obstacle_shape);
+	}
+	source->SetBool("can_jump", obstacle_shapes.size()>0);
 }
 
 void PlayerJumpSensorEndCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 {
-	//source->SetBool("can_jump", false);
+	
+	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
+	if (it != obstacle_shapes.end())
+	{
+		obstacle_shapes.erase(it);
+	}
+	source->SetBool("can_jump", obstacle_shapes.size()>0);
 }
 void PlayerPrePhysStep(TBaluInstance* object)
 {
-	object->SetBool("can_jump", false);
+	//object->SetBool("can_jump", false);
 }
 
 TBaluWorld* CreateDemoWorld()
@@ -84,8 +97,9 @@ TBaluWorld* CreateDemoWorld()
 	auto player_sprite = world->CreateSprite("player");
 
 	player_sprite->GetPolygone().SetMaterial(player_mat);
-	player_sprite->GetPolygone().SetAsBox(1, 1);
-	player_sprite->SetPhysShape(new TBaluCircleShape(0.5));
+	player_sprite->GetPolygone().SetAsBox(1, 2);
+	//player_sprite->SetPhysShape(new TBaluCircleShape(0.5));
+	player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));
 	
 	player_sprite->SetFramesGrid(512 / 8, 256 / 4);
 	player_sprite->CreateAnimationLine("run_right", 0, 12);
@@ -96,9 +110,9 @@ TBaluWorld* CreateDemoWorld()
 	player_class_instance->tag = "character_sprite";
 	player_class->GetPhysBody().Enable(true);
 	player_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Dynamic);
-	player_class->GetPhysBody().SetFixedRotation(true);
+	//player_class->GetPhysBody().SetFixedRotation(true);
 
-	auto sensor = player_class->GetPhysBody().CreateSensor(new TBaluCircleShape(0.4, TVec2(0, -0.5)));
+	auto sensor = player_class->GetPhysBody().CreateSensor(new TBaluCircleShape(0.2, TVec2(0, -0.5)));
 
 	player_class->OnKeyDown(TKey::Up, PlayerJump);
 	player_class->OnKeyDown(TKey::Left, PlayerLeft);
@@ -193,12 +207,8 @@ void Step(float step)
 	demo_world_instance->DebugDraw();
 }
 
-bool left_key_down, right_key_down;
-
 int MainLoop()
 {
-	left_key_down = false;
-	right_key_down = false;
 
 	SDL_Window *mainwindow; /* Our window handle */
 
@@ -253,6 +263,15 @@ int MainLoop()
 		last_tick = curr_tick;
 
 		render->Clear(true);
+		const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+		if (keystate[SDL_SCANCODE_LEFT])
+			demo_world_instance->OnKeyDown(TKey::Left);
+		if (keystate[SDL_SCANCODE_RIGHT])
+			demo_world_instance->OnKeyDown(TKey::Right);
+		if (keystate[SDL_SCANCODE_UP])
+			demo_world_instance->OnKeyDown(TKey::Up);
+		if (keystate[SDL_SCANCODE_DOWN])
+			demo_world_instance->OnKeyDown(TKey::Down);
 
 		Step(step);
 
@@ -265,40 +284,10 @@ int MainLoop()
 			}
 			else if (event.type == SDL_KEYUP)
 			{
-				switch (event.key.keysym.sym)
-				{
-				case SDLK_LEFT:
-					//demo_world_instance->OnKeyDown(TKey::Left);
-					left_key_down = false;
-					break;
-				case SDLK_RIGHT:
-					//demo_world_instance->OnKeyDown(TKey::Right);
-					right_key_down = false;
-					break;
-				}
 			}
 			else if (event.type == SDL_KEYDOWN)
 			{
-				SDL_SetWindowTitle(mainwindow, "keydown");
-
-				switch (event.key.keysym.sym)
-				{
-				case SDLK_LEFT:
-					//demo_world_instance->OnKeyDown(TKey::Left);
-					left_key_down = true;
-					break;
-				case SDLK_RIGHT:
-					//demo_world_instance->OnKeyDown(TKey::Right);
-					right_key_down = true;
-					break;
-				case SDLK_UP:
-					demo_world_instance->OnKeyDown(TKey::Up);
-					break;
-				case SDLK_DOWN:
-					demo_world_instance->OnKeyDown(TKey::Down);
-					break;
-
-				}				
+				SDL_SetWindowTitle(mainwindow, "keydown");			
 			}
 			else if (event.type == SDL_MOUSEMOTION)
 			{
@@ -319,10 +308,6 @@ int MainLoop()
 			}
 			
 		}
-		if (left_key_down)
-			demo_world_instance->OnKeyDown(TKey::Left);
-		if (right_key_down)
-			demo_world_instance->OnKeyDown(TKey::Right);
 	}
 
 	/* Delete our opengl context, destroy our window, and shutdown SDL */

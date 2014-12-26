@@ -115,6 +115,7 @@ void TBaluSpritePolygon::SetAsBox(float width, float height)
 	polygon_vertices[1] = TVec2(width / 2, -height / 2);
 	polygon_vertices[2] = TVec2(width / 2, height / 2);
 	polygon_vertices[3] = TVec2(-width / 2, height / 2);
+	TriangulateGeometry();
 }
 
 void TBaluSpritePolygon::SetVertices(std::vector<TVec2> vertices)
@@ -124,7 +125,7 @@ void TBaluSpritePolygon::SetVertices(std::vector<TVec2> vertices)
 }
 std::vector<TVec2> TBaluSpritePolygon::GetVertices()
 {
-	return polygon_vertices;
+	return triangulated;
 }
 int TBaluSpritePolygon::GetVerticesCount()
 {
