@@ -16,6 +16,8 @@ void TBaluPhysShapeInstance::BuildFixture(b2Body* body)
 	b2FixtureDef fixture_def;
 	fixture_def.shape = source->GetShape();
 	fixture_def.isSensor = is_sensor;
+	if (source->GetShape()->m_type == b2BodyType::b2_dynamicBody)
+		fixture_def.density = 1.0;
 	fixture_def.userData = this;
 	fixture = body->CreateFixture(&fixture_def);
 }

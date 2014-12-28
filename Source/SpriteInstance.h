@@ -20,7 +20,7 @@ private:
 	TBaluInstance* parent;
 public:
 
-	TBaluSpriteInstance(TBaluClass::TBaluSpriteInstance* source, TBaluInstance* parent);
+	TBaluSpriteInstance(TBaluClass::TBaluSpriteInstance* source, TBaluInstance* parent, TResourses* resources);
 
 	TAABB2 GetAABB();
 

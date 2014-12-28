@@ -30,11 +30,17 @@ private:
 	TBaluTransform local;
 public:
 	TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluInstance* parent);
-	void SetFixedRotation(bool fixed);
-	TVec2 GetLinearVelocity();
+	
 	bool IsEnable();
 	b2BodyDef GetBodyDef();
+	void SetFixedRotation(bool fixed);
+
+	TVec2 GetLinearVelocity();
 	void SetLinearVelocity(TVec2 velocity);
+	
+	float GetAngularVelocity();
+	void SetAngularVelocity(float velocity);
+
 	TBaluTransform GetTransform();
 };
 
@@ -52,7 +58,7 @@ private:
 
 public:
 	
-	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform);
+	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResourses* resources);
 	void SetTransform(TBaluTransform transform);
 	TBaluTransform GetTransform();
 

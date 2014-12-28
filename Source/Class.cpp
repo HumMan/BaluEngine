@@ -33,6 +33,7 @@ void TBaluClassPhysBody::SetPhysBodyType(TPhysBodyType type)
 		body_def.type = b2BodyType::b2_kinematicBody;
 		break;
 	default:
+		assert(false);
 		break;
 	}
 }

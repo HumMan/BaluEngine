@@ -53,14 +53,15 @@ TViewport* TBaluSceneInstance::GetViewport(std::string name)
 	return &viewports[name];
 }
 
-TBaluSceneInstance::TBaluSceneInstance(TBaluScene* source)
+TBaluSceneInstance::TBaluSceneInstance(TBaluScene* source, TResourses* resources)
 {
+	this->resources = resources;
 	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));
 
 	phys_debug.Create();
 
 	phys_world->SetDebugDraw(&phys_debug);
-	//phys_world->SetContactListener(this);
+	phys_world->SetContactListener(this);
 
 	for (int i = 0; i < source->GetInstancesCount(); i++)
 	{
@@ -78,7 +79,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluSceneInstance&& right)
 
 TBaluInstance* TBaluSceneInstance::CreateInstance(TBaluClass* use_class, TBaluTransform transform)
 {
-	instances.push_back(std::make_unique<TBaluInstance>(use_class, phys_world.get(), transform));
+	instances.push_back(std::make_unique<TBaluInstance>(use_class, phys_world.get(), transform, resources));
 	return instances.back().get();
 }
 
@@ -112,7 +113,7 @@ void TBaluSceneInstance::PhysStep(float step)
 	//collisions.clear();
 	begin_contact.clear();
 	end_contact.clear();
-	phys_world->Step(step, 3, 5);
+	phys_world->Step(step*10, 3, 5);
 }
 
 void TBaluSceneInstance::OnProcessCollisions()
@@ -162,6 +163,6 @@ void TBaluSceneInstance::DebugDraw()
 	flags |= b2Draw::e_centerOfMassBit;
 	phys_debug.SetFlags(flags);
 
-	phys_world->DrawDebugData();
-	phys_debug.Flush();
+	//phys_world->DrawDebugData();
+	//phys_debug.Flush();
 }

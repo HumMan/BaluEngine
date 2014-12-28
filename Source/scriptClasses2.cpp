@@ -9,6 +9,10 @@
 #include "World.h"
 #include "WorldInstance.h"
 
+#define GLEW_STATIC
+#include <GL\glew.h>
+#include <GL\wglew.h>
+
 using namespace TBaluRenderEnums;
 
 class TBaluEngineInternal
@@ -28,14 +32,14 @@ void PlayerJump(TBaluInstance* object)
 }
 void PlayerLeft(TBaluInstance* object)
 {
-	float mult = (object->GetBool("can_jump")) ? 1 : 0.6;
+	float mult = (object->GetBool("can_jump")) ? 1 : 0.8;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	speed[0] = -1.4*mult;
 	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 void PlayerRight(TBaluInstance* object)
 {
-	float mult = (object->GetBool("can_jump")) ? 1 : 0.6;
+	float mult = (object->GetBool("can_jump")) ? 1 : 0.8;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	speed[0] = 1.4*mult;
 	object->GetPhysBody()->SetLinearVelocity(speed);
@@ -70,7 +74,30 @@ void PlayerJumpSensorEndCollide(TBaluInstance* source, TSensorInstance* sensor, 
 }
 void PlayerPrePhysStep(TBaluInstance* object)
 {
-	//object->SetBool("can_jump", false);
+	auto can_jump = object->GetBool("can_jump");
+
+	auto speed = object->GetPhysBody()->GetLinearVelocity();
+	std::string hor_anim, v_anim;
+	if (speed[0] > 0)
+		hor_anim = "_right";
+		//
+	else
+		hor_anim = "_left";
+	if (can_jump)
+	{
+		if (abs(speed[0]) > 0.5)
+			v_anim = "run";
+		else
+			v_anim = "stay";
+	}
+	else
+	{
+		if (speed[1] > 0)
+			v_anim = "jump_up";
+		else
+			v_anim = "jump_down";
+	}
+	object->GetSprite(0)->GetPolygon().SetActiveAnimation((v_anim+hor_anim).c_str());
 }
 
 TBaluWorld* CreateDemoWorld()
@@ -85,6 +112,7 @@ TBaluWorld* CreateDemoWorld()
 	auto box_sprite = world->CreateSprite("box0");
 	box_sprite->GetPolygone().SetMaterial(brick_mat);
 	box_sprite->GetPolygone().SetAsBox(1, 1);
+	box_sprite->GetPolygone().SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
 	box_sprite->SetPhysShape(new TBaluBoxShape(1, 1));
 
 	auto box_class = world->CreateClass("box");
@@ -97,22 +125,34 @@ TBaluWorld* CreateDemoWorld()
 	auto player_sprite = world->CreateSprite("player");
 
 	player_sprite->GetPolygone().SetMaterial(player_mat);
-	player_sprite->GetPolygone().SetAsBox(1, 2);
-	//player_sprite->SetPhysShape(new TBaluCircleShape(0.5));
-	player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));
+	//player_sprite->GetPolygone().SetAsBox(20.0/8, 20.0/8);
+	player_sprite->GetPolygone().SetAsBox(6, 6);
+	//player_sprite->GetPolygone().SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
+	player_sprite->SetPhysShape(new TBaluCircleShape(2.5));
+	//player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));
+
+	TGridFrames* grid_frames = new TGridFrames(TVec2(0, 0), TVec2(1, 1), 8, 4);
+
+	player_sprite->GetPolygone().AddAnimDesc(grid_frames);
 	
-	player_sprite->SetFramesGrid(512 / 8, 256 / 4);
-	player_sprite->CreateAnimationLine("run_right", 0, 12);
-	player_sprite->CreateAnimationLine("run_left", 15, 15+8);
+	player_sprite->GetPolygone().CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
+	player_sprite->GetPolygone().CreateAnimationLine("jump_up_right", grid_frames, FramesRange(9, 9));
+	player_sprite->GetPolygone().CreateAnimationLine("jump_down_right", grid_frames, FramesRange(10, 10));
+	player_sprite->GetPolygone().CreateAnimationLine("stay_right", grid_frames, FramesRange(11, 11));
+	player_sprite->GetPolygone().CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
+	player_sprite->GetPolygone().CreateAnimationLine("run_left", grid_frames, FramesRange(16, 16 + 7));
+	player_sprite->GetPolygone().CreateAnimationLine("jump_up_left", grid_frames, FramesRange(16 + 7 + 2, 16 + 7 + 2));
+	player_sprite->GetPolygone().CreateAnimationLine("jump_down_left", grid_frames, FramesRange(16 + 7 + 3, 16 + 7 + 3));
+	player_sprite->GetPolygone().CreateAnimationLine("stay_left", grid_frames, FramesRange(16 + 7 + 4, 16 + 7 + 4));
 
 	auto player_class = world->CreateClass("player");
 	auto player_class_instance = player_class->AddSprite(player_sprite);
 	player_class_instance->tag = "character_sprite";
 	player_class->GetPhysBody().Enable(true);
 	player_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Dynamic);
-	//player_class->GetPhysBody().SetFixedRotation(true);
+	player_class->GetPhysBody().SetFixedRotation(true);
 
-	auto sensor = player_class->GetPhysBody().CreateSensor(new TBaluCircleShape(0.2, TVec2(0, -0.5)));
+	auto sensor = player_class->GetPhysBody().CreateSensor(new TBaluCircleShape(0.4, TVec2(0, -2.5)));
 
 	player_class->OnKeyDown(TKey::Up, PlayerJump);
 	player_class->OnKeyDown(TKey::Left, PlayerLeft);
@@ -134,7 +174,7 @@ TBaluWorld* CreateDemoWorld()
 	for (int i = -10; i < 40; i++)
 	{
 		auto inst0 = scene0->CreateInstance(box_class);
-		inst0->transform = TBaluTransform(TVec2(-5+i*0.9+0.3, -7+sinf(i*0.3)*3), b2Rot(i));
+		inst0->transform = TBaluTransform(TVec2(-5+i*0.9+0.3, -7+sinf(i*0.3)*1), b2Rot(i));
 	}
 
 	auto viewport = scene0->CreateViewport("main_viewport");
@@ -150,22 +190,42 @@ TBaluSceneInstance* scene_instance;
 
 TBaluRender* render;
 
+class TBaluEngineRender
+{
+public:
+	static TResourses* CreateResources(TBaluRender* render)
+	{
+		return new TResourses(render);
+	}
+};
+
+
+TResourses* resources;
+
 void InitDemoWorld()
 {
 	auto demo_world = CreateDemoWorld();
 
-	demo_world_instance = new TBaluWorldInstance(demo_world);
+	demo_world_instance = new TBaluWorldInstance(demo_world, resources);
 	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
 }
 
 void Render(std::vector<TRenderCommand>& render_commands)
 {
+	
+	//render->AlphaTest.Enable(true);
+	//render->AlphaTest.Func(TAlphaTestFunc::AT_GREATER, 0.9);
+	render->Blend.Enable(true);
+	render->Blend.Func(TBlendEquation::BE_SRC_ALPHA, TBlendFunc::BF_ADD, TBlendEquation::BE_ONE_MINUS_SRC_ALPHA);
+
 	for (int i = 0; i < render_commands.size(); i++)
 	{
 		auto& c = render_commands[i];
+		auto tex = c.material_id->GetTexture();
+		render->Texture.Bind(*(TTextureId*)&tex);
 		TStreamsDesc streams;
 		streams.AddStream(TStream::Vertex, TDataType::Float, 2, c.vertices);
-		//streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
+		streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
 		//streams.AddStream(TStream::Color, TDataType::Float, 4, c.colors);
 		render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
 	}
@@ -252,6 +312,8 @@ int MainLoop()
 
 	render = new TBaluRender(TVec2i(512, 512));
 
+	resources = TBaluEngineRender::CreateResources(render);
+
 	InitDemoWorld();
 
 	auto last_tick = SDL_GetTicks();
@@ -261,8 +323,8 @@ int MainLoop()
 		auto curr_tick = SDL_GetTicks();
 		float step = (curr_tick - last_tick)/1000.0;
 		last_tick = curr_tick;
-
-		render->Clear(true);
+		render->Set.ClearColor(0.2, 0.3, 0.3);
+		render->Clear(true,true);
 		const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 		if (keystate[SDL_SCANCODE_LEFT])
 			demo_world_instance->OnKeyDown(TKey::Left);

@@ -8,6 +8,74 @@
 
 #include "../poly2tri/poly2tri/poly2tri.h"
 
+std::vector<int> FramesRange(int start, int end)
+{
+	if (end < start)
+		throw std::invalid_argument("end должен быть больше start");
+	std::vector<int> result;
+	int length = end - start + 1;
+	result.reserve(length);
+	result.resize(length);
+	for (int i = start; i <= end; i++)
+	{
+		result[i - start] = i;
+	}
+	return result;
+}
+
+TFrame::TFrame(TVec2 left_bottom, TVec2 right_top)
+{
+	this->left_bottom = left_bottom;
+	this->right_top = right_top;
+}
+
+TSpecificFrame::TSpecificFrame(TVec2 left_bottom, TVec2 right_top)
+{
+	this->left_bottom = left_bottom;
+	this->right_top = right_top;
+}
+
+TFrame TSpecificFrame::GetFrame(int index)
+{
+	if (index != 0)
+		throw std::invalid_argument("");
+	return TFrame(left_bottom, right_top);
+}
+
+TGridFrames::TGridFrames(TVec2 left_bottom, TVec2 width_height, int cell_count_x, int cell_count_y)
+{
+	this->left_bottom = left_bottom;
+	this->width_height = width_height;
+	this->cell_count_x = cell_count_x;
+	this->cell_count_y = cell_count_y;
+}
+
+TFrame TGridFrames::GetFrame(int index)
+{
+	if (index < 0 || index>cell_count_x*cell_count_y-1)
+		throw std::invalid_argument("");
+	int x = index % cell_count_y;
+	int y = index / cell_count_x;
+
+	float cell_size_x = width_height[0] / cell_count_x;
+	float cell_size_y = width_height[1] / cell_count_y;
+
+	auto frame_left_bottom = TVec2(left_bottom[0] + cell_size_x*x, left_bottom[1] + width_height[1] - cell_size_y*(y+1));
+	return TFrame(frame_left_bottom, TVec2(frame_left_bottom[0] + cell_size_x, frame_left_bottom[1] + cell_size_y));
+}
+
+TAnimationFrames::TAnimationFrames(TAnimDesc* desc, std::vector<int> frames)
+{
+	this->desc = desc;
+	this->frames = frames;
+}
+
+TAnimationFrames::TAnimationFrames(TAnimDesc* desc, int frame)
+{
+	this->desc = desc;
+	this->frames = std::vector < int > {frame};
+}
+
 TBaluSpritePolygon::TBaluSpritePolygon()
 {
 	material = nullptr;
@@ -98,6 +166,11 @@ void TBaluSpritePolygon::UpdatePolyVertices()
 		polygon_vertices[i] = polygon_vertices[i].ComponentMul(size) - local.position;
 }
 
+TBaluMaterial* TBaluSpritePolygon::GetMaterial()
+{
+	return material;
+}
+
 void TBaluSpritePolygon::SetMaterial(TBaluMaterial* material)
 {
 	this->material = material;
@@ -110,6 +183,7 @@ void TBaluSpritePolygon::SetPolygonVertices(std::vector<TVec2> polygon_vertices)
 
 void TBaluSpritePolygon::SetAsBox(float width, float height)
 {
+	size = TVec2(width, height);
 	polygon_vertices.resize(4);
 	polygon_vertices[0] = TVec2(-width / 2, -height / 2);
 	polygon_vertices[1] = TVec2(width / 2, -height / 2);
@@ -123,10 +197,17 @@ void TBaluSpritePolygon::SetVertices(std::vector<TVec2> vertices)
 	this->vertices = vertices;
 	UpdatePolyVertices();
 }
+
 std::vector<TVec2> TBaluSpritePolygon::GetVertices()
 {
 	return triangulated;
 }
+
+std::vector<TVec2> TBaluSpritePolygon::GetTexCoords()
+{
+	return tex_coordinates;
+}
+
 int TBaluSpritePolygon::GetVerticesCount()
 {
 	return polygon_vertices.size();
@@ -149,9 +230,43 @@ TVec2 TBaluSpritePolygon::GetVertex(int id)
 //}
 void TBaluSpritePolygon::SetTexCoordsFromVertices(TVec2 origin, TVec2 scale)
 {
-	tex_coordinates = triangulated;
+	tex_coordinates.resize(triangulated.size());
 	for (int i = 0; i < tex_coordinates.size(); i++)
 	{
 		tex_coordinates[i] = ((triangulated[i] - this->local.position) / this->size).ComponentMul(scale) - origin;
 	}
+}
+
+void TBaluSpritePolygon::SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top)
+{
+	tex_coordinates.resize(triangulated.size());
+
+	auto vertex_left_bottom = local.position - size*0.5;
+
+	auto tex_coord_size = right_top - left_bottom;
+
+	for (int i = 0; i < tex_coordinates.size(); i++)
+	{
+		tex_coordinates[i] = ((triangulated[i] - vertex_left_bottom) / size).ComponentMul(tex_coord_size) + left_bottom;
+	}
+}
+
+void TBaluSpritePolygon::AddAnimDesc(TAnimDesc* desc)
+{
+	anim_descs.push_back(std::unique_ptr<TAnimDesc>(desc));
+}
+
+void TBaluSpritePolygon::CreateAnimationLine(std::string line_name, std::vector<TAnimationFrames> frames)
+{
+	TAnimLine new_line;
+	new_line.line_name = line_name;
+	new_line.frames = frames;
+	animation_lines[line_name] = new_line;
+}
+
+void TBaluSpritePolygon::CreateAnimationLine(std::string line_name, TAnimDesc* desc, std::vector<int> frames)
+{
+	std::vector<TAnimationFrames> anim_frames;
+	anim_frames.push_back(TAnimationFrames(desc, frames));
+	CreateAnimationLine(line_name, anim_frames);
 }

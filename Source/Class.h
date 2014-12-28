@@ -90,6 +90,10 @@ public:
 	}
 	bool GetBool(std::string name)
 	{
+		if (properties.find(name) == properties.end())
+		{
+			SetBool(name, false);
+		}
 		if (properties[name].type != TProperty::Type::Bool)
 			throw std::invalid_argument("Неправильный тип свойства");
 		return properties[name].bool_val;

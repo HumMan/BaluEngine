@@ -1,10 +1,16 @@
+#pragma once
+
 #include "Material.h"
 
-#include <baluRender.h>
+#include "Resourses.h"
+
+class TBaluMaterial;
 
 class TMaterialInstance
 {
-	TTextureId texture;
-	TBaluMaterial* source_material;
+	TBaluTexture texture;
+	TBaluMaterial* source;
 public:
+	TMaterialInstance(TBaluMaterial* source, TResourses* resources);
+	TBaluTexture GetTexture();
 };

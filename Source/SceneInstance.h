@@ -8,6 +8,8 @@
 class TBaluSceneInstance : public b2ContactListener
 {
 private:
+	TResourses* resources;
+
 	std::unique_ptr<b2World> phys_world;
 
 	DebugDraw phys_debug;
@@ -37,7 +39,7 @@ public:
 
 	TViewport* GetViewport(std::string name);
 
-	TBaluSceneInstance(TBaluScene* source);
+	TBaluSceneInstance(TBaluScene* source, TResourses* resources);
 	TBaluSceneInstance(TBaluSceneInstance&& right);
 
 	TBaluInstance* CreateInstance(TBaluClass* use_class, TBaluTransform transform);

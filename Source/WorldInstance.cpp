@@ -1,12 +1,13 @@
 #include "WorldInstance.h"
 
-TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source)
+TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResourses* resources)
 {
 	this->source = source;
+	this->resources = resources;
 }
 TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 {
-	instances.push_back(std::make_unique<TBaluSceneInstance>(scene_source));
+	instances.push_back(std::make_unique<TBaluSceneInstance>(scene_source, resources));
 	return instances.back().get();
 }
 void TBaluWorldInstance::StopScene(TBaluSceneInstance* scene)

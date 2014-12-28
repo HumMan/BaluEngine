@@ -25,19 +25,6 @@ TBaluSpritePolygon& TBaluSprite::GetPolygone()
 	return sprite_polygon;
 }
 
-void TBaluSprite::SetFramesGrid(int pixels_in_cell_x, int pixels_in_cell_y)
-{
-
-}
-void TBaluSprite::CreateAnimationLine(std::string line_name, int start_cell, int end_cell)
-{
-
-}
-void TBaluSprite::CreateFrame(TVec2 tex_coord_pos, TVec2 tex_coord_size)
-{
-
-}
-
 std::string TBaluSprite::GetName()
 {
 	return sprite_name;

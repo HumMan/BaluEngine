@@ -12,7 +12,7 @@ void TSensorInstance::BuildFixture(b2Body* body)
 	shape->BuildFixture(body);
 }
 
-TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform) 
+TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResourses* resources) 
 {
 	instance_transform = transform;
 	this->instance_class = source;
@@ -20,7 +20,7 @@ TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTrans
 
 	for (int i = 0; i < source->GetSpritesCount(); i++)
 	{
-		sprites.push_back(std::make_unique<TBaluSpriteInstance>(source->GetSprite(i), this));
+		sprites.push_back(std::make_unique<TBaluSpriteInstance>(source->GetSprite(i), this, resources));
 	}
 
 	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, &source->GetPhysBody(), this);
@@ -87,8 +87,9 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 		body_def.position = *(b2Vec2*)&instance_transform.position;
 		body_def.angle = instance_transform.angle.GetAngle();
 		body_def.linearDamping = 0.1;
-		body_def.fixedRotation = false;
-		//body_def.angularVelocity = 0.1;
+		//body_def.fixedRotation = false;
+		//if (body_def.type == b2BodyType::b2_dynamicBody)
+		//	body_def.angularVelocity = 10;
 
 		phys_body = phys_world->CreateBody(&body_def);
 
@@ -109,17 +110,37 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 
 void TBaluClassPhysBodyIntance::SetFixedRotation(bool fixed)
 {
+	if (phys_body->GetType() == b2BodyType::b2_staticBody)
+		throw std::invalid_argument("Недоступно для данного типа тела");
 	phys_body->SetFixedRotation(fixed);
 }
 
 TVec2 TBaluClassPhysBodyIntance::GetLinearVelocity()
 {
+	if (phys_body->GetType() == b2BodyType::b2_staticBody)
+		throw std::invalid_argument("Недоступно для данного типа тела");
 	return *(TVec2*)&(phys_body->GetLinearVelocity());
 }
 
 void TBaluClassPhysBodyIntance::SetLinearVelocity(TVec2 velocity)
 {
+	if (phys_body->GetType() == b2BodyType::b2_staticBody)
+		throw std::invalid_argument("Недоступно для данного типа тела");
 	phys_body->SetLinearVelocity(*(b2Vec2*)&velocity);
+}
+
+float TBaluClassPhysBodyIntance::GetAngularVelocity()
+{
+	if (phys_body->GetType() == b2BodyType::b2_staticBody)
+		throw std::invalid_argument("Недоступно для данного типа тела");
+	return phys_body->GetAngularVelocity();
+}
+
+void TBaluClassPhysBodyIntance::SetAngularVelocity(float velocity)
+{
+	if (phys_body->GetType() == b2BodyType::b2_staticBody)
+		throw std::invalid_argument("Недоступно для данного типа тела");
+	phys_body->SetAngularVelocity(velocity);
 }
 
 TBaluTransform TBaluClassPhysBodyIntance::GetTransform()

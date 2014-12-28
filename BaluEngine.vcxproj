@@ -92,6 +92,7 @@
     <ClInclude Include="Source\PhysShape.h" />
     <ClInclude Include="Source\PhysShapeInstance.h" />
     <ClInclude Include="Source\RenderCommand.h" />
+    <ClInclude Include="Source\Resourses.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneInstance.h" />
     <ClInclude Include="Source\scriptClasses2.h" />
@@ -115,8 +116,10 @@
     <ClCompile Include="Source\Class.cpp" />
     <ClCompile Include="Source\ClassInstance.cpp" />
     <ClCompile Include="Source\Material.cpp" />
+    <ClCompile Include="Source\MaterialInstance.cpp" />
     <ClCompile Include="Source\PhysShape.cpp" />
     <ClCompile Include="Source\PhysShapeInstance.cpp" />
+    <ClCompile Include="Source\Resourses.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneInstance.cpp" />
     <ClCompile Include="Source\scriptClasses2.cpp">

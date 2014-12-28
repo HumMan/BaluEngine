@@ -8,8 +8,9 @@ class TBaluWorldInstance
 private:
 	TBaluWorld* source;
 	std::vector<std::unique_ptr<TBaluSceneInstance>> instances;
+	TResourses* resources;
 public:
-	TBaluWorldInstance(TBaluWorld* source);
+	TBaluWorldInstance(TBaluWorld* source, TResourses* resources);
 	TBaluSceneInstance* RunScene(TBaluScene* scene_source);
 	void StopScene(TBaluSceneInstance*);
 
