@@ -15,6 +15,12 @@ namespace pugi
 {
 	class xml_node;
 }
+
+class BALUENGINEDLL_API  TBaluEngineTest
+{
+public:
+	void Step(float step, double time);
+};
 //
 //
 //

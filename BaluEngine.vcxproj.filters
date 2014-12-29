@@ -111,6 +111,12 @@
     <ClInclude Include="Source\Resourses.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\SkeletonAnimation.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Skeleton.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\scriptClasses2.cpp">

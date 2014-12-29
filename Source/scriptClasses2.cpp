@@ -15,6 +15,8 @@
 
 using namespace TBaluRenderEnums;
 
+std::string base_path;
+
 class TBaluEngineInternal
 {
 public:
@@ -23,6 +25,7 @@ public:
 
 void PlayerJump(TBaluInstance* object)
 {
+	
 	if (object->GetBool("can_jump"))
 	{
 		auto speed = object->GetPhysBody()->GetLinearVelocity();
@@ -106,7 +109,7 @@ TBaluWorld* CreateDemoWorld()
 
 	auto brick_mat = world->CreateMaterial("brick");
 
-	brick_mat->SetImagePath("d:\\Downloads\\github\\BaluEngine\\Output\\Debug\\textures\\brick.png");
+	brick_mat->SetImagePath(base_path+"\\textures\\brick.png");
 	brick_mat->SetColor(TVec4(1, 1, 1, 1));
 
 	auto box_sprite = world->CreateSprite("box0");
@@ -121,7 +124,7 @@ TBaluWorld* CreateDemoWorld()
 	box_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Static);
 	
 	auto player_mat = world->CreateMaterial("player_skin");
-	player_mat->SetImagePath("d:\\Downloads\\github\\BaluEngine\\Output\\Debug\\textures\\player.png");
+	player_mat->SetImagePath(base_path + "\\textures\\player.png");
 	auto player_sprite = world->CreateSprite("player");
 
 	player_sprite->GetPolygone().SetMaterial(player_mat);
@@ -267,8 +270,15 @@ void Step(float step)
 	demo_world_instance->DebugDraw();
 }
 
+void TBaluEngineTest::Step(float step, double time)
+{
+
+}
+
 int MainLoop()
 {
+
+	base_path = SDL_GetBasePath();
 
 	SDL_Window *mainwindow; /* Our window handle */
 
