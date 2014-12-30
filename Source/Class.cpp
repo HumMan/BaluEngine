@@ -62,11 +62,13 @@ void TBaluClass::SetName(std::string name)
 	class_name = name;
 }
 
-TBaluClass::TBaluClass()
+TBaluClass::TBaluClass() :skeleton_animation(&skeleton)
 {
 }
 TBaluClass::TBaluClass(TBaluClass&& right)
 {
+	//skeleton = std::move(right.skeleton);
+	//skeleton_animation = std::move(right.skeleton_animation);
 	class_name = std::move(right.class_name);
 	sprites = std::move(right.sprites);
 }

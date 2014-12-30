@@ -2,6 +2,9 @@
 
 #include "Sprite.h"
 
+#include "Skeleton.h"
+#include "SkeletonAnimation.h"
+
 #include <map>
 
 typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);
@@ -124,7 +127,8 @@ private:
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
 	TBaluClassPhysBody phys_body;
 
-	
+	TSkeleton skeleton;
+	TSkeletonAnimation skeleton_animation;
 public:
 	std::map<TKey, std::vector<KeyDownCallback>> one_key_down_callbacks;
 	std::vector<BeforePhysicsCallback> before_physics_callbacks;
@@ -145,7 +149,8 @@ public:
 	
 	TBaluClassPhysBody& GetPhysBody();
 
-	
+	TSkeletonAnimation& GetSkeletonAnimation();
+	TSkeleton& GetSkeleton();
 
 	void CreateBone();
 	void AttachSpriteToBone();

@@ -166,6 +166,83 @@ TBaluWorld* CreateDemoWorld()
 	player_class->OnBeginContact(sensor, PlayerJumpSensorBeginCollide);
 	player_class->OnEndContact(sensor, PlayerJumpSensorEndCollide);
 
+	{
+		auto bones_mat = world->CreateMaterial("zombie");
+
+		bones_mat->SetImagePath(base_path + "\\textures\\zombie.png");
+		bones_mat->SetColor(TVec4(1, 1, 1, 1));
+
+		auto bones_player = world->CreateClass("bones");
+
+		auto bones_head = world->CreateSprite("bones_head");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 256) / 256, TVec2(73, 256 -192) / 256);
+
+		auto bones_torso = world->CreateSprite("bones_torso");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 189) / 256, TVec2(53, 256 - 112) / 256);
+
+		//hands
+
+		auto bones_left_shoulder = world->CreateSprite("bones_left_shoulder");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(113, 256 - 190) / 256, TVec2(152, 256 - 142) / 256);
+
+		auto bones_left_hand = world->CreateSprite("bones_left_hand");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(75, 256 - 256) / 256, TVec2(138, 256 - 193) / 256);
+
+		auto bones_right_shoulder = world->CreateSprite("bones_right_shoulder");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(152, 256 - 192) / 256, TVec2(183, 256 - 143) / 256);
+
+		auto bones_right_hand = world->CreateSprite("bones_right_hand");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(58, 256 - 190) / 256, TVec2(113, 256 - 129) / 256);
+
+		//legs
+
+		auto bones_left_leg = world->CreateSprite("bones_left_leg");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(55, 256 - 72) / 256, TVec2(94, 256 - 14) / 256);
+
+		auto bones_left_foot = world->CreateSprite("bones_left_foot");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(54, 256 - 131) / 256, TVec2(94, 256 - 75) / 256);
+
+		auto bones_right_leg = world->CreateSprite("bones_right_leg");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 55) / 256, TVec2(44, 256 - 7) / 256);
+
+		auto bones_right_foot = world->CreateSprite("bones_right_foot");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(1, 1);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(9, 256 - 112) / 256, TVec2(39, 256 - 56) / 256);
+
+		auto root_bone = bones_player->GetSkeleton().CreateBone(nullptr);
+		
+		auto right_leg_bone = bones_player->GetSkeleton().CreateBone(root_bone);
+		auto right_foot_bone = bones_player->GetSkeleton().CreateBone(right_leg_bone);
+
+		auto left_leg_bone = bones_player->GetSkeleton().CreateBone(root_bone);
+		auto left_foot_bone = bones_player->GetSkeleton().CreateBone(left_leg_bone);
+
+		auto right_shoulder_bone = bones_player->GetSkeleton().CreateBone(root_bone);
+		auto right_hand_bone = bones_player->GetSkeleton().CreateBone(right_shoulder_bone);
+
+		auto left_shoulder_bone = bones_player->GetSkeleton().CreateBone(root_bone);
+		auto left_hand_bone = bones_player->GetSkeleton().CreateBone(left_shoulder_bone);
+	}
+
 	auto scene0 = world->CreateScene("scene0");
 
 	for (int i = 0; i < 1; i++)

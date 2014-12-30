@@ -101,6 +101,8 @@
     <ClInclude Include="Source\scriptClasses2.h" />
     <ClInclude Include="Source\Skeleton.h" />
     <ClInclude Include="Source\SkeletonAnimation.h" />
+    <ClInclude Include="Source\SkeletonAnimationInstance.h" />
+    <ClInclude Include="Source\SkeletonInstance.h" />
     <ClInclude Include="Source\Sprite.h" />
     <ClInclude Include="Source\SpriteInstance.h" />
     <ClInclude Include="Source\SpritePoly.h" />
@@ -130,6 +132,8 @@
     <ClCompile Include="Source\scriptClasses2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Source\Skeleton.cpp" />
+    <ClCompile Include="Source\SkeletonAnimation.cpp" />
     <ClCompile Include="Source\Sprite.cpp" />
     <ClCompile Include="Source\SpriteInstance.cpp" />
     <ClCompile Include="Source\SpritePoly.cpp" />
