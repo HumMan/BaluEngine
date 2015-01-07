@@ -3,7 +3,8 @@
 TMaterialInstance::TMaterialInstance(TBaluMaterial* source, TResourses* resources)
 {
 	this->source = source;
-	texture = resources->CreateTextureFromFile(source->GetImagePath());
+	if (source!=nullptr)
+		texture = resources->CreateTextureFromFile(source->GetImagePath());
 }
 
 TBaluTexture TMaterialInstance::GetTexture()

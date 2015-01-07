@@ -13,12 +13,13 @@ private:
 	TBone* parent;
 	std::vector<std::unique_ptr<TBone>> children;
 	
-	TVec2 position;
-	float rotation;
+	TBaluTransform local;
 public:
 	TBone(TBone* parent);
-	void SetPosition(TVec2 position);
-	void SetRotation(float rotation);
+	
+	void SetTransform(TBaluTransform);
+	TBaluTransform GetTransform();
+
 	void AddChild(TBone* bone);
 	int GetChildrenCount();
 	TBone* GetChild(int index);
@@ -31,15 +32,20 @@ public:
 	{
 	private:
 		TBaluSprite* sprite;
-		TBaluTransform global;
+		TBaluTransform transform;
 	public:
 		TBaluSpriteInstance(TBaluSprite* sprite);
 		void SetTransform(TBaluTransform global);
 		TBaluTransform GetTransform();
+		TBaluSprite* GetSprite();
 	};
 private:
-	std::vector<TBaluSpriteInstance> sprites;
+	std::vector<std::vector<TBaluSpriteInstance>> sprites_of_bones;
 public:
+	TSkin(int bones_count);
+	void SetBoneSprite(int bone_index, TBaluSprite* sprite, TBaluTransform global);
+	int GetBonesCount();
+	std::vector<TBaluSpriteInstance>& GetSpritesOfBone(int bone_index);
 };
 
 class TSkeleton
@@ -55,5 +61,7 @@ public:
 	TSkin* GetSkin(int index);
 	TBone* CreateBone(TBone* parent);
 	void DestroyBone(TBone* bone);
-	TSkin::TBaluSpriteInstance AttachSpriteToBone(TBone* bone, TBaluSprite* sprite, TSkin* skin);
+	int GetBoneIndex(TBone* bone);
+	TBone* GetRoot();
+	std::vector<TBone*> GetAllBones();
 };

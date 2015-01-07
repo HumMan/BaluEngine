@@ -75,10 +75,23 @@ private:
 	
 	std::map<std::string, TAnimLine> animation_lines;
 
+	bool enable;
+
 	void SetPolygonFromTexture();
 	void UpdatePolyVertices();
 	void TriangulateGeometry();
 public:
+
+	bool IsEnable()
+	{
+		return enable;
+	}
+
+	void SetEnable(bool enable)
+	{
+		this->enable = enable;
+	}
+
 	TBaluSpritePolygon();
 
 	TBaluTransform GetTransform();

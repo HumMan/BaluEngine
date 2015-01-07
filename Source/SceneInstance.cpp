@@ -136,7 +136,7 @@ void TBaluSceneInstance::OnStep(float step)
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
-		//instances[i]-();
+		instances[i]->GetSkeletonAnimation().Update(step);
 	}
 }
 

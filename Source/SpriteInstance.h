@@ -10,17 +10,22 @@
 class TBaluSpriteInstance
 {
 private:
-	TBaluClass::TBaluSpriteInstance* source;
+	TBaluSprite* source;
 	TBaluTransform local;
 	TBaluTransform global;
 	
 	std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
 	TBaluSpritePolygonInstance polygon;
 
-	TBaluInstance* parent;
+	//TBaluInstance* parent;
+
 public:
 
-	TBaluSpriteInstance(TBaluClass::TBaluSpriteInstance* source, TBaluInstance* parent, TResourses* resources);
+	TBaluSpriteInstance(TBaluSprite* source, TBaluTransform local, TBaluInstance* parent, TResourses* resources);
+
+	void SetTransform(TBaluTransform local);
+	TBaluTransform GetTransform();
+	TBaluSprite* GetSourceSprite();
 
 	TAABB2 GetAABB();
 

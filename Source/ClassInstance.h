@@ -2,6 +2,8 @@
 
 #include "Class.h"
 #include "SpriteInstance.h"
+#include "SkeletonInstance.h"
+#include "SkeletonAnimationInstance.h"
 
 class TSensorInstance
 {
@@ -53,9 +55,9 @@ private:
 	b2World* phys_world;
 
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
-
 	std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
-
+	TSkeletonInstance skeleton;
+	TSkeletonAnimationInstance skeleton_animation;
 public:
 	
 	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResourses* resources);
@@ -68,6 +70,8 @@ public:
 	TBaluSpriteInstance* GetSprite(int index);
 
 	TAABB2 GetAABB();
+
+	TSkeletonAnimationInstance& GetSkeletonAnimation();
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 

@@ -33,7 +33,20 @@ private:
 	void NextFrame();
 
 	void UpdateGeometry();
+
+	bool enable;
 public:
+
+	bool IsEnable()
+	{
+		return enable;
+	}
+
+	void SetEnable(bool enable)
+	{
+		this->enable = enable;
+	}
+
 	TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResourses* resources);
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);

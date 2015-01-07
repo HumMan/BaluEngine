@@ -18,6 +18,7 @@ TBaluSpritePolygon* TBaluSpritePolygonInstance::GetSpritePolygon()
 TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResourses* resources)
 	:material(source->GetMaterial(), resources)
 {
+	enable = source->enable;
 	this->source = source;
 	local = source->GetTransform();
 	vertices = source->GetVertices();

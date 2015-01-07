@@ -87,6 +87,16 @@ TBaluClassPhysBody& TBaluClass::GetPhysBody()
 	return phys_body;
 }
 
+TSkeletonAnimation& TBaluClass::GetSkeletonAnimation()
+{
+	return skeleton_animation;
+}
+
+TSkeleton& TBaluClass::GetSkeleton()
+{
+	return skeleton;
+}
+
 TSensor* TBaluClassPhysBody::CreateSensor(TBaluPhysShape* shape)
 {
 	sensors.push_back(std::make_unique<TSensor>(shape));

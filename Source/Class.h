@@ -126,7 +126,6 @@ private:
 	std::string class_name;
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
 	TBaluClassPhysBody phys_body;
-
 	TSkeleton skeleton;
 	TSkeletonAnimation skeleton_animation;
 public:

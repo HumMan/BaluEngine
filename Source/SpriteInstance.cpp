@@ -10,13 +10,12 @@ TBaluSpritePolygonInstance& TBaluSpriteInstance::GetPolygon()
 	return polygon;
 }
 
-TBaluSpriteInstance::TBaluSpriteInstance(TBaluClass::TBaluSpriteInstance* source, TBaluInstance* parent, TResourses* resources) :polygon(&source->sprite->GetPolygone(), resources)
+TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TBaluTransform local, TBaluInstance* parent, TResourses* resources) :polygon(&source->GetPolygone(), resources)
 {
-	this->parent = parent;
+	//this->parent = parent;
 	this->source = source;
-	local = source->local;
-	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->sprite->GetPhysShape(), parent);
-	
+	this->local = local;
+	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetPhysShape(), parent);
 }
 
 TAABB2 TBaluSpriteInstance::GetAABB()
@@ -28,10 +27,14 @@ TAABB2 TBaluSpriteInstance::GetAABB()
 	return TAABB2();
 }
 
-void TBaluSpriteInstance::UpdateTranform(TBaluTransform parent)
+void TBaluSpriteInstance::UpdateTranform(TBaluTransform parent_transform)
 {
-	global.position = parent.position + local.position;
-	global.angle = b2Rot(parent.angle.GetAngle() + local.angle.GetAngle());
+
+	TMatrix2 global_orient(*(TVec2*)&parent_transform.angle.GetXAxis(), *(TVec2*)&parent_transform.angle.GetYAxis());
+	//global_orient.Transpose();
+
+	global.position = parent_transform.position + global_orient*local.position;
+	global.angle = b2Rot(parent_transform.angle.GetAngle() + local.angle.GetAngle());
 
 	polygon.UpdateTransform(global);
 }

@@ -134,6 +134,8 @@
     </ClCompile>
     <ClCompile Include="Source\Skeleton.cpp" />
     <ClCompile Include="Source\SkeletonAnimation.cpp" />
+    <ClCompile Include="Source\SkeletonAnimationInstance.cpp" />
+    <ClCompile Include="Source\SkeletonInstance.cpp" />
     <ClCompile Include="Source\Sprite.cpp" />
     <ClCompile Include="Source\SpriteInstance.cpp" />
     <ClCompile Include="Source\SpritePoly.cpp" />
