@@ -19,6 +19,8 @@ private:
 
 	std::map<std::string, TViewport> viewports;
 
+	TLayersManagerInstance layers;
+
 	struct TCollisionInfo
 	{
 		TBaluPhysShapeInstance *A, *B;

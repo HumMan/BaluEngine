@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Class.h"
+#include "Layers.h"
 
 #include "../BaluLib/Source/BVolumes/AABB.h"
 #include "../BaluLib/Source/BVolumes/OBB.h"
@@ -36,6 +37,8 @@ private:
 	std::string scene_name;
 
 	std::map<std::string, TViewport> viewports;
+
+	TLayersManager layers;
 public:
 
 	TViewport* CreateViewport(std::string name);

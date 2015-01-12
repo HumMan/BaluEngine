@@ -46,7 +46,7 @@ public:
 	TBaluTransform GetTransform();
 };
 
-class TBaluInstance: public TProperties
+class TBaluInstance: public TProperties, TLayerObjectInstance
 {
 private:
 	int uid;

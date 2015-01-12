@@ -123,6 +123,7 @@ public:
 	
 
 private:
+	std::string layer_name;
 	std::string class_name;
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
 	TBaluClassPhysBody phys_body;

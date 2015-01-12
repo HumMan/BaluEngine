@@ -9,9 +9,9 @@
 #include "World.h"
 #include "WorldInstance.h"
 
-#define GLEW_STATIC
-#include <GL\glew.h>
-#include <GL\wglew.h>
+#include "Render.h"
+
+#include "nanovg.h"
 
 using namespace TBaluRenderEnums;
 
@@ -349,7 +349,9 @@ TBaluWorld* CreateDemoWorld()
 TBaluWorldInstance* demo_world_instance;
 TBaluSceneInstance* scene_instance;
 
-TBaluRender* render;
+TBaluRender* internal_render;
+
+TRender* render;
 
 class TBaluEngineRender
 {
@@ -371,35 +373,13 @@ void InitDemoWorld()
 	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
 }
 
-void Render(std::vector<TRenderCommand>& render_commands)
+void PlayerCustomDraw(TBaluInstance* object, NVGcontext* vg)
 {
-	
-	//render->AlphaTest.Enable(true);
-	//render->AlphaTest.Func(TAlphaTestFunc::AT_GREATER, 0.9);
-	render->Blend.Enable(true);
-	render->Blend.Func(TBlendEquation::BE_SRC_ALPHA, TBlendFunc::BF_ADD, TBlendEquation::BE_ONE_MINUS_SRC_ALPHA);
 
-	for (int i = 0; i < render_commands.size(); i++)
-	{
-		auto& c = render_commands[i];
-		auto tex = c.material_id->GetTexture();
-		render->Texture.Bind(*(TTextureId*)&tex);
-		TStreamsDesc streams;
-		streams.AddStream(TStream::Vertex, TDataType::Float, 2, c.vertices);
-		streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
-		//streams.AddStream(TStream::Color, TDataType::Float, 4, c.colors);
-		render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
-	}
 }
 
-void Step(float step)
+void RenderWorld(TBaluWorldInstance* world, TRender* render)
 {
-
-	demo_world_instance->OnPrePhysStep();
-	demo_world_instance->PhysStep(step);
-	
-	demo_world_instance->UpdateTransform();
-
 	auto viewport = scene_instance->GetViewport("main");
 
 	std::vector<TBaluSpritePolygonInstance*> polygons;
@@ -411,10 +391,18 @@ void Step(float step)
 	{
 		polygons[i]->Render(render_commands[i]);
 	}
+	render->Render(render_commands);
+}
 
-	render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
+void Step(float step)
+{
 
-	Render(render_commands);
+	demo_world_instance->OnPrePhysStep();
+	demo_world_instance->PhysStep(step);
+	
+	demo_world_instance->UpdateTransform();
+
+	RenderWorld(demo_world_instance, render);
 
 	demo_world_instance->OnProcessCollisions();
 
@@ -479,9 +467,11 @@ int MainLoop()
 	bool quit = false;
 	SDL_Event event;
 
-	render = new TBaluRender(TVec2i(512, 512));
+	internal_render = new TBaluRender(TVec2i(512, 512));
 
-	resources = TBaluEngineRender::CreateResources(render);
+	render = new TRender(internal_render);
+
+	resources = TBaluEngineRender::CreateResources(internal_render);
 
 	InitDemoWorld();
 
@@ -492,8 +482,8 @@ int MainLoop()
 		auto curr_tick = SDL_GetTicks();
 		float step = (curr_tick - last_tick)/1000.0;
 		last_tick = curr_tick;
-		render->Set.ClearColor(0.2, 0.3, 0.3);
-		render->Clear(true,true);
+		internal_render->Set.ClearColor(0.2, 0.3, 0.3);
+		internal_render->Clear(true, true);
 		const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 		if (keystate[SDL_SCANCODE_LEFT])
 			demo_world_instance->OnKeyDown(TKey::Left);
@@ -540,7 +530,7 @@ int MainLoop()
 			else if (event.type == SDL_WINDOWEVENT)
 			{
 				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-					render->Set.Viewport(TVec2i(event.window.data1, event.window.data2));
+					internal_render->Set.Viewport(TVec2i(event.window.data1, event.window.data2));
 			}
 		}
 	}
