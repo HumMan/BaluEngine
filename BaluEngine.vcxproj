@@ -90,6 +90,7 @@
     <ClInclude Include="Source\Class.h" />
     <ClInclude Include="Source\ClassInstance.h" />
     <ClInclude Include="Source\exportMacro.h" />
+    <ClInclude Include="Source\interfaces.h" />
     <ClInclude Include="Source\Layers.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\MaterialInstance.h" />
@@ -125,6 +126,8 @@
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Source\Class.cpp" />
     <ClCompile Include="Source\ClassInstance.cpp" />
+    <ClCompile Include="Source\interfaces.cpp" />
+    <ClCompile Include="Source\Layers.cpp" />
     <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\MaterialInstance.cpp" />
     <ClCompile Include="Source\nanovg_support.cpp" />

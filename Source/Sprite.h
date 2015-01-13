@@ -3,7 +3,9 @@
 #include "SpritePoly.h"
 #include "PhysShape.h"
 
-class TBaluSprite
+#include "interfaces.h"
+
+class TBaluSprite :public EngineInterface::IBaluSprite
 {
 private:
 	std::string sprite_name;

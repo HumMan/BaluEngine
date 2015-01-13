@@ -7,7 +7,9 @@
 
 #include <map>
 
-class TBaluWorld
+#include "interfaces.h"
+
+class TBaluWorld : public EngineInterface::IBaluWorld
 {
 private:
 	std::map<std::string, TBaluMaterial> materials;

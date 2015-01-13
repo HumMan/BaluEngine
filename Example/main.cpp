@@ -4,11 +4,17 @@
 
 #include <windows.h>
 
+using namespace EngineInterface;
+
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
 	int iCmdShow)
 {
+	IBaluWorld* world = CreateWorld();
+	IBaluSprite* sprite = world->CreateSprite("text");
+
+	return 0;
 	MainLoop();
 	return 0;
 }

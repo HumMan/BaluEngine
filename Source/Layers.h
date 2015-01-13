@@ -30,11 +30,11 @@ class TLayerObjectInstance
 	TLayer* layer;
 	TLayerInstance* manager;
 public:
-	virtual void SetVisible(bool visible) = 0;
-	virtual void SetLocked(bool locked) = 0;
-	virtual void SetOpacity(float opacity) = 0;
-	virtual void SetZOrderValue(float z_value) = 0;
-	virtual TLayer* GetLayer() = 0;
+	//virtual void SetVisible(bool visible) = 0;
+	//virtual void SetLocked(bool locked) = 0;
+	//virtual void SetOpacity(float opacity) = 0;
+	//virtual void SetZOrderValue(float z_value) = 0;
+	//virtual TLayer* GetLayer() = 0;
 };
 
 class TLayersManagerInstance;

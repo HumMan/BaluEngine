@@ -9,6 +9,8 @@
 
 #include "exportMacro.h"
 
+#include "interfaces.h"
+
 class TBaluEngine;
 
 namespace pugi
@@ -21,6 +23,8 @@ class BALUENGINEDLL_API  TBaluEngineTest
 public:
 	void Step(float step, double time);
 };
+
+
 //
 //
 //

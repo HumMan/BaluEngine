@@ -9,15 +9,14 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{b5dd86ef-e477-417a-9bb9-bc086950a82f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utils\poly2tri">
       <UniqueIdentifier>{bc5d7d16-cdd1-4666-b8f0-d2b01c005486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorUtils">
+      <UniqueIdentifier>{323efbd3-8031-4cef-a566-a51a7da05312}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +131,9 @@
     <ClInclude Include="Source\Render.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\interfaces.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\scriptClasses2.cpp">
@@ -225,6 +227,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Render.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Layers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\interfaces.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
