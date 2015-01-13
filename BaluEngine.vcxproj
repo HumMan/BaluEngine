@@ -86,11 +86,12 @@
     <ClInclude Include="..\poly2tri\poly2tri\sweep\cdt.h" />
     <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep.h" />
     <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep_context.h" />
-    <ClInclude Include="Include\baluEngine.h" />
     <ClInclude Include="Source\Class.h" />
     <ClInclude Include="Source\ClassInstance.h" />
+    <ClInclude Include="Source\EditorInterfaces.h" />
+    <ClInclude Include="Source\EngineInterfaces.h" />
     <ClInclude Include="Source\exportMacro.h" />
-    <ClInclude Include="Source\interfaces.h" />
+    <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\Layers.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\MaterialInstance.h" />
@@ -102,7 +103,6 @@
     <ClInclude Include="Source\Resourses.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneInstance.h" />
-    <ClInclude Include="Source\scriptClasses2.h" />
     <ClInclude Include="Source\Skeleton.h" />
     <ClInclude Include="Source\SkeletonAnimation.h" />
     <ClInclude Include="Source\SkeletonAnimationInstance.h" />
@@ -126,7 +126,9 @@
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Source\Class.cpp" />
     <ClCompile Include="Source\ClassInstance.cpp" />
-    <ClCompile Include="Source\interfaces.cpp" />
+    <ClCompile Include="Source\EditorInterfaces.cpp" />
+    <ClCompile Include="Source\EngineInterfaces.cpp" />
+    <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Layers.cpp" />
     <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\MaterialInstance.cpp" />
@@ -137,9 +139,6 @@
     <ClCompile Include="Source\Resourses.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneInstance.cpp" />
-    <ClCompile Include="Source\scriptClasses2.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Source\Skeleton.cpp" />
     <ClCompile Include="Source\SkeletonAnimation.cpp" />
     <ClCompile Include="Source\SkeletonAnimationInstance.cpp" />

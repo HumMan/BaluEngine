@@ -1,266 +1,329 @@
-//#include <baluEngine.h>
-#include <baluLib.h>
-#include "../Source/scriptClasses2.h"
 
-#include <windows.h>
+#include <baluLib.h>
+
+#include "../Source/EngineInterfaces.h"
 
 using namespace EngineInterface;
 
-int WINAPI WinMain(HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR lpCmdLine,
-	int iCmdShow)
+void PlayerJump(IBaluInstance* object)
 {
-	IBaluWorld* world = CreateWorld();
-	IBaluSprite* sprite = world->CreateSprite("text");
 
-	return 0;
-	MainLoop();
-	return 0;
+	if (object->GetBool("can_jump"))
+	{
+		auto speed = object->GetPhysBody()->GetLinearVelocity();
+		speed[1] = 4;
+		object->GetPhysBody()->SetLinearVelocity(speed);
+	}
+}
+void PlayerLeft(IBaluInstance* object)
+{
+	float mult = (object->GetBool("can_jump")) ? 1 : 0.8;
+	auto speed = object->GetPhysBody()->GetLinearVelocity();
+	speed[0] = -1.4*mult;
+	object->GetPhysBody()->SetLinearVelocity(speed);
+}
+void PlayerRight(IBaluInstance* object)
+{
+	float mult = (object->GetBool("can_jump")) ? 1 : 0.8;
+	auto speed = object->GetPhysBody()->GetLinearVelocity();
+	speed[0] = 1.4*mult;
+	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 
-//
-//TBaluEngine* engine;
-//
-//char buf1[1000];
-//int curr_buf1;
-//
-//LRESULT CALLBACK WndProc(HWND hWnd, UINT message,WPARAM wParam, LPARAM lParam)
+void BonesPlayerLeft(IBaluInstance* object)
+{
+	object->GetSkeletonAnimation().PlayAnimation("walk", 1);
+}
+
+//void PlayerJumpSensorCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 //{
-//	switch (message)
-//	{
-//	case WM_CLOSE:
-//		//PostQuitMessage(0);
-//		break;
-//	case WM_SIZE:
-//		//if(engine)
-//		//	engine->SetViewport(TVec2i(LOWORD(lParam),HIWORD(lParam)));
-//		break;
-//	case WM_KEYDOWN:
-//		switch (wParam)
-//		{
-//		case VK_ESCAPE:
-//			PostQuitMessage(0);
-//			break;
-//		}
-//		break;
-//	case WM_CHAR:
-//		{	
-//			if(wParam>=30)
-//			{
-//				//char dd[1000];
-//				//dd[0]=wParam;
-//				//dd[1]='1';
-//				//dd[2]='2';
-//				//dd[3]='3';
-//				//dd[4]='r';
-//				//*(int*)&dd[8]=12356;
-//				//va_list list=&dd[0];
-//				//vsprintf(&buf1[curr_buf1],"%c _ %c %i",list);
-//				//curr_buf1+=vsprintf(&buf1[curr_buf1],"%c",list);
-//				//curr_buf1+=sprintf_s(buf1[curr_buf1],"%c",wParam);
-//				//SetWindowText(hWnd,&buf1[0]);
-//			}
-//		}
-//		break;
-//	case WM_MOUSEWHEEL:
-//		//engine->OnMouseScroll(GET_WHEEL_DELTA_WPARAM(wParam));
-//		break;
-//	default:
-//		return DefWindowProc(hWnd, message, wParam, lParam);
-//	}
-//	return 0;
+//	source->SetBool("can_jump", true);
 //}
-//
-//HDC hDC;
-//HWND hWnd;
-//
-//TTime time;
-//
-//char buf[1000];
-//
-//void UpdateControls()
-//{
-//	unsigned char key_states[256];
-//	GetKeyboardState(&key_states[0]);
-//	engine->UpdateKeyStates(&key_states[0]);
-//	TVec2i v=GetCursorPos();
-//	POINT local_corner;
-//	local_corner.x=0;
-//	local_corner.y=0;
-//	if(!ClientToScreen(hWnd,&local_corner))
-//	{
-//		int i=GetLastError();
-//		sprintf_s(buf1,"%i\nWindow handle: %i",i,hWnd);
-//		//MessageBox(0,buf1,L"Error",MB_OK);
-//	}
-//	v[0]-=local_corner.x;
-//	v[1]-=local_corner.y;
-//	engine->UpdateMouseState(KeyDown(VK_LBUTTON),KeyDown(VK_MBUTTON),KeyDown(VK_RBUTTON),v);
-//}
-//
-//void InitEngine()
-//{
-//	curr_buf1=0;
-//	{
-//		engine->AddMaterial("mat1","..\\textures\\Crate005_ebox.png",TVec4(Randf(),Randf(),Randf(),1));
-//		engine->AddMaterial("mat2","..\\textures\\container_001a.png",TVec4(Randf(),Randf(),Randf(),1));
-//		TBaluShape shape;
-//		float density=0.01;
-//		float rad=0.3;
-//		//shape.SetAsCircle(rad,density);
-//		float k = 0.35;
-//		shape.SetAsBox(TVec2(1*k, 1*k), density);
-//		engine->AddShape("shape1",shape);
-//		density=0;
-//		shape.SetAsBox(TVec2(65*k, 2*k), density);
-//		engine->AddShape("shape2",shape);
-//
-//		engine->AddSprite("sprite1","shape1","mat1",TVec2(1,1),0,TVec2(0,0),-1);
-//		engine->AddSprite("sprite2","shape2","mat2",TVec2(65,2),0,TVec2(0,0),-1);
-//
-//		TBaluClass o;
-//		o.SetMembers("float t;");
-//		//o.SetEvent(EVENT_CREATE,
-//		//	"\n t=0;//t=Randf();vec2 tttt=Cross(vec2(0,1),vec2(1,1));\
-//		//	//sprite.shape.SetAsBox(vec2(0.3,0.3),0.01);");
-//		//o.SetEvent(EVENT_STEP,
-//		//	"\n vec2 v=Normalize(Mouse.WorldPos-pos);\
-//		//	\n //sprite.local_angle=Sign(v[1])*Acos(v[0])+t;\
-//		//	\n if(Mouse.Button.Left){t-=0.2;}if(Mouse.Button.Right){t+=0.2;}");
-//		//o.SetEvent(EVENT_GLOBALMOUSEDOWN,
-//		//	"\n if(button==TMouseButton.Middle)t+=0.2;");
-//		//o.SetEvent(EVENT_KEYUP,
-//		//	"\n");
-//		//o.SetEvent(EVENT_KEYDOWN,
-//		//	"\n");
-//
-//		TBaluClass o1;
-//		o1.SetMembers("float arr;");
-//		//o1.SetMembers("int[][10] arr;");
-//		o1.SetEvent(TBaluEvent::EVENT_STEP,
-//			"sprite.local_angle+=Time.Step;\n");
-//
-//		TBaluClass mouse_contrl;
-//		mouse_contrl.SetMembers("float arr;");
-//		//mouse_contrl.SetEvent(EVENT_STEP,
-//		//	"\n float ox=0,oy=0,coeff=1.0;\
-//		//	\n if(Keyboard.Pressed('A'))ox=-1;\
-//		//	\n if(Keyboard.Pressed('D'))ox=1;\
-//		//	\n if(Keyboard.Pressed('S'))oy=-1;\
-//		//	\n if(Keyboard.Pressed('W'))oy=1;\
-//		//	\n if(Keyboard.Pressed(TVirtKey.LShift))coeff=5.0;\
-//		//	\n Screen.SetPos(Screen.Pos+vec2(ox,oy)*Screen.Size[0]*0.01*coeff);");
-//
-//
-//		//mouse_contrl.SetEvent(EVENT_GLOBALMOUSEWHEEL,
-//		//	"Screen.SetSize(Screen.Size*(1.0+0.1*delta));");
-//
-//		engine->AddClass("Obj2","sprite2",o1);
-//		engine->AddClass("Obj1","sprite1",o);
-//		engine->AddClass("MouseContrl","sprite1",mouse_contrl);
-//		////
-//		engine->AddInstance("MouseContrl",TVec2(0,-10),0);
-//		engine->AddInstance("Obj2",TVec2(0,-0.6),0);
-//		engine->AddInstance("Obj2",TVec2(6,-1),45*M_PI/180);
-//		engine->AddInstance("Obj2",TVec2(-6,-0.8),-45*M_PI/180);
-//		for(int i=5;i<=10;i++)
-//			for(int k=-8;k<=8;k++)
-//			{
-//				engine->AddInstance("Obj1",TVec2(k*1+i*0.2,i*4),0);
-//			}
-//	}
-//	UpdateControls();
-//	engine->Start();
-//}
-//
-//static DWORD last_tick_count;
-//
-//void MainLoop()
-//{
-//	//time.Tick();
-//	//if(time.ShowFPS())
-//	//{
-//	//	sprintf(&buf[0],"%7.1f FPS",time.GetFPS());
-//	//	SetWindowText(hWnd,&buf[0]);
-//	//}
-//	if(GetTickCount()-last_tick_count<14)
-//	{
-//		Sleep(5);
-//		return;
-//	}
-//	float step_time=(GetTickCount()-last_tick_count)/1000.0f;
-//	last_tick_count=GetTickCount();
-//	{
-//		UpdateControls();
-//		engine->Step(step_time,GetTickCount()/1000.0f);
-//	}
-//}
-//
-//int WINAPI WinMain (HINSTANCE hInstance,
-//					HINSTANCE hPrevInstance,
-//					LPSTR lpCmdLine,
-//					int iCmdShow)
-//{
-//
 
-	//SDLTest();
-	//MSG msg;
-	///* register window class */
-	//WNDCLASS wc = {0};
-	//wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-	//wc.lpfnWndProc = WndProc;
-	//wc.cbClsExtra = 0;
-	//wc.cbWndExtra = 0;
-	//wc.hInstance = hInstance;
-	//wc.hIcon = LoadIcon (NULL, IDI_APPLICATION);
-	//wc.hCursor = LoadCursor (NULL, IDC_ARROW);
-	//wc.hbrBackground = (HBRUSH) GetStockObject (BLACK_BRUSH);
-	//wc.lpszMenuName = NULL;
-	//wc.lpszClassName = L"Sample";
-	//RegisterClass (&wc);
+std::vector<TBaluPhysShapeInstance*> obstacle_shapes;
 
-	///* create main window */
-	//hWnd = CreateWindow (
-	//	wc.lpszClassName, L"Sample",
-	//	WS_OVERLAPPEDWINDOW| WS_VISIBLE|WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_POPUPWINDOW | WS_VISIBLE,
-	//	50, 50, 150,150,/*GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),*/
-	//	NULL, NULL, hInstance, NULL);
+void PlayerJumpSensorBeginCollide(IBaluInstance* source, TSensorInstance* sensor, IBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+{
+	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
+	if (it == obstacle_shapes.end())
+	{
+		obstacle_shapes.push_back(obstacle_shape);
+	}
+	source->SetBool("can_jump", obstacle_shapes.size()>0);
+}
 
-	//RECT rect;
-	//GetClientRect(hWnd,&rect);
+void PlayerJumpSensorEndCollide(IBaluInstance* source, TSensorInstance* sensor, IBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+{
 
-	//engine=new TBaluEngine((int)hWnd,TVec2i(rect.right-rect.left,rect.bottom-rect.top));
+	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
+	if (it != obstacle_shapes.end())
+	{
+		obstacle_shapes.erase(it);
+	}
+	source->SetBool("can_jump", obstacle_shapes.size()>0);
+}
+void PlayerPrePhysStep(TBaluInstance* object)
+{
+	auto can_jump = object->GetBool("can_jump");
 
-	//InitEngine();
+	auto speed = object->GetPhysBody()->GetLinearVelocity();
+	std::string hor_anim, v_anim;
+	if (speed[0] > 0)
+		hor_anim = "_right";
+	//
+	else
+		hor_anim = "_left";
+	if (can_jump)
+	{
+		if (abs(speed[0]) > 0.5)
+			v_anim = "run";
+		else
+			v_anim = "stay";
+	}
+	else
+	{
+		if (speed[1] > 0)
+			v_anim = "jump_up";
+		else
+			v_anim = "jump_down";
+	}
+	object->GetSprite(0)->GetPolygon().SetActiveAnimation((v_anim + hor_anim).c_str());
+}
 
-	//last_tick_count=GetTickCount();
+void BonesPlayerPrePhysStep(TBaluInstance* object)
+{
+	auto can_jump = object->GetBool("can_jump");
 
-	//time.Start();
+	auto speed = object->GetPhysBody()->GetLinearVelocity();
+	std::string hor_anim, v_anim;
+	if (abs(speed[0]) > 0)
+		object->GetSkeletonAnimation().PlayAnimation("walk", 1);
+	else
+		object->GetSkeletonAnimation().StopAnimation("walk");
+}
 
-	///* program main loop */
-	//while (true)
-	//{
-	//	/* check for messages */
-	//	if (PeekMessage (&msg, NULL, 0, 0, PM_REMOVE))
-	//	{
-	//		/* handle or dispatch messages */
-	//		if (msg.message == WM_QUIT)
-	//			break;
-	//		else
-	//		{
-	//			TranslateMessage (&msg);
-	//			DispatchMessage (&msg);
-	//		}
-	//	}
-	//	else
-	//		MainLoop();
-	//}
+TBaluWorld* CreateDemoWorld()
+{
+	auto world = new TBaluWorld();
 
-	//delete engine;
+	auto brick_mat = world->CreateMaterial("brick");
 
-	///* destroy the window explicitly */
-	//DestroyWindow(hWnd);
-//
-//	return 0;
-//}
+	brick_mat->SetImagePath(base_path + "\\textures\\brick.png");
+	brick_mat->SetColor(TVec4(1, 1, 1, 1));
+
+	auto box_sprite = world->CreateSprite("box0");
+	box_sprite->GetPolygone().SetMaterial(brick_mat);
+	box_sprite->GetPolygone().SetAsBox(1, 1);
+	box_sprite->GetPolygone().SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
+	box_sprite->SetPhysShape(new TBaluBoxShape(1, 1));
+
+	auto box_class = world->CreateClass("box");
+	auto box_class_instance = box_class->AddSprite(box_sprite);
+	box_class->GetPhysBody().Enable(true);
+	box_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Static);
+
+	auto player_mat = world->CreateMaterial("player_skin");
+	player_mat->SetImagePath(base_path + "\\textures\\player.png");
+	auto player_sprite = world->CreateSprite("player");
+
+	player_sprite->GetPolygone().SetMaterial(player_mat);
+	//player_sprite->GetPolygone().SetAsBox(20.0/8, 20.0/8);
+	player_sprite->GetPolygone().SetAsBox(6, 6);
+	//player_sprite->GetPolygone().SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
+	player_sprite->SetPhysShape(new TBaluCircleShape(2.5));
+	//player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));
+
+	TGridFrames* grid_frames = new TGridFrames(TVec2(0, 0), TVec2(1, 1), 8, 4);
+
+	player_sprite->GetPolygone().AddAnimDesc(grid_frames);
+
+	player_sprite->GetPolygone().CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
+	player_sprite->GetPolygone().CreateAnimationLine("jump_up_right", grid_frames, FramesRange(9, 9));
+	player_sprite->GetPolygone().CreateAnimationLine("jump_down_right", grid_frames, FramesRange(10, 10));
+	player_sprite->GetPolygone().CreateAnimationLine("stay_right", grid_frames, FramesRange(11, 11));
+	player_sprite->GetPolygone().CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
+	player_sprite->GetPolygone().CreateAnimationLine("run_left", grid_frames, FramesRange(16, 16 + 7));
+	player_sprite->GetPolygone().CreateAnimationLine("jump_up_left", grid_frames, FramesRange(16 + 7 + 2, 16 + 7 + 2));
+	player_sprite->GetPolygone().CreateAnimationLine("jump_down_left", grid_frames, FramesRange(16 + 7 + 3, 16 + 7 + 3));
+	player_sprite->GetPolygone().CreateAnimationLine("stay_left", grid_frames, FramesRange(16 + 7 + 4, 16 + 7 + 4));
+
+	auto player_class = world->CreateClass("player");
+	auto player_class_instance = player_class->AddSprite(player_sprite);
+	player_class_instance->tag = "character_sprite";
+	player_class->GetPhysBody().Enable(true);
+	player_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Dynamic);
+	player_class->GetPhysBody().SetFixedRotation(true);
+
+	auto sensor = player_class->GetPhysBody().CreateSensor(new TBaluCircleShape(0.4, TVec2(0, -2.5)));
+
+	player_class->OnKeyDown(TKey::Up, PlayerJump);
+	player_class->OnKeyDown(TKey::Left, PlayerLeft);
+	player_class->OnKeyDown(TKey::Right, PlayerRight);
+
+	player_class->OnBeforePhysicsStep(PlayerPrePhysStep);
+	//player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
+	player_class->OnBeginContact(sensor, PlayerJumpSensorBeginCollide);
+	player_class->OnEndContact(sensor, PlayerJumpSensorEndCollide);
+
+	auto bones_player = world->CreateClass("bones");
+	bones_player->OnKeyDown(TKey::Left, BonesPlayerLeft);
+	bones_player->OnBeforePhysicsStep(BonesPlayerPrePhysStep);
+	{
+		auto bones_mat = world->CreateMaterial("zombie");
+
+		bones_mat->SetImagePath(base_path + "\\textures\\zombie.png");
+		bones_mat->SetColor(TVec4(1, 1, 1, 1));
+
+		//special phys sprite
+		auto bones_phys_sprite = world->CreateSprite("bones_phys_sprite");
+		bones_phys_sprite->SetPhysShape(new TBaluCircleShape(1.0, TVec2(0, -1.5)));
+		bones_phys_sprite->GetPolygone().SetEnable(false);
+
+		auto bones_player_class_instance = bones_player->AddSprite(bones_phys_sprite);
+		bones_player->GetPhysBody().Enable(true);
+		bones_player->GetPhysBody().SetPhysBodyType(TPhysBodyType::Dynamic);
+		bones_player->GetPhysBody().SetFixedRotation(true);
+
+		//sprites
+		auto bones_head = world->CreateSprite("bones_head");
+		bones_head->GetPolygone().SetMaterial(bones_mat);
+		bones_head->GetPolygone().SetAsBox(2, 2);
+		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 256) / 256, TVec2(73, 256 - 192) / 256);
+
+		auto bones_torso = world->CreateSprite("bones_torso");
+		bones_torso->GetPolygone().SetMaterial(bones_mat);
+		bones_torso->GetPolygone().SetAsBox(1.6, 2.5);
+		bones_torso->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 189) / 256, TVec2(53, 256 - 112) / 256);
+
+		//hands
+
+		auto bones_left_shoulder = world->CreateSprite("bones_left_shoulder");
+		bones_left_shoulder->GetPolygone().SetMaterial(bones_mat);
+		bones_left_shoulder->GetPolygone().SetAsBox(1, 1);
+		bones_left_shoulder->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(113, 256 - 190) / 256, TVec2(152, 256 - 142) / 256);
+
+		auto bones_left_hand = world->CreateSprite("bones_left_hand");
+		bones_left_hand->GetPolygone().SetMaterial(bones_mat);
+		bones_left_hand->GetPolygone().SetAsBox(1, 1);
+		bones_left_hand->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(75, 256 - 256) / 256, TVec2(138, 256 - 193) / 256);
+
+		auto bones_right_shoulder = world->CreateSprite("bones_right_shoulder");
+		bones_right_shoulder->GetPolygone().SetMaterial(bones_mat);
+		bones_right_shoulder->GetPolygone().SetAsBox(1, 1);
+		bones_right_shoulder->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(152, 256 - 192) / 256, TVec2(183, 256 - 143) / 256);
+
+		auto bones_right_hand = world->CreateSprite("bones_right_hand");
+		bones_right_hand->GetPolygone().SetMaterial(bones_mat);
+		bones_right_hand->GetPolygone().SetAsBox(1, 1);
+		bones_right_hand->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(58, 256 - 190) / 256, TVec2(113, 256 - 129) / 256);
+
+		//legs
+
+		auto bones_left_leg = world->CreateSprite("bones_left_leg");
+		bones_left_leg->GetPolygone().SetMaterial(bones_mat);
+		bones_left_leg->GetPolygone().SetAsBox(1, 1);
+		bones_left_leg->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(55, 256 - 72) / 256, TVec2(94, 256 - 14) / 256);
+
+		auto bones_left_foot = world->CreateSprite("bones_left_foot");
+		bones_left_foot->GetPolygone().SetMaterial(bones_mat);
+		bones_left_foot->GetPolygone().SetAsBox(1, 1);
+		bones_left_foot->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(54, 256 - 131) / 256, TVec2(94, 256 - 75) / 256);
+
+		auto bones_right_leg = world->CreateSprite("bones_right_leg");
+		bones_right_leg->GetPolygone().SetMaterial(bones_mat);
+		bones_right_leg->GetPolygone().SetAsBox(1, 1);
+		bones_right_leg->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 55) / 256, TVec2(44, 256 - 7) / 256);
+
+		auto bones_right_foot = world->CreateSprite("bones_right_foot");
+		bones_right_foot->GetPolygone().SetMaterial(bones_mat);
+		bones_right_foot->GetPolygone().SetAsBox(1, 1);
+		bones_right_foot->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(9, 256 - 112) / 256, TVec2(39, 256 - 56) / 256);
+
+		auto& bones_player_skel = bones_player->GetSkeleton();
+
+		//bones
+		auto root_bone = bones_player_skel.CreateBone(nullptr);
+
+		auto right_leg_bone = bones_player_skel.CreateBone(root_bone);
+		right_leg_bone->SetTransform(TBaluTransform(TVec2(-0.5, -1.5), b2Rot(0)));
+		auto right_foot_bone = bones_player_skel.CreateBone(right_leg_bone);
+		right_foot_bone->SetTransform(TBaluTransform(TVec2(0, -1), b2Rot(0)));
+
+		auto left_leg_bone = bones_player_skel.CreateBone(root_bone);
+		left_leg_bone->SetTransform(TBaluTransform(TVec2(0.5, -1), b2Rot(0)));
+		auto left_foot_bone = bones_player_skel.CreateBone(left_leg_bone);
+		left_foot_bone->SetTransform(TBaluTransform(TVec2(0.0, -0.5), b2Rot(0)));
+
+		auto right_shoulder_bone = bones_player_skel.CreateBone(root_bone);
+		auto right_hand_bone = bones_player_skel.CreateBone(right_shoulder_bone);
+
+		auto left_shoulder_bone = bones_player_skel.CreateBone(root_bone);
+		auto left_hand_bone = bones_player_skel.CreateBone(left_shoulder_bone);
+
+		//create skin
+		auto skin = bones_player_skel.CreateSkin();
+		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(root_bone), bones_head, TBaluTransform(TVec2(-0.3, 2), b2Rot(0)));
+
+		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(root_bone), bones_torso, TBaluTransform(TVec2(0, 0), b2Rot(0)));
+
+		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(right_leg_bone), bones_right_leg, TBaluTransform(TVec2(0, 0), b2Rot(0)));
+		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(right_foot_bone), bones_right_foot, TBaluTransform(TVec2(0, 0), b2Rot(0)));
+
+		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(left_leg_bone), bones_left_leg, TBaluTransform(TVec2(0, -0.5), b2Rot(0)));
+		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(left_foot_bone), bones_left_foot, TBaluTransform(TVec2(0, -1), b2Rot(0)));
+
+		//walk animation
+		auto& skel_anim = bones_player->GetSkeletonAnimation();
+
+		auto walk_anim = skel_anim.CreateAnimation("walk");
+		float timeline_size = 0.5;
+		walk_anim->SetTimelineSize(timeline_size);
+		auto left_leg_bone_track = walk_anim->CreateTrack(left_leg_bone);
+
+		left_leg_bone_track->CreateFrame(0, 0);
+		left_leg_bone_track->CreateFrame(0.25* timeline_size, DegToRad(40.0));
+		left_leg_bone_track->CreateFrame(0.75* timeline_size, DegToRad(-40.0));
+
+		auto left_foot_bone_track = walk_anim->CreateTrack(left_foot_bone);
+
+		left_foot_bone_track->CreateFrame(0, 0);
+		left_foot_bone_track->CreateFrame(0.25* timeline_size, DegToRad(40.0));
+		left_foot_bone_track->CreateFrame(0.75* timeline_size, DegToRad(-40.0));
+
+		auto right_leg_bone_track = walk_anim->CreateTrack(right_leg_bone);
+
+		right_leg_bone_track->CreateFrame(0, 0);
+		right_leg_bone_track->CreateFrame(0.25* timeline_size, DegToRad(-40.0));
+		right_leg_bone_track->CreateFrame(0.75* timeline_size, DegToRad(40.0));
+
+		auto right_foot_bone_track = walk_anim->CreateTrack(right_foot_bone);
+
+		right_foot_bone_track->CreateFrame(0, 0);
+		right_foot_bone_track->CreateFrame(0.25* timeline_size, DegToRad(-40.0));
+		right_foot_bone_track->CreateFrame(0.75* timeline_size, DegToRad(40.0));
+	}
+
+	auto scene0 = world->CreateScene("scene0");
+
+	for (int i = 0; i < 1; i++)
+	{
+		auto inst0 = scene0->CreateInstance(player_class);
+		inst0->transform = TBaluTransform(TVec2(0, 0 + i), b2Rot(0));
+
+		auto inst1 = scene0->CreateInstance(bones_player);
+		inst1->transform = TBaluTransform(TVec2(3, 0 + i), b2Rot(0));
+	}
+
+	for (int i = -10; i < 40; i++)
+	{
+		auto inst0 = scene0->CreateInstance(box_class);
+		inst0->transform = TBaluTransform(TVec2(-5 + i*0.9 + 0.3, -7 + sinf(i*0.3) * 1), b2Rot(i));
+	}
+
+	auto viewport = scene0->CreateViewport("main_viewport");
+	viewport->SetTransform(TBaluTransform(TVec2(0, 0), b2Rot(0)));
+	viewport->SetAspectRatio(1);
+	viewport->SetWidth(5);
+
+	return world;
+}

@@ -18,7 +18,7 @@ public:
 	TAABB2 GetAABB();
 };
 
-class TBaluScene
+class TBaluScene: public EngineInterface::IBaluScene
 {
 public:
 	class TClassInstance

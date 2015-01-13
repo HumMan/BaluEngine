@@ -7,6 +7,8 @@
 
 #include <map>
 
+#include "EngineInterfaces.h"
+
 typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);
 
 enum TPhysBodyType
@@ -62,7 +64,7 @@ enum TKey:int
 	Down
 };
 
-class TProperties
+class TProperties: public EngineInterface::IProperties
 {
 	struct TProperty
 	{
@@ -105,10 +107,10 @@ public:
 
 
 
-class TBaluClass: public TProperties
+class TBaluClass : public TProperties, public EngineInterface::IBaluClass
 {
 public:
-	class TBaluSpriteInstance
+	class TBaluSpriteInstance : public EngineInterface::IBaluClassSprite
 	{
 	public:
 		TBaluSprite* sprite;
@@ -145,7 +147,6 @@ public:
 	void RemoveSprite(TBaluSprite* sprite);
 	int GetSpritesCount();
 	TBaluSpriteInstance* GetSprite(int index);
-
 	
 	TBaluClassPhysBody& GetPhysBody();
 

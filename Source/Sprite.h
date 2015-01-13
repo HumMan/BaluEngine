@@ -3,7 +3,7 @@
 #include "SpritePoly.h"
 #include "PhysShape.h"
 
-#include "interfaces.h"
+#include "EngineInterfaces.h"
 
 class TBaluSprite :public EngineInterface::IBaluSprite
 {

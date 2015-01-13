@@ -7,7 +7,7 @@
 
 #include <map>
 
-#include "interfaces.h"
+#include "EngineInterfaces.h"
 
 class TBaluWorld : public EngineInterface::IBaluWorld
 {

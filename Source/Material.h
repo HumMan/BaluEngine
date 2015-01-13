@@ -6,6 +6,8 @@
 
 #include <box2D.h>
 
+#include "EngineInterfaces.h"
+
 class TBaluTransform
 {
 public:
@@ -27,7 +29,7 @@ public:
 	}
 };
 
-class TBaluMaterial
+class TBaluMaterial: public EngineInterface::IBaluMaterial
 {
 public:
 	enum class TTransparentMode

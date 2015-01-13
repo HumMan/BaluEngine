@@ -57,13 +57,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\BaluRender\Include;$(ProjectDir)\..\..\BaluLib\Include;$(ProjectDir)\..\..\BaluScript\Include;$(ProjectDir)\..\..\box2d\box2d\;$(ProjectDir)\..\..\box2d\box2d\box2d;$(ProjectDir)\..\..\glew-1.11.0\Include;$(ProjectDir)\..\Include;$(ProjectDir)/../../DevIL-SDK-x86-1.7.8\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\BaluLib\Include;$(ProjectDir)\..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\Output\$(Configuration);$(ProjectDir)\..\Library\$(Configuration);$(ProjectDir)/../../DevIL-SDK-x86-1.7.8\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BaluEngine.lib;BaluLib.lib;DevIL.lib;ilu.lib;ilut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\Output\$(Configuration);$(ProjectDir)\..\Library\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaluEngine.lib;BaluLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,7 +76,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\BaluRender\Include;$(ProjectDir)\..\..\BaluLib\Include;$(ProjectDir)\..\..\BaluScript\Include;$(ProjectDir)\..\..\box2d\box2d\;$(ProjectDir)\..\..\box2d\box2d\box2d;$(ProjectDir)\..\..\glew-1.11.0\Include;$(ProjectDir)\..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\BaluLib\Include;$(ProjectDir)\..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

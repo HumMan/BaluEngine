@@ -1,239 +1,247 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Source Files\Utils">
-      <UniqueIdentifier>{b5dd86ef-e477-417a-9bb9-bc086950a82f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utils\poly2tri">
-      <UniqueIdentifier>{bc5d7d16-cdd1-4666-b8f0-d2b01c005486}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EditorUtils">
       <UniqueIdentifier>{323efbd3-8031-4cef-a566-a51a7da05312}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Instances">
+      <UniqueIdentifier>{acaae9c6-0b41-48ff-8626-1eed73c7234a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions">
+      <UniqueIdentifier>{64be69d9-b263-4bfb-bca3-7f3cd1d50825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{8c2dfede-bae6-4556-b59a-d34c1866732d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{b5dd86ef-e477-417a-9bb9-bc086950a82f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\poly2tri">
+      <UniqueIdentifier>{bc5d7d16-cdd1-4666-b8f0-d2b01c005486}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\baluEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SpritePolyInstance.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SpritePoly.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SpriteInstance.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Sprite.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\scriptClasses2.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneInstance.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RenderCommand.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PhysShapeInstance.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PhysShape.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MaterialInstance.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Material.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\exportMacro.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ClassInstance.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Class.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Utils\texture_polygon.h">
-      <Filter>Source Files\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\polygon_vertices.h">
-      <Filter>Source Files\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\polygon_decomp.h">
-      <Filter>Source Files\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\poly2tri\poly2tri\common\shapes.h">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClInclude>
     <ClInclude Include="..\poly2tri\poly2tri\common\utils.h">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClInclude>
     <ClInclude Include="..\poly2tri\poly2tri\poly2tri.h">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClInclude>
     <ClInclude Include="..\poly2tri\poly2tri\sweep\advancing_front.h">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClInclude>
     <ClInclude Include="..\poly2tri\poly2tri\sweep\cdt.h">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClInclude>
     <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep.h">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClInclude>
     <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep_context.h">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\DebugDraw.h">
-      <Filter>Source Files\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Resourses.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SkeletonAnimation.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Skeleton.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SkeletonAnimationInstance.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SkeletonInstance.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\nanovg_support.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="Source\Class.h">
+      <Filter>Definitions</Filter>
     </ClInclude>
     <ClInclude Include="Source\Layers.h">
-      <Filter>Source Files</Filter>
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Material.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PhysShape.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Skeleton.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SkeletonAnimation.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sprite.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpritePoly.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\World.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ClassInstance.h">
+      <Filter>Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MaterialInstance.h">
+      <Filter>Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PhysShapeInstance.h">
+      <Filter>Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneInstance.h">
+      <Filter>Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SkeletonAnimationInstance.h">
+      <Filter>Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SkeletonInstance.h">
+      <Filter>Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpriteInstance.h">
+      <Filter>Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpritePolyInstance.h">
+      <Filter>Instances</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldInstance.h">
+      <Filter>Instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\Render.h">
-      <Filter>Source Files</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\interfaces.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="Source\RenderCommand.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resourses.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\nanovg_support.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorInterfaces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\exportMacro.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\scriptClasses2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
-      <Filter>Source Files\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\polygon_vertices.cpp">
-      <Filter>Source Files\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\polygon_decomp.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SpritePoly.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Material.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SpritePolyInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Class.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ClassInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneInstance.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="..\poly2tri\poly2tri\common\shapes.cc">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClCompile>
     <ClCompile Include="..\poly2tri\poly2tri\sweep\advancing_front.cc">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClCompile>
     <ClCompile Include="..\poly2tri\poly2tri\sweep\cdt.cc">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClCompile>
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep.cc">
-      <Filter>Source Files\Utils\poly2tri</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClCompile>
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc">
-      <Filter>Source Files\Utils\poly2tri</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\WorldInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PhysShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PhysShapeInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SpriteInstance.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Utils\poly2tri</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\DebugDraw.cpp">
-      <Filter>Source Files\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MaterialInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Resourses.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Skeleton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SkeletonAnimation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SkeletonInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SkeletonAnimationInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\nanovg_support.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Render.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Class.cpp">
+      <Filter>Definitions</Filter>
     </ClCompile>
     <ClCompile Include="Source\Layers.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Definitions</Filter>
     </ClCompile>
-    <ClCompile Include="Source\interfaces.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\Material.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PhysShape.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Skeleton.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SkeletonAnimation.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sprite.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpritePoly.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\World.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ClassInstance.cpp">
+      <Filter>Instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MaterialInstance.cpp">
+      <Filter>Instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PhysShapeInstance.cpp">
+      <Filter>Instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneInstance.cpp">
+      <Filter>Instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SkeletonAnimationInstance.cpp">
+      <Filter>Instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SkeletonInstance.cpp">
+      <Filter>Instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpriteInstance.cpp">
+      <Filter>Instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpritePolyInstance.cpp">
+      <Filter>Instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WorldInstance.cpp">
+      <Filter>Instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Render.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Resourses.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\nanovg_support.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorInterfaces.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineInterfaces.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
