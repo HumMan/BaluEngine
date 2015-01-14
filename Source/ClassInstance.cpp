@@ -37,6 +37,11 @@ TBaluTransform TBaluInstance::GetTransform()
 	return instance_transform;
 }
 
+TProperties* TBaluInstance::GetProperties()
+{
+	return &properties;
+}
+
 TBaluClassPhysBodyIntance* TBaluInstance::GetPhysBody()
 {
 	return phys_body.get();

@@ -38,3 +38,8 @@ void TBaluSpriteInstance::UpdateTranform(TBaluTransform parent_transform)
 
 	polygon.UpdateTransform(global);
 }
+
+TBaluSprite* TBaluSpriteInstance::GetSourceSprite()
+{
+	return source;
+}

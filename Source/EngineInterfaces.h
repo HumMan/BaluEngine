@@ -71,16 +71,12 @@ namespace EngineInterface
 	class IBaluSpriteInstance
 	{
 	public:
-		virtual std::string GetName() = 0;
-		virtual void SetName(std::string name) = 0;
+		//virtual void SetTransform(TBaluTransform local)=0;
+		//virtual TBaluTransform GetTransform() = 0;
+		virtual IBaluSprite* GetSourceSprite() = 0;
 	};
 
 	class IBaluMaterialInstance
-	{
-	public:
-	};
-
-	class IBaluInstanceSprite
 	{
 	public:
 	};
@@ -89,7 +85,8 @@ namespace EngineInterface
 	{
 	public:
 		virtual int GetSpritesCount() = 0;
-		virtual IBaluClassSprite* GetSprite(int index) = 0;
+		virtual IBaluSpriteInstance* GetSprite(int index) = 0;
+		virtual IProperties* GetProperties() = 0;
 	};
 
 	class IBaluSceneInstance

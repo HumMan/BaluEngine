@@ -128,7 +128,9 @@
     <ClCompile Include="Source\ClassInstance.cpp" />
     <ClCompile Include="Source\EditorInterfaces.cpp" />
     <ClCompile Include="Source\EngineInterfaces.cpp" />
-    <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\Game.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\Layers.cpp" />
     <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\MaterialInstance.cpp" />

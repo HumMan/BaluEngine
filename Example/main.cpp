@@ -5,10 +5,15 @@
 
 using namespace EngineInterface;
 
+std::string base_path;
+
+IBaluWorldInstance* demo_world_instance;
+IBaluSceneInstance* scene_instance;
+
 void PlayerJump(IBaluInstance* object)
 {
 
-	if (object->GetBool("can_jump"))
+	if (object->GetProperties()->GetBool("can_jump"))
 	{
 		auto speed = object->GetPhysBody()->GetLinearVelocity();
 		speed[1] = 4;
@@ -33,6 +38,20 @@ void PlayerRight(IBaluInstance* object)
 void BonesPlayerLeft(IBaluInstance* object)
 {
 	object->GetSkeletonAnimation().PlayAnimation("walk", 1);
+}
+
+
+void InitDemoWorld()
+{
+	auto demo_world = CreateDemoWorld();
+
+	demo_world_instance = new TBaluWorldInstance(demo_world, resources);
+	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
+}
+
+void PlayerCustomDraw(TBaluInstance* object, NVGcontext* vg)
+{
+
 }
 
 //void PlayerJumpSensorCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)

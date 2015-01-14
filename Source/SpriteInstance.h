@@ -7,7 +7,7 @@
 #include "SpritePolyInstance.h"
 #include "PhysShapeInstance.h"
 
-class TBaluSpriteInstance
+class TBaluSpriteInstance: public EngineInterface::IBaluSpriteInstance
 {
 private:
 	TBaluSprite* source;

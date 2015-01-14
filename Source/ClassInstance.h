@@ -5,6 +5,8 @@
 #include "SkeletonInstance.h"
 #include "SkeletonAnimationInstance.h"
 
+#include "EngineInterfaces.h"
+
 class TSensorInstance
 {
 public:
@@ -46,7 +48,7 @@ public:
 	TBaluTransform GetTransform();
 };
 
-class TBaluInstance: public TProperties//, TLayerObjectInstance
+class TBaluInstance:  EngineInterface::IBaluInstance//, TLayerObjectInstance
 {
 private:
 	int uid;
@@ -58,11 +60,16 @@ private:
 	std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
 	TSkeletonInstance skeleton;
 	TSkeletonAnimationInstance skeleton_animation;
+
+	TProperties properties;
+
 public:
 	
 	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResourses* resources);
 	void SetTransform(TBaluTransform transform);
 	TBaluTransform GetTransform();
+
+	TProperties* GetProperties();
 
 	TBaluClassPhysBodyIntance* GetPhysBody();
 

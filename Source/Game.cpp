@@ -1,35 +1,12 @@
-#include "scriptClasses2.h"
+#include "Game.h"
 
 #include <SDL.h>
 
-//testing only
-//#include "texture_polygon.h"
-//#include <IL/ilut.h>
-
-#include "World.h"
 #include "WorldInstance.h"
 
 #include "Render.h"
 
 #include "nanovg.h"
-
-using namespace TBaluRenderEnums;
-
-std::string base_path;
-
-class TBaluEngineInternal
-{
-public:
-	std::unique_ptr<TBaluRender> render;
-};
-
-
-TBaluWorldInstance* demo_world_instance;
-TBaluSceneInstance* scene_instance;
-
-TBaluRender* internal_render;
-
-TRender* render;
 
 class TBaluEngineRender
 {
@@ -41,22 +18,21 @@ public:
 };
 
 
-TResourses* resources;
-
-void InitDemoWorld()
+class TGameInternal
 {
-	auto demo_world = CreateDemoWorld();
+public:
+	TBaluRender* internal_render;
+	TRender* render;
+	TResourses* resources;
+};
 
-	demo_world_instance = new TBaluWorldInstance(demo_world, resources);
-	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
-}
-
-void PlayerCustomDraw(TBaluInstance* object, NVGcontext* vg)
+class TBaluEngineInternal
 {
+public:
+	std::unique_ptr<TBaluRender> render;
+};
 
-}
-
-void RenderWorld(TBaluWorldInstance* world, TRender* render)
+void TGame::RenderWorld(TBaluWorldInstance* world, TRender* render)
 {
 	auto viewport = scene_instance->GetViewport("main");
 
@@ -72,7 +48,7 @@ void RenderWorld(TBaluWorldInstance* world, TRender* render)
 	render->Render(render_commands);
 }
 
-void Step(float step)
+void TGame::Step(float step)
 {
 
 	demo_world_instance->OnPrePhysStep();
@@ -94,12 +70,7 @@ void Step(float step)
 	demo_world_instance->DebugDraw();
 }
 
-void TBaluEngineTest::Step(float step, double time)
-{
-
-}
-
-int MainLoop()
+void TGame::MainLoop()
 {
 
 	base_path = SDL_GetBasePath();
