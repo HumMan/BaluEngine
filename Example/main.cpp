@@ -7,9 +7,6 @@ using namespace EngineInterface;
 
 std::string base_path;
 
-IBaluWorldInstance* demo_world_instance;
-IBaluSceneInstance* scene_instance;
-
 void PlayerJump(IBaluInstance* object)
 {
 
@@ -20,16 +17,18 @@ void PlayerJump(IBaluInstance* object)
 		object->GetPhysBody()->SetLinearVelocity(speed);
 	}
 }
+
 void PlayerLeft(IBaluInstance* object)
 {
-	float mult = (object->GetBool("can_jump")) ? 1 : 0.8;
+	float mult = (object->GetProperties()->GetBool("can_jump")) ? 1 : 0.8;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	speed[0] = -1.4*mult;
 	object->GetPhysBody()->SetLinearVelocity(speed);
 }
+
 void PlayerRight(IBaluInstance* object)
 {
-	float mult = (object->GetBool("can_jump")) ? 1 : 0.8;
+	float mult = (object->GetProperties()->GetBool("can_jump")) ? 1 : 0.8;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	speed[0] = 1.4*mult;
 	object->GetPhysBody()->SetLinearVelocity(speed);
@@ -37,22 +36,13 @@ void PlayerRight(IBaluInstance* object)
 
 void BonesPlayerLeft(IBaluInstance* object)
 {
-	object->GetSkeletonAnimation().PlayAnimation("walk", 1);
+	object->GetSkeletonAnimation()->PlayAnimation("walk", 1);
 }
 
-
-void InitDemoWorld()
-{
-	auto demo_world = CreateDemoWorld();
-
-	demo_world_instance = new TBaluWorldInstance(demo_world, resources);
-	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
-}
-
-void PlayerCustomDraw(TBaluInstance* object, NVGcontext* vg)
-{
-
-}
+//void PlayerCustomDraw(TBaluInstance* object, NVGcontext* vg)
+//{
+//
+//}
 
 //void PlayerJumpSensorCollide(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 //{
@@ -61,27 +51,27 @@ void PlayerCustomDraw(TBaluInstance* object, NVGcontext* vg)
 
 std::vector<TBaluPhysShapeInstance*> obstacle_shapes;
 
-void PlayerJumpSensorBeginCollide(IBaluInstance* source, TSensorInstance* sensor, IBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+void PlayerJumpSensorBeginCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 {
 	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
 	if (it == obstacle_shapes.end())
 	{
 		obstacle_shapes.push_back(obstacle_shape);
 	}
-	source->SetBool("can_jump", obstacle_shapes.size()>0);
+	source->GetProperties()->SetBool("can_jump", obstacle_shapes.size()>0);
 }
 
-void PlayerJumpSensorEndCollide(IBaluInstance* source, TSensorInstance* sensor, IBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+void PlayerJumpSensorEndCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
 {
-
 	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
 	if (it != obstacle_shapes.end())
 	{
 		obstacle_shapes.erase(it);
 	}
-	source->SetBool("can_jump", obstacle_shapes.size()>0);
+	source->GetProperties()->SetBool("can_jump", obstacle_shapes.size()>0);
 }
-void PlayerPrePhysStep(TBaluInstance* object)
+
+void PlayerPrePhysStep(IBaluInstance* object)
 {
 	auto can_jump = object->GetBool("can_jump");
 
@@ -109,7 +99,7 @@ void PlayerPrePhysStep(TBaluInstance* object)
 	object->GetSprite(0)->GetPolygon().SetActiveAnimation((v_anim + hor_anim).c_str());
 }
 
-void BonesPlayerPrePhysStep(TBaluInstance* object)
+void BonesPlayerPrePhysStep(IBaluInstance* object)
 {
 	auto can_jump = object->GetBool("can_jump");
 
@@ -121,9 +111,9 @@ void BonesPlayerPrePhysStep(TBaluInstance* object)
 		object->GetSkeletonAnimation().StopAnimation("walk");
 }
 
-TBaluWorld* CreateDemoWorld()
+IBaluWorld* CreateDemoWorld()
 {
-	auto world = new TBaluWorld();
+	auto world = CreateWorld();
 
 	auto brick_mat = world->CreateMaterial("brick");
 
@@ -345,4 +335,13 @@ TBaluWorld* CreateDemoWorld()
 	viewport->SetWidth(5);
 
 	return world;
+}
+
+int main()
+{
+	auto demo_world = CreateDemoWorld();
+
+	demo_world_instance = new TBaluWorldInstance(demo_world, resources);
+	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
+	return 0;
 }

@@ -75,7 +75,7 @@ public:
 	TTrack* GetTrack(int index);
 };
 
-class TSkeletonAnimation
+class TSkeletonAnimation: public EngineInterface::ISkeletonAnimation
 {
 private:
 	std::vector<std::unique_ptr<TTimeLine>> animations;

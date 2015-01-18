@@ -38,11 +38,17 @@ namespace EngineInterface
 	public:
 	};
 
+	class ISkeletonAnimation
+	{
+	public:
+	};
+
 	class IBaluClass
 	{
 	public:
 		virtual int GetSpritesCount()=0;
 		virtual IBaluClassSprite* GetSprite(int index) = 0;
+		virtual ISkeletonAnimation* GetSkeletonAnimation()=0;
 	};
 
 	class IBaluScene
@@ -68,6 +74,11 @@ BALUENGINEDLL_API void DestroyWorld(EngineInterface::IBaluWorld* world);
 
 namespace EngineInterface
 {
+	class TBaluPhysShapeInstance
+	{
+
+	};
+
 	class IBaluSpriteInstance
 	{
 	public:
@@ -81,12 +92,25 @@ namespace EngineInterface
 	public:
 	};
 
+	class ISensorInstance
+	{
+
+	};
+
+	class IBaluClassPhysBodyIntance
+	{
+	public:
+		virtual TVec2 GetLinearVelocity()=0;
+		virtual void SetLinearVelocity(TVec2 velocity)=0;
+	};
+
 	class IBaluInstance
 	{
 	public:
 		virtual int GetSpritesCount() = 0;
 		virtual IBaluSpriteInstance* GetSprite(int index) = 0;
 		virtual IProperties* GetProperties() = 0;
+		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
 	};
 
 	class IBaluSceneInstance

@@ -22,7 +22,7 @@ public:
 
 class TBaluInstance;
 
-class TBaluClassPhysBodyIntance
+class TBaluClassPhysBodyIntance : public EngineInterface::IBaluClassPhysBodyIntance
 {
 private:
 	b2Body* phys_body;

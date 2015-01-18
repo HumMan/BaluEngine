@@ -150,7 +150,7 @@ public:
 	
 	TBaluClassPhysBody& GetPhysBody();
 
-	TSkeletonAnimation& GetSkeletonAnimation();
+	TSkeletonAnimation* GetSkeletonAnimation();
 	TSkeleton& GetSkeleton();
 
 	void CreateBone();
