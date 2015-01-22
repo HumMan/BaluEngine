@@ -49,9 +49,9 @@ void BonesPlayerLeft(IBaluInstance* object)
 //	source->SetBool("can_jump", true);
 //}
 
-std::vector<TBaluPhysShapeInstance*> obstacle_shapes;
+std::vector<IBaluPhysShapeInstance*> obstacle_shapes;
 
-void PlayerJumpSensorBeginCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+void PlayerJumpSensorBeginCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, IBaluPhysShapeInstance* obstacle_shape)
 {
 	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
 	if (it == obstacle_shapes.end())
@@ -61,7 +61,7 @@ void PlayerJumpSensorBeginCollide(IBaluInstance* source, ISensorInstance* sensor
 	source->GetProperties()->SetBool("can_jump", obstacle_shapes.size()>0);
 }
 
-void PlayerJumpSensorEndCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape)
+void PlayerJumpSensorEndCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, IBaluPhysShapeInstance* obstacle_shape)
 {
 	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
 	if (it != obstacle_shapes.end())
@@ -73,7 +73,7 @@ void PlayerJumpSensorEndCollide(IBaluInstance* source, ISensorInstance* sensor, 
 
 void PlayerPrePhysStep(IBaluInstance* object)
 {
-	auto can_jump = object->GetBool("can_jump");
+	auto can_jump = object->GetProperties()->GetBool("can_jump");
 
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	std::string hor_anim, v_anim;
@@ -96,12 +96,12 @@ void PlayerPrePhysStep(IBaluInstance* object)
 		else
 			v_anim = "jump_down";
 	}
-	object->GetSprite(0)->GetPolygon().SetActiveAnimation((v_anim + hor_anim).c_str());
+	object->GetSprite(0)->GetPolygon()->SetActiveAnimation((v_anim + hor_anim).c_str());
 }
 
 void BonesPlayerPrePhysStep(IBaluInstance* object)
 {
-	auto can_jump = object->GetBool("can_jump");
+	auto can_jump = object->GetProperties()->GetBool("can_jump");
 
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	std::string hor_anim, v_anim;
@@ -121,9 +121,9 @@ IBaluWorld* CreateDemoWorld()
 	brick_mat->SetColor(TVec4(1, 1, 1, 1));
 
 	auto box_sprite = world->CreateSprite("box0");
-	box_sprite->GetPolygone().SetMaterial(brick_mat);
-	box_sprite->GetPolygone().SetAsBox(1, 1);
-	box_sprite->GetPolygone().SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
+	box_sprite->GetPolygone()->SetMaterial(brick_mat);
+	box_sprite->GetPolygone()->SetAsBox(1, 1);
+	box_sprite->GetPolygone()->SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
 	box_sprite->SetPhysShape(new TBaluBoxShape(1, 1));
 
 	auto box_class = world->CreateClass("box");
@@ -135,26 +135,26 @@ IBaluWorld* CreateDemoWorld()
 	player_mat->SetImagePath(base_path + "\\textures\\player.png");
 	auto player_sprite = world->CreateSprite("player");
 
-	player_sprite->GetPolygone().SetMaterial(player_mat);
-	//player_sprite->GetPolygone().SetAsBox(20.0/8, 20.0/8);
-	player_sprite->GetPolygone().SetAsBox(6, 6);
-	//player_sprite->GetPolygone().SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
+	player_sprite->GetPolygone()->SetMaterial(player_mat);
+	//player_sprite->GetPolygone()->SetAsBox(20.0/8, 20.0/8);
+	player_sprite->GetPolygone()->SetAsBox(6, 6);
+	//player_sprite->GetPolygone()->SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
 	player_sprite->SetPhysShape(new TBaluCircleShape(2.5));
 	//player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));
 
 	TGridFrames* grid_frames = new TGridFrames(TVec2(0, 0), TVec2(1, 1), 8, 4);
 
-	player_sprite->GetPolygone().AddAnimDesc(grid_frames);
+	player_sprite->GetPolygone()->AddAnimDesc(grid_frames);
 
-	player_sprite->GetPolygone().CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
-	player_sprite->GetPolygone().CreateAnimationLine("jump_up_right", grid_frames, FramesRange(9, 9));
-	player_sprite->GetPolygone().CreateAnimationLine("jump_down_right", grid_frames, FramesRange(10, 10));
-	player_sprite->GetPolygone().CreateAnimationLine("stay_right", grid_frames, FramesRange(11, 11));
-	player_sprite->GetPolygone().CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
-	player_sprite->GetPolygone().CreateAnimationLine("run_left", grid_frames, FramesRange(16, 16 + 7));
-	player_sprite->GetPolygone().CreateAnimationLine("jump_up_left", grid_frames, FramesRange(16 + 7 + 2, 16 + 7 + 2));
-	player_sprite->GetPolygone().CreateAnimationLine("jump_down_left", grid_frames, FramesRange(16 + 7 + 3, 16 + 7 + 3));
-	player_sprite->GetPolygone().CreateAnimationLine("stay_left", grid_frames, FramesRange(16 + 7 + 4, 16 + 7 + 4));
+	player_sprite->GetPolygone()->CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
+	player_sprite->GetPolygone()->CreateAnimationLine("jump_up_right", grid_frames, FramesRange(9, 9));
+	player_sprite->GetPolygone()->CreateAnimationLine("jump_down_right", grid_frames, FramesRange(10, 10));
+	player_sprite->GetPolygone()->CreateAnimationLine("stay_right", grid_frames, FramesRange(11, 11));
+	player_sprite->GetPolygone()->CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
+	player_sprite->GetPolygone()->CreateAnimationLine("run_left", grid_frames, FramesRange(16, 16 + 7));
+	player_sprite->GetPolygone()->CreateAnimationLine("jump_up_left", grid_frames, FramesRange(16 + 7 + 2, 16 + 7 + 2));
+	player_sprite->GetPolygone()->CreateAnimationLine("jump_down_left", grid_frames, FramesRange(16 + 7 + 3, 16 + 7 + 3));
+	player_sprite->GetPolygone()->CreateAnimationLine("stay_left", grid_frames, FramesRange(16 + 7 + 4, 16 + 7 + 4));
 
 	auto player_class = world->CreateClass("player");
 	auto player_class_instance = player_class->AddSprite(player_sprite);
@@ -186,7 +186,7 @@ IBaluWorld* CreateDemoWorld()
 		//special phys sprite
 		auto bones_phys_sprite = world->CreateSprite("bones_phys_sprite");
 		bones_phys_sprite->SetPhysShape(new TBaluCircleShape(1.0, TVec2(0, -1.5)));
-		bones_phys_sprite->GetPolygone().SetEnable(false);
+		bones_phys_sprite->GetPolygone()->SetEnable(false);
 
 		auto bones_player_class_instance = bones_player->AddSprite(bones_phys_sprite);
 		bones_player->GetPhysBody().Enable(true);
@@ -195,58 +195,58 @@ IBaluWorld* CreateDemoWorld()
 
 		//sprites
 		auto bones_head = world->CreateSprite("bones_head");
-		bones_head->GetPolygone().SetMaterial(bones_mat);
-		bones_head->GetPolygone().SetAsBox(2, 2);
-		bones_head->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 256) / 256, TVec2(73, 256 - 192) / 256);
+		bones_head->GetPolygone()->SetMaterial(bones_mat);
+		bones_head->GetPolygone()->SetAsBox(2, 2);
+		bones_head->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 256) / 256, TVec2(73, 256 - 192) / 256);
 
 		auto bones_torso = world->CreateSprite("bones_torso");
-		bones_torso->GetPolygone().SetMaterial(bones_mat);
-		bones_torso->GetPolygone().SetAsBox(1.6, 2.5);
-		bones_torso->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 189) / 256, TVec2(53, 256 - 112) / 256);
+		bones_torso->GetPolygone()->SetMaterial(bones_mat);
+		bones_torso->GetPolygone()->SetAsBox(1.6, 2.5);
+		bones_torso->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 189) / 256, TVec2(53, 256 - 112) / 256);
 
 		//hands
 
 		auto bones_left_shoulder = world->CreateSprite("bones_left_shoulder");
-		bones_left_shoulder->GetPolygone().SetMaterial(bones_mat);
-		bones_left_shoulder->GetPolygone().SetAsBox(1, 1);
-		bones_left_shoulder->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(113, 256 - 190) / 256, TVec2(152, 256 - 142) / 256);
+		bones_left_shoulder->GetPolygone()->SetMaterial(bones_mat);
+		bones_left_shoulder->GetPolygone()->SetAsBox(1, 1);
+		bones_left_shoulder->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(113, 256 - 190) / 256, TVec2(152, 256 - 142) / 256);
 
 		auto bones_left_hand = world->CreateSprite("bones_left_hand");
-		bones_left_hand->GetPolygone().SetMaterial(bones_mat);
-		bones_left_hand->GetPolygone().SetAsBox(1, 1);
-		bones_left_hand->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(75, 256 - 256) / 256, TVec2(138, 256 - 193) / 256);
+		bones_left_hand->GetPolygone()->SetMaterial(bones_mat);
+		bones_left_hand->GetPolygone()->SetAsBox(1, 1);
+		bones_left_hand->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(75, 256 - 256) / 256, TVec2(138, 256 - 193) / 256);
 
 		auto bones_right_shoulder = world->CreateSprite("bones_right_shoulder");
-		bones_right_shoulder->GetPolygone().SetMaterial(bones_mat);
-		bones_right_shoulder->GetPolygone().SetAsBox(1, 1);
-		bones_right_shoulder->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(152, 256 - 192) / 256, TVec2(183, 256 - 143) / 256);
+		bones_right_shoulder->GetPolygone()->SetMaterial(bones_mat);
+		bones_right_shoulder->GetPolygone()->SetAsBox(1, 1);
+		bones_right_shoulder->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(152, 256 - 192) / 256, TVec2(183, 256 - 143) / 256);
 
 		auto bones_right_hand = world->CreateSprite("bones_right_hand");
-		bones_right_hand->GetPolygone().SetMaterial(bones_mat);
-		bones_right_hand->GetPolygone().SetAsBox(1, 1);
-		bones_right_hand->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(58, 256 - 190) / 256, TVec2(113, 256 - 129) / 256);
+		bones_right_hand->GetPolygone()->SetMaterial(bones_mat);
+		bones_right_hand->GetPolygone()->SetAsBox(1, 1);
+		bones_right_hand->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(58, 256 - 190) / 256, TVec2(113, 256 - 129) / 256);
 
 		//legs
 
 		auto bones_left_leg = world->CreateSprite("bones_left_leg");
-		bones_left_leg->GetPolygone().SetMaterial(bones_mat);
-		bones_left_leg->GetPolygone().SetAsBox(1, 1);
-		bones_left_leg->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(55, 256 - 72) / 256, TVec2(94, 256 - 14) / 256);
+		bones_left_leg->GetPolygone()->SetMaterial(bones_mat);
+		bones_left_leg->GetPolygone()->SetAsBox(1, 1);
+		bones_left_leg->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(55, 256 - 72) / 256, TVec2(94, 256 - 14) / 256);
 
 		auto bones_left_foot = world->CreateSprite("bones_left_foot");
-		bones_left_foot->GetPolygone().SetMaterial(bones_mat);
-		bones_left_foot->GetPolygone().SetAsBox(1, 1);
-		bones_left_foot->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(54, 256 - 131) / 256, TVec2(94, 256 - 75) / 256);
+		bones_left_foot->GetPolygone()->SetMaterial(bones_mat);
+		bones_left_foot->GetPolygone()->SetAsBox(1, 1);
+		bones_left_foot->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(54, 256 - 131) / 256, TVec2(94, 256 - 75) / 256);
 
 		auto bones_right_leg = world->CreateSprite("bones_right_leg");
-		bones_right_leg->GetPolygone().SetMaterial(bones_mat);
-		bones_right_leg->GetPolygone().SetAsBox(1, 1);
-		bones_right_leg->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 55) / 256, TVec2(44, 256 - 7) / 256);
+		bones_right_leg->GetPolygone()->SetMaterial(bones_mat);
+		bones_right_leg->GetPolygone()->SetAsBox(1, 1);
+		bones_right_leg->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 55) / 256, TVec2(44, 256 - 7) / 256);
 
 		auto bones_right_foot = world->CreateSprite("bones_right_foot");
-		bones_right_foot->GetPolygone().SetMaterial(bones_mat);
-		bones_right_foot->GetPolygone().SetAsBox(1, 1);
-		bones_right_foot->GetPolygone().SetTexCoordsFromVerticesByRegion(TVec2(9, 256 - 112) / 256, TVec2(39, 256 - 56) / 256);
+		bones_right_foot->GetPolygone()->SetMaterial(bones_mat);
+		bones_right_foot->GetPolygone()->SetAsBox(1, 1);
+		bones_right_foot->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(9, 256 - 112) / 256, TVec2(39, 256 - 56) / 256);
 
 		auto& bones_player_skel = bones_player->GetSkeleton();
 

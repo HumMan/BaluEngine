@@ -62,9 +62,9 @@ TAABB2 TBaluInstance::GetAABB()
 	return TAABB2();
 }
 
-TSkeletonAnimationInstance& TBaluInstance::GetSkeletonAnimation()
+TSkeletonAnimationInstance* TBaluInstance::GetSkeletonAnimation()
 {
-	return skeleton_animation;
+	return &skeleton_animation;
 }
 
 void TBaluInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results)

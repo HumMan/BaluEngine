@@ -6,7 +6,7 @@ class TGameInternal;
 class TBaluWorldInstance;
 class TRender;
 
-class TGame
+class TDirector
 {
 	std::unique_ptr < TGameInternal > p;
 

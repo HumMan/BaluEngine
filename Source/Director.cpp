@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Director.h"
 
 #include <SDL.h>
 
@@ -32,7 +32,7 @@ public:
 	std::unique_ptr<TBaluRender> render;
 };
 
-void TGame::RenderWorld(TBaluWorldInstance* world, TRender* render)
+void TDirector::RenderWorld(TBaluWorldInstance* world, TRender* render)
 {
 	auto viewport = scene_instance->GetViewport("main");
 
@@ -48,7 +48,7 @@ void TGame::RenderWorld(TBaluWorldInstance* world, TRender* render)
 	render->Render(render_commands);
 }
 
-void TGame::Step(float step)
+void TDirector::Step(float step)
 {
 
 	demo_world_instance->OnPrePhysStep();
@@ -70,7 +70,7 @@ void TGame::Step(float step)
 	demo_world_instance->DebugDraw();
 }
 
-void TGame::MainLoop()
+void TDirector::MainLoop()
 {
 
 	base_path = SDL_GetBasePath();

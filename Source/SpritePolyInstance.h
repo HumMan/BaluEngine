@@ -8,7 +8,7 @@
 
 #include "MaterialInstance.h"
 
-class TBaluSpritePolygonInstance
+class TBaluSpritePolygonInstance: public EngineInterface::IBaluSpritePolygonInstance
 {
 private:
 	TMaterialInstance material;

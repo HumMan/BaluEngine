@@ -4,7 +4,7 @@
 
 #include <Box2D.h>
 
-class TBaluPhysShape
+class TBaluPhysShape: public EngineInterface::IBaluPhysShape
 {
 protected:
 	TBaluTransform phys_shape_transform;

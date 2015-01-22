@@ -133,11 +133,11 @@
     <ClInclude Include="Source\EngineInterfaces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\exportMacro.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Director.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -240,7 +240,7 @@
     <ClCompile Include="Source\EngineInterfaces.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game.cpp">
+    <ClCompile Include="Source\Director.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

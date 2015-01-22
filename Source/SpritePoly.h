@@ -4,8 +4,9 @@
 
 #include <map>
 
-struct TFrame
+class TFrame
 {
+public:
 	TVec2 left_bottom;
 	TVec2 right_top;
 	TFrame(TVec2 left_bottom, TVec2 right_top);
@@ -54,7 +55,7 @@ public:
 	std::vector<TAnimationFrames> frames;
 };
 
-class TBaluSpritePolygon
+class TBaluSpritePolygon: public EngineInterface::IBaluSpritePolygon
 {
 private:
 	friend class TBaluSpritePolygonInstance;

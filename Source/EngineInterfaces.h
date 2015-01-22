@@ -26,11 +26,28 @@ namespace EngineInterface
 	public:
 	};
 
+	class IBaluPhysShape
+	{
+	public:
+	};
+
+	class IBaluSpritePolygon
+	{
+	public:
+		virtual void AddAnimDesc(TAnimDesc* desc)=0;
+		virtual void CreateAnimationLine(std::string line_name, std::vector<TAnimationFrames> frames)=0;
+		virtual void CreateAnimationLine(std::string line_name, TAnimDesc* desc, std::vector<int> frames)=0;
+	};
+
 	class IBaluSprite
 	{
 	public:
 		virtual std::string GetName() = 0;
 		virtual void SetName(std::string name) = 0;
+		virtual void SetPhysShape(IBaluPhysShape* shape)=0;
+		virtual IBaluPhysShape* GetPhysShape()=0;
+		virtual void SetPhysShapeFromGeometry()=0;
+		virtual IBaluSpritePolygon* GetPolygone()=0;
 	};	
 
 	class IBaluClassSprite
@@ -74,9 +91,18 @@ BALUENGINEDLL_API void DestroyWorld(EngineInterface::IBaluWorld* world);
 
 namespace EngineInterface
 {
-	class TBaluPhysShapeInstance
+	class IBaluPhysShapeInstance
 	{
+	public:
+	};
 
+	class IBaluSpritePolygonInstance
+	{
+	public:
+		virtual void SetSpritePolygon(std::string name)=0;
+		virtual IBaluSpritePolygon* GetSpritePolygon()=0;
+
+		virtual void SetActiveAnimation(std::string)=0;
 	};
 
 	class IBaluSpriteInstance
@@ -85,6 +111,9 @@ namespace EngineInterface
 		//virtual void SetTransform(TBaluTransform local)=0;
 		//virtual TBaluTransform GetTransform() = 0;
 		virtual IBaluSprite* GetSourceSprite() = 0;
+		virtual IBaluPhysShapeInstance* GetPhysShape()=0;
+
+		virtual IBaluSpritePolygonInstance* GetPolygon()=0;
 	};
 
 	class IBaluMaterialInstance
@@ -104,6 +133,14 @@ namespace EngineInterface
 		virtual void SetLinearVelocity(TVec2 velocity)=0;
 	};
 
+	class ISkeletonAnimationInstance
+	{
+	public:
+		virtual void Update(float step)=0;
+		virtual void PlayAnimation(std::string name, float alpha)=0;
+		virtual void StopAnimation(std::string name)=0;
+	};
+
 	class IBaluInstance
 	{
 	public:
@@ -111,6 +148,7 @@ namespace EngineInterface
 		virtual IBaluSpriteInstance* GetSprite(int index) = 0;
 		virtual IProperties* GetProperties() = 0;
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
+		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
 	};
 
 	class IBaluSceneInstance

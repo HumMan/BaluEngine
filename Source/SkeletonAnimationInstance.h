@@ -38,7 +38,7 @@ public:
 	TTimeLine* GetSource();
 };
 
-class TSkeletonAnimationInstance
+class TSkeletonAnimationInstance: public EngineInterface::ISkeletonAnimationInstance
 {
 private:
 	TSkeletonAnimation* source;

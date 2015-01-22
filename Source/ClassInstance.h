@@ -78,7 +78,7 @@ public:
 
 	TAABB2 GetAABB();
 
-	TSkeletonAnimationInstance& GetSkeletonAnimation();
+	TSkeletonAnimationInstance* GetSkeletonAnimation();
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 
