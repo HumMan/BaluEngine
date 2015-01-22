@@ -26,7 +26,7 @@ typedef void (*KeyDownCallback)(TBaluInstance* object);
 typedef void (*BeforePhysicsCallback)(TBaluInstance* object);
 typedef void (*SensorCollideCallback)(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape);
 
-class TSensor
+class TSensor: public EngineInterface::ISensor
 {
 public:
 	std::unique_ptr<TBaluPhysShape> shape;
@@ -148,7 +148,7 @@ public:
 	int GetSpritesCount();
 	TBaluSpriteInstance* GetSprite(int index);
 	
-	TBaluClassPhysBody& GetPhysBody();
+	TBaluClassPhysBody* GetPhysBody();
 
 	TSkeletonAnimation* GetSkeletonAnimation();
 	TSkeleton& GetSkeleton();

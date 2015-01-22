@@ -6,7 +6,7 @@
 #include "../BaluLib/Source/BVolumes/AABB.h"
 #include "../BaluLib/Source/BVolumes/OBB.h"
 
-class TViewport
+class TViewport : public EngineInterface::IViewport
 {
 	TBaluTransform transform;
 	float aspect;
@@ -21,7 +21,7 @@ public:
 class TBaluScene: public EngineInterface::IBaluScene
 {
 public:
-	class TClassInstance
+	class TClassInstance : public EngineInterface::IBaluSceneClassInstance
 	{
 		public:
 		TBaluClass* balu_class;

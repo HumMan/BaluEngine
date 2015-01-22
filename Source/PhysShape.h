@@ -11,9 +11,10 @@ protected:
 public:
 	virtual ~TBaluPhysShape(){}
 	virtual b2Shape* GetShape()=0;
+	virtual TBaluPhysShape* GetPhysShape() = 0;
 };
 
-class TBaluPolygonShape : public TBaluPhysShape
+class TBaluPolygonShape : public TBaluPhysShape, public EngineInterface::IBaluPolygonShape
 {
 private:
 	b2PolygonShape b2shape;
@@ -22,7 +23,7 @@ public:
 };
 
 
-class TBaluCircleShape : public TBaluPhysShape
+class TBaluCircleShape : public TBaluPhysShape, public EngineInterface::IBaluCircleShape
 {
 private:
 	b2CircleShape b2shape;
@@ -32,7 +33,7 @@ public:
 	b2CircleShape* GetShape();
 };
 
-class TBaluBoxShape : public TBaluPhysShape
+class TBaluBoxShape : public TBaluPhysShape, public EngineInterface::IBaluBoxShape
 {
 private:
 	b2PolygonShape b2shape;

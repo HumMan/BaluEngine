@@ -106,9 +106,9 @@ void BonesPlayerPrePhysStep(IBaluInstance* object)
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
 	std::string hor_anim, v_anim;
 	if (abs(speed[0]) > 0)
-		object->GetSkeletonAnimation().PlayAnimation("walk", 1);
+		object->GetSkeletonAnimation()->PlayAnimation("walk", 1);
 	else
-		object->GetSkeletonAnimation().StopAnimation("walk");
+		object->GetSkeletonAnimation()->StopAnimation("walk");
 }
 
 IBaluWorld* CreateDemoWorld()
@@ -128,8 +128,8 @@ IBaluWorld* CreateDemoWorld()
 
 	auto box_class = world->CreateClass("box");
 	auto box_class_instance = box_class->AddSprite(box_sprite);
-	box_class->GetPhysBody().Enable(true);
-	box_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Static);
+	box_class->GetPhysBody()->Enable(true);
+	box_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Static);
 
 	auto player_mat = world->CreateMaterial("player_skin");
 	player_mat->SetImagePath(base_path + "\\textures\\player.png");
@@ -159,11 +159,11 @@ IBaluWorld* CreateDemoWorld()
 	auto player_class = world->CreateClass("player");
 	auto player_class_instance = player_class->AddSprite(player_sprite);
 	player_class_instance->tag = "character_sprite";
-	player_class->GetPhysBody().Enable(true);
-	player_class->GetPhysBody().SetPhysBodyType(TPhysBodyType::Dynamic);
-	player_class->GetPhysBody().SetFixedRotation(true);
+	player_class->GetPhysBody()->Enable(true);
+	player_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
+	player_class->GetPhysBody()->SetFixedRotation(true);
 
-	auto sensor = player_class->GetPhysBody().CreateSensor(new TBaluCircleShape(0.4, TVec2(0, -2.5)));
+	auto sensor = player_class->GetPhysBody()->CreateSensor(new TBaluCircleShape(0.4, TVec2(0, -2.5)));
 
 	player_class->OnKeyDown(TKey::Up, PlayerJump);
 	player_class->OnKeyDown(TKey::Left, PlayerLeft);
@@ -189,9 +189,9 @@ IBaluWorld* CreateDemoWorld()
 		bones_phys_sprite->GetPolygone()->SetEnable(false);
 
 		auto bones_player_class_instance = bones_player->AddSprite(bones_phys_sprite);
-		bones_player->GetPhysBody().Enable(true);
-		bones_player->GetPhysBody().SetPhysBodyType(TPhysBodyType::Dynamic);
-		bones_player->GetPhysBody().SetFixedRotation(true);
+		bones_player->GetPhysBody()->Enable(true);
+		bones_player->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
+		bones_player->GetPhysBody()->SetFixedRotation(true);
 
 		//sprites
 		auto bones_head = world->CreateSprite("bones_head");
