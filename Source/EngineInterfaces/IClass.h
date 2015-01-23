@@ -66,12 +66,12 @@ namespace EngineInterface
 	class IBaluClass
 	{
 	public:
-		IBaluClassSprite* AddSprite(IBaluSprite* sprite);
+		virtual IBaluClassSprite* AddSprite(IBaluSprite* sprite)=0;
 
 		virtual int GetSpritesCount() = 0;
 		virtual IBaluClassSprite* GetSprite(int index) = 0;
 		virtual ISkeletonAnimation* GetSkeletonAnimation() = 0;
-		virtual IBaluClassPhysBody* GetPhysBody();
+		virtual IBaluClassPhysBody* GetPhysBody()=0;
 
 		virtual void OnKeyDown(TKey key, KeyDownCallback callback) = 0;
 		virtual void OnBeforePhysicsStep(BeforePhysicsCallback callback) = 0;

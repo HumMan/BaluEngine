@@ -105,7 +105,7 @@ TSensor* TBaluClassPhysBody::CreateSensor(TBaluPhysShape* shape)
 
 EngineInterface::ISensor* TBaluClassPhysBody::CreateSensor(EngineInterface::IBaluPhysShape* shape)
 {
-	sensors.push_back(std::make_unique<TSensor>(dynamic_cast<TBaluPhysShape*>(shape)));
+	sensors.push_back(std::make_unique<TSensor>(static_cast<TBaluPhysShape*>(shape)));
 	return sensors.back().get();
 }
 

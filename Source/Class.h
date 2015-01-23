@@ -126,7 +126,7 @@ public:
 
 	void OnMouseMove(TMouseMoveCallback);
 	TBaluSpriteInstance* AddSprite(TBaluSprite* sprite);
-	EngineInterface::IBaluSpriteInstance* AddSprite(EngineInterface::IBaluSprite* sprite);
+	EngineInterface::IBaluClassSprite* AddSprite(EngineInterface::IBaluSprite* sprite);
 	void RemoveSprite(TBaluSprite* sprite);
 	int GetSpritesCount();
 	TBaluSpriteInstance* GetSprite(int index);
