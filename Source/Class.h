@@ -38,7 +38,7 @@ public:
 	}
 };
 
-class TBaluClassPhysBody
+class TBaluClassPhysBody: public EngineInterface::IBaluClassPhysBody
 {
 private:
 	b2BodyDef body_def;
@@ -163,7 +163,7 @@ public:
 
 	void OnKeyDown(TKey key, KeyDownCallback callback);
 	void OnBeforePhysicsStep(BeforePhysicsCallback callback);
-	//void OnSensorCollide(TSensor* sensor, SensorCollideCallback callback);
+
 	void OnBeginContact(TSensor* sensor, SensorCollideCallback callback);
 	void OnEndContact(TSensor* sensor, SensorCollideCallback callback);
 };

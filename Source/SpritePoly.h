@@ -4,47 +4,6 @@
 
 #include <map>
 
-class TFrame
-{
-public:
-	TVec2 left_bottom;
-	TVec2 right_top;
-	TFrame(TVec2 left_bottom, TVec2 right_top);
-};
-
-class TAnimDesc
-{
-public:
-	virtual TFrame GetFrame(int index)=0;
-};
-
-class TSpecificFrame : public TAnimDesc
-{
-	TVec2 left_bottom;
-	TVec2 right_top;
-public:
-	TSpecificFrame(TVec2 left_bottom, TVec2 right_top);
-	TFrame GetFrame(int index);
-};
-
-class TGridFrames : public TAnimDesc
-{
-	TVec2 left_bottom;
-	TVec2 width_height;
-	int cell_count_x;
-	int cell_count_y;
-public:
-	TGridFrames(TVec2 left_bottom, TVec2 width_height, int cell_count_x, int cell_count_y);
-	TFrame GetFrame(int index);
-};
-
-struct TAnimationFrames
-{
-	TAnimDesc* desc;
-	std::vector<int> frames;
-	TAnimationFrames(TAnimDesc* desc, std::vector<int> frames);
-	TAnimationFrames(TAnimDesc* desc, int frame);
-};
 
 std::vector<int> FramesRange(int start, int end);
 

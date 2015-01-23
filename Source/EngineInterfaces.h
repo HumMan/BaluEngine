@@ -4,6 +4,58 @@
 
 #include "exportMacro.h"
 
+#include "../../BaluLib/Source/Math/vec.h"
+#include "../../BaluLib/Source/BVolumes/AABB.h"
+
+enum TPhysBodyType
+{
+	Static,
+	Dynamic,
+	Kinematic
+};
+
+class TFrame
+{
+public:
+	TVec2 left_bottom;
+	TVec2 right_top;
+	TFrame(TVec2 left_bottom, TVec2 right_top);
+};
+
+class TAnimDesc
+{
+public:
+	virtual TFrame GetFrame(int index) = 0;
+};
+
+class TSpecificFrame : public TAnimDesc
+{
+	TVec2 left_bottom;
+	TVec2 right_top;
+public:
+	TSpecificFrame(TVec2 left_bottom, TVec2 right_top);
+	TFrame GetFrame(int index);
+};
+
+class TGridFrames : public TAnimDesc
+{
+	TVec2 left_bottom;
+	TVec2 width_height;
+	int cell_count_x;
+	int cell_count_y;
+public:
+	TGridFrames(TVec2 left_bottom, TVec2 width_height, int cell_count_x, int cell_count_y);
+	TFrame GetFrame(int index);
+};
+
+struct TAnimationFrames
+{
+	TAnimDesc* desc;
+	std::vector<int> frames;
+	TAnimationFrames(TAnimDesc* desc, std::vector<int> frames);
+	TAnimationFrames(TAnimDesc* desc, int frame);
+};
+
 namespace EngineInterface
 {
 	enum PropertyType
@@ -24,6 +76,9 @@ namespace EngineInterface
 	class IBaluMaterial
 	{
 	public:
+		virtual void SetImagePath(std::string image_path) = 0;
+		virtual std::string GetImagePath() = 0;
+		virtual void SetColor(TVec4 color)=0;
 	};
 
 	class IBaluPhysShape
@@ -53,6 +108,35 @@ namespace EngineInterface
 		virtual IBaluCircleShape* CreateCircleShape() = 0;
 		virtual IBaluBoxShape* CreateBoxShape() = 0;
 	};
+/*
+	class IAnimDesc
+	{
+
+	};
+
+	class ISpecificFrame
+	{
+	public:
+	};
+
+	class IGridFrame
+	{
+	public:
+	};
+
+	class IAnimDescFactory
+	{
+	public:
+		virtual ISpecificFrame* CreateSpecificFrame() = 0;
+		virtual IGridFrame* CreateGridFrame() = 0;
+	};
+
+	class IAnimationFrames
+	{
+
+	};*/
+
+
 
 	class IBaluSpritePolygon
 	{
@@ -123,10 +207,17 @@ namespace EngineInterface
 	class IBaluClass
 	{
 	public:
+		IBaluSpriteInstance* AddSprite(IBaluSprite* sprite);
+
 		virtual int GetSpritesCount()=0;
 		virtual IBaluClassSprite* GetSprite(int index) = 0;
 		virtual ISkeletonAnimation* GetSkeletonAnimation()=0;
 		virtual IBaluClassPhysBody* GetPhysBody();
+
+		virtual void OnKeyDown(TKey key, KeyDownCallback callback)=0;
+		virtual void OnBeforePhysicsStep(BeforePhysicsCallback callback)=0;
+		virtual void OnBeginContact(TSensor* sensor, SensorCollideCallback callback)=0;
+		virtual void OnEndContact(TSensor* sensor, SensorCollideCallback callback)=0;
 	};
 
 	class IViewport

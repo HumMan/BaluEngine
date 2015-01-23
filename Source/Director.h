@@ -14,5 +14,5 @@ class TDirector
 	void Step(float step);
 public:
 
-	void MainLoop()
+	void MainLoop();
 };
