@@ -91,6 +91,22 @@
     <ClInclude Include="Source\Director.h" />
     <ClInclude Include="Source\EditorInterfaces.h" />
     <ClInclude Include="Source\EngineInterfaces.h" />
+    <ClInclude Include="Source\EngineInterfaces\IAnimationFrames.h" />
+    <ClInclude Include="Source\EngineInterfaces\IClass.h" />
+    <ClInclude Include="Source\EngineInterfaces\IClassInstance.h" />
+    <ClInclude Include="Source\EngineInterfaces\IMaterial.h" />
+    <ClInclude Include="Source\EngineInterfaces\IMaterialInstance.h" />
+    <ClInclude Include="Source\EngineInterfaces\IPhysShape.h" />
+    <ClInclude Include="Source\EngineInterfaces\IPhysShapeInstance.h" />
+    <ClInclude Include="Source\EngineInterfaces\IProperties.h" />
+    <ClInclude Include="Source\EngineInterfaces\IScene.h" />
+    <ClInclude Include="Source\EngineInterfaces\ISceneInstance.h" />
+    <ClInclude Include="Source\EngineInterfaces\ISprite.h" />
+    <ClInclude Include="Source\EngineInterfaces\ISpriteInstance.h" />
+    <ClInclude Include="Source\EngineInterfaces\ISpritePolygon.h" />
+    <ClInclude Include="Source\EngineInterfaces\ISpritePolygonInstance.h" />
+    <ClInclude Include="Source\EngineInterfaces\IWorld.h" />
+    <ClInclude Include="Source\EngineInterfaces\IWorldInstance.h" />
     <ClInclude Include="Source\exportMacro.h" />
     <ClInclude Include="Source\Layers.h" />
     <ClInclude Include="Source\Material.h" />
@@ -126,7 +142,9 @@
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Source\Class.cpp" />
     <ClCompile Include="Source\ClassInstance.cpp" />
-    <ClCompile Include="Source\Director.cpp" />
+    <ClCompile Include="Source\Director.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\EditorInterfaces.cpp" />
     <ClCompile Include="Source\EngineInterfaces.cpp" />
     <ClCompile Include="Source\Layers.cpp" />

@@ -23,6 +23,8 @@ std::vector<int> FramesRange(int start, int end)
 	return result;
 }
 
+using namespace EngineInterface;
+
 TFrame::TFrame(TVec2 left_bottom, TVec2 right_top)
 {
 	this->left_bottom = left_bottom;

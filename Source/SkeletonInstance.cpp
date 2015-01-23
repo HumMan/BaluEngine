@@ -41,7 +41,7 @@ TBaluTransform FromLocalToGlobal(TBaluTransform global, TBaluTransform local)
 
 	TVec2 result_pos = global_orient*local.position;
 
-	return TBaluTransform(result_pos, b2Rot(global.angle.GetAngle() + local.angle.GetAngle()));
+	return TBaluTransform(result_pos, TRot(global.angle.GetAngle() + local.angle.GetAngle()));
 }
 
 void TBoneInstance::UpdateTranform(TBaluTransform parent_transform)
@@ -52,7 +52,7 @@ void TBoneInstance::UpdateTranform(TBaluTransform parent_transform)
 	//global_orient.Transpose();
 
 	global.position = parent_transform.position + global_orient*local.position;
-	global.angle = b2Rot(parent_transform.angle.GetAngle() + local.angle.GetAngle() + current_rotation);
+	global.angle = TRot(parent_transform.angle.GetAngle() + local.angle.GetAngle() + current_rotation);
 
 	for (int i = 0; i < children.size(); i++)
 	{
@@ -87,9 +87,9 @@ void TSkinInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInst
 	{
 		for (int k = 0; k < sprites_of_bones[i].size(); k++)
 		{
-			if (sprites_of_bones[i][k]->GetPolygon().IsEnable())
+			if (sprites_of_bones[i][k]->GetPolygon()->IsEnable())
 			{
-				results.push_back(&sprites_of_bones[i][k]->GetPolygon());
+				results.push_back(sprites_of_bones[i][k]->GetPolygon());
 			}
 		}
 	}

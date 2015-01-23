@@ -11,7 +11,7 @@ protected:
 public:
 	virtual ~TBaluPhysShape(){}
 	virtual b2Shape* GetShape()=0;
-	virtual TBaluPhysShape* GetPhysShape() = 0;
+	//virtual TBaluPhysShape* GetPhysShape() = 0;
 };
 
 class TBaluPolygonShape : public TBaluPhysShape, public EngineInterface::IBaluPolygonShape

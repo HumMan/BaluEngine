@@ -23,6 +23,9 @@
     <Filter Include="Utils\poly2tri">
       <UniqueIdentifier>{bc5d7d16-cdd1-4666-b8f0-d2b01c005486}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineInterfaces">
+      <UniqueIdentifier>{c139cdc5-1ed8-4572-ac6d-108d81c31f94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utils\texture_polygon.h">
@@ -138,6 +141,54 @@
     </ClInclude>
     <ClInclude Include="Source\Director.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IAnimationFrames.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IClass.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IMaterial.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IPhysShape.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IProperties.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\ISprite.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\ISpritePolygon.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IScene.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IWorld.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IClassInstance.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IMaterialInstance.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IPhysShapeInstance.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\ISceneInstance.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\ISpriteInstance.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\ISpritePolygonInstance.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IWorldInstance.h">
+      <Filter>EngineInterfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

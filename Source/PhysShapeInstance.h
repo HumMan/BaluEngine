@@ -2,10 +2,12 @@
 
 #include "PhysShape.h"
 
+#include "EngineInterfaces\IPhysShapeInstance.h"
+
 class TBaluInstance;
 class TSensorInstance;
 
-class TBaluPhysShapeInstance
+class TBaluPhysShapeInstance: public EngineInterface::IBaluPhysShapeInstance
 {
 protected:
 	TBaluPhysShape* source;

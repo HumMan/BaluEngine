@@ -22,8 +22,10 @@ public:
 	void SetName(std::string name);
 
 	void SetPhysShape(TBaluPhysShape* shape);
+	void SetPhysShape(EngineInterface::IBaluPhysShape* shape);
+
 	TBaluPhysShape* GetPhysShape();
 	void SetPhysShapeFromGeometry();
 
-	TBaluSpritePolygon& GetPolygone();
+	TBaluSpritePolygon* GetPolygone();
 };

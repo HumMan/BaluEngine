@@ -8,26 +8,6 @@
 
 #include "EngineInterfaces.h"
 
-class TBaluTransform
-{
-public:
-	TVec2 position;
-	b2Rot angle;
-	TBaluTransform()
-	{
-		position = TVec2(0, 0);
-		angle = b2Rot(0);
-	}
-	TBaluTransform(TVec2 position, b2Rot angle)
-	{
-		this->position = position;
-		this->angle = angle;
-	}
-	TMatrix2 GetOrientation()
-	{
-		return TMatrix2(*(TVec2*)&angle.GetXAxis(), *(TVec2*)&angle.GetYAxis());
-	}
-};
 
 class TBaluMaterial: public EngineInterface::IBaluMaterial
 {

@@ -3,6 +3,8 @@
 #include "SkeletonAnimation.h"
 #include "SkeletonInstance.h"
 
+#include "EngineInterfaces\IClassInstance.h"
+
 class TTrackInstance
 {
 private:

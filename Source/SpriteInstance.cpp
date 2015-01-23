@@ -5,12 +5,12 @@ TBaluPhysShapeInstance* TBaluSpriteInstance::GetPhysShape()
 	return phys_shape.get();
 }
 
-TBaluSpritePolygonInstance& TBaluSpriteInstance::GetPolygon()
+TBaluSpritePolygonInstance* TBaluSpriteInstance::GetPolygon()
 {
-	return polygon;
+	return &polygon;
 }
 
-TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TBaluTransform local, TBaluInstance* parent, TResourses* resources) :polygon(&source->GetPolygone(), resources)
+TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TBaluTransform local, TBaluInstance* parent, TResourses* resources) :polygon(source->GetPolygone(), resources)
 {
 	//this->parent = parent;
 	this->source = source;
@@ -34,7 +34,7 @@ void TBaluSpriteInstance::UpdateTranform(TBaluTransform parent_transform)
 	//global_orient.Transpose();
 
 	global.position = parent_transform.position + global_orient*local.position;
-	global.angle = b2Rot(parent_transform.angle.GetAngle() + local.angle.GetAngle());
+	global.angle = TRot(parent_transform.angle.GetAngle() + local.angle.GetAngle());
 
 	polygon.UpdateTransform(global);
 }

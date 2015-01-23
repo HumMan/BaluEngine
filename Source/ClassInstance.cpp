@@ -13,7 +13,7 @@ void TSensorInstance::BuildFixture(b2Body* body)
 }
 
 TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResourses* resources) 
-	:skeleton(&source->GetSkeleton(), this, resources), skeleton_animation(&skeleton, &source->GetSkeletonAnimation())
+	:skeleton(source->GetSkeleton(), this, resources), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
 {
 	instance_transform = transform;
 	this->instance_class = source;
@@ -24,7 +24,7 @@ TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTrans
 		sprites.push_back(std::make_unique<TBaluSpriteInstance>(source->GetSprite(i)->sprite, source->GetSprite(i)->local, this, resources));
 	}
 
-	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, &source->GetPhysBody(), this);
+	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, source->GetPhysBody(), this);
 }
 
 void TBaluInstance::SetTransform(TBaluTransform transform)
@@ -71,10 +71,10 @@ void TBaluInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInst
 {
 	for (int i = 0; i < sprites.size(); i++)
 	{
-		if (sprites[i]->GetPolygon().IsEnable())
+		if (sprites[i]->GetPolygon()->IsEnable())
 		{
 			//if (sprites[i]->GetAABB().CollideWith(frustum))
-			results.push_back(&sprites[i]->GetPolygon());
+			results.push_back(sprites[i]->GetPolygon());
 		}
 	}
 	skeleton.QueryAABB(frustum, results);

@@ -82,24 +82,30 @@ void TBaluClass::OnMouseMove(TMouseMoveCallback)
 
 }
 
-TBaluClassPhysBody& TBaluClass::GetPhysBody()
+TBaluClassPhysBody* TBaluClass::GetPhysBody()
 {
-	return phys_body;
+	return &phys_body;
 }
 
-TSkeletonAnimation& TBaluClass::GetSkeletonAnimation()
+TSkeletonAnimation* TBaluClass::GetSkeletonAnimation()
 {
-	return skeleton_animation;
+	return &skeleton_animation;
 }
 
-TSkeleton& TBaluClass::GetSkeleton()
+TSkeleton* TBaluClass::GetSkeleton()
 {
-	return skeleton;
+	return &skeleton;
 }
 
 TSensor* TBaluClassPhysBody::CreateSensor(TBaluPhysShape* shape)
 {
 	sensors.push_back(std::make_unique<TSensor>(shape));
+	return sensors.back().get();
+}
+
+EngineInterface::ISensor* TBaluClassPhysBody::CreateSensor(EngineInterface::IBaluPhysShape* shape)
+{
+	sensors.push_back(std::make_unique<TSensor>(dynamic_cast<TBaluPhysShape*>(shape)));
 	return sensors.back().get();
 }
 

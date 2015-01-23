@@ -90,7 +90,7 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransform parent)
 		UpdateAnimation();
 
 	global.position = parent.position + local.position;
-	global.angle = b2Rot(parent.angle.GetAngle() + local.angle.GetAngle());
+	global.angle = TRot(parent.angle.GetAngle() + local.angle.GetAngle());
 
 	vertices = source->GetVertices();
 

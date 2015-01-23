@@ -7,6 +7,8 @@
 #include "SpritePolyInstance.h"
 #include "PhysShapeInstance.h"
 
+#include "EngineInterfaces\ISpriteInstance.h"
+
 class TBaluSpriteInstance: public EngineInterface::IBaluSpriteInstance
 {
 private:
@@ -31,7 +33,7 @@ public:
 
 	TBaluPhysShapeInstance* GetPhysShape();
 
-	TBaluSpritePolygonInstance& GetPolygon();
+	TBaluSpritePolygonInstance* GetPolygon();
 
 	void PlayAnimation(std::string animation_name, bool loop);
 	void PauseAnimation(bool pause);

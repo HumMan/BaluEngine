@@ -7,24 +7,11 @@
 
 #include <map>
 
-#include "EngineInterfaces.h"
+#include "EngineInterfaces\IClass.h"
+#include "EngineInterfaces\ISpriteInstance.h"
 
 typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);
 
-enum TPhysBodyType
-{
-	Static,
-	Dynamic,
-	Kinematic
-};
-
-class TBaluInstance;
-class TBaluPhysShapeInstance;
-class TSensorInstance;
-
-typedef void (*KeyDownCallback)(TBaluInstance* object);
-typedef void (*BeforePhysicsCallback)(TBaluInstance* object);
-typedef void (*SensorCollideCallback)(TBaluInstance* source, TSensorInstance* sensor, TBaluInstance* obstacle, TBaluPhysShapeInstance* obstacle_shape);
 
 class TSensor: public EngineInterface::ISensor
 {
@@ -54,15 +41,10 @@ public:
 	bool IsEnable();
 	b2BodyDef GetBodyDef();
 	TSensor* CreateSensor(TBaluPhysShape* shape);
+	EngineInterface::ISensor* CreateSensor(EngineInterface::IBaluPhysShape* shape);
 };
 
-enum TKey:int
-{
-	Left,
-	Right,
-	Up,
-	Down
-};
+
 
 class TProperties: public EngineInterface::IProperties
 {
@@ -144,6 +126,7 @@ public:
 
 	void OnMouseMove(TMouseMoveCallback);
 	TBaluSpriteInstance* AddSprite(TBaluSprite* sprite);
+	EngineInterface::IBaluSpriteInstance* AddSprite(EngineInterface::IBaluSprite* sprite);
 	void RemoveSprite(TBaluSprite* sprite);
 	int GetSpritesCount();
 	TBaluSpriteInstance* GetSprite(int index);
@@ -151,7 +134,7 @@ public:
 	TBaluClassPhysBody* GetPhysBody();
 
 	TSkeletonAnimation* GetSkeletonAnimation();
-	TSkeleton& GetSkeleton();
+	TSkeleton* GetSkeleton();
 
 	void CreateBone();
 	void AttachSpriteToBone();
@@ -166,4 +149,6 @@ public:
 
 	void OnBeginContact(TSensor* sensor, SensorCollideCallback callback);
 	void OnEndContact(TSensor* sensor, SensorCollideCallback callback);
+	void OnBeginContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback);
+	void OnEndContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback);
 };

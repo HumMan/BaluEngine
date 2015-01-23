@@ -20,9 +20,9 @@ void TBaluSprite::SetPhysShapeFromGeometry()
 	phys_shape = std::make_unique<TBaluPolygonShape>();
 }
 
-TBaluSpritePolygon& TBaluSprite::GetPolygone()
+TBaluSpritePolygon* TBaluSprite::GetPolygone()
 {
-	return sprite_polygon;
+	return &sprite_polygon;
 }
 
 std::string TBaluSprite::GetName()

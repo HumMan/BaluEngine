@@ -5,9 +5,9 @@
 #include "SkeletonInstance.h"
 #include "SkeletonAnimationInstance.h"
 
-#include "EngineInterfaces.h"
+#include "EngineInterfaces\IClassInstance.h"
 
-class TSensorInstance
+class TSensorInstance : public EngineInterface::ISensorInstance
 {
 public:
 	TSensor* source;

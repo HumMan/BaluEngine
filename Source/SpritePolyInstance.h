@@ -8,6 +8,8 @@
 
 #include "MaterialInstance.h"
 
+#include "EngineInterfaces\ISpritePolygonInstance.h"
+
 class TBaluSpritePolygonInstance: public EngineInterface::IBaluSpritePolygonInstance
 {
 private:

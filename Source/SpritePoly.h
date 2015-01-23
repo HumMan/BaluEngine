@@ -4,15 +4,10 @@
 
 #include <map>
 
+#include "EngineInterfaces\IMaterial.h"
 
-std::vector<int> FramesRange(int start, int end);
+#include "EngineInterfaces\IAnimationFrames.h"
 
-class TAnimLine
-{
-public:
-	std::string line_name;
-	std::vector<TAnimationFrames> frames;
-};
 
 class TBaluSpritePolygon: public EngineInterface::IBaluSpritePolygon
 {
@@ -31,9 +26,9 @@ private:
 	TVec2 tex_coord_origin, tex_coord_scale;
 	std::vector<TVec2> tex_coordinates;
 
-	std::vector<std::unique_ptr<TAnimDesc>> anim_descs;
+	std::vector<std::unique_ptr<EngineInterface::TAnimDesc>> anim_descs;
 	
-	std::map<std::string, TAnimLine> animation_lines;
+	std::map<std::string, EngineInterface::TAnimLine> animation_lines;
 
 	bool enable;
 
@@ -58,6 +53,7 @@ public:
 
 	TBaluMaterial* GetMaterial();
 	void SetMaterial(TBaluMaterial* material);
+	void SetMaterial(EngineInterface::IBaluMaterial* material);
 	void SetPolygonVertices(std::vector<TVec2> polygon_vertices);
 	void SetAsBox(float width, float height);
 
@@ -75,7 +71,7 @@ public:
 	void SetTexCoordsFromVertices(TVec2 origin, TVec2 scale);
 	void SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top);
 
-	void AddAnimDesc(TAnimDesc* desc);
-	void CreateAnimationLine(std::string line_name, std::vector<TAnimationFrames> frames);
-	void CreateAnimationLine(std::string line_name, TAnimDesc* desc, std::vector<int> frames);
+	void AddAnimDesc(EngineInterface::TAnimDesc* desc);
+	void CreateAnimationLine(std::string line_name, std::vector<EngineInterface::TAnimationFrames> frames);
+	void CreateAnimationLine(std::string line_name, EngineInterface::TAnimDesc* desc, std::vector<int> frames);
 };
