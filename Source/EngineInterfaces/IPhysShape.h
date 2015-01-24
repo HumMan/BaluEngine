@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../BaluLib/Source/Math/vec.h"
+
 namespace EngineInterface
 {
 	class IBaluPhysShape

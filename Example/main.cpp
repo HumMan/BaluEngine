@@ -337,6 +337,7 @@ IBaluWorld* CreateDemoWorld()
 	return world;
 }
 
+IBaluSceneInstance* scene_instance;
 
 void RenderWorld(IBaluWorldInstance* world, TRender* render)
 {
@@ -370,7 +371,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	
 
 	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources());
-	//auto scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
+	//scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
 
 	director->SetWorldInstance(demo_world_instance);
 	director->SetRenderWorldCallback(RenderWorld);

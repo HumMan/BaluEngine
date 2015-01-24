@@ -67,15 +67,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\boost_1_56_0;$(ProjectDir)\..\SDL2-2.0.3\include;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\boost_1_56_0;$(ProjectDir)\..\SDL2-2.0.3\include;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\include\;$(ProjectDir)/../nanovg\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\glew-1.11.0\lib\Release\Win32;$(ProjectDir)\..\pugixml\scripts\vs2010\x32\;$(ProjectDir)\..\Boost\lib;$(ProjectDir)\..\SDL2-2.0.3\lib\x86\;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;glew32s.lib;pugixmls.lib;SDL2.lib;DevIL.lib;ilu.lib;ilut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\glew-1.11.0\lib\Release\Win32;$(ProjectDir)\..\pugixml\scripts\vs2010\x32\;$(ProjectDir)\..\Boost\lib;$(ProjectDir)\..\SDL2-2.0.3\lib\x86\;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)/../nanovg/build</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;glew32.lib;pugixmlsd.lib;SDL2.lib;DevIL.lib;ilu.lib;ilut.lib;nanovg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

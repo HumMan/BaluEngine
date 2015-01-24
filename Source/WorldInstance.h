@@ -11,8 +11,12 @@ private:
 	TResources* resources;
 public:
 	TBaluWorldInstance(TBaluWorld* source, TResources* resources);
+
 	TBaluSceneInstance* RunScene(TBaluScene* scene_source);
 	void StopScene(TBaluSceneInstance*);
+
+	EngineInterface::IBaluSceneInstance* RunScene(EngineInterface::IBaluScene* scene_source);
+	void StopScene(EngineInterface::IBaluSceneInstance*);
 
 	void OnPrePhysStep();
 	void PhysStep(float step);
