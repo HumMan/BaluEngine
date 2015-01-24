@@ -3,14 +3,14 @@
 #include "World.h"
 #include "SceneInstance.h"
 
-class TBaluWorldInstance
+class TBaluWorldInstance : public EngineInterface::IBaluWorldInstance
 {
 private:
 	TBaluWorld* source;
 	std::vector<std::unique_ptr<TBaluSceneInstance>> instances;
-	TResourses* resources;
+	TResources* resources;
 public:
-	TBaluWorldInstance(TBaluWorld* source, TResourses* resources);
+	TBaluWorldInstance(TBaluWorld* source, TResources* resources);
 	TBaluSceneInstance* RunScene(TBaluScene* scene_source);
 	void StopScene(TBaluSceneInstance*);
 

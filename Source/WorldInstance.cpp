@@ -1,6 +1,6 @@
 #include "WorldInstance.h"
 
-TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResourses* resources)
+TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources)
 {
 	this->source = source;
 	this->resources = resources;

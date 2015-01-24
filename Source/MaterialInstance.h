@@ -2,7 +2,7 @@
 
 #include "Material.h"
 
-#include "Resourses.h"
+#include "Resources.h"
 
 class TBaluMaterial;
 
@@ -11,6 +11,6 @@ class TMaterialInstance
 	TBaluTexture texture;
 	TBaluMaterial* source;
 public:
-	TMaterialInstance(TBaluMaterial* source, TResourses* resources);
+	TMaterialInstance(TBaluMaterial* source, TResources* resources);
 	TBaluTexture GetTexture();
 };

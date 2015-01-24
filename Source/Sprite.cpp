@@ -10,6 +10,11 @@ void TBaluSprite::SetPhysShape(TBaluPhysShape* shape)
 	phys_shape.reset(shape);
 }
 
+void TBaluSprite::SetPhysShape(EngineInterface::IBaluPhysShape* shape)
+{
+	phys_shape.reset(dynamic_cast<TBaluPhysShape*>(shape));
+}
+
 TBaluPhysShape* TBaluSprite::GetPhysShape()
 {
 	return phys_shape.get();

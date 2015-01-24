@@ -58,6 +58,11 @@ void TSkin::SetBoneSprite(int bone_index, TBaluSprite* sprite, TBaluTransform gl
 	sprites_of_bones[bone_index].back().SetTransform(global);
 }
 
+void TSkin::SetBoneSprite(int bone_index, EngineInterface::IBaluSprite* sprite, TBaluTransform global)
+{
+	SetBoneSprite(bone_index, dynamic_cast<TBaluSprite*>(sprite), global);
+}
+
 int TSkin::GetBonesCount()
 {
 	return sprites_of_bones.size();
@@ -76,6 +81,10 @@ TSkin* TSkeleton::CreateSkin()
 void TSkeleton::DestroySkin(TSkin* skin)
 {
 	
+}
+void TSkeleton::DestroySkin(EngineInterface::ISkin* skin)
+{
+	DestroySkin(dynamic_cast<TSkin*>(skin));
 }
 int TSkeleton::GetSkinsCount()
 {
@@ -101,9 +110,20 @@ TBone* TSkeleton::CreateBone(TBone* parent)
 
 	return bones.back();
 }
+
+EngineInterface::IBone* TSkeleton::CreateBone(EngineInterface::IBone* parent)
+{
+	return CreateBone(dynamic_cast<TBone*>(parent));
+}
+
 void TSkeleton::DestroyBone(TBone* bone)
 {
 
+}
+
+void TSkeleton::DestroyBone(EngineInterface::IBone* bone)
+{
+	DestroyBone(dynamic_cast<TBone*>(bone));
 }
 
 int TSkeleton::GetBoneIndex(TBone* bone)
@@ -114,6 +134,11 @@ int TSkeleton::GetBoneIndex(TBone* bone)
 			return i;
 	}
 	throw std::invalid_argument("Данная кость отсутсвует в скелете!");
+}
+
+int TSkeleton::GetBoneIndex(EngineInterface::IBone* bone)
+{
+	return GetBoneIndex(dynamic_cast<TBone*>(bone));
 }
 
 TBone* TSkeleton::GetRoot()

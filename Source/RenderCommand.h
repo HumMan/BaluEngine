@@ -1,6 +1,8 @@
 #pragma once
 
-#include "MaterialInstance.h"
+#include "../../BaluLib/Source/Math/vec.h"
+
+class TMaterialInstance;
 
 struct TRenderCommand
 {

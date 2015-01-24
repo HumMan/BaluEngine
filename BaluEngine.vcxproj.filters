@@ -124,9 +124,6 @@
     <ClInclude Include="Source\RenderCommand.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Resourses.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\nanovg_support.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -188,6 +185,15 @@
       <Filter>EngineInterfaces</Filter>
     </ClInclude>
     <ClInclude Include="Source\EngineInterfaces\IWorldInstance.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IDirector.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resources.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IResources.h">
       <Filter>EngineInterfaces</Filter>
     </ClInclude>
   </ItemGroup>
@@ -279,9 +285,6 @@
     <ClCompile Include="Source\Render.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Resourses.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source\nanovg_support.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -292,6 +295,9 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Director.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Resources.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

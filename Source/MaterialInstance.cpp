@@ -1,6 +1,6 @@
 #include "MaterialInstance.h"
 
-TMaterialInstance::TMaterialInstance(TBaluMaterial* source, TResourses* resources)
+TMaterialInstance::TMaterialInstance(TBaluMaterial* source, TResources* resources)
 {
 	this->source = source;
 	if (source!=nullptr)

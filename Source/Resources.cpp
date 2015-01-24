@@ -1,17 +1,17 @@
-#include "Resourses.h"
+#include "Resources.h"
 
 #include <baluRender.h>
 
 #include <map>
 
-class TResoursesInternal
+class TResourcesInternal
 {
 public:
 	std::map<std::string, TTextureId> textures;
 	TBaluRender* render;
 };
 
-TBaluTexture TResourses::CreateTextureFromFile(std::string path)
+TBaluTexture TResources::CreateTextureFromFile(std::string path)
 {
 	TBaluTexture tex;
 
@@ -26,12 +26,12 @@ TBaluTexture TResourses::CreateTextureFromFile(std::string path)
 
 }
 
-TResourses::TResourses(TBaluRender* render)
+TResources::TResources(TBaluRender* render)
 {
-	p.reset(new TResoursesInternal());
+	p.reset(new TResourcesInternal());
 	p->render = render;
 }
 
-TResourses::~TResourses()
+TResources::~TResources()
 {
 }

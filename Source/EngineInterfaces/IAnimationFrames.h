@@ -7,35 +7,13 @@
 namespace EngineInterface
 {
 
-	class TFrame
+	class BALUENGINEDLL_API TFrame
 	{
 	public:
 		TVec2 left_bottom;
 		TVec2 right_top;
 		TFrame(TVec2 left_bottom, TVec2 right_top);
 	};
-	//
-	//class IAnimDesc
-	//{
-	//
-	//};
-	//
-	//class ISpecificFrame
-	//{
-	//public:
-	//};
-	//
-	//class IGridFrame
-	//{
-	//public:
-	//};
-	//
-	//class IAnimDescFactory
-	//{
-	//public:
-	//	virtual ISpecificFrame* CreateSpecificFrame() = 0;
-	//	virtual IGridFrame* CreateGridFrame() = 0;
-	//};
 
 	class TAnimDesc
 	{
@@ -43,7 +21,7 @@ namespace EngineInterface
 		virtual TFrame GetFrame(int index) = 0;
 	};
 
-	class TSpecificFrame : public TAnimDesc
+	class BALUENGINEDLL_API TSpecificFrame : public TAnimDesc
 	{
 		TVec2 left_bottom;
 		TVec2 right_top;
@@ -52,7 +30,7 @@ namespace EngineInterface
 		TFrame GetFrame(int index);
 	};
 
-	class TGridFrames : public TAnimDesc
+	class BALUENGINEDLL_API TGridFrames : public TAnimDesc
 	{
 		TVec2 left_bottom;
 		TVec2 width_height;
@@ -63,7 +41,7 @@ namespace EngineInterface
 		TFrame GetFrame(int index);
 	};
 
-	class TFramesRange
+	class BALUENGINEDLL_API TFramesRange
 	{
 		int start;
 		int end;
@@ -71,7 +49,7 @@ namespace EngineInterface
 		TFramesRange(int start, int end);
 	};
 
-	class TAnimationFrames
+	class BALUENGINEDLL_API TAnimationFrames
 	{
 	public:
 		TAnimDesc* desc;
@@ -80,10 +58,12 @@ namespace EngineInterface
 		TAnimationFrames(TAnimDesc* desc, int frame);
 	};
 
-	class TAnimLine
+	class BALUENGINEDLL_API TAnimLine
 	{
 	public:
 		std::string line_name;
 		std::vector<TAnimationFrames> frames;
 	};
 }
+
+BALUENGINEDLL_API std::vector<int> FramesRange(int start, int end);

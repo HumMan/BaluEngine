@@ -31,6 +31,10 @@ public:
 		{
 			this->balu_class = balu_class;
 		}
+		void SetTransform(TBaluTransform transform)
+		{
+			this->transform = transform;
+		}
 	};
 private:
 	std::vector<std::unique_ptr<TClassInstance>> instances;
@@ -50,5 +54,8 @@ public:
 	TClassInstance* GetInstance(int index);
 
 	TBaluScene::TClassInstance* CreateInstance(TBaluClass* balu_class);
-	void DestroyIntance(TBaluScene::TClassInstance*);
+	EngineInterface::IBaluSceneClassInstance* CreateInstance(EngineInterface::IBaluClass* balu_class);
+
+	void DestroyInstance(TBaluScene::TClassInstance*);	
+	void DestroyInstance(EngineInterface::IBaluSceneClassInstance* instance);
 };

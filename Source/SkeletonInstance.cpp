@@ -65,7 +65,7 @@ TBaluTransform TBoneInstance::GetGlobalTransform()
 	return global;
 }
 
-TSkinInstance::TSkinInstance(TSkin* source, TBaluInstance* parent, TResourses* resources)
+TSkinInstance::TSkinInstance(TSkin* source, TBaluInstance* parent, TResources* resources)
 {
 	sprites_of_bones.resize(source->GetBonesCount());
 	for (int i = 0; i < sprites_of_bones.size(); i++)
@@ -115,7 +115,7 @@ void GatherBones(TBoneInstance* bone, std::vector<TBoneInstance*> &result)
 	}
 }
 
-TSkeletonInstance::TSkeletonInstance(TSkeleton* source,TBaluInstance* parent, TResourses* resources)
+TSkeletonInstance::TSkeletonInstance(TSkeleton* source,TBaluInstance* parent, TResources* resources)
 {
 	this->source = source;
 

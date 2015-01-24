@@ -20,6 +20,7 @@ private:
 	b2PolygonShape b2shape;
 public:
 	b2PolygonShape* GetShape();
+	TBaluPhysShape* GetPhysShape();
 };
 
 
@@ -31,6 +32,7 @@ public:
 	TBaluCircleShape(float radius);
 	TBaluCircleShape(float radius, TVec2 pos);
 	b2CircleShape* GetShape();
+	TBaluPhysShape* GetPhysShape();
 };
 
 class TBaluBoxShape : public TBaluPhysShape, public EngineInterface::IBaluBoxShape
@@ -40,4 +42,5 @@ private:
 public:
 	TBaluBoxShape(float width, float height);
 	b2PolygonShape* GetShape();
+	TBaluPhysShape* GetPhysShape();
 };

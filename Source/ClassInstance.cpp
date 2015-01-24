@@ -12,7 +12,7 @@ void TSensorInstance::BuildFixture(b2Body* body)
 	shape->BuildFixture(body);
 }
 
-TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResourses* resources) 
+TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResources* resources) 
 	:skeleton(source->GetSkeleton(), this, resources), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
 {
 	instance_transform = transform;

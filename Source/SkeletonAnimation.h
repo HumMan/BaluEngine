@@ -17,7 +17,7 @@ class TInterpolateCurve
 
 
 
-class TTrackFrame
+class TTrackFrame : public EngineInterface::ITrackFrame
 {
 public:
 	//int index;
@@ -45,20 +45,20 @@ public:
 	}
 };
 
-class TTrack
+class TTrack: public EngineInterface::ITrack
 {
 private:
 	TBone* bone;
 	std::set<TTrackFrame, TFrameComparer> frames;
 public:
 	TTrack(TBone* bone);
-	const TTrackFrame* CreateFrame(float time, float rotation);
+	TTrackFrame* CreateFrame(float time, float rotation);
 	void DestroyFrame(TTrackFrame* frame);
 	TBone* GetBone();
 	std::set<TTrackFrame, TFrameComparer>& GetFrames();
 };
 
-class TTimeLine
+class TTimeLine : public EngineInterface::ITimeLine
 {
 private:
 	std::vector<std::unique_ptr<TTrack>> tracks;
@@ -67,7 +67,9 @@ private:
 public:
 	TTimeLine(std::string name);
 	TTrack* CreateTrack(TBone* bone);
+	EngineInterface::ITrack* CreateTrack(EngineInterface::IBone* bone);
 	void DestroyTrack(TTrack* track);
+	void DestroyTrack(EngineInterface::ITrack* track);
 	void SetTimelineSize(float size);
 	float GetTimelineSize();
 	std::string GetName();

@@ -178,6 +178,12 @@ void TBaluSpritePolygon::SetMaterial(TBaluMaterial* material)
 	this->material = material;
 	SetPolygonFromTexture();
 }
+
+void TBaluSpritePolygon::SetMaterial(EngineInterface::IBaluMaterial* material)
+{
+	SetMaterial(dynamic_cast<TBaluMaterial*>(material));
+}
+
 void TBaluSpritePolygon::SetPolygonVertices(std::vector<TVec2> polygon_vertices)
 {
 	this->polygon_vertices = polygon_vertices;

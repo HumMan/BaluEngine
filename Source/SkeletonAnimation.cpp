@@ -5,14 +5,14 @@ TTrack::TTrack(TBone* bone)
 	this->bone = bone;
 }
 
-const TTrackFrame* TTrack::CreateFrame(float time, float rotation)
+TTrackFrame* TTrack::CreateFrame(float time, float rotation)
 {
 	TTrackFrame temp;
 	//temp.index = 0;
 	temp.time = time;
 	temp.rotation = rotation;
 	auto it = frames.insert(temp);
-	return &(*(it.first));
+	return (TTrackFrame*) &(*(it.first));
 }
 
 void TTrack::DestroyFrame(TTrackFrame* frame)
@@ -41,9 +41,19 @@ TTrack* TTimeLine::CreateTrack(TBone* bone)
 	return tracks.back().get();
 }
 
+EngineInterface::ITrack* TTimeLine::CreateTrack(EngineInterface::IBone* bone)
+{
+	return CreateTrack(dynamic_cast<TBone*>(bone));
+}
+
 void TTimeLine::DestroyTrack(TTrack* track)
 {
 
+}
+
+void TTimeLine::DestroyTrack(EngineInterface::ITrack* track)
+{
+	DestroyTrack(dynamic_cast<TTrack*>(track));
 }
 
 void TTimeLine::SetTimelineSize(float size)

@@ -23,7 +23,7 @@ private:
 
 public:
 
-	TBaluSpriteInstance(TBaluSprite* source, TBaluTransform local, TBaluInstance* parent, TResourses* resources);
+	TBaluSpriteInstance(TBaluSprite* source, TBaluTransform local, TBaluInstance* parent, TResources* resources);
 
 	void SetTransform(TBaluTransform local);
 	TBaluTransform GetTransform();

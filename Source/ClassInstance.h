@@ -65,7 +65,7 @@ private:
 
 public:
 	
-	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResourses* resources);
+	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResources* resources);
 	void SetTransform(TBaluTransform transform);
 	TBaluTransform GetTransform();
 

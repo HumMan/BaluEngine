@@ -8,12 +8,14 @@
 
 #include "nanovg.h"
 
+#include <baluRender.h>
+
 class TBaluEngineRender
 {
 public:
-	static TResourses* CreateResources(TBaluRender* render)
+	static TResources* CreateResources(TBaluRender* render)
 	{
-		return new TResourses(render);
+		return new TResources(render);
 	}
 };
 
@@ -21,9 +23,19 @@ public:
 class TGameInternal
 {
 public:
-	TBaluRender* internal_render;
-	TRender* render;
-	TResourses* resources;
+	std::unique_ptr<TBaluRender> internal_render;
+	std::unique_ptr<TRender> render;
+	std::unique_ptr<TResources> resources;
+
+	std::string base_path;
+
+	SDL_Window *mainwindow; /* Our window handle */
+
+	SDL_GLContext maincontext; /* Our opengl context handle */
+
+	TBaluWorldInstance* world_instance;
+
+	RenderWorldCallback render_world_callback;
 };
 
 class TBaluEngineInternal
@@ -32,52 +44,47 @@ public:
 	std::unique_ptr<TBaluRender> render;
 };
 
-void TDirector::RenderWorld(TBaluWorldInstance* world, TRender* render)
-{
-	auto viewport = scene_instance->GetViewport("main");
-
-	std::vector<TBaluSpritePolygonInstance*> polygons;
-	scene_instance->QueryAABB(viewport->GetAABB(), polygons);
-
-	std::vector<TRenderCommand> render_commands;
-	render_commands.resize(polygons.size());
-	for (int i = 0; i < render_commands.size(); i++)
-	{
-		polygons[i]->Render(render_commands[i]);
-	}
-	render->Render(render_commands);
-}
-
 void TDirector::Step(float step)
 {
+	p->world_instance->OnPrePhysStep();
+	p->world_instance->PhysStep(step);
 
-	demo_world_instance->OnPrePhysStep();
-	demo_world_instance->PhysStep(step);
+	p->world_instance->UpdateTransform();
 
-	demo_world_instance->UpdateTransform();
+	p->render_world_callback(p->world_instance, p->render.get());
 
-	RenderWorld(demo_world_instance, render);
+	p->world_instance->OnProcessCollisions();
 
-	demo_world_instance->OnProcessCollisions();
-
-	demo_world_instance->OnStep(step);
+	p->world_instance->OnStep(step);
 
 	g_camera.m_height = 512;
 	g_camera.m_width = 512;
 	g_camera.m_extent = 10;
 	g_camera.m_zoom = 1;
 
-	demo_world_instance->DebugDraw();
+	p->world_instance->DebugDraw();
 }
 
-void TDirector::MainLoop()
+void TDirector::SetWorldInstance(TBaluWorldInstance* world_instance)
+{
+	p->world_instance = world_instance;
+}
+
+void TDirector::SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance)
+{
+	SetWorldInstance(dynamic_cast<TBaluWorldInstance*>(world_instance));
+}
+
+void TDirector::SetRenderWorldCallback(RenderWorldCallback callback)
+{
+	p->render_world_callback = callback;
+}
+
+int TDirector::Initialize()
 {
 
-	base_path = SDL_GetBasePath();
+	p->base_path = SDL_GetBasePath();
 
-	SDL_Window *mainwindow; /* Our window handle */
-
-	SDL_GLContext maincontext; /* Our opengl context handle */
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{ /* Initialize SDL's Video subsystem */
@@ -96,9 +103,9 @@ void TDirector::MainLoop()
 
 	/* Create our window centered at 512x512 resolution */
 
-	mainwindow = SDL_CreateWindow("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+	p->mainwindow = SDL_CreateWindow("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		512, 512, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	if (!mainwindow)
+	if (!p->mainwindow)
 	{ /* Die if creation failed */
 
 		SDL_Quit();
@@ -107,22 +114,31 @@ void TDirector::MainLoop()
 
 	/* Create our opengl context and attach it to our window */
 
-	maincontext = SDL_GL_CreateContext(mainwindow);
+	p->maincontext = SDL_GL_CreateContext(p->mainwindow);
 
 	auto err = SDL_GetError();
 	/* This makes our buffer swap syncronized with the monitor's vertical refresh */
 	//SDL_GL_SetSwapInterval(1);
 
+	
+
+	p->internal_render.reset(new TBaluRender(TVec2i(512, 512)));
+
+	p->render.reset(new TRender(p->internal_render.get()));
+
+	p->resources.reset(TBaluEngineRender::CreateResources(p->internal_render.get()));
+
+}
+
+TResources* TDirector::GetResources()
+{
+	return p->resources.get();
+}
+
+void TDirector::MainLoop()
+{
 	bool quit = false;
 	SDL_Event event;
-
-	internal_render = new TBaluRender(TVec2i(512, 512));
-
-	render = new TRender(internal_render);
-
-	resources = TBaluEngineRender::CreateResources(internal_render);
-
-	InitDemoWorld();
 
 	auto last_tick = SDL_GetTicks();
 
@@ -131,21 +147,22 @@ void TDirector::MainLoop()
 		auto curr_tick = SDL_GetTicks();
 		float step = (curr_tick - last_tick) / 1000.0;
 		last_tick = curr_tick;
-		internal_render->Set.ClearColor(0.2, 0.3, 0.3);
-		internal_render->Clear(true, true);
+		p->internal_render->Set.ClearColor(0.2, 0.3, 0.3);
+		p->internal_render->Clear(true, true);
 		const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-		if (keystate[SDL_SCANCODE_LEFT])
-			demo_world_instance->OnKeyDown(TKey::Left);
-		if (keystate[SDL_SCANCODE_RIGHT])
-			demo_world_instance->OnKeyDown(TKey::Right);
-		if (keystate[SDL_SCANCODE_UP])
-			demo_world_instance->OnKeyDown(TKey::Up);
-		if (keystate[SDL_SCANCODE_DOWN])
-			demo_world_instance->OnKeyDown(TKey::Down);
+
+		//if (keystate[SDL_SCANCODE_LEFT])
+		//	demo_world_instance->OnKeyDown(TKey::Left);
+		//if (keystate[SDL_SCANCODE_RIGHT])
+		//	demo_world_instance->OnKeyDown(TKey::Right);
+		//if (keystate[SDL_SCANCODE_UP])
+		//	demo_world_instance->OnKeyDown(TKey::Up);
+		//if (keystate[SDL_SCANCODE_DOWN])
+		//	demo_world_instance->OnKeyDown(TKey::Down);
 
 		Step(step);
 
-		SDL_GL_SwapWindow(mainwindow);
+		SDL_GL_SwapWindow(p->mainwindow);
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT)
@@ -157,13 +174,13 @@ void TDirector::MainLoop()
 			}
 			else if (event.type == SDL_KEYDOWN)
 			{
-				SDL_SetWindowTitle(mainwindow, "keydown");
+				SDL_SetWindowTitle(p->mainwindow, "keydown");
 			}
 			else if (event.type == SDL_MOUSEMOTION)
 			{
 				char b[100];
 				sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
-				SDL_SetWindowTitle(mainwindow, b);
+				SDL_SetWindowTitle(p->mainwindow, b);
 			}
 			else if (event.type == SDL_MOUSEBUTTONDOWN)
 			{
@@ -179,15 +196,23 @@ void TDirector::MainLoop()
 			else if (event.type == SDL_WINDOWEVENT)
 			{
 				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-					internal_render->Set.Viewport(TVec2i(event.window.data1, event.window.data2));
+					p->internal_render->Set.Viewport(TVec2i(event.window.data1, event.window.data2));
 			}
 		}
 	}
 
 	/* Delete our opengl context, destroy our window, and shutdown SDL */
-	SDL_GL_DeleteContext(maincontext);
-	SDL_DestroyWindow(mainwindow);
+	SDL_GL_DeleteContext(p->maincontext);
+	SDL_DestroyWindow(p->mainwindow);
 	SDL_Quit();
+}
 
-	return 0;
+TDirector::TDirector()
+{
+	p = std::make_unique<TGameInternal>();
+}
+
+TDirector::~TDirector()
+{
+
 }

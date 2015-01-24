@@ -12,6 +12,9 @@ namespace EngineInterface
 	class IBaluSpritePolygon
 	{
 	public:
+
+		virtual bool IsEnable() = 0;
+		virtual void SetEnable(bool enable)=0 ;
 		virtual void AddAnimDesc(TAnimDesc* desc) = 0;
 		virtual void CreateAnimationLine(std::string line_name, std::vector<TAnimationFrames> frames) = 0;
 		virtual void CreateAnimationLine(std::string line_name, TAnimDesc* desc, std::vector<int> frames) = 0;

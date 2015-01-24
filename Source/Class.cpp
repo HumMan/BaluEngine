@@ -116,6 +116,11 @@ TBaluClass::TBaluSpriteInstance* TBaluClass::AddSprite(TBaluSprite* sprite)
 	return sprites.back().get();
 }
 
+EngineInterface::IBaluClassSprite* TBaluClass::AddSprite(EngineInterface::IBaluSprite* sprite)
+{
+	return AddSprite(dynamic_cast<TBaluSprite*>(sprite));
+}
+
 void TBaluClass::RemoveSprite(TBaluSprite* sprite)
 {
 
@@ -176,7 +181,17 @@ void TBaluClass::OnBeginContact(TSensor* sensor, SensorCollideCallback callback)
 	sensor->on_begin_contact.push_back(callback);
 }
 
+void TBaluClass::OnBeginContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback)
+{
+	dynamic_cast<TSensor*>(sensor)->on_begin_contact.push_back(callback);
+}
+
 void TBaluClass::OnEndContact(TSensor* sensor, SensorCollideCallback callback)
 {
 	sensor->on_end_contact.push_back(callback);
+}
+
+void TBaluClass::OnEndContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback)
+{
+	dynamic_cast<TSensor*>(sensor)->on_end_contact.push_back(callback);
 }

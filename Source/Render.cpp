@@ -8,6 +8,7 @@
 
 #include "nanovg_support.h"
 
+#include "MaterialInstance.h"
 
 using namespace TBaluRenderEnums;
 

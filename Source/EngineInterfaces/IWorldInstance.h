@@ -1,6 +1,10 @@
 #pragma once
 
-class IBaluWorldInstance
+namespace EngineInterface
 {
-public:
-};
+	class IBaluWorldInstance
+	{
+	public:
+		virtual ~IBaluWorldInstance(){}
+	};
+}

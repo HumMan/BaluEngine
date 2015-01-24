@@ -124,7 +124,7 @@ IBaluWorld* CreateDemoWorld()
 	box_sprite->GetPolygone()->SetMaterial(brick_mat);
 	box_sprite->GetPolygone()->SetAsBox(1, 1);
 	box_sprite->GetPolygone()->SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
-	box_sprite->SetPhysShape(new TBaluBoxShape(1, 1));
+	box_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateBoxShape(1, 1)->GetPhysShape());
 
 	auto box_class = world->CreateClass("box");
 	auto box_class_instance = box_class->AddSprite(box_sprite);
@@ -139,7 +139,7 @@ IBaluWorld* CreateDemoWorld()
 	//player_sprite->GetPolygone()->SetAsBox(20.0/8, 20.0/8);
 	player_sprite->GetPolygone()->SetAsBox(6, 6);
 	//player_sprite->GetPolygone()->SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
-	player_sprite->SetPhysShape(new TBaluCircleShape(2.5));
+	player_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(2.5)->GetPhysShape());
 	//player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));
 
 	TGridFrames* grid_frames = new TGridFrames(TVec2(0, 0), TVec2(1, 1), 8, 4);
@@ -158,12 +158,12 @@ IBaluWorld* CreateDemoWorld()
 
 	auto player_class = world->CreateClass("player");
 	auto player_class_instance = player_class->AddSprite(player_sprite);
-	player_class_instance->tag = "character_sprite";
+	//player_class_instance->tag = "character_sprite";
 	player_class->GetPhysBody()->Enable(true);
 	player_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
 	player_class->GetPhysBody()->SetFixedRotation(true);
 
-	auto sensor = player_class->GetPhysBody()->CreateSensor(new TBaluCircleShape(0.4, TVec2(0, -2.5)));
+	auto sensor = player_class->GetPhysBody()->CreateSensor(world->GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -2.5))->GetPhysShape());
 
 	player_class->OnKeyDown(TKey::Up, PlayerJump);
 	player_class->OnKeyDown(TKey::Left, PlayerLeft);
@@ -185,7 +185,7 @@ IBaluWorld* CreateDemoWorld()
 
 		//special phys sprite
 		auto bones_phys_sprite = world->CreateSprite("bones_phys_sprite");
-		bones_phys_sprite->SetPhysShape(new TBaluCircleShape(1.0, TVec2(0, -1.5)));
+		bones_phys_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(1.0, TVec2(0, -1.5))->GetPhysShape());
 		bones_phys_sprite->GetPolygone()->SetEnable(false);
 
 		auto bones_player_class_instance = bones_player->AddSprite(bones_phys_sprite);
@@ -248,43 +248,43 @@ IBaluWorld* CreateDemoWorld()
 		bones_right_foot->GetPolygone()->SetAsBox(1, 1);
 		bones_right_foot->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(9, 256 - 112) / 256, TVec2(39, 256 - 56) / 256);
 
-		auto& bones_player_skel = bones_player->GetSkeleton();
+		auto bones_player_skel = bones_player->GetSkeleton();
 
 		//bones
-		auto root_bone = bones_player_skel.CreateBone(nullptr);
+		auto root_bone = bones_player_skel->CreateBone(nullptr);
 
-		auto right_leg_bone = bones_player_skel.CreateBone(root_bone);
-		right_leg_bone->SetTransform(TBaluTransform(TVec2(-0.5, -1.5), b2Rot(0)));
-		auto right_foot_bone = bones_player_skel.CreateBone(right_leg_bone);
-		right_foot_bone->SetTransform(TBaluTransform(TVec2(0, -1), b2Rot(0)));
+		auto right_leg_bone = bones_player_skel->CreateBone(root_bone);
+		right_leg_bone->SetTransform(TBaluTransform(TVec2(-0.5, -1.5), TRot(0)));
+		auto right_foot_bone = bones_player_skel->CreateBone(right_leg_bone);
+		right_foot_bone->SetTransform(TBaluTransform(TVec2(0, -1), TRot(0)));
 
-		auto left_leg_bone = bones_player_skel.CreateBone(root_bone);
-		left_leg_bone->SetTransform(TBaluTransform(TVec2(0.5, -1), b2Rot(0)));
-		auto left_foot_bone = bones_player_skel.CreateBone(left_leg_bone);
-		left_foot_bone->SetTransform(TBaluTransform(TVec2(0.0, -0.5), b2Rot(0)));
+		auto left_leg_bone = bones_player_skel->CreateBone(root_bone);
+		left_leg_bone->SetTransform(TBaluTransform(TVec2(0.5, -1), TRot(0)));
+		auto left_foot_bone = bones_player_skel->CreateBone(left_leg_bone);
+		left_foot_bone->SetTransform(TBaluTransform(TVec2(0.0, -0.5), TRot(0)));
 
-		auto right_shoulder_bone = bones_player_skel.CreateBone(root_bone);
-		auto right_hand_bone = bones_player_skel.CreateBone(right_shoulder_bone);
+		auto right_shoulder_bone = bones_player_skel->CreateBone(root_bone);
+		auto right_hand_bone = bones_player_skel->CreateBone(right_shoulder_bone);
 
-		auto left_shoulder_bone = bones_player_skel.CreateBone(root_bone);
-		auto left_hand_bone = bones_player_skel.CreateBone(left_shoulder_bone);
+		auto left_shoulder_bone = bones_player_skel->CreateBone(root_bone);
+		auto left_hand_bone = bones_player_skel->CreateBone(left_shoulder_bone);
 
 		//create skin
-		auto skin = bones_player_skel.CreateSkin();
-		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(root_bone), bones_head, TBaluTransform(TVec2(-0.3, 2), b2Rot(0)));
+		auto skin = bones_player_skel->CreateSkin();
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_head, TBaluTransform(TVec2(-0.3, 2), TRot(0)));
 
-		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(root_bone), bones_torso, TBaluTransform(TVec2(0, 0), b2Rot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_torso, TBaluTransform(TVec2(0, 0), TRot(0)));
 
-		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(right_leg_bone), bones_right_leg, TBaluTransform(TVec2(0, 0), b2Rot(0)));
-		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(right_foot_bone), bones_right_foot, TBaluTransform(TVec2(0, 0), b2Rot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_leg_bone), bones_right_leg, TBaluTransform(TVec2(0, 0), TRot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_foot_bone), bones_right_foot, TBaluTransform(TVec2(0, 0), TRot(0)));
 
-		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(left_leg_bone), bones_left_leg, TBaluTransform(TVec2(0, -0.5), b2Rot(0)));
-		skin->SetBoneSprite(bones_player_skel.GetBoneIndex(left_foot_bone), bones_left_foot, TBaluTransform(TVec2(0, -1), b2Rot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(left_leg_bone), bones_left_leg, TBaluTransform(TVec2(0, -0.5), TRot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(left_foot_bone), bones_left_foot, TBaluTransform(TVec2(0, -1), TRot(0)));
 
 		//walk animation
-		auto& skel_anim = bones_player->GetSkeletonAnimation();
+		auto skel_anim = bones_player->GetSkeletonAnimation();
 
-		auto walk_anim = skel_anim.CreateAnimation("walk");
+		auto walk_anim = skel_anim->CreateAnimation("walk");
 		float timeline_size = 0.5;
 		walk_anim->SetTimelineSize(timeline_size);
 		auto left_leg_bone_track = walk_anim->CreateTrack(left_leg_bone);
@@ -317,31 +317,65 @@ IBaluWorld* CreateDemoWorld()
 	for (int i = 0; i < 1; i++)
 	{
 		auto inst0 = scene0->CreateInstance(player_class);
-		inst0->transform = TBaluTransform(TVec2(0, 0 + i), b2Rot(0));
+		inst0->SetTransform(TBaluTransform(TVec2(0, 0 + i), TRot(0)));
 
 		auto inst1 = scene0->CreateInstance(bones_player);
-		inst1->transform = TBaluTransform(TVec2(3, 0 + i), b2Rot(0));
+		inst1->SetTransform(TBaluTransform(TVec2(3, 0 + i), TRot(0)));
 	}
 
 	for (int i = -10; i < 40; i++)
 	{
 		auto inst0 = scene0->CreateInstance(box_class);
-		inst0->transform = TBaluTransform(TVec2(-5 + i*0.9 + 0.3, -7 + sinf(i*0.3) * 1), b2Rot(i));
+		inst0->SetTransform(TBaluTransform(TVec2(-5 + i*0.9 + 0.3, -7 + sinf(i*0.3) * 1), TRot(i)));
 	}
 
 	auto viewport = scene0->CreateViewport("main_viewport");
-	viewport->SetTransform(TBaluTransform(TVec2(0, 0), b2Rot(0)));
+	viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
 	viewport->SetAspectRatio(1);
 	viewport->SetWidth(5);
 
 	return world;
 }
 
-int main()
+
+void RenderWorld(IBaluWorldInstance* world, TRender* render)
 {
+	//auto viewport = scene_instance->GetViewport("main");
+
+	//std::vector<TBaluSpritePolygonInstance*> polygons;
+	//scene_instance->QueryAABB(viewport->GetAABB(), polygons);
+
+	//std::vector<TRenderCommand> render_commands;
+	//render_commands.resize(polygons.size());
+	//for (int i = 0; i < render_commands.size(); i++)
+	//{
+	//	polygons[i]->Render(render_commands[i]);
+	//}
+	//render->Render(render_commands);
+}
+
+#include <Windows.h>
+
+int WINAPI WinMain(HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	LPSTR lpCmdLine,
+	int nCmdShow)
+{
+	auto director = CreateDirector();
+
+	director->Initialize();
+
 	auto demo_world = CreateDemoWorld();
 
-	demo_world_instance = new TBaluWorldInstance(demo_world, resources);
-	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
+	
+
+	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources());
+	//auto scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
+
+	director->SetWorldInstance(demo_world_instance);
+	director->SetRenderWorldCallback(RenderWorld);
+
+	director->MainLoop();
+
 	return 0;
 }

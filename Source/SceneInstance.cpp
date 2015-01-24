@@ -53,7 +53,7 @@ TViewport* TBaluSceneInstance::GetViewport(std::string name)
 	return &viewports[name];
 }
 
-TBaluSceneInstance::TBaluSceneInstance(TBaluScene* source, TResourses* resources)
+TBaluSceneInstance::TBaluSceneInstance(TBaluScene* source, TResources* resources)
 {
 	this->resources = resources;
 	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));

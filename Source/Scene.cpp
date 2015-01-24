@@ -53,7 +53,13 @@ TBaluScene::TClassInstance* TBaluScene::CreateInstance(TBaluClass* balu_class)
 	instances.push_back(std::make_unique<TBaluScene::TClassInstance>(balu_class));
 	return instances.back().get();
 }
-void TBaluScene::DestroyIntance(TBaluScene::TClassInstance* instance)
+
+EngineInterface::IBaluSceneClassInstance* TBaluScene::CreateInstance(EngineInterface::IBaluClass* balu_class)
+{
+	return CreateInstance(dynamic_cast<TBaluClass*>(balu_class));
+}
+
+void TBaluScene::DestroyInstance(TBaluScene::TClassInstance* instance)
 {
 	auto iter = std::find_if(instances.begin(), instances.end(), [&](std::unique_ptr<TBaluScene::TClassInstance>& p){return p.get() == instance; });
 	if (iter != instances.end())
@@ -64,4 +70,9 @@ void TBaluScene::DestroyIntance(TBaluScene::TClassInstance* instance)
 	{
 		throw std::invalid_argument("Объект не находится на данной сцене");
 	}
+}
+
+void TBaluScene::DestroyInstance(EngineInterface::IBaluSceneClassInstance* instance)
+{
+	DestroyInstance(dynamic_cast<TClassInstance*>(instance));
 }

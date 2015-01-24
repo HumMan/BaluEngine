@@ -16,5 +16,7 @@ namespace EngineInterface
 		virtual IBaluScene* CreateScene(char* scene_name) = 0;
 
 		virtual IBaluScene* GetScene(char* scene_name) = 0;
+
+		virtual IBaluPhysShapeFactory* GetPhysShapeFactory() = 0;
 	};
 }

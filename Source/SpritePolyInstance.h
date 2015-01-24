@@ -49,7 +49,7 @@ public:
 		this->enable = enable;
 	}
 
-	TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResourses* resources);
+	TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResources* resources);
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 

@@ -94,11 +94,13 @@
     <ClInclude Include="Source\EngineInterfaces\IAnimationFrames.h" />
     <ClInclude Include="Source\EngineInterfaces\IClass.h" />
     <ClInclude Include="Source\EngineInterfaces\IClassInstance.h" />
+    <ClInclude Include="Source\EngineInterfaces\IDirector.h" />
     <ClInclude Include="Source\EngineInterfaces\IMaterial.h" />
     <ClInclude Include="Source\EngineInterfaces\IMaterialInstance.h" />
     <ClInclude Include="Source\EngineInterfaces\IPhysShape.h" />
     <ClInclude Include="Source\EngineInterfaces\IPhysShapeInstance.h" />
     <ClInclude Include="Source\EngineInterfaces\IProperties.h" />
+    <ClInclude Include="Source\EngineInterfaces\IResources.h" />
     <ClInclude Include="Source\EngineInterfaces\IScene.h" />
     <ClInclude Include="Source\EngineInterfaces\ISceneInstance.h" />
     <ClInclude Include="Source\EngineInterfaces\ISprite.h" />
@@ -116,7 +118,7 @@
     <ClInclude Include="Source\PhysShapeInstance.h" />
     <ClInclude Include="Source\Render.h" />
     <ClInclude Include="Source\RenderCommand.h" />
-    <ClInclude Include="Source\Resourses.h" />
+    <ClInclude Include="Source\Resources.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneInstance.h" />
     <ClInclude Include="Source\Skeleton.h" />
@@ -143,7 +145,7 @@
     <ClCompile Include="Source\Class.cpp" />
     <ClCompile Include="Source\ClassInstance.cpp" />
     <ClCompile Include="Source\Director.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\EditorInterfaces.cpp" />
     <ClCompile Include="Source\EngineInterfaces.cpp" />
@@ -154,7 +156,7 @@
     <ClCompile Include="Source\PhysShape.cpp" />
     <ClCompile Include="Source\PhysShapeInstance.cpp" />
     <ClCompile Include="Source\Render.cpp" />
-    <ClCompile Include="Source\Resourses.cpp" />
+    <ClCompile Include="Source\Resources.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneInstance.cpp" />
     <ClCompile Include="Source\Skeleton.cpp" />

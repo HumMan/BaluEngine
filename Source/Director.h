@@ -2,17 +2,26 @@
 
 #include <memory>
 
+#include "Resources.h"
+
+#include "EngineInterfaces\IDirector.h"
+
 class TGameInternal;
 class TBaluWorldInstance;
 class TRender;
 
-class TDirector
+class TDirector: public EngineInterface::IDirector
 {
 	std::unique_ptr < TGameInternal > p;
 
-	void RenderWorld(TBaluWorldInstance* world, TRender* render);
 	void Step(float step);
 public:
-
+	TDirector();
+	void SetWorldInstance(TBaluWorldInstance* world_instance);
+	void SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance);
+	void SetRenderWorldCallback(RenderWorldCallback callback);
+	int Initialize();
 	void MainLoop();
+	TResources* GetResources();
+	~TDirector();
 };

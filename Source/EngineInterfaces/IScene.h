@@ -18,20 +18,22 @@ namespace EngineInterface
 	class IBaluSceneClassInstance
 	{
 	public:
+		virtual ~IBaluSceneClassInstance(){}
+		virtual void SetTransform(TBaluTransform transform) = 0;
 	};
 
 	class IBaluScene
 	{
 	public:
-		virtual IViewport* CreateViewport(std::string name);
+		virtual IViewport* CreateViewport(std::string name)=0;
 
-		virtual std::string GetName();
-		virtual void SetName(std::string name);
+		virtual std::string GetName() = 0;
+		virtual void SetName(std::string name) = 0;
 
-		virtual int GetInstancesCount();
-		virtual IBaluSceneClassInstance* GetInstance(int index);
+		virtual int GetInstancesCount() = 0;
+		virtual IBaluSceneClassInstance* GetInstance(int index) = 0;
 
-		virtual IBaluSceneClassInstance* CreateInstance(IBaluClass* balu_class);
-		virtual void DestroyIntance(IBaluSceneClassInstance*);
+		virtual IBaluSceneClassInstance* CreateInstance(IBaluClass* balu_class) = 0;
+		virtual void DestroyInstance(IBaluSceneClassInstance* instance) = 0;
 	};
 }

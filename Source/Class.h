@@ -125,6 +125,7 @@ public:
 	virtual ~TBaluClass();
 
 	void OnMouseMove(TMouseMoveCallback);
+
 	TBaluSpriteInstance* AddSprite(TBaluSprite* sprite);
 	EngineInterface::IBaluClassSprite* AddSprite(EngineInterface::IBaluSprite* sprite);
 	void RemoveSprite(TBaluSprite* sprite);
@@ -148,7 +149,8 @@ public:
 	void OnBeforePhysicsStep(BeforePhysicsCallback callback);
 
 	void OnBeginContact(TSensor* sensor, SensorCollideCallback callback);
-	void OnEndContact(TSensor* sensor, SensorCollideCallback callback);
 	void OnBeginContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback);
+
+	void OnEndContact(TSensor* sensor, SensorCollideCallback callback);
 	void OnEndContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback);
 };

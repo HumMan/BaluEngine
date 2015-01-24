@@ -40,15 +40,61 @@ namespace EngineInterface
 	public:
 	};
 
-	class ISkeletonAnimation
+	class IBone
+	{
+	public:
+		virtual void SetTransform(TBaluTransform)=0;
+	};
+
+	class ISkin
+	{
+	public:
+		virtual void SetBoneSprite(int bone_index, IBaluSprite* sprite, TBaluTransform global)=0;
+	};
+
+	class ISkeleton
+	{
+	public:
+		virtual ISkin* CreateSkin() = 0;
+		virtual void DestroySkin(ISkin* skin) = 0;
+		virtual int GetSkinsCount() = 0;
+		virtual ISkin* GetSkin(int index) = 0;
+		virtual IBone* CreateBone(IBone* parent) = 0;
+		virtual void DestroyBone(IBone* bone) = 0;
+		virtual int GetBoneIndex(IBone* bone) = 0;
+		virtual IBone* GetRoot() = 0;
+		//virtual std::vector<IBone*> GetAllBones() = 0;
+	};
+
+	class ITrackFrame
 	{
 	public:
 	};
 
-	class ISensor
+	class ITrack
 	{
 	public:
+		virtual ITrackFrame* CreateFrame(float time, float rotation)=0;
+	};
 
+	class ITimeLine
+	{
+	public:
+		virtual ITrack* CreateTrack(IBone* bone)=0;
+		virtual void DestroyTrack(ITrack* track) = 0;
+		virtual void SetTimelineSize(float size) = 0;
+	};
+
+	class ISkeletonAnimation
+	{
+	public:
+		virtual ITimeLine* CreateAnimation(std::string name)=0;
+	};
+
+	class  ISensor
+	{
+	public:
+		virtual ~ISensor() {}
 	};
 
 	class IBaluClassPhysBody
@@ -72,6 +118,7 @@ namespace EngineInterface
 		virtual IBaluClassSprite* GetSprite(int index) = 0;
 		virtual ISkeletonAnimation* GetSkeletonAnimation() = 0;
 		virtual IBaluClassPhysBody* GetPhysBody()=0;
+		virtual ISkeleton* GetSkeleton()=0;
 
 		virtual void OnKeyDown(TKey key, KeyDownCallback callback) = 0;
 		virtual void OnBeforePhysicsStep(BeforePhysicsCallback callback) = 0;

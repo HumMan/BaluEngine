@@ -15,7 +15,7 @@ TBaluSpritePolygon* TBaluSpritePolygonInstance::GetSpritePolygon()
 	return source;
 }
 
-TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResourses* resources)
+TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResources* resources)
 	:material(source->GetMaterial(), resources)
 {
 	enable = source->enable;

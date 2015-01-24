@@ -3,21 +3,23 @@
 #include <string>
 #include <memory>
 
+#include "EngineInterfaces\IResources.h"
+
 class TBaluTexture
 {
 	int id;
 public:
 };
 
-class TResoursesInternal;
+class TResourcesInternal;
 class TBaluRender;
 
-class TResourses
+class TResources: public EngineInterface::IResources
 {
 	friend class TBaluEngineRender;
-	std::unique_ptr<TResoursesInternal> p;
-	TResourses(TBaluRender* render);
+	std::unique_ptr<TResourcesInternal> p;
+	TResources(TBaluRender* render);
 public:
 	TBaluTexture CreateTextureFromFile(std::string path);
-	~TResourses();
+	~TResources();
 };
