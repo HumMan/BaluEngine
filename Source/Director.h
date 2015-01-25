@@ -24,4 +24,6 @@ public:
 	void MainLoop();
 	TResources* GetResources();
 	~TDirector();
+
+	std::string GetBasePath();
 };

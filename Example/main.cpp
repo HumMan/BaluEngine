@@ -341,18 +341,11 @@ IBaluSceneInstance* scene_instance;
 
 void RenderWorld(IBaluWorldInstance* world, TRender* render)
 {
-	//auto viewport = scene_instance->GetViewport("main");
+	auto viewport = scene_instance->GetViewport("main");
 
-	//std::vector<TBaluSpritePolygonInstance*> polygons;
-	//scene_instance->QueryAABB(viewport->GetAABB(), polygons);
-
-	//std::vector<TRenderCommand> render_commands;
-	//render_commands.resize(polygons.size());
-	//for (int i = 0; i < render_commands.size(); i++)
-	//{
-	//	polygons[i]->Render(render_commands[i]);
-	//}
-	//render->Render(render_commands);
+	std::vector<TRenderCommand> render_commands;
+	scene_instance->QueryAABB(viewport->GetAABB(), render_commands);
+	render->Render(render_commands);
 }
 
 #include <Windows.h>
@@ -362,16 +355,17 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
+
 	auto director = CreateDirector();
+
+	base_path = director->GetBasePath();
 
 	director->Initialize();
 
 	auto demo_world = CreateDemoWorld();
 
-	
-
 	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources());
-	//scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
+	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
 
 	director->SetWorldInstance(demo_world_instance);
 	director->SetRenderWorldCallback(RenderWorld);

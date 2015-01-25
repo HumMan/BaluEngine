@@ -5,7 +5,7 @@
 
 #include "Utils/DebugDraw.h"
 
-class TBaluSceneInstance : public b2ContactListener
+class TBaluSceneInstance : public b2ContactListener, public EngineInterface::IBaluSceneInstance
 {
 private:
 	TResources* resources;
@@ -50,7 +50,9 @@ public:
 	TVec2 SceneToWorld(const TVec2& v);
 	
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
+	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results);
 
+	
 	void OnPrePhysStep();
 	void PhysStep(float step);
 

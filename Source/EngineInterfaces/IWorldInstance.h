@@ -8,9 +8,7 @@ namespace EngineInterface
 	class IBaluWorldInstance
 	{
 	public:
-		virtual ~IBaluWorldInstance(){}
-
-		IBaluSceneInstance* RunScene(IBaluScene* scene_source);
-		void StopScene(IBaluSceneInstance*);
+		virtual IBaluSceneInstance* RunScene(IBaluScene* scene_source)=0;
+		virtual void StopScene(IBaluSceneInstance*)=0;
 	};
 }

@@ -18,5 +18,6 @@ namespace EngineInterface
 		virtual int Initialize()=0;
 		virtual void MainLoop()=0;
 		virtual IResources* GetResources()=0;
+		virtual std::string GetBasePath() = 0;
 	};
 }

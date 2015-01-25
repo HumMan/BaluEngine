@@ -23,6 +23,16 @@ void TBaluWorldInstance::StopScene(TBaluSceneInstance* scene)
 	}
 }
 
+EngineInterface::IBaluSceneInstance* TBaluWorldInstance::RunScene(EngineInterface::IBaluScene* scene_source)
+{
+	return RunScene(dynamic_cast<TBaluScene*>(scene_source));
+}
+
+void TBaluWorldInstance::StopScene(EngineInterface::IBaluSceneInstance* scene_instance)
+{
+	StopScene(dynamic_cast<TBaluSceneInstance*>(scene_instance));
+}
+
 void TBaluWorldInstance::OnPrePhysStep()
 {
 	for (int i = 0; i < instances.size(); i++)

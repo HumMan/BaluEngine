@@ -130,6 +130,11 @@ int TDirector::Initialize()
 
 }
 
+std::string TDirector::GetBasePath()
+{
+	return SDL_GetBasePath();
+}
+
 TResources* TDirector::GetResources()
 {
 	return p->resources.get();

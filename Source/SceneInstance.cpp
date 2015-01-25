@@ -103,6 +103,19 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygo
 	}
 }
 
+
+
+void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results)
+{
+	std::vector<TBaluSpritePolygonInstance*> polygons;
+	QueryAABB(frustum, polygons);
+	results.resize(polygons.size());
+	for (int i = 0; i < results.size(); i++)
+	{
+		polygons[i]->Render(results[i]);
+	}
+}
+
 void TBaluSceneInstance::OnPrePhysStep()
 {
 	for (int i = 0; i < instances.size(); i++)
