@@ -156,14 +156,14 @@ void TDirector::MainLoop()
 		p->internal_render->Clear(true, true);
 		const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
-		//if (keystate[SDL_SCANCODE_LEFT])
-		//	demo_world_instance->OnKeyDown(TKey::Left);
-		//if (keystate[SDL_SCANCODE_RIGHT])
-		//	demo_world_instance->OnKeyDown(TKey::Right);
-		//if (keystate[SDL_SCANCODE_UP])
-		//	demo_world_instance->OnKeyDown(TKey::Up);
-		//if (keystate[SDL_SCANCODE_DOWN])
-		//	demo_world_instance->OnKeyDown(TKey::Down);
+		if (keystate[SDL_SCANCODE_LEFT])
+			p->world_instance->OnKeyDown(TKey::Left);
+		if (keystate[SDL_SCANCODE_RIGHT])
+			p->world_instance->OnKeyDown(TKey::Right);
+		if (keystate[SDL_SCANCODE_UP])
+			p->world_instance->OnKeyDown(TKey::Up);
+		if (keystate[SDL_SCANCODE_DOWN])
+			p->world_instance->OnKeyDown(TKey::Down);
 
 		Step(step);
 
