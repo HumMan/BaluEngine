@@ -14,5 +14,5 @@ class BALUENGINEDLL_API TRender
 public:
 	TRender(TBaluRender* internal_render);
 
-	void Render(std::vector<TRenderCommand>& render_commands);
+	void Render(std::vector<TRenderCommand>& render_commands, std::vector<TCustomDrawCommand>& custom_draw_commands);
 };

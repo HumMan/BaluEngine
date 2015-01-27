@@ -50,7 +50,7 @@ public:
 	TVec2 SceneToWorld(const TVec2& v);
 	
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
-	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results);
+	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TCustomDrawCommand>& custom_draw);
 
 	
 	void OnPrePhysStep();

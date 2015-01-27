@@ -29,3 +29,17 @@ public:
 		//this->indices = indices;
 	}
 };
+
+class NVGcontext;
+class TBaluSpritePolygonInstance;
+
+typedef void(*TCustomDrawCallback)(TBaluSpritePolygonInstance* instance, NVGcontext* vg);
+
+//TODO в дальнейшем вся информация для рендера должна находиться полностью здесь, для возможности параллельной отрисовки
+
+struct TCustomDrawCommand
+{
+public:
+	TBaluSpritePolygonInstance* poly;
+	TCustomDrawCallback command;
+};

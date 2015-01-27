@@ -1,5 +1,7 @@
 #pragma once
 
-void nanovg_init();
+class NVGcontext;
 
-void render_test();
+void nanovg_init();
+NVGcontext* GetContext();
+//void render_test();

@@ -78,8 +78,14 @@ TAnimationFrames::TAnimationFrames(TAnimDesc* desc, int frame)
 	this->frames = std::vector < int > {frame};
 }
 
+void TBaluSpritePolygon::OnCustomDraw(TCustomDrawCallback callback)
+{
+	custom_draw_callback = callback;
+}
+
 TBaluSpritePolygon::TBaluSpritePolygon()
 {
+	is_custom_draw = false;
 	material = nullptr;
 
 	size = TVec2(1,1);

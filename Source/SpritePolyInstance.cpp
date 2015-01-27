@@ -30,10 +30,10 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 	active_frame_index = 0;
 }
 
-void TBaluSpritePolygonInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results)
-{
-
-}
+//void TBaluSpritePolygonInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results)
+//{
+//
+//}
 
 void TBaluSpritePolygonInstance::Render(TRenderCommand& command)
 {
@@ -41,6 +41,13 @@ void TBaluSpritePolygonInstance::Render(TRenderCommand& command)
 	command.vertices = &vertices[0];
 	command.vertices_count = vertices.size();
 	command.tex_coords = &tex_coords[0];
+}
+
+void TBaluSpritePolygonInstance::RenderCustom(std::vector<TCustomDrawCommand>& commands)
+{
+	commands.emplace_back();
+	commands.back().command = source->custom_draw_callback;
+	commands.back().poly = this;
 }
 
 void TBaluSpritePolygonInstance::NextFrame()

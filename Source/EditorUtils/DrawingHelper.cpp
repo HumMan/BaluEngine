@@ -2,7 +2,6 @@
 
 #include "DrawingHelper.h"
 #include "BoundaryEditor.h"
-#include "editorResourses.h"
 
 using namespace TBaluRenderEnums;
 

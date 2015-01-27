@@ -51,9 +51,10 @@ public:
 
 	TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResources* resources);
 
-	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
+	//void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 
 	void Render(TRenderCommand& command);
+	void RenderCustom(std::vector<TCustomDrawCommand>& commands);
 
 	void UpdateTransform(TBaluTransform parent);
 	void UpdateAnimation();

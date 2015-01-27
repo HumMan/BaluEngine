@@ -3,12 +3,9 @@
 #include <vector>
 #include <map>
 #include <list>
+#include <memory>
 
 #include <baluLib.h>
-
-#include "../baluEditorDefs.h"
-
-
 
 class TDrawingHelper;
 
@@ -37,12 +34,9 @@ enum class TWorldObjectType
 class TEditorTool
 {
 public:
-	virtual TWorldObjectType NeedObjectSelect() = 0;
-	virtual void SetSelectedObject(TWorldObjectDef* obj) = 0;
 	virtual void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
 	virtual void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
 	virtual void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
-	virtual void Render(TDrawingHelper* drawing_helper) = 0;
 	virtual ~TEditorTool(){}
 };
 

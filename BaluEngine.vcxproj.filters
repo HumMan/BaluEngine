@@ -196,6 +196,21 @@
     <ClInclude Include="Source\EngineInterfaces\IResources.h">
       <Filter>EngineInterfaces</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EditorUtils\abstractEditor.h">
+      <Filter>EditorUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\BoundaryEditor.h">
+      <Filter>EditorUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\DrawingHelper.h">
+      <Filter>EditorUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\EditorControls.h">
+      <Filter>EditorUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\Tools.h">
+      <Filter>EditorUtils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -299,6 +314,15 @@
     </ClCompile>
     <ClCompile Include="Source\Resources.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\BoundaryEditor.cpp">
+      <Filter>EditorUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp">
+      <Filter>EditorUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\EditorControls.cpp">
+      <Filter>EditorUtils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

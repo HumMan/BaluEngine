@@ -105,14 +105,24 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygo
 
 
 
-void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results)
+void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TCustomDrawCommand>& custom_draw)
 {
 	std::vector<TBaluSpritePolygonInstance*> polygons;
 	QueryAABB(frustum, polygons);
-	results.resize(polygons.size());
-	for (int i = 0; i < results.size(); i++)
+	//results.resize(polygons.size());
+
+	for (int i = 0; i < polygons.size(); i++)
 	{
-		polygons[i]->Render(results[i]);
+		if (polygons[i]->GetSpritePolygon()->IsCustomDraw())
+		{
+			
+			polygons[i]->RenderCustom(custom_draw);
+		}
+		else
+		{
+			results.emplace_back();
+			polygons[i]->Render(results.back());
+		}
 	}
 }
 

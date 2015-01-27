@@ -9,6 +9,7 @@
 #include "EngineInterfaces\IAnimationFrames.h"
 
 
+
 class TBaluSpritePolygon: public EngineInterface::IBaluSpritePolygon
 {
 private:
@@ -35,7 +36,17 @@ private:
 	void SetPolygonFromTexture();
 	void UpdatePolyVertices();
 	void TriangulateGeometry();
+
+	bool is_custom_draw;
+	TCustomDrawCallback custom_draw_callback;
 public:
+
+	void OnCustomDraw(TCustomDrawCallback callback);
+
+	bool IsCustomDraw()
+	{
+		return is_custom_draw;
+	}
 
 	bool IsEnable()
 	{

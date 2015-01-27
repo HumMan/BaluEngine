@@ -344,8 +344,9 @@ void RenderWorld(IBaluWorldInstance* world, TRender* render)
 	auto viewport = scene_instance->GetViewport("main");
 
 	std::vector<TRenderCommand> render_commands;
-	scene_instance->QueryAABB(viewport->GetAABB(), render_commands);
-	render->Render(render_commands);
+	std::vector<TCustomDrawCommand> custom_draw_commands;
+	scene_instance->QueryAABB(viewport->GetAABB(), render_commands, custom_draw_commands);
+	render->Render(render_commands, custom_draw_commands);
 }
 
 #include <Windows.h>

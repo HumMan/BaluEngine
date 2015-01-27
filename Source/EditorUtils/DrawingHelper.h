@@ -1,15 +1,8 @@
 
 #pragma once
 
-#include "../baluEditorDefs.h"
-
-class TBaluRender;
-class TEditorResourses;
-
 class TDrawingHelper
 {
-	TBaluRender* render;
-	TEditorResourses* resources;
 	bool use_global_alpha;
 	float global_alpha;
 
