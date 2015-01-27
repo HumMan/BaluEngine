@@ -26,6 +26,9 @@
     <Filter Include="EngineInterfaces">
       <UniqueIdentifier>{c139cdc5-1ed8-4572-ac6d-108d81c31f94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUtils\SceneEditor">
+      <UniqueIdentifier>{1cff91d2-3c57-4e8b-bdfd-eedbf443ab6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utils\texture_polygon.h">
@@ -211,6 +214,18 @@
     <ClInclude Include="Source\EditorUtils\Tools.h">
       <Filter>EditorUtils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditor.h">
+      <Filter>EditorUtils\SceneEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.h">
+      <Filter>EditorUtils\SceneEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorScene.h">
+      <Filter>EditorUtils\SceneEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorTools.h">
+      <Filter>EditorUtils\SceneEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -323,6 +338,15 @@
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\EditorControls.cpp">
       <Filter>EditorUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditor.cpp">
+      <Filter>EditorUtils\SceneEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.cpp">
+      <Filter>EditorUtils\SceneEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorTools.cpp">
+      <Filter>EditorUtils\SceneEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

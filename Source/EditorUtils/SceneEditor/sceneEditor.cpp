@@ -1,31 +1,31 @@
 #include "sceneEditor.h"
 
-#include "../../baluEditorDefs.h"
 #include "sceneEditorTools.h"
 
 #include "sceneEditorAdornments.h"
 
-#include "../ClassEditor/classEditor.h"
+//#include "../ClassEditor/classEditor.h"
 
 TSceneEditor::TSceneEditor() :tools_registry(&scene)
 {
 	active_tool = nullptr;
 }
 
-void TSceneEditor::Initialize(TBaluSceneDef* obj)
+void TSceneEditor::Initialize(IBaluScene* obj)
 {
 	scene.Initialize(obj);
-	for (const std::unique_ptr<TBaluInstanceDef>& v : obj->instances)
+	for (int i = 0; i < obj->GetInstancesCount();i++)
 	{
-		auto new_box = new TClassInstanceAdornment(v.get());
+		auto v = obj->GetInstance(i);
+		auto new_box = new TClassInstanceAdornment(v);
 		scene.boundaries.emplace_back(std::unique_ptr<TClassInstanceAdornment>(new_box));
 	}
 }
 
-void TSceneEditor::Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos)
+void TSceneEditor::Initialize(IBaluScene* obj, TVec2 editor_global_pos)
 {
 	this->editor_global_pos = editor_global_pos;
-	Initialize(dynamic_cast<TBaluSceneDef*>(obj));
+	Initialize(obj);
 }
 
 bool TSceneEditor::CanSetSelectedAsWork()

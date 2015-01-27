@@ -94,6 +94,10 @@
     <ClInclude Include="Source\EditorUtils\BoundaryEditor.h" />
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h" />
     <ClInclude Include="Source\EditorUtils\EditorControls.h" />
+    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditor.h" />
+    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.h" />
+    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorScene.h" />
+    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorTools.h" />
     <ClInclude Include="Source\EditorUtils\Tools.h" />
     <ClInclude Include="Source\EngineInterfaces.h" />
     <ClInclude Include="Source\EngineInterfaces\IAnimationFrames.h" />
@@ -156,6 +160,9 @@
     <ClCompile Include="Source\EditorUtils\BoundaryEditor.cpp" />
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp" />
     <ClCompile Include="Source\EditorUtils\EditorControls.cpp" />
+    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditor.cpp" />
+    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.cpp" />
+    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorTools.cpp" />
     <ClCompile Include="Source\EngineInterfaces.cpp" />
     <ClCompile Include="Source\Layers.cpp" />
     <ClCompile Include="Source\Material.cpp" />

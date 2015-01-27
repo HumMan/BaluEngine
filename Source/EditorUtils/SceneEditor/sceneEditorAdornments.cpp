@@ -1,6 +1,6 @@
 #include "sceneEditorAdornments.h"
 
-TClassInstanceAdornment::TClassInstanceAdornment(TBaluInstanceDef* class_instance) :TBoundaryBoxAdornment(class_instance->GetOBB())
+TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneClassInstance* class_instance) :TBoundaryBoxAdornment(class_instance->GetOBB())
 {
 	this->class_instance = class_instance;
 }

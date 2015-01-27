@@ -3,6 +3,8 @@
 
 class TDrawingHelper
 {
+	TBaluRender* render;
+	TEditorResourses* resources;
 	bool use_global_alpha;
 	float global_alpha;
 

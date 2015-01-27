@@ -6,6 +6,10 @@
 #include "sceneEditorScene.h"
 #include "sceneEditorTools.h"
 
+#include "../../EngineInterfaces/IScene.h"
+
+using namespace EngineInterface;
+
 class TSceneEditor :public TAbstractEditor
 {
 
@@ -16,10 +20,10 @@ public:
 	//void StartEdit(TBaluClassDef* use_Class);
 	//void EndEdit();
 
-	void Initialize(TBaluSceneDef* obj);
+	void Initialize(IBaluScene* obj);
 
 	//override:
-	void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos);
+	void Initialize(IBaluScene* obj, TVec2 editor_global_pos);
 
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();

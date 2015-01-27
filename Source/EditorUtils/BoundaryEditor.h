@@ -75,7 +75,6 @@ public:
 	{
 		return TWorldObjectType::None;
 	}
-	void SetSelectedObject(TWorldObjectDef* obj){}
 	//TBoundaryBoxesModifyTool(){}
 	TBoundaryBoxesModifyTool(TBoundaryBoxScene* boundary_box_scene);
 	//void SetScene(TBoundaryBoxScene* boundary_box_scene);
