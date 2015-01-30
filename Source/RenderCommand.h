@@ -31,15 +31,19 @@ public:
 };
 
 class NVGcontext;
-class TBaluSpritePolygonInstance;
 
-typedef void(*TCustomDrawCallback)(TBaluSpritePolygonInstance* instance, NVGcontext* vg);
+namespace EngineInterface
+{
+	class IBaluSpritePolygonInstance;
+}
+
+typedef void(*TCustomDrawCallback)(EngineInterface::IBaluSpritePolygonInstance* instance, NVGcontext* vg);
 
 //TODO в дальнейшем вся информация для рендера должна находиться полностью здесь, для возможности параллельной отрисовки
 
 struct TCustomDrawCommand
 {
 public:
-	TBaluSpritePolygonInstance* poly;
+	EngineInterface::IBaluSpritePolygonInstance* poly;
 	TCustomDrawCallback command;
 };

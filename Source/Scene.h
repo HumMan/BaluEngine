@@ -44,7 +44,6 @@ private:
 
 	TLayersManager layers;
 public:
-
 	TViewport* CreateViewport(std::string name);
 
 	std::string GetName();

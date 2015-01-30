@@ -64,8 +64,6 @@ public:
 
 namespace EngineInterface
 {
-	
-
 	class IBaluMaterial
 	{
 	public:

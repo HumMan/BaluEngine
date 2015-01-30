@@ -37,6 +37,10 @@ public:
 
 	virtual const std::vector<TToolWithDescription>& GetAvailableTools()=0;
 	virtual void SetActiveTool(TEditorTool* tool)=0;
+	TEditorTool* GetActiveTool()
+	{
+		return active_tool;
+	}
 };
 
 

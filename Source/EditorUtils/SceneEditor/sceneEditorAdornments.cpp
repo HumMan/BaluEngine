@@ -1,13 +1,15 @@
 #include "sceneEditorAdornments.h"
 
-TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneClassInstance* class_instance) :TBoundaryBoxAdornment(class_instance->GetOBB())
+TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneClassInstance* class_instance)// :TBoundaryBoxAdornment(class_instance->GetOBB())
+	:TBoundaryBoxAdornment(TOBB<float,2>())
 {
 	this->class_instance = class_instance;
 }
 
 void TClassInstanceAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 {
-	class_instance->instance_transform.position = new_box.GetPos();
+	//class_instance->instance_transform.position = new_box.GetPos();
+
 	//auto orient = new_box.GetOrient();
 	//sprite_polygon_def->transform.angle.c = orient[0][0];
 	//sprite_polygon_def->transform.angle.s = orient[0][1];
@@ -24,13 +26,13 @@ void TClassInstanceAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2>
 	//}
 }
 
-void TClassInstanceAdornment::Render(TDrawingHelper* drawing_helper)
-{
-	TBoundaryBoxAdornment::Render(drawing_helper);
-	drawing_helper->SetTransform(class_instance->instance_transform.position);
-	drawing_helper->DrawClass(class_instance->instance_class);
-	drawing_helper->PopTransform();
-}
+//void TClassInstanceAdornment::Render(TDrawingHelper* drawing_helper)
+//{
+//	TBoundaryBoxAdornment::Render(drawing_helper);
+//	drawing_helper->SetTransform(class_instance->instance_transform.position);
+//	drawing_helper->DrawClass(class_instance->instance_class);
+//	drawing_helper->PopTransform();
+//}
 
 bool TClassInstanceAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)
 {

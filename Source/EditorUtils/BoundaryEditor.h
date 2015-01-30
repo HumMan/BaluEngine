@@ -48,7 +48,7 @@ public:
 	virtual bool OnStartBoxMove(int changed_box_control, TVec2 new_pos);
 	virtual void OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box)=0;
 
-	void Render(TDrawingHelper* drawing_helper);
+	//void Render(TDrawingHelper* drawing_helper);
 	void UpdatePointsPos();
 	bool IsCollide(TVec2 point);
 

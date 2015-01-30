@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "exportMacro.h"
+#include "../exportMacro.h"
 
 namespace EngineInterface
 {

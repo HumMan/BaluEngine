@@ -47,7 +47,7 @@ void TBaluSpritePolygonInstance::RenderCustom(std::vector<TCustomDrawCommand>& c
 {
 	commands.emplace_back();
 	commands.back().command = source->custom_draw_callback;
-	commands.back().poly = this;
+	commands.back().poly = dynamic_cast<IBaluSpritePolygonInstance*>(this);
 }
 
 void TBaluSpritePolygonInstance::NextFrame()

@@ -53,16 +53,16 @@ void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)
 	OnBoxChange(old_boundary, boundary);
 }
 
-void TBoundaryBoxAdornment::Render(TDrawingHelper* drawing_helper)
-{
-	if (box_under_cursor)
-	{
-		TEditorObjectControls::Render(drawing_helper);
-		drawing_helper->SetSelectedBoundaryColor();
-		drawing_helper->DrawBoundary(boundary,false);
-		drawing_helper->UnsetColor();
-	}
-}
+//void TBoundaryBoxAdornment::Render(TDrawingHelper* drawing_helper)
+//{
+//	if (box_under_cursor)
+//	{
+//		TEditorObjectControls::Render(drawing_helper);
+//		drawing_helper->SetSelectedBoundaryColor();
+//		drawing_helper->DrawBoundary(boundary,false);
+//		drawing_helper->UnsetColor();
+//	}
+//}
 
 bool TBoundaryBoxAdornment::IsCollide(TVec2 point)
 {
@@ -222,7 +222,6 @@ void TBoundaryBoxAdornment::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_lo
 {
 	box_under_cursor = boundary.PointCollide(world_cursor_location);
 	TEditorObjectControls::OnMouseMove(e, world_cursor_location);
-	
 }
 void TBoundaryBoxAdornment::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 {
