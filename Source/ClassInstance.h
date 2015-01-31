@@ -85,6 +85,8 @@ public:
 	void UpdateTranform();
 
 	void DoKeyDown(TKey key);
+	void DoKeyUp(TKey key);
+
 	void DoBeforePhysicsStep();
 	//void DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 	void DoBeginContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);

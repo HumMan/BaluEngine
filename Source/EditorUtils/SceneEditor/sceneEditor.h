@@ -32,10 +32,6 @@ public:
 	bool CanEndSelectedAsWork();
 	bool EndSelectedAsWork();
 
-	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
-
 	//void Render(TDrawingHelper* drawing_helper);
 	const std::vector<TToolWithDescription>& GetAvailableTools();
 	void SetActiveTool(TEditorTool* tool);

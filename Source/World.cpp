@@ -91,3 +91,33 @@ TBaluPhysShapeFactory* TBaluWorld::GetPhysShapeFactory()
 {
 	return &shape_factory;
 }
+
+void TBaluWorld::OnMouseDown(MouseUpDownCallback callback)
+{
+	mouse_down_callbacks.emplace_back(callback);
+}
+
+void TBaluWorld::OnMouseDown(MouseUpDownCallback callback, void* user_data)
+{
+	mouse_down_callbacks.emplace_back(callback, user_data);
+}
+
+void TBaluWorld::OnMouseUp(MouseUpDownCallback callback)
+{
+	mouse_up_callbacks.emplace_back(callback);
+}
+
+void TBaluWorld::OnMouseUp(MouseUpDownCallback callback, void* user_data)
+{
+	mouse_up_callbacks.emplace_back(callback, user_data);
+}
+
+void TBaluWorld::OnMouseMove(MouseMoveCallback callback)
+{
+	mouse_move_callbacks.emplace_back(callback);
+}
+
+void TBaluWorld::OnMouseMove(MouseMoveCallback callback, void* user_data)
+{
+	mouse_move_callbacks.emplace_back(callback, user_data);
+}

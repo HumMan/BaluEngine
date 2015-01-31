@@ -174,9 +174,19 @@ void TBaluInstance::DoKeyDown(TKey key)
 	}
 }
 
+void TBaluInstance::DoKeyUp(TKey key)
+{
+	auto it = instance_class->one_key_up_callbacks.find(key);
+	if (it != instance_class->one_key_up_callbacks.end())
+	{
+		for (int i = 0; i < it->second.size(); i++)
+			it->second[i](this);
+	}
+}
+
 void TBaluInstance::DoBeforePhysicsStep()
 {
-	for (const KeyDownCallback& i : instance_class->before_physics_callbacks)
+	for (const KeyUpDownCallback& i : instance_class->before_physics_callbacks)
 	{
 		i(this);
 	}

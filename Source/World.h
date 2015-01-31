@@ -21,12 +21,37 @@ public:
 class TBaluWorld : public EngineInterface::IBaluWorld
 {
 private:
+	friend class TBaluWorldInstance;
+
 	std::map<std::string, TBaluMaterial> materials;
 	std::map<std::string, TBaluSprite> sprites;
 	std::map<std::string, TBaluClass> classes;
 	std::map<std::string, TBaluScene> scenes;
 
 	TBaluPhysShapeFactory shape_factory;
+
+	template<class T>
+	class CallbackWithData
+	{
+	public:
+		T callback;
+		void* user_data;
+		MouseUpDownCallbackWithData(){}
+		MouseUpDownCallbackWithData(T callback, void* user_data)
+		{
+			this->callback = callback;
+			this->user_data = user_data;
+		}
+		MouseUpDownCallbackWithData(T callback)
+		{
+			this->callback = callback;
+			this->user_data = nullptr;
+		}
+	};
+
+	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_down_callbacks;
+	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_up_callbacks;
+	std::vector<CallbackWithData<MouseMoveCallback>> mouse_move_callbacks;
 public:
 
 	TBaluMaterial* CreateMaterial(char* mat_name);
@@ -37,4 +62,13 @@ public:
 	TBaluScene* GetScene(char* scene_name);
 
 	TBaluPhysShapeFactory* GetPhysShapeFactory();
+
+	//void OnKeyDown(TKey key, KeyDownCallback callback);
+
+	void OnMouseDown(MouseUpDownCallback);
+	void OnMouseDown(MouseUpDownCallback, void* user_data);
+	void OnMouseUp(MouseUpDownCallback);
+	void OnMouseUp(MouseUpDownCallback, void* user_data);
+	void OnMouseMove(MouseMoveCallback);
+	void OnMouseMove(MouseMoveCallback, void* user_data);
 };

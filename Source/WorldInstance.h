@@ -24,9 +24,13 @@ public:
 	void OnProcessCollisions();
 	void OnStep(float step);
 
-	void OnKeyDown(TKey key);
+	void KeyDown(TKey key);
+	void KeyUp(TKey key);
+
+	void MouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
+	void MouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
+	void MouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
 
 	void UpdateTransform();
-
 	void DebugDraw();
 };

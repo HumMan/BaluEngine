@@ -11,10 +11,6 @@ namespace EngineInterface
 	class ISensorInstance;
 }
 
-typedef void(*KeyDownCallback)(EngineInterface::IBaluInstance* object);
-typedef void(*BeforePhysicsCallback)(EngineInterface::IBaluInstance* object);
-typedef void(*SensorCollideCallback)(EngineInterface::IBaluInstance* source, EngineInterface::ISensorInstance* sensor, EngineInterface::IBaluInstance* obstacle, EngineInterface::IBaluPhysShapeInstance* obstacle_shape);
-
 enum TKey :int
 {
 	Left,
@@ -22,6 +18,11 @@ enum TKey :int
 	Up,
 	Down
 };
+
+typedef void(*KeyUpDownCallback)(EngineInterface::IBaluInstance* object);
+
+typedef void(*BeforePhysicsCallback)(EngineInterface::IBaluInstance* object);
+typedef void(*SensorCollideCallback)(EngineInterface::IBaluInstance* source, EngineInterface::ISensorInstance* sensor, EngineInterface::IBaluInstance* obstacle, EngineInterface::IBaluPhysShapeInstance* obstacle_shape);
 
 enum TPhysBodyType
 {
@@ -120,7 +121,9 @@ namespace EngineInterface
 		virtual IBaluClassPhysBody* GetPhysBody()=0;
 		virtual ISkeleton* GetSkeleton()=0;
 
-		virtual void OnKeyDown(TKey key, KeyDownCallback callback) = 0;
+		virtual void OnKeyDown(TKey key, KeyUpDownCallback callback) = 0;
+		virtual void OnKeyUp(TKey key, KeyUpDownCallback callback) = 0;
+
 		virtual void OnBeforePhysicsStep(BeforePhysicsCallback callback) = 0;
 		virtual void OnBeginContact(ISensor* sensor, SensorCollideCallback callback) = 0;
 		virtual void OnEndContact(ISensor* sensor, SensorCollideCallback callback) = 0;

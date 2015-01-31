@@ -176,27 +176,31 @@ void TDirector::MainLoop()
 			}
 			else if (event.type == SDL_KEYUP)
 			{
+				p->world_instance->KeyUp();
 			}
 			else if (event.type == SDL_KEYDOWN)
 			{
 				SDL_SetWindowTitle(p->mainwindow, "keydown");
+				p->world_instance->KeyDown();
 			}
 			else if (event.type == SDL_MOUSEMOTION)
 			{
 				char b[100];
 				sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
 				SDL_SetWindowTitle(p->mainwindow, b);
+				p->world_instance->MouseMove();
 			}
 			else if (event.type == SDL_MOUSEBUTTONDOWN)
 			{
-
+				p->world_instance->MouseDown();
 			}
 			else if (event.type == SDL_MOUSEBUTTONUP)
 			{
+				p->world_instance->MouseUp();
 			}
 			else if (event.type == SDL_MOUSEWHEEL)
 			{
-
+				p->world_instance->MouseWheel();
 			}
 			else if (event.type == SDL_WINDOWEVENT)
 			{

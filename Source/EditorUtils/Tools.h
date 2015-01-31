@@ -9,18 +9,6 @@
 
 class TDrawingHelper;
 
-enum class TMouseButton
-{
-	Left,
-	Right,
-	Middle
-};
-
-struct TMouseEventArgs
-{
-	TMouseButton button;
-	TVec2i location;
-};
 
 enum class TWorldObjectType
 {

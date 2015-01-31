@@ -104,8 +104,6 @@ public:
 		}
 	};
 
-	
-
 private:
 	std::string layer_name;
 	std::string class_name;
@@ -114,7 +112,9 @@ private:
 	TSkeleton skeleton;
 	TSkeletonAnimation skeleton_animation;
 public:
-	std::map<TKey, std::vector<KeyDownCallback>> one_key_down_callbacks;
+	std::map<TKey, std::vector<KeyUpDownCallback>> one_key_down_callbacks;
+	std::map<TKey, std::vector<KeyUpDownCallback>> one_key_up_callbacks;
+
 	std::vector<BeforePhysicsCallback> before_physics_callbacks;
 
 	std::string GetName();
@@ -145,7 +145,9 @@ public:
 	void CreateKeyFrame();
 	void SetAnimationTime();
 
-	void OnKeyDown(TKey key, KeyDownCallback callback);
+	void OnKeyDown(TKey key, KeyUpDownCallback callback);
+	void OnKeyUp(TKey key, KeyUpDownCallback callback);
+
 	void OnBeforePhysicsStep(BeforePhysicsCallback callback);
 
 	void OnBeginContact(TSensor* sensor, SensorCollideCallback callback);

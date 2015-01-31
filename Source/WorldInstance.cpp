@@ -56,10 +56,40 @@ void TBaluWorldInstance::OnStep(float step)
 		instances[i]->OnStep(step);
 }
 
-void TBaluWorldInstance::OnKeyDown(TKey key)
+void TBaluWorldInstance::KeyDown(TKey key)
 {
 	for (int i = 0; i < instances.size(); i++)
 		instances[i]->OnKeyDown(key);
+}
+
+void TBaluWorldInstance::KeyUp(TKey key)
+{
+	/*for (int i = 0; i < instances.size(); i++)
+		instances[i]->OnKeyUp(key);*/
+}
+
+void TBaluWorldInstance::MouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	for (auto& v : source->mouse_down_callbacks)
+	{
+		v.callback(e, world_cursor_location, v.user_data);
+	}
+}
+
+void TBaluWorldInstance::MouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	for (auto& v : source->mouse_move_callbacks)
+	{
+		v.callback(e, world_cursor_location, v.user_data);
+	}
+}
+
+void TBaluWorldInstance::MouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
+{
+	for (auto& v : source->mouse_up_callbacks)
+	{
+		v.callback(e, world_cursor_location, v.user_data);
+	}
 }
 
 

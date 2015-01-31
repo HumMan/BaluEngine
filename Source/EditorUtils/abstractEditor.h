@@ -8,6 +8,7 @@
 #include <boost/bind.hpp>
 
 #include "..\EngineInterfaces\IProperties.h"
+#include "..\EngineInterfaces\IWorld.h"
 
 using namespace EngineInterface;
 
@@ -18,6 +19,9 @@ public:
 	TAbstractEditor* current_local_editor;
 	TEditorTool* active_tool;
 	TVec2 editor_global_pos;
+
+	void InitializeControls(IBaluWorld* world);
+	void DeinitializeControls();
 public:
 
 	boost::signals2::signal<void(IProperties* old_selection, IProperties* new_selection)> OnSelectionChanged;
