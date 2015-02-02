@@ -30,29 +30,15 @@ private:
 
 	TBaluPhysShapeFactory shape_factory;
 
-	template<class T>
-	class CallbackWithData
-	{
-	public:
-		T callback;
-		void* user_data;
-		MouseUpDownCallbackWithData(){}
-		MouseUpDownCallbackWithData(T callback, void* user_data)
-		{
-			this->callback = callback;
-			this->user_data = user_data;
-		}
-		MouseUpDownCallbackWithData(T callback)
-		{
-			this->callback = callback;
-			this->user_data = nullptr;
-		}
-	};
+	
 
 	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_down_callbacks;
 	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_up_callbacks;
 	std::vector<CallbackWithData<MouseMoveCallback>> mouse_move_callbacks;
 public:
+
+	bool TryFindClass(char* class_name, TBaluClass*& result);
+	bool TryFindClass(char* class_name, EngineInterface::IBaluClass*& result);
 
 	TBaluMaterial* CreateMaterial(char* mat_name);
 	TBaluSprite* CreateSprite(char* sprite_name);

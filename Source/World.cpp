@@ -20,6 +20,27 @@ TBaluBoxShape* TBaluPhysShapeFactory::CreateBoxShape(float width, float height)
 	return new TBaluBoxShape(width, height);
 }
 
+bool TBaluWorld::TryFindClass(char* class_name, TBaluClass*& result)
+{
+	auto iter = classes.find(class_name);
+	if (iter == classes.end())
+	{
+		return false;
+	}
+	else
+	{
+		return result = (TBaluClass*)&iter->second;
+	}
+}
+
+bool TBaluWorld::TryFindClass(char* class_name, EngineInterface::IBaluClass*& result)
+{
+	TBaluClass* r;
+	auto result0 = TryFindClass(class_name, r);
+	result = dynamic_cast<EngineInterface::IBaluClass*>(r);
+	return result0;
+}
+
 TBaluMaterial* TBaluWorld::CreateMaterial(char* mat_name)
 {
 	auto iter = materials.find(mat_name);

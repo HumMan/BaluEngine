@@ -1,5 +1,10 @@
 #include "WorldInstance.h"
 
+TBaluWorld* TBaluWorldInstance::GetSource()
+{
+	return source;
+}
+
 TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources)
 {
 	this->source = source;
@@ -7,7 +12,7 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 }
 TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 {
-	instances.push_back(std::make_unique<TBaluSceneInstance>(scene_source, resources));
+	instances.push_back(std::make_unique<TBaluSceneInstance>(this, scene_source, resources));
 	return instances.back().get();
 }
 void TBaluWorldInstance::StopScene(TBaluSceneInstance* scene)
@@ -92,6 +97,10 @@ void TBaluWorldInstance::MouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 	}
 }
 
+void TBaluWorldInstance::MouseVerticalWheel(int amount)
+{
+
+}
 
 void TBaluWorldInstance::UpdateTransform()
 {

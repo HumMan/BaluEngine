@@ -10,6 +10,8 @@ private:
 	std::vector<std::unique_ptr<TBaluSceneInstance>> instances;
 	TResources* resources;
 public:
+	TBaluWorld* GetSource();
+
 	TBaluWorldInstance(TBaluWorld* source, TResources* resources);
 
 	TBaluSceneInstance* RunScene(TBaluScene* scene_source);
@@ -30,6 +32,7 @@ public:
 	void MouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
 	void MouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
 	void MouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
+	void MouseVerticalWheel(int amount);
 
 	void UpdateTransform();
 	void DebugDraw();

@@ -37,7 +37,26 @@ namespace EngineInterface
 	class IBaluSpritePolygonInstance;
 }
 
-typedef void(*TCustomDrawCallback)(EngineInterface::IBaluSpritePolygonInstance* instance, NVGcontext* vg);
+typedef void(*TCustomDrawCallback)(EngineInterface::IBaluSpritePolygonInstance* instance, NVGcontext* vg, void* user_data);
+
+template<class T>
+class CallbackWithData
+{
+public:
+	T callback;
+	void* user_data;
+	CallbackWithData(){}
+	CallbackWithData(T callback, void* user_data)
+	{
+		this->callback = callback;
+		this->user_data = user_data;
+	}
+	CallbackWithData(T callback)
+	{
+		this->callback = callback;
+		this->user_data = nullptr;
+	}
+};
 
 //TODO в дальнейшем вся информация для рендера должна находиться полностью здесь, для возможности параллельной отрисовки
 
@@ -45,5 +64,5 @@ struct TCustomDrawCommand
 {
 public:
 	EngineInterface::IBaluSpritePolygonInstance* poly;
-	TCustomDrawCallback command;
+	CallbackWithData<TCustomDrawCallback> command;
 };

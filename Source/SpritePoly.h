@@ -8,8 +8,6 @@
 
 #include "EngineInterfaces\IAnimationFrames.h"
 
-
-
 class TBaluSpritePolygon: public EngineInterface::IBaluSpritePolygon
 {
 private:
@@ -38,10 +36,11 @@ private:
 	void TriangulateGeometry();
 
 	bool is_custom_draw;
-	TCustomDrawCallback custom_draw_callback;
+	std::vector<CallbackWithData<TCustomDrawCallback>> custom_draw_callbacks;
 public:
 
 	void OnCustomDraw(TCustomDrawCallback callback);
+	void OnCustomDraw(TCustomDrawCallback callback, void* user_data);
 
 	bool IsCustomDraw()
 	{

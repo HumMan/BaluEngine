@@ -1,5 +1,17 @@
 #include "SceneInstance.h"
 
+#include "WorldInstance.h"
+
+TBaluScene* TBaluSceneInstance::GetSource()
+{
+	return source;
+}
+
+EngineInterface::IBaluWorldInstance* TBaluSceneInstance::GetWorld()
+{
+	return dynamic_cast<EngineInterface::IBaluWorldInstance*>(world);
+}
+
 void TBaluSceneInstance::BeginContact(b2Contact* contact) 
 { 
 	auto fixtureA = (TBaluPhysShapeInstance*) contact->GetFixtureA()->GetUserData();
@@ -53,8 +65,9 @@ TViewport* TBaluSceneInstance::GetViewport(std::string name)
 	return &viewports[name];
 }
 
-TBaluSceneInstance::TBaluSceneInstance(TBaluScene* source, TResources* resources)
+TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* source, TResources* resources)
 {
+	this->world = world;
 	this->resources = resources;
 	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));
 
@@ -81,6 +94,11 @@ TBaluInstance* TBaluSceneInstance::CreateInstance(TBaluClass* use_class, TBaluTr
 {
 	instances.push_back(std::make_unique<TBaluInstance>(use_class, phys_world.get(), transform, resources));
 	return instances.back().get();
+}
+
+EngineInterface::IBaluInstance* TBaluSceneInstance::CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform)
+{
+	return dynamic_cast<EngineInterface::IBaluInstance*>(CreateInstance(dynamic_cast<TBaluClass*>(use_class), transform));
 }
 
 TVec2 TBaluSceneInstance::WorldToScene(const TVec2& v)

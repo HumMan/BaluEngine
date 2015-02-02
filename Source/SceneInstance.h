@@ -5,6 +5,8 @@
 
 #include "Utils/DebugDraw.h"
 
+class TBaluWorldInstance;
+
 class TBaluSceneInstance : public b2ContactListener, public EngineInterface::IBaluSceneInstance
 {
 private:
@@ -32,7 +34,12 @@ private:
 		}
 	};
 	std::vector<TCollisionInfo> begin_contact, end_contact;
+
+	TBaluWorldInstance* world;
 public:
+
+	TBaluScene* GetSource();
+	EngineInterface::IBaluWorldInstance* GetWorld();
 
 	void BeginContact(b2Contact* contact);
 	void EndContact(b2Contact* contact);
@@ -41,10 +48,11 @@ public:
 
 	TViewport* GetViewport(std::string name);
 
-	TBaluSceneInstance(TBaluScene* source, TResources* resources);
+	TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* source, TResources* resources);
 	TBaluSceneInstance(TBaluSceneInstance&& right);
 
 	TBaluInstance* CreateInstance(TBaluClass* use_class, TBaluTransform transform);
+	EngineInterface::IBaluInstance* CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform);
 
 	TVec2 WorldToScene(const TVec2& v);
 	TVec2 SceneToWorld(const TVec2& v);

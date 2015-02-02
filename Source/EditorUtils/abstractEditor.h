@@ -22,6 +22,7 @@ public:
 
 	void InitializeControls(IBaluWorld* world);
 	void DeinitializeControls();
+
 public:
 
 	boost::signals2::signal<void(IProperties* old_selection, IProperties* new_selection)> OnSelectionChanged;

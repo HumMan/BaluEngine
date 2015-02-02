@@ -64,8 +64,8 @@ void TCreateClassInstanceTool::Render(TDrawingHelper* drawing_helper)
 TSceneEditorToolsRegistry::TSceneEditorToolsRegistry(TSceneEditorScene* scene)
 {
 	this->scene = scene;
-	tools.emplace_back(new TCreateClassInstanceTool(scene), "Instance");
-	tools.emplace_back(new TBoundaryBoxesModifyTool(scene), "Modify");
+	//tools.emplace_back(new TCreateClassInstanceTool(scene), "Instance");
+	//tools.emplace_back(new TBoundaryBoxesModifyTool(scene), "Modify");
 }
 TSceneEditorToolsRegistry::TSceneEditorToolsRegistry(TSceneEditorToolsRegistry&& o)
 {

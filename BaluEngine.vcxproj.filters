@@ -351,5 +351,8 @@
     <ClCompile Include="Source\EditorUtils\abstractEditor.cpp">
       <Filter>EditorUtils</Filter>
     </ClCompile>
+    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorScene.cpp">
+      <Filter>EditorUtils\SceneEditor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -4,10 +4,15 @@
 
 namespace EngineInterface
 {
+	class IBaluWorldInstance;
+
 	class IBaluSceneInstance
 	{
 	public:
+		virtual IBaluScene* GetSource()=0;
+		virtual IBaluWorldInstance* GetWorld()=0;
 		virtual IViewport* GetViewport(std::string name)=0;
 		virtual void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TCustomDrawCommand>& custom_draw) = 0;
+		virtual IBaluInstance* CreateInstance(IBaluClass* use_class, TBaluTransform transform)=0;
 	};
 }

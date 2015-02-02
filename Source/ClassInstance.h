@@ -48,7 +48,7 @@ public:
 	TBaluTransform GetTransform();
 };
 
-class TBaluInstance:  EngineInterface::IBaluInstance//, TLayerObjectInstance
+class TBaluInstance: public EngineInterface::IBaluInstance//, TLayerObjectInstance
 {
 private:
 	int uid;

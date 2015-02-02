@@ -7,7 +7,7 @@
 
 using namespace EngineInterface;
 
-class TSceneEditorScene : public TBoundaryBoxScene
+class TSceneEditorScene// : public TBoundaryBoxScene
 {
 public:
 	IBaluScene* balu_scene;

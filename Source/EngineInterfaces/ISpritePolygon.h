@@ -40,6 +40,7 @@ namespace EngineInterface
 		virtual void SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top) = 0;
 
 		virtual void OnCustomDraw(TCustomDrawCallback callback) = 0;
+		virtual void OnCustomDraw(TCustomDrawCallback callback, void* user_data)=0;
 
 		virtual bool IsCustomDraw() = 0;
 

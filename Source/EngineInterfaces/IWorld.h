@@ -17,6 +17,12 @@ struct TMouseEventArgs
 {
 	TMouseButton button;
 	TVec2i location;
+	TMouseEventArgs(){}
+	TMouseEventArgs(TMouseButton button, TVec2i location)
+	{
+		this->button = button;
+		this->location = location;
+	}
 };
 
 typedef void(*MouseUpDownCallback)(TMouseEventArgs e, TVec2 world_cursor_location, void* user_data);
@@ -27,6 +33,9 @@ namespace EngineInterface
 	class IBaluWorld
 	{
 	public:
+
+		virtual bool TryFindClass(char* class_name, IBaluClass*& result)=0;
+
 		virtual IBaluMaterial* CreateMaterial(char* mat_name) = 0;
 		virtual IBaluSprite* CreateSprite(char* sprite_name) = 0;
 		virtual IBaluClass* CreateClass(char* class_name) = 0;

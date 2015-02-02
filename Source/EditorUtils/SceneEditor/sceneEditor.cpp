@@ -1,11 +1,5 @@
 #include "sceneEditor.h"
 
-#include "sceneEditorTools.h"
-
-#include "sceneEditorAdornments.h"
-
-//#include "../ClassEditor/classEditor.h"
-
 #include "../../EngineInterfaces/ISceneInstance.h"
 
 TSceneEditor::TSceneEditor() :tools_registry(&scene)
@@ -13,53 +7,16 @@ TSceneEditor::TSceneEditor() :tools_registry(&scene)
 	active_tool = nullptr;
 }
 
-
-void SceneEditorAdornmentCustomDraw(IBaluSpritePolygonInstance* instance, NVGcontext* vg)
-{
-	TSceneEditor* editor = instance->GetSprite()->GetClass()->GetProperties()->GetPointer("editor");
-	editor->GetActiveTool()->OnDraw(instance, vg);
-}
-
-void SceneEditorAdornmentMouseMove(IBaluSpritePolygonInstance* instance)
-{
-	TSceneEditor* editor = instance->GetSprite()->GetClass()->GetProperties()->GetPointer("editor");
-	TClassInstanceAdornment* adornment = instance->GetSprite()->GetClass()->GetProperties()->GetPointer("adornment");
-	editor->GetActiveTool()->OnMouseMove(adornment);
-}
-
-void SceneEditorMouseMove(IBaluSceneInstance* instance)
-{
-	TSceneEditor* editor = instance->GetSprite()->GetClass()->GetProperties()->GetPointer("editor");
-	editor->GetActiveTool()->OnGlobalMouseMove();
-}
-
-EngineInterface::IBaluClass* CreateEditorClasses(TSceneEditor* editor, IBaluWorld* world)
-{
-	auto adornment_class = world->CreateClass("SceneEditorAdornment");
-	auto adornment_sprite = world->CreateSprite("SceneEditorAdornment_custom_draw_sprite");
-	adornment_sprite->GetPolygone()->OnCustomDraw(SceneEditorAdornmentCustomDraw);
-	adornment_sprite->GetPolygone()->OnMouseMove();
-	adornment_sprite->GetPolygone()->OnMouseEnter();
-	adornment_sprite->GetPolygone()->OnMouseLeave();
-	adornment_sprite->GetPolygone()->OnMouseDown();
-	adornment_sprite->GetPolygone()->OnMouseUp();
-	adornment_class->AddSprite(adornment_sprite);
-
-	return adornment_class;
-}
-
 void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* obj)
 {
-	auto adornment_class = CreateEditorClasses(this, world);
-
-	obj->OnMouseMove(SceneEditorMouseMove);
+	//auto adornment_class = CreateEditorClasses(this, world);
 
 	scene.Initialize(obj);
 	for (int i = 0; i < obj->GetInstancesCount();i++)
 	{
 		auto v = obj->GetInstance(i);
-		auto new_box = new TClassInstanceAdornment(v);
-		scene.boundaries.emplace_back(std::unique_ptr<TClassInstanceAdornment>(new_box));
+		//auto new_box = new TClassInstanceAdornment(v);
+		//scene.boundaries.emplace_back(std::unique_ptr<TClassInstanceAdornment>(new_box));
 	}
 }
 
@@ -71,12 +28,13 @@ void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_g
 
 bool TSceneEditor::CanSetSelectedAsWork()
 {
-	if (current_local_editor != nullptr)
-	{
-		return current_local_editor->CanSetSelectedAsWork();
-	}
-	else
-		return scene.boundary_under_cursor != nullptr;
+	return false;
+	//if (current_local_editor != nullptr)
+	//{
+	//	return current_local_editor->CanSetSelectedAsWork();
+	//}
+	//else
+	//	return scene.boundary_under_cursor != nullptr;
 }
 
 void TSceneEditor::SetSelectedAsWork()
@@ -149,44 +107,6 @@ void TSceneEditor::SetActiveTool(TEditorTool* tool)
 		active_tool = tool;
 }
 
-void TSceneEditor::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	if (current_local_editor != nullptr)
-	{
-		//current_local_editor->OnMouseDown(e, world_cursor_location);
-	}
-	else
-	{
-		if (active_tool != nullptr)
-			active_tool->OnMouseDown(e, world_cursor_location);
-	}
-}
-
-void TSceneEditor::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	if (current_local_editor != nullptr)
-	{
-		//current_local_editor->OnMouseMove(e, world_cursor_location);
-	}
-	else
-	{
-		if (active_tool != nullptr)
-			active_tool->OnMouseMove(e, world_cursor_location);
-	}
-}
-
-void TSceneEditor::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	if (current_local_editor != nullptr)
-	{
-		//current_local_editor->OnMouseUp(e, world_cursor_location);
-	}
-	else
-	{
-		if (active_tool != nullptr)
-			active_tool->OnMouseUp(e, world_cursor_location);
-	}
-}
 
 //void TSceneEditor::Render(TDrawingHelper* drawing_helper)
 //{

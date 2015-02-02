@@ -1,29 +1,53 @@
 #include "sceneEditorAdornments.h"
 
-TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneClassInstance* class_instance)// :TBoundaryBoxAdornment(class_instance->GetOBB())
-	:TBoundaryBoxAdornment(TOBB<float,2>())
+#include "../../EngineInterfaces/IClass.h"
+#include "../../EngineInterfaces/IScene.h"
+#include "../../EngineInterfaces/IWorld.h"
+
+#include "../../EngineInterfaces/IClassInstance.h"
+#include "../../EngineInterfaces/ISceneInstance.h"
+#include "../../EngineInterfaces/IWorldInstance.h"
+
+using namespace EngineInterface;
+
+class TClassInstanceAdornmentPrivate
 {
-	this->class_instance = class_instance;
+	friend class TClassInstanceAdornment;
+	friend void ClassInstanceAdornmentCustomDraw(IBaluSpritePolygonInstance* instance, NVGcontext* vg, void* user_data);
+private:
+	IBaluInstance* class_instance;
+	bool visible;
+};
+
+void ClassInstanceAdornmentCustomDraw(IBaluSpritePolygonInstance* instance, NVGcontext* vg, void* user_data)
+{
+	auto state = (TClassInstanceAdornmentPrivate*)user_data;
+	if (state->visible)
+	{
+
+	}
 }
 
-void TClassInstanceAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
+EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene)
 {
-	//class_instance->instance_transform.position = new_box.GetPos();
+	auto adornment_class = world->CreateClass("SceneEditorAdornment");
+	auto adornment_sprite = world->CreateSprite("SceneEditorAdornment_custom_draw_sprite");
+	adornment_sprite->GetPolygone()->OnCustomDraw(ClassInstanceAdornmentCustomDraw);
+	adornment_class->AddSprite(adornment_sprite);
 
-	//auto orient = new_box.GetOrient();
-	//sprite_polygon_def->transform.angle.c = orient[0][0];
-	//sprite_polygon_def->transform.angle.s = orient[0][1];
+	return adornment_class;
+}
 
-	//auto old_aabb = old_box.GetLocalAABB();
-	//auto new_aabb = new_box.GetLocalAABB();
-
-	//auto trans = new_aabb.GetSize() / old_aabb.GetSize();
-
-	//for (int i = 0; i < sprite_polygon_def->polygon_vertices.size(); i++)
-	//{
-	//	sprite_polygon_def->polygon_vertices[i][0] *= trans[0];
-	//	sprite_polygon_def->polygon_vertices[i][1] *= trans[1];
-	//}
+TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneInstance* scene_instance)
+{
+	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
+	IBaluClass* adornment_class;
+	if (!world->TryFindClass("SceneEditorAdornment", adornment_class))
+	{
+		adornment_class = CreateClass(world, scene_instance->GetSource());
+	}
+		
+	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0,0), TRot(0)));
 }
 
 //void TClassInstanceAdornment::Render(TDrawingHelper* drawing_helper)
@@ -33,14 +57,3 @@ void TClassInstanceAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2>
 //	drawing_helper->DrawClass(class_instance->instance_class);
 //	drawing_helper->PopTransform();
 //}
-
-bool TClassInstanceAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)
-{
-	return boundary.PointCollide(world_cursor_location);
-}
-
-bool TClassInstanceAdornment::IsCollideWithObject(TVec2 world_cursor_location)
-{
-	//return polygon_world_object->b2shape.TestPoint(b2Transform(),*(b2Vec2*)&boundary.GetOrient().TransMul(world_cursor_location));
-	throw std::exception();
-}

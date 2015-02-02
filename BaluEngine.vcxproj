@@ -166,6 +166,7 @@
     <ClCompile Include="Source\EditorUtils\EditorControls.cpp" />
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditor.cpp" />
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.cpp" />
+    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorScene.cpp" />
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorTools.cpp" />
     <ClCompile Include="Source\EngineInterfaces.cpp" />
     <ClCompile Include="Source\Layers.cpp" />

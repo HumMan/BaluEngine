@@ -7,6 +7,8 @@
 
 #include <baluLib.h>
 
+#include "..\EngineInterfaces\IWorld.h"
+
 class TDrawingHelper;
 
 
@@ -27,6 +29,9 @@ public:
 	virtual void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
 	virtual void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
 	virtual void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location) = 0;
+
+	virtual void CancelOperation() = 0;
+
 	virtual void Render(TDrawingHelper* drawing_helper) = 0;
 	virtual ~TEditorTool(){}
 };

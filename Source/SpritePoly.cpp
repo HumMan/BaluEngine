@@ -80,7 +80,12 @@ TAnimationFrames::TAnimationFrames(TAnimDesc* desc, int frame)
 
 void TBaluSpritePolygon::OnCustomDraw(TCustomDrawCallback callback)
 {
-	custom_draw_callback = callback;
+	custom_draw_callbacks.emplace_back(callback);
+}
+
+void TBaluSpritePolygon::OnCustomDraw(TCustomDrawCallback callback, void* user_data)
+{
+	custom_draw_callbacks.emplace_back(callback, user_data);
 }
 
 TBaluSpritePolygon::TBaluSpritePolygon()
