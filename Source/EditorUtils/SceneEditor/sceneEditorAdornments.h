@@ -27,4 +27,5 @@ public:
 	//bool IsCollideWithObject(TVec2 world_cursor_location);
 
 	static EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene);
+	IBaluInstance* GetInstance();
 };

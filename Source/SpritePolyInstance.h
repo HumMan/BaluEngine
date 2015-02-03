@@ -38,6 +38,10 @@ private:
 
 	bool enable;
 public:
+	TBaluTransform GetGlobalTransform()
+	{
+		return global;
+	}
 
 	bool IsEnable()
 	{

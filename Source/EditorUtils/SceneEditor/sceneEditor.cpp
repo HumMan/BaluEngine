@@ -1,6 +1,6 @@
 #include "sceneEditor.h"
 
-#include "../../EngineInterfaces/ISceneInstance.h"
+//#include "../../EngineInterfaces/ISceneInstance.h"
 
 TSceneEditor::TSceneEditor() :tools_registry(&scene)
 {
@@ -12,12 +12,12 @@ void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* obj)
 	//auto adornment_class = CreateEditorClasses(this, world);
 
 	scene.Initialize(obj);
-	for (int i = 0; i < obj->GetInstancesCount();i++)
-	{
-		auto v = obj->GetInstance(i);
+	//for (int i = 0; i < obj->GetInstancesCount();i++)
+	//{
+		//auto v = obj->GetInstance(i);
 		//auto new_box = new TClassInstanceAdornment(v);
 		//scene.boundaries.emplace_back(std::unique_ptr<TClassInstanceAdornment>(new_box));
-	}
+	//}
 }
 
 void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_global_pos)

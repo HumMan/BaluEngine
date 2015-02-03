@@ -1,5 +1,21 @@
 #include "sceneEditorScene.h"
 
+
+
+void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene)
+{
+	//this->source_scene = source_scene;
+
+	adornment_instance = std::make_unique<TClassInstanceAdornment>(editor_temp_scene_instance);
+
+	//for (int i = 0; i < source_scene->GetInstancesCount(); i++)
+	//{
+	//	auto v = source_scene->GetInstance(i);
+	//	auto new_box = new TClassInstanceAdornment(v);
+	//	scene.boundaries.emplace_back(std::unique_ptr<TClassInstanceAdornment>(new_box));
+	//}
+}
+
 //void TClassInstanceAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 //{
 	//class_instance->instance_transform.position = new_box.GetPos();

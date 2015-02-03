@@ -10,6 +10,8 @@
 
 using namespace EngineInterface;
 
+#include "nanovg.h"
+
 class TClassInstanceAdornmentPrivate
 {
 	friend class TClassInstanceAdornment;
@@ -19,12 +21,27 @@ private:
 	bool visible;
 };
 
+IBaluInstance* TClassInstanceAdornment::GetInstance()
+{
+	return p->class_instance;
+}
+
 void ClassInstanceAdornmentCustomDraw(IBaluSpritePolygonInstance* instance, NVGcontext* vg, void* user_data)
 {
 	auto state = (TClassInstanceAdornmentPrivate*)user_data;
 	if (state->visible)
 	{
+		auto transform = instance->GetGlobalTransform();
 
+		float cornerRadius = 3.0f;
+		NVGpaint shadowPaint;
+		NVGpaint headerPaint;
+
+		nvgBeginPath(vg);
+		//TODO from scene space to screen
+		nvgCircle(vg, transform.position[0], transform.position[1], 4.0f);
+		nvgFillColor(vg, nvgRGBA(0, 160, 192, 255));
+		nvgFill(vg);
 	}
 }
 

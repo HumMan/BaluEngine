@@ -4,16 +4,21 @@
 #include <memory>
 
 #include "../../EngineInterfaces/IScene.h"
+#include "../../EngineInterfaces/ISceneInstance.h"
+#include "../../EngineInterfaces/IWorld.h"
 
 using namespace EngineInterface;
 
+#include "sceneEditorAdornments.h"
+
 class TSceneEditorScene// : public TBoundaryBoxScene
 {
-public:
-	IBaluScene* balu_scene;
+	IBaluScene* source_scene;
+	//IBaluSceneInstance* editor_temp_scene_instance;
 
-	void Initialize(IBaluScene* balu_scene)
-	{
-		this->balu_scene = balu_scene;
-	}
+	IBaluInstance* selected_instance;
+
+	std::unique_ptr<TClassInstanceAdornment> adornment_instance;
+public:
+	void Initialize(IBaluWorld* world, IBaluScene* source_scene);
 };
