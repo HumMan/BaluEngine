@@ -21,10 +21,10 @@ public:
 	//void StartEdit(TBaluClassDef* use_Class);
 	//void EndEdit();
 
-	void Initialize(IBaluWorld* world, IBaluScene* obj);
+	void Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance);
 
 	//override:
-	void Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_global_pos);
+	//void Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_global_pos);
 
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
@@ -34,5 +34,4 @@ public:
 
 	//void Render(TDrawingHelper* drawing_helper);
 	const std::vector<TToolWithDescription>& GetAvailableTools();
-	void SetActiveTool(TEditorTool* tool);
 };

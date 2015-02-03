@@ -66,7 +66,7 @@ public:
 	TBoundaryBoxAdornment* boundary_under_cursor;
 };
 
-class TBoundaryBoxesModifyTool : public TEditorTool
+class TBoundaryBoxesModifyTool : public IEditorTool
 {
 protected:
 	TBoundaryBoxScene* boundary_box_scene;
@@ -82,4 +82,5 @@ public:
 	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
 	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
 	void Render(TDrawingHelper* drawing_helper);
+	~TBoundaryBoxesModifyTool(){}
 };

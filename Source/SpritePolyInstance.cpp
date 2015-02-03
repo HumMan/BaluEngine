@@ -37,10 +37,17 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 
 void TBaluSpritePolygonInstance::Render(TRenderCommand& command)
 {
-	command.material_id = &material;
-	command.vertices = &vertices[0];
-	command.vertices_count = vertices.size();
-	command.tex_coords = &tex_coords[0];
+	if (enable)
+	{
+		//TODO убрать резервирование места если здесь ничего не добавляется
+		if (vertices.size() > 0)
+		{
+			command.material_id = &material;
+			command.vertices = &vertices[0];
+			command.vertices_count = vertices.size();
+			command.tex_coords = &tex_coords[0];
+		}
+	}
 }
 
 void TBaluSpritePolygonInstance::RenderCustom(std::vector<TCustomDrawCommand>& commands)

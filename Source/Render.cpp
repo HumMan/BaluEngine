@@ -27,23 +27,29 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 	render->Blend.Func(TBlendEquation::BE_SRC_ALPHA, TBlendFunc::BF_ADD, TBlendEquation::BE_ONE_MINUS_SRC_ALPHA);
 
 	for (int i = 0; i < render_commands.size(); i++)
-	{
+	{ 
 		auto& c = render_commands[i];
-		auto tex = c.material_id->GetTexture();
-		render->Texture.Bind(*(TTextureId*)&tex);
-		TStreamsDesc streams;
-		streams.AddStream(TStream::Vertex, TDataType::Float, 2, c.vertices);
-		streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
-		//streams.AddStream(TStream::Color, TDataType::Float, 4, c.colors);
-		render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
+		if (c.vertices_count > 0)
+		{
+			auto tex = c.material_id->GetTexture();
+			render->Texture.Bind(*(TTextureId*)&tex);
+			TStreamsDesc streams;
+			streams.AddStream(TStream::Vertex, TDataType::Float, 2, c.vertices);
+			streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
+			//streams.AddStream(TStream::Color, TDataType::Float, 4, c.colors);
+			render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
+		}
 	}
 	//glDisable(GL_DEPTH_TEST);
 
 	//render_test();
+	begin_frame();
 
 	auto vg_context = GetContext();
 	for (int i = 0; i < custom_draw_commands.size(); i++)
 	{
 		custom_draw_commands[i].command.callback(custom_draw_commands[i].poly, vg_context, custom_draw_commands[i].command.user_data);
 	}
+
+	end_frame();
 }

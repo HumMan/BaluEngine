@@ -20,5 +20,5 @@ class TSceneEditorScene// : public TBoundaryBoxScene
 
 	std::unique_ptr<TClassInstanceAdornment> adornment_instance;
 public:
-	void Initialize(IBaluWorld* world, IBaluScene* source_scene);
+	void Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance);
 };

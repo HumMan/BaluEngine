@@ -2,13 +2,9 @@
 
 #include <memory>
 
-namespace EngineInterface
-{
-	class IBaluClass;
-	class IBaluWorld;
-	class IBaluScene;
-	class IBaluSceneInstance;
-}
+#include "..\..\EngineInterfaces.h"
+
+using namespace EngineInterface;
 
 class TClassInstanceAdornmentPrivate;
 
@@ -28,4 +24,5 @@ public:
 
 	static EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene);
 	IBaluInstance* GetInstance();
+	~TClassInstanceAdornment();
 };

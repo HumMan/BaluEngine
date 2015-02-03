@@ -32,6 +32,8 @@ private:
 	TBaluInstance* parent;
 
 	TBaluTransform local;
+
+	bool is_enable;
 public:
 	TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluInstance* parent);
 	

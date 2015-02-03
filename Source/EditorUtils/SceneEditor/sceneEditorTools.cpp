@@ -5,7 +5,7 @@
 
 #include "sceneEditorAdornments.h"
 
-class TCreateClassInstanceTool : public TEditorTool
+class TCreateClassInstanceTool : public IEditorTool
 {
 protected:
 	TSceneEditorScene* scene_editor_scene;

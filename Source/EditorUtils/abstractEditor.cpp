@@ -53,3 +53,13 @@ void TAbstractEditor::DeinitializeControls()
 {
 
 }
+
+void TAbstractEditor::SetActiveTool(IEditorTool* tool)
+{
+	if (current_local_editor != nullptr)
+	{
+		return current_local_editor->SetActiveTool(tool);
+	}
+	else
+		active_tool = tool;
+}

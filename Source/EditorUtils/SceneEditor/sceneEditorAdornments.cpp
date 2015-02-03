@@ -26,10 +26,15 @@ IBaluInstance* TClassInstanceAdornment::GetInstance()
 	return p->class_instance;
 }
 
+TClassInstanceAdornment::~TClassInstanceAdornment()
+{
+
+}
+
 void ClassInstanceAdornmentCustomDraw(IBaluSpritePolygonInstance* instance, NVGcontext* vg, void* user_data)
 {
-	auto state = (TClassInstanceAdornmentPrivate*)user_data;
-	if (state->visible)
+	//auto state = (TClassInstanceAdornmentPrivate*)user_data;
+	//if (state->visible)
 	{
 		auto transform = instance->GetGlobalTransform();
 
@@ -39,7 +44,8 @@ void ClassInstanceAdornmentCustomDraw(IBaluSpritePolygonInstance* instance, NVGc
 
 		nvgBeginPath(vg);
 		//TODO from scene space to screen
-		nvgCircle(vg, transform.position[0], transform.position[1], 4.0f);
+		//nvgCircle(vg, transform.position[0], transform.position[1], 4.0f);
+		nvgCircle(vg, 200,200, 4.0f);
 		nvgFillColor(vg, nvgRGBA(0, 160, 192, 255));
 		nvgFill(vg);
 	}
@@ -49,6 +55,7 @@ EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(IBaluWorld* wo
 {
 	auto adornment_class = world->CreateClass("SceneEditorAdornment");
 	auto adornment_sprite = world->CreateSprite("SceneEditorAdornment_custom_draw_sprite");
+	//adornment_sprite->GetPolygone()->SetEnable(false);
 	adornment_sprite->GetPolygone()->OnCustomDraw(ClassInstanceAdornmentCustomDraw);
 	adornment_class->AddSprite(adornment_sprite);
 
@@ -57,6 +64,8 @@ EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(IBaluWorld* wo
 
 TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneInstance* scene_instance)
 {
+	p = std::make_unique<TClassInstanceAdornmentPrivate>();
+
 	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
 	IBaluClass* adornment_class;
 	if (!world->TryFindClass("SceneEditorAdornment", adornment_class))

@@ -97,3 +97,13 @@ void render_test()
 	drawWindow(vg, "Widgets `n Stuff", 50, 50, 300, 400);
 	nvgEndFrame(vg);
 }
+
+void begin_frame()
+{
+	nvgBeginFrame(vg, 500, 500, 1);
+}
+
+void end_frame()
+{
+	nvgEndFrame(vg);
+}

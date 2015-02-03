@@ -7,11 +7,11 @@ TSceneEditor::TSceneEditor() :tools_registry(&scene)
 	active_tool = nullptr;
 }
 
-void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* obj)
+void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance)
 {
 	//auto adornment_class = CreateEditorClasses(this, world);
 
-	scene.Initialize(obj);
+	scene.Initialize(world, source_scene, source_scene_instance);
 	//for (int i = 0; i < obj->GetInstancesCount();i++)
 	//{
 		//auto v = obj->GetInstance(i);
@@ -20,11 +20,11 @@ void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* obj)
 	//}
 }
 
-void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_global_pos)
-{
-	this->editor_global_pos = editor_global_pos;
-	Initialize(world, obj);
-}
+//void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_global_pos)
+//{
+//	this->editor_global_pos = editor_global_pos;
+//	Initialize(world, obj);
+//}
 
 bool TSceneEditor::CanSetSelectedAsWork()
 {
@@ -96,17 +96,6 @@ const std::vector<TToolWithDescription>& TSceneEditor::GetAvailableTools()
 	else
 		return tools_registry.GetTools();
 }
-
-void TSceneEditor::SetActiveTool(TEditorTool* tool)
-{
-	if (current_local_editor != nullptr)
-	{
-		return current_local_editor->SetActiveTool(tool);
-	}
-	else
-		active_tool = tool;
-}
-
 
 //void TSceneEditor::Render(TDrawingHelper* drawing_helper)
 //{

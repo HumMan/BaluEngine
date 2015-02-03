@@ -2,11 +2,11 @@
 
 
 
-void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene)
+void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance)
 {
 	//this->source_scene = source_scene;
 
-	adornment_instance = std::make_unique<TClassInstanceAdornment>(editor_temp_scene_instance);
+	adornment_instance = std::make_unique<TClassInstanceAdornment>(source_scene_instance);
 
 	//for (int i = 0; i < source_scene->GetInstancesCount(); i++)
 	//{

@@ -10,14 +10,16 @@
 #include "..\EngineInterfaces\IProperties.h"
 #include "..\EngineInterfaces\IWorld.h"
 
+#include "..\EditorInterfaces.h"
+
 using namespace EngineInterface;
 
-class TAbstractEditor
+class TAbstractEditor: public EngineInterface::IAbstractEditor
 {
 public:
 	std::vector<TAbstractEditor*> parent_editors;
 	TAbstractEditor* current_local_editor;
-	TEditorTool* active_tool;
+	IEditorTool* active_tool;
 	TVec2 editor_global_pos;
 
 	void InitializeControls(IBaluWorld* world);
@@ -41,11 +43,13 @@ public:
 	//std::map<std::string, TAbstractEditorObject*> CanCreateObjects();
 
 	virtual const std::vector<TToolWithDescription>& GetAvailableTools()=0;
-	virtual void SetActiveTool(TEditorTool* tool)=0;
-	TEditorTool* GetActiveTool()
+	virtual void SetActiveTool(IEditorTool* tool);
+	IEditorTool* GetActiveTool()
 	{
 		return active_tool;
 	}
+	~TAbstractEditor()
+	{}
 };
 
 

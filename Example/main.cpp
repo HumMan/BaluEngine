@@ -2,6 +2,7 @@
 #include <baluLib.h>
 
 #include "../Source/EngineInterfaces.h"
+#include "../Source/EditorInterfaces.h"
 
 using namespace EngineInterface;
 
@@ -366,7 +367,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	auto demo_world = CreateDemoWorld();
 
 	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources());
-	scene_instance = demo_world_instance->RunScene(demo_world->GetScene("scene0"));
+	auto demo_scene = demo_world->GetScene("scene0");
+	scene_instance = demo_world_instance->RunScene(demo_scene);
+
+	auto scene_editor = CreateSceneEditor(demo_world, demo_scene, scene_instance);
 
 	director->SetWorldInstance(demo_world_instance);
 	director->SetRenderWorldCallback(RenderWorld);

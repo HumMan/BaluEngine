@@ -82,16 +82,25 @@ void TBaluInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInst
 
 void TBaluInstance::UpdateTranform()
 {
-	instance_transform = phys_body->GetTransform();
-	for (int i = 0; i < sprites.size(); i++)
+	if (phys_body->IsEnable())
 	{
-		sprites[i]->UpdateTranform(instance_transform);
+		instance_transform = phys_body->GetTransform();
+		for (int i = 0; i < sprites.size(); i++)
+		{
+			sprites[i]->UpdateTranform(instance_transform);
+		}
+		skeleton.UpdateTranform(instance_transform);
 	}
-	skeleton.UpdateTranform(instance_transform);
+}
+
+bool TBaluClassPhysBodyIntance::IsEnable()
+{
+	return is_enable;
 }
 
 TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluInstance* parent)
 {
+	is_enable = source->IsEnable();
 	if (source->IsEnable())
 	{
 		this->source = source;

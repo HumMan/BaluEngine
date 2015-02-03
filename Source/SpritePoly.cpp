@@ -80,6 +80,7 @@ TAnimationFrames::TAnimationFrames(TAnimDesc* desc, int frame)
 
 void TBaluSpritePolygon::OnCustomDraw(TCustomDrawCallback callback)
 {
+	is_custom_draw = true;
 	custom_draw_callbacks.emplace_back(callback);
 }
 
