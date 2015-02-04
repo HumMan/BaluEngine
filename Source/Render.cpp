@@ -48,8 +48,20 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 	auto vg_context = GetContext();
 	for (int i = 0; i < custom_draw_commands.size(); i++)
 	{
-		custom_draw_commands[i].command.callback(custom_draw_commands[i].poly, vg_context, custom_draw_commands[i].command.user_data);
+		custom_draw_commands[i].command.callback(vg_context, &custom_draw_commands[i]);
 	}
 
 	end_frame();
+}
+
+void TRender::EnableScissor(bool enable)
+{
+	render->ScissorRect.Enable(enable);
+}
+
+void TRender::SetScissorRect(TScreen screen, TView view)
+{
+	auto p0 = screen.ToScreenPixels(screen.FromViewToScreen(view, TVec2(0, 0)));
+	auto p1 = screen.ToScreenPixels(screen.FromViewToScreen(view, TVec2(1, 1)));
+	render->ScissorRect.Box(p0, p1);
 }

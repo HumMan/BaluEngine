@@ -15,4 +15,6 @@ public:
 	TRender(TBaluRender* internal_render);
 
 	void Render(std::vector<TRenderCommand>& render_commands, std::vector<TCustomDrawCommand>& custom_draw_commands);
+	void EnableScissor(bool enable);
+	void SetScissorRect(TScreen screen, TView view);
 };

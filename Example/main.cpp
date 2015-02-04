@@ -112,6 +112,12 @@ void BonesPlayerPrePhysStep(IBaluInstance* object)
 		object->GetSkeletonAnimation()->StopAnimation("walk");
 }
 
+IBaluSceneInstance* scene_instance;
+
+TScreen* screen;
+
+IViewport* main_viewport;
+
 IBaluWorld* CreateDemoWorld()
 {
 	auto world = CreateWorld();
@@ -330,24 +336,34 @@ IBaluWorld* CreateDemoWorld()
 		inst0->SetTransform(TBaluTransform(TVec2(-5 + i*0.9 + 0.3, -7 + sinf(i*0.3) * 1), TRot(i)));
 	}
 
-	auto viewport = scene0->CreateViewport("main_viewport");
-	viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
-	viewport->SetAspectRatio(1);
-	viewport->SetWidth(5);
+	main_viewport = scene0->CreateViewport("main_viewport");
+	main_viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
+	main_viewport->SetAspectRatio(1);
+	main_viewport->SetWidth(5);
 
 	return world;
 }
 
-IBaluSceneInstance* scene_instance;
+TView main_viewport_view;
 
 void RenderWorld(IBaluWorldInstance* world, TRender* render)
 {
-	auto viewport = scene_instance->GetViewport("main");
-
 	std::vector<TRenderCommand> render_commands;
 	std::vector<TCustomDrawCommand> custom_draw_commands;
-	scene_instance->QueryAABB(viewport->GetAABB(), render_commands, custom_draw_commands);
+	auto viewport_aabb = main_viewport->GetAABB();
+	scene_instance->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
+
+	for (auto& v : custom_draw_commands)
+	{
+		v.screen = screen;
+		v.view = &main_viewport_view;
+		v.viewport = &viewport_aabb;
+	}
+
+	render->EnableScissor(true);
+	render->SetScissorRect(*screen, main_viewport_view);
 	render->Render(render_commands, custom_draw_commands);
+	render->EnableScissor(false);
 }
 
 #include <Windows.h>
@@ -357,6 +373,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
+	
 
 	auto director = CreateDirector();
 
@@ -365,6 +382,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	director->Initialize();
 
 	auto demo_world = CreateDemoWorld();
+
+	screen = new TScreen(director->GetScreenSize());
+
+	main_viewport_view = TView(TVec2(0, 0), TVec2(1, 1));
 
 	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources());
 	auto demo_scene = demo_world->GetScene("scene0");

@@ -26,4 +26,6 @@ public:
 	~TDirector();
 
 	std::string GetBasePath();
+
+	TVec2i GetScreenSize();
 };

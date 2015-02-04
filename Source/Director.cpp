@@ -135,6 +135,13 @@ std::string TDirector::GetBasePath()
 	return SDL_GetBasePath();
 }
 
+TVec2i TDirector::GetScreenSize()
+{
+	int w, h;
+	SDL_GetWindowSize(p->mainwindow, &w, &h);
+	return TVec2i(w, h);
+}
+
 TResources* TDirector::GetResources()
 {
 	return p->resources.get();

@@ -18,6 +18,7 @@ public:
 	TBaluBoxShape* CreateBoxShape(float width, float height);
 };
 
+
 class TBaluWorld : public EngineInterface::IBaluWorld
 {
 private:
@@ -30,13 +31,15 @@ private:
 
 	TBaluPhysShapeFactory shape_factory;
 
-	
-
 	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_down_callbacks;
 	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_up_callbacks;
 	std::vector<CallbackWithData<MouseMoveCallback>> mouse_move_callbacks;
+
+	//TScreen screen;
 public:
 
+	//void SetScreen(const TScreen& screen);
+	
 	bool TryFindClass(char* class_name, TBaluClass*& result);
 	bool TryFindClass(char* class_name, EngineInterface::IBaluClass*& result);
 

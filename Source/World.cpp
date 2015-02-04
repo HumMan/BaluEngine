@@ -20,6 +20,26 @@ TBaluBoxShape* TBaluPhysShapeFactory::CreateBoxShape(float width, float height)
 	return new TBaluBoxShape(width, height);
 }
 
+//void TScreen::AddView(TView view)
+//{
+//	views.push_back(view);
+//}
+//
+//int TScreen::GetViewsCount()
+//{
+//	return views.size();
+//}
+//
+//TView TScreen::GetView(int i)
+//{
+//	return views[i];
+//}
+//
+//void TScreen::RemoveView(int i)
+//{
+//	views.erase(views.begin()+i);
+//}
+
 bool TBaluWorld::TryFindClass(char* class_name, TBaluClass*& result)
 {
 	auto iter = classes.find(class_name);

@@ -19,5 +19,6 @@ namespace EngineInterface
 		virtual void MainLoop()=0;
 		virtual IResources* GetResources()=0;
 		virtual std::string GetBasePath() = 0;
+		virtual TVec2i GetScreenSize() = 0;
 	};
 }

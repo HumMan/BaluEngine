@@ -44,6 +44,10 @@ private:
 
 	TLayersManager layers;
 public:
+
+	TVec2 FromViewportToScene(TViewport* viewport, TVec2 viewport_coord);
+	TVec2 FromSceneToViewport(TViewport* viewport, TVec2 scene_coord);
+
 	TViewport* CreateViewport(std::string name);
 
 	std::string GetName();
