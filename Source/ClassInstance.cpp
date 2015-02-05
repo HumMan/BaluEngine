@@ -175,27 +175,27 @@ TBaluTransform TBaluClassPhysBodyIntance::GetTransform()
 
 void TBaluInstance::DoKeyDown(TKey key)
 {
-	auto it = instance_class->one_key_down_callbacks.find(key);
-	if (it != instance_class->one_key_down_callbacks.end())
+	auto it = instance_class->on_key_down_callbacks.find(key);
+	if (it != instance_class->on_key_down_callbacks.end())
 	{
 		for (int i = 0; i < it->second.size();i++)
-			it->second[i](this);
+			it->second[i].Execute(this);
 	}
 }
 
 void TBaluInstance::DoKeyUp(TKey key)
 {
-	auto it = instance_class->one_key_up_callbacks.find(key);
-	if (it != instance_class->one_key_up_callbacks.end())
+	auto it = instance_class->on_key_up_callbacks.find(key);
+	if (it != instance_class->on_key_up_callbacks.end())
 	{
 		for (int i = 0; i < it->second.size(); i++)
-			it->second[i](this);
+			it->second[i].Execute(this);
 	}
 }
 
 void TBaluInstance::DoBeforePhysicsStep()
 {
-	for (const KeyUpDownCallback& i : instance_class->before_physics_callbacks)
+	for (const BeforePhysicsCallback& i : instance_class->before_physics_callbacks)
 	{
 		i(this);
 	}

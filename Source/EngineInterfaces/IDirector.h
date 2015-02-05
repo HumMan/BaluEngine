@@ -15,6 +15,7 @@ namespace EngineInterface
 	public:
 		virtual void SetWorldInstance(IBaluWorldInstance* world_instance)=0;
 		virtual void SetRenderWorldCallback(RenderWorldCallback callback)=0;
+		virtual void SetSymulatePhysics(bool enable)=0;
 		virtual int Initialize()=0;
 		virtual void MainLoop()=0;
 		virtual IResources* GetResources()=0;

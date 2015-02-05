@@ -8,7 +8,7 @@ using namespace EngineInterface;
 
 std::string base_path;
 
-void PlayerJump(IBaluInstance* object)
+void PlayerJump(TCallbackData* data, IBaluInstance* object)
 {
 
 	if (object->GetProperties()->GetBool("can_jump"))
@@ -19,7 +19,7 @@ void PlayerJump(IBaluInstance* object)
 	}
 }
 
-void PlayerLeft(IBaluInstance* object)
+void PlayerLeft(TCallbackData* data, IBaluInstance* object)
 {
 	float mult = (object->GetProperties()->GetBool("can_jump")) ? 1 : 0.8;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
@@ -27,7 +27,7 @@ void PlayerLeft(IBaluInstance* object)
 	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 
-void PlayerRight(IBaluInstance* object)
+void PlayerRight(TCallbackData* data, IBaluInstance* object)
 {
 	float mult = (object->GetProperties()->GetBool("can_jump")) ? 1 : 0.8;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
@@ -35,7 +35,7 @@ void PlayerRight(IBaluInstance* object)
 	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 
-void BonesPlayerLeft(IBaluInstance* object)
+void BonesPlayerLeft(TCallbackData* data, IBaluInstance* object)
 {
 	object->GetSkeletonAnimation()->PlayAnimation("walk", 1);
 }
@@ -172,9 +172,9 @@ IBaluWorld* CreateDemoWorld()
 
 	auto sensor = player_class->GetPhysBody()->CreateSensor(world->GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -2.5))->GetPhysShape());
 
-	player_class->OnKeyDown(TKey::Up, PlayerJump);
-	player_class->OnKeyDown(TKey::Left, PlayerLeft);
-	player_class->OnKeyDown(TKey::Right, PlayerRight);
+	player_class->OnKeyDown(TKey::Up, CallbackWithData<KeyUpDownCallback>(PlayerJump, &world->GetCallbacksActiveType()));
+	player_class->OnKeyDown(TKey::Left, CallbackWithData<KeyUpDownCallback>(PlayerLeft, &world->GetCallbacksActiveType()));
+	player_class->OnKeyDown(TKey::Right, CallbackWithData<KeyUpDownCallback>(PlayerRight, &world->GetCallbacksActiveType()));
 
 	player_class->OnBeforePhysicsStep(PlayerPrePhysStep);
 	//player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
@@ -182,7 +182,7 @@ IBaluWorld* CreateDemoWorld()
 	player_class->OnEndContact(sensor, PlayerJumpSensorEndCollide);
 
 	auto bones_player = world->CreateClass("bones");
-	bones_player->OnKeyDown(TKey::Left, BonesPlayerLeft);
+	bones_player->OnKeyDown(TKey::Left, CallbackWithData<KeyUpDownCallback>(BonesPlayerLeft, &world->GetCallbacksActiveType()));
 	bones_player->OnBeforePhysicsStep(BonesPlayerPrePhysStep);
 	{
 		auto bones_mat = world->CreateMaterial("zombie");
@@ -383,6 +383,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	auto demo_world = CreateDemoWorld();
 
+	demo_world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
+
 	screen = new TScreen(director->GetScreenSize());
 
 	main_viewport_view = TView(TVec2(0, 0), TVec2(1, 1));
@@ -395,7 +397,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	director->SetWorldInstance(demo_world_instance);
 	director->SetRenderWorldCallback(RenderWorld);
-
+	director->SetSymulatePhysics(false);
 	director->MainLoop();
 
 	return 0;

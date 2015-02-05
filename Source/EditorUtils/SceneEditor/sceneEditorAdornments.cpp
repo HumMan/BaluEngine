@@ -31,9 +31,9 @@ TClassInstanceAdornment::~TClassInstanceAdornment()
 
 }
 
-void ClassInstanceAdornmentCustomDraw(NVGcontext* vg, TCustomDrawCommand* params)
+void ClassInstanceAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
 {
-	auto state = (TClassInstanceAdornmentPrivate*)params->command.user_data;
+	auto state = (TClassInstanceAdornmentPrivate*)data->GetUserData();
 	//if (state->visible)
 	{
 		//auto transform = params->poly->GetGlobalTransform();
@@ -62,7 +62,7 @@ EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(IBaluWorld* wo
 	auto adornment_class = world->CreateClass("SceneEditorAdornment");
 	auto adornment_sprite = world->CreateSprite("SceneEditorAdornment_custom_draw_sprite");
 	//adornment_sprite->GetPolygone()->SetEnable(false);
-	adornment_sprite->GetPolygone()->OnCustomDraw(ClassInstanceAdornmentCustomDraw);
+	adornment_sprite->GetPolygone()->OnCustomDraw(CallbackWithData<TCustomDrawCallback>(ClassInstanceAdornmentCustomDraw, &world->GetCallbacksActiveType(), nullptr, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;

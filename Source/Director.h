@@ -21,6 +21,9 @@ public:
 	void SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance);
 	void SetRenderWorldCallback(RenderWorldCallback callback);
 	int Initialize();
+
+	void SetSymulatePhysics(bool enable);
+
 	void MainLoop();
 	TResources* GetResources();
 	~TDirector();

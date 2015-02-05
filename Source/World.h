@@ -36,8 +36,13 @@ private:
 	std::vector<CallbackWithData<MouseMoveCallback>> mouse_move_callbacks;
 
 	//TScreen screen;
+	TCallbacksActiveType callback_active_type;
 public:
-
+	TBaluWorld();
+	TCallbacksActiveType& GetCallbacksActiveType()
+	{
+		return callback_active_type;
+	}
 	//void SetScreen(const TScreen& screen);
 	
 	bool TryFindClass(char* class_name, TBaluClass*& result);
@@ -54,10 +59,7 @@ public:
 
 	//void OnKeyDown(TKey key, KeyDownCallback callback);
 
-	void OnMouseDown(MouseUpDownCallback);
-	void OnMouseDown(MouseUpDownCallback, void* user_data);
-	void OnMouseUp(MouseUpDownCallback);
-	void OnMouseUp(MouseUpDownCallback, void* user_data);
-	void OnMouseMove(MouseMoveCallback);
-	void OnMouseMove(MouseMoveCallback, void* user_data);
+	void OnMouseDown(CallbackWithData<MouseUpDownCallback>);
+	void OnMouseUp(CallbackWithData<MouseUpDownCallback>);
+	void OnMouseMove(CallbackWithData<MouseUpDownCallback>);
 };

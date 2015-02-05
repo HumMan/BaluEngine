@@ -19,7 +19,7 @@ enum TKey :int
 	Down
 };
 
-typedef void(*KeyUpDownCallback)(EngineInterface::IBaluInstance* object);
+typedef void(*KeyUpDownCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
 
 typedef void(*BeforePhysicsCallback)(EngineInterface::IBaluInstance* object);
 typedef void(*SensorCollideCallback)(EngineInterface::IBaluInstance* source, EngineInterface::ISensorInstance* sensor, EngineInterface::IBaluInstance* obstacle, EngineInterface::IBaluPhysShapeInstance* obstacle_shape);
@@ -121,8 +121,8 @@ namespace EngineInterface
 		virtual IBaluClassPhysBody* GetPhysBody()=0;
 		virtual ISkeleton* GetSkeleton()=0;
 
-		virtual void OnKeyDown(TKey key, KeyUpDownCallback callback) = 0;
-		virtual void OnKeyUp(TKey key, KeyUpDownCallback callback) = 0;
+		virtual void OnKeyDown(TKey key, CallbackWithData<KeyUpDownCallback> callback) = 0;
+		virtual void OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback) = 0;
 
 		virtual void OnBeforePhysicsStep(BeforePhysicsCallback callback) = 0;
 		virtual void OnBeginContact(ISensor* sensor, SensorCollideCallback callback) = 0;

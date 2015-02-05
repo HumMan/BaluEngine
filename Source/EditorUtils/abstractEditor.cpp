@@ -1,8 +1,8 @@
 #include "abstractEditor.h"
 
-void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location, void* user_data)
+void OnMouseMove(TCallbackData* data, TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	TAbstractEditor* ed = (TAbstractEditor*)user_data;
+	TAbstractEditor* ed = (TAbstractEditor*)data->GetUserData();
 	if (ed->current_local_editor != nullptr)
 	{
 	}
@@ -14,9 +14,9 @@ void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location, void* user_data
 	}
 }
 
-void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location, void* user_data)
+void OnMouseDown(TCallbackData* data, TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	TAbstractEditor* ed = (TAbstractEditor*)user_data;
+	TAbstractEditor* ed = (TAbstractEditor*)data->GetUserData();
 	if (ed->current_local_editor != nullptr)
 	{
 	}
@@ -28,9 +28,9 @@ void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location, void* user_data
 	}
 }
 
-void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location, void* user_data)
+void OnMouseUp(TCallbackData* data, TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	TAbstractEditor* ed = (TAbstractEditor*)user_data;
+	TAbstractEditor* ed = (TAbstractEditor*)data->GetUserData();
 	if (ed->current_local_editor != nullptr)
 	{
 	}
@@ -44,9 +44,9 @@ void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location, void* user_data)
 
 void TAbstractEditor::InitializeControls(IBaluWorld* world)
 {
-	world->OnMouseMove(OnMouseMove, this);
-	world->OnMouseDown(OnMouseDown, this);
-	world->OnMouseUp(OnMouseUp, this);
+	world->OnMouseMove(CallbackWithData<MouseUpDownCallback>(OnMouseMove, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->OnMouseDown(CallbackWithData<MouseUpDownCallback>(OnMouseDown, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->OnMouseUp(CallbackWithData<MouseUpDownCallback>(OnMouseUp, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
 }
 
 void TAbstractEditor::DeinitializeControls()

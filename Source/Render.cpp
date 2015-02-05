@@ -48,7 +48,7 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 	auto vg_context = GetContext();
 	for (int i = 0; i < custom_draw_commands.size(); i++)
 	{
-		custom_draw_commands[i].command.callback(vg_context, &custom_draw_commands[i]);
+		custom_draw_commands[i].command.Execute(vg_context, &custom_draw_commands[i]);
 	}
 
 	end_frame();

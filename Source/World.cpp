@@ -40,6 +40,11 @@ TBaluBoxShape* TBaluPhysShapeFactory::CreateBoxShape(float width, float height)
 //	views.erase(views.begin()+i);
 //}
 
+TBaluWorld::TBaluWorld()
+{
+	callback_active_type.active_type = 0;
+}
+
 bool TBaluWorld::TryFindClass(char* class_name, TBaluClass*& result)
 {
 	auto iter = classes.find(class_name);
@@ -133,32 +138,17 @@ TBaluPhysShapeFactory* TBaluWorld::GetPhysShapeFactory()
 	return &shape_factory;
 }
 
-void TBaluWorld::OnMouseDown(MouseUpDownCallback callback)
+void TBaluWorld::OnMouseDown(CallbackWithData<MouseUpDownCallback> callback)
 {
-	mouse_down_callbacks.emplace_back(callback);
+	mouse_down_callbacks.push_back(callback);
 }
 
-void TBaluWorld::OnMouseDown(MouseUpDownCallback callback, void* user_data)
+void TBaluWorld::OnMouseUp(CallbackWithData<MouseUpDownCallback> callback)
 {
-	mouse_down_callbacks.emplace_back(callback, user_data);
+	mouse_up_callbacks.push_back(callback);
 }
 
-void TBaluWorld::OnMouseUp(MouseUpDownCallback callback)
+void TBaluWorld::OnMouseMove(CallbackWithData<MouseUpDownCallback> callback)
 {
-	mouse_up_callbacks.emplace_back(callback);
-}
-
-void TBaluWorld::OnMouseUp(MouseUpDownCallback callback, void* user_data)
-{
-	mouse_up_callbacks.emplace_back(callback, user_data);
-}
-
-void TBaluWorld::OnMouseMove(MouseMoveCallback callback)
-{
-	mouse_move_callbacks.emplace_back(callback);
-}
-
-void TBaluWorld::OnMouseMove(MouseMoveCallback callback, void* user_data)
-{
-	mouse_move_callbacks.emplace_back(callback, user_data);
+	mouse_move_callbacks.push_back(callback);
 }

@@ -25,15 +25,15 @@ struct TMouseEventArgs
 	}
 };
 
-typedef void(*MouseUpDownCallback)(TMouseEventArgs e, TVec2 world_cursor_location, void* user_data);
-typedef void(*MouseMoveCallback)(TMouseEventArgs e, TVec2 world_cursor_location, void* user_data);
+typedef void(*MouseUpDownCallback)(TCallbackData* callback, TMouseEventArgs e, TVec2 world_cursor_location);
+typedef void(*MouseMoveCallback)(TCallbackData* callback, TMouseEventArgs e, TVec2 world_cursor_location);
 
 namespace EngineInterface
 {
 	class IBaluWorld
 	{
 	public:
-
+		virtual TCallbacksActiveType& GetCallbacksActiveType() = 0;
 		virtual bool TryFindClass(char* class_name, IBaluClass*& result)=0;
 
 		virtual IBaluMaterial* CreateMaterial(char* mat_name) = 0;
@@ -48,12 +48,9 @@ namespace EngineInterface
 		//void OnKeyDown(TKey key, KeyDownCallback callback);
 		//void OnKeyUp(TKey key, KeyDownCallback callback);
 
-		virtual void OnMouseDown(MouseUpDownCallback) = 0;
-		virtual void OnMouseDown(MouseUpDownCallback, void* user_data) = 0;
-		virtual void OnMouseUp(MouseUpDownCallback) = 0;
-		virtual void OnMouseUp(MouseUpDownCallback, void* user_data) = 0;
-		virtual void OnMouseMove(MouseMoveCallback) = 0;
-		virtual void OnMouseMove(MouseMoveCallback, void* user_data) = 0;
+		virtual void OnMouseDown(CallbackWithData<MouseUpDownCallback>) = 0;
+		virtual void OnMouseUp(CallbackWithData<MouseUpDownCallback>) = 0;
+		virtual void OnMouseMove(CallbackWithData<MouseUpDownCallback>) = 0;
 		
 	};
 }

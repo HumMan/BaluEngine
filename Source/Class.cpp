@@ -161,14 +161,14 @@ void TBaluClass::SetAnimationTime()
 
 }
 
-void TBaluClass::OnKeyDown(TKey key, KeyUpDownCallback callback)
+void TBaluClass::OnKeyDown(TKey key, CallbackWithData<KeyUpDownCallback> callback)
 {
-	one_key_down_callbacks[key].push_back(callback);
+	on_key_down_callbacks[key].push_back(callback);
 }
 
-void TBaluClass::OnKeyUp(TKey key, KeyUpDownCallback callback)
+void TBaluClass::OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback)
 {
-	one_key_up_callbacks[key].push_back(callback);
+	on_key_up_callbacks[key].push_back(callback);
 }
 
 

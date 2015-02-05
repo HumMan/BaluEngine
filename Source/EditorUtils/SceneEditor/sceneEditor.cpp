@@ -9,6 +9,7 @@ TSceneEditor::TSceneEditor() :tools_registry(&scene)
 
 void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance)
 {
+	InitializeControls(world);
 	//auto adornment_class = CreateEditorClasses(this, world);
 
 	scene.Initialize(world, source_scene, source_scene_instance);

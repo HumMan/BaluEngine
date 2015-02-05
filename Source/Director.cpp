@@ -36,6 +36,8 @@ public:
 	TBaluWorldInstance* world_instance;
 
 	RenderWorldCallback render_world_callback;
+
+	bool physics_sym;
 };
 
 class TBaluEngineInternal
@@ -46,14 +48,20 @@ public:
 
 void TDirector::Step(float step)
 {
-	p->world_instance->OnPrePhysStep();
-	p->world_instance->PhysStep(step);
+	if (p->physics_sym)
+	{
+		p->world_instance->OnPrePhysStep();
+		p->world_instance->PhysStep(step);
 
+	}
 	p->world_instance->UpdateTransform();
 
 	p->render_world_callback(p->world_instance, p->render.get());
 
-	p->world_instance->OnProcessCollisions();
+	if (p->physics_sym)
+	{
+		p->world_instance->OnProcessCollisions();
+	}
 
 	p->world_instance->OnStep(step);
 
@@ -80,11 +88,17 @@ void TDirector::SetRenderWorldCallback(RenderWorldCallback callback)
 	p->render_world_callback = callback;
 }
 
+void TDirector::SetSymulatePhysics(bool enable)
+{
+	p->physics_sym = enable;
+}
+
 int TDirector::Initialize()
 {
 
 	p->base_path = SDL_GetBasePath();
 
+	p->physics_sym = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{ /* Initialize SDL's Video subsystem */

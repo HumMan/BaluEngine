@@ -39,8 +39,7 @@ private:
 	std::vector<CallbackWithData<TCustomDrawCallback>> custom_draw_callbacks;
 public:
 
-	void OnCustomDraw(TCustomDrawCallback callback);
-	void OnCustomDraw(TCustomDrawCallback callback, void* user_data);
+	void OnCustomDraw(CallbackWithData<TCustomDrawCallback> callback);
 
 	bool IsCustomDraw()
 	{

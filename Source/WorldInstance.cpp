@@ -77,7 +77,7 @@ void TBaluWorldInstance::MouseDown(TMouseEventArgs e, TVec2 world_cursor_locatio
 {
 	for (auto& v : source->mouse_down_callbacks)
 	{
-		v.callback(e, world_cursor_location, v.user_data);
+		v.Execute(e, world_cursor_location);
 	}
 }
 
@@ -85,7 +85,7 @@ void TBaluWorldInstance::MouseMove(TMouseEventArgs e, TVec2 world_cursor_locatio
 {
 	for (auto& v : source->mouse_move_callbacks)
 	{
-		v.callback(e, world_cursor_location, v.user_data);
+		v.Execute(e, world_cursor_location);
 	}
 }
 
@@ -93,7 +93,7 @@ void TBaluWorldInstance::MouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 {
 	for (auto& v : source->mouse_up_callbacks)
 	{
-		v.callback(e, world_cursor_location, v.user_data);
+		v.Execute(e, world_cursor_location);
 	}
 }
 

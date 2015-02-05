@@ -38,29 +38,69 @@ namespace EngineInterface
 	class IBaluSpritePolygonInstance;
 }
 
-class TCustomDrawCommand;
-
-typedef void(*TCustomDrawCallback)(NVGcontext* vg, TCustomDrawCommand* params);
-
-template<class T>
-class CallbackWithData
+class TCallbacksActiveType
 {
 public:
-	T callback;
+	enum
+	{
+		DEFAULT = 0,
+		EDITOR = 1
+	};
+	int active_type;
+};
+
+class TCallbackData
+{
+protected:
 	void* user_data;
-	CallbackWithData(){}
-	CallbackWithData(T callback, void* user_data)
+	int callback_type;
+	TCallbacksActiveType* active_type;
+public:
+	void* GetUserData()
 	{
-		this->callback = callback;
-		this->user_data = user_data;
-	}
-	CallbackWithData(T callback)
-	{
-		this->callback = callback;
-		this->user_data = nullptr;
+		return user_data;
 	}
 };
 
+template<class T>
+class CallbackWithData :public TCallbackData
+{
+private:
+	T callback;
+public:
+	template<typename... Args>
+	void Execute(Args... args)
+	{
+		if (active_type->active_type==callback_type)
+			callback(this, args...);
+	}
+	CallbackWithData(){}
+	CallbackWithData(T callback, TCallbacksActiveType* active_type, void* user_data, int callback_type)
+	{
+		this->callback = callback;
+		this->user_data = user_data;
+		this->callback_type = callback_type;
+		this->active_type = active_type;
+	}
+	CallbackWithData(T callback, TCallbacksActiveType* active_type, void* user_data)
+	{
+		this->callback = callback;
+		this->user_data = user_data;
+		this->callback_type = 0;
+		this->active_type = active_type;
+	}
+	CallbackWithData(T callback, TCallbacksActiveType* active_type)
+	{
+		this->callback = callback;
+		this->user_data = nullptr;
+		this->callback_type = 0;
+		this->active_type = active_type;
+	}
+};
+
+class TCustomDrawCommand;
+
+typedef void(*TCustomDrawCallback)(TCallbackData* callback, NVGcontext* vg, TCustomDrawCommand* params);
 
 class TView
 {
