@@ -226,6 +226,9 @@
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorTools.h">
       <Filter>EditorUtils\SceneEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EditorUtils\EditorControlsModel.h">
+      <Filter>EditorUtils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">

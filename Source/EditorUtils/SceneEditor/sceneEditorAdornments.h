@@ -8,6 +8,17 @@ using namespace EngineInterface;
 
 class TClassInstanceAdornmentPrivate;
 
+class TClassInstanceAdornmentStateItem
+{
+
+};
+
+class TClassInstanceAdornmentState
+{
+public:
+
+};
+
 class TClassInstanceAdornment
 {
 	std::unique_ptr<TClassInstanceAdornmentPrivate> p;

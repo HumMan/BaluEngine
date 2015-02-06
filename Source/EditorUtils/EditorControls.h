@@ -2,17 +2,7 @@
 
 #include <baluLib.h>
 
-//#include "DrawingHelper.h"
-#include "abstractEditor.h"
-
-class TEditorControl
-{
-public:
-	virtual float GetDistance(TVec2 pos) = 0;
-	//virtual void Render(TDrawingHelper* drawing_helper)=0;
-	virtual void SetPosition(TVec2 position) = 0;
-	virtual TVec2 GetPosition() = 0;
-};
+#include "EditorControlsModel.h"
 
 class TEditorObjectControls
 {

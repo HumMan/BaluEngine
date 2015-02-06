@@ -2,43 +2,15 @@
 
 #include "EditorControls.h"
 
-class TJointAdornment : public TEditorObjectControls
-{
-protected:
-public:
-};
-
-enum class TControlType
-{
-	Pivot,
-	Resize,
-	Rotate
-};
-
-class TBoundaryBoxControlPoint: public TEditorControlPoint
-{
-public:
-	TControlType type;
-	int x_resize;
-	int y_resize;
-	TBoundaryBoxControlPoint(){}
-	TBoundaryBoxControlPoint(TControlType type, int x_resize, int y_resize, TVec2 pos)
-	{
-		SetPosition(pos);
-		this->type = type;
-		this->x_resize = x_resize;
-		this->y_resize = y_resize;
-	}
-};
-
 class TBoundaryBoxAdornment : public TEditorObjectControls
 {
 protected:
 	TOBB<float, 2> start_edit_boundary;
-	TOBB<float, 2> boundary;
 	bool box_under_cursor;
 	int point_under_cursor;
-	std::vector<TBoundaryBoxControlPoint> controls;
+
+	TOBBAdornment boundary;
+	std::vector<TPointAdornment> controls;
 public:
 	TBoundaryBoxAdornment();
 	TBoundaryBoxAdornment(TOBB<float, 2> boundary);

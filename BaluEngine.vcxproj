@@ -94,6 +94,7 @@
     <ClInclude Include="Source\EditorUtils\BoundaryEditor.h" />
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h" />
     <ClInclude Include="Source\EditorUtils\EditorControls.h" />
+    <ClInclude Include="Source\EditorUtils\EditorControlsModel.h" />
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditor.h" />
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.h" />
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorScene.h" />
