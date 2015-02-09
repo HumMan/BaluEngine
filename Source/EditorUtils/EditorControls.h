@@ -7,15 +7,7 @@
 class TEditorObjectControls
 {
 private:
-	enum class TState
-	{
-		None,
-		ControlMove,
-	} state;
-
-	int control_under_cursor;
-	TVec2 start_move_cursor_pos;
-	TVec2 start_move_control_pos;
+	
 
 	std::vector<TEditorControl*> control_points;
 public:

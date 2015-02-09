@@ -2,8 +2,8 @@
 
 #include <list>
 #include <vector>
-#include "../BaluLib/Source/Math/vec.h"
-#include "../BaluLib/Source/Math/matrix.h"
+#include "../../BaluLib/Source/Math/vec.h"
+#include "../../BaluLib/Source/Math/matrix.h"
 
 #include "Sprite.h"
 

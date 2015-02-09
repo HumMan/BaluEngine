@@ -6,9 +6,9 @@ enum class TPointAdornmentType
 {
 	Move,
 	Resize,
-	ResizeOneDim,
+	//ResizeOneDim,
 	Scale,
-	ScaleOneDim,
+	//ScaleOneDim,
 	Rotate
 };
 
@@ -17,25 +17,32 @@ class TDrawingHelper;
 class TEditorControl
 {
 public:
-	virtual float GetDistance(TVec2 pos) = 0;
+	virtual float GetDistance(TVec2 pos)const = 0;
 	//virtual void Render(TDrawingHelper* drawing_helper)=0;
 	virtual void SetPosition(TVec2 position) = 0;
-	virtual TVec2 GetPosition() = 0;
-	virtual void UpdateView(TDrawingHelper* helper) = 0;
+	virtual TVec2 GetPosition()const = 0;
+	virtual void Render(TDrawingHelper* helper)const = 0;
 };
 
 class TPointAdornment : public TEditorControl
 {
 public:
-	TVec2 pos;
 	TPointAdornmentType type;
 	int x_resize;
 	int y_resize;
+	TVec2 pos;
 
-	float GetDistance(TVec2 pos);
+	TPointAdornment(TPointAdornmentType type, int x_resize, int y_resize, TVec2 pos)
+	{
+		this->type = type;
+		this->x_resize = x_resize;
+		this->y_resize = y_resize;
+		this->pos = pos;
+	}
+	float GetDistance(TVec2 pos)const;
 	void SetPosition(TVec2 position);
-	TVec2 GetPosition();
-	void UpdateView(TDrawingHelper* helper);
+	TVec2 GetPosition()const;
+	void Render(TDrawingHelper* helper)const;
 };
 
 class TOBBAdornment : public TEditorControl
@@ -43,8 +50,8 @@ class TOBBAdornment : public TEditorControl
 public:
 	TOBB2 box;
 
-	float GetDistance(TVec2 pos);
+	float GetDistance(TVec2 pos)const;
 	void SetPosition(TVec2 position);
-	TVec2 GetPosition();
-	void UpdateView(TDrawingHelper* helper);
+	TVec2 GetPosition()const;
+	void Render(TDrawingHelper* helper)const;
 };

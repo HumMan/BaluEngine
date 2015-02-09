@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "../BaluLib/Source/Math/vec.h"
-#include "../BaluLib/Source/Math/matrix.h"
+#include "../../BaluLib/Source/Math/vec.h"
+#include "../../BaluLib/Source/Math/matrix.h"
 
 #include <box2D.h>
 

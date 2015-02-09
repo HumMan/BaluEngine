@@ -3,8 +3,8 @@
 #include "Class.h"
 #include "Layers.h"
 
-#include "../BaluLib/Source/BVolumes/AABB.h"
-#include "../BaluLib/Source/BVolumes/OBB.h"
+#include "../../BaluLib/Source/BVolumes/AABB.h"
+#include "../../BaluLib/Source/BVolumes/OBB.h"
 
 class TViewport : public EngineInterface::IViewport
 {

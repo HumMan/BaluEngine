@@ -10,7 +10,7 @@
 
 using namespace EngineInterface;
 
-#include "nanovg.h"
+
 
 class TClassInstanceAdornmentPrivate
 {

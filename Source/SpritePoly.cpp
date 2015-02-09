@@ -6,7 +6,7 @@
 
 #include <IL/ilut.h>
 
-#include "../poly2tri/poly2tri/poly2tri.h"
+#include "../../poly2tri/poly2tri/poly2tri.h"
 
 std::vector<int> FramesRange(int start, int end)
 {

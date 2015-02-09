@@ -2,21 +2,23 @@
 
 void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)
 {
-	TBoundaryBoxControlPoint p = controls[changed_control];
+	TPointAdornment p = controls[changed_control];
 	TVec2 diff = new_pos - p.GetPosition();
 	auto old_boundary = boundary;
 	switch (controls[changed_control].type)
 	{
-	case TControlType::Pivot:
-		boundary.SetPos(new_pos);
+	case TPointAdornmentType::Move:
+		boundary.SetPosition(new_pos);
 		UpdatePointsPos();
+		OnChange->BoxMove(old_boundary.box.pos, boundary.box.pos);
 		break;
-	case TControlType::Resize:
+	//case TPointAdornmentType::ResizeOneDim:
+	case TPointAdornmentType::Resize:
 	{
 		TAABB<float, 2> source_b = start_edit_boundary.GetLocalAABB();
-		TAABB<float, 2> old_b = boundary.GetLocalAABB();
+		TAABB<float, 2> old_b = boundary.box.GetLocalAABB();
 
-		TVec2 local_diff = boundary.GetOrient().TransMul(diff);
+		TVec2 local_diff = boundary.box.GetOrient().TransMul(diff);
 
 		if (p.x_resize == -1)
 			local_diff[0] = -local_diff[0];
@@ -33,24 +35,25 @@ void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)
 			local_diff[1] = local_diff[1];
 
 		old_b.Extend(local_diff);
-		boundary.SetAABB(old_b);
+		boundary.box.SetAABB(old_b);
 
 		UpdatePointsPos();
+		OnChange->BoxResize(old_boundary.box, boundary.box);
 	}
 		break;
-	case TControlType::Rotate:
+	case TPointAdornmentType::Rotate:
 	{
-		TVec2 rot_pos = boundary.GetPos();
+		TVec2 rot_pos = boundary.GetPosition();
 		TVec2 xb = (new_pos - rot_pos).GetNormalized();
-		boundary.SetOrient(TMatrix2(xb, xb.Cross()));
+		boundary.box.SetOrient(TMatrix2(xb, xb.Cross()));
 		UpdatePointsPos();
+		OnChange->BoxRotate(old_boundary.box, boundary.box);
 	}
 		break;
 	default:
 		assert(false);
 		break;
 	}
-	OnBoxChange(old_boundary, boundary);
 }
 
 //void TBoundaryBoxAdornment::Render(TDrawingHelper* drawing_helper)
@@ -70,7 +73,7 @@ bool TBoundaryBoxAdornment::IsCollide(TVec2 point)
 	const float point_select_threshold = 0.3;
 	float nearest_point_dist = 0;
 	float nearest_point_id = GetNearestControl(point, nearest_point_dist);
-	bool obj_collide = boundary.PointCollide(cursor_pos);
+	bool obj_collide = boundary.box.PointCollide(cursor_pos);
 	if (nearest_point_id != -1 && nearest_point_dist < point_select_threshold)
 	{
 		box_under_cursor = false;
@@ -93,18 +96,18 @@ bool TBoundaryBoxAdornment::IsCollide(TVec2 point)
 
 void TBoundaryBoxAdornment::UpdatePointsPos()
 {
-	for (TBoundaryBoxControlPoint& p : controls)
+	for (TPointAdornment& p : controls)
 	{
 		switch (p.type)
 		{
-		case TControlType::Pivot:
-			p.SetPosition(boundary.GetPos());
+		case TPointAdornmentType::Move:
+			p.SetPosition(boundary.box.GetPos());
 			break;
-		case TControlType::Resize:
+		case TPointAdornmentType::Resize:
 		{
-			TAABB<float, 2> aabb = boundary.GetLocalAABB();
-			TMatrix<float, 2> or = boundary.GetOrient();
-			TVec2 pos = boundary.GetPos();
+			TAABB<float, 2> aabb = boundary.box.GetLocalAABB();
+			TMatrix<float, 2> or = boundary.box.GetOrient();
+			TVec2 pos = boundary.box.GetPos();
 			TVec2 new_pos = p.GetPosition();
 			if (p.x_resize == -1)
 				new_pos[0] = aabb[0][0];
@@ -123,11 +126,11 @@ void TBoundaryBoxAdornment::UpdatePointsPos()
 			p.SetPosition(or*new_pos + pos);
 		}
 			break;
-		case TControlType::Rotate:
+		case TPointAdornmentType::Rotate:
 		{
-			TAABB<float, 2> aabb = boundary.GetLocalAABB();
-			TMatrix<float, 2> or = boundary.GetOrient();
-			TVec2 pos = boundary.GetPos();
+			TAABB<float, 2> aabb = boundary.box.GetLocalAABB();
+			TMatrix<float, 2> or = boundary.box.GetOrient();
+			TVec2 pos = boundary.box.GetPos();
 			TVec2 new_pos = p.GetPosition();
 
 			if (p.x_resize == -1)
@@ -153,54 +156,76 @@ void TBoundaryBoxAdornment::UpdatePointsPos()
 	}
 }
 
-std::vector<TBoundaryBoxControlPoint> InitControlPointsByBoundary(TOBB<float, 2> boundary)
+std::vector<TPointAdornment> InitControlPointsByBoundary(TOBB<float, 2> boundary)
 {
-	std::vector<TBoundaryBoxControlPoint> control_points;
-	control_points.emplace_back(TControlType::Pivot, 0, 0, boundary.GetPos());
+	std::vector<TPointAdornment> control_points;
+	control_points.emplace_back(TPointAdornmentType::Move, 0, 0, boundary.GetPos());
 
-	control_points.emplace_back(TControlType::Resize, 1, 1, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, 1, 0, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, 1, -1, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, 0, 1, boundary.GetPos());
+	control_points.emplace_back(TPointAdornmentType::Resize, 1, 1, boundary.GetPos());
+	control_points.emplace_back(TPointAdornmentType::Resize, 1, 0, boundary.GetPos());
+	control_points.emplace_back(TPointAdornmentType::Resize, 1, -1, boundary.GetPos());
+	control_points.emplace_back(TPointAdornmentType::Resize, 0, 1, boundary.GetPos());
 
-	control_points.emplace_back(TControlType::Resize, 0, -1, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, -1, 1, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, -1, 0, boundary.GetPos());
-	control_points.emplace_back(TControlType::Resize, -1, -1, boundary.GetPos());
+	control_points.emplace_back(TPointAdornmentType::Resize, 0, -1, boundary.GetPos());
+	control_points.emplace_back(TPointAdornmentType::Resize, -1, 1, boundary.GetPos());
+	control_points.emplace_back(TPointAdornmentType::Resize, -1, 0, boundary.GetPos());
+	control_points.emplace_back(TPointAdornmentType::Resize, -1, -1, boundary.GetPos());
 
-	control_points.emplace_back(TControlType::Rotate, 1, 0, boundary.GetPos());
+	control_points.emplace_back(TPointAdornmentType::Rotate, 1, 0, boundary.GetPos());
 	return control_points;
 }
 
 TBoundaryBoxAdornment::TBoundaryBoxAdornment()
 {
+	control_under_cursor = -1;
+	state = TState::None;
+	boundary.box = TOBB<float, 2>(TVec2(0, 0), TMatrix2::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(4, 2)));
 
-	boundary = TOBB<float, 2>(TVec2(0, 0), TMatrix2::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(4, 2)));
-
-	controls = InitControlPointsByBoundary(boundary);
-	for (TBoundaryBoxControlPoint& p : controls)
-		AddControl(&p);
+	controls = InitControlPointsByBoundary(boundary.box);
 
 	UpdatePointsPos();
 }
+
+int TBoundaryBoxAdornment::GetNearestControl(TVec2 cursor_pos, float& distance)const
+{
+	const float point_select_threshold = 0.3;
+	float nearest_point_dist = 0;
+	float nearest_point_id = -1;
+	for (int i = 0; i < controls.size(); i++)
+	{
+		float dist = controls[i].GetDistance(cursor_pos);
+		if (dist < nearest_point_dist || nearest_point_id == -1)
+		{
+			nearest_point_id = i;
+			nearest_point_dist = dist;
+		}
+	}
+	if (nearest_point_id != -1)
+	{
+		return nearest_point_id;
+	}
+	return -1;
+}
+
+
+
 TBoundaryBoxAdornment::TBoundaryBoxAdornment(TOBB<float, 2> boundary)
 {
-	this->boundary = boundary;
+	control_under_cursor = -1;
+	state = TState::None;
+	this->boundary.box = boundary;
 
 	controls = InitControlPointsByBoundary(boundary);
-	for (TBoundaryBoxControlPoint& p : controls)
-		AddControl(&p);
 
 	UpdatePointsPos();
 }
 TBoundaryBoxAdornment::TBoundaryBoxAdornment(TVec2 pos)
 {
+	control_under_cursor = -1;
+	state = TState::None;
+	boundary.box = TOBB<float, 2>(pos, TMatrix2::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(4, 2)));
 
-	boundary = TOBB<float, 2>(pos, TMatrix2::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(4, 2)));
-
-	controls = InitControlPointsByBoundary(boundary);
-	for (TBoundaryBoxControlPoint& p : controls)
-		AddControl(&p);
+	controls = InitControlPointsByBoundary(boundary.box);
 
 	UpdatePointsPos();
 }
@@ -209,65 +234,54 @@ bool TBoundaryBoxAdornment::OnStartBoxMove(int changed_box_control, TVec2 new_po
 {
 	return true;
 }
-void TBoundaryBoxAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
-{
-
-}
 
 void TBoundaryBoxAdornment::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	TEditorObjectControls::OnMouseDown(e, world_cursor_location);
+	if (state == TState::None)
+	{
+		if (control_under_cursor != -1)
+		{
+			state = TState::ControlMove;
+			start_move_control_pos = controls[control_under_cursor].GetPosition();
+			start_move_cursor_pos = world_cursor_location;
+		}
+	}
 }
+
 void TBoundaryBoxAdornment::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	box_under_cursor = boundary.PointCollide(world_cursor_location);
-	TEditorObjectControls::OnMouseMove(e, world_cursor_location);
+	if (state == TState::None)
+	{
+		float dist = 0;
+		control_under_cursor = GetNearestControl(world_cursor_location, dist);
+		//auto nearest
+		//if (nearest_point_id != -1 && nearest_point_dist < point_select_threshold)
+		//{
+		//	control_under_cursor = control_points[nearest_point_id];
+		//}
+		//Collide(cursor_pos);
+	}
+	else if (state == TState::ControlMove)
+	{
+		if (control_under_cursor != -1)
+		{
+			TVec2 new_pos = start_move_control_pos + (world_cursor_location - start_move_control_pos);
+			//control_points[control_under_cursor]->SetPosition(new_pos);
+			OnControlMove(control_under_cursor, new_pos);
+		}
+	}
 }
 void TBoundaryBoxAdornment::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	TEditorObjectControls::OnMouseUp(e, world_cursor_location);
+	if (state == TState::None)
+	{
+	}
+	else if (state == TState::ControlMove)
+	{
+		state = TState::None;
+	}
 }
 bool TBoundaryBoxAdornment::IsCursorCaptured()
 {
-	return TEditorObjectControls::IsCursorCaptured();
-}
-
-TBoundaryBoxesModifyTool::TBoundaryBoxesModifyTool(TBoundaryBoxScene* boundary_box_scene)
-{
-	this->boundary_box_scene = boundary_box_scene;
-}
-
-void TBoundaryBoxesModifyTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : boundary_box_scene->boundaries)
-	{
-		box->IsCollide(world_cursor_location);
-		if (box->IsCollideWithAdornment(world_cursor_location))
-			box->OnMouseDown(e, world_cursor_location);
-	}
-}
-
-void TBoundaryBoxesModifyTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	boundary_box_scene->boundary_under_cursor = nullptr;
-	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : boundary_box_scene->boundaries)
-	{
-		if (box->IsCollideWithAdornment(world_cursor_location))
-		{
-			boundary_box_scene->boundary_under_cursor = box.get();
-		}
-		box->OnMouseMove(e, world_cursor_location);
-	}
-}
-void TBoundaryBoxesModifyTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	for (const std::unique_ptr<TBoundaryBoxAdornment>& box : boundary_box_scene->boundaries)
-	{
-		//box->IsCollide(world_cursor_location);
-		box->OnMouseUp(e, world_cursor_location);
-	}
-}
-
-void TBoundaryBoxesModifyTool::Render(TDrawingHelper* drawing_helper)
-{
+	return state != TState::None;
 }

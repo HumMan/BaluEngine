@@ -19,6 +19,10 @@ class TSceneEditorScene// : public TBoundaryBoxScene
 	IBaluInstance* selected_instance;
 
 	std::unique_ptr<TClassInstanceAdornment> adornment_instance;
+
+	//std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
+	//std::vector<TBoundaryBoxAdornment*> selected_boundaries; //TODO
+	//TBoundaryBoxAdornment* boundary_under_cursor;
 public:
 	void Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance);
 };

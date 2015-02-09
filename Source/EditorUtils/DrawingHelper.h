@@ -1,14 +1,22 @@
 
 #pragma once
 
+class NVGcontext;
+
+class TPointAdornment;
+class TOBBAdornment;
+
+#include "../EngineInterfaces/IMaterial.h"
+
 class TDrawingHelper
 {
+	NVGcontext* context;
 public:
-	TDrawingHelper(NVGcontext* vg);
-	void SetTransform();
+	TDrawingHelper(NVGcontext* context);
+	void SetTransform(TBaluTransform transform);
 
-	void Render(TPointAdornment*);
-	void Render(TOBBAdornment*);
+	void Render(const TPointAdornment*);
+	void Render(const TOBBAdornment*);
 };
 
 //class TDrawingHelper

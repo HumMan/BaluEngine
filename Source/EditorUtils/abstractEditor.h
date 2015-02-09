@@ -4,15 +4,18 @@
 
 #include "Tools.h"
 
-#include <boost/signals2.hpp>
-#include <boost/bind.hpp>
-
 #include "..\EngineInterfaces\IProperties.h"
 #include "..\EngineInterfaces\IWorld.h"
 
 #include "..\EditorInterfaces.h"
 
 using namespace EngineInterface;
+
+class TEditorSelectionChangedListener
+{
+public:
+	void SelectionChanged(IProperties* old_selection, IProperties* new_selection);
+};
 
 class TAbstractEditor: public EngineInterface::IAbstractEditor
 {
@@ -27,7 +30,7 @@ public:
 
 public:
 
-	boost::signals2::signal<void(IProperties* old_selection, IProperties* new_selection)> OnSelectionChanged;
+	TEditorSelectionChangedListener* OnSelectionChanged;
 
 	TAbstractEditor()
 	{
