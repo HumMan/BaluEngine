@@ -93,7 +93,6 @@
     <ClInclude Include="Source\EditorUtils\abstractEditor.h" />
     <ClInclude Include="Source\EditorUtils\BoundaryEditor.h" />
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h" />
-    <ClInclude Include="Source\EditorUtils\EditorControls.h" />
     <ClInclude Include="Source\EditorUtils\EditorControlsModel.h" />
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditor.h" />
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.h" />
@@ -163,10 +162,6 @@
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\EditorUtils\EditorControls.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\EditorControlsModel.cpp" />
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditor.cpp" />

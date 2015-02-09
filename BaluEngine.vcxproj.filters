@@ -208,9 +208,6 @@
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h">
       <Filter>EditorUtils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EditorUtils\EditorControls.h">
-      <Filter>EditorUtils</Filter>
-    </ClInclude>
     <ClInclude Include="Source\EditorUtils\Tools.h">
       <Filter>EditorUtils</Filter>
     </ClInclude>
@@ -337,9 +334,6 @@
       <Filter>EditorUtils</Filter>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp">
-      <Filter>EditorUtils</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EditorUtils\EditorControls.cpp">
       <Filter>EditorUtils</Filter>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditor.cpp">

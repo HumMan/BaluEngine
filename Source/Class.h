@@ -10,6 +10,7 @@
 #include "EngineInterfaces\IClass.h"
 #include "EngineInterfaces\ISpriteInstance.h"
 
+//TODO определиться в какой СК передавать координаты курсора мыши
 typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);
 
 

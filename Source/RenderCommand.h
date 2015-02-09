@@ -105,8 +105,8 @@ typedef void(*TCustomDrawCallback)(TCallbackData* callback, NVGcontext* vg, TCus
 class TView
 {
 	//TODO заменить на матрицу ориентации и масштабирование
-	TVec2 pos;
-	TVec2 size;
+	TVec2 pos; //центр вида в координатах экрана
+	TVec2 size; //ширина и высота в координатах экрана
 	//EngineInterface::IViewport* viewport;
 public:
 	TView(){}
@@ -149,9 +149,10 @@ public:
 	//TView GetView(int i);
 	//void RemoveView(int i);
 
+	//координаты view_coord x (0,1) y (0,1)
 	TVec2 FromViewToScreen(TView view, TVec2 view_coord)
 	{
-		return view_coord.ComponentMul(view.GetSize()) + view.GetPos();
+		return (view_coord-TVec2(0.5,0.5)).ComponentMul(view.GetSize()*0.5) + view.GetPos();
 	}
 	TVec2 FromScreenToView(TView view, TVec2 screen_coord)
 	{
@@ -181,8 +182,8 @@ public:
 	TVec2 FromScreenPixels2(TVec2i coord)
 	{
 		return TVec2(
-			coord[0] / size[0],
-			1 - coord[1] / size[1]
+			(float)coord[0] / size[0],
+			1 - (float)coord[1] / size[1]
 			);
 	}
 };

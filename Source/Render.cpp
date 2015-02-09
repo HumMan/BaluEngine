@@ -10,6 +10,8 @@
 
 #include "MaterialInstance.h"
 
+#include <nanovg.h>
+
 using namespace TBaluRenderEnums;
 
 TRender::TRender(TBaluRender* internal_render)
@@ -42,10 +44,25 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 	}
 	//glDisable(GL_DEPTH_TEST);
 
+	auto vg_context = GetContext();
 	//render_test();
 	begin_frame();
 
-	auto vg_context = GetContext();
+	//nvgBeginPath(vg_context);
+	//nvgRoundedRect(vg_context, 10, 10, 500, 500, 5);
+	//nvgFillColor(vg_context, nvgRGBA(28, 30, 34, 192));
+	////	nvgFillColor(vg, nvgRGBA(0,0,0,128));
+	//nvgFill(vg_context);
+
+	//nvgFontSize(vg_context, 168.0f);
+	//nvgFontFace(vg_context, "sans-bold");
+	//nvgTextAlign(vg_context, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+
+	////nvgFontBlur(vg_context, 2);
+	//nvgFillColor(vg_context, nvgRGBA(220, 220, 220, 160));
+	//nvgText(vg_context, 200, 200, "TEST", NULL);
+
+	//
 	for (int i = 0; i < custom_draw_commands.size(); i++)
 	{
 		custom_draw_commands[i].command.Execute(vg_context, &custom_draw_commands[i]);
@@ -63,5 +80,5 @@ void TRender::SetScissorRect(TScreen screen, TView view)
 {
 	auto p0 = screen.ToScreenPixels(screen.FromViewToScreen(view, TVec2(0, 0)));
 	auto p1 = screen.ToScreenPixels(screen.FromViewToScreen(view, TVec2(1, 1)));
-	render->ScissorRect.Box(p0, p1);
+	//render->ScissorRect.Box(p0, p1);
 }

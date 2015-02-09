@@ -35,6 +35,10 @@ public:
 		{
 			this->transform = transform;
 		}
+		TBaluTransform GetTransform()
+		{
+			return transform;
+		}
 	};
 private:
 	std::vector<std::unique_ptr<TClassInstance>> instances;
@@ -45,8 +49,8 @@ private:
 	TLayersManager layers;
 public:
 
-	TVec2 FromViewportToScene(TViewport* viewport, TVec2 viewport_coord);
-	TVec2 FromSceneToViewport(TViewport* viewport, TVec2 scene_coord);
+	TVec2 FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord);
+	TVec2 FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord);
 
 	TViewport* CreateViewport(std::string name);
 

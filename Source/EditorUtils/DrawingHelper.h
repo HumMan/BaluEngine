@@ -3,17 +3,32 @@
 
 class NVGcontext;
 
+namespace EngineInterface
+{
+	class IBaluScene;
+	class IViewport;
+}
+class TScreen;
 class TPointAdornment;
 class TOBBAdornment;
+class TView;
 
 #include "../EngineInterfaces/IMaterial.h"
 
 class TDrawingHelper
 {
 	NVGcontext* context;
+	EngineInterface::IBaluScene* scene;
+	EngineInterface::IViewport* viewport;
+	TView* view;
+	TScreen* screen;
+	//TBaluTransform transform;
 public:
-	TDrawingHelper(NVGcontext* context);
-	void SetTransform(TBaluTransform transform);
+	TDrawingHelper(TScreen* screen, TView* view, EngineInterface::IViewport* viewport, EngineInterface::IBaluScene* scene);
+	//void SetTransform(TBaluTransform transform);
+
+	TVec2 FromScreenPixelsToScene(TVec2i screen_pixels);
+	TVec2i FromSceneToScreenPixels(TVec2 scene_coordinates);
 
 	void Render(const TPointAdornment*);
 	void Render(const TOBBAdornment*);

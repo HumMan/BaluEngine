@@ -55,3 +55,9 @@ public:
 	TVec2 GetPosition()const;
 	void Render(TDrawingHelper* helper)const;
 };
+
+class IVisualAdornment
+{
+public:
+	virtual std::vector<TEditorControl*> Render() = 0;
+};

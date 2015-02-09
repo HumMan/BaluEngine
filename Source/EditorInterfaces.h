@@ -77,5 +77,5 @@ namespace EngineInterface
 	inline IAbstractEditor::~IAbstractEditor() { }
 }
 
-BALUENGINEDLL_API EngineInterface::IAbstractEditor* CreateSceneEditor(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* source_scene, EngineInterface::IBaluSceneInstance* source_scene_instance);
+BALUENGINEDLL_API EngineInterface::IAbstractEditor* CreateSceneEditor(TScreen* screen, TView* view, EngineInterface::IViewport* viewport, EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* source_scene, EngineInterface::IBaluSceneInstance* source_scene_instance);
 BALUENGINEDLL_API void DestroySceneEditor(EngineInterface::IAbstractEditor*);

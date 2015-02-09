@@ -11,17 +11,20 @@
 
 using namespace EngineInterface;
 
+#include "../DrawingHelper.h"
+
 class TSceneEditor :public TAbstractEditor
 {
 
 	TSceneEditorScene scene;
 	TSceneEditorToolsRegistry tools_registry;
+	std::unique_ptr<TDrawingHelper> drawing_helper;
 public:
 	TSceneEditor();
 	//void StartEdit(TBaluClassDef* use_Class);
 	//void EndEdit();
 
-	void Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance);
+	void Initialize(TScreen* screen, TView* view, IViewport* viewport, IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance);
 
 	//override:
 	//void Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_global_pos);

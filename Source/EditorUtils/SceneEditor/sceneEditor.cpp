@@ -7,12 +7,12 @@ TSceneEditor::TSceneEditor() :tools_registry(&scene)
 	active_tool = nullptr;
 }
 
-void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance)
+void TSceneEditor::Initialize(TScreen* screen, TView* view, IViewport* viewport, IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance)
 {
 	InitializeControls(world);
 	//auto adornment_class = CreateEditorClasses(this, world);
-
-	scene.Initialize(world, source_scene, source_scene_instance);
+	drawing_helper = std::make_unique<TDrawingHelper>(screen,view, viewport, source_scene);
+	scene.Initialize(world, source_scene, source_scene_instance, drawing_helper.get());
 	//for (int i = 0; i < obj->GetInstancesCount();i++)
 	//{
 		//auto v = obj->GetInstance(i);

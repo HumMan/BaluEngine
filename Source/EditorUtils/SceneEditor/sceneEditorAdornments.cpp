@@ -10,15 +10,18 @@
 
 using namespace EngineInterface;
 
-
+#include "../EditorControlsModel.h"
+#include "../DrawingHelper.h"
 
 class TClassInstanceAdornmentPrivate
 {
 	friend class TClassInstanceAdornment;
-	friend void ClassInstanceAdornmentCustomDraw(NVGcontext* vg, TCustomDrawCommand* params);
+	friend void ClassInstanceAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool visible;
+	IVisualAdornment* visual;
+	TDrawingHelper* drawing_helper;
 };
 
 IBaluInstance* TClassInstanceAdornment::GetInstance()
@@ -36,47 +39,35 @@ void ClassInstanceAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCust
 	auto state = (TClassInstanceAdornmentPrivate*)data->GetUserData();
 	//if (state->visible)
 	{
-		//auto transform = params->poly->GetGlobalTransform();
-		auto transform = TBaluTransform(TVec2(200,200), TRot(0));
-
-		float cornerRadius = 3.0f;
-		NVGpaint shadowPaint;
-		NVGpaint headerPaint;
-
-		nvgBeginPath(vg);
-		//TODO from scene space to screen
-		//nvgCircle(vg, transform.position[0], transform.position[1], 4.0f);
-		nvgCircle(vg, transform.position[0], transform.position[1], 5.0f);
-		nvgFillColor(vg, nvgRGBA(0, 160, 192, 255));
-		nvgFill(vg);
-
-		nvgBeginPath(vg);
-		nvgCircle(vg, transform.position[0], transform.position[1], 3.0f);
-		nvgFillColor(vg, nvgRGBA(220, 220, 220, 255));
-		nvgFill(vg);
+		auto items = state->visual->Render();
+		for (auto& v : items)
+			v->Render(state->drawing_helper);
 	}
 }
 
-EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene)
+EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TClassInstanceAdornmentPrivate* data)
 {
 	auto adornment_class = world->CreateClass("SceneEditorAdornment");
 	auto adornment_sprite = world->CreateSprite("SceneEditorAdornment_custom_draw_sprite");
 	//adornment_sprite->GetPolygone()->SetEnable(false);
-	adornment_sprite->GetPolygone()->OnCustomDraw(CallbackWithData<TCustomDrawCallback>(ClassInstanceAdornmentCustomDraw, &world->GetCallbacksActiveType(), nullptr, TCallbacksActiveType::EDITOR));
+	adornment_sprite->GetPolygone()->OnCustomDraw(CallbackWithData<TCustomDrawCallback>(ClassInstanceAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;
 }
 
-TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneInstance* scene_instance)
+TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneInstance* scene_instance, IVisualAdornment* visual, TDrawingHelper* drawing_helper)
 {
 	p = std::make_unique<TClassInstanceAdornmentPrivate>();
+
+	p->visual = visual;
+	p->drawing_helper = drawing_helper;
 
 	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
 	IBaluClass* adornment_class;
 	if (!world->TryFindClass("SceneEditorAdornment", adornment_class))
 	{
-		adornment_class = CreateClass(world, scene_instance->GetSource());
+		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 	}
 		
 	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0,0), TRot(0)));

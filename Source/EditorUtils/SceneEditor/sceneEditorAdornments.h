@@ -8,23 +8,26 @@ using namespace EngineInterface;
 
 class TClassInstanceAdornmentPrivate;
 
-class TClassInstanceAdornmentStateItem
-{
+//class TClassInstanceAdornmentStateItem
+//{
+//
+//};
+//
+//class TClassInstanceAdornmentState
+//{
+//public:
+//
+//};
 
-};
-
-class TClassInstanceAdornmentState
-{
-public:
-
-};
+class TDrawingHelper;
+class IVisualAdornment;
 
 class TClassInstanceAdornment
 {
 	std::unique_ptr<TClassInstanceAdornmentPrivate> p;
 public:
 
-	TClassInstanceAdornment(EngineInterface::IBaluSceneInstance* scene_instance);
+	TClassInstanceAdornment(EngineInterface::IBaluSceneInstance* scene_instance, IVisualAdornment* visual, TDrawingHelper* drawing_helper);
 
 	//IBaluSceneClassInstance* GetSource(){ return class_instance; }
 	//TClassInstanceAdornment(IBaluSceneClassInstance* class_instance);
@@ -33,7 +36,7 @@ public:
 	//bool IsCollideWithAdornment(TVec2 world_cursor_location);
 	//bool IsCollideWithObject(TVec2 world_cursor_location);
 
-	static EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene);
+	static EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TClassInstanceAdornmentPrivate* data);
 	IBaluInstance* GetInstance();
 	~TClassInstanceAdornment();
 };

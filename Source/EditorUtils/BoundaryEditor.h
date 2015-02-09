@@ -12,7 +12,7 @@ public:
 	virtual void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box) = 0;
 };
 
-class TBoundaryBoxAdornment
+class TBoundaryBoxAdornment : public IVisualAdornment
 {
 private:
 	TOBB<float, 2> start_edit_boundary;
@@ -42,12 +42,15 @@ private:
 	int GetNearestControl(TVec2 cursor_pos, float& distance)const;
 public:
 
+	std::vector<TEditorControl*> Render();
+
 	TBoundaryBoxChangeListener* OnChange;
 
 	TBoundaryBoxAdornment();
 	TBoundaryBoxAdornment(TOBB<float, 2> boundary);
 	TBoundaryBoxAdornment(TVec2 pos);
 
+	void SetBoundary(TOBB2 box);
 	virtual void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
 	virtual void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
 	virtual void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);

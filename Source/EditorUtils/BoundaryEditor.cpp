@@ -1,5 +1,15 @@
 #include "BoundaryEditor.h"
 
+std::vector<TEditorControl*> TBoundaryBoxAdornment::Render()
+{
+	std::vector<TEditorControl*> result;
+	result.reserve(controls.size() + 1);
+	for (auto& v : controls)
+		result.push_back(&v);
+	result.push_back(&boundary);
+	return result;
+}
+
 void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)
 {
 	TPointAdornment p = controls[changed_control];
@@ -227,6 +237,12 @@ TBoundaryBoxAdornment::TBoundaryBoxAdornment(TVec2 pos)
 
 	controls = InitControlPointsByBoundary(boundary.box);
 
+	UpdatePointsPos();
+}
+
+void TBoundaryBoxAdornment::SetBoundary(TOBB2 box)
+{
+	boundary.box = box;
 	UpdatePointsPos();
 }
 

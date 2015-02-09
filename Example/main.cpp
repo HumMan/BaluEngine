@@ -387,13 +387,15 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	screen = new TScreen(director->GetScreenSize());
 
-	main_viewport_view = TView(TVec2(0, 0), TVec2(1, 1));
+	main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
 
 	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources());
 	auto demo_scene = demo_world->GetScene("scene0");
 	scene_instance = demo_world_instance->RunScene(demo_scene);
 
-	auto scene_editor = CreateSceneEditor(demo_world, demo_scene, scene_instance);
+	auto scene_editor = CreateSceneEditor(screen, &main_viewport_view, main_viewport, demo_world, demo_scene, scene_instance);
+	auto& tools = scene_editor->GetAvailableTools();
+	scene_editor->SetActiveTool(tools[0].tool.get());
 
 	director->SetWorldInstance(demo_world_instance);
 	director->SetRenderWorldCallback(RenderWorld);

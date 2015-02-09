@@ -9,7 +9,7 @@ float TPointAdornment::GetDistance(TVec2 pos)const
 
 void TPointAdornment::SetPosition(TVec2 position)
 {
-	this->pos = pos;
+	this->pos = position;
 }
 
 TVec2 TPointAdornment::GetPosition()const

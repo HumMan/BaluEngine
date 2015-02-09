@@ -2,20 +2,68 @@
 
 #include "nanovg.h"
 
+#include "../EngineInterfaces/IScene.h"
 
-TDrawingHelper::TDrawingHelper(NVGcontext* vg)
+#include "../nanovg_support.h"
+
+#include "EditorControlsModel.h"
+
+using namespace EngineInterface;
+
+TDrawingHelper::TDrawingHelper(TScreen* screen, TView* view, IViewport* viewport, IBaluScene* scene)
 {
-
+	this->context = GetContext();
+	this->scene = scene;
+	this->viewport = viewport;
+	this->view = view;
+	this->screen = screen;
 }
 
-void TDrawingHelper::SetTransform()
+TVec2 TDrawingHelper::FromScreenPixelsToScene(TVec2i screen_pixels)
 {
-
+	
+	auto screen_coords = screen->FromScreenPixels2(screen_pixels);
+	auto view_coord = screen->FromScreenToView(*view, screen_coords);
+	auto scene_coord = scene->FromViewportToScene(viewport, view_coord);
+	return scene_coord;
 }
 
-void TDrawingHelper::Render(const TPointAdornment*)
+TVec2i TDrawingHelper::FromSceneToScreenPixels(TVec2 scene_coordinates)
 {
+	auto viewport_coord = scene->FromSceneToViewport(viewport, scene_coordinates);
+	auto screen_coord = screen->FromViewToScreen(*view, viewport_coord);
+	auto screen_pixels = screen->ToScreenPixels(screen_coord);
+	return screen_pixels;
+}
 
+//
+//void TDrawingHelper::SetTransform(TBaluTransform transform)
+//{
+//	this->transform = transform;
+//}
+
+void TDrawingHelper::Render(const TPointAdornment* p)
+{
+	auto c = FromSceneToScreenPixels(p->pos);
+
+	//auto transform = params->poly->GetGlobalTransform();
+	auto transform = TBaluTransform(TVec2(c[0], c[1]), TRot(0));
+
+	float cornerRadius = 3.0f;
+	NVGpaint shadowPaint;
+	NVGpaint headerPaint;
+
+	nvgBeginPath(context);
+	//TODO from scene space to screen
+	//nvgCircle(vg, transform.position[0], transform.position[1], 4.0f);
+	nvgCircle(context, transform.position[0], transform.position[1], 5.0f);
+	nvgFillColor(context, nvgRGBA(0, 160, 192, 255));
+	nvgFill(context);
+
+	nvgBeginPath(context);
+	nvgCircle(context, transform.position[0], transform.position[1], 3.0f);
+	nvgFillColor(context, nvgRGBA(220, 220, 220, 255));
+	nvgFill(context);
 }
 
 void TDrawingHelper::Render(const TOBBAdornment*)

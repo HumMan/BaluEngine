@@ -20,11 +20,16 @@ namespace EngineInterface
 	public:
 		virtual ~IBaluSceneClassInstance(){}
 		virtual void SetTransform(TBaluTransform transform) = 0;
+		virtual TBaluTransform GetTransform() = 0;
 	};
 
 	class IBaluScene
 	{
 	public:
+
+		virtual TVec2 FromViewportToScene(IViewport* viewport, TVec2 viewport_coord)=0;
+		virtual TVec2 FromSceneToViewport(IViewport* viewport, TVec2 scene_coord)=0;
+
 		virtual IViewport* CreateViewport(std::string name)=0;
 
 		virtual std::string GetName() = 0;

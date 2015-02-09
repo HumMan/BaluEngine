@@ -100,7 +100,7 @@ void render_test()
 
 void begin_frame()
 {
-	nvgBeginFrame(vg, 500, 500, 1);
+	nvgBeginFrame(vg, 512, 512, 1);
 }
 
 void end_frame()
