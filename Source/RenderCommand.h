@@ -156,7 +156,7 @@ public:
 	}
 	TVec2 FromScreenToView(TView view, TVec2 screen_coord)
 	{
-		return (screen_coord - view.GetPos()) / view.GetSize();
+		return ((screen_coord - view.GetPos()) / view.GetSize()) + TVec2(0.5,0.5);
 	}
 	TVec2i ToScreenPixels(TVec2 coord)
 	{

@@ -42,6 +42,8 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 			render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
 		}
 	}
+
+	render->Blend.Enable(false);
 	//glDisable(GL_DEPTH_TEST);
 
 	auto vg_context = GetContext();

@@ -339,7 +339,7 @@ IBaluWorld* CreateDemoWorld()
 	main_viewport = scene0->CreateViewport("main_viewport");
 	main_viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
 	main_viewport->SetAspectRatio(1);
-	main_viewport->SetWidth(5);
+	main_viewport->SetWidth(20);
 
 	return world;
 }
