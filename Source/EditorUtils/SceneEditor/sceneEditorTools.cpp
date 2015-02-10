@@ -46,10 +46,15 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor
 		scene_editor_scene->source_scene_instance->GetWorld()->GetSource()->TryFindClass("player", pl);
 
 		auto transform = TBaluTransform(scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location),TRot(0));
-		auto world = scene_editor_scene->source_scene_instance->CreateInstance(pl, transform);
-		auto new_class_instance = scene_editor_scene->source_scene_instance->CreateInstance(pl, transform);
 
+		auto new_source_scene_instance = scene_editor_scene->source_scene->CreateInstance(pl);
+		new_source_scene_instance->SetTransform(transform);
+		scene_editor_scene->selected_instance_source = new_source_scene_instance;
+
+		auto new_class_instance = scene_editor_scene->source_scene_instance->CreateInstance(pl, transform);
+		scene_editor_scene->selected_instance = new_class_instance;
 		//new_class_instance->instance_transform.position = world_cursor_location;
+
 		//new_class_instance->instance_transform.angle.Set(0);
 		//new_class_instance->instance_class = active_tool_class;
 		//scene_editor_scene->balu_scene->instances.push_back(std::unique_ptr<TBaluInstanceDef>(new_class_instance));

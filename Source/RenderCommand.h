@@ -152,7 +152,7 @@ public:
 	//координаты view_coord x (0,1) y (0,1)
 	TVec2 FromViewToScreen(TView view, TVec2 view_coord)
 	{
-		return (view_coord-TVec2(0.5,0.5)).ComponentMul(view.GetSize()*0.5) + view.GetPos();
+		return (view_coord-TVec2(0.5,0.5)).ComponentMul(view.GetSize()) + view.GetPos();
 	}
 	TVec2 FromScreenToView(TView view, TVec2 screen_coord)
 	{

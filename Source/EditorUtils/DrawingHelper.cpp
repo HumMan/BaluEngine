@@ -32,7 +32,7 @@ TVec2i TDrawingHelper::FromSceneToScreenPixels(TVec2 scene_coordinates)
 {
 	auto viewport_coord = scene->FromSceneToViewport(viewport, scene_coordinates);
 	auto screen_coord = screen->FromViewToScreen(*view, viewport_coord);
-	auto screen_pixels = screen->ToScreenPixels(screen_coord);
+	auto screen_pixels = screen->ToScreenPixels2(screen_coord);
 	return screen_pixels;
 }
 

@@ -2,13 +2,13 @@
 
 TVec2 TBaluScene::FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord)
 {
-	return viewport_coord.ComponentMul(viewport->GetAABB().GetSize()) + viewport->GetAABB().GetPosition();
+	return ((viewport_coord - TVec2(0.5, 0.5))).ComponentMul(viewport->GetAABB().GetSize()) + viewport->GetAABB().GetPosition();
 }
 
 TVec2 TBaluScene::FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord)
 {
 	//return (scene_coord - viewport->GetAABB().GetPosition()) / viewport->GetAABB().GetSize();
-	return ((scene_coord - viewport->GetAABB().GetPosition()) / viewport->GetAABB().GetSize())*0.5+TVec2(0.5,0.5);
+	return ((scene_coord - viewport->GetAABB().GetPosition()) / viewport->GetAABB().GetSize())+TVec2(0.5,0.5);
 }
 
 void TViewport::SetTransform(TBaluTransform transform)
