@@ -66,9 +66,33 @@ void TDrawingHelper::Render(const TPointAdornment* p)
 	nvgFill(context);
 }
 
-void TDrawingHelper::Render(const TOBBAdornment*)
+void TDrawingHelper::Render(const TOBBAdornment* box)
 {
+	
 
+	//auto transform = params->poly->GetGlobalTransform();
+	//auto transform = TBaluTransform(TVec2(c[0], c[1]), TRot(0));
+
+	std::vector<TVec2> vertices;
+	vertices.reserve(8);
+	box->box.DrawLines(vertices);
+
+	nvgBeginPath(context);
+	nvgLineCap(context, NVG_ROUND);
+	nvgLineJoin(context, NVG_ROUND);
+	nvgStrokeWidth(context, 5);
+	nvgStrokeColor(context, nvgRGBA(220, 220, 220, 160));
+
+	for(int i=0;i<vertices.size();i+=2)
+	{
+		auto c0 = FromSceneToScreenPixels(vertices[i]);
+		auto c1 = FromSceneToScreenPixels(vertices[i+1]);
+
+		nvgMoveTo(context, c0[0], c0[1]);
+		nvgLineTo(context, c1[0], c1[1]);
+	}
+	
+	nvgStroke(context);
 }
 
 

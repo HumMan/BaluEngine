@@ -4,9 +4,9 @@ std::vector<TEditorControl*> TBoundaryBoxAdornment::Render()
 {
 	std::vector<TEditorControl*> result;
 	result.reserve(controls.size() + 1);
-	for (auto& v : controls)
-		result.push_back(&v);
 	result.push_back(&boundary);
+	for (auto& v : controls)
+		result.push_back(&v);	
 	return result;
 }
 

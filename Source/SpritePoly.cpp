@@ -8,6 +8,24 @@
 
 #include "../../poly2tri/poly2tri/poly2tri.h"
 
+TAABB2 TBaluSpritePolygon::GetVerticesBox()
+{
+	if (vertices.size() > 0)
+	{
+		TAABB2 box(vertices[0],TVec2(0));
+		for (int i = 1; i < vertices.size(); i++)
+			box += vertices[i];
+		return box;
+	}
+	else
+		return TAABB2(TVec2(0), TVec2(0));
+}
+
+TOBB2 TBaluSpritePolygon::GetBoundingBox()
+{
+	return local.ToGlobal(GetVerticesBox());
+}
+
 std::vector<int> FramesRange(int start, int end)
 {
 	if (end < start)
@@ -139,6 +157,7 @@ void TBaluSpritePolygon::SetPolygonFromTexture()
 			ilDeleteImage(handle);
 		}
 	}
+	TriangulateGeometry();
 }
 
 

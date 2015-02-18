@@ -31,13 +31,16 @@ private:
 
 	bool enable;
 
-	void SetPolygonFromTexture();
+	
 	void UpdatePolyVertices();
 	void TriangulateGeometry();
 
 	bool is_custom_draw;
 	std::vector<CallbackWithData<TCustomDrawCallback>> custom_draw_callbacks;
+	TAABB2 GetVerticesBox();
 public:
+
+	TOBB2 GetBoundingBox();
 
 	void OnCustomDraw(CallbackWithData<TCustomDrawCallback> callback);
 
@@ -65,7 +68,7 @@ public:
 	void SetMaterial(EngineInterface::IBaluMaterial* material);
 	void SetPolygonVertices(std::vector<TVec2> polygon_vertices);
 	void SetAsBox(float width, float height);
-
+	void SetPolygonFromTexture();
 	void SetVertices(std::vector<TVec2> vertices);
 	std::vector<TVec2> GetVertices();
 

@@ -14,7 +14,7 @@ namespace EngineInterface
 	class IBaluSpritePolygon
 	{
 	public:
-
+		virtual TOBB2 GetBoundingBox()=0;
 		virtual bool IsEnable() = 0;
 		virtual void SetEnable(bool enable)=0 ;
 		virtual void AddAnimDesc(TAnimDesc* desc) = 0;
@@ -25,7 +25,7 @@ namespace EngineInterface
 		virtual void SetMaterial(IBaluMaterial* material) = 0;
 		virtual void SetPolygonVertices(std::vector<TVec2> polygon_vertices) = 0;
 		virtual void SetAsBox(float width, float height) = 0;
-
+		virtual void SetPolygonFromTexture() = 0;
 		virtual void SetVertices(std::vector<TVec2> vertices) = 0;
 		virtual std::vector<TVec2> GetVertices() = 0;
 

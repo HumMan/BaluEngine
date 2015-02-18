@@ -145,6 +145,7 @@ IBaluWorld* CreateDemoWorld()
 	player_sprite->GetPolygone()->SetMaterial(player_mat);
 	//player_sprite->GetPolygone()->SetAsBox(20.0/8, 20.0/8);
 	player_sprite->GetPolygone()->SetAsBox(6, 6);
+	//player_sprite->GetPolygone()->SetPolygonFromTexture();
 	//player_sprite->GetPolygone()->SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
 	player_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(2.5)->GetPhysShape());
 	//player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));

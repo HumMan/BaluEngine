@@ -27,7 +27,7 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 	//render->AlphaTest.Func(TAlphaTestFunc::AT_GREATER, 0.9);
 	render->Blend.Enable(true);
 	render->Blend.Func(TBlendEquation::BE_SRC_ALPHA, TBlendFunc::BF_ADD, TBlendEquation::BE_ONE_MINUS_SRC_ALPHA);
-
+	//render->Set.PolygonMode(TBaluRenderEnums::TPolygonMode::Line);
 	for (int i = 0; i < render_commands.size(); i++)
 	{ 
 		auto& c = render_commands[i];
@@ -45,6 +45,8 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 
 	render->Blend.Enable(false);
 	//glDisable(GL_DEPTH_TEST);
+
+	render->Set.PolygonMode(TBaluRenderEnums::TPolygonMode::Fill);
 
 	auto vg_context = GetContext();
 	//render_test();

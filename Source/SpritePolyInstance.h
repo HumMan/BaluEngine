@@ -16,7 +16,7 @@ private:
 	TMaterialInstance material;
 	TBaluSpritePolygon* source;
 	
-	TBaluTransform local;
+	//TBaluTransform local;
 	TBaluTransform global;
 
 	//compiled geometry

@@ -20,7 +20,7 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 {
 	enable = source->enable;
 	this->source = source;
-	local = source->GetTransform();
+	//local = source->GetTransform();
 	vertices = source->GetVertices();
 	tex_coords = source->GetTexCoords();
 
@@ -106,14 +106,14 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransform parent)
 	if (source->animation_lines.size()>0)
 		UpdateAnimation();
 
-	global.position = parent.position + local.position;
-	global.angle = TRot(parent.angle.GetAngle() + local.angle.GetAngle());
+	global.position = parent.position + source->GetTransform().position;
+	global.angle = TRot(parent.angle.GetAngle() + source->GetTransform().angle.GetAngle());
 
 	vertices = source->GetVertices();
 
 	for (int i = 0; i < vertices.size(); i++)
 	{
-		vertices[i] = global.GetOrientation()*vertices[i] + global.position;
+		vertices[i] = global.ToGlobal(vertices[i]);
 	}
 }
 

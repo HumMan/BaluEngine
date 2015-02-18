@@ -43,6 +43,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaluEditor", "BaluEditor\BaluEditor.csproj", "{1ACBF9CD-D8FA-4B4C-9827-F6823A4E3FD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaluEngineWrapper", "BaluEngineWrapper\BaluEngineWrapper.vcxproj", "{56C5663D-7A3A-451F-B0AC-2AAB07ACC272}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF7F8607-DB68-49AD-91C8-DC817C303D85} = {FF7F8607-DB68-49AD-91C8-DC817C303D85}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

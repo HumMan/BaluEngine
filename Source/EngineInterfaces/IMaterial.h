@@ -2,6 +2,7 @@
 
 #include "../../BaluLib/Source/Math/vec.h"
 #include "../../BaluLib/Source/Math/matrix.h"
+#include "../../BaluLib/Source/BVolumes/OBB.h"
 
 #include <string>
 
@@ -58,6 +59,25 @@ public:
 	TMatrix2 GetOrientation()
 	{
 		return TMatrix2(angle.GetXAxis(), angle.GetYAxis());
+	}
+	TVec2 ToGlobal(TVec2 p)
+	{
+		return GetOrientation()*p + position;
+	}
+	TVec2 ToLocal(TVec2 p)
+	{
+		return GetOrientation().TransMul((p-position));
+	}
+
+	TOBB2 ToGlobal(TOBB2 box)
+	{
+		//TODO
+		return TOBB2(box.pos+position, GetOrientation()*box.orient, box.local);
+	}
+	TOBB2 ToGlobal(TAABB2 box)
+	{
+		//TODO
+		return TOBB2(position, GetOrientation(), box);
 	}
 };
 
