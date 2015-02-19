@@ -16,6 +16,7 @@ private:
 	int layer;
 
 public:
+
 	TBaluSprite();
 
 	std::string GetName();

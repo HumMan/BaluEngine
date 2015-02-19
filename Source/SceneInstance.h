@@ -38,6 +38,8 @@ private:
 	TBaluWorldInstance* world;
 public:
 
+	bool PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result);
+
 	TBaluScene* GetSource();
 	EngineInterface::IBaluWorldInstance* GetWorld();
 

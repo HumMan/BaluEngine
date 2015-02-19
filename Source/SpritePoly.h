@@ -42,6 +42,8 @@ public:
 
 	TOBB2 GetBoundingBox();
 
+	bool PointCollide(TVec2 sprite_space_point);
+
 	void OnCustomDraw(CallbackWithData<TCustomDrawCallback> callback);
 
 	bool IsCustomDraw()

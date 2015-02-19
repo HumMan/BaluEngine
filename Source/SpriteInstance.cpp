@@ -30,7 +30,7 @@ TAABB2 TBaluSpriteInstance::GetAABB()
 void TBaluSpriteInstance::UpdateTranform(TBaluTransform parent_transform)
 {
 
-	TMatrix2 global_orient(*(TVec2*)&parent_transform.angle.GetXAxis(), *(TVec2*)&parent_transform.angle.GetYAxis());
+	TMatrix2 global_orient(parent_transform.GetOrientation());
 	//global_orient.Transpose();
 
 	global.position = parent_transform.position + global_orient*local.position;

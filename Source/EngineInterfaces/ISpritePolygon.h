@@ -14,6 +14,8 @@ namespace EngineInterface
 	class IBaluSpritePolygon
 	{
 	public:
+
+		virtual bool PointCollide(TVec2 sprite_space_point)=0;
 		virtual TOBB2 GetBoundingBox()=0;
 		virtual bool IsEnable() = 0;
 		virtual void SetEnable(bool enable)=0 ;

@@ -67,7 +67,13 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor
 
 void TCreateClassInstanceTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-
+	world_cursor_location=scene_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(world_cursor_location[0], world_cursor_location[1]));
+	IBaluInstance* instance_collision(nullptr);
+	if (scene_editor_scene->source_scene_instance->PointCollide(world_cursor_location, instance_collision))
+	{
+		auto transform = instance_collision->GetTransform();
+		scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+	}
 }
 void TCreateClassInstanceTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 {

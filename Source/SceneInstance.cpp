@@ -2,6 +2,20 @@
 
 #include "WorldInstance.h"
 
+bool TBaluSceneInstance::PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result)
+{
+	for (int i = 0; i < instances.size(); i++)
+	{
+		bool collide = instances[i]->PointCollide(scene_space_point);
+		if (collide)
+		{
+			result = instances[i].get();
+			return true;
+		}
+	}
+	return false;
+}
+
 TBaluScene* TBaluSceneInstance::GetSource()
 {
 	return source;

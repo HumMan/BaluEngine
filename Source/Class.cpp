@@ -52,6 +52,18 @@ b2BodyDef TBaluClassPhysBody::GetBodyDef()
 	return body_def;
 }
 
+bool TBaluClass::PointCollide(TVec2 class_space_point)
+{
+	for (auto& s : sprites)
+	{
+		TVec2 p = s->local.ToLocal(class_space_point);
+		bool is_in_sprite = s->sprite->GetPolygone()->PointCollide(p);
+		if (is_in_sprite)
+			return true;
+	}
+	return false;
+}
+
 std::string TBaluClass::GetName()
 {
 	return class_name;

@@ -67,6 +67,8 @@ private:
 
 public:
 	
+	bool PointCollide(TVec2 scene_space_point);
+
 	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResources* resources);
 	void SetTransform(TBaluTransform transform);
 	TBaluTransform GetTransform();

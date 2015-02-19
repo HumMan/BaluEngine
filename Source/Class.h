@@ -113,6 +113,9 @@ private:
 	TSkeleton skeleton;
 	TSkeletonAnimation skeleton_animation;
 public:
+
+	bool PointCollide(TVec2 class_space_point);
+
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_down_callbacks;
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_up_callbacks;
 

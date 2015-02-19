@@ -12,6 +12,12 @@ void TSensorInstance::BuildFixture(b2Body* body)
 	shape->BuildFixture(body);
 }
 
+bool TBaluInstance::PointCollide(TVec2 scene_space_point)
+{
+	TVec2 p = instance_transform.ToLocal(scene_space_point);
+	return instance_class->PointCollide(p);
+}
+
 TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResources* resources) 
 	:skeleton(source->GetSkeleton(), this, resources), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
 {

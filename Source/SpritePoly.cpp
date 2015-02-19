@@ -26,6 +26,18 @@ TOBB2 TBaluSpritePolygon::GetBoundingBox()
 	return local.ToGlobal(GetVerticesBox());
 }
 
+bool TBaluSpritePolygon::PointCollide(TVec2 sprite_space_point)
+{
+	TVec2 p = this->local.ToLocal(sprite_space_point);
+	for (int i = 0; i < triangulated.size(); i += 3)
+	{
+		bool is_in = PointInTriangle(p, triangulated[i + 0], triangulated[i + 1], triangulated[i + 2]);
+		if (is_in)
+			return true;
+	}
+	return false;
+}
+
 std::vector<int> FramesRange(int start, int end)
 {
 	if (end < start)
