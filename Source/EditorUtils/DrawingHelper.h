@@ -32,6 +32,9 @@ public:
 
 	void Render(const TPointAdornment*);
 	void Render(const TOBBAdornment*);
+
+	//
+	void RenderBoxCountour(TOBB2 box);
 };
 
 //class TDrawingHelper

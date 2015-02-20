@@ -6,7 +6,7 @@
 
 using namespace EngineInterface;
 
-class TClassInstanceAdornmentPrivate;
+
 
 //class TClassInstanceAdornmentStateItem
 //{
@@ -21,6 +21,8 @@ class TClassInstanceAdornmentPrivate;
 
 class TDrawingHelper;
 class IVisualAdornment;
+
+class TClassInstanceAdornmentPrivate;
 
 class TClassInstanceAdornment
 {
@@ -37,6 +39,23 @@ public:
 	//bool IsCollideWithObject(TVec2 world_cursor_location);
 
 	static EngineInterface::IBaluClass* TClassInstanceAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TClassInstanceAdornmentPrivate* data);
-	IBaluInstance* GetInstance();
+	//IBaluInstance* GetInstance();
 	~TClassInstanceAdornment();
+};
+
+class TOBBContourPrivate;
+
+class TOBBContour
+{
+	std::unique_ptr<TOBBContourPrivate> p;
+public:
+
+	TOBBContour(IBaluSceneInstance* scene_instance, TDrawingHelper* drawing_helper);
+
+	void SetBox(TOBB2 box);
+
+	void SetEnable(bool enable);
+
+	static EngineInterface::IBaluClass* TOBBContour::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TOBBContourPrivate* data);
+	~TOBBContour();
 };

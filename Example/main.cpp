@@ -396,7 +396,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	auto scene_editor = CreateSceneEditor(screen, &main_viewport_view, main_viewport, demo_world, demo_scene, scene_instance);
 	auto& tools = scene_editor->GetAvailableTools();
-	scene_editor->SetActiveTool(tools[0].tool.get());
+	scene_editor->SetActiveTool(tools[1].tool.get());
 
 	director->SetWorldInstance(demo_world_instance);
 	director->SetRenderWorldCallback(RenderWorld);

@@ -25,7 +25,6 @@ public:
 	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
 	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
 	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
-	void Render(TDrawingHelper* drawing_helper);
 	void CancelOperation()
 	{
 
@@ -67,28 +66,63 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor
 
 void TCreateClassInstanceTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
 {
-	world_cursor_location=scene_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(world_cursor_location[0], world_cursor_location[1]));
-	IBaluInstance* instance_collision(nullptr);
-	if (scene_editor_scene->source_scene_instance->PointCollide(world_cursor_location, instance_collision))
-	{
-		auto transform = instance_collision->GetTransform();
-		scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
-	}
+	
 }
 void TCreateClassInstanceTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 {
 
 }
-void TCreateClassInstanceTool::Render(TDrawingHelper* drawing_helper)
-{
 
-}
+class TModifyClassInstanceTool : public IEditorTool
+{
+protected:
+	TSceneEditorScene* scene_editor_scene;
+	//TBaluClass* active_tool_class;
+public:
+	TWorldObjectType NeedObjectSelect()
+	{
+		return TWorldObjectType::None;
+	}
+	//void SetSelectedObject(TWorldObjectDef* obj)
+	//{
+	//	active_tool_class = dynamic_cast<TBaluClass*>(obj);
+	//}
+	TModifyClassInstanceTool(TSceneEditorScene* scene_editor_scene)
+	{
+		this->scene_editor_scene = scene_editor_scene;
+	}
+	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+	{
+
+	}
+	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
+	{
+		world_cursor_location = scene_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(world_cursor_location[0], world_cursor_location[1]));
+		IBaluInstance* instance_collision(nullptr);
+		if (scene_editor_scene->source_scene_instance->PointCollide(world_cursor_location, instance_collision))
+		{
+			auto transform = instance_collision->GetTransform();
+			//scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+
+			scene_editor_scene->boundary_box_contour->SetBox(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+		}
+		
+	}
+	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
+	{
+
+	}
+	void CancelOperation()
+	{
+
+	}
+};
 
 TSceneEditorToolsRegistry::TSceneEditorToolsRegistry(TSceneEditorScene* scene)
 {
 	this->scene = scene;
 	tools.emplace_back(new TCreateClassInstanceTool(scene), "Instance");
-	//tools.emplace_back(new TBoundaryBoxesModifyTool(scene), "Modify");
+	tools.emplace_back(new TModifyClassInstanceTool(scene), "Modify");
 }
 TSceneEditorToolsRegistry::TSceneEditorToolsRegistry(TSceneEditorToolsRegistry&& o)
 {

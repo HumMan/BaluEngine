@@ -3,6 +3,8 @@
 std::vector<TEditorControl*> TBoundaryBoxAdornment::Render()
 {
 	std::vector<TEditorControl*> result;
+	if (!enable)
+		return result;
 	result.reserve(controls.size() + 1);
 	result.push_back(&boundary);
 	for (auto& v : controls)
@@ -194,6 +196,8 @@ TBoundaryBoxAdornment::TBoundaryBoxAdornment()
 	controls = InitControlPointsByBoundary(boundary.box);
 
 	UpdatePointsPos();
+
+	enable = false;
 }
 
 int TBoundaryBoxAdornment::GetNearestControl(TVec2 cursor_pos, float& distance)const
@@ -253,6 +257,8 @@ bool TBoundaryBoxAdornment::OnStartBoxMove(int changed_box_control, TVec2 new_po
 
 void TBoundaryBoxAdornment::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
 {
+	if (!enable)
+		return;
 	if (state == TState::None)
 	{
 		if (control_under_cursor != -1)
@@ -266,6 +272,8 @@ void TBoundaryBoxAdornment::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_lo
 
 void TBoundaryBoxAdornment::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
 {
+	if (!enable)
+		return;
 	if (state == TState::None)
 	{
 		float dist = 0;
@@ -289,6 +297,8 @@ void TBoundaryBoxAdornment::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_lo
 }
 void TBoundaryBoxAdornment::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 {
+	if (!enable)
+		return;
 	if (state == TState::None)
 	{
 	}

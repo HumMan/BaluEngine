@@ -8,11 +8,13 @@ void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene, 
 	this->source_scene_instance = source_scene_instance;
 	this->drawing_helper = drawing_helper;
 
-	adornment_instance = std::make_unique<TClassInstanceAdornment>(source_scene_instance, &boundary_box, drawing_helper);
+	adornment_instance = std::make_unique<TClassInstanceAdornment>(source_scene_instance, (IVisualAdornment*)&boundary_box, drawing_helper);
+	boundary_box_contour = std::make_unique<TOBBContour>(source_scene_instance, drawing_helper);
+	//auto t = source_scene->GetInstance(0)->GetTransform();
 
-	auto t = source_scene->GetInstance(0)->GetTransform();
+	boundary_box.enable = false;
 
-	boundary_box.SetBoundary(TOBB2(t.position, t.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+	//boundary_box.SetBoundary(TOBB2(t.position, t.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
 
 	//for (int i = 0; i < source_scene->GetInstancesCount(); i++)
 	//{

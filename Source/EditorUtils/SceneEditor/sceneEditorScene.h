@@ -20,14 +20,19 @@ class TSceneEditorScene// : public TBoundaryBoxScene
 private:
 	std::unique_ptr<TClassInstanceAdornment> adornment_instance;
 	
+	
 public:
 	IBaluScene* source_scene;
 	IBaluSceneInstance* source_scene_instance;
 	//IBaluSceneInstance* editor_temp_scene_instance;
 	IBaluInstance* selected_instance;
 	IBaluSceneClassInstance* selected_instance_source;
-	TBoundaryBoxAdornment boundary_box;
+	
 	TDrawingHelper* drawing_helper;
+
+	//tools controls
+	TBoundaryBoxAdornment boundary_box;
+	std::unique_ptr<TOBBContour> boundary_box_contour;
 
 	//std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
 	//std::vector<TBoundaryBoxAdornment*> selected_boundaries; //TODO

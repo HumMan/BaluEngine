@@ -40,7 +40,11 @@ private:
 	TVec2 start_move_cursor_pos;
 	TVec2 start_move_control_pos;
 	int GetNearestControl(TVec2 cursor_pos, float& distance)const;
+
+	
 public:
+
+	bool enable;
 
 	std::vector<TEditorControl*> Render();
 
