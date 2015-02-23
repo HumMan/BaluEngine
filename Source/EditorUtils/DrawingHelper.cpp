@@ -62,7 +62,7 @@ void TDrawingHelper::Render(const TPointAdornment* p)
 
 	nvgBeginPath(context);
 	nvgCircle(context, transform.position[0], transform.position[1], 3.0f);
-	nvgFillColor(context, nvgRGBA(220, 220, 220, 255));
+	nvgFillColor(context, nvgRGBA(220, 20, 20, 255));
 	nvgFill(context);
 }
 
@@ -73,19 +73,19 @@ void TDrawingHelper::Render(const TOBBAdornment* box)
 	//auto transform = params->poly->GetGlobalTransform();
 	//auto transform = TBaluTransform(TVec2(c[0], c[1]), TRot(0));
 
-	RenderBoxCountour(box->box);
+	RenderBoxCountour(box->box, 4);
 }
 
-void TDrawingHelper::RenderBoxCountour(TOBB2 box)
+void TDrawingHelper::RenderBoxCountour(TOBB2 box, float width)
 {
 	std::vector<TVec2> vertices;
 	vertices.reserve(8);
 	box.DrawLines(vertices);
 
 	nvgBeginPath(context);
-	nvgLineCap(context, NVG_ROUND);
-	nvgLineJoin(context, NVG_ROUND);
-	nvgStrokeWidth(context, 5);
+	nvgLineCap(context, NVG_BUTT);
+	nvgLineJoin(context, NVG_MITER);
+	nvgStrokeWidth(context, width);
 	nvgStrokeColor(context, nvgRGBA(220, 220, 220, 160));
 
 	for (int i = 0; i<vertices.size(); i += 2)

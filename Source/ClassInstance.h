@@ -48,6 +48,7 @@ public:
 	void SetAngularVelocity(float velocity);
 
 	TBaluTransform GetTransform();
+	void SetTransform(TBaluTransform transform);
 };
 
 class TBaluInstance: public EngineInterface::IBaluInstance//, TLayerObjectInstance
@@ -56,6 +57,8 @@ private:
 	int uid;
 	TBaluClass* instance_class;
 	TBaluTransform instance_transform;
+	TVec2 instance_scale;
+
 	b2World* phys_world;
 
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
@@ -66,10 +69,10 @@ private:
 	TProperties properties;
 
 public:
-	
+	TBaluClass* GetClass();
 	bool PointCollide(TVec2 scene_space_point);
 
-	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResources* resources);
+	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources);
 	void SetTransform(TBaluTransform transform);
 	TBaluTransform GetTransform();
 

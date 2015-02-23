@@ -15,6 +15,11 @@ struct TRot
 		s = sinf(angle);
 		c = cosf(angle);
 	}
+	explicit TRot(const TOBB2& box)
+	{
+		c = box.orient[0][0];
+		s = box.orient[0][1];
+	}
 	void Set(float angle)
 	{
 		/// TODO_ERIN optimize
@@ -78,6 +83,13 @@ public:
 	{
 		//TODO
 		return TOBB2(position, GetOrientation(), box);
+	}
+	TBaluTransform ToGlobal(TBaluTransform local)
+	{
+		TBaluTransform global;
+		global.position = position + GetOrientation()*local.position;
+		global.angle = TRot(angle.GetAngle() + local.angle.GetAngle());
+		return global;
 	}
 };
 

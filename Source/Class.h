@@ -115,6 +115,7 @@ private:
 public:
 
 	bool PointCollide(TVec2 class_space_point);
+	TAABB2 GetAABB();
 
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_down_callbacks;
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_up_callbacks;

@@ -29,7 +29,9 @@ namespace EngineInterface
 	class IBaluInstance
 	{
 	public:
+		virtual IBaluClass* GetClass()=0;
 		virtual TBaluTransform GetTransform()=0;
+		virtual void SetTransform(TBaluTransform) = 0;
 		virtual int GetSpritesCount() = 0;
 		virtual IBaluSpriteInstance* GetSprite(int index) = 0;
 		virtual IProperties* GetProperties() = 0;

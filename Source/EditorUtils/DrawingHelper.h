@@ -34,7 +34,7 @@ public:
 	void Render(const TOBBAdornment*);
 
 	//
-	void RenderBoxCountour(TOBB2 box);
+	void RenderBoxCountour(TOBB2 box, float width);
 };
 
 //class TDrawingHelper

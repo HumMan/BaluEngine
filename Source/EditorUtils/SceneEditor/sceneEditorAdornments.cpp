@@ -95,9 +95,9 @@ private:
 void OBBContourCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
 {
 	auto state = (TOBBContourPrivate*)data->GetUserData();
-	//if (state->visible)
+	if (state->enable)
 	{
-		state->drawing_helper->RenderBoxCountour(state->box);
+		state->drawing_helper->RenderBoxCountour(state->box, 1);
 	}
 }
 

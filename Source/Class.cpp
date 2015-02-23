@@ -64,6 +64,19 @@ bool TBaluClass::PointCollide(TVec2 class_space_point)
 	return false;
 }
 
+TAABB2 TBaluClass::GetAABB()
+{
+	if (sprites.size() > 0)
+	{
+		TAABB2 box(sprites[0]->sprite->GetPolygone()->GetAABB(sprites[0]->local));
+		for (int i = 1; i < sprites.size(); i++)
+			box += sprites[i]->sprite->GetPolygone()->GetAABB(sprites[i]->local);
+		return box;
+	}
+	else
+		return TAABB2(TVec2(0), TVec2(0));
+}
+
 std::string TBaluClass::GetName()
 {
 	return class_name;

@@ -33,6 +33,7 @@ public:
 	//tools controls
 	TBoundaryBoxAdornment boundary_box;
 	std::unique_ptr<TOBBContour> boundary_box_contour;
+	IBaluInstance* hightlighted_instance;
 
 	//std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
 	//std::vector<TBoundaryBoxAdornment*> selected_boundaries; //TODO

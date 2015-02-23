@@ -209,7 +209,7 @@ void TDirector::MainLoop()
 				char b[100];
 				sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
 				SDL_SetWindowTitle(p->mainwindow, b);
-				p->world_instance->MouseMove(TMouseEventArgs(), TVec2(event.motion.x, event.motion.y));
+				p->world_instance->MouseMove(TMouseEventArgs(TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)), TVec2(event.motion.x, event.motion.y));
 			}
 			else if (event.type == SDL_MOUSEBUTTONDOWN)
 			{

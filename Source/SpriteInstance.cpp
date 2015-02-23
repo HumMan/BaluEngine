@@ -33,8 +33,7 @@ void TBaluSpriteInstance::UpdateTranform(TBaluTransform parent_transform)
 	TMatrix2 global_orient(parent_transform.GetOrientation());
 	//global_orient.Transpose();
 
-	global.position = parent_transform.position + global_orient*local.position;
-	global.angle = TRot(parent_transform.angle.GetAngle() + local.angle.GetAngle());
+	global = parent_transform.ToGlobal(local);
 
 	polygon.UpdateTransform(global);
 }

@@ -39,7 +39,7 @@ private:
 	std::vector<CallbackWithData<TCustomDrawCallback>> custom_draw_callbacks;
 	TAABB2 GetVerticesBox();
 public:
-
+	TAABB2 GetAABB(TBaluTransform sprite_in_class);
 	TOBB2 GetBoundingBox();
 
 	bool PointCollide(TVec2 sprite_space_point);

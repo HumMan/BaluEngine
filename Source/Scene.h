@@ -27,6 +27,7 @@ public:
 		TBaluClass* balu_class;
 		std::string tag;
 		TBaluTransform transform;
+		TVec2 scale;
 		TClassInstance(TBaluClass* balu_class)
 		{
 			this->balu_class = balu_class;
@@ -35,9 +36,17 @@ public:
 		{
 			this->transform = transform;
 		}
+		void SetScale(TVec2 scale)
+		{
+			this->scale = scale;
+		}
 		TBaluTransform GetTransform()
 		{
 			return transform;
+		}
+		TVec2 GetScale()
+		{
+			return scale;
 		}
 	};
 private:

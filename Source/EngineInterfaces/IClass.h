@@ -113,6 +113,8 @@ namespace EngineInterface
 	class IBaluClass
 	{
 	public:
+
+		virtual TAABB2 GetAABB()=0;
 		virtual IBaluClassSprite* AddSprite(IBaluSprite* sprite)=0;
 
 		virtual int GetSpritesCount() = 0;

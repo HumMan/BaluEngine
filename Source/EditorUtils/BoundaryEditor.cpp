@@ -204,7 +204,7 @@ int TBoundaryBoxAdornment::GetNearestControl(TVec2 cursor_pos, float& distance)c
 {
 	const float point_select_threshold = 0.3;
 	float nearest_point_dist = 0;
-	float nearest_point_id = -1;
+	int nearest_point_id = -1;
 	for (int i = 0; i < controls.size(); i++)
 	{
 		float dist = controls[i].GetDistance(cursor_pos);
@@ -216,6 +216,8 @@ int TBoundaryBoxAdornment::GetNearestControl(TVec2 cursor_pos, float& distance)c
 	}
 	if (nearest_point_id != -1)
 	{
+		distance = nearest_point_dist;
+		if (distance<0.3)
 		return nearest_point_id;
 	}
 	return -1;
@@ -278,6 +280,8 @@ void TBoundaryBoxAdornment::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_lo
 	{
 		float dist = 0;
 		control_under_cursor = GetNearestControl(world_cursor_location, dist);
+		//if (dist > 0.1)
+		//	control_under_cursor = -1;
 		//auto nearest
 		//if (nearest_point_id != -1 && nearest_point_dist < point_select_threshold)
 		//{

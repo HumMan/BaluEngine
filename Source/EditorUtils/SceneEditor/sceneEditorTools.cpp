@@ -73,7 +73,7 @@ void TCreateClassInstanceTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_l
 
 }
 
-class TModifyClassInstanceTool : public IEditorTool
+class TModifyClassInstanceTool : public IEditorTool, public TBoundaryBoxChangeListener
 {
 protected:
 	TSceneEditorScene* scene_editor_scene;
@@ -91,26 +91,84 @@ public:
 	{
 		this->scene_editor_scene = scene_editor_scene;
 	}
-	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+
+	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 
 	}
+	void BoxMove(TVec2 old_pos, TVec2 new_pos)
+	{
+		auto trans = scene_editor_scene->selected_instance->GetTransform();
+		trans.position = new_pos;
+		scene_editor_scene->selected_instance->SetTransform(trans);
+	}
+	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
+	{
+		auto trans = scene_editor_scene->selected_instance->GetTransform();
+		trans.angle = TRot(new_box);
+		scene_editor_scene->selected_instance->SetTransform(trans);
+	}
+
+	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+	{
+		if (scene_editor_scene->boundary_box.enable)
+		{
+			scene_editor_scene->boundary_box.OnMouseDown(e, scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+		}
+		if (!scene_editor_scene->boundary_box.IsCursorCaptured())
+		{
+			if (scene_editor_scene->hightlighted_instance != nullptr)
+			{
+				scene_editor_scene->selected_instance = scene_editor_scene->hightlighted_instance;
+				auto transform = scene_editor_scene->selected_instance->GetTransform();
+				scene_editor_scene->boundary_box.OnChange = this;
+				scene_editor_scene->boundary_box.enable = true;
+				scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), scene_editor_scene->selected_instance->GetClass()->GetAABB()));
+			}
+			else
+			{
+				scene_editor_scene->boundary_box.enable = false;
+				scene_editor_scene->selected_instance = nullptr;
+			}
+		}
+	}
 	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
 	{
-		world_cursor_location = scene_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(world_cursor_location[0], world_cursor_location[1]));
-		IBaluInstance* instance_collision(nullptr);
-		if (scene_editor_scene->source_scene_instance->PointCollide(world_cursor_location, instance_collision))
+		if (scene_editor_scene->boundary_box.enable)
 		{
-			auto transform = instance_collision->GetTransform();
-			//scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+			scene_editor_scene->boundary_box.OnMouseMove(e, scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+		}
+		if (!scene_editor_scene->boundary_box.IsCursorCaptured())
+		{
+			world_cursor_location = scene_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(world_cursor_location[0], world_cursor_location[1]));
+			IBaluInstance* instance_collision(nullptr);
+			if (scene_editor_scene->source_scene_instance->PointCollide(world_cursor_location, instance_collision))
+			{
+				auto transform = instance_collision->GetTransform();
+				//scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+				auto box = instance_collision->GetClass()->GetAABB();
 
-			scene_editor_scene->boundary_box_contour->SetBox(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+				scene_editor_scene->boundary_box_contour->SetEnable(true);
+				scene_editor_scene->boundary_box_contour->SetBox(TOBB2(transform.position, transform.GetOrientation(), box));
+				scene_editor_scene->hightlighted_instance = instance_collision;
+			}
+			else
+			{
+				scene_editor_scene->boundary_box_contour->SetEnable(false);
+				scene_editor_scene->hightlighted_instance = nullptr;
+			}
 		}
 		
 	}
 	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
 	{
-
+		if (scene_editor_scene->boundary_box.enable)
+		{
+			scene_editor_scene->boundary_box.OnMouseUp(e, scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+		}
+		if (!scene_editor_scene->boundary_box.IsCursorCaptured())
+		{
+		}
 	}
 	void CancelOperation()
 	{

@@ -12,16 +12,22 @@ void TSensorInstance::BuildFixture(b2Body* body)
 	shape->BuildFixture(body);
 }
 
+TBaluClass* TBaluInstance::GetClass()
+{
+	return instance_class;
+}
+
 bool TBaluInstance::PointCollide(TVec2 scene_space_point)
 {
 	TVec2 p = instance_transform.ToLocal(scene_space_point);
 	return instance_class->PointCollide(p);
 }
 
-TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TResources* resources) 
+TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources) 
 	:skeleton(source->GetSkeleton(), this, resources), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
 {
 	instance_transform = transform;
+	instance_scale = scale;
 	this->instance_class = source;
 	this->phys_world = phys_world;
 
@@ -36,6 +42,10 @@ TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTrans
 void TBaluInstance::SetTransform(TBaluTransform transform)
 {
 	this->instance_transform = transform;
+	if (phys_body->IsEnable())
+	{
+		phys_body->SetTransform(transform);
+	}
 }
 
 TBaluTransform TBaluInstance::GetTransform()
@@ -177,6 +187,11 @@ void TBaluClassPhysBodyIntance::SetAngularVelocity(float velocity)
 TBaluTransform TBaluClassPhysBodyIntance::GetTransform()
 {
 	return *(TBaluTransform*)&phys_body->GetTransform();
+}
+
+void TBaluClassPhysBodyIntance::SetTransform(TBaluTransform transform)
+{
+	phys_body->SetTransform(*(b2Vec2*)&transform.position, transform.angle.GetAngle());
 }
 
 void TBaluInstance::DoKeyDown(TKey key)

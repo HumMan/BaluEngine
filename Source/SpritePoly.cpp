@@ -10,15 +10,39 @@
 
 TAABB2 TBaluSpritePolygon::GetVerticesBox()
 {
-	if (vertices.size() > 0)
+	//if (vertices.size() > 0)
+	//{
+	//	TAABB2 box(vertices[0],TVec2(0));
+	//	for (int i = 1; i < vertices.size(); i++)
+	//		box += vertices[i];
+	//	return box;
+	//}
+	//else
+	//	return TAABB2(TVec2(0), TVec2(0));
+	if (polygon_vertices.size() > 0)
 	{
-		TAABB2 box(vertices[0],TVec2(0));
-		for (int i = 1; i < vertices.size(); i++)
-			box += vertices[i];
+		TAABB2 box(polygon_vertices[0], TVec2(0));
+		for (int i = 1; i < polygon_vertices.size(); i++)
+			box += polygon_vertices[i];
 		return box;
 	}
 	else
 		return TAABB2(TVec2(0), TVec2(0));
+}
+
+TAABB2 TBaluSpritePolygon::GetAABB(TBaluTransform sprite_in_class)
+{
+	auto global = sprite_in_class.ToGlobal(local);
+
+	if (polygon_vertices.size() > 0)
+	{
+		TAABB2 box(global.ToGlobal(polygon_vertices[0]), TVec2(0));
+		for (int i = 1; i < polygon_vertices.size(); i++)
+			box += global.ToGlobal(polygon_vertices[i]);
+		return box;
+	}
+	else
+		return TAABB2(global.ToGlobal(TVec2(0)), TVec2(0));
 }
 
 TOBB2 TBaluSpritePolygon::GetBoundingBox()
