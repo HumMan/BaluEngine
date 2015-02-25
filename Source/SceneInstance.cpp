@@ -93,7 +93,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	for (int i = 0; i < source->GetInstancesCount(); i++)
 	{
 		auto source_instance = source->GetInstance(i);
-		auto instance = CreateInstance(source_instance->balu_class, source->GetInstance(i)->transform);
+		auto instance = CreateInstance(source_instance->balu_class, source->GetInstance(i)->transform, source->GetInstance(i)->scale);
 		instance->SetTransform(source_instance->transform);
 	}
 }
@@ -104,15 +104,15 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluSceneInstance&& right)
 	instances = std::move(right.instances);
 }
 
-TBaluInstance* TBaluSceneInstance::CreateInstance(TBaluClass* use_class, TBaluTransform transform)
+TBaluInstance* TBaluSceneInstance::CreateInstance(TBaluClass* use_class, TBaluTransform transform, TVec2 scale)
 {
-	instances.push_back(std::make_unique<TBaluInstance>(use_class, phys_world.get(), transform, resources));
+	instances.push_back(std::make_unique<TBaluInstance>(use_class, phys_world.get(), transform, scale, resources));
 	return instances.back().get();
 }
 
-EngineInterface::IBaluInstance* TBaluSceneInstance::CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform)
+EngineInterface::IBaluInstance* TBaluSceneInstance::CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform, TVec2 scale)
 {
-	return dynamic_cast<EngineInterface::IBaluInstance*>(CreateInstance(dynamic_cast<TBaluClass*>(use_class), transform));
+	return dynamic_cast<EngineInterface::IBaluInstance*>(CreateInstance(dynamic_cast<TBaluClass*>(use_class), transform, scale));
 }
 
 TVec2 TBaluSceneInstance::WorldToScene(const TVec2& v)

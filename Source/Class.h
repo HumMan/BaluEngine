@@ -17,12 +17,14 @@ typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);
 class TSensor: public EngineInterface::ISensor
 {
 public:
-	std::unique_ptr<TBaluPhysShape> shape;
+	//std::unique_ptr<TBaluPhysShape> shape;
+	std::unique_ptr<TBaluPhysShape> phys_shape;
 	//std::vector<SensorCollideCallback> on_sensor_collide_callbacks;
 	std::vector<SensorCollideCallback> on_begin_contact, on_end_contact;
 	TSensor(TBaluPhysShape* shape)
 	{
-		this->shape.reset(shape);
+		//this->shape.reset(shape);
+		this->phys_shape.reset(shape);
 	}
 };
 
@@ -99,6 +101,7 @@ public:
 		TBaluSprite* sprite;
 		std::string tag;
 		TBaluTransform local;
+		TVec2 scale;
 		TBaluSpriteInstance(TBaluSprite* sprite)
 		{
 			this->sprite = sprite;

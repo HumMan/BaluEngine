@@ -11,7 +11,7 @@ class TBaluPhysShapeInstance: public EngineInterface::IBaluPhysShapeInstance
 {
 protected:
 	TBaluPhysShape* source;
-	TBaluTransform global;
+	//TBaluTransform global;
 	b2Fixture* fixture;
 	b2Body* body;
 	TBaluInstance* parent;
@@ -24,7 +24,7 @@ public:
 		return is_sensor;
 	}
 	TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TSensorInstance* sensor=nullptr);
-	void BuildFixture(b2Body* body);
+	void BuildFixture(b2Body* body, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluInstance* GetParent();
 	TSensorInstance* GetParentSensor();
 };

@@ -32,6 +32,8 @@ namespace EngineInterface
 		virtual IBaluClass* GetClass()=0;
 		virtual TBaluTransform GetTransform()=0;
 		virtual void SetTransform(TBaluTransform) = 0;
+		virtual TVec2 GetScale() = 0;
+		virtual void SetScale(TVec2 scale) = 0;
 		virtual int GetSpritesCount() = 0;
 		virtual IBaluSpriteInstance* GetSprite(int index) = 0;
 		virtual IProperties* GetProperties() = 0;

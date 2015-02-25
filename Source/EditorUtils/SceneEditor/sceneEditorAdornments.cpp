@@ -70,7 +70,7 @@ TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneInstance* scene_insta
 		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 	}
 		
-	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0,0), TRot(0)));
+	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
 }
 
 //void TClassInstanceAdornment::Render(TDrawingHelper* drawing_helper)
@@ -114,7 +114,7 @@ TOBBContour::TOBBContour(IBaluSceneInstance* scene_instance, TDrawingHelper* dra
 		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 	}
 
-	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)));
+	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
 }
 
 void TOBBContour::SetBox(TOBB2 box)

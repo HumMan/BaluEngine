@@ -53,8 +53,8 @@ public:
 	TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* source, TResources* resources);
 	TBaluSceneInstance(TBaluSceneInstance&& right);
 
-	TBaluInstance* CreateInstance(TBaluClass* use_class, TBaluTransform transform);
-	EngineInterface::IBaluInstance* CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform);
+	TBaluInstance* CreateInstance(TBaluClass* use_class, TBaluTransform transform, TVec2 scale);
+	EngineInterface::IBaluInstance* CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform, TVec2 scale);
 
 	TVec2 WorldToScene(const TVec2& v);
 	TVec2 SceneToWorld(const TVec2& v);

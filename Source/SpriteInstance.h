@@ -16,6 +16,8 @@ private:
 	TBaluTransform local;
 	TBaluTransform global;
 	
+	TVec2 scale;
+
 	std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
 	TBaluSpritePolygonInstance polygon;
 
@@ -26,7 +28,14 @@ public:
 	TBaluSpriteInstance(TBaluSprite* source, TBaluTransform local, TBaluInstance* parent, TResources* resources);
 
 	void SetTransform(TBaluTransform local);
-	TBaluTransform GetTransform();
+	TBaluTransform GetTransform()
+	{
+		return local;
+	}
+	TVec2 GetScale()
+	{
+		return scale;
+	}
 	TBaluSprite* GetSourceSprite();
 
 	TAABB2 GetAABB();

@@ -15,7 +15,8 @@ private:
 
 	TBaluMaterial* material;
 
-	TVec2 size;
+	TVec2 size; //используется при генерации полигона по текстуре
+	TVec2 scale;
 	TBaluTransform local;
 
 	std::vector<TVec2> vertices;

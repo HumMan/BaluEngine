@@ -5,11 +5,11 @@ TSensorInstance::TSensorInstance(TSensor* source, TBaluInstance* parent)
 {
 	this->parent = parent;
 	this->source = source;
-	shape = std::make_unique<TBaluPhysShapeInstance>(source->shape.get(), parent, this);
+	shape = std::make_unique<TBaluPhysShapeInstance>(source->phys_shape.get(), parent, this);
 }
-void TSensorInstance::BuildFixture(b2Body* body)
+void TSensorInstance::BuildFixture(b2Body* body, TVec2 sprite_scale, TBaluTransform sprite_transform)
 {
-	shape->BuildFixture(body);
+	shape->BuildFixture(body,sprite_scale, sprite_transform);
 }
 
 TBaluClass* TBaluInstance::GetClass()
@@ -52,7 +52,18 @@ TBaluTransform TBaluInstance::GetTransform()
 {
 	return instance_transform;
 }
-
+TVec2 TBaluInstance::GetScale()
+{
+	return this->instance_scale;
+}
+void TBaluInstance::SetScale(TVec2 scale)
+{
+	this->instance_scale = scale;
+	if (phys_body->IsEnable())
+	{
+		
+	}
+}
 TProperties* TBaluInstance::GetProperties()
 {
 	return &properties;
@@ -138,13 +149,15 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 		{
 			auto sensor_source = source->GetSensor(i);
 			sensors.push_back(std::make_unique<TSensorInstance>(sensor_source, parent));
-			sensors.back()->BuildFixture(phys_body);
+			//sensors.back()->BuildFixture(phys_body, parent->GetScale());
+			sensors.back()->BuildFixture(phys_body, TVec2(1,1), TBaluTransform(TVec2(0,0),TRot(0)));
 		}
 
 		for (int i = 0; i < parent->GetSpritesCount(); i++)
 		{
 			auto sensor_source = parent->GetSprite(i);
-			sensor_source->GetPhysShape()->BuildFixture(phys_body);
+			//TODO parent->GetScale()
+			sensor_source->GetPhysShape()->BuildFixture(phys_body, sensor_source->GetScale(), sensor_source->GetTransform());
 		}
 	}
 }

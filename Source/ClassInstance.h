@@ -17,7 +17,7 @@ public:
 
 
 	TSensorInstance(TSensor* source, TBaluInstance* parent);
-	void BuildFixture(b2Body* body);
+	void BuildFixture(b2Body* body, TVec2 sprite_scale, TBaluTransform sprite_transform);
 };
 
 class TBaluInstance;
@@ -75,7 +75,8 @@ public:
 	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources);
 	void SetTransform(TBaluTransform transform);
 	TBaluTransform GetTransform();
-
+	TVec2 GetScale();
+	void SetScale(TVec2 scale);
 	TProperties* GetProperties();
 
 	TBaluClassPhysBodyIntance* GetPhysBody();
