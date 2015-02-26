@@ -29,6 +29,7 @@ namespace EngineInterface
 	class IBaluInstance
 	{
 	public:
+		virtual TOBB2 GetOBB()=0;
 		virtual IBaluClass* GetClass()=0;
 		virtual TBaluTransform GetTransform()=0;
 		virtual void SetTransform(TBaluTransform) = 0;

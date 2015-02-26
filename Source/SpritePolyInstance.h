@@ -16,8 +16,10 @@ private:
 	TMaterialInstance material;
 	TBaluSpritePolygon* source;
 	
-	//TBaluTransform local;
-	TBaluTransform global;
+	TBaluTransform local;
+	TVec2 scale;
+
+	//TBaluTransform global;
 
 	//compiled geometry
 	bool is_dirty;
@@ -38,10 +40,10 @@ private:
 
 	bool enable;
 public:
-	TBaluTransform GetGlobalTransform()
-	{
-		return global;
-	}
+	//TBaluTransform GetGlobalTransform()
+	//{
+	//	return global;
+	//}
 
 	bool IsEnable()
 	{
@@ -60,7 +62,7 @@ public:
 	void Render(TRenderCommand& command);
 	void RenderCustom(std::vector<TCustomDrawCommand>& commands);
 
-	void UpdateTransform(TBaluTransform parent);
+	void UpdateTransform(TBaluTransform parent, TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	void UpdateAnimation();
 
 	void SetSpritePolygon(std::string name);

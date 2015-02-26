@@ -65,6 +65,10 @@ public:
 	TBaluSpritePolygon();
 
 	TBaluTransform GetTransform();
+	TVec2 GetScale()
+	{
+		return scale;
+	}
 
 	TBaluMaterial* GetMaterial();
 	void SetMaterial(TBaluMaterial* material);

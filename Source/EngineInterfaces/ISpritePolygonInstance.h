@@ -11,6 +11,6 @@ namespace EngineInterface
 		virtual IBaluSpritePolygon* GetSpritePolygon() = 0;
 
 		virtual void SetActiveAnimation(std::string) = 0;
-		virtual TBaluTransform GetGlobalTransform() = 0;
+		//virtual TBaluTransform GetGlobalTransform() = 0;
 	};
 }

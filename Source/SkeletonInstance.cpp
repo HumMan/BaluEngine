@@ -95,13 +95,13 @@ void TSkinInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInst
 	}
 }
 
-void TSkinInstance::UpdateSpritesTransform(std::vector<TBoneInstance*> bones)
+void TSkinInstance::UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TVec2 class_scale, TBaluTransform class_transform)
 {
 	for (int i = 0; i < sprites_of_bones.size(); i++)
 	{
 		for (int k = 0; k < sprites_of_bones[i].size(); k++)
 		{
-			sprites_of_bones[i][k]->UpdateTranform(bones[i]->GetGlobalTransform());
+			sprites_of_bones[i][k]->UpdateTranform(bones[i]->GetGlobalTransform(), class_scale, class_transform);
 		}
 	}
 }
@@ -158,14 +158,14 @@ TSkeletonInstance::TSkeletonInstance(TSkeleton* source,TBaluInstance* parent, TR
 	}
 }
 
-void TSkeletonInstance::UpdateTranform(TBaluTransform parent)
+void TSkeletonInstance::UpdateTranform(TBaluTransform parent, TVec2 class_scale, TBaluTransform class_transform)
 {
 	if (root != nullptr)
 	{
 		root->UpdateTranform(parent);
 		for (int i = 0; i < skins.size(); i++)
 		{
-			skins[i]->UpdateSpritesTransform(bones);
+			skins[i]->UpdateSpritesTransform(bones, class_scale, class_transform);
 		}
 	}
 }

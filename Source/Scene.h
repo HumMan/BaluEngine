@@ -30,6 +30,8 @@ public:
 		TVec2 scale;
 		TClassInstance(TBaluClass* balu_class)
 		{
+			this->transform = TBaluTransform(TVec2(0, 0), TRot(0));
+			this->scale = TVec2(1, 1);
 			this->balu_class = balu_class;
 		}
 		void SetTransform(TBaluTransform transform)

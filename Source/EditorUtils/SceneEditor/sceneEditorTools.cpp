@@ -94,7 +94,9 @@ public:
 
 	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
-
+		auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
+		scene_editor_scene->selected_instance->SetScale(
+			scene_editor_scene->selected_instance->GetScale().ComponentMul(scale));
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{
@@ -120,10 +122,9 @@ public:
 			if (scene_editor_scene->hightlighted_instance != nullptr)
 			{
 				scene_editor_scene->selected_instance = scene_editor_scene->hightlighted_instance;
-				auto transform = scene_editor_scene->selected_instance->GetTransform();
 				scene_editor_scene->boundary_box.OnChange = this;
 				scene_editor_scene->boundary_box.enable = true;
-				scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), scene_editor_scene->selected_instance->GetClass()->GetAABB()));
+				scene_editor_scene->boundary_box.SetBoundary(scene_editor_scene->selected_instance->GetOBB());
 			}
 			else
 			{
@@ -144,12 +145,8 @@ public:
 			IBaluInstance* instance_collision(nullptr);
 			if (scene_editor_scene->source_scene_instance->PointCollide(world_cursor_location, instance_collision))
 			{
-				auto transform = instance_collision->GetTransform();
-				//scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
-				auto box = instance_collision->GetClass()->GetAABB();
-
 				scene_editor_scene->boundary_box_contour->SetEnable(true);
-				scene_editor_scene->boundary_box_contour->SetBox(TOBB2(transform.position, transform.GetOrientation(), box));
+				scene_editor_scene->boundary_box_contour->SetBox(instance_collision->GetOBB());
 				scene_editor_scene->hightlighted_instance = instance_collision;
 			}
 			else

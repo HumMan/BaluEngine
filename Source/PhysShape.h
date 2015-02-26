@@ -10,8 +10,13 @@ protected:
 	TBaluTransform local;
 	TVec2 scale;
 public:
+	TBaluPhysShape()
+	{
+		local = TBaluTransform(TVec2(0, 0), TRot(0));
+		scale = TVec2(1, 1);
+	}
 	virtual ~TBaluPhysShape(){}
-	virtual b2Shape* GetShape(TVec2 parent_scale, TBaluTransform sprite_transform) = 0;
+	virtual b2Shape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform) = 0;
 	void SetTransform(TBaluTransform local)
 	{
 		this->local = local;
@@ -28,7 +33,7 @@ class TBaluPolygonShape : public TBaluPhysShape, public EngineInterface::IBaluPo
 private:
 	b2PolygonShape b2shape;
 public:
-	b2PolygonShape* GetShape(TVec2 parent_scale, TBaluTransform sprite_transform);
+	b2PolygonShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 };
 
@@ -40,7 +45,7 @@ private:
 public:
 	TBaluCircleShape(float radius);
 	TBaluCircleShape(float radius, TVec2 pos);
-	b2CircleShape* GetShape(TVec2 parent_scale, TBaluTransform sprite_transform);
+	b2CircleShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 };
 
@@ -50,6 +55,6 @@ private:
 	b2PolygonShape b2shape;
 public:
 	TBaluBoxShape(float width, float height);
-	b2PolygonShape* GetShape(TVec2 parent_scale, TBaluTransform sprite_transform);
+	b2PolygonShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 };

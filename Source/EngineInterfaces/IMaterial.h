@@ -93,6 +93,11 @@ public:
 	}
 };
 
+inline TVec2 Transform(TVec2 vertex, TVec2 scale, TBaluTransform transform)
+{
+	return transform.ToGlobal((vertex).ComponentMul(scale));
+}
+
 
 namespace EngineInterface
 {

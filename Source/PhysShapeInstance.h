@@ -24,7 +24,7 @@ public:
 		return is_sensor;
 	}
 	TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TSensorInstance* sensor=nullptr);
-	void BuildFixture(b2Body* body, TVec2 sprite_scale, TBaluTransform sprite_transform);
+	void BuildFixture(b2Body* body, TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluInstance* GetParent();
 	TSensorInstance* GetParentSensor();
 };

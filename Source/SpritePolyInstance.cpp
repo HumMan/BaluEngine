@@ -20,7 +20,10 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 {
 	enable = source->enable;
 	this->source = source;
-	//local = source->GetTransform();
+
+	local = source->GetTransform();
+	scale = source->GetScale();
+
 	vertices = source->GetVertices();
 	tex_coords = source->GetTexCoords();
 
@@ -101,19 +104,16 @@ void TBaluSpritePolygonInstance::UpdateAnimation()
 	tex_coords = source->GetTexCoords();
 }
 
-void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransform parent)
+void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransform parent, TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform)
 {
 	if (source->animation_lines.size()>0)
 		UpdateAnimation();
-
-	global.position = parent.position + source->GetTransform().position;
-	global.angle = TRot(parent.angle.GetAngle() + source->GetTransform().angle.GetAngle());
 
 	vertices = source->GetVertices();
 
 	for (int i = 0; i < vertices.size(); i++)
 	{
-		vertices[i] = global.ToGlobal(vertices[i]);
+		vertices[i] = Transform(Transform(Transform(vertices[i], scale, local), sprite_scale, sprite_transform), class_scale, class_transform);
 	}
 }
 

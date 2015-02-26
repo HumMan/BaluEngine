@@ -12,6 +12,7 @@ TBaluSpritePolygonInstance* TBaluSpriteInstance::GetPolygon()
 
 TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TBaluTransform local, TBaluInstance* parent, TResources* resources) :polygon(source->GetPolygone(), resources)
 {
+	this->scale = TVec2(1, 1);
 	//this->parent = parent;
 	this->source = source;
 	this->local = local;
@@ -27,7 +28,7 @@ TAABB2 TBaluSpriteInstance::GetAABB()
 	return TAABB2();
 }
 
-void TBaluSpriteInstance::UpdateTranform(TBaluTransform parent_transform)
+void TBaluSpriteInstance::UpdateTranform(TBaluTransform parent_transform, TVec2 class_scale, TBaluTransform class_transform)
 {
 
 	TMatrix2 global_orient(parent_transform.GetOrientation());
@@ -35,7 +36,7 @@ void TBaluSpriteInstance::UpdateTranform(TBaluTransform parent_transform)
 
 	global = parent_transform.ToGlobal(local);
 
-	polygon.UpdateTransform(global);
+	polygon.UpdateTransform(global, class_scale, class_transform, scale, local);
 }
 
 TBaluSprite* TBaluSpriteInstance::GetSourceSprite()

@@ -140,6 +140,9 @@ void TBaluSpritePolygon::OnCustomDraw(CallbackWithData<TCustomDrawCallback> call
 
 TBaluSpritePolygon::TBaluSpritePolygon()
 {
+	local = TBaluTransform(TVec2(0, 0), TRot(0));
+	scale = TVec2(1, 1);
+
 	is_custom_draw = false;
 	material = nullptr;
 

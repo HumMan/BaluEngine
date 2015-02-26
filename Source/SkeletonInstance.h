@@ -37,7 +37,7 @@ private:
 public:
 	TSkinInstance(TSkin* source, TBaluInstance* parent, TResources* resources);
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
-	void UpdateSpritesTransform(std::vector<TBoneInstance*> bones);
+	void UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TVec2 class_scale, TBaluTransform class_transform);
 };
 
 class TSkeletonInstance
@@ -50,7 +50,7 @@ private:
 	TSkeleton* source;
 public:
 	TSkeletonInstance(TSkeleton* source, TBaluInstance* parent, TResources* resources);
-	void UpdateTranform(TBaluTransform parent);
+	void UpdateTranform(TBaluTransform parent, TVec2 class_scale, TBaluTransform class_transform);
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 	TSkeleton* GetSource();
 	TBoneInstance* GetBone(int index);

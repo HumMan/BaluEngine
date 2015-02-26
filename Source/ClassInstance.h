@@ -17,7 +17,7 @@ public:
 
 
 	TSensorInstance(TSensor* source, TBaluInstance* parent);
-	void BuildFixture(b2Body* body, TVec2 sprite_scale, TBaluTransform sprite_transform);
+	void BuildFixture(b2Body* body, TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 };
 
 class TBaluInstance;
@@ -71,6 +71,8 @@ private:
 public:
 	TBaluClass* GetClass();
 	bool PointCollide(TVec2 scene_space_point);
+
+	TOBB2 GetOBB();
 
 	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources);
 	void SetTransform(TBaluTransform transform);
