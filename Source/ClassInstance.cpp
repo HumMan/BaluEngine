@@ -71,7 +71,7 @@ void TBaluInstance::SetScale(TVec2 scale)
 	this->instance_scale = scale;
 	if (phys_body->IsEnable())
 	{
-		
+		phys_body->BuildAllFixtures();
 	}
 }
 TProperties* TBaluInstance::GetProperties()
@@ -135,6 +135,22 @@ bool TBaluClassPhysBodyIntance::IsEnable()
 	return is_enable;
 }
 
+void TBaluClassPhysBodyIntance::BuildAllFixtures()
+{
+	for (int i = 0; i < source->GetSensorsCount(); i++)
+	{
+		//sensors.back()->BuildFixture(phys_body, parent->GetScale());
+		sensors[i]->BuildFixture(phys_body, parent->GetScale(), parent->GetTransform(), TVec2(1, 1), TBaluTransform(TVec2(0, 0), TRot(0)));
+	}
+
+	for (int i = 0; i < parent->GetSpritesCount(); i++)
+	{
+		auto sensor_source = parent->GetSprite(i);
+		//TODO parent->GetScale()
+		sensor_source->GetPhysShape()->BuildFixture(phys_body, parent->GetScale(), parent->GetTransform(), sensor_source->GetScale(), sensor_source->GetTransform());
+	}
+}
+
 TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluInstance* parent)
 {
 	is_enable = source->IsEnable();
@@ -145,7 +161,7 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 
 		auto body_def = source->GetBodyDef();
 		auto instance_transform = parent->GetTransform();
-		
+		this->parent = parent;
 		body_def.position = *(b2Vec2*)&instance_transform.position;
 		body_def.angle = instance_transform.angle.GetAngle();
 		body_def.linearDamping = 0.1;
@@ -159,16 +175,9 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 		{
 			auto sensor_source = source->GetSensor(i);
 			sensors.push_back(std::make_unique<TSensorInstance>(sensor_source, parent));
-			//sensors.back()->BuildFixture(phys_body, parent->GetScale());
-			sensors.back()->BuildFixture(phys_body,parent->GetScale(), parent->GetTransform(), TVec2(1,1), TBaluTransform(TVec2(0,0),TRot(0)));
 		}
 
-		for (int i = 0; i < parent->GetSpritesCount(); i++)
-		{
-			auto sensor_source = parent->GetSprite(i);
-			//TODO parent->GetScale()
-			sensor_source->GetPhysShape()->BuildFixture(phys_body, parent->GetScale(), parent->GetTransform(), sensor_source->GetScale(), sensor_source->GetTransform());
-		}
+		BuildAllFixtures();
 	}
 }
 

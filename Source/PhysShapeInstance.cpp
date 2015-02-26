@@ -3,6 +3,8 @@
 
 TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TSensorInstance* sensor)
 {
+	this->fixture = nullptr;
+	this->body = nullptr;
 	this->parent = parent;
 	this->source = source;
 	this->sensor = sensor;
@@ -11,15 +13,22 @@ TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInst
 
 void TBaluPhysShapeInstance::BuildFixture(b2Body* body,TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform)
 {
-	this->body = body;
-
+	if (this->body != nullptr)
+		assert(this->body == body);
+	else
+		this->body = body;
+	if (fixture != nullptr)
+	{
+		body->DestroyFixture(fixture);
+	}
 	b2FixtureDef fixture_def;
-	fixture_def.shape = source->GetShape(class_scale, class_transform, sprite_scale, sprite_transform);
+	fixture_def.shape = source->GetShape(class_scale, TBaluTransform(TVec2(0, 0), TRot(0)), sprite_scale, sprite_transform);
 	fixture_def.isSensor = is_sensor;
 	if (fixture_def.shape->m_type == b2BodyType::b2_dynamicBody)
 		fixture_def.density = 1.0;
 	fixture_def.userData = this;
 	fixture = body->CreateFixture(&fixture_def);
+	delete fixture_def.shape;
 }
 
 TBaluInstance* TBaluPhysShapeInstance::GetParent()

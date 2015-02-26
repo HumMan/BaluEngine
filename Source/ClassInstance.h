@@ -34,8 +34,11 @@ private:
 	TBaluTransform local;
 
 	bool is_enable;
+	
 public:
 	TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluInstance* parent);
+
+	void BuildAllFixtures();
 	
 	bool IsEnable();
 	b2BodyDef GetBodyDef();
