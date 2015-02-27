@@ -185,7 +185,7 @@ void TBaluSpritePolygon::SetPolygonFromTexture()
 			ilDeleteImage(handle);
 
 			for (int i = 0; i < vertices.size(); i++)
-				vertices[i] = vertices[i] / TVec2(w, h);
+				vertices[i] = vertices[i] / TVec2(w, h)- TVec2(0.5,0.5);
 
 			UpdatePolyVertices();
 		}

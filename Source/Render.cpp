@@ -50,7 +50,10 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 
 	auto vg_context = GetContext();
 	//render_test();
-	begin_frame();
+
+	//render->Depth.Test(false);
+
+	begin_frame(render->ScreenSize());
 
 	//nvgBeginPath(vg_context);
 	//nvgRoundedRect(vg_context, 10, 10, 500, 500, 5);

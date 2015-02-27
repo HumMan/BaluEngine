@@ -129,7 +129,8 @@ IBaluWorld* CreateDemoWorld()
 
 	auto box_sprite = world->CreateSprite("box0");
 	box_sprite->GetPolygone()->SetMaterial(brick_mat);
-	box_sprite->GetPolygone()->SetAsBox(1, 1);
+	//box_sprite->GetPolygone()->SetAsBox(1, 1);
+	box_sprite->GetPolygone()->SetPolygonFromTexture();
 	box_sprite->GetPolygone()->SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
 	box_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateBoxShape(1, 1)->GetPhysShape());
 
@@ -361,10 +362,10 @@ void RenderWorld(IBaluWorldInstance* world, TRender* render)
 		v.viewport = &viewport_aabb;
 	}
 
-	render->EnableScissor(true);
-	render->SetScissorRect(*screen, main_viewport_view);
+	//render->EnableScissor(true);
+	//render->SetScissorRect(*screen, main_viewport_view);
 	render->Render(render_commands, custom_draw_commands);
-	render->EnableScissor(false);
+	//render->EnableScissor(false);
 }
 
 #include <Windows.h>

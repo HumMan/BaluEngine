@@ -93,7 +93,7 @@ private:
 };
 
 void OBBContourCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
-{
+{ 
 	auto state = (TOBBContourPrivate*)data->GetUserData();
 	if (state->enable)
 	{
