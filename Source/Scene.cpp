@@ -25,7 +25,7 @@ void TViewport::SetWidth(float width)
 }
 TAABB2 TViewport::GetAABB()
 {
-	TAABB2 aabb(TVec2(0, 0), TVec2(width, width / aspect)*0.5);
+	TAABB2 aabb(TVec2(0, 0), TVec2(width, width * aspect)*0.5);
 
 	return TOBB<float, 2>(transform.position, transform.GetOrientation(), aabb).GetAABB();
 }

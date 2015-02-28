@@ -20,6 +20,7 @@ public:
 	void SetWorldInstance(TBaluWorldInstance* world_instance);
 	void SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance);
 	void SetRenderWorldCallback(RenderWorldCallback callback);
+	void SetVieportResizeCallback(VieportResizeCallback callback);
 	int Initialize();
 
 	void SetSymulatePhysics(bool enable);

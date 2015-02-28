@@ -20,9 +20,10 @@ TRender::TRender(TBaluRender* internal_render)
 	nanovg_init();
 }
 
-void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<TCustomDrawCommand>& custom_draw_commands)
+void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<TCustomDrawCommand>& custom_draw_commands, EngineInterface::IViewport* viewport)
 {
-	render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
+	//render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
+	render->Set.ModelView(TMatrix4::GetOrtho(viewport->GetTransform().position, viewport->GetSize(), -1, 1));
 	//render->AlphaTest.Enable(true);
 	//render->AlphaTest.Func(TAlphaTestFunc::AT_GREATER, 0.9);
 	render->Blend.Enable(true);

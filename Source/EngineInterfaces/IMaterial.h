@@ -101,6 +101,18 @@ inline TVec2 Transform(TVec2 vertex, TVec2 scale, TBaluTransform transform)
 
 namespace EngineInterface
 {
+	class IViewport
+	{
+	public:
+		virtual void SetTransform(TBaluTransform transform) = 0;
+		virtual TBaluTransform GetTransform() = 0;
+		virtual void SetAspectRatio(float aspect) = 0;
+		virtual void SetWidth(float width) = 0;
+		virtual TAABB2 GetAABB() = 0;
+		virtual void SetSize(TVec2 size) = 0;
+		virtual TVec2 GetSize() = 0;
+	};
+
 	class IBaluMaterial
 	{
 	public:

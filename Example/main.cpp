@@ -348,8 +348,20 @@ IBaluWorld* CreateDemoWorld()
 
 TView main_viewport_view;
 
+EngineInterface::IDirector* director;
+
+void ViewportResize(TVec2i old_size, TVec2i new_size)
+{
+	TVec2 k = TVec2((float)new_size[0], (float)new_size[1]) / TVec2((float)old_size[0], (float)old_size[1]);
+	auto old_vieport_size = main_viewport->GetSize();
+	auto new_vieport_size = old_vieport_size.ComponentMul(k);
+	main_viewport->SetSize(new_vieport_size);
+}
+
 void RenderWorld(IBaluWorldInstance* world, TRender* render)
 {
+	*screen = TScreen(director->GetScreenSize());
+
 	std::vector<TRenderCommand> render_commands;
 	std::vector<TCustomDrawCommand> custom_draw_commands;
 	auto viewport_aabb = main_viewport->GetAABB();
@@ -364,7 +376,7 @@ void RenderWorld(IBaluWorldInstance* world, TRender* render)
 
 	//render->EnableScissor(true);
 	//render->SetScissorRect(*screen, main_viewport_view);
-	render->Render(render_commands, custom_draw_commands);
+	render->Render(render_commands, custom_draw_commands, main_viewport);
 	//render->EnableScissor(false);
 }
 
@@ -377,7 +389,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 {
 	
 
-	auto director = CreateDirector();
+	director = CreateDirector();
 
 	base_path = director->GetBasePath();
 
@@ -401,6 +413,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	director->SetWorldInstance(demo_world_instance);
 	director->SetRenderWorldCallback(RenderWorld);
+	director->SetVieportResizeCallback(ViewportResize);
 	director->SetSymulatePhysics(false);
 	director->MainLoop();
 

@@ -218,6 +218,6 @@ void TBaluSceneInstance::DebugDraw()
 	flags |= b2Draw::e_centerOfMassBit;
 	phys_debug.SetFlags(flags);
 
-	phys_world->DrawDebugData();
-	phys_debug.Flush();
+	//phys_world->DrawDebugData();
+	//phys_debug.Flush();
 }

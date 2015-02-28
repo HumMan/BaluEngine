@@ -29,6 +29,9 @@
     <Filter Include="EditorUtils\SceneEditor">
       <UniqueIdentifier>{1cff91d2-3c57-4e8b-bdfd-eedbf443ab6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\ConvexDecomposition">
+      <UniqueIdentifier>{b62269e5-7f00-4857-ad7c-69b984a06c24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utils\texture_polygon.h">
@@ -226,6 +229,12 @@
     <ClInclude Include="Source\EditorUtils\EditorControlsModel.h">
       <Filter>EditorUtils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h">
+      <Filter>Utils\ConvexDecomposition</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h">
+      <Filter>Utils\ConvexDecomposition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -353,6 +362,12 @@
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\EditorControlsModel.cpp">
       <Filter>EditorUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp">
+      <Filter>Utils\ConvexDecomposition</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp">
+      <Filter>Utils\ConvexDecomposition</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

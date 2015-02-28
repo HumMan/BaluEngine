@@ -6,15 +6,6 @@
 
 namespace EngineInterface
 {
-	class IViewport
-	{
-	public:
-		virtual void SetTransform(TBaluTransform transform) = 0;
-		virtual void SetAspectRatio(float aspect) = 0;
-		virtual void SetWidth(float width) = 0;
-		virtual TAABB2 GetAABB() = 0;
-	};
-
 	class IBaluSceneClassInstance
 	{
 	public:

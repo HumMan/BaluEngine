@@ -36,6 +36,7 @@ public:
 	TBaluWorldInstance* world_instance;
 
 	RenderWorldCallback render_world_callback;
+	VieportResizeCallback vieport_resize_callback;
 
 	bool physics_sym;
 };
@@ -86,6 +87,11 @@ void TDirector::SetWorldInstance(EngineInterface::IBaluWorldInstance* world_inst
 void TDirector::SetRenderWorldCallback(RenderWorldCallback callback)
 {
 	p->render_world_callback = callback;
+}
+
+void TDirector::SetVieportResizeCallback(VieportResizeCallback callback)
+{
+	p->vieport_resize_callback = callback;
 }
 
 void TDirector::SetSymulatePhysics(bool enable)
@@ -226,7 +232,12 @@ void TDirector::MainLoop()
 			else if (event.type == SDL_WINDOWEVENT)
 			{
 				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-					p->internal_render->Set.Viewport(TVec2i(event.window.data1, event.window.data2));
+				{
+					auto old_screen_size = p->internal_render->Get.Vieport();
+					auto new_size = TVec2i(event.window.data1, event.window.data2);
+					p->internal_render->Set.Viewport(new_size);
+					p->vieport_resize_callback(old_screen_size, new_size);
+				}
 			}
 		}
 	}

@@ -138,6 +138,8 @@
     <ClInclude Include="Source\SpriteInstance.h" />
     <ClInclude Include="Source\SpritePoly.h" />
     <ClInclude Include="Source\SpritePolyInstance.h" />
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h" />
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h" />
     <ClInclude Include="Source\Utils\DebugDraw.h" />
     <ClInclude Include="Source\Utils\polygon_decomp.h" />
     <ClInclude Include="Source\Utils\polygon_vertices.h" />
@@ -187,6 +189,8 @@
     <ClCompile Include="Source\SpriteInstance.cpp" />
     <ClCompile Include="Source\SpritePoly.cpp" />
     <ClCompile Include="Source\SpritePolyInstance.cpp" />
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
     <ClCompile Include="Source\Utils\DebugDraw.cpp" />
     <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
     <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
