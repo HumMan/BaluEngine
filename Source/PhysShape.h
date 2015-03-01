@@ -26,6 +26,8 @@ public:
 		this->scale = scale;
 	}
 	//virtual TBaluPhysShape* GetPhysShape() = 0;
+	virtual void Save(pugi::xml_node& parent_node, const int version)=0;
+	virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)=0;
 };
 
 class TBaluPolygonShape : public TBaluPhysShape, public EngineInterface::IBaluPolygonShape
@@ -35,6 +37,8 @@ private:
 public:
 	b2PolygonShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluPhysShape* GetPhysShape();
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
 
@@ -47,6 +51,8 @@ public:
 	TBaluCircleShape(float radius, TVec2 pos);
 	b2CircleShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluPhysShape* GetPhysShape();
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
 class TBaluBoxShape : public TBaluPhysShape, public EngineInterface::IBaluBoxShape
@@ -57,4 +63,6 @@ public:
 	TBaluBoxShape(float width, float height);
 	b2PolygonShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluPhysShape* GetPhysShape();
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

@@ -102,12 +102,18 @@ public:
 		std::string tag;
 		TBaluTransform local;
 		TVec2 scale;
+		TBaluSpriteInstance()
+		{
+			sprite = nullptr;
+		}
 		TBaluSpriteInstance(TBaluSprite* sprite)
 		{
 			this->sprite = sprite;
 			local = TBaluTransform(TVec2(0, 0), TRot(0));
 			scale = TVec2(1, 1);
 		}
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 
 private:
@@ -165,4 +171,7 @@ public:
 
 	void OnEndContact(TSensor* sensor, SensorCollideCallback callback);
 	void OnEndContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback);
+
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

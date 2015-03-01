@@ -41,6 +41,10 @@ public:
 		std::string tag;
 		TBaluTransform transform;
 		TVec2 scale;
+		TClassInstance()
+		{
+			balu_class = nullptr;
+		}
 		TClassInstance(TBaluClass* balu_class)
 		{
 			this->transform = TBaluTransform(TVec2(0, 0), TRot(0));
@@ -63,6 +67,8 @@ public:
 		{
 			return scale;
 		}
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 private:
 	std::vector<std::unique_ptr<TClassInstance>> instances;
@@ -89,4 +95,7 @@ public:
 
 	void DestroyInstance(TBaluScene::TClassInstance*);	
 	void DestroyInstance(EngineInterface::IBaluSceneClassInstance* instance);
+
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

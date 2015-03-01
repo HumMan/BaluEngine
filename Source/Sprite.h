@@ -5,6 +5,11 @@
 
 #include "EngineInterfaces.h"
 
+namespace pugi
+{
+	class xml_node;
+}
+
 class TBaluSprite :public EngineInterface::IBaluSprite
 {
 private:
@@ -29,4 +34,7 @@ public:
 	void SetPhysShapeFromGeometry();
 
 	TBaluSpritePolygon* GetPolygone();
+
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

@@ -8,6 +8,13 @@
 
 #include "EngineInterfaces\IAnimationFrames.h"
 
+namespace pugi
+{
+	class xml_node;
+}
+
+class TBaluWorld;
+
 class TBaluSpritePolygon: public EngineInterface::IBaluSpritePolygon
 {
 private:
@@ -93,4 +100,7 @@ public:
 	void AddAnimDesc(EngineInterface::TAnimDesc* desc);
 	void CreateAnimationLine(std::string line_name, std::vector<EngineInterface::TAnimationFrames> frames);
 	void CreateAnimationLine(std::string line_name, EngineInterface::TAnimDesc* desc, std::vector<int> frames);
+
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

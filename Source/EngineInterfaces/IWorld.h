@@ -52,6 +52,9 @@ namespace EngineInterface
 		virtual void OnMouseDown(CallbackWithData<MouseUpDownCallback>) = 0;
 		virtual void OnMouseUp(CallbackWithData<MouseUpDownCallback>) = 0;
 		virtual void OnMouseMove(CallbackWithData<MouseUpDownCallback>) = 0;
+
+		virtual void SaveToXML(std::string path) = 0;
+		virtual void LoadFromXML(std::string path) = 0;
 		
 	};
 }

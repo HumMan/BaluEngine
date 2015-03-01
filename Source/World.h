@@ -18,6 +18,10 @@ public:
 	TBaluBoxShape* CreateBoxShape(float width, float height);
 };
 
+namespace pugi
+{
+	class xml_node;
+}
 
 class TBaluWorld : public EngineInterface::IBaluWorld
 {
@@ -35,14 +39,13 @@ private:
 	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_up_callbacks;
 	std::vector<CallbackWithData<MouseMoveCallback>> mouse_move_callbacks;
 
-	//TScreen screen;
 	TCallbacksActiveType callback_active_type;
 
 	template<class T, class M>
 	std::vector<std::pair<std::string, T*>> GetPairsFromMap(M& map)
 	{
 		std::vector<std::pair<std::string, T*>> result(map.size());
-		for (auto& v : materials)
+		for (auto& v : map)
 		{
 			std::pair<std::string, T*> temp;
 			temp.first = v.first;
@@ -57,31 +60,34 @@ public:
 	{
 		return callback_active_type;
 	}
-	//void SetScreen(const TScreen& screen);
-	
 	bool TryFindClass(char* class_name, TBaluClass*& result);
 	bool TryFindClass(char* class_name, EngineInterface::IBaluClass*& result);
 
-	TBaluMaterial* CreateMaterial(char* mat_name);
+	TBaluMaterial* CreateMaterial(const char* mat_name);
+	TBaluSprite* CreateSprite(const char* sprite_name);
+	TBaluClass* CreateClass(const char* class_name);
+	TBaluScene* CreateScene(const char* scene_name);
+
+	TBaluMaterial* GetMaterial(const char* mat_name);
+	TBaluSprite* GetSprite(const char* sprite_name);
+	TBaluClass* GetClass(const char* class_name);
+	TBaluScene* GetScene(const char* scene_name);
+	
 	std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials()
 	{
 		return GetPairsFromMap<EngineInterface::IBaluMaterial>(materials);
 	}
-
-	TBaluSprite* CreateSprite(char* sprite_name);
-	TBaluClass* CreateClass(char* class_name);
-	TBaluScene* CreateScene(char* scene_name);
+	std::vector<std::pair<std::string, EngineInterface::IBaluSprite*>> GetSprites()
+	{
+		return GetPairsFromMap<EngineInterface::IBaluSprite>(sprites);
+	}
+	std::vector<std::pair<std::string, EngineInterface::IBaluClass*>> GetClasses()
+	{
+		return GetPairsFromMap<EngineInterface::IBaluClass>(classes);
+	}
 	std::vector<std::pair<std::string, EngineInterface::IBaluScene*>> GetScenes()
 	{
-		std::vector<std::pair<std::string, EngineInterface::IBaluScene*>> result(scenes.size());
-		for (auto& v : scenes)
-		{
-			std::pair<std::string, EngineInterface::IBaluScene*> temp;
-			temp.first = v.first;
-			temp.second = &v.second;
-			result.push_back(temp);
-		}
-		return result;
+		return GetPairsFromMap<EngineInterface::IBaluScene>(scenes);
 	}
 
 	TBaluScene* GetScene(char* scene_name);
@@ -93,4 +99,10 @@ public:
 	void OnMouseDown(CallbackWithData<MouseUpDownCallback>);
 	void OnMouseUp(CallbackWithData<MouseUpDownCallback>);
 	void OnMouseMove(CallbackWithData<MouseUpDownCallback>);
+
+	void SaveToXML(std::string path);
+	void LoadFromXML(std::string path);
+
+	void SaveToXML(pugi::xml_node& parent_node, const int version);
+	void LoadFromXML(const pugi::xml_node& document_node, const int version);
 };
