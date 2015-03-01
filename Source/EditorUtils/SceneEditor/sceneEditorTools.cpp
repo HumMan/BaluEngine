@@ -11,16 +11,16 @@ class TCreateClassInstanceTool : public IEditorTool
 {
 protected:
 	TSceneEditorScene* scene_editor_scene;
-	//TBaluClass* active_tool_class;
+	IBaluClass* active_tool_class;
 public:
 	TWorldObjectType NeedObjectSelect()
 	{
 		return TWorldObjectType::Class;
 	}
-	//void SetSelectedObject(TWorldObjectDef* obj)
-	//{
-	//	active_tool_class = dynamic_cast<TBaluClass*>(obj);
-	//}
+	void SetSelectedObject(IBaluWorldObject* obj)
+	{
+		active_tool_class = dynamic_cast<IBaluClass*>(obj);
+	}
 	TCreateClassInstanceTool(TSceneEditorScene* scene_editor_scene);
 	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
 	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
@@ -77,16 +77,16 @@ class TModifyClassInstanceTool : public IEditorTool, public TBoundaryBoxChangeLi
 {
 protected:
 	TSceneEditorScene* scene_editor_scene;
-	//TBaluClass* active_tool_class;
+	IBaluClass* active_tool_class;
 public:
 	TWorldObjectType NeedObjectSelect()
 	{
 		return TWorldObjectType::None;
 	}
-	//void SetSelectedObject(TWorldObjectDef* obj)
-	//{
-	//	active_tool_class = dynamic_cast<TBaluClass*>(obj);
-	//}
+	void SetSelectedObject(IBaluWorldObject* obj)
+	{
+		active_tool_class = dynamic_cast<IBaluClass*>(obj);
+	}
 	TModifyClassInstanceTool(TSceneEditorScene* scene_editor_scene)
 	{
 		this->scene_editor_scene = scene_editor_scene;

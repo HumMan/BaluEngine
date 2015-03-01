@@ -1,19 +1,24 @@
 #pragma once
 
-#include "../../BaluLib/Source/Math/vec.h"
-#include "../../BaluLib/Source/Math/matrix.h"
-#include "../../BaluLib/Source/BVolumes/OBB.h"
+#include "../../../BaluLib/Source/Math/vec.h"
+#include "../../../BaluLib/Source/Math/matrix.h"
+#include "../../../BaluLib/Source/BVolumes/OBB.h"
 
 #include <string>
+
+#include "IProperties.h"
 
 struct TRot
 {
 	TRot() {}
+	TRot(float s, float c)
+	{
+		this->s = s;
+		this->c = c;
+	}
 	explicit TRot(float angle)
 	{
-		/// TODO_ERIN optimize
-		s = sinf(angle);
-		c = cosf(angle);
+		Set(angle);
 	}
 	explicit TRot(const TOBB2& box)
 	{
@@ -22,7 +27,6 @@ struct TRot
 	}
 	void Set(float angle)
 	{
-		/// TODO_ERIN optimize
 		s = sinf(angle);
 		c = cosf(angle);
 	}
@@ -119,5 +123,6 @@ namespace EngineInterface
 		virtual void SetImagePath(std::string image_path) = 0;
 		virtual std::string GetImagePath() = 0;
 		virtual void SetColor(TVec4 color) = 0;
+		virtual EngineInterface::IBaluWorldObject* CastToWorldObject() = 0;
 	};
 }

@@ -4,6 +4,13 @@
 
 namespace EngineInterface
 {
+	class IProperties;
+	class IBaluWorldObject
+	{
+	public:
+		virtual IProperties* GetProperties() = 0;
+	};
+
 	enum PropertyType
 	{
 		Bool,

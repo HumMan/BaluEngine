@@ -37,6 +37,20 @@ private:
 
 	//TScreen screen;
 	TCallbacksActiveType callback_active_type;
+
+	template<class T, class M>
+	std::vector<std::pair<std::string, T*>> GetPairsFromMap(M& map)
+	{
+		std::vector<std::pair<std::string, T*>> result(map.size());
+		for (auto& v : materials)
+		{
+			std::pair<std::string, T*> temp;
+			temp.first = v.first;
+			temp.second = &v.second;
+			result.push_back(temp);
+		}
+		return result;
+	}
 public:
 	TBaluWorld();
 	TCallbacksActiveType& GetCallbacksActiveType()
@@ -49,9 +63,26 @@ public:
 	bool TryFindClass(char* class_name, EngineInterface::IBaluClass*& result);
 
 	TBaluMaterial* CreateMaterial(char* mat_name);
+	std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials()
+	{
+		return GetPairsFromMap<EngineInterface::IBaluMaterial>(materials);
+	}
+
 	TBaluSprite* CreateSprite(char* sprite_name);
 	TBaluClass* CreateClass(char* class_name);
 	TBaluScene* CreateScene(char* scene_name);
+	std::vector<std::pair<std::string, EngineInterface::IBaluScene*>> GetScenes()
+	{
+		std::vector<std::pair<std::string, EngineInterface::IBaluScene*>> result(scenes.size());
+		for (auto& v : scenes)
+		{
+			std::pair<std::string, EngineInterface::IBaluScene*> temp;
+			temp.first = v.first;
+			temp.second = &v.second;
+			result.push_back(temp);
+		}
+		return result;
+	}
 
 	TBaluScene* GetScene(char* scene_name);
 

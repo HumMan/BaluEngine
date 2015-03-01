@@ -9,7 +9,7 @@
 #include "EngineInterfaces.h"
 
 
-class TBaluMaterial: public EngineInterface::IBaluMaterial
+class TBaluMaterial: public EngineInterface::IBaluMaterial, public EngineInterface::IBaluWorldObject
 {
 public:
 	enum class TTransparentMode
@@ -97,4 +97,12 @@ public:
 	void SetImagePath(std::string image_path);
 	std::string GetImagePath();
 	void SetColor(TVec4 color);
+	EngineInterface::IProperties* GetProperties()
+	{
+		return nullptr;
+	}
+	EngineInterface::IBaluWorldObject* CastToWorldObject()
+	{
+		return this;
+	}
 };

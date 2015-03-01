@@ -1,16 +1,21 @@
 #pragma once
 
-class TWorldObjectDef;
 class TCallbackManagedBridge;
-class TBaluWorldDef;
+
+namespace EngineInterface
+{
+	class IBaluWorldObject;
+	class IBaluWorld;
+}
+
+class BaluEditorControlPrivate;
 
 namespace Editor
 {
 	using namespace System;
 	using namespace System::Diagnostics;
-	using namespace System::ComponentModel;
 	using namespace System::Windows::Forms;
-	using namespace System::Drawing;
+	using namespace System::ComponentModel;
 	using namespace System::Threading;
 	using namespace System::Collections::Generic;
 	using namespace System::Runtime::InteropServices;
@@ -27,7 +32,7 @@ namespace Editor
 	public ref class TWolrdTreeNodeTag
 	{
 	public:
-		TWorldObjectDef* world_object;
+		IBaluWorldObject* world_object;
 		TNodeType NodeType;
 		bool IsSpecialNode;
 		TWolrdTreeNodeTag(TNodeType NodeType)
@@ -35,7 +40,7 @@ namespace Editor
 			IsSpecialNode = true;
 			this->NodeType = NodeType;
 		}
-		TWolrdTreeNodeTag(TNodeType NodeType, TWorldObjectDef* world_object)
+		TWolrdTreeNodeTag(TNodeType NodeType, IBaluWorldObject* world_object)
 		{
 			IsSpecialNode = false;
 			this->NodeType = NodeType;
@@ -43,27 +48,22 @@ namespace Editor
 		}
 	};
 
-	[DesignerAttribute(BaluEditorControlDesigner::typeid)]
-	public ref class BaluEditorControl : public System::Windows::Forms::UserControl
+	public ref class BaluEditorControl
 	{
 	private:
-		bool DesignMode;
-		bool Activated;
 
-		TCallbackManagedBridge* callbackbridge;
+		BaluEditorControlPrivate* p;
 
-		Void CreateWorldTree(TreeView^ WorldTreeView, TBaluWorldDef* world);
+		Void CreateWorldTree(TreeView^ WorldTreeView, EngineInterface::IBaluWorld* world);
 
 	public:
 		//called by balu editor
-		void OnSelectionChangedByEditor(TWorldObjectDef* old_selection, TWorldObjectDef* new_selection);
-		void OnPropertiesChangedByEditor(TWorldObjectDef* changed_obj);
-		void OnObjectCreatedByEditor(TWorldObjectDef* new_object);
+		void OnSelectionChangedByEditor(IBaluWorldObject* old_selection, IBaluWorldObject* new_selection);
+		void OnPropertiesChangedByEditor(IBaluWorldObject* changed_obj);
+		void OnObjectCreatedByEditor(IBaluWorldObject* new_object);
 
 		BaluEditorControl();
 
-		virtual Void OnPaint(PaintEventArgs^ e) override;
-		virtual Void OnPaintBackground(PaintEventArgs^ e) override;
 		virtual Void OnResize(EventArgs^ e) override;
 		virtual Void OnKeyDown(KeyEventArgs^ e) override;
 		virtual Void OnKeyPress(KeyPressEventArgs^ e) override;
@@ -71,14 +71,9 @@ namespace Editor
 		virtual Void OnMouseClick(MouseEventArgs^ e) override;
 		virtual Void OnMouseDoubleClick(MouseEventArgs^ e) override;
 		virtual Void OnMouseDown(MouseEventArgs^ e) override;
-		//virtual Void OnMouseEnter(EventArgs^ e) override;
-		virtual Void OnMouseHover(EventArgs^ e) override;
-		virtual Void OnMouseLeave(EventArgs^ e) override;
 		virtual Void OnMouseMove(MouseEventArgs^ e) override;
 		virtual Void OnMouseUp(MouseEventArgs^ e) override;
 		virtual Void OnMouseWheel(MouseEventArgs^ e) override;
-		virtual Void OnLoad(EventArgs^ e) override;
-		virtual Void WndProc(Message% m) override;
 
 		virtual Void Render();
 
@@ -99,10 +94,10 @@ namespace Editor
 		bool CanEndSelectedAsWork();
 		void EndSelectedAsWork();
 
-		void SetToolSelectedObject(String^ name);
+		void SetToolSelectedObject(System::String^ name);
 
-		void SaveWorldTo(String^ path);
-		void LoadWorldFrom(String^ path);
+		void SaveWorldTo(System::String^ path);
+		void LoadWorldFrom(System::String^ path);
 
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;

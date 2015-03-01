@@ -21,9 +21,6 @@
     <ClInclude Include="BaluEditorControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BaluEditorControlDesigner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h">
       <Filter>Source Files\PropertiesRegistry</Filter>
     </ClInclude>

@@ -37,6 +37,7 @@ namespace EngineInterface
 		virtual bool TryFindClass(char* class_name, IBaluClass*& result)=0;
 
 		virtual IBaluMaterial* CreateMaterial(char* mat_name) = 0;
+		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
 		virtual IBaluSprite* CreateSprite(char* sprite_name) = 0;
 		virtual IBaluClass* CreateClass(char* class_name) = 0;
 		virtual IBaluScene* CreateScene(char* scene_name) = 0;

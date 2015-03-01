@@ -233,7 +233,7 @@ void TDirector::MainLoop()
 			{
 				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
 				{
-					auto old_screen_size = p->internal_render->Get.Vieport();
+					auto old_screen_size = p->internal_render->Get.Viewport();
 					auto new_size = TVec2i(event.window.data1, event.window.data2);
 					p->internal_render->Set.Viewport(new_size);
 					p->vieport_resize_callback(old_screen_size, new_size);
