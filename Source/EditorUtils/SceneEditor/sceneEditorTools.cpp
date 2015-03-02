@@ -22,9 +22,9 @@ public:
 		active_tool_class = dynamic_cast<IBaluClass*>(obj);
 	}
 	TCreateClassInstanceTool(TSceneEditorScene* scene_editor_scene);
-	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
+	void OnMouseDown(TMouseEventArgs e);
+	void OnMouseMove(TMouseEventArgs e);
+	void OnMouseUp(TMouseEventArgs e);
 	void CancelOperation()
 	{
 
@@ -37,7 +37,7 @@ TCreateClassInstanceTool::TCreateClassInstanceTool(TSceneEditorScene* scene_edit
 	//active_tool_class = nullptr;
 }
 
-void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 {
 	//if (active_tool_class != nullptr)
 	{
@@ -64,11 +64,11 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor
 	}
 }
 
-void TCreateClassInstanceTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
+void TCreateClassInstanceTool::OnMouseMove(TMouseEventArgs e)
 {
 	
 }
-void TCreateClassInstanceTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
+void TCreateClassInstanceTool::OnMouseUp(TMouseEventArgs e)
 {
 
 }
@@ -111,7 +111,7 @@ public:
 		scene_editor_scene->selected_instance->SetTransform(trans);
 	}
 
-	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+	void OnMouseDown(TMouseEventArgs e)
 	{
 		if (scene_editor_scene->boundary_box.enable)
 		{
@@ -133,7 +133,7 @@ public:
 			}
 		}
 	}
-	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
+	void OnMouseMove(TMouseEventArgs e)
 	{
 		if (scene_editor_scene->boundary_box.enable)
 		{
@@ -141,7 +141,7 @@ public:
 		}
 		if (!scene_editor_scene->boundary_box.IsCursorCaptured())
 		{
-			world_cursor_location = scene_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(world_cursor_location[0], world_cursor_location[1]));
+			auto world_cursor_location = scene_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
 			IBaluInstance* instance_collision(nullptr);
 			if (scene_editor_scene->source_scene_instance->PointCollide(world_cursor_location, instance_collision))
 			{
@@ -157,7 +157,7 @@ public:
 		}
 		
 	}
-	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
+	void OnMouseUp(TMouseEventArgs e)
 	{
 		if (scene_editor_scene->boundary_box.enable)
 		{

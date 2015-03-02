@@ -29,9 +29,9 @@ public:
 	void KeyDown(TKey key);
 	void KeyUp(TKey key);
 
-	void MouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-	void MouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-	void MouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
+	void MouseDown(TMouseEventArgs e);
+	void MouseMove(TMouseEventArgs e);
+	void MouseUp(TMouseEventArgs e);
 	void MouseVerticalWheel(int amount);
 
 	void UpdateTransform();

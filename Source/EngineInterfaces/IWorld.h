@@ -25,8 +25,8 @@ struct TMouseEventArgs
 	}
 };
 
-typedef void(*MouseUpDownCallback)(TCallbackData* callback, TMouseEventArgs e, TVec2 world_cursor_location);
-typedef void(*MouseMoveCallback)(TCallbackData* callback, TMouseEventArgs e, TVec2 world_cursor_location);
+typedef void(*MouseUpDownCallback)(TCallbackData* callback, TMouseEventArgs e);
+typedef void(*MouseMoveCallback)(TCallbackData* callback, TMouseEventArgs e);
 
 namespace EngineInterface
 {
@@ -34,15 +34,19 @@ namespace EngineInterface
 	{
 	public:
 		virtual TCallbacksActiveType& GetCallbacksActiveType() = 0;
-		virtual bool TryFindClass(char* class_name, IBaluClass*& result)=0;
+		virtual bool TryFindClass(const char* class_name, IBaluClass*& result) = 0;
 
-		virtual IBaluMaterial* CreateMaterial(char* mat_name) = 0;
+		virtual IBaluMaterial* CreateMaterial(const char* mat_name) = 0;
+		virtual IBaluSprite* CreateSprite(const char* sprite_name) = 0;
+		virtual IBaluClass* CreateClass(const char* class_name) = 0;
+		virtual IBaluScene* CreateScene(const char* scene_name) = 0;
+
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
-		virtual IBaluSprite* CreateSprite(char* sprite_name) = 0;
-		virtual IBaluClass* CreateClass(char* class_name) = 0;
-		virtual IBaluScene* CreateScene(char* scene_name) = 0;
+		virtual std::vector<std::pair<std::string, EngineInterface::IBaluSprite*>> GetSprites() = 0;
+		virtual std::vector<std::pair<std::string, EngineInterface::IBaluClass*>> GetClasses() = 0;
+		virtual std::vector<std::pair<std::string, EngineInterface::IBaluScene*>> GetScenes() = 0;
 
-		virtual IBaluScene* GetScene(char* scene_name) = 0;
+		virtual IBaluScene* GetScene(const char* scene_name) = 0;
 
 		virtual IBaluPhysShapeFactory* GetPhysShapeFactory() = 0;
 
@@ -51,7 +55,7 @@ namespace EngineInterface
 
 		virtual void OnMouseDown(CallbackWithData<MouseUpDownCallback>) = 0;
 		virtual void OnMouseUp(CallbackWithData<MouseUpDownCallback>) = 0;
-		virtual void OnMouseMove(CallbackWithData<MouseUpDownCallback>) = 0;
+		virtual void OnMouseMove(CallbackWithData<MouseMoveCallback>) = 0;
 
 		virtual void SaveToXML(std::string path) = 0;
 		virtual void LoadFromXML(std::string path) = 0;

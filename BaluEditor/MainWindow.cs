@@ -12,12 +12,28 @@ namespace BaluEditor
 {
     public partial class MainWindow : Form
     {
+        private Editor.BaluEditorControl baluEditorControl1;
+
+        Editor.BaluEditorOpenglWindow opengl;
         public MainWindow()
         {
             InitializeComponent();
+
+            opengl = new Editor.BaluEditorOpenglWindow(panel2.Handle);
+            baluEditorControl1 = new Editor.BaluEditorControl();
+
+            this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
+            this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
+            this.baluEditorControl1.ToolObjectSelect = this.listBox1;
+            this.baluEditorControl1.WorldTreeView = this.treeView1;
+
             baluEditorControl1.InitializeEngine();
 
             InitializeCreateNodeContextMenu();
+
+            
+            
+            timer1.Enabled = true;
         }
 
         void InitializeCreateNodeContextMenu()
@@ -55,7 +71,11 @@ namespace BaluEditor
         {
             if (times_is_work) return;
             times_is_work = true;
+           
+            opengl.BeginFrame();
             baluEditorControl1.Render();
+            opengl.EndFrame();
+
             times_is_work = false;
         }
 
@@ -73,7 +93,7 @@ namespace BaluEditor
 
         private void baluEditorControl1_MouseEnter(object sender, EventArgs e)
         {
-            baluEditorControl1.Focus();
+            //baluEditorControl1.Focus();
         }
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -95,7 +115,7 @@ namespace BaluEditor
 
         private void baluEditorControl1_MouseEnter_1(object sender, EventArgs e)
         {
-            baluEditorControl1.Focus();
+            //baluEditorControl1.Focus();
         }
 
         private void EditorContextMenu_Opening(object sender, CancelEventArgs e)
@@ -144,6 +164,17 @@ namespace BaluEditor
             {
                 baluEditorControl1.LoadWorldFrom(openFileDialog.FileName);
             }
+        }
+
+        private void openGLControl1_OpenGLRender(object sender, EventArgs e)
+        {
+            baluEditorControl1.Render();
+        }
+
+        private void openGLControl1_OpenGLInit(object sender, EventArgs e)
+        {
+           
+           
         }
     }
 }

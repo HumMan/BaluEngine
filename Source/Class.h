@@ -92,7 +92,7 @@ public:
 
 
 
-class TBaluClass : public TProperties, public EngineInterface::IBaluClass
+class TBaluClass : public TProperties, public EngineInterface::IBaluClass, public EngineInterface::IBaluWorldObject
 {
 public:
 	class TBaluSpriteInstance : public EngineInterface::IBaluClassSprite
@@ -124,7 +124,10 @@ private:
 	TSkeleton skeleton;
 	TSkeletonAnimation skeleton_animation;
 public:
-
+	EngineInterface::IProperties* GetProperties()
+	{
+		return nullptr;
+	}
 	bool PointCollide(TVec2 class_space_point);
 	TAABB2 GetAABB();
 

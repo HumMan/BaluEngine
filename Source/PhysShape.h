@@ -47,6 +47,9 @@ class TBaluCircleShape : public TBaluPhysShape, public EngineInterface::IBaluCir
 private:
 	b2CircleShape b2shape;
 public:
+	TBaluCircleShape()
+	{
+	}
 	TBaluCircleShape(float radius);
 	TBaluCircleShape(float radius, TVec2 pos);
 	b2CircleShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
@@ -60,6 +63,9 @@ class TBaluBoxShape : public TBaluPhysShape, public EngineInterface::IBaluBoxSha
 private:
 	b2PolygonShape b2shape;
 public:
+	TBaluBoxShape()
+	{
+	}
 	TBaluBoxShape(float width, float height);
 	b2PolygonShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluPhysShape* GetPhysShape();

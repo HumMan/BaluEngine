@@ -16,20 +16,34 @@ class TDirector: public EngineInterface::IDirector
 
 	void Step(float step);
 public:
+
+	//special only for testing
+	void Initialize(void* handle);
+	void BeginFrame();
+	void EndFrame();
+	//
 	TDirector();
 	void SetWorldInstance(TBaluWorldInstance* world_instance);
 	void SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance);
 	void SetRenderWorldCallback(RenderWorldCallback callback);
-	void SetVieportResizeCallback(VieportResizeCallback callback);
-	int Initialize();
-
-	void SetSymulatePhysics(bool enable);
-
-	void MainLoop();
+	
+	int Initialize(bool create_window);
 	TResources* GetResources();
 	~TDirector();
 
 	std::string GetBasePath();
-
 	TVec2i GetScreenSize();
+
+	//used if create_windows==true
+	void SetViewportResizeCallback(VieportResizeCallback callback);
+	void MainLoop();
+	void SetSymulatePhysics(bool enable);
+
+	//used if create_windows==false
+	void Render();
+	void SetViewport(TVec2i use_size);
+	/*void OnMouseMove(TMouseEventArgs e);
+	void OnMouseDown(TMouseEventArgs e);
+	void OnMouseUp(TMouseEventArgs e);
+	void OnMouseWheel(float delta);*/
 };

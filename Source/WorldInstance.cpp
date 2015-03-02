@@ -73,27 +73,27 @@ void TBaluWorldInstance::KeyUp(TKey key)
 		instances[i]->OnKeyUp(key);*/
 }
 
-void TBaluWorldInstance::MouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
+void TBaluWorldInstance::MouseDown(TMouseEventArgs e)
 {
 	for (auto& v : source->mouse_down_callbacks)
 	{
-		v.Execute(e, world_cursor_location);
+		v.Execute(e);
 	}
 }
 
-void TBaluWorldInstance::MouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
+void TBaluWorldInstance::MouseMove(TMouseEventArgs e)
 {
 	for (auto& v : source->mouse_move_callbacks)
 	{
-		v.Execute(e, world_cursor_location);
+		v.Execute(e);
 	}
 }
 
-void TBaluWorldInstance::MouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
+void TBaluWorldInstance::MouseUp(TMouseEventArgs e)
 {
 	for (auto& v : source->mouse_up_callbacks)
 	{
-		v.Execute(e, world_cursor_location);
+		v.Execute(e);
 	}
 }
 

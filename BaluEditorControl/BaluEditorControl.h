@@ -6,9 +6,11 @@ namespace EngineInterface
 {
 	class IBaluWorldObject;
 	class IBaluWorld;
+	class IAbstractEditor;
 }
 
 class BaluEditorControlPrivate;
+class BaluEditorOpenglWindowPrivate;
 
 namespace Editor
 {
@@ -19,6 +21,8 @@ namespace Editor
 	using namespace System::Threading;
 	using namespace System::Collections::Generic;
 	using namespace System::Runtime::InteropServices;
+
+	using namespace EngineInterface;
 
 	public enum class TNodeType
 	{
@@ -55,7 +59,7 @@ namespace Editor
 		BaluEditorControlPrivate* p;
 
 		Void CreateWorldTree(TreeView^ WorldTreeView, EngineInterface::IBaluWorld* world);
-
+		IAbstractEditor* BaluEditorControl::CreateEditorOfWorldObject(IBaluWorldObject* obj);
 	public:
 		//called by balu editor
 		void OnSelectionChangedByEditor(IBaluWorldObject* old_selection, IBaluWorldObject* new_selection);
@@ -64,16 +68,12 @@ namespace Editor
 
 		BaluEditorControl();
 
-		virtual Void OnResize(EventArgs^ e) override;
-		virtual Void OnKeyDown(KeyEventArgs^ e) override;
-		virtual Void OnKeyPress(KeyPressEventArgs^ e) override;
-		virtual Void OnKeyUp(KeyEventArgs^ e) override;
-		virtual Void OnMouseClick(MouseEventArgs^ e) override;
-		virtual Void OnMouseDoubleClick(MouseEventArgs^ e) override;
-		virtual Void OnMouseDown(MouseEventArgs^ e) override;
-		virtual Void OnMouseMove(MouseEventArgs^ e) override;
-		virtual Void OnMouseUp(MouseEventArgs^ e) override;
-		virtual Void OnMouseWheel(MouseEventArgs^ e) override;
+		virtual Void Resize(int width, int height) override;
+
+		virtual Void MouseDown(MouseEventArgs^ e) override;
+		virtual Void MouseMove(MouseEventArgs^ e) override;
+		virtual Void MouseUp(MouseEventArgs^ e) override;
+		virtual Void MouseWheel(MouseEventArgs^ e) override;
 
 		virtual Void Render();
 
@@ -106,5 +106,16 @@ namespace Editor
 	protected:
 
 		~BaluEditorControl();
+	};
+
+	public ref class BaluEditorOpenglWindow
+	{
+	private:
+
+		BaluEditorOpenglWindowPrivate* p;
+	public:
+		BaluEditorOpenglWindow(IntPtr handle);
+		void BeginFrame();
+		void EndFrame();
 	};
 }

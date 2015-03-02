@@ -35,5 +35,8 @@
     <ClCompile Include="Source\PropertiesRegistry\propertiesRegistry.cpp">
       <Filter>Source Files\PropertiesRegistry</Filter>
     </ClCompile>
+    <ClCompile Include="BaluEditorOpenglWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

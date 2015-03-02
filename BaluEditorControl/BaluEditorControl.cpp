@@ -29,20 +29,22 @@ public:
 	}
 };
 
+
+
+
 class BaluEditorControlPrivate
 {
 public:
-	std::unique_ptr<IDirector> director;
-	std::unique_ptr<IBaluWorld> world;
-
+	IDirector* director;
+	IBaluWorld* world;
+	IBaluWorldInstance* world_instance;
+	std::string base_path;
 	IBaluSceneInstance* scene_instance;
 	TScreen* screen;
 	IViewport* main_viewport;
 	TView main_viewport_view;
-
 	IAbstractEditor* active_editor;
-
-	TCallbackManagedBridge* callbackbridge;
+	std::unique_ptr<TCallbackManagedBridge> callbackbridge;
 };
 
 namespace Editor
@@ -59,6 +61,42 @@ namespace Editor
 			this->editor = editor;
 			this->editor_control = editor_control;
 		}
+
+		static bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list)
+		{
+			selection_list.clear();
+			//assert(p->active_editor != nullptr);
+			//if (p->active_editor != nullptr)
+			//{
+			//	auto need_obj = p->active_editor->active_tool->NeedObjectSelect();
+			//	switch (need_obj)
+			//	{
+			//	case TWorldObjectType::Material:
+			//		for (const auto& v : p->world->materials)
+			//			selection_list.push_back((TWorldObjectDef*)&(v.second));
+			//		break;
+			//	case TWorldObjectType::Sprite:
+			//		for (const auto& v : p->world->sprites)
+			//			selection_list.push_back((TWorldObjectDef*)&(v.second));
+			//		break;
+			//	case TWorldObjectType::PhysBody:
+			//		for (const auto& v : p->world->phys_bodies)
+			//			selection_list.push_back((TWorldObjectDef*)&(v.second));
+			//		break;
+			//	case TWorldObjectType::Class:
+			//		for (const auto& v : p->world->classes)
+			//			selection_list.push_back((TWorldObjectDef*)&(v.second));
+			//		break;
+			//	default:
+			//		assert(false);
+			//		return false;
+			//		break;
+			//	}
+			//	return true;
+			//}
+			return false;
+		}
+
 		void OnClick(Object ^ sender, EventArgs ^ e)
 		{
 			editor->SetActiveTool(tool);
@@ -68,15 +106,17 @@ namespace Editor
 				editor_control->ToolObjectSelect->Enabled = true;
 				editor_control->ToolObjectSelect->Items->Clear();
 				std::vector<IBaluWorldObject*> selection_list;
-				editor->ToolNeedObjectSelect(selection_list);
-				for (auto v : selection_list)
-					editor_control->ToolObjectSelect->Items->Add(gcnew String(v->GetName().c_str()));
+				ToolNeedObjectSelect(selection_list);
+				//for (auto v : selection_list)
+				//	editor_control->ToolObjectSelect->Items->Add(gcnew System::String(v->GetName().c_str()));
 			}
 			else
 			{
 				editor_control->ToolObjectSelect->Enabled = false;
 				editor_control->ToolObjectSelect->Items->Clear();
 			}
+
+			
 		}
 	};
 
@@ -91,15 +131,38 @@ namespace Editor
 				auto handler = gcnew TEditorToolEvent(tool.tool.get(), engine, editor_control);
 				ToolStripItem^ i = gcnew ToolStripButton(gcnew System::String(tool.name.c_str()));
 				i->Click += gcnew EventHandler(handler, &TEditorToolEvent::OnClick);
-				tool_strip->Items->Add(i);
+				//tool_strip->Items->Add(i);
 			}
 		}
 	};
 
+	IAbstractEditor* BaluEditorControl::CreateEditorOfWorldObject(IBaluWorldObject* obj)
+	{
+		//if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
+		//	return new TMaterialEditor();
+
+		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
+		//	return new TSpritePolygonEditor();
+
+		//if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
+		//	return new TSpriteEditor();
+
+		//if ((dynamic_cast<TBaluPhysBodyDef*>(obj)) != nullptr)
+		//	return new TPhysBodyEditor();
+
+		//if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
+		//	return new TClassEditor();
+
+		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
+			return CreateSceneEditor(p->screen, &p->main_viewport_view, p->main_viewport, p->world, dynamic_cast<IBaluScene*>(obj), p->scene_instance);
+
+		return nullptr;
+	}
+
 	void BaluEditorControl::OnSelectionChangedByEditor(IBaluWorldObject* old_selection, IBaluWorldObject* new_selection)
 	{
-		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(engine->GetWorld(), new_selection);
-		SelectedObjectProperty->SelectedObject = obj;
+		//TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(engine->GetWorld(), new_selection);
+		//SelectedObjectProperty->SelectedObject = obj;
 	}
 	
 	void BaluEditorControl::OnPropertiesChangedByEditor(IBaluWorldObject* changed_obj)
@@ -109,12 +172,12 @@ namespace Editor
 	void BaluEditorControl::OnObjectCreatedByEditor(IBaluWorldObject* new_object)
 	{
 		WorldTreeView->Nodes->Clear();
-		CreateWorldTree(WorldTreeView, p->world.get());
+		CreateWorldTree(WorldTreeView, p->world);
 	}
 
 	void BaluEditorControl::InitializeEngine()
 	{
-		CreateWorldTree(WorldTreeView, p->world.get());
+		CreateWorldTree(WorldTreeView, p->world);
 	}
 
 	Void BaluEditorControl::CreateMaterial()
@@ -140,15 +203,25 @@ namespace Editor
 
 	Void BaluEditorControl::SetSelectedWorldNode(TWolrdTreeNodeTag^ node)
 	{
-		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(engine->GetWorld(), node->world_object);
-		SelectedObjectProperty->SelectedObject = obj;
+		//TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(engine->GetWorld(), node->world_object);
+		//SelectedObjectProperty->SelectedObject = obj;
 	}
 
 	Void BaluEditorControl::SetEditedWorldNode(TWolrdTreeNodeTag^ node)
 	{
-		engine->Edit(node->world_object);
-		auto &tools = engine->GetAvailableTools();
-		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools,engine, this);
+		//engine->Edit(node->world_object);
+		//auto &tools = engine->GetAvailableTools();
+		//TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools,engine, this);
+
+		//SelectionChangedCallbackRef(SelectionChangedCallbackRef_calle, NULL, obj_to_edit);
+		auto ed = CreateEditorOfWorldObject(node->world_object);
+		//ed->OnSelectionChanged.connect(boost::bind(&TBaluEditor::OnSelectionChangedEvent, this, _1, _2));
+		//assert(ed != nullptr);
+		//if (ed != nullptr)
+		//{
+		//	ed->Initialize(obj_to_edit, TVec2(0, 0));
+		//	p->active_editor = ed;
+		//}
 	}
 
 	bool BaluEditorControl::CanSetSelectedAsWork()
@@ -178,21 +251,21 @@ namespace Editor
 			p->active_editor->EndSelectedAsWork();
 	}
 
-	void BaluEditorControl::SetToolSelectedObject(String^ name)
+	void BaluEditorControl::SetToolSelectedObject(System::String^ name)
 	{
-		engine->SetToolSelectedObject(msclr::interop::marshal_as<std::string>(name));
+		//engine->SetToolSelectedObject(msclr::interop::marshal_as<std::string>(name));
 	}
 
-	void BaluEditorControl::SaveWorldTo(String^ path)
+	void BaluEditorControl::SaveWorldTo(System::String^ path)
 	{
-		engine->SaveWorldTo(msclr::interop::marshal_as<std::string>(path));
+		p->world->SaveToXML(msclr::interop::marshal_as<std::string>(path));
 	}
 	
-	void BaluEditorControl::LoadWorldFrom(String^ path)
+	void BaluEditorControl::LoadWorldFrom(System::String^ path)
 	{
 		WorldTreeView->Nodes->Clear();
-		engine->LoadWorldFrom(msclr::interop::marshal_as<std::string>(path));
-		CreateWorldTree(WorldTreeView, engine->GetWorld());
+		p->world->LoadFromXML(msclr::interop::marshal_as<std::string>(path));
+		CreateWorldTree(WorldTreeView, p->world);
 	}
 
 	void BaluEditorControl::CreateWorldTree(TreeView^ WorldTreeView, IBaluWorld* world)
@@ -209,7 +282,7 @@ namespace Editor
 			for (auto i = all_materials.begin(); i != all_materials.end(); i++)
 			{
 				auto new_sprite_node = gcnew TreeNode(gcnew System::String(i->first.c_str()));
-				new_sprite_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material, i->second->CastToWorldObject());
+				new_sprite_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material, dynamic_cast<IBaluWorldObject*>(i->second));
 				Materialst_node->Nodes->Add(new_sprite_node);
 			}
 		}
@@ -217,32 +290,23 @@ namespace Editor
 			auto Sprites_node = gcnew TreeNode("Sprites");
 			Sprites_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
 			world_node->Nodes->Add(Sprites_node);
-			for (auto i = world->sprites.begin(); i != world->sprites.end(); i++)
+			auto all_sprites = world->GetSprites();
+			for (auto i = all_sprites.begin(); i != all_sprites.end(); i++)
 			{
-				auto new_sprite_node = gcnew TreeNode(gcnew String(i->first.c_str()));
-				new_sprite_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Sprite,&i->second);
+				auto new_sprite_node = gcnew TreeNode(gcnew System::String(i->first.c_str()));
+				new_sprite_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Sprite, dynamic_cast<IBaluWorldObject*>(i->second));
 				Sprites_node->Nodes->Add(new_sprite_node);
-			}
-		}
-		{
-			auto PhysBodies_node = gcnew TreeNode("PhysBodies");
-			PhysBodies_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
-			world_node->Nodes->Add(PhysBodies_node);
-			for (auto i = world->phys_bodies.begin(); i != world->phys_bodies.end(); i++)
-			{
-				auto new_physbody_node = gcnew TreeNode(gcnew String(i->first.c_str()));
-				new_physbody_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::PhysBody, &i->second);
-				PhysBodies_node->Nodes->Add(new_physbody_node);
 			}
 		}
 		{
 			auto Classes_node = gcnew TreeNode("Classes");
 			Classes_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
 			world_node->Nodes->Add(Classes_node);
-			for (auto i = world->classes.begin(); i != world->classes.end(); i++)
+			auto all_classes = world->GetClasses();
+			for (auto i = all_classes.begin(); i != all_classes.end(); i++)
 			{
-				auto new_class_node = gcnew TreeNode(gcnew String(i->first.c_str()));
-				new_class_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::PhysBody, &i->second);
+				auto new_class_node = gcnew TreeNode(gcnew System::String(i->first.c_str()));
+				new_class_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::PhysBody, dynamic_cast<IBaluWorldObject*>(i->second));
 				Classes_node->Nodes->Add(new_class_node);
 			}
 		}
@@ -250,10 +314,11 @@ namespace Editor
 			auto Scenes_node = gcnew TreeNode("Scenes");
 			Scenes_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::Material);
 			world_node->Nodes->Add(Scenes_node);
-			for (auto i = world->scenes.begin(); i != world->scenes.end(); i++)
+			auto all_scenes = world->GetScenes();
+			for (auto i = all_scenes.begin(); i != all_scenes.end(); i++)
 			{
-				auto new_scene_node = gcnew TreeNode(gcnew String(i->first.c_str()));
-				new_scene_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::PhysBody, &i->second);
+				auto new_scene_node = gcnew TreeNode(gcnew System::String(i->first.c_str()));
+				new_scene_node->Tag = gcnew TWolrdTreeNodeTag(TNodeType::PhysBody, dynamic_cast<IBaluWorldObject*>(i->second));
 				Scenes_node->Nodes->Add(new_scene_node);
 			}
 		}
@@ -261,51 +326,39 @@ namespace Editor
 
 	void BaluEditorControl::Render()
 	{
-			engine->Render();
+		p->director->Render();
 	}
 
-	Void BaluEditorControl::OnResize(EventArgs^ e)
+	Void BaluEditorControl::Resize(int width, int height)
 	{
-		engine->SetViewport(TVec2i(this->Width, this->Height));
+		p->director->SetViewport(TVec2i(width,height));
 	}
 
 	BaluEditorControl::BaluEditorControl()
 	{
-			callbackbridge = new TCallbackManagedBridge(this);
+		p = new BaluEditorControlPrivate();
+		p->callbackbridge.reset(new TCallbackManagedBridge(this));
 
-			hWnd = static_cast<HWND>(this->Handle.ToPointer());
-			RECT rect;
-			GetClientRect(hWnd, &rect);
+		p->world = CreateWorld();
 
-			engine = new TBaluEditor(*(int*)&hWnd, TVec2i(rect.right - rect.left, rect.bottom - rect.top));
+		p->director = CreateDirector();
+		p->base_path = p->director->GetBasePath();
 
-			engine->AddSelectionChangedCallback(callbackbridge, TCallbackManagedBridge::OnSelectionChanged);
-			engine->AddPropertiesChangedCallback(callbackbridge, TCallbackManagedBridge::OnPropertiesChanged);
-			engine->AddObjectCreatedCallback(callbackbridge, TCallbackManagedBridge::OnObjectCreated);
+		p->director->Initialize(false);
+
+		p->world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
+
+		//p->screen = new TScreen(director->GetScreenSize());
+
+		p->main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+
+			//engine->AddSelectionChangedCallback(callbackbridge, TCallbackManagedBridge::OnSelectionChanged);
+			//engine->AddPropertiesChangedCallback(callbackbridge, TCallbackManagedBridge::OnPropertiesChanged);
+			//engine->AddObjectCreatedCallback(callbackbridge, TCallbackManagedBridge::OnObjectCreated);
 	}
 	BaluEditorControl::~BaluEditorControl()
 	{
-		delete callbackbridge;
-	}
-
-	Void BaluEditorControl::OnKeyDown(KeyEventArgs^ e)
-	{
-	}
-
-	Void BaluEditorControl::OnKeyPress(KeyPressEventArgs^ e)
-	{
-	}
-
-	Void BaluEditorControl::OnKeyUp(KeyEventArgs^ e)
-	{
-	}
-
-	Void BaluEditorControl::OnMouseClick(MouseEventArgs^ e)
-	{
-	}
-
-	Void BaluEditorControl::OnMouseDoubleClick(MouseEventArgs^ e)
-	{
+		delete p;
 	}
 
 	TMouseEventArgs Convert(MouseEventArgs^ e)
@@ -325,23 +378,23 @@ namespace Editor
 		return result;
 	}
 
-	Void BaluEditorControl::OnMouseDown(MouseEventArgs^ e)
+	Void BaluEditorControl::MouseDown(MouseEventArgs^ e)
 	{
-		engine->OnMouseDown(Convert(e));
+		p->world_instance->MouseDown(Convert(e));
 	}
 
-	Void BaluEditorControl::OnMouseMove(MouseEventArgs^ e)
+	Void BaluEditorControl::MouseMove(MouseEventArgs^ e)
 	{
-		engine->OnMouseMove(Convert(e));
+		p->world_instance->MouseMove(Convert(e));
 	}
 
-	Void BaluEditorControl::OnMouseUp(MouseEventArgs^ e)
+	Void BaluEditorControl::MouseUp(MouseEventArgs^ e)
 	{
-		engine->OnMouseUp(Convert(e));
+		p->world_instance->MouseUp(Convert(e));
 	}
 
-	Void BaluEditorControl::OnMouseWheel(MouseEventArgs^ e)
+	Void BaluEditorControl::MouseWheel(MouseEventArgs^ e)
 	{
-		engine->OnMouseWheel(e->Delta);
+		p->world_instance->MouseVerticalWheel(e->Delta);
 	}
 }

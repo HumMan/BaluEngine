@@ -31,7 +31,7 @@ public:
 	}
 };
 
-class TBaluScene: public EngineInterface::IBaluScene
+class TBaluScene : public EngineInterface::IBaluScene, public EngineInterface::IBaluWorldObject
 {
 public:
 	class TClassInstance : public EngineInterface::IBaluSceneClassInstance
@@ -78,7 +78,10 @@ private:
 
 	TLayersManager layers;
 public:
-
+	EngineInterface::IProperties* GetProperties()
+	{
+		return nullptr;
+	}
 	TVec2 FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord);
 	TVec2 FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord);
 

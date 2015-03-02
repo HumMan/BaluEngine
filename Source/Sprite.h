@@ -10,7 +10,7 @@ namespace pugi
 	class xml_node;
 }
 
-class TBaluSprite :public EngineInterface::IBaluSprite
+class TBaluSprite :public EngineInterface::IBaluSprite, public EngineInterface::IBaluWorldObject
 {
 private:
 	std::string sprite_name;
@@ -21,8 +21,12 @@ private:
 	int layer;
 
 public:
-
+	EngineInterface::IProperties* GetProperties()
+	{
+		return nullptr;
+	}
 	TBaluSprite();
+	//TBaluSprite(const TBaluSprite& sp);
 
 	std::string GetName();
 	void SetName(std::string name);

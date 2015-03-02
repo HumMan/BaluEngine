@@ -60,8 +60,8 @@ public:
 	{
 		return callback_active_type;
 	}
-	bool TryFindClass(char* class_name, TBaluClass*& result);
-	bool TryFindClass(char* class_name, EngineInterface::IBaluClass*& result);
+	bool TryFindClass(const char* class_name, TBaluClass*& result);
+	bool TryFindClass(const char* class_name, EngineInterface::IBaluClass*& result);
 
 	TBaluMaterial* CreateMaterial(const char* mat_name);
 	TBaluSprite* CreateSprite(const char* sprite_name);
@@ -89,8 +89,6 @@ public:
 	{
 		return GetPairsFromMap<EngineInterface::IBaluScene>(scenes);
 	}
-
-	TBaluScene* GetScene(char* scene_name);
 
 	TBaluPhysShapeFactory* GetPhysShapeFactory();
 

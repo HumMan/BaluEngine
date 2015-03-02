@@ -102,6 +102,10 @@
       <Project>{9a33ea55-6f14-4210-8ac5-892517c6cc4f}</Project>
       <Name>BaluEditorControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenGLControl\OpenGLControl.vcxproj">
+      <Project>{6e4a716a-ce53-4d0c-a1a1-0a6f1ba885cf}</Project>
+      <Name>OpenGLControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

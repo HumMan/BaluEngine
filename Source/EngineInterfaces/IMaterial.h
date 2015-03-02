@@ -123,6 +123,5 @@ namespace EngineInterface
 		virtual void SetImagePath(std::string image_path) = 0;
 		virtual std::string GetImagePath() = 0;
 		virtual void SetColor(TVec4 color) = 0;
-		virtual EngineInterface::IBaluWorldObject* CastToWorldObject() = 0;
 	};
 }

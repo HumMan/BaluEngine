@@ -393,7 +393,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	base_path = director->GetBasePath();
 
-	director->Initialize();
+	director->Initialize(true);
 
 	auto demo_world = CreateDemoWorld();
 
@@ -413,7 +413,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	director->SetWorldInstance(demo_world_instance);
 	director->SetRenderWorldCallback(RenderWorld);
-	director->SetVieportResizeCallback(ViewportResize);
+	director->SetViewportResizeCallback(ViewportResize);
 	director->SetSymulatePhysics(false);
 	director->MainLoop();
 

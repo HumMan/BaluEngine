@@ -8,6 +8,12 @@
 
 #include "EngineInterfaces.h"
 
+namespace pugi
+{
+	class xml_node;
+}
+
+class TBaluWorld;
 
 class TBaluMaterial: public EngineInterface::IBaluMaterial, public EngineInterface::IBaluWorldObject
 {
@@ -100,10 +106,6 @@ public:
 	EngineInterface::IProperties* GetProperties()
 	{
 		return nullptr;
-	}
-	EngineInterface::IBaluWorldObject* CastToWorldObject()
-	{
-		return this;
 	}
 
 	void Save(pugi::xml_node& parent_node, const int version);

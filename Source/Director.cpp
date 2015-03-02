@@ -23,6 +23,9 @@ public:
 class TGameInternal
 {
 public:
+
+	bool create_window;
+
 	std::unique_ptr<TBaluRender> internal_render;
 	std::unique_ptr<TRender> render;
 	std::unique_ptr<TResources> resources;
@@ -46,6 +49,11 @@ class TBaluEngineInternal
 public:
 	std::unique_ptr<TBaluRender> render;
 };
+
+void TDirector::Render()
+{
+	p->render_world_callback(p->world_instance, p->render.get());
+}
 
 void TDirector::Step(float step)
 {
@@ -89,7 +97,7 @@ void TDirector::SetRenderWorldCallback(RenderWorldCallback callback)
 	p->render_world_callback = callback;
 }
 
-void TDirector::SetVieportResizeCallback(VieportResizeCallback callback)
+void TDirector::SetViewportResizeCallback(VieportResizeCallback callback)
 {
 	p->vieport_resize_callback = callback;
 }
@@ -99,48 +107,48 @@ void TDirector::SetSymulatePhysics(bool enable)
 	p->physics_sym = enable;
 }
 
-int TDirector::Initialize()
+int TDirector::Initialize(bool create_window)
 {
-
+	p->create_window = create_window;
 	p->base_path = SDL_GetBasePath();
-
 	p->physics_sym = true;
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-	{ /* Initialize SDL's Video subsystem */
+	if (create_window)
+	{
+		if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		{ /* Initialize SDL's Video subsystem */
 
-		return 1;
+			return 1;
+		}
+		/* Request opengl 4.4 context. */
+		SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+		/* Turn on double buffering with a 24bit Z buffer.
+		* You may need to change this to 16 or 32 for your system */
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+		SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+
+		/* Create our window centered at 512x512 resolution */
+
+		p->mainwindow = SDL_CreateWindow("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			512, 512, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+		if (!p->mainwindow)
+		{ /* Die if creation failed */
+
+			SDL_Quit();
+			return 1;
+		}
+
+		/* Create our opengl context and attach it to our window */
+
+		p->maincontext = SDL_GL_CreateContext(p->mainwindow);
+
+		auto err = SDL_GetError();
+		/* This makes our buffer swap syncronized with the monitor's vertical refresh */
+		//SDL_GL_SetSwapInterval(1);
 	}
-	/* Request opengl 4.4 context. */
-	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-	/* Turn on double buffering with a 24bit Z buffer.
-	* You may need to change this to 16 or 32 for your system */
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-
-	/* Create our window centered at 512x512 resolution */
-
-	p->mainwindow = SDL_CreateWindow("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		512, 512, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	if (!p->mainwindow)
-	{ /* Die if creation failed */
-
-		SDL_Quit();
-		return 1;
-	}
-
-	/* Create our opengl context and attach it to our window */
-
-	p->maincontext = SDL_GL_CreateContext(p->mainwindow);
-
-	auto err = SDL_GetError();
-	/* This makes our buffer swap syncronized with the monitor's vertical refresh */
-	//SDL_GL_SetSwapInterval(1);
-
-	
 
 	p->internal_render.reset(new TBaluRender(TVec2i(512, 512)));
 
@@ -157,9 +165,15 @@ std::string TDirector::GetBasePath()
 
 TVec2i TDirector::GetScreenSize()
 {
+	assert(p->create_window);
 	int w, h;
 	SDL_GetWindowSize(p->mainwindow, &w, &h);
 	return TVec2i(w, h);
+}
+
+void TDirector::SetViewport(TVec2i use_size)
+{
+	p->internal_render->Set.Viewport(use_size);
 }
 
 TResources* TDirector::GetResources()
@@ -167,8 +181,22 @@ TResources* TDirector::GetResources()
 	return p->resources.get();
 }
 
+void TDirector::Initialize(void* handle)
+{
+	p->internal_render.reset(new TBaluRender((int)handle, TVec2i(512, 512)));
+}
+void TDirector::BeginFrame()
+{
+	p->internal_render->BeginScene();
+}
+void TDirector::EndFrame()
+{
+	p->internal_render->EndScene();
+}
+
 void TDirector::MainLoop()
 {
+	assert(p->create_window);
 	bool quit = false;
 	SDL_Event event;
 
@@ -215,15 +243,15 @@ void TDirector::MainLoop()
 				char b[100];
 				sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
 				SDL_SetWindowTitle(p->mainwindow, b);
-				p->world_instance->MouseMove(TMouseEventArgs(TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)), TVec2(event.motion.x, event.motion.y));
+				p->world_instance->MouseMove(TMouseEventArgs(TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)));
 			}
 			else if (event.type == SDL_MOUSEBUTTONDOWN)
 			{
-				p->world_instance->MouseDown(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)), TVec2(0, 0));
+				p->world_instance->MouseDown(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
 			}
 			else if (event.type == SDL_MOUSEBUTTONUP)
 			{
-				p->world_instance->MouseUp(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)), TVec2(0, 0));
+				p->world_instance->MouseUp(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
 			}
 			else if (event.type == SDL_MOUSEWHEEL)
 			{
