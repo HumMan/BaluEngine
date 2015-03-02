@@ -52,7 +52,8 @@ public:
 
 void TDirector::Render()
 {
-	p->render_world_callback(p->world_instance, p->render.get());
+	if (p->world_instance != nullptr)
+		p->render_world_callback(p->world_instance, p->render.get());
 }
 
 void TDirector::Step(float step)
@@ -188,6 +189,8 @@ void TDirector::Initialize(void* handle)
 void TDirector::BeginFrame()
 {
 	p->internal_render->BeginScene();
+	p->internal_render->Set.ClearColor(0.2, 0.3, 0.3);
+	p->internal_render->Clear(true, true);
 }
 void TDirector::EndFrame()
 {

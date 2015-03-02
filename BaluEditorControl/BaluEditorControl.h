@@ -66,7 +66,10 @@ namespace Editor
 		void OnPropertiesChangedByEditor(IBaluWorldObject* changed_obj);
 		void OnObjectCreatedByEditor(IBaluWorldObject* new_object);
 
-		BaluEditorControl();
+		//BaluEditorControl();
+		BaluEditorControl(IntPtr handle);
+		void BeginFrame();
+		void EndFrame();
 
 		virtual Void Resize(int width, int height) override;
 
@@ -105,17 +108,17 @@ namespace Editor
 		property ListBox^ ToolObjectSelect;
 	protected:
 
-		~BaluEditorControl();
+		!BaluEditorControl();
 	};
 
-	public ref class BaluEditorOpenglWindow
-	{
-	private:
+	//public ref class BaluEditorOpenglWindow
+	//{
+	//private:
 
-		BaluEditorOpenglWindowPrivate* p;
-	public:
-		BaluEditorOpenglWindow(IntPtr handle);
-		void BeginFrame();
-		void EndFrame();
-	};
+	//	BaluEditorOpenglWindowPrivate* p;
+	//public:
+	//	BaluEditorOpenglWindow(IntPtr handle);
+	//	void BeginFrame();
+	//	void EndFrame();
+	//};
 }

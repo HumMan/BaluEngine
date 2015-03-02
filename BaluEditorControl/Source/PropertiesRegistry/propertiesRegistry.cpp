@@ -97,9 +97,9 @@ namespace Editor
 
 	ref class TMaterialProperties : public TPropertiesObject
 	{
-		TBaluMaterialDef* obj_def;
+		IBaluMaterial* obj_def;
 	public:
-		TMaterialProperties(TBaluMaterialDef* obj_def)
+		TMaterialProperties(IBaluMaterial* obj_def)
 		{
 			this->obj_def = obj_def;
 		}
@@ -289,7 +289,7 @@ namespace Editor
 		property int TBaluSceneDef_testprop;
 	};
 
-	TPropertiesObject^ TPropertiesRegistry::CreateProperties(TBaluWorldDef* world, TWorldObjectDef* obj_def)
+	TPropertiesObject^ TPropertiesRegistry::CreateProperties(IBaluWorld* world, IBaluWorldObject* obj_def)
 	{
 		if ((dynamic_cast<TBaluMaterialDef*>(obj_def)) != nullptr)
 			return gcnew TMaterialProperties(dynamic_cast<TBaluMaterialDef*>(obj_def));

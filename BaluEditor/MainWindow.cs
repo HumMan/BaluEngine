@@ -13,14 +13,13 @@ namespace BaluEditor
     public partial class MainWindow : Form
     {
         private Editor.BaluEditorControl baluEditorControl1;
-
-        Editor.BaluEditorOpenglWindow opengl;
         public MainWindow()
         {
             InitializeComponent();
 
-            opengl = new Editor.BaluEditorOpenglWindow(panel2.Handle);
-            baluEditorControl1 = new Editor.BaluEditorControl();
+            baluEditorControl1 = new Editor.BaluEditorControl(panel2.Handle);
+
+            baluEditorControl1.Resize(panel2.Width, panel2.Height);
 
             this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
             this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
@@ -30,8 +29,6 @@ namespace BaluEditor
             baluEditorControl1.InitializeEngine();
 
             InitializeCreateNodeContextMenu();
-
-            
             
             timer1.Enabled = true;
         }
@@ -61,20 +58,15 @@ namespace BaluEditor
             i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateScene(); };
         }
 
-        void i_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         bool times_is_work = false;
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (times_is_work) return;
             times_is_work = true;
-           
-            opengl.BeginFrame();
+
+            baluEditorControl1.BeginFrame();
             baluEditorControl1.Render();
-            opengl.EndFrame();
+            baluEditorControl1.EndFrame();
 
             times_is_work = false;
         }
@@ -91,11 +83,6 @@ namespace BaluEditor
             }
         }
 
-        private void baluEditorControl1_MouseEnter(object sender, EventArgs e)
-        {
-            //baluEditorControl1.Focus();
-        }
-
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             var n = e.Node.Tag as Editor.TWolrdTreeNodeTag;
@@ -106,16 +93,6 @@ namespace BaluEditor
                     baluEditorControl1.SetEditedWorldNode(n);
                 }
             }
-        }
-
-        private void baluEditorControl1_MouseHover(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void baluEditorControl1_MouseEnter_1(object sender, EventArgs e)
-        {
-            //baluEditorControl1.Focus();
         }
 
         private void EditorContextMenu_Opening(object sender, CancelEventArgs e)
@@ -166,15 +143,24 @@ namespace BaluEditor
             }
         }
 
-        private void openGLControl1_OpenGLRender(object sender, EventArgs e)
+        private void panel2_MouseMove(object sender, MouseEventArgs e)
         {
-            baluEditorControl1.Render();
+            baluEditorControl1.MouseMove(e);
         }
 
-        private void openGLControl1_OpenGLInit(object sender, EventArgs e)
+        private void panel2_MouseDown(object sender, MouseEventArgs e)
         {
-           
-           
+            baluEditorControl1.MouseDown(e);
+        }
+
+        private void panel2_MouseUp(object sender, MouseEventArgs e)
+        {
+            baluEditorControl1.MouseUp(e);
+        }
+
+        private void panel2_Resize(object sender, EventArgs e)
+        {
+            baluEditorControl1.Resize(panel2.Width, panel2.Height);
         }
     }
 }

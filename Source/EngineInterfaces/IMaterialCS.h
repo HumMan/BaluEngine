@@ -29,7 +29,7 @@ namespace BaluEngineWrapper
 		{
 			value = new TAABB2();
 		}
-		~TAABBCs()
+		!TAABBCs()
 		{
 			delete value;
 		}
@@ -44,7 +44,7 @@ namespace BaluEngineWrapper
 		{
 			value = new TOBB2();
 		}
-		~TOBBCs()
+		!TOBBCs()
 		{
 			delete value;
 		}
@@ -87,7 +87,7 @@ namespace BaluEngineWrapper
 		{
 			value = new TBaluTransform();
 		}
-		~TBaluTransformCs()
+		!TBaluTransformCs()
 		{
 			delete value;
 		}

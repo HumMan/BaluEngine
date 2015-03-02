@@ -1,6 +1,12 @@
 #pragma once
 
-#include <baluEngine.h>
+#include <baluLib.h>
+
+#include "../Source/EngineInterfaces.h"
+#include "../Source/EditorInterfaces.h"
+
+using namespace EngineInterface;
+
 
 namespace Editor
 {
@@ -11,6 +17,6 @@ namespace Editor
 	public ref class TPropertiesRegistry
 	{
 	public:
-		static TPropertiesObject^ CreateProperties(TBaluWorldDef* world, TWorldObjectDef* obj_def);
+		static TPropertiesObject^ CreateProperties(IBaluWorld* world, IBaluWorldObject* obj_def);
 	};
 }

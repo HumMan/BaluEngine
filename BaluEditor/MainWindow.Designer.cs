@@ -65,13 +65,13 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.EditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.EditorContextMenu.SuspendLayout();
@@ -357,6 +357,18 @@
             this.panel1.Size = new System.Drawing.Size(549, 594);
             this.panel1.TabIndex = 5;
             // 
+            // panel2
+            // 
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 25);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(549, 569);
+            this.panel2.TabIndex = 6;
+            this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseDown);
+            this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseMove);
+            this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseUp);
+            this.panel2.Resize += new System.EventHandler(this.panel2_Resize);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -406,14 +418,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(1112, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // panel2
-            // 
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 25);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(549, 569);
-            this.panel2.TabIndex = 6;
             // 
             // MainWindow
             // 

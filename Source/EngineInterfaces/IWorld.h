@@ -34,6 +34,10 @@ namespace EngineInterface
 	{
 	public:
 		virtual TCallbacksActiveType& GetCallbacksActiveType() = 0;
+
+		virtual bool TryFindMaterial(const char* material_name, EngineInterface::IBaluMaterial*& result)=0;
+		virtual bool TryFindSprite(const char* sprite_name, EngineInterface::IBaluSprite*& result)=0;
+		virtual bool TryFindScene(const char* scene_name, EngineInterface::IBaluScene*& result)=0;
 		virtual bool TryFindClass(const char* class_name, IBaluClass*& result) = 0;
 
 		virtual IBaluMaterial* CreateMaterial(const char* mat_name) = 0;

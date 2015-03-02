@@ -44,7 +44,8 @@ private:
 	template<class T, class M>
 	std::vector<std::pair<std::string, T*>> GetPairsFromMap(M& map)
 	{
-		std::vector<std::pair<std::string, T*>> result(map.size());
+		std::vector<std::pair<std::string, T*>> result;
+		result.reserve(map.size());
 		for (auto& v : map)
 		{
 			std::pair<std::string, T*> temp;
@@ -60,6 +61,9 @@ public:
 	{
 		return callback_active_type;
 	}
+	bool TryFindMaterial(const char* material_name, EngineInterface::IBaluMaterial*& result);
+	bool TryFindSprite(const char* sprite_name, EngineInterface::IBaluSprite*& result);
+	bool TryFindScene(const char* scene_name, EngineInterface::IBaluScene*& result);
 	bool TryFindClass(const char* class_name, TBaluClass*& result);
 	bool TryFindClass(const char* class_name, EngineInterface::IBaluClass*& result);
 
