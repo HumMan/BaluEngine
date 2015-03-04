@@ -42,7 +42,7 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 	//if (active_tool_class != nullptr)
 	{
 		IBaluClass* pl;
-		scene_editor_scene->source_scene_instance->GetWorld()->GetSource()->TryFindClass("player", pl);
+		scene_editor_scene->source_scene_instance->GetWorld()->GetSource()->TryFind("player", pl);
 
 		auto transform = TBaluTransform(scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location),TRot(0));
 

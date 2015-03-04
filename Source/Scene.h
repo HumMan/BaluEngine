@@ -82,10 +82,9 @@ public:
 	{
 		return nullptr;
 	}
-	TVec2 FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord);
-	TVec2 FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord);
-
+	
 	TViewport* CreateViewport(std::string name);
+	TViewport* FindViewport(std::string name);
 
 	std::string GetName();
 	void SetName(std::string name);

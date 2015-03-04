@@ -184,7 +184,14 @@ TResources* TDirector::GetResources()
 
 void TDirector::Initialize(void* handle)
 {
+	p->base_path = SDL_GetBasePath();
+	p->physics_sym = true;
 	p->internal_render.reset(new TBaluRender((int)handle, TVec2i(512, 512)));
+
+	p->render.reset(new TRender(p->internal_render.get()));
+
+	p->resources.reset(TBaluEngineRender::CreateResources(p->internal_render.get()));
+
 }
 void TDirector::BeginFrame()
 {

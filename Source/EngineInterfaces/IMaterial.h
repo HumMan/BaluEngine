@@ -120,8 +120,28 @@ namespace EngineInterface
 	class IBaluMaterial
 	{
 	public:
+		static std::string GetDefaultName()
+		{
+			return "material";
+		}
+		virtual std::string GetName() = 0;
 		virtual void SetImagePath(std::string image_path) = 0;
 		virtual std::string GetImagePath() = 0;
 		virtual void SetColor(TVec4 color) = 0;
 	};
 }
+
+class TScreen;
+class TView;
+
+namespace EngineInterface
+{
+	class IViewport;
+}
+
+struct TDrawingHelperContext
+{
+	TScreen* screen;
+	TView* view;
+	EngineInterface::IViewport* viewport;
+};

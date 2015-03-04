@@ -14,6 +14,7 @@ namespace EngineInterface
 	class IDirector
 	{
 	public:
+		virtual void Step(float step)=0;
 		virtual void SetWorldInstance(IBaluWorldInstance* world_instance)=0;
 		virtual void SetRenderWorldCallback(RenderWorldCallback callback)=0;
 		virtual void SetViewportResizeCallback(VieportResizeCallback callback) = 0;

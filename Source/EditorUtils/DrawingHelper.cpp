@@ -10,13 +10,12 @@
 
 using namespace EngineInterface;
 
-TDrawingHelper::TDrawingHelper(TScreen* screen, TView* view, IViewport* viewport, IBaluScene* scene)
+TDrawingHelper::TDrawingHelper(TDrawingHelperContext context)
 {
 	this->context = GetContext();
-	this->scene = scene;
-	this->viewport = viewport;
-	this->view = view;
-	this->screen = screen;
+	this->viewport = context.viewport;
+	this->view = context.view;
+	this->screen = context.screen;
 }
 
 TVec2 TDrawingHelper::FromScreenPixelsToScene(TVec2i screen_pixels)
@@ -24,13 +23,13 @@ TVec2 TDrawingHelper::FromScreenPixelsToScene(TVec2i screen_pixels)
 	
 	auto screen_coords = screen->FromScreenPixels2(screen_pixels);
 	auto view_coord = screen->FromScreenToView(*view, screen_coords);
-	auto scene_coord = scene->FromViewportToScene(viewport, view_coord);
+	auto scene_coord = IBaluScene::FromViewportToScene(viewport, view_coord);
 	return scene_coord;
 }
 
 TVec2i TDrawingHelper::FromSceneToScreenPixels(TVec2 scene_coordinates)
 {
-	auto viewport_coord = scene->FromSceneToViewport(viewport, scene_coordinates);
+	auto viewport_coord = IBaluScene::FromSceneToViewport(viewport, scene_coordinates);
 	auto screen_coord = screen->FromViewToScreen(*view, viewport_coord);
 	auto screen_pixels = screen->ToScreenPixels2(screen_coord);
 	return screen_pixels;

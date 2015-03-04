@@ -106,7 +106,7 @@ namespace Editor
 		property String^ Name {
 			String^ get()
 			{
-				return gcnew String(obj_def->material_name.c_str());
+				return gcnew String(obj_def->GetName().c_str());
 			}
 			
 		};
@@ -114,68 +114,69 @@ namespace Editor
 		{
 			String^ get()
 			{
-				return gcnew String(obj_def->image_path.c_str());
+				return gcnew String(obj_def->GetImagePath().c_str());
 			}
 			void set(String^ value)
 			{
-				obj_def->image_path = msclr::interop::marshal_as< std::string >(value);
+				obj_def->SetImagePath(msclr::interop::marshal_as< std::string >(value));
 			}
 		};
-		enum class TTransparentMode : int
-		{//TODO тестирование и смешивание может работать одновременно
-			TM_NONE,
-			TM_ALPHA_BLEND,
-			TM_ALPHA_TEST,
-		};
-		property TTransparentMode BlendMode
-		{
-			TTransparentMode get()
-			{
-				return (TTransparentMode)obj_def->blend_mode;
-			}
-			void set(TTransparentMode value)
-			{
-				obj_def->blend_mode = (TBaluMaterialDef::TTransparentMode)value;
-			}
-		};
+		//enum class TTransparentMode : int
+		//{//TODO тестирование и смешивание может работать одновременно
+		//	TM_NONE,
+		//	TM_ALPHA_BLEND,
+		//	TM_ALPHA_TEST,
+		//};
+		//property TTransparentMode BlendMode
+		//{
+		//	TTransparentMode get()
+		//	{
+		//		return (TTransparentMode)obj_def->blend_mode;
+		//	}
+		//	void set(TTransparentMode value)
+		//	{
+		//		obj_def->blend_mode = (TBaluMaterialDef::TTransparentMode)value;
+		//	}
+		//};
 
-		property TBaluMaterialDef::TTexFilter TextureFilter
-		{
-			TBaluMaterialDef::TTexFilter get()
-			{
-				return (TBaluMaterialDef::TTexFilter)obj_def->blend_mode;
-			}
-			void set(TBaluMaterialDef::TTexFilter value)
-			{
-				obj_def->texture_filter = (TBaluMaterialDef::TTexFilter)value;
-			}
-		};
+		//property TBaluMaterialDef::TTexFilter TextureFilter
+		//{
+		//	TBaluMaterialDef::TTexFilter get()
+		//	{
+		//		return (TBaluMaterialDef::TTexFilter)obj_def->blend_mode;
+		//	}
+		//	void set(TBaluMaterialDef::TTexFilter value)
+		//	{
+		//		obj_def->texture_filter = (TBaluMaterialDef::TTexFilter)value;
+		//	}
+		//};
 	};
 
 	ref class TSpritePolygonProperties : public TPropertiesObject
 	{
-		TBaluSpritePolygonDef* obj_def;
-		TBaluWorldDef* world;
+		IBaluSpritePolygon* obj_def;
+		IBaluWorld* world;
 	public:
-		TSpritePolygonProperties(TBaluWorldDef* world, TBaluSpritePolygonDef* obj_def)
+		TSpritePolygonProperties(IBaluWorld* world, IBaluSpritePolygon* obj_def)
 		{
 			this->world = world;
 			this->obj_def = obj_def; 
 		}
-		property String^ Name {String^ get() { return gcnew String(obj_def->GetName().c_str()); } };
 		property String^ Material
 		{
 			String^ get() 
 			{
-				if (obj_def->material!=nullptr)
-					return gcnew String(obj_def->material->material_name.c_str()); 
+				if (obj_def->GetMaterial()!=nullptr)
+					return gcnew String(obj_def->GetMaterial()->GetName().c_str());
 				else return "";
 			}
 			void set(String^ value)
 			{
 				auto mat_name = msclr::interop::marshal_as<std::string>(value);
-				if (world->materials.find(mat_name) != world->materials.end())
-					obj_def->material = &world->materials[mat_name];
+				IBaluMaterial* result;
+				auto mat_found = world->TryFind(mat_name.c_str(), result);
+				if (mat_found)
+					obj_def->SetMaterial(result);
 			}
 		};
 		//property TBaluSpriteDef::TPolygonMode PolygonMode {TBaluSpriteDef::TPolygonMode get() { return obj_def->polygone_mode; } };
@@ -183,84 +184,68 @@ namespace Editor
 
 	ref class TSpriteProperties : public TPropertiesObject
 	{
-		TBaluSpriteDef* obj_def;
+		IBaluSprite* obj_def;
 	public:
-		TSpriteProperties(TBaluSpriteDef* obj_def){ this->obj_def = obj_def; }
-		property String^ Name {String^ get() { return gcnew String(obj_def->sprite_name.c_str()); } };
+		TSpriteProperties(IBaluSprite* obj_def){ this->obj_def = obj_def; }
+		property String^ Name 
+		{
+			String^ get()
+			{
+				return gcnew String(obj_def->GetName().c_str());
+			}
+		};
 		//property String^ Material {String^ get() { return gcnew String(obj_def->material_name.c_str()); } };
 		//property TBaluSpriteDef::TPolygonMode PolygonMode {TBaluSpriteDef::TPolygonMode get() { return obj_def->polygone_mode; } };
 	};
 
-	ref class TBaluPhysShapeProperties : public TPropertiesObject
-	{
-		TBaluShapeDef* obj_def;
-	public:
-		TBaluPhysShapeProperties(TBaluShapeDef* obj_def)
-		{
-			this->obj_def = obj_def;
-			
-		}
-		//[CategoryAttribute("SubInfo")]
-		//[DisplayNameAttribute("Name")]
-		[TypeConverter(ExpandableObjectConverter::typeid)]
-		property TOBBProperites^ OBB
-		{
-			TOBBProperites^ get()
-			{
-				return gcnew TOBBProperites(&obj_def->GetOBB());
-			}
-		}
-	};
+	//ref class TBaluPhysShapeProperties : public TPropertiesObject
+	//{
+	//	IBaluPhysShape* obj_def;
+	//public:
+	//	TBaluPhysShapeProperties(IBaluPhysShape* obj_def)
+	//	{
+	//		this->obj_def = obj_def;
+	//		
+	//	}
+	//	//[CategoryAttribute("SubInfo")]
+	//	//[DisplayNameAttribute("Name")]
+	//	[TypeConverter(ExpandableObjectConverter::typeid)]
+	//	property TOBBProperites^ OBB
+	//	{
+	//		TOBBProperites^ get()
+	//		{
+	//			return gcnew TOBBProperites(&obj_def->GetOBB());
+	//		}
+	//	}
+	//};
 
-	ref class TBaluPolygonShapeProperties : public TBaluPhysShapeProperties
-	{
-		TBaluPolygonShapeDef* obj_def;
-	public:
-		TBaluPolygonShapeProperties(TBaluPolygonShapeDef* obj_def) :TBaluPhysShapeProperties(obj_def)
-		{
-			this->obj_def = obj_def; 
-		}
-		property int polygon_testprop;
-	};
-
-	ref class TBaluPhysBodyProperties : public TPropertiesObject
-	{
-		TBaluPhysBodyDef* obj_def;
-	public:
-		TBaluPhysBodyProperties(TBaluPhysBodyDef* obj_def)
-		{
-			this->obj_def = obj_def;
-		}
-		property int phys_body_testprop;
-	};
+	//ref class TBaluPolygonShapeProperties : public TBaluPhysShapeProperties
+	//{
+	//	IBaluSpritePolygon* obj_def;
+	//public:
+	//	TBaluPolygonShapeProperties(IBaluSpritePolygon* obj_def) :TBaluPhysShapeProperties(obj_def)
+	//	{
+	//		this->obj_def = obj_def; 
+	//	}
+	//	property int polygon_testprop;
+	//};
 
 	ref class TBaluClassProperties : public TPropertiesObject
 	{
-		TBaluClass* obj_def;
+		IBaluClass* obj_def;
 	public:
-		TBaluClassProperties(TBaluClass* obj_def)
+		TBaluClassProperties(IBaluClass* obj_def)
 		{
 			this->obj_def = obj_def;
 		}
 		property int TBaluClass_testprop;
 	};
 
-	ref class TBaluBodyInstanceProperties : public TPropertiesObject
-	{
-		TBaluBodyInstanceDef* obj_def;
-	public:
-		TBaluBodyInstanceProperties(TBaluBodyInstanceDef* obj_def)
-		{
-			this->obj_def = obj_def;
-		}
-		property int TBaluBodyInstanceDef_testprop;
-	};
-
 	ref class TBaluSpriteInstanceProperties : public TPropertiesObject
 	{
-		TBaluSpriteInstanceDef* obj_def;
+		IBaluSpriteInstance* obj_def;
 	public:
-		TBaluSpriteInstanceProperties(TBaluSpriteInstanceDef* obj_def)
+		TBaluSpriteInstanceProperties(IBaluSpriteInstance* obj_def)
 		{
 			this->obj_def = obj_def;
 		}
@@ -269,9 +254,9 @@ namespace Editor
 
 	ref class TBaluInstanceDefProperties : public TPropertiesObject
 	{
-		TBaluInstanceDef* obj_def;
+		IBaluInstance* obj_def;
 	public:
-		TBaluInstanceDefProperties(TBaluInstanceDef* obj_def)
+		TBaluInstanceDefProperties(IBaluInstance* obj_def)
 		{
 			this->obj_def = obj_def;
 		}
@@ -280,9 +265,9 @@ namespace Editor
 
 	ref class TBaluSceneProperties : public TPropertiesObject
 	{
-		TBaluSceneDef* obj_def;
+		IBaluScene* obj_def;
 	public:
-		TBaluSceneProperties(TBaluSceneDef* obj_def)
+		TBaluSceneProperties(IBaluScene* obj_def)
 		{
 			this->obj_def = obj_def;
 		}
@@ -291,32 +276,34 @@ namespace Editor
 
 	TPropertiesObject^ TPropertiesRegistry::CreateProperties(IBaluWorld* world, IBaluWorldObject* obj_def)
 	{
-		if ((dynamic_cast<TBaluMaterialDef*>(obj_def)) != nullptr)
-			return gcnew TMaterialProperties(dynamic_cast<TBaluMaterialDef*>(obj_def));
+		//return gcnew TPropertiesObject();
 
-		if ((dynamic_cast<TBaluSpritePolygonDef*>(obj_def)) != nullptr)
-			return gcnew TSpritePolygonProperties(world, dynamic_cast<TBaluSpritePolygonDef*>(obj_def));
+		if ((dynamic_cast<IBaluMaterial*>(obj_def)) != nullptr)
+			return gcnew TMaterialProperties(dynamic_cast<IBaluMaterial*>(obj_def));
 
-		if ((dynamic_cast<TBaluSpriteDef*>(obj_def)) != nullptr)
-			return gcnew TSpriteProperties(dynamic_cast<TBaluSpriteDef*>(obj_def));
+		if ((dynamic_cast<IBaluSpritePolygon*>(obj_def)) != nullptr)
+			return gcnew TSpritePolygonProperties(world, dynamic_cast<IBaluSpritePolygon*>(obj_def));
 
-		if ((dynamic_cast<TBaluPhysBodyDef*>(obj_def)) != nullptr)
-			return gcnew TBaluPhysBodyProperties(dynamic_cast<TBaluPhysBodyDef*>(obj_def));
+		if ((dynamic_cast<IBaluSprite*>(obj_def)) != nullptr)
+			return gcnew TSpriteProperties(dynamic_cast<IBaluSprite*>(obj_def));
 
-		if ((dynamic_cast<TBaluBodyInstanceDef*>(obj_def)) != nullptr)
-			return gcnew TBaluBodyInstanceProperties(dynamic_cast<TBaluBodyInstanceDef*>(obj_def));
+		//if ((dynamic_cast<TBaluPhysBodyDef*>(obj_def)) != nullptr)
+		//	return gcnew TBaluPhysBodyProperties(dynamic_cast<TBaluPhysBodyDef*>(obj_def));
 
-		if ((dynamic_cast<TBaluSpriteInstanceDef*>(obj_def)) != nullptr)
-			return gcnew TBaluSpriteInstanceProperties(dynamic_cast<TBaluSpriteInstanceDef*>(obj_def));
+		//if ((dynamic_cast<TBaluBodyInstanceDef*>(obj_def)) != nullptr)
+		//	return gcnew TBaluBodyInstanceProperties(dynamic_cast<TBaluBodyInstanceDef*>(obj_def));
 
-		if ((dynamic_cast<TBaluClass*>(obj_def)) != nullptr)
-			return gcnew TBaluClassProperties(dynamic_cast<TBaluClass*>(obj_def));
+		if ((dynamic_cast<IBaluSpriteInstance*>(obj_def)) != nullptr)
+			return gcnew TBaluSpriteInstanceProperties(dynamic_cast<IBaluSpriteInstance*>(obj_def));
 
-		if ((dynamic_cast<TBaluInstanceDef*>(obj_def)) != nullptr)
-			return gcnew TBaluInstanceDefProperties(dynamic_cast<TBaluInstanceDef*>(obj_def));
+		if ((dynamic_cast<IBaluClass*>(obj_def)) != nullptr)
+			return gcnew TBaluClassProperties(dynamic_cast<IBaluClass*>(obj_def));
 
-		if ((dynamic_cast<TBaluSceneDef*>(obj_def)) != nullptr)
-			return gcnew TBaluSceneProperties(dynamic_cast<TBaluSceneDef*>(obj_def));
+		if ((dynamic_cast<IBaluInstance*>(obj_def)) != nullptr)
+			return gcnew TBaluInstanceDefProperties(dynamic_cast<IBaluInstance*>(obj_def));
+
+		if ((dynamic_cast<IBaluScene*>(obj_def)) != nullptr)
+			return gcnew TBaluSceneProperties(dynamic_cast<IBaluScene*>(obj_def));
 
 		assert(false);
 

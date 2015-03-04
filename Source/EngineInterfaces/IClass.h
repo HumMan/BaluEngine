@@ -113,7 +113,10 @@ namespace EngineInterface
 	class IBaluClass
 	{
 	public:
-
+		static std::string GetDefaultName()
+		{
+			return "class";
+		}
 		virtual TAABB2 GetAABB()=0;
 		virtual IBaluClassSprite* AddSprite(IBaluSprite* sprite)=0;
 

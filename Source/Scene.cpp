@@ -1,11 +1,11 @@
 #include "Scene.h"
 
-TVec2 TBaluScene::FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord)
+TVec2 EngineInterface::IBaluScene::FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord)
 {
 	return ((viewport_coord - TVec2(0.5, 0.5))).ComponentMul(viewport->GetAABB().GetSize()) + viewport->GetAABB().GetPosition();
 }
 
-TVec2 TBaluScene::FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord)
+TVec2 EngineInterface::IBaluScene::FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord)
 {
 	//return (scene_coord - viewport->GetAABB().GetPosition()) / viewport->GetAABB().GetSize();
 	return ((scene_coord - viewport->GetAABB().GetPosition()) / viewport->GetAABB().GetSize())+TVec2(0.5,0.5);
@@ -37,6 +37,14 @@ TViewport* TBaluScene::CreateViewport(std::string name)
 	if(it != viewports.end())
 		throw std::invalid_argument("Viewport с данным именем уже существует");
 	return &(viewports[name]);
+}
+
+TViewport* TBaluScene::FindViewport(std::string name)
+{
+	auto it = viewports.find(name);
+	if (it == viewports.end())
+		throw std::invalid_argument("Viewport с данным именем не существует");
+	return &it->second;
 }
 
 std::string TBaluScene::GetName()

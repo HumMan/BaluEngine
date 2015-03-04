@@ -14,9 +14,9 @@ class TDirector: public EngineInterface::IDirector
 {
 	std::unique_ptr < TGameInternal > p;
 
-	void Step(float step);
+	
 public:
-
+	void Step(float step);
 	//special only for testing
 	void Initialize(void* handle);
 	void BeginFrame();

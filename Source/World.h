@@ -61,11 +61,11 @@ public:
 	{
 		return callback_active_type;
 	}
-	bool TryFindMaterial(const char* material_name, EngineInterface::IBaluMaterial*& result);
-	bool TryFindSprite(const char* sprite_name, EngineInterface::IBaluSprite*& result);
-	bool TryFindScene(const char* scene_name, EngineInterface::IBaluScene*& result);
-	bool TryFindClass(const char* class_name, TBaluClass*& result);
-	bool TryFindClass(const char* class_name, EngineInterface::IBaluClass*& result);
+	bool TryFind(const char* material_name, EngineInterface::IBaluMaterial*& result);
+	bool TryFind(const char* sprite_name, EngineInterface::IBaluSprite*& result);
+	bool TryFind(const char* scene_name, EngineInterface::IBaluScene*& result);
+	bool TryFind(const char* class_name, TBaluClass*& result);
+	bool TryFind(const char* class_name, EngineInterface::IBaluClass*& result);
 
 	TBaluMaterial* CreateMaterial(const char* mat_name);
 	TBaluSprite* CreateSprite(const char* sprite_name);

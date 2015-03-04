@@ -11,12 +11,6 @@
 
 using namespace EngineInterface;
 
-class TEditorSelectionChangedListener
-{
-public:
-	void SelectionChanged(IProperties* old_selection, IProperties* new_selection);
-};
-
 class TAbstractEditor: public EngineInterface::IAbstractEditor
 {
 public:
@@ -30,7 +24,7 @@ public:
 
 public:
 
-	TEditorSelectionChangedListener* OnSelectionChanged;
+	
 
 	TAbstractEditor()
 	{

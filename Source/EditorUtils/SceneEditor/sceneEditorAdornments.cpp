@@ -65,7 +65,7 @@ TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneInstance* scene_insta
 
 	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
 	IBaluClass* adornment_class;
-	if (!world->TryFindClass("SceneEditorAdornment", adornment_class))
+	if (!world->TryFind("SceneEditorAdornment", adornment_class))
 	{
 		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 	}
@@ -109,7 +109,7 @@ TOBBContour::TOBBContour(IBaluSceneInstance* scene_instance, TDrawingHelper* dra
 
 	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
 	IBaluClass* adornment_class;
-	if (!world->TryFindClass("SceneEditorOBBContour", adornment_class))
+	if (!world->TryFind("SceneEditorOBBContour", adornment_class))
 	{
 		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 	}

@@ -95,6 +95,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 		auto source_instance = source->GetInstance(i);
 		auto instance = CreateInstance(source_instance->balu_class, source->GetInstance(i)->transform, source->GetInstance(i)->scale);
 		instance->SetTransform(source_instance->transform);
+		instance->UpdateTranform();
 	}
 }
 

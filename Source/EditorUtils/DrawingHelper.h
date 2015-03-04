@@ -18,13 +18,12 @@ class TView;
 class TDrawingHelper
 {
 	NVGcontext* context;
-	EngineInterface::IBaluScene* scene;
 	EngineInterface::IViewport* viewport;
 	TView* view;
 	TScreen* screen;
 	//TBaluTransform transform;
 public:
-	TDrawingHelper(TScreen* screen, TView* view, EngineInterface::IViewport* viewport, EngineInterface::IBaluScene* scene);
+	TDrawingHelper(TDrawingHelperContext context);
 	//void SetTransform(TBaluTransform transform);
 
 	TVec2 FromScreenPixelsToScene(TVec2i screen_pixels);

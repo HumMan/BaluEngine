@@ -57,9 +57,18 @@ namespace EngineInterface
 		{}
 	};
 
+
+	class IEditorSelectionChangedListener
+	{
+	public:
+		void SelectionChanged(IProperties* old_selection, IProperties* new_selection);
+	};
+	
+
 	class IAbstractEditor
 	{
 	public:
+		IEditorSelectionChangedListener* OnSelectionChanged;
 
 		virtual bool CanSetSelectedAsWork() = 0;
 		virtual void SetSelectedAsWork() = 0;
@@ -77,5 +86,5 @@ namespace EngineInterface
 	inline IAbstractEditor::~IAbstractEditor() { }
 }
 
-BALUENGINEDLL_API EngineInterface::IAbstractEditor* CreateSceneEditor(TScreen* screen, TView* view, EngineInterface::IViewport* viewport, EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* source_scene, EngineInterface::IBaluSceneInstance* source_scene_instance);
+BALUENGINEDLL_API EngineInterface::IAbstractEditor* CreateSceneEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* source_scene, EngineInterface::IBaluSceneInstance* source_scene_instance);
 BALUENGINEDLL_API void DestroySceneEditor(EngineInterface::IAbstractEditor*);

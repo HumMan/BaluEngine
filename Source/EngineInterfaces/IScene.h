@@ -19,11 +19,16 @@ namespace EngineInterface
 	class IBaluScene
 	{
 	public:
+		static TVec2 FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord);
+		static TVec2 FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord);
 
-		virtual TVec2 FromViewportToScene(IViewport* viewport, TVec2 viewport_coord)=0;
-		virtual TVec2 FromSceneToViewport(IViewport* viewport, TVec2 scene_coord)=0;
+		static std::string GetDefaultName()
+		{
+			return "scene";
+		}
 
 		virtual IViewport* CreateViewport(std::string name)=0;
+		virtual IViewport* FindViewport(std::string name)=0;
 
 		virtual std::string GetName() = 0;
 		virtual void SetName(std::string name) = 0;

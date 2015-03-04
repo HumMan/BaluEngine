@@ -19,7 +19,7 @@ namespace BaluEditor
 
             baluEditorControl1 = new Editor.BaluEditorControl(panel2.Handle);
 
-            baluEditorControl1.Resize(panel2.Width, panel2.Height);
+            baluEditorControl1.SetViewport(panel2.Width, panel2.Height);
 
             this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
             this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
@@ -44,10 +44,6 @@ namespace BaluEditor
             i = n.DropDown.Items.Add("Sprite");
             i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Sprite);
             i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateSprite(); };
-
-            i = n.DropDown.Items.Add("PhysBody");
-            i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.PhysBody);
-            i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreatePhysBody(); };
 
             i = n.DropDown.Items.Add("Class");
             i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Class);

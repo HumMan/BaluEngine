@@ -11,7 +11,7 @@ namespace EngineInterface
 		virtual IProperties* GetProperties() = 0;
 	};
 
-	enum PropertyType
+	enum class PropertyType
 	{
 		Bool,
 		Int,

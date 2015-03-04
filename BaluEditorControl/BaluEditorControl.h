@@ -20,7 +20,7 @@ namespace Editor
 	using namespace System::ComponentModel;
 	using namespace System::Threading;
 	using namespace System::Collections::Generic;
-	using namespace System::Runtime::InteropServices;
+	//using namespace System::Runtime::InteropServices;
 
 	using namespace EngineInterface;
 
@@ -58,7 +58,7 @@ namespace Editor
 
 		BaluEditorControlPrivate* p;
 
-		Void CreateWorldTree(TreeView^ WorldTreeView, EngineInterface::IBaluWorld* world);
+		void CreateWorldTree(TreeView^ WorldTreeView, EngineInterface::IBaluWorld* world);
 		IAbstractEditor* BaluEditorControl::CreateEditorOfWorldObject(IBaluWorldObject* obj);
 	public:
 		//called by balu editor
@@ -71,25 +71,25 @@ namespace Editor
 		void BeginFrame();
 		void EndFrame();
 
-		virtual Void Resize(int width, int height) override;
+		virtual void Resize(int width, int height) override;
+		void SetViewport(int width, int height);
 
-		virtual Void MouseDown(MouseEventArgs^ e) override;
-		virtual Void MouseMove(MouseEventArgs^ e) override;
-		virtual Void MouseUp(MouseEventArgs^ e) override;
-		virtual Void MouseWheel(MouseEventArgs^ e) override;
+		virtual void MouseDown(MouseEventArgs^ e) override;
+		virtual void MouseMove(MouseEventArgs^ e) override;
+		virtual void MouseUp(MouseEventArgs^ e) override;
+		virtual void MouseWheel(MouseEventArgs^ e) override;
 
-		virtual Void Render();
+		virtual void Render();
 
-		Void InitializeEngine();
+		void InitializeEngine();
 
-		Void CreateMaterial();
-		Void CreateSprite();
-		Void CreatePhysBody();
-		Void CreateClass();
-		Void CreateScene();
+		void CreateMaterial();
+		void CreateSprite();
+		void CreateClass();
+		void CreateScene();
 
-		Void SetSelectedWorldNode(TWolrdTreeNodeTag^ node);
-		Void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
+		void SetSelectedWorldNode(TWolrdTreeNodeTag^ node);
+		void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
 
 		bool CanSetSelectedAsWork();
 		void SetSelectedAsWork();
@@ -97,10 +97,10 @@ namespace Editor
 		bool CanEndSelectedAsWork();
 		void EndSelectedAsWork();
 
-		void SetToolSelectedObject(System::String^ name);
+		void SetToolSelectedObject(String^ name);
 
-		void SaveWorldTo(System::String^ path);
-		void LoadWorldFrom(System::String^ path);
+		void SaveWorldTo(String^ path);
+		void LoadWorldFrom(String^ path);
 
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;

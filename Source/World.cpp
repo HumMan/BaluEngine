@@ -50,7 +50,7 @@ TBaluWorld::TBaluWorld()
 }
 
 template<class T, class find_array>
-bool TryFind(find_array& map, const char* class_name, T*& result)
+bool TryFindT(find_array& map, const char* class_name, T*& result)
 {
 	auto iter = map.find(class_name);
 	if (iter == map.end())
@@ -66,30 +66,30 @@ template<class T, class I, class find_array>
 bool TryFindI(find_array& map, const char* class_name, I*& result)
 {
 	T* r;
-	auto result0 = TryFind<T>(map, class_name, r);
+	auto result0 = TryFindT<T>(map, class_name, r);
 	result = static_cast<I*>(r);
 	return result0;
 }
 
-bool TBaluWorld::TryFindClass(const char* class_name, TBaluClass*& result)
+bool TBaluWorld::TryFind(const char* class_name, TBaluClass*& result)
 {
-	return TryFind<TBaluClass>(classes, class_name, result);
+	return TryFindT<TBaluClass>(classes, class_name, result);
 }
 
-bool TBaluWorld::TryFindMaterial(const char* material_name, EngineInterface::IBaluMaterial*& result)
+bool TBaluWorld::TryFind(const char* material_name, EngineInterface::IBaluMaterial*& result)
 {
 	return TryFindI<TBaluMaterial, EngineInterface::IBaluMaterial>(materials, material_name, result);
 }
-bool TBaluWorld::TryFindSprite(const char* sprite_name, EngineInterface::IBaluSprite*& result)
+bool TBaluWorld::TryFind(const char* sprite_name, EngineInterface::IBaluSprite*& result)
 {
 	return TryFindI<TBaluSprite, EngineInterface::IBaluSprite>(sprites, sprite_name, result);
 }
-bool TBaluWorld::TryFindScene(const char* scene_name, EngineInterface::IBaluScene*& result)
+bool TBaluWorld::TryFind(const char* scene_name, EngineInterface::IBaluScene*& result)
 {
 	return TryFindI<TBaluScene, EngineInterface::IBaluScene>(scenes, scene_name, result);
 }
 
-bool TBaluWorld::TryFindClass(const char* class_name, EngineInterface::IBaluClass*& result)
+bool TBaluWorld::TryFind(const char* class_name, EngineInterface::IBaluClass*& result)
 {
 	return TryFindI<TBaluClass, EngineInterface::IBaluClass>(classes, class_name, result);
 }
