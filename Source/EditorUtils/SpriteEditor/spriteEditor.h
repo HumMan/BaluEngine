@@ -6,22 +6,25 @@
 #include "spriteEditorScene.h"
 #include "spriteEditorTools.h"
 
+#include "../../EngineInterfaces/IScene.h"
+#include "../../EngineInterfaces/IWorld.h"
+
+using namespace EngineInterface;
+
+#include "../DrawingHelper.h"
+
 class TSpriteEditor :public TAbstractEditor
 {
 
 	TSpriteEditorScene scene;
-	TSpriteEditorRegistry tools_registry;
+	TSpriteEditorToolsRegistry tools_registry;
+	std::unique_ptr<TDrawingHelper> drawing_helper;
 public:
 	TSpriteEditor();
 	//void StartEdit(TBaluSpriteDef* use_sprite);
 	//void EndEdit();
 
-	void Initialize(TBaluSpriteDef* obj);
-	void SetAsBox(TVec2 size);
-
-
-	//override:
-	void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos);
+	void Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluSprite* edited_sprite, IBaluSceneInstance* editor_scene_instance);
 
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
@@ -29,11 +32,6 @@ public:
 	bool CanEndSelectedAsWork();
 	bool EndSelectedAsWork();
 
-	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
-
-	void Render(TDrawingHelper* drawing_helper);
 	const std::vector<TToolWithDescription>& GetAvailableTools();
-	void SetActiveTool(TEditorTool* tool);
+	//void SetActiveTool(TEditorTool* tool);
 };

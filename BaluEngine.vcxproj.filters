@@ -32,6 +32,9 @@
     <Filter Include="Utils\ConvexDecomposition">
       <UniqueIdentifier>{b62269e5-7f00-4857-ad7c-69b984a06c24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUtils\SpriteEditor">
+      <UniqueIdentifier>{4813426d-acf3-4300-885b-c230894f7c17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utils\texture_polygon.h">
@@ -235,6 +238,21 @@
     <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h">
       <Filter>Utils\ConvexDecomposition</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditor.h">
+      <Filter>EditorUtils\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditorAdornments.h">
+      <Filter>EditorUtils\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditorScene.h">
+      <Filter>EditorUtils\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditorTools.h">
+      <Filter>EditorUtils\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\OBBContour.h">
+      <Filter>EditorUtils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -368,6 +386,18 @@
     </ClCompile>
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp">
       <Filter>Utils\ConvexDecomposition</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditor.cpp">
+      <Filter>EditorUtils\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorAdornments.cpp">
+      <Filter>EditorUtils\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorTools.cpp">
+      <Filter>EditorUtils\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\OBBContour.cpp">
+      <Filter>EditorUtils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

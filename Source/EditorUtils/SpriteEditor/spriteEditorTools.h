@@ -2,16 +2,20 @@
 
 #include "../BoundaryEditor.h"
 
+#include "../../EditorInterfaces.h"
+
+using namespace EngineInterface;
+
 class TSpriteEditorScene;
 
-class TSpriteEditorRegistry
+class TSpriteEditorToolsRegistry
 {
 public:
 	std::vector<TToolWithDescription> tools;
 	TSpriteEditorScene* scene;
 public:
-	TSpriteEditorRegistry(TSpriteEditorScene* scene);
-	TSpriteEditorRegistry(TSpriteEditorRegistry&& o);
+	TSpriteEditorToolsRegistry(TSpriteEditorScene* scene);
+	TSpriteEditorToolsRegistry(TSpriteEditorToolsRegistry&& o);
 	const std::vector<TToolWithDescription>& GetTools();
-	~TSpriteEditorRegistry();
+	~TSpriteEditorToolsRegistry();
 };

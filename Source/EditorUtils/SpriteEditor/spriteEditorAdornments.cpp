@@ -1,44 +1,124 @@
 #include "spriteEditorAdornments.h"
 
-TSpritePolygonAdornment::TSpritePolygonAdornment(TBaluSpritePolygonDef* sprite_polygon_def) :TBoundaryBoxAdornment(sprite_polygon_def->GetOBB())
+#include "../../EngineInterfaces/ISprite.h"
+#include "../../EngineInterfaces/IScene.h"
+#include "../../EngineInterfaces/IWorld.h"
+
+#include "../../EngineInterfaces/ISpriteInstance.h"
+#include "../../EngineInterfaces/ISceneInstance.h"
+#include "../../EngineInterfaces/IWorldInstance.h"
+
+using namespace EngineInterface;
+
+#include "../EditorControlsModel.h"
+#include "../DrawingHelper.h"
+
+class TSpritePolygonOBBAdornmentPrivate
 {
-	this->sprite_polygon_def = sprite_polygon_def;
+	friend class TSpritePolygonOBBAdornment;
+	friend void SpritePolygonOBBAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params);
+private:
+	IBaluInstance* class_instance;
+	bool visible;
+	IVisualAdornment* visual;
+	TDrawingHelper* drawing_helper;
+};
+
+TSpritePolygonOBBAdornment::~TSpritePolygonOBBAdornment()
+{
+
 }
 
-void TSpritePolygonAdornment::OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
+void SpritePolygonOBBAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
 {
-	sprite_polygon_def->transform.position = new_box.GetPos();
-	auto orient = new_box.GetOrient();
-	sprite_polygon_def->transform.angle.c = orient[0][0];
-	sprite_polygon_def->transform.angle.s = orient[0][1];
-
-	auto old_aabb = old_box.GetLocalAABB();
-	auto new_aabb = new_box.GetLocalAABB();
-
-	auto trans = new_aabb.GetSize() / old_aabb.GetSize();
-
-	for (int i = 0; i < sprite_polygon_def->polygon_vertices.size(); i++)
+	auto state = (TSpritePolygonOBBAdornmentPrivate*)data->GetUserData();
+	//if (state->visible)
 	{
-		sprite_polygon_def->polygon_vertices[i][0] *= trans[0];
-		sprite_polygon_def->polygon_vertices[i][1] *= trans[1];
+		auto items = state->visual->Render();
+		for (auto& v : items)
+			v->Render(state->drawing_helper);
 	}
 }
 
-void TSpritePolygonAdornment::Render(TDrawingHelper* drawing_helper)
+EngineInterface::IBaluClass* TSpritePolygonOBBAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TSpritePolygonOBBAdornmentPrivate* data)
 {
-	TBoundaryBoxAdornment::Render(drawing_helper);
-	
+	auto adornment_class = world->CreateClass("SpritePolygonOBBAdornment");
+	auto adornment_sprite = world->CreateSprite("SpritePolygonOBBAdornment_custom_draw_sprite");
+	//adornment_sprite->GetPolygone()->SetEnable(false);
+	adornment_sprite->GetPolygone()->OnCustomDraw(CallbackWithData<TCustomDrawCallback>(SpritePolygonOBBAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+	adornment_class->AddSprite(adornment_sprite);
 
-	drawing_helper->DrawSpritePolygon(sprite_polygon_def);
+	return adornment_class;
+}
+
+TSpritePolygonOBBAdornment::TSpritePolygonOBBAdornment(IBaluSceneInstance* scene_instance, IVisualAdornment* visual, TDrawingHelper* drawing_helper)
+{
+	p = std::make_unique<TSpritePolygonOBBAdornmentPrivate>();
+
+	p->visual = visual;
+	p->drawing_helper = drawing_helper;
+
+	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
+	IBaluClass* adornment_class;
+	if (!world->TryFind("SceneEditorAdornment", adornment_class))
+	{
+		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
+	}
+
+	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
+}
+
+class TSpritePolygonAdornmentPrivate
+{
+	friend class TSpritePolygonAdornment;
+	friend void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params);
+private:
+	IBaluInstance* class_instance;
+	bool visible;
+	IBaluSprite* visual;
+	TDrawingHelper* drawing_helper;
+};
+
+TSpritePolygonAdornment::~TSpritePolygonAdornment()
+{
 
 }
 
-bool TSpritePolygonAdornment::IsCollideWithAdornment(TVec2 world_cursor_location)
+void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
 {
-	return boundary.PointCollide(world_cursor_location);
+	auto state = (TSpritePolygonAdornmentPrivate*)data->GetUserData();
+	//if (state->visible)
+	{
+		//auto items = state->visual->Render();
+		//for (auto& v : items)
+		//	v->Render(state->drawing_helper);
+	}
 }
-bool TSpritePolygonAdornment::IsCollideWithObject(TVec2 world_cursor_location)
+
+EngineInterface::IBaluClass* TSpritePolygonAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TSpritePolygonAdornmentPrivate* data)
 {
-	//return polygon_world_object->b2shape.TestPoint(b2Transform(),*(b2Vec2*)&boundary.GetOrient().TransMul(world_cursor_location));
-	throw std::exception();
+	auto adornment_class = world->CreateClass("SpritePolygonAdornment");
+	auto adornment_sprite = world->CreateSprite("SpritePolygonAdornment_custom_draw_sprite");
+	//adornment_sprite->GetPolygone()->SetEnable(false);
+	adornment_sprite->GetPolygone()->OnCustomDraw(CallbackWithData<TCustomDrawCallback>(SpritePolygonAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+	adornment_class->AddSprite(adornment_sprite);
+
+	return adornment_class;
+}
+
+TSpritePolygonAdornment::TSpritePolygonAdornment(IBaluSceneInstance* scene_instance, IBaluSprite* visual, TDrawingHelper* drawing_helper)
+{
+	p = std::make_unique<TSpritePolygonAdornmentPrivate>();
+
+	p->visual = visual;
+	p->drawing_helper = drawing_helper;
+
+	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
+	IBaluClass* adornment_class;
+	if (!world->TryFind("SpritePolygonAdornment", adornment_class))
+	{
+		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
+	}
+
+	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
 }

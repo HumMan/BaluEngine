@@ -1,16 +1,33 @@
 #pragma once
 
-#include "../abstractEditor.h"
-#include "../BoundaryEditor.h"
+#include <memory>
 
-class TSpritePolygonAdornment : public  TBoundaryBoxAdornment
+#include "..\..\EngineInterfaces.h"
+
+using namespace EngineInterface;
+
+class TDrawingHelper;
+class IVisualAdornment;
+
+class TSpritePolygonAdornmentPrivate;
+class TSpritePolygonOBBAdornmentPrivate;
+
+class TSpritePolygonOBBAdornment
 {
-	TBaluSpritePolygonDef* sprite_polygon_def;
+	std::unique_ptr<TSpritePolygonOBBAdornmentPrivate> p;
 public:
-	TBaluSpritePolygonDef* GetSprite(){ return sprite_polygon_def; }
-	TSpritePolygonAdornment(TBaluSpritePolygonDef* sprite_polygon_def);
-	void OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box);
-	void Render(TDrawingHelper* drawing_helper);
-	bool IsCollideWithAdornment(TVec2 world_cursor_location);
-	bool IsCollideWithObject(TVec2 world_cursor_location);
+	TSpritePolygonOBBAdornment(EngineInterface::IBaluSceneInstance* scene_instance, IVisualAdornment* visual, TDrawingHelper* drawing_helper);
+
+	static EngineInterface::IBaluClass* TSpritePolygonOBBAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TSpritePolygonOBBAdornmentPrivate* data);
+	~TSpritePolygonOBBAdornment();
+};
+
+class TSpritePolygonAdornment
+{
+	std::unique_ptr<TSpritePolygonAdornmentPrivate> p;
+public:
+	TSpritePolygonAdornment(EngineInterface::IBaluSceneInstance* scene_instance, EngineInterface::IBaluSprite* visual, TDrawingHelper* drawing_helper);
+
+	static EngineInterface::IBaluClass* TSpritePolygonAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TSpritePolygonAdornmentPrivate* data);
+	~TSpritePolygonAdornment();
 };

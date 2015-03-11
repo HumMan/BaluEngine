@@ -13,7 +13,7 @@ using namespace EngineInterface;
 
 #include "../BoundaryEditor.h"
 
-
+#include "../OBBContour.h"
 
 class TSceneEditorScene// : public TBoundaryBoxScene
 {

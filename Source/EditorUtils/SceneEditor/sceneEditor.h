@@ -26,9 +26,6 @@ public:
 
 	void Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluSceneInstance* editor_scene_instance);
 
-	//override:
-	//void Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_global_pos);
-
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
 
