@@ -42,7 +42,7 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 	//if (active_tool_class != nullptr)
 	{
 		IBaluClass* pl;
-		scene_editor_scene->source_scene_instance->GetWorld()->GetSource()->TryFind("player", pl);
+		scene_editor_scene->editor_scene_instance->GetWorld()->GetSource()->TryFind("player", pl);
 
 		auto transform = TBaluTransform(scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location),TRot(0));
 
@@ -50,7 +50,7 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 		new_source_scene_instance->SetTransform(transform);
 		scene_editor_scene->selected_instance_source = new_source_scene_instance;
 
-		auto new_class_instance = scene_editor_scene->source_scene_instance->CreateInstance(pl, transform, TVec2(1,1));
+		auto new_class_instance = scene_editor_scene->editor_scene_instance->CreateInstance(pl, transform, TVec2(1, 1));
 		scene_editor_scene->selected_instance = new_class_instance;
 		//new_class_instance->instance_transform.position = world_cursor_location;
 
@@ -95,20 +95,23 @@ public:
 	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
-		scene_editor_scene->selected_instance->SetScale(
-			scene_editor_scene->selected_instance->GetScale().ComponentMul(scale));
+		auto new_scale = scene_editor_scene->selected_instance->GetScale().ComponentMul(scale);
+		scene_editor_scene->selected_instance->SetScale(new_scale);
+		scene_editor_scene->selected_instance->GetProperties()->GetSceneClassInstance("editor_source_instance")->SetScale(new_scale);
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{
 		auto trans = scene_editor_scene->selected_instance->GetTransform();
 		trans.position = new_pos;
 		scene_editor_scene->selected_instance->SetTransform(trans);
+		scene_editor_scene->selected_instance->GetProperties()->GetSceneClassInstance("editor_source_instance")->SetTransform(trans);
 	}
 	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto trans = scene_editor_scene->selected_instance->GetTransform();
 		trans.angle = TRot(new_box);
 		scene_editor_scene->selected_instance->SetTransform(trans);
+		scene_editor_scene->selected_instance->GetProperties()->GetSceneClassInstance("editor_source_instance")->SetTransform(trans);
 	}
 
 	void OnMouseDown(TMouseEventArgs e)
@@ -143,7 +146,7 @@ public:
 		{
 			auto world_cursor_location = scene_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
 			IBaluInstance* instance_collision(nullptr);
-			if (scene_editor_scene->source_scene_instance->PointCollide(world_cursor_location, instance_collision))
+			if (scene_editor_scene->editor_scene_instance->PointCollide(world_cursor_location, instance_collision))
 			{
 				scene_editor_scene->boundary_box_contour->SetEnable(true);
 				scene_editor_scene->boundary_box_contour->SetBox(instance_collision->GetOBB());

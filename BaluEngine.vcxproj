@@ -180,6 +180,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorAdornments.cpp" />
+    <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorScene.cpp" />
     <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorTools.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>

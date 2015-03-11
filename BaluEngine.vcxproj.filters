@@ -399,5 +399,8 @@
     <ClCompile Include="Source\EditorUtils\OBBContour.cpp">
       <Filter>EditorUtils</Filter>
     </ClCompile>
+    <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorScene.cpp">
+      <Filter>EditorUtils\SpriteEditor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

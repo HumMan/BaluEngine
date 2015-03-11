@@ -448,6 +448,12 @@ namespace Editor
 
 		p->world = CreateDemoWorld(p->base_path);
 
+		auto editor_scene = p->world->CreateScene("EditorScene");
+		main_viewport = editor_scene->CreateViewport("main_viewport");
+		main_viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
+		main_viewport->SetAspectRatio(1);
+		main_viewport->SetWidth(20);
+
 		p->world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
 
 		p->screen = new TScreen(TVec2i(32,32));
@@ -458,11 +464,8 @@ namespace Editor
 		main_viewport_view = p->main_viewport_view;
 
 		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
-		auto demo_scene = p->world->GetScene("scene0");
-		
-		main_viewport = demo_scene->FindViewport("main_viewport");
 
-		p->scene_instance = p->world_instance->RunScene(demo_scene);
+		p->scene_instance = p->world_instance->RunScene(editor_scene);
 		scene_instance = p->scene_instance;
 		p->director->SetWorldInstance(p->world_instance);
 		p->director->SetRenderWorldCallback(RenderWorld);
@@ -472,9 +475,12 @@ namespace Editor
 		drawing_context.view = &main_viewport_view;
 		drawing_context.viewport = main_viewport;
 
-		auto scene_editor = CreateSceneEditor(drawing_context, p->world, demo_scene, scene_instance);
+		auto scene_editor = CreateSceneEditor(drawing_context, p->world, p->world->GetScene("scene0"), scene_instance);
 		auto& tools = scene_editor->GetAvailableTools();
 		scene_editor->SetActiveTool(tools[1].tool.get());
+
+		//auto sprite_editor = CreateSpriteEditor(drawing_context, p->world, demo_scene, scene_instance);
+
 			//engine->AddSelectionChangedCallback(callbackbridge, TCallbackManagedBridge::OnSelectionChanged);
 			//engine->AddPropertiesChangedCallback(callbackbridge, TCallbackManagedBridge::OnPropertiesChanged);
 		//engine->AddObjectCreatedCallback(callbackbridge, TCallbackManagedBridge::OnObjectCreated);

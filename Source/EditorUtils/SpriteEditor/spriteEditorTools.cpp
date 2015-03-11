@@ -53,18 +53,18 @@ public:
 		}
 		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
 		{
-			if (sprite_editor_scene->hightlighted_instance != nullptr)
-			{
-				sprite_editor_scene->selected_instance = sprite_editor_scene->hightlighted_instance;
-				sprite_editor_scene->boundary_box.OnChange = this;
-				sprite_editor_scene->boundary_box.enable = true;
-				sprite_editor_scene->boundary_box.SetBoundary(sprite_editor_scene->selected_instance->GetOBB());
-			}
-			else
-			{
-				sprite_editor_scene->boundary_box.enable = false;
-				sprite_editor_scene->selected_instance = nullptr;
-			}
+			//if (sprite_editor_scene->hightlighted_instance != nullptr)
+			//{
+			//	sprite_editor_scene->selected_instance = sprite_editor_scene->hightlighted_instance;
+			//	sprite_editor_scene->boundary_box.OnChange = this;
+			//	sprite_editor_scene->boundary_box.enable = true;
+			//	sprite_editor_scene->boundary_box.SetBoundary(sprite_editor_scene->selected_instance->GetOBB());
+			//}
+			//else
+			//{
+			//	sprite_editor_scene->boundary_box.enable = false;
+			//	sprite_editor_scene->selected_instance = nullptr;
+			//}
 		}
 	}
 	void OnMouseMove(TMouseEventArgs e)

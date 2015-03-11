@@ -12,14 +12,14 @@ class IVisualAdornment;
 class TSpritePolygonAdornmentPrivate;
 class TSpritePolygonOBBAdornmentPrivate;
 
-class TSpritePolygonOBBAdornment
+class TSpriteOBBAdornment
 {
 	std::unique_ptr<TSpritePolygonOBBAdornmentPrivate> p;
 public:
-	TSpritePolygonOBBAdornment(EngineInterface::IBaluSceneInstance* scene_instance, IVisualAdornment* visual, TDrawingHelper* drawing_helper);
+	TSpriteOBBAdornment(EngineInterface::IBaluSceneInstance* scene_instance, IVisualAdornment* visual, TDrawingHelper* drawing_helper);
 
-	static EngineInterface::IBaluClass* TSpritePolygonOBBAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TSpritePolygonOBBAdornmentPrivate* data);
-	~TSpritePolygonOBBAdornment();
+	static EngineInterface::IBaluClass* TSpriteOBBAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TSpritePolygonOBBAdornmentPrivate* data);
+	~TSpriteOBBAdornment();
 };
 
 class TSpritePolygonAdornment

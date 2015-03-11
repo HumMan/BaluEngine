@@ -38,7 +38,7 @@ public:
 	{
 		public:
 		TBaluClass* balu_class;
-		std::string tag;
+		//std::string tag;
 		TBaluTransform transform;
 		TVec2 scale;
 		TClassInstance()
@@ -66,6 +66,10 @@ public:
 		TVec2 GetScale()
 		{
 			return scale;
+		}
+		TBaluClass* GetClass()
+		{
+			return balu_class;
 		}
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

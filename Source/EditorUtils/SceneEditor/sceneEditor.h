@@ -25,7 +25,9 @@ public:
 	//void EndEdit();
 
 	void Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluSceneInstance* editor_scene_instance);
-
+	void Deinitialize()
+	{
+	}
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
 

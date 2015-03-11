@@ -53,40 +53,73 @@ class TProperties: public EngineInterface::IProperties
 {
 	struct TProperty
 	{
-		enum Type
-		{
-			Bool,
-			Int,
-			Float,
-			String,
-		};
-		Type type;
+		EngineInterface::PropertyType type;
 		bool bool_val;
 		int int_val;
 		float float_val;
 		std::string string_val;
+		EngineInterface::IBaluSceneClassInstance* SceneClassInstance_val;
 		TProperty(){}
 		TProperty(bool value)
 		{
-			type = Type::Bool;
+			type = EngineInterface::PropertyType::Bool;
 			bool_val = value;
+		}
+		TProperty(EngineInterface::IBaluSceneClassInstance* value)
+		{
+			type = EngineInterface::PropertyType::SceneClassInstance;
+			SceneClassInstance_val = value;
+		}
+		template<class T>
+		void GetValue(T*& value);
+		template<>
+		void GetValue<bool>(bool*& value)
+		{
+			value = &bool_val;
+		}
+		template<>
+		void GetValue<EngineInterface::IBaluSceneClassInstance*>(EngineInterface::IBaluSceneClassInstance**& value)
+		{
+			value = &SceneClassInstance_val;
 		}
 	};
 	std::map<std::string,TProperty> properties;
-public:
-	void SetBool(std::string name, bool value)
+	template<class T>
+	void Set(const std::string& name, T value)
 	{
 		properties[name] = TProperty(value);
 	}
-	bool GetBool(std::string name)
+	template<class T>
+	void Get(const std::string& name, T*& value)
 	{
 		if (properties.find(name) == properties.end())
 		{
-			SetBool(name, false);
+			Set(name, T());
 		}
-		if (properties[name].type != TProperty::Type::Bool)
-			throw std::invalid_argument("Неправильный тип свойства");
-		return properties[name].bool_val;
+		//if (properties[name].type != EngineInterface::PropertyType::Bool)
+		//	throw std::invalid_argument("Неправильный тип свойства");
+		properties[name].GetValue(value);
+	}
+public:
+	void SetBool(const std::string& name, bool value)
+	{
+		Set(name, value);
+	}
+	bool GetBool(const std::string& name)
+	{
+		bool* value=nullptr;
+		Get(name, value);
+		return *value;
+	}
+	void SetSceneClassInstance(const std::string& name, EngineInterface::IBaluSceneClassInstance* value)
+	{
+		Set(name, value);
+	}
+	EngineInterface::IBaluSceneClassInstance* GetSceneClassInstance(const std::string& name)
+	{
+		EngineInterface::IBaluSceneClassInstance** value = nullptr;
+		Get(name, value);
+		return *value;
 	}
 };
 

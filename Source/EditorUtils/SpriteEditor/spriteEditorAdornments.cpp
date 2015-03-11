@@ -15,7 +15,7 @@ using namespace EngineInterface;
 
 class TSpritePolygonOBBAdornmentPrivate
 {
-	friend class TSpritePolygonOBBAdornment;
+	friend class TSpriteOBBAdornment;
 	friend void SpritePolygonOBBAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
@@ -24,7 +24,7 @@ private:
 	TDrawingHelper* drawing_helper;
 };
 
-TSpritePolygonOBBAdornment::~TSpritePolygonOBBAdornment()
+TSpriteOBBAdornment::~TSpriteOBBAdornment()
 {
 
 }
@@ -40,7 +40,7 @@ void SpritePolygonOBBAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TC
 	}
 }
 
-EngineInterface::IBaluClass* TSpritePolygonOBBAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TSpritePolygonOBBAdornmentPrivate* data)
+EngineInterface::IBaluClass* TSpriteOBBAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TSpritePolygonOBBAdornmentPrivate* data)
 {
 	auto adornment_class = world->CreateClass("SpritePolygonOBBAdornment");
 	auto adornment_sprite = world->CreateSprite("SpritePolygonOBBAdornment_custom_draw_sprite");
@@ -51,7 +51,7 @@ EngineInterface::IBaluClass* TSpritePolygonOBBAdornment::CreateClass(IBaluWorld*
 	return adornment_class;
 }
 
-TSpritePolygonOBBAdornment::TSpritePolygonOBBAdornment(IBaluSceneInstance* scene_instance, IVisualAdornment* visual, TDrawingHelper* drawing_helper)
+TSpriteOBBAdornment::TSpriteOBBAdornment(IBaluSceneInstance* scene_instance, IVisualAdornment* visual, TDrawingHelper* drawing_helper)
 {
 	p = std::make_unique<TSpritePolygonOBBAdornmentPrivate>();
 

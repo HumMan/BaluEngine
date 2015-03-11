@@ -10,22 +10,17 @@ TSceneEditor::TSceneEditor() :tools_registry(&scene)
 void TSceneEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluSceneInstance* editor_scene_instance)
 {
 	InitializeControls(world);
-	//auto adornment_class = CreateEditorClasses(this, world);
+
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
 	scene.Initialize(world, edited_scene, editor_scene_instance, drawing_helper.get());
-	//for (int i = 0; i < obj->GetInstancesCount();i++)
-	//{
-		//auto v = obj->GetInstance(i);
-		//auto new_box = new TClassInstanceAdornment(v);
-		//scene.boundaries.emplace_back(std::unique_ptr<TClassInstanceAdornment>(new_box));
-	//}
-}
 
-//void TSceneEditor::Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_global_pos)
-//{
-//	this->editor_global_pos = editor_global_pos;
-//	Initialize(world, obj);
-//}
+	for (int i = 0; i < edited_scene->GetInstancesCount(); i++)
+	{
+		auto source_instance = edited_scene->GetInstance(i);
+		auto instance = editor_scene_instance->CreateInstance(source_instance->GetClass(), source_instance->GetTransform(), source_instance->GetScale());
+		instance->GetProperties()->SetSceneClassInstance("editor_source_instance", source_instance);
+	}
+}
 
 bool TSceneEditor::CanSetSelectedAsWork()
 {
@@ -97,28 +92,3 @@ const std::vector<TToolWithDescription>& TSceneEditor::GetAvailableTools()
 	else
 		return tools_registry.GetTools();
 }
-
-//void TSceneEditor::Render(TDrawingHelper* drawing_helper)
-//{
-//	if (current_local_editor != nullptr)
-//	{
-//		drawing_helper->SetGlobalAlpha(0.5);
-//		drawing_helper->SetGlobalAlphaColor();
-//		for (const std::unique_ptr<TBoundaryBoxAdornment>& box : scene.boundaries)
-//		{
-//			if (box.get() != scene.boundary_under_cursor)
-//				box->Render(drawing_helper);
-//		}
-//		drawing_helper->UnsetGlobalAlpha();
-//
-//		current_local_editor->Render(drawing_helper);
-//	}
-//	else
-//	{
-//		for (const std::unique_ptr<TBoundaryBoxAdornment>& box : scene.boundaries)
-//		{
-//			box->Render(drawing_helper);
-//		}
-//	}
-//}
-

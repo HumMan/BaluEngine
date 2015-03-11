@@ -23,7 +23,7 @@ private:
 	
 public:
 	IBaluScene* source_scene;
-	IBaluSceneInstance* source_scene_instance;
+	IBaluSceneInstance* editor_scene_instance;
 	//IBaluSceneInstance* editor_temp_scene_instance;
 	IBaluInstance* selected_instance;
 	IBaluSceneClassInstance* selected_instance_source;
