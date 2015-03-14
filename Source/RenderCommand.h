@@ -190,7 +190,7 @@ public:
 
 //TODO в дальнейшем вся информация для рендера должна находиться полностью здесь, для возможности параллельной отрисовки
 
-struct TCustomDrawCommand
+class TCustomDrawCommand
 {
 public:
 	EngineInterface::IBaluSpritePolygonInstance* poly;

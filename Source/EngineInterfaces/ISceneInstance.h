@@ -2,6 +2,9 @@
 
 #include "../RenderCommand.h"
 
+#include "IScene.h"
+#include "IClassInstance.h"
+
 namespace EngineInterface
 {
 	class IBaluWorldInstance;

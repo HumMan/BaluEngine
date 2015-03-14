@@ -62,6 +62,8 @@ namespace EngineInterface
 		virtual IBaluClass* CreateClass(const char* class_name) = 0;
 		virtual IBaluScene* CreateScene(const char* scene_name) = 0;
 
+		virtual void DestroyScene(const char* scene_name)=0;
+
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluSprite*>> GetSprites() = 0;
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluClass*>> GetClasses() = 0;

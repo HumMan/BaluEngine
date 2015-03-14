@@ -72,6 +72,8 @@ public:
 	TBaluClass* CreateClass(const char* class_name);
 	TBaluScene* CreateScene(const char* scene_name);
 
+	void DestroyScene(const char* scene_name);
+
 	TBaluMaterial* GetMaterial(const char* mat_name);
 	TBaluSprite* GetSprite(const char* sprite_name);
 	TBaluClass* GetClass(const char* class_name);

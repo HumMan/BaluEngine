@@ -158,5 +158,15 @@ namespace BaluEditor
         {
             baluEditorControl1.Resize(panel2.Width, panel2.Height);
         }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loadDemoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            baluEditorControl1.LoadDemoWorld();
+        }
     }
 }

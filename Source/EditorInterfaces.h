@@ -12,7 +12,6 @@ enum class TWorldObjectType
 {
 	Material,
 	Sprite,
-	PhysBody,
 	Class,
 	None
 };

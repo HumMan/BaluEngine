@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 class TCallbackManagedBridge;
 
 namespace EngineInterface
@@ -29,7 +31,6 @@ namespace Editor
 		World,
 		Material,
 		Sprite,
-		PhysBody,
 		Class,
 		Scene
 	};
@@ -59,8 +60,13 @@ namespace Editor
 		BaluEditorControlPrivate* p;
 
 		void CreateWorldTree(TreeView^ WorldTreeView, EngineInterface::IBaluWorld* world);
-		IAbstractEditor* BaluEditorControl::CreateEditorOfWorldObject(IBaluWorldObject* obj);
+		IAbstractEditor* CreateEditorOfWorldObject(IBaluWorldObject* obj);
+		void DestroyEditorOfWorldObject(IBaluWorldObject* obj);
+		void CreateEditorScene();
+		void DestroyEditorScene();
 	public:
+		bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list);
+
 		//called by balu editor
 		void OnSelectionChangedByEditor(IBaluWorldObject* old_selection, IBaluWorldObject* new_selection);
 		void OnPropertiesChangedByEditor(IBaluWorldObject* changed_obj);
@@ -101,6 +107,7 @@ namespace Editor
 
 		void SaveWorldTo(String^ path);
 		void LoadWorldFrom(String^ path);
+		void LoadDemoWorld();
 
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;

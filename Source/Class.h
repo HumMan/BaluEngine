@@ -47,84 +47,6 @@ public:
 	EngineInterface::ISensor* CreateSensor(EngineInterface::IBaluPhysShape* shape);
 };
 
-
-
-class TProperties: public EngineInterface::IProperties
-{
-	struct TProperty
-	{
-		EngineInterface::PropertyType type;
-		bool bool_val;
-		int int_val;
-		float float_val;
-		std::string string_val;
-		EngineInterface::IBaluSceneClassInstance* SceneClassInstance_val;
-		TProperty(){}
-		TProperty(bool value)
-		{
-			type = EngineInterface::PropertyType::Bool;
-			bool_val = value;
-		}
-		TProperty(EngineInterface::IBaluSceneClassInstance* value)
-		{
-			type = EngineInterface::PropertyType::SceneClassInstance;
-			SceneClassInstance_val = value;
-		}
-		template<class T>
-		void GetValue(T*& value);
-		template<>
-		void GetValue<bool>(bool*& value)
-		{
-			value = &bool_val;
-		}
-		template<>
-		void GetValue<EngineInterface::IBaluSceneClassInstance*>(EngineInterface::IBaluSceneClassInstance**& value)
-		{
-			value = &SceneClassInstance_val;
-		}
-	};
-	std::map<std::string,TProperty> properties;
-	template<class T>
-	void Set(const std::string& name, T value)
-	{
-		properties[name] = TProperty(value);
-	}
-	template<class T>
-	void Get(const std::string& name, T*& value)
-	{
-		if (properties.find(name) == properties.end())
-		{
-			Set(name, T());
-		}
-		//if (properties[name].type != EngineInterface::PropertyType::Bool)
-		//	throw std::invalid_argument("Неправильный тип свойства");
-		properties[name].GetValue(value);
-	}
-public:
-	void SetBool(const std::string& name, bool value)
-	{
-		Set(name, value);
-	}
-	bool GetBool(const std::string& name)
-	{
-		bool* value=nullptr;
-		Get(name, value);
-		return *value;
-	}
-	void SetSceneClassInstance(const std::string& name, EngineInterface::IBaluSceneClassInstance* value)
-	{
-		Set(name, value);
-	}
-	EngineInterface::IBaluSceneClassInstance* GetSceneClassInstance(const std::string& name)
-	{
-		EngineInterface::IBaluSceneClassInstance** value = nullptr;
-		Get(name, value);
-		return *value;
-	}
-};
-
-
-
 class TBaluClass : public TProperties, public EngineInterface::IBaluClass, public EngineInterface::IBaluWorldObject
 {
 public:
@@ -156,10 +78,11 @@ private:
 	TBaluClassPhysBody phys_body;
 	TSkeleton skeleton;
 	TSkeletonAnimation skeleton_animation;
+	TProperties properties;
 public:
 	EngineInterface::IProperties* GetProperties()
 	{
-		return nullptr;
+		return &properties;
 	}
 	bool PointCollide(TVec2 class_space_point);
 	TAABB2 GetAABB();

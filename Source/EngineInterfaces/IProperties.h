@@ -11,6 +11,7 @@ namespace EngineInterface
 	{
 	public:
 		virtual IProperties* GetProperties() = 0;
+		virtual std::string GetName() = 0;
 	};
 
 	enum class PropertyType
@@ -22,9 +23,11 @@ namespace EngineInterface
 		SceneClassInstance
 	};
 
+
 	class IProperties
 	{
 	public:
+		virtual bool HasProperty(const std::string& name, PropertyType& type) = 0;
 		virtual void SetBool(const std::string& name, bool value) = 0;
 		virtual bool GetBool(const std::string& name) = 0;
 		virtual void SetSceneClassInstance(const std::string& name, IBaluSceneClassInstance* value) = 0;

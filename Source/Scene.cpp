@@ -43,7 +43,7 @@ TViewport* TBaluScene::FindViewport(std::string name)
 {
 	auto it = viewports.find(name);
 	if (it == viewports.end())
-		throw std::invalid_argument("Viewport с данным именем не существует");
+		return nullptr;
 	return &it->second;
 }
 

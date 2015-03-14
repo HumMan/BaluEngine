@@ -23,7 +23,7 @@ void ViewportResize(TVec2i old_size, TVec2i new_size)
 	main_viewport->SetSize(new_vieport_size);
 }
 
-void RenderWorld(IBaluWorldInstance* world, TRender* render)
+void RenderWorld(TCallbackData* data, IBaluWorldInstance* world, TRender* render)
 {
 	*screen = TScreen(director->GetScreenSize());
 
@@ -85,7 +85,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	scene_editor->SetActiveTool(tools[1].tool.get());
 
 	director->SetWorldInstance(demo_world_instance);
-	director->SetRenderWorldCallback(RenderWorld);
+	director->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
 	director->SetViewportResizeCallback(ViewportResize);
 	director->SetSymulatePhysics(false);
 	director->MainLoop();

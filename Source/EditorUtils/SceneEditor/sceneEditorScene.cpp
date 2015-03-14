@@ -1,7 +1,5 @@
 #include "sceneEditorScene.h"
 
-
-
 void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper)
 {
 	this->source_scene = source_scene;

@@ -7,6 +7,11 @@ EngineInterface::IBaluWorld* CreateWorld()
 	return (new TBaluWorld());
 }
 
+void DestroyWorld(EngineInterface::IBaluWorld* world)
+{
+	delete world;
+}
+
 #include "Director.h"
 
 EngineInterface::IDirector* CreateDirector()

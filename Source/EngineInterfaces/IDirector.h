@@ -6,7 +6,7 @@
 
 #include "../Render.h"
 
-typedef void(*RenderWorldCallback)(EngineInterface::IBaluWorldInstance* world, TRender* render);
+typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IBaluWorldInstance* world, TRender* render);
 typedef void(*VieportResizeCallback)(TVec2i old_size, TVec2i new_size);
 
 namespace EngineInterface
@@ -16,7 +16,7 @@ namespace EngineInterface
 	public:
 		virtual void Step(float step)=0;
 		virtual void SetWorldInstance(IBaluWorldInstance* world_instance)=0;
-		virtual void SetRenderWorldCallback(RenderWorldCallback callback)=0;
+		virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)=0;
 		virtual void SetViewportResizeCallback(VieportResizeCallback callback) = 0;
 		virtual void SetSymulatePhysics(bool enable)=0;
 		virtual int Initialize(bool create_window)=0;

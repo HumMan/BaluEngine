@@ -43,7 +43,9 @@ void SpritePolygonOBBAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TC
 EngineInterface::IBaluClass* TSpriteOBBAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TSpritePolygonOBBAdornmentPrivate* data)
 {
 	auto adornment_class = world->CreateClass("SpritePolygonOBBAdornment");
+	dynamic_cast<IBaluWorldObject*>(adornment_class)->GetProperties()->SetBool("editor_temp_object", true);
 	auto adornment_sprite = world->CreateSprite("SpritePolygonOBBAdornment_custom_draw_sprite");
+	dynamic_cast<IBaluWorldObject*>(adornment_sprite)->GetProperties()->SetBool("editor_temp_object", true);
 	//adornment_sprite->GetPolygone()->SetEnable(false);
 	adornment_sprite->GetPolygone()->OnCustomDraw(CallbackWithData<TCustomDrawCallback>(SpritePolygonOBBAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);

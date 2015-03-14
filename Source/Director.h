@@ -25,7 +25,7 @@ public:
 	TDirector();
 	void SetWorldInstance(TBaluWorldInstance* world_instance);
 	void SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance);
-	void SetRenderWorldCallback(RenderWorldCallback callback);
+	void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback);
 	
 	int Initialize(bool create_window);
 	TResources* GetResources();

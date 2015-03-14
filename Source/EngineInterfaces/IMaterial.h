@@ -144,4 +144,10 @@ struct TDrawingHelperContext
 	TScreen* screen;
 	TView* view;
 	EngineInterface::IViewport* viewport;
+	TDrawingHelperContext()
+	{
+		screen = nullptr;
+		view = nullptr;
+		viewport = nullptr;
+	}
 };

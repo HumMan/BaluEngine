@@ -29,6 +29,9 @@ public:
 		width = size[0];
 		aspect = size[1] / size[0];
 	}
+
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
 class TBaluScene : public EngineInterface::IBaluScene, public EngineInterface::IBaluWorldObject
@@ -81,10 +84,12 @@ private:
 	std::map<std::string, TViewport> viewports;
 
 	TLayersManager layers;
+
+	TProperties properties;
 public:
 	EngineInterface::IProperties* GetProperties()
 	{
-		return nullptr;
+		return &properties;
 	}
 	
 	TViewport* CreateViewport(std::string name);

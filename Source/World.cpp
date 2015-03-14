@@ -148,6 +148,19 @@ TBaluScene* TBaluWorld::CreateScene(const char* scene_name)
 	}
 }
 
+void TBaluWorld::DestroyScene(const char* scene_name)
+{
+	auto iter = scenes.find(scene_name);
+	if (iter != scenes.end())
+	{
+		scenes.erase(iter);
+	}
+	else
+	{
+		throw std::invalid_argument("Сцена с данным имененем уже существует");
+	}
+}
+
 TBaluMaterial* TBaluWorld::GetMaterial(const char* scene_name)
 {
 	auto iter = materials.find(scene_name);
@@ -389,7 +402,9 @@ void TBaluSpritePolygon::Save(pugi::xml_node& parent_node, const int version)
 
 void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
-	material = world->GetMaterial(node.attribute("material_name").as_string());
+	auto mat_name = node.attribute("material_name").as_string();
+	if (mat_name != "")
+		material = world->GetMaterial(mat_name);
 
 	local = LoadTransform(node.child("Transform"));
 
@@ -409,12 +424,56 @@ void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBa
 	}
 }
 
+std::vector < std::pair<const char*, PropertyClone>> properties_registry;
+
+bool PropertiesFactory::Register(const char* name, PropertyClone clone)
+{
+	properties_registry.push_back(std::pair<const char*, PropertyClone>(name, clone));
+	return true;
+}
+
+TProperty* PropertiesFactory::Create(const char* name)
+{
+	for (int i = 0; i < properties_registry.size(); i++)
+		if (strcmp(properties_registry[i].first, name) == 0)
+			return properties_registry[i].second();
+	throw std::invalid_argument("Тип не зарегистрирован");
+}
+
+void TProperties::Save(pugi::xml_node& parent_node, const int version)
+{
+	xml_node props_node = parent_node.append_child("Properties");
+	for (auto& v : properties)
+	{
+		v.second->Save(props_node, version);
+		props_node.last_child().append_attribute("name").set_value(v.first.c_str());
+	}
+}
+
+void TProperties::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+{
+	xml_node props_node = instance_node.child("Properties");
+	for (pugi::xml_node prop_node = props_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
+	{
+		auto new_prop = PropertiesFactory::Create(prop_node.attribute("type").as_string());
+		new_prop->Load(prop_node, version, world);
+		auto name = prop_node.attribute("name").as_string();
+		properties[name].reset(new_prop);
+	}
+}
+
 void TBaluSprite::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Sprite");
 	new_node.append_attribute("name").set_value(sprite_name.c_str());
 	xml_node polygon_node = new_node.append_child("sprite_polygon");
 	sprite_polygon.Save(polygon_node, version);
+
+	if (phys_shape)
+	{
+		xml_node fixture = new_node.append_child("phys_shape");
+		phys_shape->Save(fixture, version);
+	}
 }
 
 void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
@@ -424,15 +483,19 @@ void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld
 	sprite_polygon.Load(polygon_node, version, world);
 
 	xml_node fixture = node.child("phys_shape");
-	TBaluPhysShape* new_shape = nullptr;
-	if (std::string(fixture.name()) == "PolygoneShape")
-		new_shape = new TBaluPolygonShape();
-	if (std::string(fixture.name()) == "CircleShape")
-		new_shape = new TBaluCircleShape();
-	if (std::string(fixture.name()) == "BoxShape")
-		new_shape = new TBaluBoxShape();
-	new_shape->Load(fixture, version, world);
-	phys_shape.reset(new_shape);
+	if (!fixture.empty())
+	{
+		fixture = fixture.first_child();
+		TBaluPhysShape* new_shape = nullptr;
+		if (std::string(fixture.name()) == "PolygoneShape")
+			new_shape = new TBaluPolygonShape();
+		if (std::string(fixture.name()) == "CircleShape")
+			new_shape = new TBaluCircleShape();
+		if (std::string(fixture.name()) == "BoxShape")
+			new_shape = new TBaluBoxShape();
+		new_shape->Load(fixture, version, world);
+		phys_shape.reset(new_shape);
+	}
 }
 
 void TBaluClass::TBaluSpriteInstance::Save(pugi::xml_node& parent_node, const int version)
@@ -483,6 +546,7 @@ void TBaluScene::TClassInstance::Save(pugi::xml_node& parent_node, const int ver
 	//new_node.append_attribute("name").set_value(name.c_str());
 	new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
 	SaveTransform(new_node, "Transform", transform);
+	SaveCoord(new_node, "Scale", scale);
 }
 
 void TBaluScene::TClassInstance::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
@@ -490,6 +554,20 @@ void TBaluScene::TClassInstance::Load(const pugi::xml_node& instance_node, const
 	//name = instance_node.attribute("name").as_string();
 	balu_class = world->GetClass(instance_node.attribute("class_name").as_string());
 	transform = LoadTransform(instance_node.child("Transform"));
+	scale = LoadCoord(instance_node.child("Scale"));
+}
+
+void TViewport::Save(pugi::xml_node& parent_node, const int version)
+{
+	xml_node viewport_node = parent_node.append_child("Viewport");
+	SaveTransform(viewport_node, "transform", transform);
+	viewport_node.append_attribute("aspect").set_value(aspect);
+	viewport_node.append_attribute("width").set_value(width);
+}
+
+void TViewport::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+{
+
 }
 
 void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
@@ -503,6 +581,15 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 			instances[i]->Save(instances_node, version);
 		}
 	}
+	xml_node viewports_node = parent_node.append_child("Viewports");
+	{
+		for (auto& v : viewports)
+		{
+			v.second.Save(viewports_node, version);
+			viewports_node.last_child().append_attribute("name").set_value(v.first.c_str());
+		}
+	}
+	properties.Save(parent_node, version);
 }
 
 void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBaluWorld* world)
@@ -554,7 +641,6 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 
 void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int version)
 {
-	//TODO добавить во все классы недостающие свойства
 	xml_node world_node = document_node.child("World");
 	{
 		xml_node materials_node = world_node.child("Materials");
@@ -569,8 +655,10 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node sprites_node = world_node.child("Sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
-			TBaluSprite new_sprite;
-			new_sprite.Load(sprite_node, version, this);
+			//TBaluSprite new_sprite;
+			//new_sprite.Load(sprite_node, version, this);
+			auto sprite_name = sprite_node.attribute("name").as_string();
+			sprites[sprite_name].Load(sprite_node, version, this);
 			//sprites.insert(std::make_pair(new_sprite.GetName(), std::move(new_sprite)));
 		}
 	}
@@ -587,9 +675,12 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node scenes_node = world_node.child("Scenes");
 		for (pugi::xml_node scene_node = scenes_node.first_child(); scene_node; scene_node = scene_node.next_sibling())
 		{
-			TBaluScene new_scene;
-			new_scene.Load(scene_node, version, this);
+			//TBaluScene new_scene;
+			//new_scene.Load(scene_node, version, this);
 			//scenes.insert(std::make_pair(new_scene.GetName(), std::move(new_scene)));
+
+			auto scene_name = scene_node.attribute("name").as_string();
+			scenes[scene_name].Load(scene_node, version, this);
 		}
 	}
 }

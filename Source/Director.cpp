@@ -38,7 +38,7 @@ public:
 
 	TBaluWorldInstance* world_instance;
 
-	RenderWorldCallback render_world_callback;
+	CallbackWithData<RenderWorldCallback> render_world_callback;
 	VieportResizeCallback vieport_resize_callback;
 
 	bool physics_sym;
@@ -53,11 +53,13 @@ public:
 void TDirector::Render()
 {
 	if (p->world_instance != nullptr)
-		p->render_world_callback(p->world_instance, p->render.get());
+		p->render_world_callback.Execute(p->world_instance, p->render.get());
 }
 
 void TDirector::Step(float step)
 {
+	if (p->world_instance == nullptr)
+		return;
 	if (p->physics_sym)
 	{
 		p->world_instance->OnPrePhysStep();
@@ -66,7 +68,7 @@ void TDirector::Step(float step)
 	}
 	p->world_instance->UpdateTransform();
 
-	p->render_world_callback(p->world_instance, p->render.get());
+	p->render_world_callback.Execute(p->world_instance, p->render.get());
 
 	if (p->physics_sym)
 	{
@@ -93,7 +95,7 @@ void TDirector::SetWorldInstance(EngineInterface::IBaluWorldInstance* world_inst
 	SetWorldInstance(dynamic_cast<TBaluWorldInstance*>(world_instance));
 }
 
-void TDirector::SetRenderWorldCallback(RenderWorldCallback callback)
+void TDirector::SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)
 {
 	p->render_world_callback = callback;
 }
