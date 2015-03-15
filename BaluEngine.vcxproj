@@ -195,6 +195,7 @@
     <ClCompile Include="Source\Resources.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneInstance.cpp" />
+    <ClCompile Include="Source\Serialize.cpp" />
     <ClCompile Include="Source\Skeleton.cpp" />
     <ClCompile Include="Source\SkeletonAnimation.cpp" />
     <ClCompile Include="Source\SkeletonAnimationInstance.cpp" />

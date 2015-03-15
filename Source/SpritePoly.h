@@ -47,6 +47,10 @@ private:
 	std::vector<CallbackWithData<TCustomDrawCallback>> custom_draw_callbacks;
 	TAABB2 GetVerticesBox();
 public:
+
+	int GetAnimDescIndex(EngineInterface::TAnimDesc* desc);
+	EngineInterface::TAnimDesc* GetAnimDesc(int index);
+
 	TAABB2 GetAABB(TBaluTransform sprite_in_class);
 	TOBB2 GetBoundingBox();
 

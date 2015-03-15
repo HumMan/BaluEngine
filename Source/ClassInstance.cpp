@@ -124,9 +124,9 @@ void TBaluInstance::UpdateTranform()
 		instance_transform = phys_body->GetTransform();
 		for (int i = 0; i < sprites.size(); i++)
 		{
-			sprites[i]->UpdateTranform(instance_transform, instance_scale, instance_transform);
+			sprites[i]->UpdateTranform(TBaluTransform(TVec2(0), TRot(0)), instance_scale, instance_transform);
 		}
-		skeleton.UpdateTranform(instance_transform, instance_scale, instance_transform);
+		skeleton.UpdateTranform(TBaluTransform(TVec2(0), TRot(0)), instance_scale, instance_transform);
 	}
 }
 

@@ -21,11 +21,17 @@ public:
 	std::unique_ptr<TBaluPhysShape> phys_shape;
 	//std::vector<SensorCollideCallback> on_sensor_collide_callbacks;
 	std::vector<SensorCollideCallback> on_begin_contact, on_end_contact;
+	TSensor()
+	{
+	}
 	TSensor(TBaluPhysShape* shape)
 	{
 		//this->shape.reset(shape);
 		this->phys_shape.reset(shape);
 	}
+
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
 class TBaluClassPhysBody: public EngineInterface::IBaluClassPhysBody
@@ -36,6 +42,13 @@ private:
 	std::vector<std::unique_ptr<TSensor>> sensors;
 public:
 	TBaluClassPhysBody();
+	TBaluClassPhysBody(TBaluClassPhysBody&& right)
+		:body_def(std::move(right.body_def))
+		, enable(std::move(right.enable))
+		, sensors(std::move(right.sensors))
+	{
+
+	}
 	int GetSensorsCount();
 	TSensor* GetSensor(int index);
 	void SetFixedRotation(bool fixed);
@@ -45,9 +58,12 @@ public:
 	b2BodyDef GetBodyDef();
 	TSensor* CreateSensor(TBaluPhysShape* shape);
 	EngineInterface::ISensor* CreateSensor(EngineInterface::IBaluPhysShape* shape);
+
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
-class TBaluClass : public TProperties, public EngineInterface::IBaluClass, public EngineInterface::IBaluWorldObject
+class TBaluClass : public EngineInterface::IBaluClass, public EngineInterface::IBaluWorldObject
 {
 public:
 	class TBaluSpriteInstance : public EngineInterface::IBaluClassSprite
@@ -76,8 +92,8 @@ private:
 	std::string class_name;
 	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
 	TBaluClassPhysBody phys_body;
-	TSkeleton skeleton;
-	TSkeletonAnimation skeleton_animation;
+	std::unique_ptr<TSkeleton> skeleton;
+	std::unique_ptr<TSkeletonAnimation> skeleton_animation;
 	TProperties properties;
 public:
 	EngineInterface::IProperties* GetProperties()

@@ -18,7 +18,7 @@ TBaluTransform TBone::GetTransform()
 
 void TBone::AddChild(TBone* bone)
 {
-	children.push_back(std::unique_ptr<TBone>(bone));
+	children.push_back(bone);
 }
 int TBone::GetChildrenCount()
 {
@@ -26,7 +26,7 @@ int TBone::GetChildrenCount()
 }
 TBone* TBone::GetChild(int index)
 {
-	return children[index].get();
+	return children[index];
 }
 
 TSkin::TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* sprite)
@@ -73,6 +73,14 @@ std::vector<TSkin::TBaluSpriteInstance>& TSkin::GetSpritesOfBone(int bone_index)
 	return sprites_of_bones[bone_index];
 }
 
+TSkeleton::TSkeleton(TSkeleton&& right)
+	:root(std::move(right.root))
+	, bones(std::move(right.bones))
+	, skins(std::move(right.skins))
+{
+	
+}
+
 TSkin* TSkeleton::CreateSkin()
 {
 	skins.push_back(std::make_unique<TSkin>(bones.size()));
@@ -98,17 +106,17 @@ TBone* TSkeleton::CreateBone(TBone* parent)
 {
 	if (parent == nullptr)
 	{
-		root = std::make_unique<TBone>(nullptr);
-		bones.push_back(root.get());
+		root = 0;
+		bones.push_back(std::make_unique<TBone>(nullptr));
 	}
 	else
 	{
-		auto new_bone = new TBone(parent);
-		parent->AddChild(new_bone);
-		bones.push_back(new_bone);
+		auto new_bone = std::make_unique<TBone>(parent);
+		parent->AddChild(new_bone.get());
+		bones.push_back(std::move(new_bone));
 	}
 
-	return bones.back();
+	return bones.back().get();
 }
 
 EngineInterface::IBone* TSkeleton::CreateBone(EngineInterface::IBone* parent)
@@ -130,7 +138,7 @@ int TSkeleton::GetBoneIndex(TBone* bone)
 {
 	for (int i = 0; i < bones.size(); i++)
 	{
-		if (bones[i] == bone)
+		if (bones[i].get() == bone)
 			return i;
 	}
 	throw std::invalid_argument("Данная кость отсутсвует в скелете!");
@@ -143,10 +151,16 @@ int TSkeleton::GetBoneIndex(EngineInterface::IBone* bone)
 
 TBone* TSkeleton::GetRoot()
 {
-	return root.get();
+	if (root == -1)
+		return nullptr;
+	return bones[root].get();
 }
 
 std::vector<TBone*> TSkeleton::GetAllBones()
 {
-	return bones;
+	std::vector<TBone*> result;
+	result.reserve(bones.size());
+	for (auto& v : bones)
+		result.push_back(v.get());
+	return result;
 }

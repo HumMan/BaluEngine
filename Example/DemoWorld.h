@@ -70,6 +70,9 @@ void PlayerJumpSensorEndCollide(IBaluInstance* source, ISensorInstance* sensor, 
 
 void PlayerPrePhysStep(IBaluInstance* object)
 {
+	PropertyType type;
+	if (!object->GetProperties()->HasProperty("can_jump", type))
+		object->GetProperties()->SetBool("can_jump", false);
 	auto can_jump = object->GetProperties()->GetBool("can_jump");
 
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
@@ -98,6 +101,9 @@ void PlayerPrePhysStep(IBaluInstance* object)
 
 void BonesPlayerPrePhysStep(IBaluInstance* object)
 {
+	PropertyType type;
+	if (!object->GetProperties()->HasProperty("can_jump", type))
+		object->GetProperties()->SetBool("can_jump", false);
 	auto can_jump = object->GetProperties()->GetBool("can_jump");
 
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
@@ -253,14 +259,14 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 		auto root_bone = bones_player_skel->CreateBone(nullptr);
 
 		auto right_leg_bone = bones_player_skel->CreateBone(root_bone);
-		right_leg_bone->SetTransform(TBaluTransform(TVec2(-0.5, -1.5), TRot(0)));
+		right_leg_bone->SetTransform(TBaluTransform(TVec2(-0.5, -0.5), TRot(0)));
 		auto right_foot_bone = bones_player_skel->CreateBone(right_leg_bone);
-		right_foot_bone->SetTransform(TBaluTransform(TVec2(0, -1), TRot(0)));
+		right_foot_bone->SetTransform(TBaluTransform(TVec2(0, -1.0), TRot(0)));
 
 		auto left_leg_bone = bones_player_skel->CreateBone(root_bone);
-		left_leg_bone->SetTransform(TBaluTransform(TVec2(0.5, -1), TRot(0)));
+		left_leg_bone->SetTransform(TBaluTransform(TVec2(0.5, -0.5), TRot(0)));
 		auto left_foot_bone = bones_player_skel->CreateBone(left_leg_bone);
-		left_foot_bone->SetTransform(TBaluTransform(TVec2(0.0, -0.5), TRot(0)));
+		left_foot_bone->SetTransform(TBaluTransform(TVec2(0.0, -1.0), TRot(0)));
 
 		auto right_shoulder_bone = bones_player_skel->CreateBone(root_bone);
 		auto right_hand_bone = bones_player_skel->CreateBone(right_shoulder_bone);
@@ -270,15 +276,15 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 
 		//create skin
 		auto skin = bones_player_skel->CreateSkin();
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_head, TBaluTransform(TVec2(-0.3, 2), TRot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_head, TBaluTransform(TVec2(-0.3, 1.2), TRot(0)));
 
 		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_torso, TBaluTransform(TVec2(0, 0), TRot(0)));
 
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_leg_bone), bones_right_leg, TBaluTransform(TVec2(0, 0), TRot(0)));
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_foot_bone), bones_right_foot, TBaluTransform(TVec2(0, 0), TRot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_leg_bone), bones_right_leg, TBaluTransform(TVec2(0, -0.5), TRot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_foot_bone), bones_right_foot, TBaluTransform(TVec2(0, -0.5), TRot(0)));
 
 		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(left_leg_bone), bones_left_leg, TBaluTransform(TVec2(0, -0.5), TRot(0)));
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(left_foot_bone), bones_left_foot, TBaluTransform(TVec2(0, -1), TRot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(left_foot_bone), bones_left_foot, TBaluTransform(TVec2(0, -0.5), TRot(0)));
 
 		//walk animation
 		auto skel_anim = bones_player->GetSkeletonAnimation();

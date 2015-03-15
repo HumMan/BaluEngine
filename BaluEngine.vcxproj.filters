@@ -402,5 +402,8 @@
     <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorScene.cpp">
       <Filter>EditorUtils\SpriteEditor</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Serialize.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

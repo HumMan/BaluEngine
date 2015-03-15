@@ -83,11 +83,11 @@ TTrack* TTimeLine::GetTrack(int index)
 
 TSkeletonAnimation::TSkeletonAnimation()
 {
-
+	skeleton = nullptr;
 }
 TSkeletonAnimation::TSkeletonAnimation(TSkeleton* skeleton)
 {
-
+	this->skeleton = skeleton;
 }
 TTimeLine* TSkeletonAnimation::CreateAnimation(std::string name)
 {

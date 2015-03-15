@@ -30,17 +30,33 @@ public:
 	virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)=0;
 };
 
+typedef TBaluPhysShape*(*PhysShapeClone)();
+class PhysShapeFactory
+{
+public:
+	static bool Register(const char* name, PhysShapeClone clone);
+	static TBaluPhysShape* Create(const char* name);
+};
+
+
 class TBaluPolygonShape : public TBaluPhysShape, public EngineInterface::IBaluPolygonShape
 {
 private:
 	b2PolygonShape b2shape;
 public:
+	TBaluPolygonShape()
+	{
+	}
+	static TBaluPhysShape* Clone()
+	{
+		return new TBaluPolygonShape();
+	}
 	b2PolygonShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
-
+static bool TBaluPolygonShape_registered = PhysShapeFactory::Register("PolygonShape", TBaluPolygonShape::Clone);
 
 class TBaluCircleShape : public TBaluPhysShape, public EngineInterface::IBaluCircleShape
 {
@@ -50,6 +66,10 @@ public:
 	TBaluCircleShape()
 	{
 	}
+	static TBaluPhysShape* Clone()
+	{
+		return new TBaluCircleShape();
+	}
 	TBaluCircleShape(float radius);
 	TBaluCircleShape(float radius, TVec2 pos);
 	b2CircleShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
@@ -57,6 +77,7 @@ public:
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
+static bool TBaluCircleShape_registered = PhysShapeFactory::Register("CircleShape", TBaluCircleShape::Clone);
 
 class TBaluBoxShape : public TBaluPhysShape, public EngineInterface::IBaluBoxShape
 {
@@ -66,9 +87,14 @@ public:
 	TBaluBoxShape()
 	{
 	}
+	static TBaluPhysShape* Clone()
+	{
+		return new TBaluBoxShape();
+	}
 	TBaluBoxShape(float width, float height);
 	b2PolygonShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
+static bool TBaluBoxShape_registered = PhysShapeFactory::Register("BoxShape", TBaluBoxShape::Clone);

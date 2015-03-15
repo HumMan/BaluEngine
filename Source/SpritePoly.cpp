@@ -8,6 +8,24 @@
 
 #include "../../poly2tri/poly2tri/poly2tri.h"
 
+using namespace EngineInterface;
+
+std::vector < std::pair<const char*, AnimDescClone>> anim_descs_registry;
+
+bool AnimDescFactory::Register(const char* name, AnimDescClone clone)
+{
+	anim_descs_registry.push_back(std::pair<const char*, AnimDescClone>(name, clone));
+	return true;
+}
+
+TAnimDesc* AnimDescFactory::Create(const char* name)
+{
+	for (int i = 0; i < anim_descs_registry.size(); i++)
+		if (strcmp(anim_descs_registry[i].first, name) == 0)
+			return anim_descs_registry[i].second();
+	throw std::invalid_argument("Тип не зарегистрирован");
+}
+
 TAABB2 TBaluSpritePolygon::GetVerticesBox()
 {
 	//if (vertices.size() > 0)
@@ -28,6 +46,18 @@ TAABB2 TBaluSpritePolygon::GetVerticesBox()
 	}
 	else
 		return TAABB2(TVec2(0), TVec2(0));
+}
+
+int TBaluSpritePolygon::GetAnimDescIndex(EngineInterface::TAnimDesc* desc)
+{
+	for (int i = 0; i < anim_descs.size(); i++)
+		if (anim_descs[i].get() == desc)
+			return i;
+	return -1;
+}
+EngineInterface::TAnimDesc* TBaluSpritePolygon::GetAnimDesc(int index)
+{
+	return anim_descs[index].get();
 }
 
 TAABB2 TBaluSpritePolygon::GetAABB(TBaluTransform sprite_in_class)

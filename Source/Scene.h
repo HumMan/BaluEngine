@@ -39,11 +39,11 @@ class TBaluScene : public EngineInterface::IBaluScene, public EngineInterface::I
 public:
 	class TClassInstance : public EngineInterface::IBaluSceneClassInstance
 	{
-		public:
 		TBaluClass* balu_class;
 		//std::string tag;
 		TBaluTransform transform;
 		TVec2 scale;
+	public:
 		TClassInstance()
 		{
 			balu_class = nullptr;

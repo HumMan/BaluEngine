@@ -122,11 +122,13 @@ public:
 	{
 		TProperty::Save(parent_node, version);
 		//parent_node.append_attribute("value").set_value(value);
+		//TODO get class instance id
 	}
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
 	{
 		TProperty::Load(instance_node, version, world);
 		//value = instance_node.attribute("value").as_string();
+		//TODO find by class instance id
 	}
 };
 static bool TSceneClassInstanceProperty_registered = PropertiesFactory::Register("sceneClassInstance", TSceneClassInstanceProperty::Clone);
@@ -151,10 +153,17 @@ public:
 		value = ptr->GetValue();
 	}
 public:
+	TProperties()
+	{
+	}
+	TProperties(TProperties&& right)
+		:properties(std::move(right.properties))
+	{
+	}
 	bool HasProperty(const std::string& name, EngineInterface::PropertyType& type)
 	{
 		auto it = properties.find(name);
-		if (it == properties.end())
+		if (it != properties.end())
 		{
 			type = it->second->GetType();
 			return true;

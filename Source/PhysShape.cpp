@@ -1,5 +1,22 @@
 #include "PhysShape.h"
 
+
+std::vector < std::pair<const char*, PhysShapeClone>> phys_shape_registry;
+
+bool PhysShapeFactory::Register(const char* name, PhysShapeClone clone)
+{
+	phys_shape_registry.push_back(std::pair<const char*, PhysShapeClone>(name, clone));
+	return true;
+}
+
+TBaluPhysShape* PhysShapeFactory::Create(const char* name)
+{
+	for (int i = 0; i < phys_shape_registry.size(); i++)
+		if (strcmp(phys_shape_registry[i].first, name) == 0)
+			return phys_shape_registry[i].second();
+	throw std::invalid_argument("Тип не зарегистрирован");
+}
+
 b2PolygonShape* GetTransformedShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform, TVec2 scale, TBaluTransform local, b2PolygonShape& b2shape)
 {
 	b2PolygonShape* transformed_shape = new b2PolygonShape();

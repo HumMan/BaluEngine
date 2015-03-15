@@ -93,8 +93,8 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	for (int i = 0; i < source->GetInstancesCount(); i++)
 	{
 		auto source_instance = source->GetInstance(i);
-		auto instance = CreateInstance(source_instance->balu_class, source->GetInstance(i)->transform, source->GetInstance(i)->scale);
-		instance->SetTransform(source_instance->transform);
+		auto instance = CreateInstance(source_instance->GetClass(), source->GetInstance(i)->GetTransform(), source->GetInstance(i)->GetScale());
+		instance->SetTransform(source_instance->GetTransform());
 		instance->UpdateTranform();
 	}
 }

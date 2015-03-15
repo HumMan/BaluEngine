@@ -62,7 +62,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	auto demo_world = CreateDemoWorld(base_path);
 
-	demo_world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
+	demo_world->GetCallbacksActiveType().active_type = TCallbacksActiveType::DEFAULT;
 
 	screen = new TScreen(director->GetScreenSize());
 
@@ -87,7 +87,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	director->SetWorldInstance(demo_world_instance);
 	director->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
 	director->SetViewportResizeCallback(ViewportResize);
-	director->SetSymulatePhysics(false);
+	director->SetSymulatePhysics(true);
 	director->MainLoop();
 
 	return 0;

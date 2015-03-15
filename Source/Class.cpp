@@ -87,15 +87,20 @@ void TBaluClass::SetName(std::string name)
 	class_name = name;
 }
 
-TBaluClass::TBaluClass() :skeleton_animation(&skeleton)
+TBaluClass::TBaluClass()
 {
+	skeleton = std::make_unique<TSkeleton>();
+	skeleton_animation = std::make_unique<TSkeletonAnimation>(skeleton.get());
 }
 TBaluClass::TBaluClass(TBaluClass&& right)
+	:layer_name(std::move(right.layer_name))
+	, class_name(std::move(right.class_name))
+	, sprites (std::move(right.sprites))
+	, phys_body(std::move(right.phys_body))
+	, skeleton(std::move(right.skeleton))
+	, skeleton_animation ( std::move(right.skeleton_animation))
+	, properties(std::move(right.properties))
 {
-	//skeleton = std::move(right.skeleton);
-	//skeleton_animation = std::move(right.skeleton_animation);
-	class_name = std::move(right.class_name);
-	sprites = std::move(right.sprites);
 }
 TBaluClass::~TBaluClass()
 {
@@ -114,12 +119,12 @@ TBaluClassPhysBody* TBaluClass::GetPhysBody()
 
 TSkeletonAnimation* TBaluClass::GetSkeletonAnimation()
 {
-	return &skeleton_animation;
+	return skeleton_animation.get();
 }
 
 TSkeleton* TBaluClass::GetSkeleton()
 {
-	return &skeleton;
+	return skeleton.get();
 }
 
 TSensor* TBaluClassPhysBody::CreateSensor(TBaluPhysShape* shape)
