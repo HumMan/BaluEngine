@@ -231,13 +231,6 @@ void TBaluSpritePolygon::Save(pugi::xml_node& parent_node, const int version)
 	new_node.append_attribute("enable").set_value(enable);
 
 	{
-		xml_node polygons_node = new_node.append_child("vertices");
-		for (const TVec2& v : vertices)
-		{
-			SaveCoord(polygons_node, "vertex", v);
-		}
-	}
-	{
 		xml_node polygons_node = new_node.append_child("polygon_vertices");
 		for (const TVec2& v : polygon_vertices)
 		{
@@ -294,13 +287,6 @@ void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBa
 		for (pugi::xml_node polygon = polygons_node.first_child(); polygon; polygon = polygon.next_sibling())
 		{
 			polygon_vertices.push_back(LoadCoord(polygon));
-		}
-	}
-	{
-		xml_node polygons_node = node.child("vertices");
-		for (pugi::xml_node polygon = polygons_node.first_child(); polygon; polygon = polygon.next_sibling())
-		{
-			vertices.push_back(LoadCoord(polygon));
 		}
 	}
 	{
@@ -744,6 +730,9 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 		xml_node instances_node = new_node.append_child("instances");
 		for (int i = 0; i < instances.size(); i++)
 		{
+			EngineInterface::PropertyType type;
+			if (instances[i]->GetClass()->GetProperties()->HasProperty("editor_temp_object", type))
+				continue;
 			instances[i]->Save(instances_node, version);
 		}
 	}
@@ -798,6 +787,9 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 		xml_node sprites_node = new_node.append_child("Sprites");
 		for (auto i = sprites.begin(); i != sprites.end(); i++)
 		{
+			EngineInterface::PropertyType type;
+			if (i->second.GetProperties()->HasProperty("editor_temp_object", type))
+				continue;
 			i->second.Save(sprites_node, version);
 		}
 	}
@@ -805,6 +797,9 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 		xml_node classes_node = new_node.append_child("Classes");
 		for (auto i = classes.begin(); i != classes.end(); i++)
 		{
+			EngineInterface::PropertyType type;
+			if (i->second.GetProperties()->HasProperty("editor_temp_object", type))
+				continue;
 			i->second.Save(classes_node, version);
 		}
 	}
@@ -812,6 +807,9 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 		xml_node scenes_node = new_node.append_child("Scenes");
 		for (auto i = scenes.begin(); i != scenes.end(); i++)
 		{
+			EngineInterface::PropertyType type;
+			if (i->second.GetProperties()->HasProperty("editor_temp_object", type))
+				continue;
 			i->second.Save(scenes_node, version);
 		}
 	}

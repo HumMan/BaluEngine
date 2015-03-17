@@ -39,34 +39,28 @@ TCreateClassInstanceTool::TCreateClassInstanceTool(TSceneEditorScene* scene_edit
 
 void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 {
-	//if (active_tool_class != nullptr)
+	if (active_tool_class != nullptr)
 	{
-		IBaluClass* pl;
-		scene_editor_scene->editor_scene_instance->GetWorld()->GetSource()->TryFind("player", pl);
+		auto transform = TBaluTransform(scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location), TRot(0));
 
-		auto transform = TBaluTransform(scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location),TRot(0));
-
-		auto new_source_scene_instance = scene_editor_scene->source_scene->CreateInstance(pl);
+		auto new_source_scene_instance = scene_editor_scene->source_scene->CreateInstance(active_tool_class);
 		new_source_scene_instance->SetTransform(transform);
+
+
+		auto new_class_instance = scene_editor_scene->editor_scene_instance->CreateInstance(active_tool_class, transform, TVec2(1, 1));
+
 		scene_editor_scene->selected_instance_source = new_source_scene_instance;
-
-		auto new_class_instance = scene_editor_scene->editor_scene_instance->CreateInstance(pl, transform, TVec2(1, 1));
 		scene_editor_scene->selected_instance = new_class_instance;
-		//new_class_instance->instance_transform.position = world_cursor_location;
 
-		//new_class_instance->instance_transform.angle.Set(0);
-		//new_class_instance->instance_class = active_tool_class;
-		//scene_editor_scene->balu_scene->instances.push_back(std::unique_ptr<TBaluInstanceDef>(new_class_instance));
+		new_class_instance->GetProperties()->SetSceneClassInstance("editor_source_instance", new_source_scene_instance);
 
-		//auto new_box = new TClassInstanceAdornment(new_class_instance);
 		scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
-		//scene_editor_scene->boundaries.push_back(std::unique_ptr<TClassInstanceAdornment>(new_box));
 	}
 }
 
 void TCreateClassInstanceTool::OnMouseMove(TMouseEventArgs e)
 {
-	
+
 }
 void TCreateClassInstanceTool::OnMouseUp(TMouseEventArgs e)
 {
@@ -158,7 +152,7 @@ public:
 				scene_editor_scene->hightlighted_instance = nullptr;
 			}
 		}
-		
+
 	}
 	void OnMouseUp(TMouseEventArgs e)
 	{

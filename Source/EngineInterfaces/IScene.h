@@ -4,6 +4,8 @@
 
 #include "../../BaluLib/Source/BVolumes/AABB.h"
 
+#include "../exportMacro.h"
+
 namespace EngineInterface
 {
 	class IBaluSceneClassInstance
@@ -20,8 +22,8 @@ namespace EngineInterface
 	class IBaluScene
 	{
 	public:
-		static TVec2 FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord);
-		static TVec2 FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord);
+		BALUENGINEDLL_API static TVec2 FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord);
+		BALUENGINEDLL_API static TVec2 FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord);
 
 		static std::string GetDefaultName()
 		{

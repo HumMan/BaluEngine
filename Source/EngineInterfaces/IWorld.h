@@ -62,6 +62,8 @@ namespace EngineInterface
 		virtual IBaluClass* CreateClass(const char* class_name) = 0;
 		virtual IBaluScene* CreateScene(const char* scene_name) = 0;
 
+		virtual void DestroySprite(const char* class_name)=0;
+		virtual void DestroyClass(const char* class_name) = 0;
 		virtual void DestroyScene(const char* scene_name)=0;
 
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
@@ -76,9 +78,13 @@ namespace EngineInterface
 		//void OnKeyDown(TKey key, KeyDownCallback callback);
 		//void OnKeyUp(TKey key, KeyDownCallback callback);
 
-		virtual void OnMouseDown(CallbackWithData<MouseUpDownCallback>) = 0;
-		virtual void OnMouseUp(CallbackWithData<MouseUpDownCallback>) = 0;
-		virtual void OnMouseMove(CallbackWithData<MouseMoveCallback>) = 0;
+		virtual void AddOnMouseDown(CallbackWithData<MouseUpDownCallback>) = 0;
+		virtual void AddOnMouseUp(CallbackWithData<MouseUpDownCallback>) = 0;
+		virtual void AddOnMouseMove(CallbackWithData<MouseMoveCallback>) = 0;
+
+		virtual void RemoveOnMouseDown(CallbackWithData<MouseUpDownCallback>) = 0;
+		virtual void RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback>) = 0;
+		virtual void RemoveOnMouseMove(CallbackWithData<MouseMoveCallback>) = 0;
 
 		virtual void SaveToXML(std::string path) = 0;
 		virtual void LoadFromXML(std::string path) = 0;

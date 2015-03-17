@@ -116,6 +116,15 @@ EngineInterface::IBaluInstance* TBaluSceneInstance::CreateInstance(EngineInterfa
 	return dynamic_cast<EngineInterface::IBaluInstance*>(CreateInstance(dynamic_cast<TBaluClass*>(use_class), transform, scale));
 }
 
+void TBaluSceneInstance::DestroyInstance(EngineInterface::IBaluInstance* instance)
+{
+	for (int i = 0; i < instances.size();i++)
+		if (instances[i].get() == instance)
+		{
+			instances[i].reset();
+		}
+}
+
 TVec2 TBaluSceneInstance::WorldToScene(const TVec2& v)
 {
 	//TODO

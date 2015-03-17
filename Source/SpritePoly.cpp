@@ -165,6 +165,8 @@ TAnimationFrames::TAnimationFrames(TAnimDesc* desc, int frame)
 void TBaluSpritePolygon::OnCustomDraw(CallbackWithData<TCustomDrawCallback> callback)
 {
 	is_custom_draw = true;
+	if (std::find(custom_draw_callbacks.begin(), custom_draw_callbacks.end(), callback)!=custom_draw_callbacks.end())
+		assert(false);
 	custom_draw_callbacks.push_back(callback);
 }
 
@@ -208,14 +210,14 @@ void TBaluSpritePolygon::SetPolygonFromTexture()
 			for (int i = 0; i < w * h; i++)
 				data[i] = data[i] / temp;
 
-			vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, w*h, w);
+			polygon_vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, w*h, w);
 
 			delete[] data;
 
 			ilDeleteImage(handle);
 
-			for (int i = 0; i < vertices.size(); i++)
-				vertices[i] = vertices[i] / TVec2(w, h)- TVec2(0.5,0.5);
+			for (int i = 0; i < polygon_vertices.size(); i++)
+				polygon_vertices[i] = polygon_vertices[i] / TVec2(w, h) - TVec2(0.5, 0.5);
 
 			UpdatePolyVertices();
 		}
@@ -258,7 +260,6 @@ void TBaluSpritePolygon::TriangulateGeometry()
 
 void TBaluSpritePolygon::UpdatePolyVertices()
 {
-	polygon_vertices = vertices;
 	for (int i = 0; i < polygon_vertices.size(); i++)
 		polygon_vertices[i] = polygon_vertices[i].ComponentMul(size) - local.position;
 }
@@ -271,7 +272,7 @@ TBaluMaterial* TBaluSpritePolygon::GetMaterial()
 void TBaluSpritePolygon::SetMaterial(TBaluMaterial* material)
 {
 	this->material = material;
-	SetPolygonFromTexture();
+	//SetPolygonFromTexture();
 }
 
 void TBaluSpritePolygon::SetMaterial(EngineInterface::IBaluMaterial* material)
@@ -297,11 +298,14 @@ void TBaluSpritePolygon::SetAsBox(float width, float height)
 
 void TBaluSpritePolygon::SetVertices(std::vector<TVec2> vertices)
 {
-	this->vertices = vertices;
+	this->polygon_vertices = vertices;
 	UpdatePolyVertices();
 }
-
-std::vector<TVec2> TBaluSpritePolygon::GetVertices()
+std::vector<TVec2> TBaluSpritePolygon::GetPolygon()
+{
+	return polygon_vertices;
+}
+std::vector<TVec2> TBaluSpritePolygon::GetTriangulatedVertices()
 {
 	return triangulated;
 }
@@ -325,7 +329,7 @@ TVec2 TBaluSpritePolygon::GetPolygonVertex(int id)
 }
 TVec2 TBaluSpritePolygon::GetVertex(int id)
 {
-	return vertices[id];
+	return polygon_vertices[id];
 }
 //void TBaluSpritePolygon::SetTexCoords(std::vector<TVec2> tex_coordinates)
 //{

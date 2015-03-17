@@ -113,6 +113,7 @@ namespace EngineInterface
 	class IBaluClass
 	{
 	public:
+		virtual std::string GetName()=0;
 		static std::string GetDefaultName()
 		{
 			return "class";

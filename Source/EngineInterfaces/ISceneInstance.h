@@ -19,5 +19,6 @@ namespace EngineInterface
 		virtual IViewport* GetViewport(std::string name)=0;
 		virtual void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TCustomDrawCommand>& custom_draw) = 0;
 		virtual IBaluInstance* CreateInstance(IBaluClass* use_class, TBaluTransform transform, TVec2 scale) = 0;
+		virtual void DestroyInstance(EngineInterface::IBaluInstance*) = 0;
 	};
 }

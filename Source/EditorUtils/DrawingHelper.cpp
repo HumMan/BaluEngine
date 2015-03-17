@@ -67,8 +67,6 @@ void TDrawingHelper::Render(const TPointAdornment* p)
 
 void TDrawingHelper::Render(const TOBBAdornment* box)
 {
-	
-
 	//auto transform = params->poly->GetGlobalTransform();
 	//auto transform = TBaluTransform(TVec2(c[0], c[1]), TRot(0));
 
@@ -99,6 +97,26 @@ void TDrawingHelper::RenderBoxCountour(TOBB2 box, float width)
 	nvgStroke(context);
 }
 
+void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices)
+{
+	nvgBeginPath(context);
+	nvgLineCap(context, NVG_BUTT);
+	nvgLineJoin(context, NVG_MITER);
+	nvgStrokeWidth(context, 3);
+	nvgStrokeColor(context, nvgRGBA(220, 20, 220, 160));
+
+	int size = vertices.size();
+	for (int i = 0; i<size; i ++)
+	{
+		auto c0 = FromSceneToScreenPixels(vertices[i]);
+		auto c1 = FromSceneToScreenPixels(vertices[(i + 1)%size]);
+
+		nvgMoveTo(context, c0[0], c0[1]);
+		nvgLineTo(context, c1[0], c1[1]);
+	}
+
+	nvgStroke(context);
+}
 
 //TDrawingHelper::TDrawingHelper(TBaluRender* render, TEditorResourses* resources)
 //{

@@ -72,7 +72,9 @@ public:
 	TBaluClass* CreateClass(const char* class_name);
 	TBaluScene* CreateScene(const char* scene_name);
 
-	void DestroyScene(const char* scene_name);
+	void DestroySprite(const char* class_name);
+	void DestroyClass(const char* class_name);
+	void DestroyScene(const char* scene_name);	
 
 	TBaluMaterial* GetMaterial(const char* mat_name);
 	TBaluSprite* GetSprite(const char* sprite_name);
@@ -100,9 +102,13 @@ public:
 
 	//void OnKeyDown(TKey key, KeyDownCallback callback);
 
-	void OnMouseDown(CallbackWithData<MouseUpDownCallback>);
-	void OnMouseUp(CallbackWithData<MouseUpDownCallback>);
-	void OnMouseMove(CallbackWithData<MouseUpDownCallback>);
+	void AddOnMouseDown(CallbackWithData<MouseUpDownCallback>);
+	void AddOnMouseUp(CallbackWithData<MouseUpDownCallback>);
+	void AddOnMouseMove(CallbackWithData<MouseUpDownCallback>);
+
+	void RemoveOnMouseDown(CallbackWithData<MouseUpDownCallback>);
+	void RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback>);
+	void RemoveOnMouseMove(CallbackWithData<MouseUpDownCallback>);
 
 	void SaveToXML(std::string path);
 	void LoadFromXML(std::string path);

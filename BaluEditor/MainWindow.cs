@@ -17,6 +17,8 @@ namespace BaluEditor
         {
             InitializeComponent();
 
+            panel2.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseWheel);
+
             baluEditorControl1 = new Editor.BaluEditorControl(panel2.Handle);
 
             baluEditorControl1.SetViewport(panel2.Width, panel2.Height);
@@ -154,6 +156,11 @@ namespace BaluEditor
             baluEditorControl1.MouseUp(e);
         }
 
+        private void panel2_MouseWheel(object sender, MouseEventArgs e)
+        {
+            baluEditorControl1.MouseWheel(e);
+        }
+
         private void panel2_Resize(object sender, EventArgs e)
         {
             baluEditorControl1.Resize(panel2.Width, panel2.Height);
@@ -167,6 +174,16 @@ namespace BaluEditor
         private void loadDemoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             baluEditorControl1.LoadDemoWorld();
+        }
+
+        private void panel2_MouseHover(object sender, EventArgs e)
+        {
+            panel2.Focus();
+        }
+
+        private void panel2_MouseEnter(object sender, EventArgs e)
+        {
+            panel2.Focus();
         }
     }
 }

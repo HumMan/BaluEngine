@@ -148,6 +148,32 @@ TBaluScene* TBaluWorld::CreateScene(const char* scene_name)
 	}
 }
 
+void TBaluWorld::DestroySprite(const char* sprite_name)
+{
+	auto iter = sprites.find(sprite_name);
+	if (iter != sprites.end())
+	{
+		sprites.erase(iter);
+	}
+	else
+	{
+		throw std::invalid_argument("—прайта с данным имененм не существует");
+	}
+}
+
+void TBaluWorld::DestroyClass(const char* class_name)
+{
+	auto iter = classes.find(class_name);
+	if (iter != classes.end())
+	{
+		classes.erase(iter);
+	}
+	else
+	{
+		throw std::invalid_argument(" ласса с данным имененм не существует");
+	}
+}
+
 void TBaluWorld::DestroyScene(const char* scene_name)
 {
 	auto iter = scenes.find(scene_name);
@@ -157,9 +183,11 @@ void TBaluWorld::DestroyScene(const char* scene_name)
 	}
 	else
 	{
-		throw std::invalid_argument("—цена с данным имененем уже существует");
+		throw std::invalid_argument("—цены с данным имененм не существует");
 	}
 }
+
+
 
 TBaluMaterial* TBaluWorld::GetMaterial(const char* scene_name)
 {
@@ -218,19 +246,57 @@ TBaluPhysShapeFactory* TBaluWorld::GetPhysShapeFactory()
 	return &shape_factory;
 }
 
-void TBaluWorld::OnMouseDown(CallbackWithData<MouseUpDownCallback> callback)
+template<class T, class ArrayType>
+void AddCallback(T callback, ArrayType& array)
 {
-	mouse_down_callbacks.push_back(callback);
+	for (auto& v : array)
+		if (v == callback)
+			assert(false);
+	array.push_back(callback);
 }
 
-void TBaluWorld::OnMouseUp(CallbackWithData<MouseUpDownCallback> callback)
+template<class T, class ArrayType>
+void RemoveCallback(T callback, ArrayType& array)
 {
-	mouse_up_callbacks.push_back(callback);
+	bool exists = false;
+	for (int i = 0; i < array.size();i++)
+		if (array[i] == callback)
+		{
+			array.erase(array.begin() + i);
+			return;
+		}
+	assert(false);
+	return;
 }
 
-void TBaluWorld::OnMouseMove(CallbackWithData<MouseMoveCallback> callback)
+void TBaluWorld::AddOnMouseDown(CallbackWithData<MouseUpDownCallback> callback)
 {
-	mouse_move_callbacks.push_back(callback);
+	AddCallback(callback, mouse_down_callbacks);
+}
+
+void TBaluWorld::AddOnMouseUp(CallbackWithData<MouseUpDownCallback> callback)
+{
+	AddCallback(callback, mouse_up_callbacks);
+}
+
+void TBaluWorld::AddOnMouseMove(CallbackWithData<MouseMoveCallback> callback)
+{
+	AddCallback(callback, mouse_move_callbacks);
+}
+
+void TBaluWorld::RemoveOnMouseDown(CallbackWithData<MouseUpDownCallback> callback)
+{
+	RemoveCallback(callback, mouse_down_callbacks);
+}
+
+void TBaluWorld::RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback> callback)
+{
+	RemoveCallback(callback, mouse_up_callbacks);
+}
+
+void TBaluWorld::RemoveOnMouseMove(CallbackWithData<MouseMoveCallback> callback)
+{
+	RemoveCallback(callback, mouse_move_callbacks);
 }
 
 void TBaluWorld::SaveToXML(std::string path)

@@ -44,14 +44,17 @@ void OnMouseUp(TCallbackData* data, TMouseEventArgs e)
 
 void TAbstractEditor::InitializeControls(IBaluWorld* world)
 {
-	world->OnMouseMove(CallbackWithData<MouseUpDownCallback>(OnMouseMove, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
-	world->OnMouseDown(CallbackWithData<MouseUpDownCallback>(OnMouseDown, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
-	world->OnMouseUp(CallbackWithData<MouseUpDownCallback>(OnMouseUp, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	this->world = world;
+	world->AddOnMouseMove(CallbackWithData<MouseUpDownCallback>(OnMouseMove, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->AddOnMouseDown(CallbackWithData<MouseUpDownCallback>(OnMouseDown, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->AddOnMouseUp(CallbackWithData<MouseUpDownCallback>(OnMouseUp, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
 }
 
 void TAbstractEditor::DeinitializeControls()
 {
-
+	world->RemoveOnMouseMove(CallbackWithData<MouseUpDownCallback>(OnMouseMove, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->RemoveOnMouseDown(CallbackWithData<MouseUpDownCallback>(OnMouseDown, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback>(OnMouseUp, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
 }
 
 void TAbstractEditor::SetActiveTool(IEditorTool* tool)

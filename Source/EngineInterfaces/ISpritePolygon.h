@@ -29,8 +29,8 @@ namespace EngineInterface
 		virtual void SetAsBox(float width, float height) = 0;
 		virtual void SetPolygonFromTexture() = 0;
 		virtual void SetVertices(std::vector<TVec2> vertices) = 0;
-		virtual std::vector<TVec2> GetVertices() = 0;
-
+		virtual std::vector<TVec2> GetTriangulatedVertices() = 0;
+		virtual std::vector<TVec2> GetPolygon()=0;
 		virtual std::vector<TVec2> GetTexCoords() = 0;
 
 		virtual int GetVerticesCount() = 0;

@@ -13,6 +13,8 @@ using namespace EngineInterface;
 
 class TAbstractEditor: public EngineInterface::IAbstractEditor
 {
+private:
+	IBaluWorld* world;
 public:
 	std::vector<TAbstractEditor*> parent_editors;
 	TAbstractEditor* current_local_editor;

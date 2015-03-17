@@ -22,11 +22,15 @@ private:
 	bool visible;
 	IVisualAdornment* visual;
 	TDrawingHelper* drawing_helper;
+	IBaluWorld* world;
+	IBaluSceneInstance* scene_instance;
 };
 
 TSpriteOBBAdornment::~TSpriteOBBAdornment()
 {
-
+	p->scene_instance->DestroyInstance(p->class_instance);
+	p->world->DestroyClass("SpritePolygonOBBAdornment");
+	p->world->DestroySprite("SpritePolygonOBBAdornment_custom_draw_sprite");
 }
 
 void SpritePolygonOBBAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
@@ -60,12 +64,17 @@ TSpriteOBBAdornment::TSpriteOBBAdornment(IBaluSceneInstance* scene_instance, IVi
 	p->visual = visual;
 	p->drawing_helper = drawing_helper;
 
+	p->scene_instance = scene_instance;
+
 	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
+	p->world = world;
+
 	IBaluClass* adornment_class;
-	if (!world->TryFind("SceneEditorAdornment", adornment_class))
+	if (world->TryFind("SpritePolygonOBBAdornment", adornment_class))
 	{
-		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
+		assert(false);
 	}
+	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 
 	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
 }
@@ -79,11 +88,15 @@ private:
 	bool visible;
 	IBaluSprite* visual;
 	TDrawingHelper* drawing_helper;
+	IBaluWorld* world;
+	IBaluSceneInstance* scene_instance;
 };
 
 TSpritePolygonAdornment::~TSpritePolygonAdornment()
 {
-
+	p->scene_instance->DestroyInstance(p->class_instance);
+	p->world->DestroyClass("SpritePolygonAdornment");
+	p->world->DestroySprite("SpritePolygonAdornment_custom_draw_sprite");
 }
 
 void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
@@ -91,9 +104,8 @@ void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCust
 	auto state = (TSpritePolygonAdornmentPrivate*)data->GetUserData();
 	//if (state->visible)
 	{
-		//auto items = state->visual->Render();
-		//for (auto& v : items)
-		//	v->Render(state->drawing_helper);
+		auto vertices = state->visual->GetPolygone()->GetPolygon();
+		state->drawing_helper->RenderLinesLoop(vertices);
 	}
 }
 
@@ -115,12 +127,65 @@ TSpritePolygonAdornment::TSpritePolygonAdornment(IBaluSceneInstance* scene_insta
 	p->visual = visual;
 	p->drawing_helper = drawing_helper;
 
+	p->scene_instance = scene_instance;
+
 	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
+	p->world = world;
 	IBaluClass* adornment_class;
-	if (!world->TryFind("SpritePolygonAdornment", adornment_class))
+	if (world->TryFind("SpritePolygonAdornment", adornment_class))
 	{
-		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
+		assert(false);
 	}
+	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
+	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
+}
+
+
+class TSpriteAdornmentPrivate
+{
+	friend class TSpriteAdornment;
+	friend void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params);
+private:
+	IBaluInstance* class_instance;
+	bool visible;
+	IBaluSprite* visual;
+	TDrawingHelper* drawing_helper;
+	IBaluWorld* world;
+	IBaluSceneInstance* scene_instance;
+};
+
+TSpriteAdornment::~TSpriteAdornment()
+{
+	p->scene_instance->DestroyInstance(p->class_instance);
+	p->world->DestroyClass("SpriteAdornment");
+}
+
+EngineInterface::IBaluClass* TSpriteAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TSpriteAdornmentPrivate* data)
+{
+	auto adornment_class = world->CreateClass("SpriteAdornment");
+	auto adornment_sprite = adornment_class->AddSprite(data->visual);
+
+	return adornment_class;
+}
+
+TSpriteAdornment::TSpriteAdornment(IBaluSceneInstance* scene_instance, IBaluSprite* visual, TDrawingHelper* drawing_helper)
+{
+	p = std::make_unique<TSpriteAdornmentPrivate>();
+	
+	p->visual = visual;
+	p->drawing_helper = drawing_helper;
+	p->scene_instance = scene_instance;
+
+	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
+	p->world = world;
+
+	IBaluClass* adornment_class;
+	if (world->TryFind("SpriteAdornment", adornment_class))
+	{
+		assert(false);
+	}
+
+	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 
 	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
 }

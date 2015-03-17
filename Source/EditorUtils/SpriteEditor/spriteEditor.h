@@ -27,8 +27,10 @@ public:
 	void Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluSprite* edited_sprite, IBaluSceneInstance* editor_scene_instance);
 	void Deinitialize()
 	{
+		scene.Deinitialize();
+		drawing_helper.reset();
+		DeinitializeControls();
 	}
-
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
 

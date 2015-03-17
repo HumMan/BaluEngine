@@ -23,6 +23,7 @@ private:
 	
 public:
 	IBaluScene* source_scene;
+
 	IBaluSceneInstance* editor_scene_instance;
 	//IBaluSceneInstance* editor_temp_scene_instance;
 	IBaluInstance* selected_instance;
@@ -40,4 +41,5 @@ public:
 	//TBoundaryBoxAdornment* boundary_under_cursor;
 public:
 	void Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance, TDrawingHelper* drawing_helper);
+	void Deinitialize();
 };

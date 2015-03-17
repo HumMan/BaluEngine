@@ -34,6 +34,7 @@ public:
 
 	//
 	void RenderBoxCountour(TOBB2 box, float width);
+	void RenderLinesLoop(const std::vector<TVec2>& vertices);
 };
 
 //class TDrawingHelper

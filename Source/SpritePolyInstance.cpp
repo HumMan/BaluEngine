@@ -24,7 +24,7 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 	local = source->GetTransform();
 	scale = source->GetScale();
 
-	vertices = source->GetVertices();
+	vertices = source->GetTriangulatedVertices();
 	tex_coords = source->GetTexCoords();
 
 	animation_time_from_start = 0;
@@ -115,7 +115,7 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransform parent, TVec2 cl
 	if (source->animation_lines.size()>0)
 		UpdateAnimation();
 
-	vertices = source->GetVertices();
+	vertices = source->GetTriangulatedVertices();
 
 	for (int i = 0; i < vertices.size(); i++)
 	{

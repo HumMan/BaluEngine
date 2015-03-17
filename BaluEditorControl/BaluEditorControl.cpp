@@ -68,9 +68,18 @@ public:
 	IAbstractEditor* active_editor;
 	std::unique_ptr<TCallbackManagedBridge> callbackbridge;
 
+	IBaluWorldObject* active_edited_object;
+
+	std::vector<IBaluWorldObject*> active_selection_list;
+
 	TDrawingHelperContext drawing_context;
 
 	TMyEditorSelectionChangedListener selection_change_listener;
+
+	bool viewport_drag_active;
+	TVec2 viewport_drag_last_pos;
+	TVec2i viewport_drag_last_mouse_pos;
+
 	BaluEditorControlPrivate()
 	{
 		selection_change_listener.p = this;
@@ -81,6 +90,7 @@ public:
 		screen = nullptr;
 		main_viewport = nullptr;
 		active_editor = nullptr;
+		active_edited_object = nullptr;
 	}
 };
 
@@ -148,6 +158,8 @@ namespace Editor
 		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
 		//	return new TSpritePolygonEditor();
 
+		p->active_edited_object = obj;
+
 		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
 			return CreateSpriteEditor(p->drawing_context, p->world, dynamic_cast<IBaluSprite*>(obj), p->scene_instance);
 
@@ -167,6 +179,8 @@ namespace Editor
 
 		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
 		//	return new TSpritePolygonEditor();
+
+		p->active_edited_object = nullptr;
 
 		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
 			return DestroySpriteEditor(p->active_editor);
@@ -204,8 +218,10 @@ namespace Editor
 				return false;
 				break;
 			}
+			p->active_selection_list = selection_list;
 			return true;
 		}
+		p->active_selection_list.clear();
 		return false;
 	}
 
@@ -300,6 +316,7 @@ namespace Editor
 	void BaluEditorControl::CreateEditorScene()
 	{
 		auto editor_scene = p->world->CreateScene("EditorScene");
+		dynamic_cast<IBaluWorldObject*>(editor_scene)->GetProperties()->SetBool("editor_temp_object", true);
 
 		if (editor_scene->FindViewport("main_viewport") == nullptr)
 		{
@@ -311,7 +328,7 @@ namespace Editor
 		}
 		p->world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
 
-		p->screen = new TScreen(TVec2i(32, 32));
+		p->screen = new TScreen(p->size);
 		p->director->SetSymulatePhysics(false);
 
 		p->main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
@@ -336,6 +353,9 @@ namespace Editor
 
 	void BaluEditorControl::SetEditedWorldNode(TWolrdTreeNodeTag^ node)
 	{
+		if (p->active_edited_object!=nullptr)
+			DestroyEditorOfWorldObject(p->active_edited_object);
+
 		DestroyEditorScene();
 
 		CreateEditorScene();
@@ -388,7 +408,14 @@ namespace Editor
 
 	void BaluEditorControl::SetToolSelectedObject(String^ name)
 	{
-		//engine->SetToolSelectedObject(msclr::interop::marshal_as<std::string>(name));
+		auto str_name = msclr::interop::marshal_as<std::string>(name);
+		EngineInterface::IBaluWorldObject* obj= nullptr;
+		for (auto& v : p->active_selection_list)
+			if (v->GetName() == str_name)
+				obj = v;
+		assert(obj != nullptr);
+		p->active_editor->GetActiveTool()->SetSelectedObject(obj);
+		//engine->SetToolSelectedObject();
 	}
 
 	void BaluEditorControl::SaveWorldTo(String^ path)
@@ -503,14 +530,17 @@ namespace Editor
 		TVec2i old_size(p->size);
 		//TVec2i size(width, height);
 		p->size = TVec2i(width, height);
-		*(p->screen) = TScreen(p->size);
-		p->director->SetViewport(p->size);
+		if (p->screen != nullptr)
+		{
+			*(p->screen) = TScreen(p->size);
+			p->director->SetViewport(p->size);
 
-		//TODO не в виде отношений
-		TVec2 k = TVec2((float)p->size[0], (float)p->size[1]) / TVec2((float)old_size[0], (float)old_size[1]);
-		auto old_vieport_size = p->main_viewport->GetSize();
-		auto new_vieport_size = old_vieport_size.ComponentMul(k);
-		p->main_viewport->SetSize(new_vieport_size);
+			//TODO не в виде отношений
+			TVec2 k = TVec2((float)p->size[0], (float)p->size[1]) / TVec2((float)old_size[0], (float)old_size[1]);
+			auto old_vieport_size = p->main_viewport->GetSize();
+			auto new_vieport_size = old_vieport_size.ComponentMul(k);
+			p->main_viewport->SetSize(new_vieport_size);
+		}
 	}
 
 	
@@ -579,24 +609,66 @@ namespace Editor
 	void BaluEditorControl::MouseDown(MouseEventArgs^ e)
 	{
 		if (p->world_instance != nullptr)
+		{
+			if (e->Button == MouseButtons::Middle&&!p->viewport_drag_active)
+			{
+				p->viewport_drag_active = true;
+				p->viewport_drag_last_mouse_pos = Convert(e).location;
+				p->viewport_drag_last_pos = p->main_viewport->GetTransform().position;
+			}
+			
 			p->world_instance->MouseDown(Convert(e));
+		}
+	}
+
+	TVec2 ToSceneCoord(BaluEditorControlPrivate* p, TVec2i location)
+	{
+		auto screen_coords = p->screen->FromScreenPixels2(location);
+		auto view_coord = p->screen->FromScreenToView(p->main_viewport_view, screen_coords);
+		auto scene_coord = IBaluScene::FromViewportToScene(p->main_viewport, view_coord);
+		return scene_coord;
 	}
 
 	void BaluEditorControl::MouseMove(MouseEventArgs^ e)
 	{	
 		if (p->world_instance != nullptr)
+		{
+			if (p->viewport_drag_active)
+			{
+				auto t = p->main_viewport->GetTransform();
+				auto mouse_pos_diff = Convert(e).location - p->viewport_drag_last_mouse_pos;
+				
+				auto old_scene_coord = ToSceneCoord(p, p->viewport_drag_last_mouse_pos);
+				auto new_scene_coord = ToSceneCoord(p, Convert(e).location);
+
+				t.position = p->viewport_drag_last_pos - (new_scene_coord - old_scene_coord);
+				p->main_viewport->SetTransform(t);
+			}
 			p->world_instance->MouseMove(Convert(e));
+		}		
 	}
 
 	void BaluEditorControl::MouseUp(MouseEventArgs^ e)
 	{
 		if (p->world_instance != nullptr)
+		{
+			if (e->Button == MouseButtons::Middle&&p->viewport_drag_active)
+			{
+				p->viewport_drag_active = false;
+			}
 			p->world_instance->MouseUp(Convert(e));
+		}
 	}
 
 	void BaluEditorControl::MouseWheel(MouseEventArgs^ e)
 	{
 		if (p->world_instance != nullptr)
+		{
 			p->world_instance->MouseVerticalWheel(e->Delta);
+			if (p->main_viewport != nullptr)
+			{
+				p->main_viewport->SetWidth(p->main_viewport->GetSize()[0] * (e->Delta>0?1.1:0.9));
+			}
+		}
 	}
 }

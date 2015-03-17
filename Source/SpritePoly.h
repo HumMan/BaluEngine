@@ -26,7 +26,7 @@ private:
 	TVec2 scale;
 	TBaluTransform local;
 
-	std::vector<TVec2> vertices;
+	//std::vector<TVec2> vertices;
 	std::vector<TVec2> polygon_vertices;
 	std::vector<TVec2> triangulated;
 
@@ -88,7 +88,8 @@ public:
 	void SetAsBox(float width, float height);
 	void SetPolygonFromTexture();
 	void SetVertices(std::vector<TVec2> vertices);
-	std::vector<TVec2> GetVertices();
+	std::vector<TVec2> GetTriangulatedVertices();
+	std::vector<TVec2> GetPolygon();
 
 	std::vector<TVec2> GetTexCoords();
 

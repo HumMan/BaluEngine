@@ -22,6 +22,8 @@ private:
 	bool visible;
 	IVisualAdornment* visual;
 	TDrawingHelper* drawing_helper;
+	IBaluWorld* world;
+	IBaluSceneInstance* scene_instance;
 };
 
 //IBaluInstance* TClassInstanceAdornment::GetInstance()
@@ -31,7 +33,9 @@ private:
 
 TClassInstanceAdornment::~TClassInstanceAdornment()
 {
-
+	p->scene_instance->DestroyInstance(p->class_instance);
+	p->world->DestroyClass("SceneEditorAdornment");
+	p->world->DestroySprite("SceneEditorAdornment_custom_draw_sprite");
 }
 
 void ClassInstanceAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
@@ -64,13 +68,16 @@ TClassInstanceAdornment::TClassInstanceAdornment(IBaluSceneInstance* scene_insta
 
 	p->visual = visual;
 	p->drawing_helper = drawing_helper;
+	p->scene_instance = scene_instance;
 
 	IBaluWorld* world = scene_instance->GetWorld()->GetSource();
+	p->world = world;
 	IBaluClass* adornment_class;
-	if (!world->TryFind("SceneEditorAdornment", adornment_class))
+	if (world->TryFind("SceneEditorAdornment", adornment_class))
 	{
-		adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
+		assert(false);
 	}
+	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 		
 	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
 }

@@ -1,52 +1,23 @@
-#pragma once
+#include "spriteEditorScene.h"
 
-
-#include <vector>
-#include <memory>
-
-#include "../../EngineInterfaces/ISprite.h"
-#include "../../EngineInterfaces/ISceneInstance.h"
-#include "../../EngineInterfaces/IWorld.h"
-
-using namespace EngineInterface;
-
-#include "spriteEditorAdornments.h"
-
-#include "../BoundaryEditor.h"
-
-#include "../OBBContour.h"
-
-class TSpriteEditorScene
+void TSpriteEditorScene::Initialize(IBaluWorld* world, IBaluSprite* source_sprite, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper)
 {
-private:
-	
+	this->source_sprite = source_sprite;
+	this->editor_scene_instance = editor_scene_instance;
+	this->drawing_helper = drawing_helper;
 
-public:
-	IBaluSprite* source_sprite;
-	IBaluSceneInstance* editor_scene_instance;
+	sprite_polygon_adornment = std::make_unique<TSpritePolygonAdornment>(editor_scene_instance, source_sprite, drawing_helper);
+	sprite_adornment = std::make_unique<TSpriteAdornment>(editor_scene_instance, source_sprite, drawing_helper);
+	//obb_adornment = std::make_unique<TSpriteOBBAdornment>(editor_scene_instance, (IVisualAdornment*)&boundary_box, drawing_helper);
+	//boundary_box_contour = std::make_unique<TOBBContour>(editor_scene_instance, drawing_helper);
+	//auto t = source_scene->GetInstance(0)->GetTransform();
 
-	TDrawingHelper* drawing_helper;
+	boundary_box.enable = false;
+}
 
-	IBaluInstance* selected_instance;
-	IBaluSpriteInstance* selected_instance_source;
-
-	std::unique_ptr<TSpritePolygonAdornment> sprite_polygon_adornment;
-
-	std::unique_ptr<TSpriteOBBAdornment> obb_adornment;
-	TBoundaryBoxAdornment boundary_box;
-	std::unique_ptr<TOBBContour> boundary_box_contour;
-
-	void Initialize(IBaluWorld* world, IBaluSprite* source_sprite, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper)
-	{
-		this->source_sprite = source_sprite;
-		this->editor_scene_instance = editor_scene_instance;
-		this->drawing_helper = drawing_helper;
-
-		sprite_polygon_adornment = std::make_unique<TSpritePolygonAdornment>(editor_scene_instance, source_sprite, drawing_helper);
-		obb_adornment = std::make_unique<TSpriteOBBAdornment>(editor_scene_instance, (IVisualAdornment*)&boundary_box, drawing_helper);
-		boundary_box_contour = std::make_unique<TOBBContour>(editor_scene_instance, drawing_helper);
-		//auto t = source_scene->GetInstance(0)->GetTransform();
-
-		boundary_box.enable = false;
-	}
-};
+void TSpriteEditorScene::Deinitialize()
+{
+	source_sprite = nullptr;
+	drawing_helper = nullptr;
+	sprite_adornment.reset();
+}
