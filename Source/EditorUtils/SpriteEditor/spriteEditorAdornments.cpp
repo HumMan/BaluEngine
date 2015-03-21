@@ -99,13 +99,21 @@ TSpritePolygonAdornment::~TSpritePolygonAdornment()
 	p->world->DestroySprite("SpritePolygonAdornment_custom_draw_sprite");
 }
 
+void TSpritePolygonAdornment::SetVisible(bool visible)
+{
+	p->visible = visible;
+}
+
 void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
 {
 	auto state = (TSpritePolygonAdornmentPrivate*)data->GetUserData();
-	//if (state->visible)
+	if (state->visible)
 	{
-		auto vertices = state->visual->GetPolygone()->GetPolygon();
-		state->drawing_helper->RenderLinesLoop(vertices);
+		auto sprite_poly = state->visual->GetPolygone();
+		auto vertices = sprite_poly->GetPolygon();
+		state->drawing_helper->RenderLinesLoop(vertices, sprite_poly->GetTransform(), sprite_poly->GetScale());
+		for (auto& v : vertices)
+			state->drawing_helper->RenderPointAdornment(v, sprite_poly->GetTransform(), sprite_poly->GetScale());
 	}
 }
 
@@ -188,4 +196,10 @@ TSpriteAdornment::TSpriteAdornment(IBaluSceneInstance* scene_instance, IBaluSpri
 	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 
 	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
+	p->class_instance->UpdateTranform();
+}
+
+IBaluInstance* TSpriteAdornment::GetInstance()
+{
+	return p->class_instance;
 }

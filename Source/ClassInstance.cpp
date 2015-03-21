@@ -122,12 +122,12 @@ void TBaluInstance::UpdateTranform()
 	if (phys_body->IsEnable())
 	{
 		instance_transform = phys_body->GetTransform();
-		for (int i = 0; i < sprites.size(); i++)
-		{
-			sprites[i]->UpdateTranform(TBaluTransform(TVec2(0), TRot(0)), instance_scale, instance_transform);
-		}
-		skeleton.UpdateTranform(TBaluTransform(TVec2(0), TRot(0)), instance_scale, instance_transform);
 	}
+	for (int i = 0; i < sprites.size(); i++)
+	{
+		sprites[i]->UpdateTranform(TBaluTransform(TVec2(0), TRot(0)), instance_scale, instance_transform);
+	}
+	skeleton.UpdateTranform(TBaluTransform(TVec2(0), TRot(0)), instance_scale, instance_transform);
 }
 
 bool TBaluClassPhysBodyIntance::IsEnable()

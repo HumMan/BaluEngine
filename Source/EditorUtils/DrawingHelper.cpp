@@ -41,26 +41,25 @@ TVec2i TDrawingHelper::FromSceneToScreenPixels(TVec2 scene_coordinates)
 //	this->transform = transform;
 //}
 
-void TDrawingHelper::Render(const TPointAdornment* p)
+void TDrawingHelper::RenderPointAdornment(TVec2 p, TBaluTransform trans, TVec2 scale)
 {
-	auto c = FromSceneToScreenPixels(p->pos);
+	
 
 	//auto transform = params->poly->GetGlobalTransform();
-	auto transform = TBaluTransform(TVec2(c[0], c[1]), TRot(0));
-
-	float cornerRadius = 3.0f;
-	NVGpaint shadowPaint;
-	NVGpaint headerPaint;
+	//auto transform = TBaluTransform(TVec2(c[0], c[1]), TRot(0));
+	auto c = trans.ToGlobal(p.ComponentMul(scale));
+	auto temp = FromSceneToScreenPixels(c);
+	auto pos = TVec2(temp[0], temp[1]);
 
 	nvgBeginPath(context);
 	//TODO from scene space to screen
 	//nvgCircle(vg, transform.position[0], transform.position[1], 4.0f);
-	nvgCircle(context, transform.position[0], transform.position[1], 5.0f);
+	nvgCircle(context, pos[0], pos[1], 5.0f);
 	nvgFillColor(context, nvgRGBA(0, 160, 192, 255));
 	nvgFill(context);
 
 	nvgBeginPath(context);
-	nvgCircle(context, transform.position[0], transform.position[1], 3.0f);
+	nvgCircle(context, pos[0], pos[1], 3.0f);
 	nvgFillColor(context, nvgRGBA(220, 20, 20, 255));
 	nvgFill(context);
 }
@@ -97,7 +96,7 @@ void TDrawingHelper::RenderBoxCountour(TOBB2 box, float width)
 	nvgStroke(context);
 }
 
-void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices)
+void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices, TBaluTransform trans, TVec2 scale)
 {
 	nvgBeginPath(context);
 	nvgLineCap(context, NVG_BUTT);
@@ -108,8 +107,8 @@ void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices)
 	int size = vertices.size();
 	for (int i = 0; i<size; i ++)
 	{
-		auto c0 = FromSceneToScreenPixels(vertices[i]);
-		auto c1 = FromSceneToScreenPixels(vertices[(i + 1)%size]);
+		auto c0 = FromSceneToScreenPixels(trans.ToGlobal(vertices[i].ComponentMul(scale)));
+		auto c1 = FromSceneToScreenPixels(trans.ToGlobal(vertices[(i + 1) % size].ComponentMul(scale)));
 
 		nvgMoveTo(context, c0[0], c0[1]);
 		nvgLineTo(context, c1[0], c1[1]);

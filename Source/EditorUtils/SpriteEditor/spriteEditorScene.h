@@ -22,20 +22,21 @@ private:
 	
 
 public:
-	IBaluSprite* source_sprite;
-	IBaluSceneInstance* editor_scene_instance;
+	IBaluSprite* source_sprite; //редактируемый спрайт
+	IBaluSceneInstance* editor_scene_instance; //сцена редактора
 
 	TDrawingHelper* drawing_helper;
 
-	IBaluInstance* selected_instance;
-	IBaluSpriteInstance* selected_instance_source;
+	//IBaluInstance* selected_instance;
+	//IBaluSpriteInstance* selected_instance_source;
 
-	std::unique_ptr<TSpritePolygonAdornment> sprite_polygon_adornment;
-	std::unique_ptr<TSpriteAdornment> sprite_adornment;
+	std::unique_ptr<TSpritePolygonAdornment> sprite_polygon_adornment; //отображение контрола редактирования геометрии срайта
+	std::unique_ptr<TSpriteAdornment> sprite_adornment; //отображение редактируемого спрайта
 
-	std::unique_ptr<TSpriteOBBAdornment> obb_adornment;
-	TBoundaryBoxAdornment boundary_box;
-	std::unique_ptr<TOBBContour> boundary_box_contour;
+	std::unique_ptr<TSpriteOBBAdornment> obb_adornment;//отображение OBB геометрии спрайта или физики
+	TBoundaryBoxAdornment boundary_box;//OBB геометрии спрайта или физики
+
+	//std::unique_ptr<TOBBContour> boundary_box_contour;
 
 	IBaluWorld* world;
 

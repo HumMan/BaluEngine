@@ -5,11 +5,6 @@ void TBaluSpritePolygonInstance::UpdateGeometry()
 
 }
 
-void TBaluSpritePolygonInstance::SetSpritePolygon(std::string name)
-{
-
-}
-
 TBaluSpritePolygon* TBaluSpritePolygonInstance::GetSpritePolygon()
 {
 	return source;
@@ -21,10 +16,9 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 	enable = source->enable;
 	this->source = source;
 
-	local = source->GetTransform();
-	scale = source->GetScale();
+	
 
-	vertices = source->GetTriangulatedVertices();
+	//vertices = source->GetTriangulatedVertices();
 	tex_coords = source->GetTexCoords();
 
 	animation_time_from_start = 0;
@@ -116,6 +110,8 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransform parent, TVec2 cl
 		UpdateAnimation();
 
 	vertices = source->GetTriangulatedVertices();
+	auto local = source->GetTransform();
+	auto scale = source->GetScale();
 
 	for (int i = 0; i < vertices.size(); i++)
 	{

@@ -38,6 +38,11 @@ namespace EngineInterface
 		virtual TVec2 GetPolygonVertex(int id) = 0;
 		virtual TVec2 GetVertex(int id) = 0;
 
+		virtual TBaluTransform GetTransform()=0;
+		virtual TVec2 GetScale() = 0;
+		virtual void SetTransform(TBaluTransform)=0;
+		virtual void SetScale(TVec2 scale)=0;
+
 		virtual void SetTexCoordsFromVertices(TVec2 origin, TVec2 scale) = 0;
 		virtual void SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top) = 0;
 

@@ -29,6 +29,9 @@ namespace EngineInterface
 		virtual void OnMouseMove(TMouseEventArgs e) = 0;
 		virtual void OnMouseUp(TMouseEventArgs e) = 0;
 
+		virtual void Activate(){}
+		virtual void Deactivate(){}
+
 		virtual void CancelOperation() = 0;
 
 		//virtual void Render(TDrawingHelper* drawing_helper) = 0;

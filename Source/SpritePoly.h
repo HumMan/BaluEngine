@@ -24,7 +24,7 @@ private:
 
 	TVec2 size; //используется при генерации полигона по текстуре
 	TVec2 scale;
-	TBaluTransform local;
+	TBaluTransform local; //положение полигона в спрайте
 
 	//std::vector<TVec2> vertices;
 	std::vector<TVec2> polygon_vertices;
@@ -80,6 +80,8 @@ public:
 	{
 		return scale;
 	}
+	void SetTransform(TBaluTransform);
+	void SetScale(TVec2 scale);
 
 	TBaluMaterial* GetMaterial();
 	void SetMaterial(TBaluMaterial* material);

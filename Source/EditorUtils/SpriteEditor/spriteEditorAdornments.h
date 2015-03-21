@@ -30,6 +30,8 @@ public:
 
 	static EngineInterface::IBaluClass* TSpritePolygonAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TSpritePolygonAdornmentPrivate* data);
 	~TSpritePolygonAdornment();
+
+	void SetVisible(bool visible);
 };
 
 class TSpriteAdornmentPrivate;
@@ -38,7 +40,7 @@ class TSpriteAdornment
 	std::unique_ptr<TSpriteAdornmentPrivate> p;
 public:
 	TSpriteAdornment(EngineInterface::IBaluSceneInstance* scene_instance, EngineInterface::IBaluSprite* visual, TDrawingHelper* drawing_helper);
-
+	IBaluInstance* GetInstance();
 	static EngineInterface::IBaluClass* TSpriteAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TSpriteAdornmentPrivate* data);
 	~TSpriteAdornment();
 };

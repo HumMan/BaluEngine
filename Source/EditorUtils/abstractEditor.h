@@ -13,9 +13,12 @@ using namespace EngineInterface;
 
 class TAbstractEditor: public EngineInterface::IAbstractEditor
 {
+	friend void OnMouseMove(TCallbackData* data, TMouseEventArgs e);
+	friend void OnMouseDown(TCallbackData* data, TMouseEventArgs e);
+	friend void OnMouseUp(TCallbackData* data, TMouseEventArgs e);
 private:
 	IBaluWorld* world;
-public:
+protected:
 	std::vector<TAbstractEditor*> parent_editors;
 	TAbstractEditor* current_local_editor;
 	IEditorTool* active_tool;
@@ -25,8 +28,6 @@ public:
 	void DeinitializeControls();
 
 public:
-
-	
 
 	TAbstractEditor()
 	{

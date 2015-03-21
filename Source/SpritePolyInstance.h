@@ -16,8 +16,8 @@ private:
 	TMaterialInstance material;
 	TBaluSpritePolygon* source;
 	
-	TBaluTransform local;
-	TVec2 scale;
+	//TBaluTransform local;
+	//TVec2 scale;
 
 	//TBaluTransform global;
 
@@ -65,7 +65,7 @@ public:
 	void UpdateTransform(TBaluTransform parent, TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
 	void UpdateAnimation();
 
-	void SetSpritePolygon(std::string name);
+	//void SetSpritePolygon(std::string name);
 	TBaluSpritePolygon* GetSpritePolygon();
 
 	void SetActiveAnimation(std::string);

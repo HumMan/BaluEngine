@@ -64,5 +64,13 @@ void TAbstractEditor::SetActiveTool(IEditorTool* tool)
 		return current_local_editor->SetActiveTool(tool);
 	}
 	else
+	{
+		if (tool == active_tool)
+			return;
+		if (active_tool != nullptr)
+			active_tool->Deactivate();
 		active_tool = tool;
+		if (tool != nullptr)
+			tool->Activate();
+	}
 }

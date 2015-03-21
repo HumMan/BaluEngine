@@ -41,7 +41,7 @@ TAABB2 TBaluSpritePolygon::GetVerticesBox()
 	{
 		TAABB2 box(polygon_vertices[0], TVec2(0));
 		for (int i = 1; i < polygon_vertices.size(); i++)
-			box += polygon_vertices[i];
+			box += polygon_vertices[i].ComponentMul(scale);
 		return box;
 	}
 	else
@@ -190,6 +190,16 @@ TBaluTransform TBaluSpritePolygon::GetTransform()
 	return local;
 }
 
+void TBaluSpritePolygon::SetTransform(TBaluTransform t)
+{
+	local = t;
+}
+
+void TBaluSpritePolygon::SetScale(TVec2 scale)
+{
+	this->scale = scale;
+}
+
 void TBaluSpritePolygon::SetPolygonFromTexture()
 {
 	if (material != nullptr)
@@ -217,7 +227,7 @@ void TBaluSpritePolygon::SetPolygonFromTexture()
 			ilDeleteImage(handle);
 
 			for (int i = 0; i < polygon_vertices.size(); i++)
-				polygon_vertices[i] = polygon_vertices[i] / TVec2(w, h) - TVec2(0.5, 0.5);
+				polygon_vertices[i] = TVec2(polygon_vertices[i][0], h-polygon_vertices[i][1]) / TVec2(w, h) - TVec2(0.5, 0.5);
 
 			UpdatePolyVertices();
 		}
@@ -261,7 +271,7 @@ void TBaluSpritePolygon::TriangulateGeometry()
 void TBaluSpritePolygon::UpdatePolyVertices()
 {
 	for (int i = 0; i < polygon_vertices.size(); i++)
-		polygon_vertices[i] = polygon_vertices[i].ComponentMul(size) - local.position;
+		polygon_vertices[i] = polygon_vertices[i].ComponentMul(size) + local.position;
 }
 
 TBaluMaterial* TBaluSpritePolygon::GetMaterial()

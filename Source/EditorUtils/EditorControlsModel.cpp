@@ -19,7 +19,7 @@ TVec2 TPointAdornment::GetPosition()const
 
 void TPointAdornment::Render(TDrawingHelper* helper)const
 {
-	helper->Render(this);
+	helper->RenderPointAdornment(this->pos);
 }
 
 float TOBBAdornment::GetDistance(TVec2 pos)const
