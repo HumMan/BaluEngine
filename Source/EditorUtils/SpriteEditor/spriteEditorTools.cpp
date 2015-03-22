@@ -209,6 +209,25 @@ class TEditSpritePolygon : public IEditorTool
 {
 protected:
 	TSpriteEditorScene* sprite_editor_scene;
+	std::string active_state;
+
+	bool mouse_down;
+	TVec2 mouse_down_pos;
+	std::vector<TVec2> mouse_down_polygon;
+
+	int nearest_point;
+	float nearest_point_dist;
+
+	enum class CurrEditState
+	{
+		SelectionBox,
+		MovingSelected,
+		None
+	} curr_edit_state;
+
+	std::vector<int> selected_points;
+	
+	int point_under_cursor;
 public:
 	void Activate()
 	{
@@ -222,6 +241,33 @@ public:
 	{
 		return TWorldObjectType::None;
 	}
+	std::vector<std::string> GetAvailableStates()
+	{
+		return std::vector<std::string>()=
+		{
+			"edit", "create", "delete"
+		};
+	}
+	void SetActiveState(std::string active_state)
+	{
+		this->active_state = active_state;
+
+		sprite_editor_scene->sprite_polygon_adornment->ShowAddPointControl(false);
+		sprite_editor_scene->sprite_polygon_adornment->ShowPointHightLinght(false);
+
+		if (active_state == "edit")
+		{
+
+		}
+		else if (active_state == "create")
+		{
+			sprite_editor_scene->sprite_polygon_adornment->ShowAddPointControl(true);
+		}
+		else if (active_state == "delete")
+		{
+
+		}
+	}
 	void SetSelectedObject(IBaluWorldObject* obj)
 	{
 		assert(false);
@@ -231,36 +277,149 @@ public:
 		this->sprite_editor_scene = sprite_editor_scene;
 	}
 
+	void UpdateOldPolygon()
+	{
+		mouse_down_polygon = sprite_editor_scene->source_sprite->GetPolygone()->GetPolygon();
+	}
+
 	void OnMouseDown(TMouseEventArgs e)
 	{
-		if (sprite_editor_scene->boundary_box.enable)
+		if (e.button != TMouseButton::Left) return;
+		mouse_down = true;
+		mouse_down_pos = sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location);
+		UpdateOldPolygon();
+		if (active_state == "edit")
 		{
-			sprite_editor_scene->boundary_box.OnMouseDown(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+			if (curr_edit_state == CurrEditState::MovingSelected)
+			{
+				if (nearest_point != -1)
+				{
+					if (std::find(selected_points.begin(), selected_points.end(), nearest_point) == selected_points.end())
+					{
+						selected_points.clear();
+						selected_points.push_back(nearest_point);
+					}
+				}
+			}
 		}
-		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+		else if (active_state == "create")
 		{
+
+		}
+		else if (active_state == "delete")
+		{
+
 		}
 	}
 	void OnMouseMove(TMouseEventArgs e)
 	{
-		if (sprite_editor_scene->boundary_box.enable)
-		{
-			sprite_editor_scene->boundary_box.OnMouseMove(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
-		}
-		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
-		{
-			auto world_cursor_location = sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
-		}
+		TVec2 new_pos = sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location);
 
+		if (active_state == "edit")
+		{
+			if (mouse_down)
+			{
+				if (curr_edit_state == CurrEditState::SelectionBox)
+				{
+					sprite_editor_scene->sprite_polygon_adornment->ShowPointHightLinght(true);
+					//TODO Orientation transform
+					TOBB2 selection_box = TOBB2((new_pos + mouse_down_pos)*0.5, TMatrix2::GetIdentity(), TAABB2(TVec2(0, 0), (new_pos - mouse_down_pos).GetAbs()*0.5));
+					sprite_editor_scene->sprite_polygon_adornment->ShowSelectionBox(true);
+					sprite_editor_scene->sprite_polygon_adornment->SetSelectionBox(selection_box);
+					selected_points.clear();
+					for (int i = 0; i < mouse_down_polygon.size();i++)
+					{
+						if (selection_box.PointCollide(mouse_down_polygon[i]))
+						{
+							selected_points.push_back(i);
+						}
+					}
+					sprite_editor_scene->sprite_polygon_adornment->SetShowPointHightlightData(selected_points);
+				}
+				else if (curr_edit_state == CurrEditState::MovingSelected)
+				{
+					if (selected_points.size() > 0)
+					{
+						auto vertices = sprite_editor_scene->source_sprite->GetPolygone()->GetPolygon();
+						for (auto& v : selected_points)
+							vertices[v] = mouse_down_polygon[v] + new_pos - mouse_down_pos;
+						sprite_editor_scene->source_sprite->GetPolygone()->SetVertices(vertices);
+					}
+				}
+			}
+			else
+			{
+				sprite_editor_scene->sprite_polygon_adornment->ShowSelectionBox(false);
+
+				auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygone()->GetPolygon();
+				int size = poly_vertices.size();
+
+				nearest_point = -1;
+				nearest_point_dist = 0;
+				for (int i = 0; i < size; i++)
+				{
+					float dist = poly_vertices[i].Distance(new_pos);
+					if (nearest_point == -1 || nearest_point_dist > dist)
+					{
+						nearest_point = i;
+						nearest_point_dist = dist;
+					}
+				}
+				if (nearest_point_dist < 0.3)
+					curr_edit_state = CurrEditState::MovingSelected;
+				else
+					curr_edit_state = CurrEditState::SelectionBox;
+			}
+		}
+		else if (active_state == "create")
+		{
+			auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygone()->GetPolygon();
+			int size = poly_vertices.size();
+			
+			int nearest_line = -1;
+			float nearest_line_dist = 0;
+			for (int i = 0; i < size + 1; i++)
+			{
+				float t;
+				TVec2 p;
+				float dist = DistanceBetweenPointSegment(new_pos, TSegment<float, 2>(poly_vertices[i%size], poly_vertices[(i + 1) % size]), t, p);
+				//if (t>0 && t < 1)
+				{
+					if (nearest_line == -1 || dist < nearest_line_dist)
+					{
+						nearest_line = i;
+						nearest_line_dist = dist;
+					}
+				}
+			}
+			
+			/*else if (nearest_line != -1 && nearest_line_dist < nearest_point_dist)
+			{
+			curr_state = CurrState::CanSubdivide;
+			}*/
+
+			sprite_editor_scene->sprite_polygon_adornment->SetAddPointControlData(nearest_line, new_pos);
+		}
+		else if (active_state == "delete")
+		{
+
+		}
 	}
 	void OnMouseUp(TMouseEventArgs e)
 	{
-		if (sprite_editor_scene->boundary_box.enable)
+		if (e.button != TMouseButton::Left) return;
+		mouse_down = false;
+		if (active_state == "edit")
 		{
-			sprite_editor_scene->boundary_box.OnMouseUp(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+
 		}
-		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+		else if (active_state == "create")
 		{
+			//sprite_editor_scene->sprite_polygon_adornment->SetAddPointControlData();
+		}
+		else if (active_state == "delete")
+		{
+
 		}
 	}
 	void CancelOperation()

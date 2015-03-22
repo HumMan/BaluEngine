@@ -36,6 +36,9 @@ namespace EngineInterface
 
 		//virtual void Render(TDrawingHelper* drawing_helper) = 0;
 		virtual ~IEditorTool() = 0;
+
+		virtual std::vector<std::string> GetAvailableStates(){ return std::vector<std::string>(); }
+		virtual void SetActiveState(std::string){}
 	};
 
 	inline IEditorTool::~IEditorTool() { }

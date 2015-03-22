@@ -282,17 +282,11 @@ TBaluMaterial* TBaluSpritePolygon::GetMaterial()
 void TBaluSpritePolygon::SetMaterial(TBaluMaterial* material)
 {
 	this->material = material;
-	//SetPolygonFromTexture();
 }
 
 void TBaluSpritePolygon::SetMaterial(EngineInterface::IBaluMaterial* material)
 {
 	SetMaterial(dynamic_cast<TBaluMaterial*>(material));
-}
-
-void TBaluSpritePolygon::SetPolygonVertices(std::vector<TVec2> polygon_vertices)
-{
-	this->polygon_vertices = polygon_vertices;
 }
 
 void TBaluSpritePolygon::SetAsBox(float width, float height)
@@ -309,7 +303,8 @@ void TBaluSpritePolygon::SetAsBox(float width, float height)
 void TBaluSpritePolygon::SetVertices(std::vector<TVec2> vertices)
 {
 	this->polygon_vertices = vertices;
-	UpdatePolyVertices();
+	TriangulateGeometry();
+	UpdateTexCoords();
 }
 std::vector<TVec2> TBaluSpritePolygon::GetPolygon()
 {
@@ -329,43 +324,59 @@ int TBaluSpritePolygon::GetVerticesCount()
 {
 	return polygon_vertices.size();
 }
+
 void TBaluSpritePolygon::SetVertex(int id, TVec2 pos)
 {
-
+	polygon_vertices[id] = pos;
+	TriangulateGeometry();
+	UpdateTexCoords();
 }
+
 TVec2 TBaluSpritePolygon::GetPolygonVertex(int id)
 {
 	return polygon_vertices[id];
 }
+
 TVec2 TBaluSpritePolygon::GetVertex(int id)
 {
 	return polygon_vertices[id];
 }
-//void TBaluSpritePolygon::SetTexCoords(std::vector<TVec2> tex_coordinates)
-//{
-//	this->tex_coordinates = tex_coordinates;
-//}
-void TBaluSpritePolygon::SetTexCoordsFromVertices(TVec2 origin, TVec2 scale)
+
+void TBaluSpritePolygon::SetTexCoordsFromVertices(TVec2 tex_coord_origin, TVec2 tex_coord_scale)
 {
-	tex_coordinates.resize(triangulated.size());
-	for (int i = 0; i < tex_coordinates.size(); i++)
-	{
-		tex_coordinates[i] = ((triangulated[i] - this->local.position) / this->size).ComponentMul(scale) - origin;
-	}
+	this->tex_coord_origin = tex_coord_origin;
+	this->tex_coord_scale = tex_coord_scale;
+	UpdateTexCoords();
 }
 
-void TBaluSpritePolygon::SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top)
+void TBaluSpritePolygon::UpdateTexCoords()
 {
 	tex_coordinates.resize(triangulated.size());
-
+	//TODO local
 	auto vertex_left_bottom = local.position - size*0.5;
 
+	TVec2 right_top = tex_coord_origin + tex_coord_scale*0.5;
+	TVec2 left_bottom = tex_coord_origin - tex_coord_scale*0.5;
+
 	auto tex_coord_size = right_top - left_bottom;
+
+	//for (int i = 0; i < tex_coordinates.size(); i++)
+	//{
+	//	tex_coordinates[i] = ((triangulated[i]) / this->size).ComponentMul(tex_coord_scale) - tex_coord_origin;
+	//}
 
 	for (int i = 0; i < tex_coordinates.size(); i++)
 	{
 		tex_coordinates[i] = ((triangulated[i] - vertex_left_bottom) / size).ComponentMul(tex_coord_size) + left_bottom;
 	}
+}
+
+void TBaluSpritePolygon::SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top)
+{
+	this->tex_coord_origin = (left_bottom+right_top)*0.5;
+	this->tex_coord_scale = (left_bottom - right_top).GetAbs();
+
+	UpdateTexCoords();
 }
 
 void TBaluSpritePolygon::AddAnimDesc(TAnimDesc* desc)

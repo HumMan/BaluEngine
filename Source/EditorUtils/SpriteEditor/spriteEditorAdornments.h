@@ -32,6 +32,12 @@ public:
 	~TSpritePolygonAdornment();
 
 	void SetVisible(bool visible);
+	void ShowAddPointControl(bool show);
+	void SetAddPointControlData(int line_start_point_index, TVec2 point_to_add);
+	void ShowPointHightLinght(bool show);
+	void SetShowPointHightlightData(std::vector<int> poly_point_index);
+	void ShowSelectionBox(bool visible);
+	void SetSelectionBox(TOBB2 box);
 };
 
 class TSpriteAdornmentPrivate;

@@ -112,6 +112,7 @@ namespace Editor
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;
 		property ToolStrip^ EditorToolsBar;
+		property ToolStrip^ ToolStateToolsBar;
 		property ListBox^ ToolObjectSelect;
 	protected:
 

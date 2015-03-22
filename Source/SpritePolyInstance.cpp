@@ -110,6 +110,7 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransform parent, TVec2 cl
 		UpdateAnimation();
 
 	vertices = source->GetTriangulatedVertices();
+	tex_coords = source->GetTexCoords();
 	auto local = source->GetTransform();
 	auto scale = source->GetScale();
 

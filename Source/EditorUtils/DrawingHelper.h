@@ -30,11 +30,14 @@ public:
 	TVec2i FromSceneToScreenPixels(TVec2 scene_coordinates);
 
 	void RenderPointAdornment(TVec2 p, TBaluTransform trans = TBaluTransform(TVec2(0, 0), TRot(0)), TVec2 scale = TVec2(1, 1));
+	void RenderPointHighlightAdornment(TVec2 p, TBaluTransform trans = TBaluTransform(TVec2(0, 0), TRot(0)), TVec2 scale = TVec2(1, 1));
 	void Render(const TOBBAdornment*);
 
 	//
 	void RenderBoxCountour(TOBB2 box, float width);
+	void RenderSelectionBox(TOBB2 box);
 	void RenderLinesLoop(const std::vector<TVec2>& vertices, TBaluTransform trans=TBaluTransform(TVec2(0,0),TRot(0)), TVec2 scale=TVec2(1,1));
+	void RenderLine(const TVec2& p0, const TVec2& p1, TBaluTransform trans = TBaluTransform(TVec2(0, 0), TRot(0)), TVec2 scale = TVec2(1, 1));
 };
 
 //class TDrawingHelper

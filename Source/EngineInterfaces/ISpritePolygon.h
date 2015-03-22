@@ -25,7 +25,6 @@ namespace EngineInterface
 
 		virtual IBaluMaterial* GetMaterial() = 0;
 		virtual void SetMaterial(IBaluMaterial* material) = 0;
-		virtual void SetPolygonVertices(std::vector<TVec2> polygon_vertices) = 0;
 		virtual void SetAsBox(float width, float height) = 0;
 		virtual void SetPolygonFromTexture() = 0;
 		virtual void SetVertices(std::vector<TVec2> vertices) = 0;

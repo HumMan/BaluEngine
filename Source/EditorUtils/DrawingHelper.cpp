@@ -20,7 +20,7 @@ TDrawingHelper::TDrawingHelper(TDrawingHelperContext context)
 
 TVec2 TDrawingHelper::FromScreenPixelsToScene(TVec2i screen_pixels)
 {
-	
+
 	auto screen_coords = screen->FromScreenPixels2(screen_pixels);
 	auto view_coord = screen->FromScreenToView(*view, screen_coords);
 	auto scene_coord = IBaluScene::FromViewportToScene(viewport, view_coord);
@@ -43,17 +43,11 @@ TVec2i TDrawingHelper::FromSceneToScreenPixels(TVec2 scene_coordinates)
 
 void TDrawingHelper::RenderPointAdornment(TVec2 p, TBaluTransform trans, TVec2 scale)
 {
-	
-
-	//auto transform = params->poly->GetGlobalTransform();
-	//auto transform = TBaluTransform(TVec2(c[0], c[1]), TRot(0));
 	auto c = trans.ToGlobal(p.ComponentMul(scale));
 	auto temp = FromSceneToScreenPixels(c);
 	auto pos = TVec2(temp[0], temp[1]);
 
 	nvgBeginPath(context);
-	//TODO from scene space to screen
-	//nvgCircle(vg, transform.position[0], transform.position[1], 4.0f);
 	nvgCircle(context, pos[0], pos[1], 5.0f);
 	nvgFillColor(context, nvgRGBA(0, 160, 192, 255));
 	nvgFill(context);
@@ -64,11 +58,23 @@ void TDrawingHelper::RenderPointAdornment(TVec2 p, TBaluTransform trans, TVec2 s
 	nvgFill(context);
 }
 
+void TDrawingHelper::RenderPointHighlightAdornment(TVec2 p, TBaluTransform trans, TVec2 scale)
+{
+	auto c = trans.ToGlobal(p.ComponentMul(scale));
+	auto temp = FromSceneToScreenPixels(c);
+	auto pos = TVec2(temp[0], temp[1]);
+
+	nvgBeginPath(context);
+	nvgLineCap(context, NVG_BUTT);
+	nvgLineJoin(context, NVG_MITER);
+	nvgStrokeWidth(context, 2);
+	nvgStrokeColor(context, nvgRGBA(200, 60, 19, 255));
+	nvgCircle(context, pos[0], pos[1], 7.0f);
+	nvgStroke(context);
+}
+
 void TDrawingHelper::Render(const TOBBAdornment* box)
 {
-	//auto transform = params->poly->GetGlobalTransform();
-	//auto transform = TBaluTransform(TVec2(c[0], c[1]), TRot(0));
-
 	RenderBoxCountour(box->box, 4);
 }
 
@@ -84,7 +90,7 @@ void TDrawingHelper::RenderBoxCountour(TOBB2 box, float width)
 	nvgStrokeWidth(context, width);
 	nvgStrokeColor(context, nvgRGBA(220, 220, 220, 160));
 
-	for (int i = 0; i<vertices.size(); i += 2)
+	for (int i = 0; i < vertices.size(); i += 2)
 	{
 		auto c0 = FromSceneToScreenPixels(vertices[i]);
 		auto c1 = FromSceneToScreenPixels(vertices[i + 1]);
@@ -96,6 +102,30 @@ void TDrawingHelper::RenderBoxCountour(TOBB2 box, float width)
 	nvgStroke(context);
 }
 
+void TDrawingHelper::RenderSelectionBox(TOBB2 box)
+{
+	std::vector<TVec2> vertices;
+	vertices.reserve(8);
+	box.DrawLines(vertices);
+
+	nvgBeginPath(context);
+	nvgLineCap(context, NVG_BUTT);
+	nvgLineJoin(context, NVG_MITER);
+	nvgStrokeWidth(context, 2);
+	nvgStrokeColor(context, nvgRGBA(220, 220, 220, 160));
+
+	for (int i = 0; i < vertices.size(); i += 2)
+	{
+		auto c0 = FromSceneToScreenPixels(vertices[i]);
+		auto c1 = FromSceneToScreenPixels(vertices[i + 1]);
+
+		nvgMoveTo(context, c0[0], c0[1]);
+		nvgLineTo(context, c1[0], c1[1]);
+	}
+	nvgFillColor(context, nvgRGBA(120, 120, 220, 80));
+	nvgFill(context);
+}
+
 void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices, TBaluTransform trans, TVec2 scale)
 {
 	nvgBeginPath(context);
@@ -105,7 +135,7 @@ void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices, TBaluTr
 	nvgStrokeColor(context, nvgRGBA(220, 20, 220, 160));
 
 	int size = vertices.size();
-	for (int i = 0; i<size; i ++)
+	for (int i = 0; i < size; i++)
 	{
 		auto c0 = FromSceneToScreenPixels(trans.ToGlobal(vertices[i].ComponentMul(scale)));
 		auto c1 = FromSceneToScreenPixels(trans.ToGlobal(vertices[(i + 1) % size].ComponentMul(scale)));
@@ -113,6 +143,23 @@ void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices, TBaluTr
 		nvgMoveTo(context, c0[0], c0[1]);
 		nvgLineTo(context, c1[0], c1[1]);
 	}
+
+	nvgStroke(context);
+}
+void TDrawingHelper::RenderLine(const TVec2& p0, const TVec2& p1, TBaluTransform trans, TVec2 scale)
+{
+	nvgBeginPath(context);
+	nvgLineCap(context, NVG_BUTT);
+	nvgLineJoin(context, NVG_MITER);
+	nvgStrokeWidth(context, 3);
+	nvgStrokeColor(context, nvgRGBA(220, 20, 220, 160));
+
+
+	auto c0 = FromSceneToScreenPixels(trans.ToGlobal(p0.ComponentMul(scale)));
+	auto c1 = FromSceneToScreenPixels(trans.ToGlobal(p1.ComponentMul(scale)));
+
+	nvgMoveTo(context, c0[0], c0[1]);
+	nvgLineTo(context, c1[0], c1[1]);
 
 	nvgStroke(context);
 }

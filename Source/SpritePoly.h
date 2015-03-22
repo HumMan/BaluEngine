@@ -39,7 +39,7 @@ private:
 
 	bool enable;
 
-	
+	void UpdateTexCoords();
 	void UpdatePolyVertices();
 	void TriangulateGeometry();
 
@@ -86,7 +86,6 @@ public:
 	TBaluMaterial* GetMaterial();
 	void SetMaterial(TBaluMaterial* material);
 	void SetMaterial(EngineInterface::IBaluMaterial* material);
-	void SetPolygonVertices(std::vector<TVec2> polygon_vertices);
 	void SetAsBox(float width, float height);
 	void SetPolygonFromTexture();
 	void SetVertices(std::vector<TVec2> vertices);
@@ -100,7 +99,6 @@ public:
 	TVec2 GetPolygonVertex(int id);
 	TVec2 GetVertex(int id);
 
-	//void SetTexCoords(std::vector<TVec2> tex_coordinates);
 	void SetTexCoordsFromVertices(TVec2 origin, TVec2 scale);
 	void SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top);
 

@@ -98,6 +98,13 @@ public:
 
 namespace Editor
 {
+	ref class TUtils
+	{
+	public:
+		static void CreateEditorToolsToolBar(ToolStrip^ tool_strip, const std::vector<TToolWithDescription>& tools, IAbstractEditor* active_editor, BaluEditorControl^ editor_control);
+		static void CreateEditorToolStateToolBar(ToolStrip^ tool_state_strip, IEditorTool* tool);
+	};
+
 	ref class TEditorToolEvent
 	{
 		IEditorTool* tool;
@@ -114,6 +121,9 @@ namespace Editor
 		void OnClick(Object ^ sender, EventArgs ^ e)
 		{
 			editor->SetActiveTool(tool);
+			editor_control->ToolStateToolsBar->Items->Clear();
+			TUtils::CreateEditorToolStateToolBar(editor_control->ToolStateToolsBar, tool);
+
 			auto obj_sel = tool->NeedObjectSelect();
 			if (obj_sel != TWorldObjectType::None)
 			{
@@ -134,10 +144,25 @@ namespace Editor
 		}
 	};
 
-	ref class TUtils
+	ref class TEditorToolStateEvent
 	{
+		IEditorTool* tool;
+		String^ state;
 	public:
-		static void CreateEditorToolsToolBar(ToolStrip^ tool_strip, const std::vector<TToolWithDescription>& tools, IAbstractEditor* active_editor, BaluEditorControl^ editor_control)
+		TEditorToolStateEvent(IEditorTool* tool, String^ state)
+		{
+			this->tool = tool;
+			this->state = state;
+		}
+
+		void OnClick(Object ^ sender, EventArgs ^ e)
+		{
+			auto t = msclr::interop::marshal_as<std::string>(state->ToString());
+			tool->SetActiveState(t);
+		}
+	};
+
+	void TUtils::CreateEditorToolsToolBar(ToolStrip^ tool_strip, const std::vector<TToolWithDescription>& tools, IAbstractEditor* active_editor, BaluEditorControl^ editor_control)
 		{
 			tool_strip->Items->Clear();
 			for (const TToolWithDescription& tool : tools)
@@ -148,7 +173,17 @@ namespace Editor
 				tool_strip->Items->Add(i);
 			}
 		}
-	};
+	void TUtils::CreateEditorToolStateToolBar(ToolStrip^ tool_state_strip, IEditorTool* tool)
+		{
+			tool_state_strip->Items->Clear();
+			for (auto& v : tool->GetAvailableStates())
+			{
+				auto handler = gcnew TEditorToolStateEvent(tool, msclr::interop::marshal_as<String^>(v));
+				ToolStripItem^ i = gcnew ToolStripButton(gcnew String(v.c_str()));
+				i->Click += gcnew EventHandler(handler, &TEditorToolStateEvent::OnClick);
+				tool_state_strip->Items->Add(i);
+			}
+		}
 
 	IAbstractEditor* BaluEditorControl::CreateEditorOfWorldObject(IBaluWorldObject* obj)
 	{

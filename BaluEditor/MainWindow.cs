@@ -24,6 +24,7 @@ namespace BaluEditor
             baluEditorControl1.SetViewport(panel2.Width, panel2.Height);
 
             this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
+            this.baluEditorControl1.ToolStateToolsBar = this.toolStrip2;
             this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
             this.baluEditorControl1.ToolObjectSelect = this.listBox1;
             this.baluEditorControl1.WorldTreeView = this.treeView1;

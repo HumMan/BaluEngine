@@ -90,6 +90,16 @@ private:
 	TDrawingHelper* drawing_helper;
 	IBaluWorld* world;
 	IBaluSceneInstance* scene_instance;
+
+	bool show_add_point_control;
+	int line_start_point_index;
+	TVec2 point_to_add;
+
+	bool show_point_hightlight;
+	std::vector<int> hightlight_poly_point_index;
+
+	bool show_selection_box;
+	TOBB2 selection_box;
 };
 
 TSpritePolygonAdornment::~TSpritePolygonAdornment()
@@ -104,6 +114,35 @@ void TSpritePolygonAdornment::SetVisible(bool visible)
 	p->visible = visible;
 }
 
+void TSpritePolygonAdornment::ShowAddPointControl(bool show)
+{
+	p->show_add_point_control = show;
+}
+void TSpritePolygonAdornment::SetAddPointControlData(int line_start_point_index, TVec2 point_to_add)
+{
+	p->line_start_point_index = line_start_point_index;
+	p->point_to_add = point_to_add;
+}
+
+void TSpritePolygonAdornment::ShowPointHightLinght(bool show)
+{
+	p->show_point_hightlight = show;
+}
+
+void TSpritePolygonAdornment::SetShowPointHightlightData(std::vector<int> poly_point_index)
+{
+	p->hightlight_poly_point_index = poly_point_index;
+}
+
+void TSpritePolygonAdornment::ShowSelectionBox(bool visible)
+{
+	p->show_selection_box = visible;
+}
+void TSpritePolygonAdornment::SetSelectionBox(TOBB2 box)
+{
+	p->selection_box = box;
+}
+
 void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
 {
 	auto state = (TSpritePolygonAdornmentPrivate*)data->GetUserData();
@@ -114,6 +153,28 @@ void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCust
 		state->drawing_helper->RenderLinesLoop(vertices, sprite_poly->GetTransform(), sprite_poly->GetScale());
 		for (auto& v : vertices)
 			state->drawing_helper->RenderPointAdornment(v, sprite_poly->GetTransform(), sprite_poly->GetScale());
+
+		if (state->show_add_point_control && state->line_start_point_index!=-1)
+		{
+			TVec2 left, right;
+			left = vertices[state->line_start_point_index];
+			right = vertices[(state->line_start_point_index + 1) % vertices.size()];
+			state->drawing_helper->RenderPointAdornment(state->point_to_add);
+
+			state->drawing_helper->RenderLine(left, state->point_to_add);
+			state->drawing_helper->RenderLine(right, state->point_to_add);
+		}
+		if (state->show_selection_box)
+		{
+			state->drawing_helper->RenderSelectionBox(state->selection_box);
+		}
+		if (state->show_point_hightlight)
+		{
+			for (auto& v : state->hightlight_poly_point_index)
+			{
+				state->drawing_helper->RenderPointHighlightAdornment(vertices[v]);
+			}
+		}
 	}
 }
 
