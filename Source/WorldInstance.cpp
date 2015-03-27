@@ -1,5 +1,15 @@
 #include "WorldInstance.h"
 
+#include "ScriptClassesRegistry.h"
+
+#include "../Source/Semantic/SMethod.h"
+#include "../Source/Semantic/SClass.h"
+#include "../Source/Semantic/FormalParam.h"
+#include "../Source/Semantic/SStatements.h"
+#include "../Source/Syntax/Statements.h"
+#include "../Source/Syntax/Method.h"
+#include "../Source/semanticAnalyzer.h"
+
 TBaluWorld* TBaluWorldInstance::GetSource()
 {
 	return source;
@@ -9,6 +19,24 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 {
 	this->source = source;
 	this->resources = resources;
+
+	auto time = new TTime();
+	time->Start();
+
+	char* script_base_source;
+	{
+		TFileData file("../../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
+		script_base_source = file.ReadAll();
+		script_base_source[file.GetSize()] = '\0';
+	}
+	syntax.reset(new TSyntaxAnalyzer());
+	syntax->Compile((char*)(("class Script{" + std::string(script_base_source) + "}").c_str()), *time);
+
+	TClassRegistryParams params;
+	params.smethods = &smethods;
+	params.static_objects = &static_objects;
+	params.syntax = syntax.get();
+	TScriptClassesRegistry::RegisterClassesInScript(params);
 }
 TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 {

@@ -34,3 +34,6 @@ namespace EngineInterface
 		//
 	};
 }
+
+BALUENGINEDLL_API EngineInterface::IDirector* CreateDirector();
+BALUENGINEDLL_API void DestroyDirector(EngineInterface::IDirector* director);

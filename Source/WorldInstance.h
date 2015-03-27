@@ -3,12 +3,18 @@
 #include "World.h"
 #include "SceneInstance.h"
 
+#include "baluScript.h"
+
 class TBaluWorldInstance : public EngineInterface::IBaluWorldInstance
 {
 private:
 	TBaluWorld* source;
 	std::vector<std::unique_ptr<TBaluSceneInstance>> instances;
 	TResources* resources;
+
+	std::unique_ptr<TSyntaxAnalyzer> syntax;
+	std::vector<TStaticValue> static_objects;
+	std::vector < std::unique_ptr<TSMethod>> smethods;
 public:
 	TBaluWorld* GetSource();
 

@@ -4,6 +4,7 @@
 
 #include <vector>
 
+
 #include "../exportMacro.h"
 
 namespace pugi
@@ -27,6 +28,61 @@ namespace EngineInterface
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+
+	void TFrame_constr(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	{
+	}
+
+	void TFrame_GetLeftBottom(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	{
+		auto obj = ((TFrame*)object.get());
+		*(TVec2*)result.get() = obj->left_bottom;
+	}
+
+	void TFrame_GetRightTop(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	{
+		auto obj = ((TFrame*)object.get());
+		*(TVec2*)result.get() = obj->right_top;
+	}
+
+
+	void TFrame_register(TClassRegistryParams& params)
+	{
+		auto& syntax = params.syntax;
+		TClass* cl = new TClass(syntax->base_class.get());
+		syntax->base_class->AddNested(cl);
+		syntax->lexer.ParseSource(
+			"class extern TFrame\n"
+			"{\n"
+			"copy(vec2 left_botom, vec2 left_top);\n"
+			"func GetLeftBottom:vec2;\n"
+			"func GetRightTop:vec2;\n"
+			"}\n"
+			);
+		cl->AnalyzeSyntax(syntax->lexer);
+		syntax->lexer.GetToken(TTokenType::Done);
+
+		TSClass* scl = new TSClass(syntax->sem_base_class.get(), cl);
+		syntax->sem_base_class->AddClass(scl);
+		scl->Build();
+
+		scl->SetSize(IntSizeOf(sizeof(TFrame)) / sizeof(int));
+		scl->SetAutoMethodsInitialized();
+
+		std::vector<TSMethod*> m;
+
+		m.clear();
+		scl->GetMethods(m, syntax->lexer.GetIdFromName("GetLeftBottom"));
+		m[0]->SetAsExternal(TFrame_GetLeftBottom);
+
+		m.clear();
+		scl->GetMethods(m, syntax->lexer.GetIdFromName("GetRightTop"));
+		m[0]->SetAsExternal(TFrame_GetRightTop);
+	}
+	static bool TFrame_registered = TScriptClassesRegistry::Register("TFrame", TFrame_register);
+#endif
 
 	class TAnimDesc
 	{
@@ -122,3 +178,8 @@ namespace EngineInterface
 }
 
 BALUENGINEDLL_API std::vector<int> FramesRange(int start, int end);
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+
+
+#endif

@@ -199,9 +199,6 @@
     <ClInclude Include="Source\EngineInterfaces\IDirector.h">
       <Filter>EngineInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Resources.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\EngineInterfaces\IResources.h">
       <Filter>EngineInterfaces</Filter>
     </ClInclude>
@@ -252,6 +249,15 @@
     </ClInclude>
     <ClInclude Include="Source\EditorUtils\OBBContour.h">
       <Filter>EditorUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfacesIncludes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScriptClassesRegistry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resources.h">
+      <Filter>Definitions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,6 +410,9 @@
     </ClCompile>
     <ClCompile Include="Source\Serialize.cpp">
       <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScriptClassesRegistry.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

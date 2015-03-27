@@ -18,4 +18,9 @@ namespace EngineInterface
 		virtual void MouseUp(TMouseEventArgs e) = 0;
 		virtual void MouseVerticalWheel(int amount)=0;
 	};
+
+	class IResources;
 }
+
+BALUENGINEDLL_API EngineInterface::IBaluWorldInstance* CreateWorldInstance(EngineInterface::IBaluWorld* source, EngineInterface::IResources* resources);
+BALUENGINEDLL_API void DestroyWorldInstance(EngineInterface::IBaluWorldInstance* world);

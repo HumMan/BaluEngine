@@ -91,3 +91,6 @@ namespace EngineInterface
 		
 	};
 }
+
+BALUENGINEDLL_API EngineInterface::IBaluWorld* CreateWorld();
+BALUENGINEDLL_API void DestroyWorld(EngineInterface::IBaluWorld* world);
