@@ -20,6 +20,8 @@ namespace EngineInterface
 		virtual void MouseMove(TMouseEventArgs e) = 0;
 		virtual void MouseUp(TMouseEventArgs e) = 0;
 		virtual void MouseVerticalWheel(int amount)=0;
+
+		virtual void CompileScripts() = 0;
 	};
 
 	class IResources;

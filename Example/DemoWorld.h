@@ -4,6 +4,8 @@
 
 using namespace EngineInterface;
 
+#ifdef USE_CALLBACKS
+
 void PlayerJump(TCallbackData* data, IBaluInstance* object)
 {
 
@@ -115,6 +117,79 @@ void BonesPlayerPrePhysStep(TCallbackData* data, IBaluInstance* object)
 		object->GetSkeletonAnimation()->StopAnimation("walk");
 }
 
+
+void ViewportResize(TCallbackData* data, IDirector* director, TVec2i old_size, TVec2i new_size)
+{
+	//main_viewport на весь экран
+	TVec2 k = TVec2((float)new_size[0], (float)new_size[1]) / TVec2((float)old_size[0], (float)old_size[1]);
+	auto main_viewport = director->GetWorldInstance()->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
+	auto old_vieport_size = main_viewport->GetSize();
+	auto new_vieport_size = old_vieport_size.ComponentMul(k);
+	main_viewport->SetSize(new_vieport_size);
+}
+
+void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
+{
+	auto screen = TScreen(director->GetScreenSize());
+	auto main_viewport = world->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
+	std::vector<TRenderCommand> render_commands;
+	std::vector<TCustomDrawCommand> custom_draw_commands;
+	auto viewport_aabb = main_viewport->GetAABB();
+	world->GetSceneInstance(0)->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
+
+	//TODO где то нужно хранить viewport_view
+	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+
+	for (auto& v : custom_draw_commands)
+	{
+		v.screen = &screen;
+		v.view = &main_viewport_view;
+		v.viewport = &viewport_aabb;
+	}
+
+	//render->EnableScissor(true);
+	//render->SetScissorRect(*screen, main_viewport_view);
+	render->Render(render_commands, custom_draw_commands, main_viewport);
+	//render->EnableScissor(false);
+}
+
+#else
+
+char* PlayerJump_source = //(IBaluInstance object)
+"	if (object.GetProperties().GetBool(\"can_jump\"))\n"
+"	{\n"
+"		vec2 speed = object.GetPhysBody().GetLinearVelocity();\n"
+"		speed[1] = 4;\n"
+"		object.GetPhysBody().SetLinearVelocity(speed);\n"
+"	}\n";
+
+char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
+"	vec2 k = TVec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
+"	auto main_viewport = director->GetWorldInstance()->GetSceneInstance(0)->GetSource()->FindViewport(\"main_viewport\");\n"
+"	auto old_vieport_size = main_viewport->GetSize();\n"
+"	auto new_vieport_size = old_vieport_size.ComponentMul(k);\n"
+"	main_viewport->SetSize(new_vieport_size);\n";
+
+char* RenderWorld_source = //(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
+"	auto screen = TScreen(director->GetScreenSize());\n"
+"	auto main_viewport = world->GetSceneInstance(0)->GetSource()->FindViewport(\"main_viewport\");\n"
+"	std::vector<TRenderCommand> render_commands;\n"
+"	std::vector<TCustomDrawCommand> custom_draw_commands;\n"
+"	auto viewport_aabb = main_viewport->GetAABB();\n"
+"	world->GetSceneInstance(0)->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);\n"
+
+"	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));\n"
+
+"	for (auto& v : custom_draw_commands)\n"
+"	{\n"
+"		v.screen = &screen;\n"
+"		v.view = &main_viewport_view;\n"
+"		v.viewport = &viewport_aabb;\n"
+"	}\n"
+"	render->Render(render_commands, custom_draw_commands, main_viewport);\n";
+
+#endif
+
 IBaluWorld* CreateDemoWorld(std::string base_path)
 {
 	auto world = CreateWorld();
@@ -171,18 +246,26 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 
 	auto sensor = player_class->GetPhysBody()->CreateSensor(world->GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -2.5))->GetPhysShape());
 
+#ifdef USE_CALLBACKS
 	player_class->OnKeyDown(TKey::Up, CallbackWithData<KeyUpDownCallback>(PlayerJump, &world->GetCallbacksActiveType()));
 	player_class->OnKeyDown(TKey::Left, CallbackWithData<KeyUpDownCallback>(PlayerLeft, &world->GetCallbacksActiveType()));
 	player_class->OnKeyDown(TKey::Right, CallbackWithData<KeyUpDownCallback>(PlayerRight, &world->GetCallbacksActiveType()));
 
 	player_class->OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback>(PlayerPrePhysStep, &world->GetCallbacksActiveType()));
+	
 	//player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
+
 	player_class->OnBeginContact(sensor, PlayerJumpSensorBeginCollide);
 	player_class->OnEndContact(sensor, PlayerJumpSensorEndCollide);
-
+#else
+	player_class->OnKeyDown(TKey::Up, CallbackWithData<KeyUpDownCallback>(PlayerJump_source, &world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+#endif
 	auto bones_player = world->CreateClass("bones");
+#ifdef USE_CALLBACKS
 	bones_player->OnKeyDown(TKey::Left, CallbackWithData<KeyUpDownCallback>(BonesPlayerLeft, &world->GetCallbacksActiveType()));
 	bones_player->OnBeforePhysicsStep(CallbackWithData<KeyUpDownCallback>(BonesPlayerPrePhysStep, &world->GetCallbacksActiveType()));
+#else
+#endif
 	{
 		auto bones_mat = world->CreateMaterial("zombie");
 
@@ -343,36 +426,3 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 	return world;
 }
 
-void ViewportResize(IDirector* director, TVec2i old_size, TVec2i new_size)
-{
-	TVec2 k = TVec2((float)new_size[0], (float)new_size[1]) / TVec2((float)old_size[0], (float)old_size[1]);
-	auto main_viewport = director->GetWorldInstance()->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
-	auto old_vieport_size = main_viewport->GetSize();
-	auto new_vieport_size = old_vieport_size.ComponentMul(k);
-	main_viewport->SetSize(new_vieport_size);
-}
-
-void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
-{
-	auto screen = TScreen(director->GetScreenSize());
-	auto main_viewport = world->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
-	std::vector<TRenderCommand> render_commands;
-	std::vector<TCustomDrawCommand> custom_draw_commands;
-	auto viewport_aabb = main_viewport->GetAABB();
-	world->GetSceneInstance(0)->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
-
-	//TODO где то нужно хранить viewport_view
-	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
-
-	for (auto& v : custom_draw_commands)
-	{
-		v.screen = &screen;
-		v.view = &main_viewport_view;
-		v.viewport = &viewport_aabb;
-	}
-
-	//render->EnableScissor(true);
-	//render->SetScissorRect(*screen, main_viewport_view);
-	render->Render(render_commands, custom_draw_commands, main_viewport);
-	//render->EnableScissor(false);
-}

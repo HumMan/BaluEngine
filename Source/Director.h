@@ -26,7 +26,7 @@ public:
 	void SetWorldInstance(TBaluWorldInstance* world_instance);
 	void SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance);
 	EngineInterface::IBaluWorldInstance* GetWorldInstance();
-	void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback);
+	//void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback);
 	
 	int Initialize(bool create_window);
 	TResources* GetResources();
@@ -37,7 +37,7 @@ public:
 	void SetScreenSize(TVec2i size);
 
 	//used if create_windows==true
-	void SetViewportResizeCallback(VieportResizeCallback callback);
+	//void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback);
 	void MainLoop();
 	void SetSymulatePhysics(bool enable);
 

@@ -56,6 +56,12 @@ protected:
 	int callback_type;
 	TCallbacksActiveType* active_type;
 public:
+	TCallbackData()
+	{
+		user_data = nullptr;
+		callback_type = TCallbacksActiveType::DEFAULT;
+		active_type = nullptr;
+	}
 	void* GetUserData()
 	{
 		return user_data;
@@ -63,24 +69,37 @@ public:
 };
 
 class TSMethod;
+class TBaluScriptInstance;
 
-template<class T>
-class CallbackWithData :public TCallbackData
+class TScriptData
 {
-private:
-	T callback;
-	bool is_script;
+protected:
 	std::string script_source;
 	TSMethod* compiled_script;
+	TBaluScriptInstance* script_engine;
+	bool is_script;
 public:
-	void SetCompiledScript(TSMethod* method)
+	TScriptData()
+	{
+		compiled_script = nullptr;
+		script_engine = nullptr;
+		is_script = false;
+	}
+	void SetCompiledScript(TSMethod* method, TBaluScriptInstance* script_engine)
 	{
 		assert(compiled_script == nullptr);
-		compiled_script = method;
+		this->compiled_script = method;
+		this->script_engine = script_engine;
 	}
 	TSMethod* GetCompiledScript()
 	{
+		assert(compiled_script != nullptr);
 		return compiled_script;
+	}
+	TBaluScriptInstance* GetScriptEngine()
+	{
+		assert(script_engine != nullptr);
+		return script_engine;
 	}
 	bool IsScript()
 	{
@@ -88,8 +107,17 @@ public:
 	}
 	std::string GetScriptSource()
 	{
+		assert(is_script);
 		return script_source;
 	}
+};
+
+template<class T>
+class CallbackWithData :public TCallbackData, public TScriptData
+{
+private:
+	T callback;
+public:
 	bool operator==(const CallbackWithData& right)
 	{
 		return callback = right.callback;
@@ -114,7 +142,7 @@ public:
 	}
 	CallbackWithData()
 	{
-		Initialize(nullptr, nullptr, nullptr, TCallbacksActiveType::DEFAULT, nullptr);
+		callback = nullptr;
 	}
 	CallbackWithData(char* script_source, TCallbacksActiveType* active_type, int callback_type)
 	{

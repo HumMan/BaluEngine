@@ -56,6 +56,9 @@ private:
 		}
 		return result;
 	}
+
+	CallbackWithData<RenderWorldCallback> render_world_callback;
+	CallbackWithData<ViewportResizeCallback> viewport_resize_callback;
 public:
 	TBaluWorld();
 	TCallbacksActiveType& GetCallbacksActiveType()
@@ -110,6 +113,9 @@ public:
 	void RemoveOnMouseDown(CallbackWithData<MouseUpDownCallback>);
 	void RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback>);
 	void RemoveOnMouseMove(CallbackWithData<MouseUpDownCallback>);
+
+	void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback);
+	void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback);
 
 	void SaveToXML(std::string path);
 	void LoadFromXML(std::string path);

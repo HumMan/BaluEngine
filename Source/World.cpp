@@ -299,6 +299,17 @@ void TBaluWorld::RemoveOnMouseMove(CallbackWithData<MouseMoveCallback> callback)
 	RemoveCallback(callback, mouse_move_callbacks);
 }
 
+
+void TBaluWorld::SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)
+{
+	render_world_callback = callback;
+}
+
+void TBaluWorld::SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback)
+{
+	viewport_resize_callback = callback;
+}
+
 void TBaluWorld::SaveToXML(std::string path)
 {
 	xml_document doc;

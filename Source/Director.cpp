@@ -38,8 +38,7 @@ public:
 
 	TBaluWorldInstance* world_instance;
 
-	CallbackWithData<RenderWorldCallback> render_world_callback;
-	VieportResizeCallback vieport_resize_callback;
+	
 
 	bool physics_sym;
 };
@@ -53,7 +52,7 @@ public:
 void TDirector::Render()
 {
 	if (p->world_instance != nullptr)
-		p->render_world_callback.Execute(this, p->world_instance, p->render.get());
+		p->world_instance->Render(this, p->render.get());
 }
 
 void TDirector::Step(float step)
@@ -68,7 +67,7 @@ void TDirector::Step(float step)
 	}
 	p->world_instance->UpdateTransform();
 
-	p->render_world_callback.Execute(this, p->world_instance, p->render.get());
+	Render();
 
 	if (p->physics_sym)
 	{
@@ -98,16 +97,6 @@ void TDirector::SetWorldInstance(EngineInterface::IBaluWorldInstance* world_inst
 EngineInterface::IBaluWorldInstance* TDirector::GetWorldInstance()
 {
 	return p->world_instance;
-}
-
-void TDirector::SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)
-{
-	p->render_world_callback = callback;
-}
-
-void TDirector::SetViewportResizeCallback(VieportResizeCallback callback)
-{
-	p->vieport_resize_callback = callback;
 }
 
 void TDirector::SetSymulatePhysics(bool enable)
@@ -180,7 +169,13 @@ void TDirector::SetScreenSize(TVec2i new_size)
 {
 	auto old_screen_size = p->internal_render->Get.Viewport();
 	p->internal_render->Set.Viewport(new_size);
-	p->vieport_resize_callback(this, old_screen_size, new_size);
+	p->world_instance->ViewportResize(this, old_screen_size, new_size);
+	//if (p->viewport_resize_callback.IsScript())
+	//{
+	//	p->viewport_resize_callback.GetScriptEngine()->CallMethod(p->viewport_resize_callback, this, old_screen_size, new_size);
+	//}
+	//else
+	//	p->viewport_resize_callback.Execute(this, old_screen_size, new_size);
 }
 
 void TDirector::SetViewport(TVec2i use_size)

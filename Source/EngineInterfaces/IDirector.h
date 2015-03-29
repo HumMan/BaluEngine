@@ -11,8 +11,6 @@ namespace EngineInterface
 	class IDirector;
 }
 
-typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render);
-typedef void(*VieportResizeCallback)(EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
 
 namespace EngineInterface
 {
@@ -22,8 +20,8 @@ namespace EngineInterface
 		virtual void Step(float step)=0;
 		virtual void SetWorldInstance(IBaluWorldInstance* world_instance)=0;
 		virtual EngineInterface::IBaluWorldInstance* GetWorldInstance()=0;
-		virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)=0;
-		virtual void SetViewportResizeCallback(VieportResizeCallback callback) = 0;
+		//virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)=0;
+		//virtual void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback) = 0;
 		virtual void SetSymulatePhysics(bool enable)=0;
 		virtual int Initialize(bool create_window)=0;
 		virtual void MainLoop()=0;

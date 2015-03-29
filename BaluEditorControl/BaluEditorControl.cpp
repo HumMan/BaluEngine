@@ -62,7 +62,6 @@ public:
 	std::string base_path;
 	IBaluSceneInstance* scene_instance;
 	TScreen* screen;
-	TVec2i size;
 	IViewport* main_viewport;
 	TView main_viewport_view;
 	IAbstractEditor* active_editor;
@@ -325,29 +324,6 @@ namespace Editor
 		SelectedObjectProperty->SelectedObject = obj;
 	}
 
-	void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
-	{
-		BaluEditorControlPrivate* p = (BaluEditorControlPrivate*)data->GetUserData();
-		*p->screen = TScreen(p->size);
-
-		std::vector<TRenderCommand> render_commands;
-		std::vector<TCustomDrawCommand> custom_draw_commands;
-		auto viewport_aabb = p->main_viewport->GetAABB();
-		p->scene_instance->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
-
-		for (auto& v : custom_draw_commands)
-		{
-			v.screen = p->screen;
-			v.view = &p->main_viewport_view;
-			v.viewport = &viewport_aabb;
-		}
-
-		//render->EnableScissor(true);
-		//render->SetScissorRect(*screen, main_viewport_view);
-		render->Render(render_commands, custom_draw_commands, p->main_viewport);
-		//render->EnableScissor(false);
-	}
-
 	void BaluEditorControl::CreateEditorScene()
 	{
 		auto editor_scene = p->world->CreateScene("EditorScene");
@@ -363,7 +339,7 @@ namespace Editor
 		}
 		p->world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
 
-		p->screen = new TScreen(p->size);
+		p->screen = new TScreen(p->director->GetScreenSize());
 		p->director->SetSymulatePhysics(false);
 
 		p->main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
@@ -545,38 +521,16 @@ namespace Editor
 		p->director->Render();
 	}
 	
-
-	//IDirector* director;
-	//TView main_viewport_view;
-	//IBaluSceneInstance* scene_instance;
-	//TScreen* screen;
-	//IViewport* main_viewport;
-
-	
 	void BaluEditorControl::SetViewport(int width, int height)
 	{
-		p->size = TVec2i(width, height);
-		p->director->SetViewport(p->size);
+		p->director->SetViewport(TVec2i(width, height));
 	}
 
 	
 	void BaluEditorControl::Resize(int width, int height)
 	{
-		p->director->SetScreenSize(TVec2i(width, height));
-		TVec2i old_size(p->size);
-		//TVec2i size(width, height);
-		p->size = TVec2i(width, height);
-		if (p->screen != nullptr)
-		{
-			*(p->screen) = TScreen(p->size);
-			p->director->SetViewport(p->size);
-
-			//TODO не в виде отношений
-			TVec2 k = TVec2((float)p->size[0], (float)p->size[1]) / TVec2((float)old_size[0], (float)old_size[1]);
-			auto old_vieport_size = p->main_viewport->GetSize();
-			auto new_vieport_size = old_vieport_size.ComponentMul(k);
-			p->main_viewport->SetSize(new_vieport_size);
-		}
+		*p->screen = TVec2i(width, height);
+		p->director->SetScreenSize(p->screen->size);
 	}
 
 	
@@ -591,23 +545,7 @@ namespace Editor
 		p->base_path = p->director->GetBasePath();
 
 		p->director->Initialize((void*)handle.ToPointer());
-
-		//p->world = CreateDemoWorld(p->base_path);
-
-		//TDrawingHelperContext drawing_context;
-		//drawing_context.screen = screen;
-		//drawing_context.view = &main_viewport_view;
-		//drawing_context.viewport = main_viewport;
-
-		//auto scene_editor = CreateSceneEditor(drawing_context, p->world, p->world->GetScene("scene0"), scene_instance);
-		//auto& tools = scene_editor->GetAvailableTools();
-		//scene_editor->SetActiveTool(tools[1].tool.get());
-
-		//auto sprite_editor = CreateSpriteEditor(drawing_context, p->world, demo_scene, scene_instance);
-
-			//engine->AddSelectionChangedCallback(callbackbridge, TCallbackManagedBridge::OnSelectionChanged);
-			//engine->AddPropertiesChangedCallback(callbackbridge, TCallbackManagedBridge::OnPropertiesChanged);
-		//engine->AddObjectCreatedCallback(callbackbridge, TCallbackManagedBridge::OnObjectCreated);
+		p->director->SetViewportResizeCallback(ViewportResize);
 	}
 
 	void BaluEditorControl::BeginFrame()

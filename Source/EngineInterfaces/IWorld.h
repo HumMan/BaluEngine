@@ -25,8 +25,20 @@ struct TMouseEventArgs
 	}
 };
 
+namespace EngineInterface
+{
+	class IDirector;
+	class IBaluWorldInstance;
+}
+
+class TRender;
+
 typedef void(*MouseUpDownCallback)(TCallbackData* callback, TMouseEventArgs e);
 typedef void(*MouseMoveCallback)(TCallbackData* callback, TMouseEventArgs e);
+
+typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render);
+typedef void(*ViewportResizeCallback)(TCallbackData* data, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
+
 
 namespace EngineInterface
 {
@@ -65,6 +77,9 @@ namespace EngineInterface
 		virtual void DestroySprite(const char* class_name)=0;
 		virtual void DestroyClass(const char* class_name) = 0;
 		virtual void DestroyScene(const char* scene_name)=0;
+
+		virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)=0;
+		virtual void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback)=0;
 
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluSprite*>> GetSprites() = 0;

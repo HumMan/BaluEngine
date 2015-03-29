@@ -24,7 +24,6 @@ void TScriptClassesRegistry::RegisterClassesInScript(TClassRegistryParams& param
 	}
 }
 
-#undef BALUE_ENGINE_INTERFACES
 #define BALU_ENGINE_SCRIPT_CLASSES
 
 #include "EngineInterfacesIncludes.h"

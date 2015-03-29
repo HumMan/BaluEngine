@@ -38,7 +38,7 @@ namespace EngineInterface
 			"Int,\n"
 			"Float,\n"
 			"String,\n"
-			"SceneClassInstance\n"
+			"SceneClassInstance,\n"
 			"}\n"
 			);
 		cl->AnalyzeSyntax(syntax->lexer);
