@@ -46,6 +46,7 @@ void BonesPlayerLeft(TCallbackData* data, IBaluInstance* object)
 //	source->SetBool("can_jump", true);
 //}
 
+//TODO перенести в классы
 std::vector<IBaluPhysShapeInstance*> obstacle_shapes;
 
 void PlayerJumpSensorBeginCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, IBaluPhysShapeInstance* obstacle_shape)
@@ -68,7 +69,7 @@ void PlayerJumpSensorEndCollide(IBaluInstance* source, ISensorInstance* sensor, 
 	source->GetProperties()->SetBool("can_jump", obstacle_shapes.size()>0);
 }
 
-void PlayerPrePhysStep(IBaluInstance* object)
+void PlayerPrePhysStep(TCallbackData* data, IBaluInstance* object)
 {
 	PropertyType type;
 	if (!object->GetProperties()->HasProperty("can_jump", type))
@@ -99,7 +100,7 @@ void PlayerPrePhysStep(IBaluInstance* object)
 	object->GetSprite(0)->GetPolygon()->SetActiveAnimation((v_anim + hor_anim).c_str());
 }
 
-void BonesPlayerPrePhysStep(IBaluInstance* object)
+void BonesPlayerPrePhysStep(TCallbackData* data, IBaluInstance* object)
 {
 	PropertyType type;
 	if (!object->GetProperties()->HasProperty("can_jump", type))
@@ -174,14 +175,14 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 	player_class->OnKeyDown(TKey::Left, CallbackWithData<KeyUpDownCallback>(PlayerLeft, &world->GetCallbacksActiveType()));
 	player_class->OnKeyDown(TKey::Right, CallbackWithData<KeyUpDownCallback>(PlayerRight, &world->GetCallbacksActiveType()));
 
-	player_class->OnBeforePhysicsStep(PlayerPrePhysStep);
+	player_class->OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback>(PlayerPrePhysStep, &world->GetCallbacksActiveType()));
 	//player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
 	player_class->OnBeginContact(sensor, PlayerJumpSensorBeginCollide);
 	player_class->OnEndContact(sensor, PlayerJumpSensorEndCollide);
 
 	auto bones_player = world->CreateClass("bones");
 	bones_player->OnKeyDown(TKey::Left, CallbackWithData<KeyUpDownCallback>(BonesPlayerLeft, &world->GetCallbacksActiveType()));
-	bones_player->OnBeforePhysicsStep(BonesPlayerPrePhysStep);
+	bones_player->OnBeforePhysicsStep(CallbackWithData<KeyUpDownCallback>(BonesPlayerPrePhysStep, &world->GetCallbacksActiveType()));
 	{
 		auto bones_mat = world->CreateMaterial("zombie");
 
@@ -340,4 +341,38 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 	main_viewport->SetWidth(20);
 
 	return world;
+}
+
+void ViewportResize(IDirector* director, TVec2i old_size, TVec2i new_size)
+{
+	TVec2 k = TVec2((float)new_size[0], (float)new_size[1]) / TVec2((float)old_size[0], (float)old_size[1]);
+	auto main_viewport = director->GetWorldInstance()->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
+	auto old_vieport_size = main_viewport->GetSize();
+	auto new_vieport_size = old_vieport_size.ComponentMul(k);
+	main_viewport->SetSize(new_vieport_size);
+}
+
+void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
+{
+	auto screen = TScreen(director->GetScreenSize());
+	auto main_viewport = world->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
+	std::vector<TRenderCommand> render_commands;
+	std::vector<TCustomDrawCommand> custom_draw_commands;
+	auto viewport_aabb = main_viewport->GetAABB();
+	world->GetSceneInstance(0)->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
+
+	//TODO где то нужно хранить viewport_view
+	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+
+	for (auto& v : custom_draw_commands)
+	{
+		v.screen = &screen;
+		v.view = &main_viewport_view;
+		v.viewport = &viewport_aabb;
+	}
+
+	//render->EnableScissor(true);
+	//render->SetScissorRect(*screen, main_viewport_view);
+	render->Render(render_commands, custom_draw_commands, main_viewport);
+	//render->EnableScissor(false);
 }

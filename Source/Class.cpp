@@ -202,7 +202,7 @@ void TBaluClass::OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback)
 }
 
 
-void TBaluClass::OnBeforePhysicsStep(BeforePhysicsCallback callback)
+void TBaluClass::OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback> callback)
 {
 	before_physics_callbacks.push_back(callback);
 }

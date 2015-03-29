@@ -53,7 +53,7 @@ public:
 void TDirector::Render()
 {
 	if (p->world_instance != nullptr)
-		p->render_world_callback.Execute(p->world_instance, p->render.get());
+		p->render_world_callback.Execute(this, p->world_instance, p->render.get());
 }
 
 void TDirector::Step(float step)
@@ -68,7 +68,7 @@ void TDirector::Step(float step)
 	}
 	p->world_instance->UpdateTransform();
 
-	p->render_world_callback.Execute(p->world_instance, p->render.get());
+	p->render_world_callback.Execute(this, p->world_instance, p->render.get());
 
 	if (p->physics_sym)
 	{
@@ -93,6 +93,11 @@ void TDirector::SetWorldInstance(TBaluWorldInstance* world_instance)
 void TDirector::SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance)
 {
 	SetWorldInstance(dynamic_cast<TBaluWorldInstance*>(world_instance));
+}
+
+EngineInterface::IBaluWorldInstance* TDirector::GetWorldInstance()
+{
+	return p->world_instance;
 }
 
 void TDirector::SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)
@@ -168,10 +173,14 @@ std::string TDirector::GetBasePath()
 
 TVec2i TDirector::GetScreenSize()
 {
-	assert(p->create_window);
-	int w, h;
-	SDL_GetWindowSize(p->mainwindow, &w, &h);
-	return TVec2i(w, h);
+	return p->internal_render->Get.Viewport();
+}
+
+void TDirector::SetScreenSize(TVec2i new_size)
+{
+	auto old_screen_size = p->internal_render->Get.Viewport();
+	p->internal_render->Set.Viewport(new_size);
+	p->vieport_resize_callback(this, old_screen_size, new_size);
 }
 
 void TDirector::SetViewport(TVec2i use_size)
@@ -273,10 +282,7 @@ void TDirector::MainLoop()
 			{
 				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
 				{
-					auto old_screen_size = p->internal_render->Get.Viewport();
-					auto new_size = TVec2i(event.window.data1, event.window.data2);
-					p->internal_render->Set.Viewport(new_size);
-					p->vieport_resize_callback(old_screen_size, new_size);
+					SetScreenSize(TVec2i(event.window.data1, event.window.data2));
 				}
 			}
 		}

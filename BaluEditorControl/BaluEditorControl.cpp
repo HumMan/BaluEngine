@@ -325,7 +325,7 @@ namespace Editor
 		SelectedObjectProperty->SelectedObject = obj;
 	}
 
-	void RenderWorld(TCallbackData* data, IBaluWorldInstance* world, TRender* render)
+	void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
 	{
 		BaluEditorControlPrivate* p = (BaluEditorControlPrivate*)data->GetUserData();
 		*p->screen = TScreen(p->size);
@@ -562,6 +562,7 @@ namespace Editor
 	
 	void BaluEditorControl::Resize(int width, int height)
 	{
+		p->director->SetScreenSize(TVec2i(width, height));
 		TVec2i old_size(p->size);
 		//TVec2i size(width, height);
 		p->size = TVec2i(width, height);

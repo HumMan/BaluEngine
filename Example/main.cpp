@@ -15,36 +15,6 @@ TView main_viewport_view;
 
 EngineInterface::IDirector* director;
 
-void ViewportResize(TVec2i old_size, TVec2i new_size)
-{
-	TVec2 k = TVec2((float)new_size[0], (float)new_size[1]) / TVec2((float)old_size[0], (float)old_size[1]);
-	auto old_vieport_size = main_viewport->GetSize();
-	auto new_vieport_size = old_vieport_size.ComponentMul(k);
-	main_viewport->SetSize(new_vieport_size);
-}
-
-void RenderWorld(TCallbackData* data, IBaluWorldInstance* world, TRender* render)
-{
-	*screen = TScreen(director->GetScreenSize());
-
-	std::vector<TRenderCommand> render_commands;
-	std::vector<TCustomDrawCommand> custom_draw_commands;
-	auto viewport_aabb = main_viewport->GetAABB();
-	scene_instance->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
-
-	for (auto& v : custom_draw_commands)
-	{
-		v.screen = screen;
-		v.view = &main_viewport_view;
-		v.viewport = &viewport_aabb;
-	}
-
-	//render->EnableScissor(true);
-	//render->SetScissorRect(*screen, main_viewport_view);
-	render->Render(render_commands, custom_draw_commands, main_viewport);
-	//render->EnableScissor(false);
-}
-
 #include <Windows.h>
 
 int WINAPI WinMain(HINSTANCE hInstance,

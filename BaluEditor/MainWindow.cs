@@ -13,9 +13,12 @@ namespace BaluEditor
     public partial class MainWindow : Form
     {
         private Editor.BaluEditorControl baluEditorControl1;
+        private EventsEditor events_editor;
         public MainWindow()
         {
             InitializeComponent();
+
+            events_editor = new EventsEditor();
 
             panel2.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseWheel);
 
@@ -185,6 +188,11 @@ namespace BaluEditor
         private void panel2_MouseEnter(object sender, EventArgs e)
         {
             panel2.Focus();
+        }
+
+        private void eventsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            events_editor.ShowDialog();
         }
     }
 }

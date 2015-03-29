@@ -67,13 +67,14 @@
             this.loadDemoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.EditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.eventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -118,7 +119,8 @@
             this.editToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem,
-            this.loadDemoToolStripMenuItem});
+            this.loadDemoToolStripMenuItem,
+            this.eventsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1112, 24);
@@ -384,6 +386,15 @@
             this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseUp);
             this.panel2.Resize += new System.EventHandler(this.panel2_Resize);
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Location = new System.Drawing.Point(115, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(111, 25);
+            this.toolStrip2.TabIndex = 7;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -434,14 +445,12 @@
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStrip2
+            // eventsToolStripMenuItem
             // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Location = new System.Drawing.Point(115, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(43, 25);
-            this.toolStrip2.TabIndex = 7;
-            this.toolStrip2.Text = "toolStrip2";
+            this.eventsToolStripMenuItem.Name = "eventsToolStripMenuItem";
+            this.eventsToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.eventsToolStripMenuItem.Text = "Events";
+            this.eventsToolStripMenuItem.Click += new System.EventHandler(this.eventsToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -515,6 +524,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripMenuItem loadDemoToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripMenuItem eventsToolStripMenuItem;
     }
 }
 

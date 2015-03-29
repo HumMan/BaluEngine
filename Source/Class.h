@@ -106,7 +106,7 @@ public:
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_down_callbacks;
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_up_callbacks;
 
-	std::vector<BeforePhysicsCallback> before_physics_callbacks;
+	std::vector<CallbackWithData<BeforePhysicsCallback>> before_physics_callbacks;
 
 	std::string GetName();
 	void SetName(std::string name);
@@ -139,7 +139,7 @@ public:
 	void OnKeyDown(TKey key, CallbackWithData<KeyUpDownCallback> callback);
 	void OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback);
 
-	void OnBeforePhysicsStep(BeforePhysicsCallback callback);
+	void OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback> callback);
 
 	void OnBeginContact(TSensor* sensor, SensorCollideCallback callback);
 	void OnBeginContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback);

@@ -248,9 +248,9 @@ void TBaluInstance::DoKeyUp(TKey key)
 
 void TBaluInstance::DoBeforePhysicsStep()
 {
-	for (const BeforePhysicsCallback& i : instance_class->before_physics_callbacks)
+	for (auto& i : instance_class->before_physics_callbacks)
 	{
-		i(this);
+		i.Execute(this);
 	}
 }
 //void TBaluInstance::DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)

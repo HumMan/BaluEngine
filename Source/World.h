@@ -35,6 +35,7 @@ private:
 
 	TBaluPhysShapeFactory shape_factory;
 
+	//TODO такие колбэки должны задаваться в worldInstance, а здесь только исходники скриптов
 	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_down_callbacks;
 	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_up_callbacks;
 	std::vector<CallbackWithData<MouseMoveCallback>> mouse_move_callbacks;

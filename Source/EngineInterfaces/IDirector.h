@@ -6,8 +6,13 @@
 
 #include "../Render.h"
 
-typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IBaluWorldInstance* world, TRender* render);
-typedef void(*VieportResizeCallback)(TVec2i old_size, TVec2i new_size);
+namespace EngineInterface
+{
+	class IDirector;
+}
+
+typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render);
+typedef void(*VieportResizeCallback)(EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
 
 namespace EngineInterface
 {
@@ -16,6 +21,7 @@ namespace EngineInterface
 	public:
 		virtual void Step(float step)=0;
 		virtual void SetWorldInstance(IBaluWorldInstance* world_instance)=0;
+		virtual EngineInterface::IBaluWorldInstance* GetWorldInstance()=0;
 		virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)=0;
 		virtual void SetViewportResizeCallback(VieportResizeCallback callback) = 0;
 		virtual void SetSymulatePhysics(bool enable)=0;
@@ -24,6 +30,7 @@ namespace EngineInterface
 		virtual IResources* GetResources()=0;
 		virtual std::string GetBasePath() = 0;
 		virtual TVec2i GetScreenSize() = 0;
+		virtual void SetScreenSize(TVec2i size) = 0;
 		virtual void SetViewport(TVec2i use_size)=0;
 		virtual void Render()=0;
 

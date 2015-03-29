@@ -5,16 +5,25 @@
 
 #include "baluScript.h"
 
+class TBaluScriptInstance
+{
+private:
+	std::unique_ptr<TSyntaxAnalyzer> syntax;
+	std::vector<TStaticValue> static_objects;
+	std::vector < std::unique_ptr<TSMethod>> smethods;
+	TTime time;
+public:
+	TBaluScriptInstance();
+	TSMethod* CreateMethod(const char* code);
+};
+
 class TBaluWorldInstance : public EngineInterface::IBaluWorldInstance
 {
 private:
 	TBaluWorld* source;
 	std::vector<std::unique_ptr<TBaluSceneInstance>> instances;
 	TResources* resources;
-
-	std::unique_ptr<TSyntaxAnalyzer> syntax;
-	std::vector<TStaticValue> static_objects;
-	std::vector < std::unique_ptr<TSMethod>> smethods;
+	
 public:
 	TBaluWorld* GetSource();
 
@@ -24,6 +33,14 @@ public:
 	void StopScene(TBaluSceneInstance*);
 
 	EngineInterface::IBaluSceneInstance* RunScene(EngineInterface::IBaluScene* scene_source);
+	int GetSceneInstancesCount()
+	{
+		return instances.size();
+	}
+	TBaluSceneInstance* GetSceneInstance(int index)
+	{
+		return instances[index].get();
+	}
 	void StopScene(EngineInterface::IBaluSceneInstance*);
 
 	void OnPrePhysStep();
@@ -42,4 +59,6 @@ public:
 
 	void UpdateTransform();
 	void DebugDraw();
+
+	void CompileScripts(TBaluScriptInstance* script_engine);
 };

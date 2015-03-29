@@ -13,6 +13,9 @@ namespace EngineInterface
 		virtual IBaluSceneInstance* RunScene(IBaluScene* scene_source)=0;
 		virtual void StopScene(IBaluSceneInstance*)=0;
 
+		virtual int GetSceneInstancesCount()=0;
+		virtual IBaluSceneInstance* GetSceneInstance(int index)=0;
+
 		virtual void MouseDown(TMouseEventArgs e) = 0;
 		virtual void MouseMove(TMouseEventArgs e) = 0;
 		virtual void MouseUp(TMouseEventArgs e) = 0;

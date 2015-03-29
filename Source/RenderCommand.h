@@ -62,12 +62,34 @@ public:
 	}
 };
 
+class TSMethod;
+
 template<class T>
 class CallbackWithData :public TCallbackData
 {
 private:
 	T callback;
+	bool is_script;
+	std::string script_source;
+	TSMethod* compiled_script;
 public:
+	void SetCompiledScript(TSMethod* method)
+	{
+		assert(compiled_script == nullptr);
+		compiled_script = method;
+	}
+	TSMethod* GetCompiledScript()
+	{
+		return compiled_script;
+	}
+	bool IsScript()
+	{
+		return is_script;
+	}
+	std::string GetScriptSource()
+	{
+		return script_source;
+	}
 	bool operator==(const CallbackWithData& right)
 	{
 		return callback = right.callback;
@@ -75,30 +97,40 @@ public:
 	template<typename... Args>
 	void Execute(Args... args)
 	{
+		assert(!is_script);//должно производиться через TScriptInstance
 		if (active_type->active_type==callback_type)
 			callback(this, args...);
 	}
-	CallbackWithData(){}
-	CallbackWithData(T callback, TCallbacksActiveType* active_type, void* user_data, int callback_type)
+	void Initialize(T callback, TCallbacksActiveType* active_type, void* user_data, int callback_type, char* script_source=nullptr)
 	{
 		this->callback = callback;
 		this->user_data = user_data;
 		this->callback_type = callback_type;
 		this->active_type = active_type;
+		this->is_script = script_source != nullptr;
+		if (is_script)
+			this->script_source = script_source;
+		compiled_script = nullptr;
+	}
+	CallbackWithData()
+	{
+		Initialize(nullptr, nullptr, nullptr, TCallbacksActiveType::DEFAULT, nullptr);
+	}
+	CallbackWithData(char* script_source, TCallbacksActiveType* active_type, int callback_type)
+	{
+		Initialize(nullptr, active_type, nullptr, callback_type, script_source);
+	}
+	CallbackWithData(T callback, TCallbacksActiveType* active_type, void* user_data, int callback_type)
+	{
+		Initialize(callback, active_type, user_data, callback_type);
 	}
 	CallbackWithData(T callback, TCallbacksActiveType* active_type, void* user_data)
 	{
-		this->callback = callback;
-		this->user_data = user_data;
-		this->callback_type = 0;
-		this->active_type = active_type;
+		Initialize(callback, active_type, user_data, TCallbacksActiveType::DEFAULT);
 	}
 	CallbackWithData(T callback, TCallbacksActiveType* active_type)
 	{
-		this->callback = callback;
-		this->user_data = nullptr;
-		this->callback_type = 0;
-		this->active_type = active_type;
+		Initialize(callback, active_type, nullptr, TCallbacksActiveType::DEFAULT);
 	}
 };
 

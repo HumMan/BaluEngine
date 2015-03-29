@@ -10,6 +10,31 @@
 #include "../Source/Syntax/Method.h"
 #include "../Source/semanticAnalyzer.h"
 
+TBaluScriptInstance::TBaluScriptInstance()
+{
+	time.Start();
+
+	char* script_base_source;
+	{
+		TFileData file("../../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
+		script_base_source = file.ReadAll();
+		script_base_source[file.GetSize()] = '\0';
+	}
+	syntax.reset(new TSyntaxAnalyzer());
+	syntax->Compile((char*)(("class Script{" + std::string(script_base_source) + "}").c_str()), time);
+
+	TClassRegistryParams params;
+	params.smethods = &smethods;
+	params.static_objects = &static_objects;
+	params.syntax = syntax.get();
+	TScriptClassesRegistry::RegisterClassesInScript(params);
+}
+
+TSMethod* TBaluScriptInstance::CreateMethod(const char* code)
+{
+	return nullptr;
+}
+
 TBaluWorld* TBaluWorldInstance::GetSource()
 {
 	return source;
@@ -20,23 +45,7 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 	this->source = source;
 	this->resources = resources;
 
-	auto time = new TTime();
-	time->Start();
 
-	char* script_base_source;
-	{
-		TFileData file("../../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
-		script_base_source = file.ReadAll();
-		script_base_source[file.GetSize()] = '\0';
-	}
-	syntax.reset(new TSyntaxAnalyzer());
-	syntax->Compile((char*)(("class Script{" + std::string(script_base_source) + "}").c_str()), *time);
-
-	TClassRegistryParams params;
-	params.smethods = &smethods;
-	params.static_objects = &static_objects;
-	params.syntax = syntax.get();
-	TScriptClassesRegistry::RegisterClassesInScript(params);
 }
 TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 {
@@ -140,4 +149,43 @@ void TBaluWorldInstance::DebugDraw()
 {
 	for (int i = 0; i < instances.size(); i++)
 		instances[i]->DebugDraw();
+}
+
+void TBaluWorldInstance::CompileScripts(TBaluScriptInstance* script_engine)
+{
+	for (auto& v : source->mouse_up_callbacks)
+	{
+		if (v.IsScript())
+			script_engine->CreateMethod(v.GetScriptSource().c_str());
+	}
+	for (auto& v : source->mouse_down_callbacks)
+	{
+		if (v.IsScript())
+			script_engine->CreateMethod(v.GetScriptSource().c_str());
+	}
+	for (auto& v : source->mouse_move_callbacks)
+	{
+		if (v.IsScript())
+			script_engine->CreateMethod(v.GetScriptSource().c_str());
+	}
+	for (auto& k : source->classes)
+	{
+		for (auto& v : k.second.before_physics_callbacks)
+		{
+			if (v.IsScript())
+				script_engine->CreateMethod(v.GetScriptSource().c_str());
+		}
+		for (auto& v : k.second.on_key_down_callbacks)
+		{
+			for (auto& s: v.second)
+			if (s.IsScript())
+				script_engine->CreateMethod(s.GetScriptSource().c_str());
+		}
+		for (auto& v : k.second.on_key_up_callbacks)
+		{
+			for (auto& s : v.second)
+				if (s.IsScript())
+					script_engine->CreateMethod(s.GetScriptSource().c_str());
+		}
+	}
 }

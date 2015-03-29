@@ -38,7 +38,7 @@ namespace EngineInterface
 			"Int,\n"
 			"Float,\n"
 			"String,\n"
-			"SceneClassInstance,\n"
+			"SceneClassInstance\n"
 			"}\n"
 			);
 		cl->AnalyzeSyntax(syntax->lexer);
@@ -77,7 +77,6 @@ namespace EngineInterface
 			"class extern IProperties\n"
 			"{\n"
 			"func HasProperty(string name, PropertyType type):bool;\n"
-			"func GetRightTop:vec2;\n"
 			"}\n"
 			);
 		cl->AnalyzeSyntax(syntax->lexer);
@@ -93,12 +92,8 @@ namespace EngineInterface
 		std::vector<TSMethod*> m;
 
 		m.clear();
-		scl->GetMethods(m, syntax->lexer.GetIdFromName("GetLeftBottom"));
+		scl->GetMethods(m, syntax->lexer.GetIdFromName("HasProperty"));
 		m[0]->SetAsExternal(TFrame_GetLeftBottom);
-
-		m.clear();
-		scl->GetMethods(m, syntax->lexer.GetIdFromName("GetRightTop"));
-		m[0]->SetAsExternal(TFrame_GetRightTop);
 	}
 	static bool IProperties_registered = TScriptClassesRegistry::Register("IProperties", IProperties_register);
 #endif
