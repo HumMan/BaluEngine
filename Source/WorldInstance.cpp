@@ -230,7 +230,7 @@ void TBaluWorldInstance::CompileScripts()
 			if (v.IsScript())
 			{
 				auto method_body = v.GetScriptSource();
-				std::string method = std::string("func static KeyDown(Key key, IClassInstance instance)\n{\n") + method_body + "\n}\n";
+				std::string method = std::string("func static KeyDown(TKey key, IClassInstance object)\n{\n") + method_body + "\n}\n";
 				script_engine.CreateMethod(&v, method.c_str());
 			}
 		}

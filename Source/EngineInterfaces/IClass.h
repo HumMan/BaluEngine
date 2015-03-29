@@ -19,6 +19,22 @@ enum TKey :int
 	Down
 };
 
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+
+void TKey_register(TClassRegistryParams& params)
+{
+	auto scl = RegisterClass(params,
+		"enum TKey\n"
+		"{\n"
+		"	Left,\n"
+		"	Right,\n"
+		"	Up,\n"
+		"	Down,\n"
+		"}\n");
+}
+static bool TKey_registered = TScriptClassesRegistry::Register("TKey", TKey_register);
+#endif
+
 typedef void(*KeyUpDownCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
 
 typedef void(*BeforePhysicsCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);

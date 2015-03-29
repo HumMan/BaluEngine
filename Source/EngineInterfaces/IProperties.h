@@ -28,10 +28,7 @@ namespace EngineInterface
 
 	void PropertyType_register(TClassRegistryParams& params)
 	{
-		auto& syntax = params.syntax;
-		TClass* cl = new TClass(syntax->base_class.get());
-		syntax->base_class->AddNested(cl);
-		syntax->lexer.ParseSource(
+		auto scl = RegisterClass(params,
 			"enum PropertyType\n"
 			"{\n"
 			"Bool,\n"
@@ -41,12 +38,6 @@ namespace EngineInterface
 			"SceneClassInstance,\n"
 			"}\n"
 			);
-		cl->AnalyzeSyntax(syntax->lexer);
-		syntax->lexer.GetToken(TTokenType::Done);
-
-		TSClass* scl = new TSClass(syntax->sem_base_class.get(), cl);
-		syntax->sem_base_class->AddClass(scl);
-		scl->Build();
 	}
 	static bool PropertyType_registered = TScriptClassesRegistry::Register("PropertyType", PropertyType_register);
 #endif
@@ -70,30 +61,13 @@ namespace EngineInterface
 
 	void IProperties_register(TClassRegistryParams& params)
 	{
-		auto& syntax = params.syntax;
-		TClass* cl = new TClass(syntax->base_class.get());
-		syntax->base_class->AddNested(cl);
-		syntax->lexer.ParseSource(
+		auto scl = RegisterExternClass(params,
 			"class extern IProperties\n"
 			"{\n"
 			"func HasProperty(string name, PropertyType type):bool;\n"
-			"}\n"
-			);
-		cl->AnalyzeSyntax(syntax->lexer);
-		syntax->lexer.GetToken(TTokenType::Done);
-
-		TSClass* scl = new TSClass(syntax->sem_base_class.get(), cl);
-		syntax->sem_base_class->AddClass(scl);
-		scl->Build();
-
-		scl->SetSize(IntSizeOf(sizeof(TFrame)) / sizeof(int));
-		scl->SetAutoMethodsInitialized();
-
-		std::vector<TSMethod*> m;
-
-		m.clear();
-		scl->GetMethods(m, syntax->lexer.GetIdFromName("HasProperty"));
-		m[0]->SetAsExternal(TFrame_GetLeftBottom);
+			"}\n",
+			sizeof(TFrame));
+		RegisterMethod(params, scl, "HasProperty", TFrame_GetLeftBottom);
 	}
 	static bool IProperties_registered = TScriptClassesRegistry::Register("IProperties", IProperties_register);
 #endif

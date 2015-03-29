@@ -36,8 +36,8 @@ public:
 	{
 		std::vector<TStackValue> params;
 		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IDirector"))));
-		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("vec2"))));
-		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("vec2"))));
+		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("vec2i"))));
+		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("vec2i"))));
 		*(EngineInterface::IDirector**)params[0].get() = director;
 		*(TVec2i*)params[1].get() = old_size;
 		*(TVec2i*)params[2].get() = new_size;

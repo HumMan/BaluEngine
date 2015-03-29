@@ -12,6 +12,10 @@ public:
 
 typedef void(*RegisterScriptClass)(TClassRegistryParams& params);
 
+TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size);
+TSClass* RegisterClass(TClassRegistryParams& params, const char* source);
+void RegisterMethod(TClassRegistryParams& params, TSClass* class_syntax, const char* name, TExternalSMethod func);
+
 class TScriptClassesRegistry
 {
 public:
