@@ -127,7 +127,7 @@ void ViewportResize(TCallbackData* data, IDirector* director, TVec2i old_size, T
 	auto new_vieport_size = old_vieport_size.ComponentMul(k);
 	main_viewport->SetSize(new_vieport_size);
 }
-
+#else
 void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
 {
 	auto screen = TScreen(director->GetScreenSize());
@@ -153,24 +153,26 @@ void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* w
 	//render->EnableScissor(false);
 }
 
-#else
+
 
 char* PlayerJump_source = //(IBaluInstance object)
 "	if (object.GetProperties().GetBool(\"can_jump\"))\n"
 "	{\n"
 "		vec2 speed = object.GetPhysBody().GetLinearVelocity();\n"
-"		speed[1] = 4;\n"
+"		speed.y = 4;\n"
 "		object.GetPhysBody().SetLinearVelocity(speed);\n"
 "	}\n";
 
 char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
-"	vec2 k = TVec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
-"	auto main_viewport = director->GetWorldInstance()->GetSceneInstance(0)->GetSource()->FindViewport(\"main_viewport\");\n"
-"	auto old_vieport_size = main_viewport->GetSize();\n"
-"	auto new_vieport_size = old_vieport_size.ComponentMul(k);\n"
-"	main_viewport->SetSize(new_vieport_size);\n";
+"	vec2 k = vec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
+"	IViewport main_viewport = director.GetWorldInstance().GetSceneInstance(0).GetSource().FindViewport(\"main_viewport\");\n"
+"	main_viewport.SetSize(k);\n"
+"	vec2 old_vieport_size = main_viewport.GetSize();\n"
+"	main_viewport.SetSize(old_vieport_size);\n"
+"	vec2 new_vieport_size = old_vieport_size*k;\n"
+"	main_viewport.SetSize(new_vieport_size);\n";
 
-char* RenderWorld_source = //(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
+char* RenderWorld_source = //(IDirector director, IWorldInstance world, IRender render)
 "	auto screen = TScreen(director->GetScreenSize());\n"
 "	auto main_viewport = world->GetSceneInstance(0)->GetSource()->FindViewport(\"main_viewport\");\n"
 "	std::vector<TRenderCommand> render_commands;\n"

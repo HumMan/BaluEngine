@@ -53,6 +53,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\SDL2-2.0.3\include;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\include\;$(ProjectDir)/../nanovg\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ForcedIncludeFiles>$(ProjectDir)\..\BaluScript\source\memleaks.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

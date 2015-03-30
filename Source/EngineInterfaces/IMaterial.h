@@ -117,6 +117,33 @@ namespace EngineInterface
 		virtual TVec2 GetSize() = 0;
 	};
 
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+
+	void IViewport_GetSize(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	{
+		*result.get_as<TVec2>() = (*object.get_as<IViewport*>())->GetSize();
+	}
+
+	void IViewport_SetSize(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	{
+		(*object.get_as<IViewport*>())->SetSize(*(formal_params[0].get_as<TVec2>()));
+	}
+
+	void IViewport_register(TClassRegistryParams& params)
+	{
+		auto scl = RegisterExternClass(params,
+			"class extern IViewport\n"
+			"{\n"
+			"func GetSize():vec2;\n"
+			"func SetSize(vec2 size);\n"
+			"}\n",
+			sizeof(IViewport*));
+		RegisterMethod(params, scl, "GetSize", IViewport_GetSize);
+		RegisterMethod(params, scl, "SetSize", IViewport_SetSize);
+	}
+	static bool IViewport_registered = TScriptClassesRegistry::Register("IViewport", IViewport_register);
+#endif
+
 	class IBaluMaterial
 	{
 	public:

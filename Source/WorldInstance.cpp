@@ -184,6 +184,18 @@ void TBaluWorldInstance::DebugDraw()
 
 void TBaluWorldInstance::CompileScripts()
 {
+	{
+		//auto method_body = source->render_world_callback.GetScriptSource();
+		//std::string method = std::string("func static RenderWorld(IDirector director, IWorldInstance world, IRender render)\n{\n") + method_body + "\n}\n";
+		//script_engine.CreateMethod(&source->render_world_callback, method.c_str());
+	}
+
+	{
+		auto method_body = source->viewport_resize_callback.GetScriptSource();
+		std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
+		script_engine.CreateMethod(&source->viewport_resize_callback, method.c_str());
+	}
+
 	for (auto& v : source->mouse_up_callbacks)
 	{
 		if (v.IsScript())

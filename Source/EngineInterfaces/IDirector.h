@@ -38,7 +38,29 @@ namespace EngineInterface
 		virtual void EndFrame()=0;
 		//
 	};
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+
+	void IDirector_GetWorldInstance(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	{
+		*result.get_as<IBaluWorldInstance*>() = (*object.get_as<IDirector*>())->GetWorldInstance();
+	}
+
+	void IDirector_register(TClassRegistryParams& params)
+	{
+		auto scl = RegisterExternClass(params,
+			"class extern IDirector\n"
+			"{\n"
+			"func GetWorldInstance:IWorldInstance;\n"
+			"}\n",
+			sizeof(IDirector*));
+		RegisterMethod(params, scl, "GetWorldInstance", IDirector_GetWorldInstance);
+	}
+	static bool IDirector_registered = TScriptClassesRegistry::Register("IDirector", IDirector_register);
+#endif
 }
 
 BALUENGINEDLL_API EngineInterface::IDirector* CreateDirector();
 BALUENGINEDLL_API void DestroyDirector(EngineInterface::IDirector* director);
+
+

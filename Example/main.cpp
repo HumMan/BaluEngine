@@ -39,7 +39,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
 	demo_world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize, &demo_world->GetCallbacksActiveType()));
 #else
-	demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+	//demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+	demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
 	demo_world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 #endif
 
@@ -70,6 +71,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	director->SetSymulatePhysics(true);
 	director->MainLoop();
+
+	//_CrtDumpMemoryLeaks();
 
 	return 0;
 }

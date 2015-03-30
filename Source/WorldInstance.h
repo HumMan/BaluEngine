@@ -46,7 +46,25 @@ public:
 	}
 	void CallMethod(CallbackWithData<RenderWorldCallback> render_world_callback, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render)
 	{
+		std::vector<TStackValue> params;
+		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IDirector"))));
+		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IWorldInstance"))));
+		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IRender"))));
+		*(EngineInterface::IDirector**)params[0].get() = director;
+		*(EngineInterface::IBaluWorldInstance**)params[1].get() = world;
+		*(TRender**)params[2].get() = render;
 
+		TStackValue result, object;
+		render_world_callback.GetCompiledScript()->Run(static_objects, params, result, object);
+	}
+	void CallMethod(CallbackWithData<KeyUpDownCallback>callback, TBaluInstance* obj)
+	{
+		std::vector<TStackValue> params;
+		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IClassInstance"))));
+		*(EngineInterface::IBaluInstance**)params[0].get() = obj;
+
+		TStackValue result, object;
+		callback.GetCompiledScript()->Run(static_objects, params, result, object);
 	}
 };
 

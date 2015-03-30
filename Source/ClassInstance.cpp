@@ -1,5 +1,6 @@
 #include "ClassInstance.h"
 
+#include "WorldInstance.h"
 
 TSensorInstance::TSensorInstance(TSensor* source, TBaluInstance* parent)
 {
@@ -231,8 +232,13 @@ void TBaluInstance::DoKeyDown(TKey key)
 	auto it = instance_class->on_key_down_callbacks.find(key);
 	if (it != instance_class->on_key_down_callbacks.end())
 	{
-		for (int i = 0; i < it->second.size();i++)
-			it->second[i].Execute(this);
+		for (int i = 0; i < it->second.size(); i++)
+		{
+			if (it->second[i].IsScript())
+				it->second[i].GetScriptEngine()->CallMethod(it->second[i],this);
+			else
+				it->second[i].Execute(this);
+		}
 	}
 }
 

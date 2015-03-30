@@ -5,6 +5,7 @@
 TSceneEditor::TSceneEditor() :tools_registry(&scene)
 {
 	active_tool = nullptr;
+	current_local_editor = nullptr;
 }
 
 void TSceneEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluSceneInstance* editor_scene_instance)
