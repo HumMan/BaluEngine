@@ -33,6 +33,11 @@ void nanovg_init()
 
 }
 
+void nanovg_deinit()
+{
+	nvgDeleteGL2(vg);
+}
+
 NVGcontext* GetContext()
 {
 	return vg;

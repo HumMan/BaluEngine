@@ -20,6 +20,11 @@ TRender::TRender(TBaluRender* internal_render)
 	nanovg_init();
 }
 
+TRender::~TRender()
+{
+	nanovg_deinit();
+}
+
 void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<TCustomDrawCommand>& custom_draw_commands, EngineInterface::IViewport* viewport)
 {
 	//render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));

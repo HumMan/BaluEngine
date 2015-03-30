@@ -57,16 +57,16 @@ namespace EngineInterface
 
 	void IProperties_HasProperty(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		auto obj = ((IProperties*)object.get());
+		auto obj = (object.get_as<IProperties*>());
 		auto name = *(((TString*)formal_params[0].get())->v);
 		auto type = *((PropertyType*)formal_params[1].get());
-		*(bool*)result.get() = obj->HasProperty(name, type);
+		*(bool*)result.get() = (*obj)->HasProperty(name, type);
 	}
 	void IProperties_GetBool(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		auto obj = ((IProperties*)object.get());
+		auto obj = (object.get_as<IProperties*>());
 		auto name = *(((TString*)formal_params[0].get())->v);
-		*(bool*)result.get() = obj->GetBool(name);
+		*(bool*)result.get() = (*obj)->GetBool(name);
 	}
 
 	void IProperties_register(TClassRegistryParams& params)
@@ -77,7 +77,7 @@ namespace EngineInterface
 			"func HasProperty(string name, PropertyType type):bool;\n"
 			"func GetBool(string name):bool;\n"
 			"}\n",
-			sizeof(TFrame));
+			sizeof(IProperties));
 		RegisterMethod(params, scl, "HasProperty", TFrame_GetLeftBottom);
 		RegisterMethod(params, scl, "GetBool", IProperties_GetBool);
 	}

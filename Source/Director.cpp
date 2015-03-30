@@ -296,5 +296,4 @@ TDirector::TDirector()
 
 TDirector::~TDirector()
 {
-
 }

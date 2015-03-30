@@ -86,9 +86,9 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	this->resources = resources;
 	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));
 
-	phys_debug.Create();
+	//phys_debug.Create();
 
-	phys_world->SetDebugDraw(&phys_debug);
+	//phys_world->SetDebugDraw(&phys_debug);
 	phys_world->SetContactListener(this);
 
 	for (int i = 0; i < source->GetInstancesCount(); i++)
@@ -98,6 +98,11 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 		instance->SetTransform(source_instance->GetTransform());
 		instance->UpdateTranform();
 	}
+}
+
+TBaluSceneInstance::~TBaluSceneInstance()
+{
+	//g_debugDraw.Destroy();
 }
 
 TBaluSceneInstance::TBaluSceneInstance(TBaluSceneInstance&& right)
@@ -227,7 +232,7 @@ void TBaluSceneInstance::DebugDraw()
 	flags |= b2Draw::e_jointBit;
 	//flags |= b2Draw::e_aabbBit;
 	flags |= b2Draw::e_centerOfMassBit;
-	phys_debug.SetFlags(flags);
+	//phys_debug.SetFlags(flags);
 
 	//phys_world->DrawDebugData();
 	//phys_debug.Flush();

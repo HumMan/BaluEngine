@@ -7,6 +7,7 @@
 class NVGcontext;
 
 BALUENGINEDLL_API void nanovg_init();
+BALUENGINEDLL_API void nanovg_deinit();
 BALUENGINEDLL_API NVGcontext* GetContext();
 //void render_test();
 

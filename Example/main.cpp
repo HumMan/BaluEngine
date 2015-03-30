@@ -72,7 +72,14 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	director->SetSymulatePhysics(true);
 	director->MainLoop();
 
-	//_CrtDumpMemoryLeaks();
+	DestroySceneEditor(scene_editor);
+
+	DestroyWorldInstance(demo_world_instance);
+	DestroyWorld(demo_world);
+	DestroyDirector(director);
+	
+
+	_CrtDumpMemoryLeaks();
 
 	return 0;
 }

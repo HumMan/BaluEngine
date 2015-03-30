@@ -14,7 +14,7 @@ private:
 
 	std::unique_ptr<b2World> phys_world;
 
-	DebugDraw phys_debug;
+	//DebugDraw phys_debug;
 
 	TBaluScene* source;
 	std::vector<std::unique_ptr<TBaluInstance>> instances;
@@ -52,6 +52,7 @@ public:
 
 	TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* source, TResources* resources);
 	TBaluSceneInstance(TBaluSceneInstance&& right);
+	~TBaluSceneInstance();
 
 	TBaluInstance* CreateInstance(TBaluClass* use_class, TBaluTransform transform, TVec2 scale);
 	EngineInterface::IBaluInstance* CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform, TVec2 scale);

@@ -93,7 +93,7 @@ namespace EngineInterface
 			"func GetProperties:IProperties;\n"
 			"func GetPhysBody:IPhysBodyInstance;\n"
 			"}\n",
-			sizeof(IBaluClassPhysBodyIntance*));
+			sizeof(IBaluInstance*));
 		RegisterMethod(params, scl, "GetProperties", IBaluInstance_GetProperties);
 		RegisterMethod(params, scl, "GetPhysBody", IBaluInstance_GetPhysBody);
 	}

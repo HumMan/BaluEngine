@@ -156,7 +156,7 @@ void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* w
 
 
 char* PlayerJump_source = //(IBaluInstance object)
-"	if (object.GetProperties().GetBool(\"can_jump\"))\n"
+"	//if (object.GetProperties().GetBool(\"can_jump\"))\n"
 "	{\n"
 "		vec2 speed = object.GetPhysBody().GetLinearVelocity();\n"
 "		speed.y = 4;\n"
@@ -166,9 +166,7 @@ char* PlayerJump_source = //(IBaluInstance object)
 char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
 "	vec2 k = vec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
 "	IViewport main_viewport = director.GetWorldInstance().GetSceneInstance(0).GetSource().FindViewport(\"main_viewport\");\n"
-"	main_viewport.SetSize(k);\n"
 "	vec2 old_vieport_size = main_viewport.GetSize();\n"
-"	main_viewport.SetSize(old_vieport_size);\n"
 "	vec2 new_vieport_size = old_vieport_size*k;\n"
 "	main_viewport.SetSize(new_vieport_size);\n";
 
