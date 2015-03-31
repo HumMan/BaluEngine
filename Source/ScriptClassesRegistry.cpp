@@ -8,7 +8,7 @@
 #include "../Source/Syntax/Method.h"
 #include "../Source/semanticAnalyzer.h"
 
-std::vector < std::pair<const char*, RegisterScriptClass>> script_class_registry;
+static std::vector < std::pair<const char*, RegisterScriptClass>> script_class_registry;
 
 TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size)
 {
@@ -34,6 +34,8 @@ TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, i
 
 	return scl;
 }
+
+
 
 TSClass* RegisterClass(TClassRegistryParams& params, const char* source)
 {
@@ -78,6 +80,67 @@ void RegisterMethod(TClassRegistryParams& params, TSClass* class_syntax, const c
 	m[0]->SetAsExternal(func);
 }
 
+
+
+void RegisterMethod2(TClassRegistryParams& params, TSClass* class_syntax, Unpacker* method)
+{
+	std::vector<TSMethod*> m;
+	auto& syntax = params.syntax;
+	m.clear();
+	class_syntax->GetMethods(m, syntax->lexer.GetIdFromName(method->GetFuncName()));
+	m[0]->SetAsExternal(method->GetUnpackMethod());
+}
+
+std::string BuildExternClassSource(const char* name, std::vector<Unpacker*> methods)
+{
+	std::string result;
+	result += (std::string("class extern ") + name + "\n{\n");
+	for (auto& v : methods)
+	{
+		result += v->GetSyntax() + "\n";
+	}
+	result += "\n}\n";
+	return result;
+}
+
+TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, int size, std::vector<Unpacker*> methods)
+{
+	std::string source = BuildExternClassSource(name, methods);
+
+	auto& syntax = params.syntax;
+	TClass* cl = new TClass(syntax->base_class.get());
+	syntax->base_class->AddNested(cl);
+	syntax->lexer.ParseSource(source.c_str());
+	cl->AnalyzeSyntax(syntax->lexer);
+	syntax->lexer.GetToken(TTokenType::Done);
+
+	TSClass* scl = new TSClass(syntax->sem_base_class.get(), cl);
+	syntax->sem_base_class->AddClass(scl);
+	scl->Build();
+
+	scl->SetSize(IntSizeOf(size) / sizeof(int));
+	scl->SetAutoMethodsInitialized();
+
+	std::vector<TSClassField*> static_fields;
+	std::vector<TSLocalVar*> static_variables;
+
+	scl->LinkSignature(&static_fields, &static_variables);
+	scl->CalculateMethodsSizes();
+
+	for (auto& v : methods)
+	{
+		RegisterMethod2(params, scl, v);
+	}
+
+	return scl;
+}
+
+Unpacker* SetName(const char* name, Unpacker* method)
+{
+	method->SetFuncName(name);
+	return method;
+}
+
 bool TScriptClassesRegistry::Register(const char* name, RegisterScriptClass reg)
 {
 	script_class_registry.push_back(std::pair<const char*, RegisterScriptClass>(name, reg));
@@ -92,6 +155,7 @@ void TScriptClassesRegistry::RegisterClassesInScript(TClassRegistryParams& param
 	}
 }
 
-#define BALU_ENGINE_SCRIPT_CLASSES
 
-#include "EngineInterfacesIncludes.h"
+//#define BALU_ENGINE_SCRIPT_CLASSES
+//
+//#include "EngineInterfacesIncludes.h"

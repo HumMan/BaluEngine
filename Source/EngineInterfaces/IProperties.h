@@ -45,6 +45,10 @@ namespace EngineInterface
 	class IProperties
 	{
 	public:
+		static const char* GetScriptClassName()
+		{
+			return "IProperties";
+		}
 		virtual bool HasProperty(const std::string& name, PropertyType& type) = 0;
 		virtual void SetBool(const std::string& name, bool value) = 0;
 		virtual bool GetBool(const std::string& name) = 0;

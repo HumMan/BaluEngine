@@ -259,6 +259,9 @@
     <ClInclude Include="Source\Resources.h">
       <Filter>Definitions</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CppToBaluScriptBinding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -412,6 +415,9 @@
       <Filter>Definitions</Filter>
     </ClCompile>
     <ClCompile Include="Source\ScriptClassesRegistry.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GenerateCppToBaluScript.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>

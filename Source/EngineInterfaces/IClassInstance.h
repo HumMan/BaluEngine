@@ -14,6 +14,10 @@ namespace EngineInterface
 	class IBaluClassPhysBodyIntance
 	{
 	public:
+		static const char* GetScriptClassName()
+		{
+			return "IPhysBodyInstance";
+		}
 		virtual TVec2 GetLinearVelocity() = 0;
 		virtual void SetLinearVelocity(TVec2 velocity) = 0;
 	};
@@ -59,6 +63,10 @@ namespace EngineInterface
 	class IBaluInstance
 	{
 	public:
+		std::string GetScriptClassName()
+		{
+			return "IInstance";
+		}
 		virtual void UpdateTranform() = 0;
 		virtual TOBB2 GetOBB()=0;
 		virtual IBaluClass* GetClass()=0;
@@ -74,29 +82,21 @@ namespace EngineInterface
 	};
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
-
-	void IBaluInstance_GetProperties(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	template<class T>
+	class WrapPointer
 	{
-		*result.get_as<IProperties*>() = (*object.get_as<IBaluInstance*>())->GetProperties();
-	}
+	public:
+		typedef T Arg;
+		T* obj;
+		WrapPointer(T* copy_from)
+		{
+			obj = copy_from;
+		}
+		T& GetValue()
+		{
+			return *obj;
+		}
+	};
 
-	void IBaluInstance_GetPhysBody(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
-	{
-		*result.get_as<IBaluClassPhysBodyIntance*>() = (*object.get_as<IBaluInstance*>())->GetPhysBody();
-	}
-
-	void IBaluInstance_register(TClassRegistryParams& params)
-	{
-		auto scl = RegisterExternClass(params,
-			"class extern IClassInstance\n"
-			"{\n"
-			"func GetProperties:IProperties;\n"
-			"func GetPhysBody:IPhysBodyInstance;\n"
-			"}\n",
-			sizeof(IBaluInstance*));
-		RegisterMethod(params, scl, "GetProperties", IBaluInstance_GetProperties);
-		RegisterMethod(params, scl, "GetPhysBody", IBaluInstance_GetPhysBody);
-	}
-	static bool IBaluInstance_registered = TScriptClassesRegistry::Register("IClassInstance", IBaluInstance_register);
 #endif
 }

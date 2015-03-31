@@ -1,6 +1,24 @@
 #pragma once
 
-#include "baluScript.h"
+#include <baluScript.h>
+
+class Unpacker
+{
+protected:
+	const char* func_name;
+public:
+	
+	virtual TExternalSMethod GetUnpackMethod() = 0;
+	virtual std::string GetSyntax() = 0;
+	const char* GetFuncName()
+	{
+		return func_name;
+	}
+	void SetFuncName(const char* func_name)
+	{
+		this->func_name = func_name;
+	}
+};
 
 class TClassRegistryParams
 {
@@ -15,6 +33,10 @@ typedef void(*RegisterScriptClass)(TClassRegistryParams& params);
 TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size);
 TSClass* RegisterClass(TClassRegistryParams& params, const char* source);
 void RegisterMethod(TClassRegistryParams& params, TSClass* class_syntax, const char* name, TExternalSMethod func);
+
+void RegisterMethod2(TClassRegistryParams& params, TSClass* class_syntax, Unpacker* method);
+TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, int size, std::vector<Unpacker*> methods);
+Unpacker* SetName(const char* name, Unpacker* method);
 
 class TScriptClassesRegistry
 {

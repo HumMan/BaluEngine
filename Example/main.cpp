@@ -23,8 +23,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
-	
-
 	director = CreateDirector();
 
 	auto base_path = director->GetBasePath();
@@ -70,6 +68,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	director->SetWorldInstance(demo_world_instance);
 
 	director->SetSymulatePhysics(true);
+
 	director->MainLoop();
 
 	DestroySceneEditor(scene_editor);
