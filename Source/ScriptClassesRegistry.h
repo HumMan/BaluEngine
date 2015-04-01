@@ -43,4 +43,5 @@ class TScriptClassesRegistry
 public:
 	static bool Register(const char* name, RegisterScriptClass reg);
 	static void RegisterClassesInScript(TClassRegistryParams& params);
+	static void Clear();
 };

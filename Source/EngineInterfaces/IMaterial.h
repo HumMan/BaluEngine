@@ -121,12 +121,12 @@ namespace EngineInterface
 
 	void IViewport_GetSize(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		*result.get_as<TVec2>() = (*object.get_as<IViewport*>())->GetSize();
+		result.get_as<TVec2>() = object.get_as<IViewport*>()->GetSize();
 	}
 
 	void IViewport_SetSize(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(*object.get_as<IViewport*>())->SetSize(*(formal_params[0].get_as<TVec2>()));
+		object.get_as<IViewport*>()->SetSize(formal_params[0].get_as<TVec2>());
 	}
 
 	void IViewport_register(TClassRegistryParams& params)

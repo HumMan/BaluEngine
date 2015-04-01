@@ -30,7 +30,7 @@ namespace EngineInterface
 
 	void IBaluWorldInstance_GetSceneInstance(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		*result.get_as<IBaluSceneInstance*>() = (*object.get_as<IBaluWorldInstance*>())->GetSceneInstance(*formal_params[0].get_as<int>());
+		result.get_as<IBaluSceneInstance*>() = object.get_as<IBaluWorldInstance*>()->GetSceneInstance(formal_params[0].get_as<int>());
 	}
 
 	void IWorldInstance_register(TClassRegistryParams& params)

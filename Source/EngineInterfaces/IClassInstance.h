@@ -24,17 +24,18 @@ namespace EngineInterface
 
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
+	
+	DECL_SCRIPT_TYPE(IBaluClassPhysBodyIntance, "IPhysBodyInstance");
 
 	void IBaluClassPhysBodyIntance_GetLinearVelocity(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		*result.get_as<TVec2>()=(*object.get_as<IBaluClassPhysBodyIntance*>())->GetLinearVelocity();
+		result.get_as<TVec2>()=object.get_as<IBaluClassPhysBodyIntance*>()->GetLinearVelocity();
 	}
 
 	void IBaluClassPhysBodyIntance_SetLinearVelocity(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(*object.get_as<IBaluClassPhysBodyIntance*>())->SetLinearVelocity(
-			*formal_params[0].get_as<TVec2>()
-			);
+		(object.get_as<IBaluClassPhysBodyIntance*>())->SetLinearVelocity(
+			formal_params[0].get_as<TVec2>());
 	}
 
 	void IBaluClassPhysBodyIntance_register(TClassRegistryParams& params)

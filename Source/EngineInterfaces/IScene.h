@@ -47,7 +47,7 @@ namespace EngineInterface
 
 	void IBaluScene_FindViewport(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		*result.get_as<IViewport*>() = (*object.get_as<IBaluScene*>())->FindViewport(*(formal_params[0].get_as<TString>()->v));
+		result.get_as<IViewport*>() = object.get_as<IBaluScene*>()->FindViewport(*formal_params[0].get_as<TString>().v);
 	}
 
 	void IBaluScene_register(TClassRegistryParams& params)

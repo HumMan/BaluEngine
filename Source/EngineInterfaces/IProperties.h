@@ -59,18 +59,20 @@ namespace EngineInterface
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 
+	DECL_SCRIPT_TYPE(IProperties, "IProperties");
+
 	void IProperties_HasProperty(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
 		auto obj = (object.get_as<IProperties*>());
 		auto name = *(((TString*)formal_params[0].get())->v);
 		auto type = *((PropertyType*)formal_params[1].get());
-		*(bool*)result.get() = (*obj)->HasProperty(name, type);
+		*(bool*)result.get() = obj->HasProperty(name, type);
 	}
 	void IProperties_GetBool(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
 		auto obj = (object.get_as<IProperties*>());
 		auto name = *(((TString*)formal_params[0].get())->v);
-		*(bool*)result.get() = (*obj)->GetBool(name);
+		*(bool*)result.get() = obj->GetBool(name);
 	}
 
 	void IProperties_register(TClassRegistryParams& params)

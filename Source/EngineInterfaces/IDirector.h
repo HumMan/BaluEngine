@@ -43,7 +43,7 @@ namespace EngineInterface
 
 	void IDirector_GetWorldInstance(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		*result.get_as<IBaluWorldInstance*>() = (*object.get_as<IDirector*>())->GetWorldInstance();
+		result.get_as<IBaluWorldInstance*>() = object.get_as<IDirector*>()->GetWorldInstance();
 	}
 
 	void IDirector_register(TClassRegistryParams& params)

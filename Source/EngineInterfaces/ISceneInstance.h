@@ -26,7 +26,7 @@ namespace EngineInterface
 
 	void IBaluSceneInstance_GetSource(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		*result.get_as<IBaluScene*>() = (*object.get_as<IBaluSceneInstance*>())->GetSource();
+		result.get_as<IBaluScene*>() = object.get_as<IBaluSceneInstance*>()->GetSource();
 	}
 
 	void IBaluSceneInstance_register(TClassRegistryParams& params)

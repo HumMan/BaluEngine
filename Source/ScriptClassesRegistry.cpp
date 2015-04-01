@@ -13,8 +13,8 @@
 
 std::vector < std::pair<const char*, RegisterScriptClass>>& get_script_class_registry()
 {
-	static std::vector < std::pair<const char*, RegisterScriptClass>> *script_class_registry = new std::vector < std::pair<const char*, RegisterScriptClass>>();
-	return *script_class_registry;
+	static std::vector < std::pair<const char*, RegisterScriptClass>> script_class_registry;// = new std::vector < std::pair<const char*, RegisterScriptClass>>();
+	return script_class_registry;
 }
 
 TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size)
@@ -162,7 +162,7 @@ void TScriptClassesRegistry::RegisterClassesInScript(TClassRegistryParams& param
 	}
 }
 
-
-//#define BALU_ENGINE_SCRIPT_CLASSES
-//
-//#include "EngineInterfacesIncludes.h"
+void TScriptClassesRegistry::Clear()
+{
+	//TODO
+}
