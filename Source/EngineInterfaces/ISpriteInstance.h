@@ -16,4 +16,10 @@ namespace EngineInterface
 		virtual TVec2 GetScale() = 0;
 		virtual IBaluSpritePolygonInstance* GetPolygon() = 0;
 	};
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+
+	DECL_SCRIPT_TYPE(IBaluSpriteInstance, "ISpriteInstance");
+
+#endif
 }

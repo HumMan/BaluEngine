@@ -49,42 +49,27 @@ struct CppTypeToScript < cpp_class >\
 	}\
 };
 
-#define MUnpackRp(ret_type, interface_type, method_name) methods.push_back(SetName(#method_name, new UnpackR<WrapPointer<ret_type>, ret_type*, WrapPointer<interface_type>, &interface_type::method_name>));
 
-template<class Tresult_type, class TCppResult, class Tobject_type, TCppResult(Tobject_type::Arg::*CppMethod)()>
-class UnpackR : public Unpacker
-{
-public:
-	std::string GetSyntax()
-	{
-		char buf[255];
-		sprintf_s(buf, "func %s:%s;", func_name, CppTypeToScript<Tresult_type::Arg>::Get());
-		return buf;
-	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
-	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)());
+#include "../BindingMacroGenerator/UnpackTemplates.h"
 
-	}
-	TExternalSMethod GetUnpackMethod()
-	{
-		return Run;
-	}
-};
 //
-//template<class Tresult_type, class TCppResult, class Tobject_type, class Ta0, class Ta0_cpp, TCppResult(Tobject_type::Arg::*CppMethod)(Ta0_cpp)>
-//class UnpackRA1 : public Unpacker
+//#define MUnpackRp(ret_type, interface_type, method_name) \
+//methods.push_back(SetName(#method_name, new UnpackR<WrapPointer<ret_type>, ret_type*, WrapPointer<interface_type>\
+//,&interface_type::method_name>));
+//
+//template<class Tresult_type, class TCppResult, class Tobject_type, TCppResult(Tobject_type::Arg::*CppMethod)()>
+//class UnpackR : public Unpacker
 //{
 //public:
 //	std::string GetSyntax()
 //	{
 //		char buf[255];
-//		sprintf_s(buf, "func %s(%s a0):%s;", func_name, Tresult_type::Arg::GetScriptClassName());
+//		sprintf_s(buf, "func %s:%s;", func_name, CppTypeToScript<Tresult_type::Arg>::Get());
 //		return buf;
 //	}
 //	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 //	{
-//		//result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)());
+//		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)());
 //
 //	}
 //	TExternalSMethod GetUnpackMethod()
@@ -93,6 +78,34 @@ public:
 //	}
 //};
 //
+//template<class Tresult_type, class TCppResult, class Tobject_type
+//	, class Ta0, class Ta0_cpp
+//	, TCppResult(Tobject_type::Arg::*CppMethod)(Ta0_cpp)>
+//class UnpackRA1 : public Unpacker
+//{
+//public:
+//	std::string GetSyntax()
+//	{
+//		char buf[255];
+//		sprintf_s(buf, "func %s(%s a0):%s;", func_name
+//			, CppTypeToScript<Ta0::Arg>::Get()
+//			, CppTypeToScript<Tresult_type::Arg>::Get()
+//			);
+//		return buf;
+//	}
+//	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+//	{		
+//		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+//			(
+//			formal_params[0].get_as<Ta0>().GetCppValue()
+//			));
+//	}
+//	TExternalSMethod GetUnpackMethod()
+//	{
+//		return Run;
+//	}
+//};
+
 //template<class Tobject_type, void (Tobject_type::*SomeMethod)(), class Targ0>
 //class UnpackA1 : public Unpacker
 //{

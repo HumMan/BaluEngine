@@ -1,6 +1,11 @@
 #include "ScriptClassesRegistry.h"
 #include "CppToBaluScriptBinding.h"
 
+namespace EngineInterface
+{
+	DECL_SCRIPT_TYPE(int, "int");
+}
+
 //generate script bindings
 #define BALU_ENGINE_SCRIPT_CLASSES
 
@@ -13,11 +18,7 @@ void IBaluInstance_register(TClassRegistryParams& params)
 	std::vector<Unpacker*> methods;
 	MUnpackRp(IProperties, IBaluInstance, GetProperties);
 	MUnpackRp(IBaluClassPhysBodyIntance, IBaluInstance, GetPhysBody);
-	//methods.push_back(SetName("GetProperties", new UnpackR<WrapPointer<IProperties>, IProperties*, WrapPointer<IBaluInstance>, &IBaluInstance::GetProperties>));
-	//methods.push_back(SetName("GetPhysBody", new UnpackR<WrapPointer<IBaluClassPhysBodyIntance>, IBaluClassPhysBodyIntance*, WrapPointer<IBaluInstance>, &IBaluInstance::GetPhysBody>));
-
-	//methods.push_back(SetName("GetPhysBody", new UnpackRA1<WrapPointer<IBaluSpriteInstance>, IBaluSpriteInstance*, WrapPointer<IBaluInstance>, WrapValue<int>, int, &IBaluInstance::GetSprite >));
-	//IBaluSpriteInstance* GetSprite(int index)
+	MUnpackRpv(IBaluSpriteInstance, IBaluInstance, GetSprite, int);
 
 	auto scl = RegisterExternClass2(params, "IClassInstance", sizeof(WrapPointer<IBaluInstance>), methods);
 }
