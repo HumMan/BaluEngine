@@ -8,7 +8,14 @@
 #include "../Source/Syntax/Method.h"
 #include "../Source/semanticAnalyzer.h"
 
-static std::vector < std::pair<const char*, RegisterScriptClass>> script_class_registry;
+//std::vector < std::pair<const char*, RegisterScriptClass>> script_class_registry;
+
+
+std::vector < std::pair<const char*, RegisterScriptClass>>& get_script_class_registry()
+{
+	static std::vector < std::pair<const char*, RegisterScriptClass>> *script_class_registry = new std::vector < std::pair<const char*, RegisterScriptClass>>();
+	return *script_class_registry;
+}
 
 TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size)
 {
@@ -143,15 +150,15 @@ Unpacker* SetName(const char* name, Unpacker* method)
 
 bool TScriptClassesRegistry::Register(const char* name, RegisterScriptClass reg)
 {
-	script_class_registry.push_back(std::pair<const char*, RegisterScriptClass>(name, reg));
+	get_script_class_registry().push_back(std::pair<const char*, RegisterScriptClass>(name, reg));
 	return true;
 }
 
 void TScriptClassesRegistry::RegisterClassesInScript(TClassRegistryParams& params)
 {
-	for (int i = 0; i < script_class_registry.size(); i++)
+	for (int i = 0; i < get_script_class_registry().size(); i++)
 	{
-		script_class_registry[i].second(params);
+		get_script_class_registry()[i].second(params);
 	}
 }
 

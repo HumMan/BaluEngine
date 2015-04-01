@@ -1,5 +1,21 @@
 #pragma once
 
+template<class T>
+class WrapPointer
+{
+public:
+	typedef T Arg;
+	T* obj;
+	WrapPointer(T* copy_from)
+	{
+		obj = copy_from;
+	}
+	T& GetValue()
+	{
+		return *obj;
+	}
+};
+
 template<class Tresult_type, class Tobject_type, Tresult_type* (Tobject_type::Arg::*SomeMethod)()>
 class UnpackR : public Unpacker
 {

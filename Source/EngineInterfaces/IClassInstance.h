@@ -82,21 +82,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
-	template<class T>
-	class WrapPointer
-	{
-	public:
-		typedef T Arg;
-		T* obj;
-		WrapPointer(T* copy_from)
-		{
-			obj = copy_from;
-		}
-		T& GetValue()
-		{
-			return *obj;
-		}
-	};
+	
 
 #endif
 }
