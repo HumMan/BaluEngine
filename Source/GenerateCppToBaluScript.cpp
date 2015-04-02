@@ -5,6 +5,7 @@ namespace EngineInterface
 {
 	DECL_SCRIPT_TYPE(int, "int");
 	DECL_SCRIPT_TYPE(float, "float");
+	DECL_SCRIPT_TYPE(bool, "bool");
 	DECL_SCRIPT_TYPE(TVec2, "vec2");
 	DECL_SCRIPT_TYPE(TVec2i, "vec2i");
 	DECL_SCRIPT_TYPE(string, "string");

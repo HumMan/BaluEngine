@@ -89,6 +89,7 @@
     <ClInclude Include="..\poly2tri\poly2tri\sweep\cdt.h" />
     <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep.h" />
     <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep_context.h" />
+    <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h" />
     <ClInclude Include="Source\Class.h" />
     <ClInclude Include="Source\ClassInstance.h" />
     <ClInclude Include="Source\CppToBaluScriptBinding.h" />

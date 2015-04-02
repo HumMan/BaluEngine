@@ -1,4 +1,5 @@
 
+
 #include <string>
 #include <vector>
 
@@ -102,7 +103,7 @@ std::string GenerateUnpackConstructorMacro(int params_count)
 		result += ", param" + IntToStr(i) + "_wrapper\\\n";
 	}
 	result += ")\\\n";
-	result += "methods.push_back(SetName(#method_name, new ";
+	result += "methods.push_back(SetAsConstructor(new ";
 
 	result += std::string("UnpackConstructor") +
 		"A" + IntToStr(params_count);
@@ -323,7 +324,7 @@ std::string GenerateTemplateConstructorClass(int params_count)
 		"	std::string GetSyntax()\n"
 		"	{\n"
 		"		char buf[255];\n";
-	result += "			sprintf_s(buf, \"" + GetScriptConstrFunc(params_count) + "\", func_name\n";
+	result += "			sprintf_s(buf, \"" + GetScriptConstrFunc(params_count) + "\"\n";
 	for (int i = 0; i < params_count; i++)
 	{
 		result += "			, EngineInterface::CppTypeToScript<Ta" + IntToStr(i) + "::TypeForGetName>::Get()\n";

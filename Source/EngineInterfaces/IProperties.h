@@ -26,6 +26,8 @@ namespace EngineInterface
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 
+	DECL_SCRIPT_TYPE(PropertyType, "PropertyType");
+
 	void PropertyType_register(TClassRegistryParams& params)
 	{
 		auto scl = RegisterClass(params,
@@ -45,10 +47,6 @@ namespace EngineInterface
 	class IProperties
 	{
 	public:
-		static const char* GetScriptClassName()
-		{
-			return "IProperties";
-		}
 		virtual bool HasProperty(const std::string& name, PropertyType& type) = 0;
 		virtual void SetBool(const std::string& name, bool value) = 0;
 		virtual bool GetBool(const std::string& name) = 0;
@@ -56,10 +54,14 @@ namespace EngineInterface
 		virtual IBaluSceneClassInstance* GetSceneClassInstance(const std::string& name) = 0;
 	};
 
-
+#ifdef BALU_ENGINE_SCRIPT_CLASSES	
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IProperties, "IProperties");
+	MUnpackRA2(WrapValue<bool>, TYPE, HasProperty, TStringWrapper<std::string>, WrapValue<PropertyType>);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IProperties>);
+#endif
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 
-	DECL_SCRIPT_TYPE(IProperties, "IProperties");
+//	DECL_SCRIPT_TYPE(IProperties, "IProperties");
 
 	//void IProperties_HasProperty(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	//{

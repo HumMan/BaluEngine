@@ -94,8 +94,16 @@ void RegisterMethod2(TClassRegistryParams& params, TSClass* class_syntax, Unpack
 	std::vector<TSMethod*> m;
 	auto& syntax = params.syntax;
 	m.clear();
-	class_syntax->GetMethods(m, syntax->lexer.GetIdFromName(method->GetFuncName()));
-	m[0]->SetAsExternal(method->GetUnpackMethod());
+	if (method->IsConstructor())
+	{
+		class_syntax->GetCopyConstructors(m);
+		m[0]->SetAsExternal(method->GetUnpackMethod());
+	}
+	else
+	{
+		class_syntax->GetMethods(m, syntax->lexer.GetIdFromName(method->GetFuncName()));
+		m[0]->SetAsExternal(method->GetUnpackMethod());
+	}
 }
 
 std::string BuildExternClassSource(const char* name, std::vector<Unpacker*> methods)
@@ -145,6 +153,12 @@ TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, in
 Unpacker* SetName(const char* name, Unpacker* method)
 {
 	method->SetFuncName(name);
+	return method;
+}
+
+Unpacker* SetAsConstructor(Unpacker* method)
+{
+	method->SetAsConstructor();
 	return method;
 }
 

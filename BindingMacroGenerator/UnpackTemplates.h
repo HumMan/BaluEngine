@@ -2,7 +2,7 @@
 
 #define MUnpackConstrA0(interface_wrapper,  method_name \
 )\
-methods.push_back(SetName(#method_name, new UnpackConstructorA0<interface_wrapper\
+methods.push_back(SetAsConstructor(new UnpackConstructorA0<interface_wrapper\
 >));
 #define MUnpackRA0(ret_wrapper, interface_wrapper, method_name \
 )\
@@ -30,7 +30,7 @@ public:
 	std::string GetSyntax()
 	{
 		char buf[255];
-			sprintf_s(buf, "default;", func_name
+			sprintf_s(buf, "default;"
 		);
 		return buf;
 	}
@@ -143,7 +143,7 @@ public:
 #define MUnpackConstrA1(interface_wrapper,  method_name \
 , param0_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackConstructorA1<interface_wrapper\
+methods.push_back(SetAsConstructor(new UnpackConstructorA1<interface_wrapper\
 , param0_wrapper, param0_wrapper::Arg\
 >));
 #define MUnpackRA1(ret_wrapper, interface_wrapper, method_name \
@@ -181,7 +181,7 @@ public:
 	std::string GetSyntax()
 	{
 		char buf[255];
-			sprintf_s(buf, "copy(%s a0);", func_name
+			sprintf_s(buf, "copy(%s a0);"
 			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
 		);
 		return buf;
@@ -309,7 +309,7 @@ public:
 , param0_wrapper\
 , param1_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackConstructorA2<interface_wrapper\
+methods.push_back(SetAsConstructor(new UnpackConstructorA2<interface_wrapper\
 , param0_wrapper, param0_wrapper::Arg\
 , param1_wrapper, param1_wrapper::Arg\
 >));
@@ -320,7 +320,7 @@ methods.push_back(SetName(#method_name, new UnpackConstructorA2<interface_wrappe
 methods.push_back(SetName(#method_name, new UnpackRA2<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
 , param0_wrapper, param0_wrapper::Arg\
 , param1_wrapper, param1_wrapper::Arg\
-, &interface_wrapper::InterfaceType::method_name>));
+, decltype(interface_wrapper::InterfaceType::method_name)>));
 #define MUnpackA2(interface_wrapper,  method_name \
 , param0_wrapper\
 , param1_wrapper\
@@ -357,7 +357,7 @@ public:
 	std::string GetSyntax()
 	{
 		char buf[255];
-			sprintf_s(buf, "copy(%s a0, %s a1);", func_name
+			sprintf_s(buf, "copy(%s a0, %s a1);"
 			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
 			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
 		);
@@ -379,7 +379,8 @@ public:
 template<class Tresult_type, class TCppResult, class Tobject_type
 , class Ta0, class Ta0_cpp
 , class Ta1, class Ta1_cpp
- , TCppResult(Tobject_type::InterfaceType::*CppMethod)(Ta0_cpp, Ta1_cpp)>
+ //, TCppResult(Tobject_type::InterfaceType::*CppMethod)(const Ta0_cpp&, Ta1_cpp&)>
+ , typename CppMethod>
 class UnpackRA2 : public Unpacker
 {
 public:
@@ -395,11 +396,12 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
-		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue()
-		));
+		CppMethod();
+		//result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		//(
+		//	formal_params[0].get_as<Ta0>().GetCppValue(), 
+		//	formal_params[1].get_as<Ta1>().GetCppValue()
+		//));
 	}
 	TExternalSMethod GetUnpackMethod()
 	{		return Run;
@@ -500,7 +502,7 @@ public:
 , param1_wrapper\
 , param2_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackConstructorA3<interface_wrapper\
+methods.push_back(SetAsConstructor(new UnpackConstructorA3<interface_wrapper\
 , param0_wrapper, param0_wrapper::Arg\
 , param1_wrapper, param1_wrapper::Arg\
 , param2_wrapper, param2_wrapper::Arg\
@@ -558,7 +560,7 @@ public:
 	std::string GetSyntax()
 	{
 		char buf[255];
-			sprintf_s(buf, "copy(%s a0, %s a1, %s a2);", func_name
+			sprintf_s(buf, "copy(%s a0, %s a1, %s a2);"
 			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
 			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
 			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
@@ -716,7 +718,7 @@ public:
 , param2_wrapper\
 , param3_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackConstructorA4<interface_wrapper\
+methods.push_back(SetAsConstructor(new UnpackConstructorA4<interface_wrapper\
 , param0_wrapper, param0_wrapper::Arg\
 , param1_wrapper, param1_wrapper::Arg\
 , param2_wrapper, param2_wrapper::Arg\
@@ -784,7 +786,7 @@ public:
 	std::string GetSyntax()
 	{
 		char buf[255];
-			sprintf_s(buf, "copy(%s a0, %s a1, %s a2, %s a3);", func_name
+			sprintf_s(buf, "copy(%s a0, %s a1, %s a2, %s a3);"
 			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
 			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
 			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
@@ -957,7 +959,7 @@ public:
 , param3_wrapper\
 , param4_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackConstructorA5<interface_wrapper\
+methods.push_back(SetAsConstructor(new UnpackConstructorA5<interface_wrapper\
 , param0_wrapper, param0_wrapper::Arg\
 , param1_wrapper, param1_wrapper::Arg\
 , param2_wrapper, param2_wrapper::Arg\
@@ -1035,7 +1037,7 @@ public:
 	std::string GetSyntax()
 	{
 		char buf[255];
-			sprintf_s(buf, "copy(%s a0, %s a1, %s a2, %s a3, %s a4);", func_name
+			sprintf_s(buf, "copy(%s a0, %s a1, %s a2, %s a3, %s a4);"
 			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
 			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
 			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()

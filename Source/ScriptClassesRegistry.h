@@ -6,8 +6,13 @@ class Unpacker
 {
 protected:
 	const char* func_name;
+	bool is_constructor;
 public:
-	
+	Unpacker()
+	{
+		func_name = nullptr;
+		is_constructor = false;
+	}
 	virtual TExternalSMethod GetUnpackMethod() = 0;
 	virtual std::string GetSyntax() = 0;
 	const char* GetFuncName()
@@ -17,6 +22,14 @@ public:
 	void SetFuncName(const char* func_name)
 	{
 		this->func_name = func_name;
+	}
+	void SetAsConstructor()
+	{
+		is_constructor = true;
+	}
+	bool IsConstructor()
+	{
+		return is_constructor;
 	}
 };
 
@@ -37,6 +50,7 @@ void RegisterMethod(TClassRegistryParams& params, TSClass* class_syntax, const c
 void RegisterMethod2(TClassRegistryParams& params, TSClass* class_syntax, Unpacker* method);
 TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, int size, std::vector<Unpacker*> methods);
 Unpacker* SetName(const char* name, Unpacker* method);
+Unpacker* SetAsConstructor(Unpacker* method);
 
 class TScriptClassesRegistry
 {
