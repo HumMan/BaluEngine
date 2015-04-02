@@ -8,6 +8,8 @@
 
 #include "EngineInterfaces\IAnimationFrames.h"
 
+using namespace EngineInterface;
+
 namespace pugi
 {
 	class xml_node;

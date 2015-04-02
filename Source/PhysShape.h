@@ -4,6 +4,8 @@
 
 #include <Box2D.h>
 
+using namespace EngineInterface;
+
 class TBaluPhysShape: public EngineInterface::IBaluPhysShape
 {
 protected:

@@ -7,104 +7,117 @@
 #include <string>
 
 #include "IProperties.h"
-
-struct TRot
-{
-	TRot() {}
-	TRot(float s, float c)
-	{
-		this->s = s;
-		this->c = c;
-	}
-	explicit TRot(float angle)
-	{
-		Set(angle);
-	}
-	explicit TRot(const TOBB2& box)
-	{
-		c = box.orient[0][0];
-		s = box.orient[0][1];
-	}
-	void Set(float angle)
-	{
-		s = sinf(angle);
-		c = cosf(angle);
-	}
-	void SetIdentity()
-	{
-		s = 0.0f;
-		c = 1.0f;
-	}
-	float GetAngle() const
-	{
-		return atan2(s, c);
-	}
-	TVec2 GetXAxis() const
-	{
-		return TVec2(c, s);
-	}
-	TVec2 GetYAxis() const
-	{
-		return TVec2(-s, c);
-	}
-	float s, c;
-};
-
-class TBaluTransform
-{
-public:
-	TVec2 position;
-	TRot angle;
-	TBaluTransform()
-	{
-		position = TVec2(0, 0);
-		angle = TRot(0);
-	}
-	TBaluTransform(TVec2 position, TRot angle)
-	{
-		this->position = position;
-		this->angle = angle;
-	}
-	TMatrix2 GetOrientation()
-	{
-		return TMatrix2(angle.GetXAxis(), angle.GetYAxis());
-	}
-	TVec2 ToGlobal(TVec2 p)
-	{
-		return GetOrientation()*p + position;
-	}
-	TVec2 ToLocal(TVec2 p)
-	{
-		return GetOrientation().TransMul((p-position));
-	}
-
-	TOBB2 ToGlobal(TOBB2 box)
-	{
-		//TODO
-		return TOBB2(box.pos+position, GetOrientation()*box.orient, box.local);
-	}
-	TOBB2 ToGlobal(TAABB2 box)
-	{
-		//TODO
-		return TOBB2(position, GetOrientation(), box);
-	}
-	TBaluTransform ToGlobal(TBaluTransform local)
-	{
-		TBaluTransform global;
-		global.position = position + GetOrientation()*local.position;
-		global.angle = TRot(angle.GetAngle() + local.angle.GetAngle());
-		return global;
-	}
-};
-
-inline TVec2 Transform(TVec2 vertex, TVec2 scale, TBaluTransform transform)
-{
-	return transform.ToGlobal((vertex).ComponentMul(scale));
-}
-
-
 namespace EngineInterface
 {
+
+	struct TRot
+	{
+		TRot() {}
+		TRot(float s, float c)
+		{
+			this->s = s;
+			this->c = c;
+		}
+		explicit TRot(float angle)
+		{
+			Set(angle);
+		}
+		explicit TRot(const TOBB2& box)
+		{
+			c = box.orient[0][0];
+			s = box.orient[0][1];
+		}
+		void Set(float angle)
+		{
+			s = sinf(angle);
+			c = cosf(angle);
+		}
+		void SetIdentity()
+		{
+			s = 0.0f;
+			c = 1.0f;
+		}
+		float GetAngle() const
+		{
+			return atan2(s, c);
+		}
+		TVec2 GetXAxis() const
+		{
+			return TVec2(c, s);
+		}
+		TVec2 GetYAxis() const
+		{
+			return TVec2(-s, c);
+		}
+		float s, c;
+	};
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES	
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapValue, TRot, "TRot");
+	MUnpackA1(TYPE, Set, WrapValue<float>);
+	MUnpackA0(TYPE, SetIdentity);
+	MUnpackCRA0(WrapValue<float>, TYPE, GetAngle);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapValue<TRot>);
+#endif
+
+	class TBaluTransform
+	{
+	public:
+		TVec2 position;
+		TRot angle;
+		TBaluTransform()
+		{
+			position = TVec2(0, 0);
+			angle = TRot(0);
+		}
+		TBaluTransform(TVec2 position, TRot angle)
+		{
+			this->position = position;
+			this->angle = angle;
+		}
+		TMatrix2 GetOrientation()
+		{
+			return TMatrix2(angle.GetXAxis(), angle.GetYAxis());
+		}
+		TVec2 ToGlobal(TVec2 p)
+		{
+			return GetOrientation()*p + position;
+		}
+		TVec2 ToLocal(TVec2 p)
+		{
+			return GetOrientation().TransMul((p - position));
+		}
+
+		TOBB2 ToGlobal(TOBB2 box)
+		{
+			//TODO
+			return TOBB2(box.pos + position, GetOrientation()*box.orient, box.local);
+		}
+		TOBB2 ToGlobal(TAABB2 box)
+		{
+			//TODO
+			return TOBB2(position, GetOrientation(), box);
+		}
+		TBaluTransform ToGlobal(TBaluTransform local)
+		{
+			TBaluTransform global;
+			global.position = position + GetOrientation()*local.position;
+			global.angle = TRot(angle.GetAngle() + local.angle.GetAngle());
+			return global;
+		}
+	};
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES	
+	DECL_SCRIPT_TYPE(TBaluTransform, "TTransform");
+#endif
+
+	inline TVec2 Transform(TVec2 vertex, TVec2 scale, TBaluTransform transform)
+	{
+		return transform.ToGlobal((vertex).ComponentMul(scale));
+	}
+
+
+
 	class IViewport
 	{
 	public:
@@ -117,31 +130,11 @@ namespace EngineInterface
 		virtual TVec2 GetSize() = 0;
 	};
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-
-	void IViewport_GetSize(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
-	{
-		result.get_as<TVec2>() = object.get_as<IViewport*>()->GetSize();
-	}
-
-	void IViewport_SetSize(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
-	{
-		object.get_as<IViewport*>()->SetSize(formal_params[0].get_as<TVec2>());
-	}
-
-	void IViewport_register(TClassRegistryParams& params)
-	{
-		auto scl = RegisterExternClass(params,
-			"class extern IViewport\n"
-			"{\n"
-			"func GetSize():vec2;\n"
-			"func SetSize(vec2 size);\n"
-			"}\n",
-			sizeof(IViewport*));
-		RegisterMethod(params, scl, "GetSize", IViewport_GetSize);
-		RegisterMethod(params, scl, "SetSize", IViewport_SetSize);
-	}
-	static bool IViewport_registered = TScriptClassesRegistry::Register("IViewport", IViewport_register);
+#ifdef BALU_ENGINE_SCRIPT_CLASSES	
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IViewport, "IViewport");
+	MUnpackA1(TYPE, SetSize, WrapValue<TVec2>);
+	MUnpackRA0(WrapValue<TVec2>, TYPE, GetSize);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IViewport>);
 #endif
 
 	class IBaluMaterial
@@ -158,23 +151,23 @@ namespace EngineInterface
 	};
 }
 
-class TScreen;
-class TView;
-
 namespace EngineInterface
 {
 	class IViewport;
+	class TScreen;
+	class TView;
+
+	struct TDrawingHelperContext
+	{
+		TScreen* screen;
+		TView* view;
+		EngineInterface::IViewport* viewport;
+		TDrawingHelperContext()
+		{
+			screen = nullptr;
+			view = nullptr;
+			viewport = nullptr;
+		}
+	};
 }
 
-struct TDrawingHelperContext
-{
-	TScreen* screen;
-	TView* view;
-	EngineInterface::IViewport* viewport;
-	TDrawingHelperContext()
-	{
-		screen = nullptr;
-		view = nullptr;
-		viewport = nullptr;
-	}
-};

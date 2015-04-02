@@ -69,7 +69,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	director->SetSymulatePhysics(true);
 
-	director->MainLoop();
+	//director->MainLoop();
 
 	DestroySceneEditor(scene_editor);
 

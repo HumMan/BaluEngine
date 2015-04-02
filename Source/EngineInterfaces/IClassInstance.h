@@ -14,43 +14,15 @@ namespace EngineInterface
 	class IBaluClassPhysBodyIntance
 	{
 	public:
-		static const char* GetScriptClassName()
-		{
-			return "IPhysBodyInstance";
-		}
 		virtual TVec2 GetLinearVelocity() = 0;
 		virtual void SetLinearVelocity(TVec2 velocity) = 0;
 	};
 
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	
-	DECL_SCRIPT_TYPE(IBaluClassPhysBodyIntance, "IPhysBodyInstance");
-
-	void IBaluClassPhysBodyIntance_GetLinearVelocity(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
-	{
-		result.get_as<TVec2>()=object.get_as<IBaluClassPhysBodyIntance*>()->GetLinearVelocity();
-	}
-
-	void IBaluClassPhysBodyIntance_SetLinearVelocity(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
-	{
-		(object.get_as<IBaluClassPhysBodyIntance*>())->SetLinearVelocity(
-			formal_params[0].get_as<TVec2>());
-	}
-
-	void IBaluClassPhysBodyIntance_register(TClassRegistryParams& params)
-	{
-		auto scl = RegisterExternClass(params,
-			"class extern IPhysBodyInstance\n"
-			"{\n"
-			"func GetLinearVelocity:vec2;\n"
-			"func SetLinearVelocity(vec2 velocity);\n"
-			"}\n",
-			sizeof(IBaluClassPhysBodyIntance*));
-		RegisterMethod(params, scl, "GetLinearVelocity", IBaluClassPhysBodyIntance_GetLinearVelocity);
-		RegisterMethod(params, scl, "SetLinearVelocity", IBaluClassPhysBodyIntance_SetLinearVelocity);
-	}
-	static bool IBaluClassPhysBodyIntance_registered = TScriptClassesRegistry::Register("IPhysBodyInstance", IBaluClassPhysBodyIntance_register);
+#ifdef BALU_ENGINE_SCRIPT_CLASSES	
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluClassPhysBodyIntance, "IClassPhysBodyInstance");
+	MUnpackRA0(WrapValue<TVec2>, TYPE, GetLinearVelocity);
+	MUnpackA1(TYPE, SetLinearVelocity, WrapValue<TVec2>);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluClassPhysBodyIntance>);
 #endif
 
 	class ISkeletonAnimationInstance
@@ -60,18 +32,19 @@ namespace EngineInterface
 		virtual void PlayAnimation(std::string name, float alpha) = 0;
 		virtual void StopAnimation(std::string name) = 0;
 	};
-
+#ifdef BALU_ENGINE_SCRIPT_CLASSES	
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, ISkeletonAnimationInstance, "ISkeletonAnimationInstance");
+	MUnpackA2(TYPE, PlayAnimation, TStringWrapper<std::string>, WrapValue<float>);
+	MUnpackA1(TYPE, StopAnimation, TStringWrapper<std::string>);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<ISkeletonAnimationInstance>);
+#endif
 	class IBaluInstance
 	{
 	public:
-		std::string GetScriptClassName()
-		{
-			return "IInstance";
-		}
 		virtual void UpdateTranform() = 0;
-		virtual TOBB2 GetOBB()=0;
-		virtual IBaluClass* GetClass()=0;
-		virtual TBaluTransform GetTransform()=0;
+		virtual TOBB2 GetOBB() = 0;
+		virtual IBaluClass* GetClass() = 0;
+		virtual TBaluTransform GetTransform() = 0;
 		virtual void SetTransform(TBaluTransform) = 0;
 		virtual TVec2 GetScale() = 0;
 		virtual void SetScale(TVec2 scale) = 0;
@@ -83,7 +56,9 @@ namespace EngineInterface
 	};
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
-	
-
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluInstance, "IInstance");
+	MUnpackRA0(WrapPointer<IProperties>, WrapInterface<IBaluInstance>, GetProperties);
+	MUnpackRA0(WrapPointer<IBaluClassPhysBodyIntance>, WrapInterface<IBaluInstance>, GetPhysBody);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluInstance>);
 #endif
 }

@@ -6,6 +6,8 @@
 
 class TBaluMaterial;
 
+using namespace EngineInterface;
+
 class TMaterialInstance
 {
 	TBaluTexture texture;

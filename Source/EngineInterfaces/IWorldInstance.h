@@ -27,27 +27,15 @@ namespace EngineInterface
 	class IResources;
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
-
-	void IBaluWorldInstance_GetSceneInstance(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
-	{
-		result.get_as<IBaluSceneInstance*>() = object.get_as<IBaluWorldInstance*>()->GetSceneInstance(formal_params[0].get_as<int>());
-	}
-
-	void IWorldInstance_register(TClassRegistryParams& params)
-	{
-		auto scl = RegisterExternClass(params,
-			"class extern IWorldInstance\n"
-			"{\n"
-			"func GetSceneInstance(int index):ISceneInstance;\n"
-			"}\n",
-			sizeof(IBaluWorldInstance*));
-		RegisterMethod(params, scl, "GetSceneInstance", IBaluWorldInstance_GetSceneInstance);
-	}
-	static bool IWorldInstance_registered = TScriptClassesRegistry::Register("IWorldInstance", IWorldInstance_register);
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorldInstance, "IWorldInstance");
+	//MUnpackRA1(WrapPointer<IBaluSceneInstance>, WrapInterface<IBaluWorldInstance>, GetSceneInstance, WrapValue<int>);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluWorldInstance>);
 #endif
-}
 
-BALUENGINEDLL_API EngineInterface::IBaluWorldInstance* CreateWorldInstance(EngineInterface::IBaluWorld* source, EngineInterface::IResources* resources);
-BALUENGINEDLL_API void DestroyWorldInstance(EngineInterface::IBaluWorldInstance* world);
+
+	BALUENGINEDLL_API EngineInterface::IBaluWorldInstance* CreateWorldInstance(EngineInterface::IBaluWorld* source, EngineInterface::IResources* resources);
+	BALUENGINEDLL_API void DestroyWorldInstance(EngineInterface::IBaluWorldInstance* world);
+
+}
 
 

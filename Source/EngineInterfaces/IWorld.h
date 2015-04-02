@@ -5,51 +5,50 @@
 #include "IClass.h"
 #include "IScene.h"
 
-
-enum class TMouseButton
-{
-	Left,
-	Right,
-	Middle
-};
-
-struct TMouseEventArgs
-{
-	TMouseButton button;
-	TVec2i location;
-	TMouseEventArgs(){}
-	TMouseEventArgs(TMouseButton button, TVec2i location)
-	{
-		this->button = button;
-		this->location = location;
-	}
-};
-
 namespace EngineInterface
 {
+	enum class TMouseButton
+	{
+		Left,
+		Right,
+		Middle
+	};
+
+	struct TMouseEventArgs
+	{
+		TMouseButton button;
+		TVec2i location;
+		TMouseEventArgs(){}
+		TMouseEventArgs(TMouseButton button, TVec2i location)
+		{
+			this->button = button;
+			this->location = location;
+		}
+	};
+
+
 	class IDirector;
 	class IBaluWorldInstance;
-}
-
-class TRender;
-
-typedef void(*MouseUpDownCallback)(TCallbackData* callback, TMouseEventArgs e);
-typedef void(*MouseMoveCallback)(TCallbackData* callback, TMouseEventArgs e);
-
-typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render);
-typedef void(*ViewportResizeCallback)(TCallbackData* data, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
 
 
-namespace EngineInterface
-{
+	class TRender;
+
+	typedef void(*MouseUpDownCallback)(TCallbackData* callback, TMouseEventArgs e);
+	typedef void(*MouseMoveCallback)(TCallbackData* callback, TMouseEventArgs e);
+
+	typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render);
+	typedef void(*ViewportResizeCallback)(TCallbackData* data, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
+
+
+
 	class IBaluWorld
 	{
 	public:
 		virtual TCallbacksActiveType& GetCallbacksActiveType() = 0;
 
-		virtual bool TryFind(const char* material_name, EngineInterface::IBaluMaterial*& result)=0;
-		virtual bool TryFind(const char* sprite_name, EngineInterface::IBaluSprite*& result)=0;
-		virtual bool TryFind(const char* scene_name, EngineInterface::IBaluScene*& result)=0;
+		virtual bool TryFind(const char* material_name, EngineInterface::IBaluMaterial*& result) = 0;
+		virtual bool TryFind(const char* sprite_name, EngineInterface::IBaluSprite*& result) = 0;
+		virtual bool TryFind(const char* scene_name, EngineInterface::IBaluScene*& result) = 0;
 		virtual bool TryFind(const char* class_name, IBaluClass*& result) = 0;
 
 		void Create(const char* name, IBaluMaterial*& item)
@@ -74,12 +73,12 @@ namespace EngineInterface
 		virtual IBaluClass* CreateClass(const char* class_name) = 0;
 		virtual IBaluScene* CreateScene(const char* scene_name) = 0;
 
-		virtual void DestroySprite(const char* class_name)=0;
+		virtual void DestroySprite(const char* class_name) = 0;
 		virtual void DestroyClass(const char* class_name) = 0;
-		virtual void DestroyScene(const char* scene_name)=0;
+		virtual void DestroyScene(const char* scene_name) = 0;
 
-		virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)=0;
-		virtual void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback)=0;
+		virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback) = 0;
+		virtual void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback) = 0;
 
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluSprite*>> GetSprites() = 0;
@@ -103,9 +102,10 @@ namespace EngineInterface
 
 		virtual void SaveToXML(std::string path) = 0;
 		virtual void LoadFromXML(std::string path) = 0;
-		
-	};
-}
 
-BALUENGINEDLL_API EngineInterface::IBaluWorld* CreateWorld();
-BALUENGINEDLL_API void DestroyWorld(EngineInterface::IBaluWorld* world);
+	};
+
+
+	BALUENGINEDLL_API EngineInterface::IBaluWorld* CreateWorld();
+	BALUENGINEDLL_API void DestroyWorld(EngineInterface::IBaluWorld* world);
+}

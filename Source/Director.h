@@ -8,7 +8,13 @@
 
 class TGameInternal;
 class TBaluWorldInstance;
-class TRender;
+
+using namespace EngineInterface;
+
+namespace EngineInterface
+{
+	class TRender;
+}
 
 class TDirector: public EngineInterface::IDirector
 {

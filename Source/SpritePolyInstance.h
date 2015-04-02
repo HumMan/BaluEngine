@@ -10,6 +10,8 @@
 
 #include "EngineInterfaces\ISpritePolygonInstance.h"
 
+using namespace EngineInterface;
+
 class TBaluSpritePolygonInstance: public EngineInterface::IBaluSpritePolygonInstance
 {
 private:

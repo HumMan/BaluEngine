@@ -7,13 +7,17 @@ namespace EngineInterface
 {
 	class IBaluScene;
 	class IViewport;
+	class TView;
+	class TScreen;
 }
-class TScreen;
+
 class TPointAdornment;
 class TOBBAdornment;
-class TView;
+
 
 #include "../EngineInterfaces/IMaterial.h"
+
+using namespace EngineInterface;
 
 class TDrawingHelper
 {

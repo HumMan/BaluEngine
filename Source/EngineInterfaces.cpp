@@ -10,37 +10,40 @@
 #include "../Source/Syntax/Method.h"
 #include "../Source/semanticAnalyzer.h"
 
-
-EngineInterface::IBaluWorld* CreateWorld()
-{
-	return (new TBaluWorld());
-}
-
-void DestroyWorld(EngineInterface::IBaluWorld* world)
-{
-	delete dynamic_cast<TBaluWorld*>(world);
-}
-
 #include "Director.h"
-
-EngineInterface::IDirector* CreateDirector()
-{
-	return new TDirector();
-}
-
-void DestroyDirector(EngineInterface::IDirector* director)
-{
-	delete dynamic_cast<TDirector*>(director);
-}
-
 #include "WorldInstance.h"
 
-EngineInterface::IBaluWorldInstance* CreateWorldInstance(EngineInterface::IBaluWorld* source, EngineInterface::IResources* resources)
+namespace EngineInterface
 {
-	return new TBaluWorldInstance(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TResources*>(resources));
-}
+	EngineInterface::IBaluWorld* CreateWorld()
+	{
+		return (new TBaluWorld());
+	}
 
-void DestroyWorldInstance(EngineInterface::IBaluWorldInstance* world)
-{
-	delete dynamic_cast<TBaluWorldInstance*>(world);
+	void DestroyWorld(EngineInterface::IBaluWorld* world)
+	{
+		delete dynamic_cast<TBaluWorld*>(world);
+	}
+
+
+
+	EngineInterface::IDirector* CreateDirector()
+	{
+		return new TDirector();
+	}
+
+	void DestroyDirector(EngineInterface::IDirector* director)
+	{
+		delete dynamic_cast<TDirector*>(director);
+	}
+
+	EngineInterface::IBaluWorldInstance* CreateWorldInstance(EngineInterface::IBaluWorld* source, EngineInterface::IResources* resources)
+	{
+		return new TBaluWorldInstance(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TResources*>(resources));
+	}
+
+	void DestroyWorldInstance(EngineInterface::IBaluWorldInstance* world)
+	{
+		delete dynamic_cast<TBaluWorldInstance*>(world);
+	}
 }

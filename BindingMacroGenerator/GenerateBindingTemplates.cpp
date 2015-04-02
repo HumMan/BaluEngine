@@ -11,14 +11,15 @@
 struct TParamType
 {
 	const char* macro_id_letter;
-	const char* wrap_class;
+	const char* wrapper;
+	const char* interface_wrap;
 	TParamType()
 	{
 		macro_id_letter = nullptr;
-		wrap_class = nullptr;
+		wrapper = nullptr;
 	}
-	TParamType(const char* _macro_id_letter,	const char* _wrap_class)
-		:macro_id_letter(_macro_id_letter), wrap_class(_wrap_class)
+	TParamType(const char* _macro_id_letter, const char* _wrapper, const char* _interface_wrap)
+		:macro_id_letter(_macro_id_letter), wrapper(_wrapper), interface_wrap(_interface_wrap)
 	{
 	}
 };
@@ -26,8 +27,8 @@ struct TParamType
 const int all_params_count = 2;
 TParamType all_params[all_params_count] =
 {
-	TParamType("p","WrapPointer"),
-	TParamType("v", "WrapValue")
+	TParamType("p","WrapPointer", "WrapInterface"),
+	TParamType("v", "WrapValue", "WrapValue")
 };
 
 std::string IntToStr(int i)
@@ -64,7 +65,7 @@ std::string GenerateUnpackShortMacro(std::vector<TParamType> params)
 		for (auto& v : params)
 		{
 			std::string param_type = "param" + IntToStr(i) + "_type";
-			result += std::string(", ") + v.wrap_class + ", " + param_type;
+			result += std::string(", ") + v.wrapper + ", " + param_type;
 			i++;
 		}
 		result += ");\n";
@@ -73,12 +74,12 @@ std::string GenerateUnpackShortMacro(std::vector<TParamType> params)
 	{
 		result += "methods.push_back(SetName(#method_name, new ";
 		result += "UnpackRA" + IntToStr(params.size());
-		result += "<WrapPointer<ret_type>, ret_type*, WrapPointer<interface_type>\\\n";
+		result += "<WrapPointer<ret_type>, ret_type*, WrapInterface<interface_type>\\\n";
 		i = 0;
 		for (auto& v : params)
 		{
 			std::string param_type = "param" + IntToStr(i) + "_type";
-			result += std::string(", ") + v.wrap_class + "<" + param_type + ">, " + param_type + "\\\n";
+			result += std::string(", ") + v.wrapper + "<" + param_type + ">, " + param_type + "\\\n";
 			i++;
 		}
 		result += ", &interface_type::method_name>));\n";
@@ -87,47 +88,83 @@ std::string GenerateUnpackShortMacro(std::vector<TParamType> params)
 	return result;
 }
 
-std::string GenerateUnpackMacro(int params_count, bool have_result)
+std::string GenerateUnpackConstructorMacro(int params_count)
 {
 	std::string result;
-	if (have_result)
+
+	result += std::string("#define MUnpackConstr") +
+		"A" + IntToStr(params_count);
+
+	result += "(interface_wrapper,  method_name \\\n";
+
+	for (int i = 0; i < params_count; i++)
 	{
-		result += "#define MUnpackRA" + IntToStr(params_count);
-		result += "(ret_wrapper, ret_type, interface_type, method_name \\\n";
-	}
-	else
-	{
-		result += "#define MUnpackA" + IntToStr(params_count);
-		result += "(interface_type, method_name \\\n";
-	}
-	
-	int i = 0;
-	for (int i = 0; i < params_count;i++)
-	{
-		result += ", param" + IntToStr(i) + "_wrapper, param" + IntToStr(i) + "_type\\\n";
-		i++;
+		result += ", param" + IntToStr(i) + "_wrapper\\\n";
 	}
 	result += ")\\\n";
 	result += "methods.push_back(SetName(#method_name, new ";
-	if (have_result)
+
+	result += std::string("UnpackConstructor") +
+		"A" + IntToStr(params_count);
+
+
+	result += "<interface_wrapper\\\n";
+
+	for (int i = 0; i < params_count; i++)
 	{
-		result += "UnpackRA" + IntToStr(params_count);
-		result += "<ret_wrapper<ret_type>, ret_type*, WrapPointer<interface_type>\\\n";
+		std::string param_wrapper = "param" + IntToStr(i) + "_wrapper";
+		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::Arg\\\n";
+	}
+	result += ">));\n";
+
+	return result;
+}
+
+std::string GenerateUnpackMacro(int params_count, bool have_result, bool const_method)
+{
+	std::string result;
+
+	result += std::string("#define MUnpack") +
+		(const_method ? "C" : "") +
+		(have_result ? "R" : "") +
+		"A" + IntToStr(params_count);
+
+	if (have_result)
+	{	
+		result += "(ret_wrapper, interface_wrapper, method_name \\\n";
 	}
 	else
 	{
-		result += "UnpackA" + IntToStr(params_count);
-		result += "<WrapPointer<interface_type>\\\n";
+		result += "(interface_wrapper,  method_name \\\n";
 	}
 	
-	i = 0;
+	for (int i = 0; i < params_count;i++)
+	{
+		result += ", param" + IntToStr(i) + "_wrapper\\\n";
+	}
+	result += ")\\\n";
+	result += "methods.push_back(SetName(#method_name, new ";
+
+	result += std::string("Unpack") +
+		(const_method ? "C" : "") +
+		(have_result ? "R" : "") +
+		"A" + IntToStr(params_count);
+
+	if (have_result)
+	{	
+		result += "<ret_wrapper, ret_wrapper::Arg, interface_wrapper\\\n";
+	}
+	else
+	{
+		result += "<interface_wrapper\\\n";
+	}
+	
 	for (int i = 0; i < params_count; i++)
 	{
-		std::string param_type = "param" + IntToStr(i) + "_type";
-		result += std::string(", ") + "param" + IntToStr(i) + "_wrapper" + "<" + param_type + ">, " + param_type + "\\\n";
-		i++;
+		std::string param_wrapper = "param" + IntToStr(i) + "_wrapper";
+		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::Arg\\\n";
 	}
-	result += ", &interface_type::method_name>));\n";
+	result += ", &interface_wrapper::InterfaceType::method_name>));\n";
 
 	return result;
 }
@@ -201,8 +238,12 @@ std::string GenerateMacro(int params_count)
 
 	std::string result;
 
-	result += GenerateUnpackMacro(params_count, true);
-	result += GenerateUnpackMacro(params_count, false);
+	result += GenerateUnpackConstructorMacro(params_count);
+	result += GenerateUnpackMacro(params_count, true, false);
+	result += GenerateUnpackMacro(params_count, false, false);
+	result += GenerateUnpackMacro(params_count, true, true);
+	result += GenerateUnpackMacro(params_count, false, true);
+
 	result += "\n";
 
 	bool generate_short_macros = false;
@@ -214,6 +255,25 @@ std::string GenerateMacro(int params_count)
 			result += GenerateUnpackShortMacro(Convert(param_types_ids));
 			result += "\n";
 		} while (Increment(param_types_ids) != INCREMENT_OVERFLOW);
+	}
+	return result;
+}
+
+std::string GetScriptConstrFunc(int params_count)
+{
+	std::string result;
+	if (params_count > 0)
+	{
+		result += "copy(";
+		for (int i = 0; i < params_count; i++)
+		{
+			result += "%s a" + IntToStr(i) + ((i < params_count - 1) ? ", " : "");
+		}
+		result += ");";
+	}
+	else
+	{
+		result += "default;";
 	}
 	return result;
 }
@@ -243,7 +303,59 @@ std::string GetScriptFunc(int params_count, bool have_result)
 	return result;
 }
 
-std::string GenerateTemplateClass(int params_count, bool have_return)
+
+std::string GenerateTemplateConstructorClass(int params_count)
+{
+	std::string result;
+
+	result += "template<class Tobject_type\n";
+	for (int i = 0; i < params_count; i++)
+	{
+		result += ", class Ta" + IntToStr(i) + ", class Ta" + IntToStr(i) + "_cpp\n";
+	}
+	
+	result += ">\n";
+
+	result += std::string("class UnpackConstructorA") +	IntToStr(params_count) + " : public Unpacker\n{\n";
+
+	result +=
+		"public:\n"
+		"	std::string GetSyntax()\n"
+		"	{\n"
+		"		char buf[255];\n";
+	result += "			sprintf_s(buf, \"" + GetScriptConstrFunc(params_count) + "\", func_name\n";
+	for (int i = 0; i < params_count; i++)
+	{
+		result += "			, EngineInterface::CppTypeToScript<Ta" + IntToStr(i) + "::TypeForGetName>::Get()\n";
+	}
+	result +=
+		"		);\n"
+		"		return buf;\n"
+		"	}\n"
+		"	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)\n"
+		"	{\n";
+
+		result +=
+			"		(new (&object.get_as<Tobject_type>().GetCppValue())Tobject_type::InterfaceType\n"
+			"		(\n";
+
+	for (int i = 0; i < params_count; i++)
+	{
+		result += "			formal_params[" + IntToStr(i) + "].get_as<Ta" + IntToStr(i) + ">().GetCppValue()"
+			+ ((i < params_count - 1) ? ", \n" : "\n");;
+	}
+	result +=
+		"		));\n"
+		"	}\n"
+		"	TExternalSMethod GetUnpackMethod()\n"
+		"	{"
+		"		return Run;\n"
+		"	}\n"
+		"};\n\n";
+	return result;
+}
+
+std::string GenerateTemplateClass(int params_count, bool have_return, bool const_method)
 {
 	std::string result;
 	if (have_return)
@@ -255,18 +367,23 @@ std::string GenerateTemplateClass(int params_count, bool have_return)
 		result += ", class Ta" + IntToStr(i) + ", class Ta" + IntToStr(i) + "_cpp\n";
 	}
 	if (have_return)
-		result += " , TCppResult(Tobject_type::Arg::*CppMethod)(";
+		result += " , TCppResult(Tobject_type::InterfaceType::*CppMethod)(";
 	else
-		result += " , void(Tobject_type::Arg::*CppMethod)(";
+		result += " , void(Tobject_type::InterfaceType::*CppMethod)(";
 	for (int i = 0; i < params_count; i++)
 	{
 		result += "Ta" + IntToStr(i) + "_cpp" + ((i < params_count - 1) ? ", " : "");
 	}
-	result+= ")>\n";
-	if (have_return)
-		result += "class UnpackRA" + IntToStr(params_count) + " : public Unpacker\n{\n";
+	if (const_method)
+		result += ")const>\n";
 	else
-		result += "class UnpackA" + IntToStr(params_count) + " : public Unpacker\n{\n";
+		result+= ")>\n";
+
+	result += std::string("class Unpack")+
+		(const_method?"C":"")+
+		(have_return ? "R" : "") +
+		"A" + IntToStr(params_count) + " : public Unpacker\n{\n";
+
 	result +=
 		"public:\n"
 		"	std::string GetSyntax()\n"
@@ -275,11 +392,11 @@ std::string GenerateTemplateClass(int params_count, bool have_return)
 	result += "			sprintf_s(buf, \"" + GetScriptFunc(params_count, have_return) + "\", func_name\n";
 	for (int i = 0; i < params_count; i++)
 	{
-		result += "			, CppTypeToScript<Ta" + IntToStr(i) + "::Arg>::Get()\n";
+		result += "			, EngineInterface::CppTypeToScript<Ta" + IntToStr(i) + "::TypeForGetName>::Get()\n";
 	}
 	if (have_return)
 		result +=
-			"			, CppTypeToScript<Tresult_type::Arg>::Get()\n";
+			"			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()\n";
 	result+=
 		"		);\n"
 		"		return buf;\n"
@@ -324,8 +441,11 @@ int main()
 	{
 		result += GenerateMacro(i);
 		result += "\n";
-		result += GenerateTemplateClass(i, true);
-		result += GenerateTemplateClass(i, false);
+		result += GenerateTemplateConstructorClass(i);
+		result += GenerateTemplateClass(i, true, false);
+		result += GenerateTemplateClass(i, false, false);
+		result += GenerateTemplateClass(i, true, true);
+		result += GenerateTemplateClass(i, false, true);
 		result += "\n";
 	}
 

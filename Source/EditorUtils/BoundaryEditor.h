@@ -4,6 +4,8 @@
 
 #include "../EngineInterfaces/IWorld.h"
 
+using namespace EngineInterface;
+
 class TBoundaryBoxChangeListener
 {
 public:

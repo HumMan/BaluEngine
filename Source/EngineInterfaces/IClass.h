@@ -11,46 +11,43 @@ namespace EngineInterface
 	class ISensorInstance;
 }
 
-enum TKey :int
+namespace EngineInterface
 {
-	Left,
-	Right,
-	Up,
-	Down
-};
+	enum TKey :int
+	{
+		Left,
+		Right,
+		Up,
+		Down
+	};
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 
-void TKey_register(TClassRegistryParams& params)
-{
-	auto scl = RegisterClass(params,
-		"enum TKey\n"
-		"{\n"
-		"	Left,\n"
-		"	Right,\n"
-		"	Up,\n"
-		"	Down,\n"
-		"}\n");
-}
-static bool TKey_registered = TScriptClassesRegistry::Register("TKey", TKey_register);
+	void TKey_register(TClassRegistryParams& params)
+	{
+		auto scl = RegisterClass(params,
+			"enum TKey\n"
+			"{\n"
+			"	Left,\n"
+			"	Right,\n"
+			"	Up,\n"
+			"	Down,\n"
+			"}\n");
+	}
+	static bool TKey_registered = TScriptClassesRegistry::Register("TKey", TKey_register);
 #endif
 
-typedef void(*KeyUpDownCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
+	typedef void(*KeyUpDownCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
 
-typedef void(*BeforePhysicsCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
-typedef void(*SensorCollideCallback)(EngineInterface::IBaluInstance* source, EngineInterface::ISensorInstance* sensor, EngineInterface::IBaluInstance* obstacle, EngineInterface::IBaluPhysShapeInstance* obstacle_shape);
+	typedef void(*BeforePhysicsCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
+	typedef void(*SensorCollideCallback)(EngineInterface::IBaluInstance* source, EngineInterface::ISensorInstance* sensor, EngineInterface::IBaluInstance* obstacle, EngineInterface::IBaluPhysShapeInstance* obstacle_shape);
 
-enum TPhysBodyType
-{
-	Static,
-	Dynamic,
-	Kinematic
-};
-
-namespace EngineInterface
-{
-
-	
+	enum TPhysBodyType
+	{
+		Static,
+		Dynamic,
+		Kinematic
+	};
 
 	class IBaluClassSprite
 	{
