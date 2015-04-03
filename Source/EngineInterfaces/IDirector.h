@@ -37,15 +37,17 @@ namespace EngineInterface
 		virtual void BeginFrame()=0;
 		virtual void EndFrame()=0;
 		//
+
+		BALUENGINEDLL_API static EngineInterface::IDirector* CreateDirector();
+		BALUENGINEDLL_API static void DestroyDirector(EngineInterface::IDirector* director);
 	};
+
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IDirector, "IDirector");
 	MUnpackRA0(WrapPointer<IBaluWorldInstance>, WrapInterface<IDirector>, GetWorldInstance);
 	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IDirector>);
 #endif
 
-	BALUENGINEDLL_API EngineInterface::IDirector* CreateDirector();
-	BALUENGINEDLL_API void DestroyDirector(EngineInterface::IDirector* director);
 }
 
 

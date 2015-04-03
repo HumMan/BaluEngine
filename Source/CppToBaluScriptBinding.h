@@ -18,7 +18,7 @@ public:
 	}
 };
 
-template<class T, class pass_as = T>
+template<class T>
 class WrapInterface
 {
 public:

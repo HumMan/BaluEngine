@@ -7,9 +7,9 @@
 #include <string>
 
 #include "IProperties.h"
+
 namespace EngineInterface
 {
-
 	struct TRot
 	{
 		TRot() {}
@@ -105,18 +105,17 @@ namespace EngineInterface
 			global.angle = TRot(angle.GetAngle() + local.angle.GetAngle());
 			return global;
 		}
+		TVec2 Transform(TVec2 vertex, TVec2 scale)
+		{
+			return this->ToGlobal((vertex).ComponentMul(scale));
+		}
 	};
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
-	DECL_SCRIPT_TYPE(TBaluTransform, "TTransform");
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapValue, TBaluTransform, "TTransform");
+	MUnpackRA2(WrapValue<TVec2>, TYPE, Transform, WrapValue<TVec2>, WrapValue<TVec2>);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapValue<TBaluTransform>);
 #endif
-
-	inline TVec2 Transform(TVec2 vertex, TVec2 scale, TBaluTransform transform)
-	{
-		return transform.ToGlobal((vertex).ComponentMul(scale));
-	}
-
-
 
 	class IViewport
 	{

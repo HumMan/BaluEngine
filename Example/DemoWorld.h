@@ -227,15 +227,15 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 
 	player_sprite->GetPolygone()->AddAnimDesc(grid_frames);
 
-	player_sprite->GetPolygone()->CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
-	player_sprite->GetPolygone()->CreateAnimationLine("jump_up_right", grid_frames, FramesRange(9, 9));
-	player_sprite->GetPolygone()->CreateAnimationLine("jump_down_right", grid_frames, FramesRange(10, 10));
-	player_sprite->GetPolygone()->CreateAnimationLine("stay_right", grid_frames, FramesRange(11, 11));
-	player_sprite->GetPolygone()->CreateAnimationLine("run_right", grid_frames, FramesRange(0, 7));
-	player_sprite->GetPolygone()->CreateAnimationLine("run_left", grid_frames, FramesRange(16, 16 + 7));
-	player_sprite->GetPolygone()->CreateAnimationLine("jump_up_left", grid_frames, FramesRange(16 + 7 + 2, 16 + 7 + 2));
-	player_sprite->GetPolygone()->CreateAnimationLine("jump_down_left", grid_frames, FramesRange(16 + 7 + 3, 16 + 7 + 3));
-	player_sprite->GetPolygone()->CreateAnimationLine("stay_left", grid_frames, FramesRange(16 + 7 + 4, 16 + 7 + 4));
+	player_sprite->GetPolygone()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
+	player_sprite->GetPolygone()->CreateAnimationLine("jump_up_right", grid_frames, TFramesRange(9, 9).ToFramesArray());
+	player_sprite->GetPolygone()->CreateAnimationLine("jump_down_right", grid_frames, TFramesRange(10, 10).ToFramesArray());
+	player_sprite->GetPolygone()->CreateAnimationLine("stay_right", grid_frames, TFramesRange(11, 11).ToFramesArray());
+	player_sprite->GetPolygone()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
+	player_sprite->GetPolygone()->CreateAnimationLine("run_left", grid_frames, TFramesRange(16, 16 + 7).ToFramesArray());
+	player_sprite->GetPolygone()->CreateAnimationLine("jump_up_left", grid_frames, TFramesRange(16 + 7 + 2, 16 + 7 + 2).ToFramesArray());
+	player_sprite->GetPolygone()->CreateAnimationLine("jump_down_left", grid_frames, TFramesRange(16 + 7 + 3, 16 + 7 + 3).ToFramesArray());
+	player_sprite->GetPolygone()->CreateAnimationLine("stay_left", grid_frames, TFramesRange(16 + 7 + 4, 16 + 7 + 4).ToFramesArray());
 
 	auto player_class = world->CreateClass("player");
 	auto player_class_instance = player_class->AddSprite(player_sprite);

@@ -23,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
-	director = CreateDirector();
+	director = IDirector::CreateDirector();
 
 	auto base_path = director->GetBasePath();
 
@@ -75,7 +75,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	DestroyWorldInstance(demo_world_instance);
 	DestroyWorld(demo_world);
-	DestroyDirector(director);
+	IDirector::DestroyDirector(director);
 	
 
 	_CrtDumpMemoryLeaks();

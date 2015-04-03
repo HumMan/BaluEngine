@@ -8,12 +8,10 @@
 #include "../Source/Syntax/Method.h"
 #include "../Source/semanticAnalyzer.h"
 
-//std::vector < std::pair<const char*, RegisterScriptClass>> script_class_registry;
-
-
+//https://isocpp.org/wiki/faq/ctors#static-init-order-on-first-use
 std::vector < std::pair<const char*, RegisterScriptClass>>& get_script_class_registry()
 {
-	static std::vector < std::pair<const char*, RegisterScriptClass>> script_class_registry;// = new std::vector < std::pair<const char*, RegisterScriptClass>>();
+	static std::vector < std::pair<const char*, RegisterScriptClass>> script_class_registry;
 	return script_class_registry;
 }
 
@@ -41,8 +39,6 @@ TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, i
 
 	return scl;
 }
-
-
 
 TSClass* RegisterClass(TClassRegistryParams& params, const char* source)
 {

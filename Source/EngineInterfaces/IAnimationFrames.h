@@ -111,6 +111,7 @@ namespace EngineInterface
 		int end;
 	public:
 		TFramesRange(int start, int end);
+		std::vector<int> ToFramesArray();
 	};
 
 	class BALUENGINEDLL_API TAnimationFrames
@@ -139,4 +140,3 @@ namespace EngineInterface
 	};
 }
 
-BALUENGINEDLL_API std::vector<int> FramesRange(int start, int end);

@@ -92,7 +92,13 @@ bool TBaluSpritePolygon::PointCollide(TVec2 sprite_space_point)
 	return false;
 }
 
-std::vector<int> FramesRange(int start, int end)
+TFramesRange::TFramesRange(int start, int end)
+{
+	this->start = start;
+	this->end = end;
+}
+
+std::vector<int> TFramesRange::ToFramesArray()
 {
 	if (end < start)
 		throw std::invalid_argument("end должен быть больше start");

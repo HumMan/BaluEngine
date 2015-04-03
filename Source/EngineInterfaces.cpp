@@ -27,12 +27,12 @@ namespace EngineInterface
 
 
 
-	EngineInterface::IDirector* CreateDirector()
+	EngineInterface::IDirector* IDirector::CreateDirector()
 	{
 		return new TDirector();
 	}
 
-	void DestroyDirector(EngineInterface::IDirector* director)
+	void IDirector::DestroyDirector(EngineInterface::IDirector* director)
 	{
 		delete dynamic_cast<TDirector*>(director);
 	}

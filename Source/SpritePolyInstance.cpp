@@ -116,7 +116,7 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransform parent, TVec2 cl
 
 	for (int i = 0; i < vertices.size(); i++)
 	{
-		vertices[i] = Transform(Transform(Transform(vertices[i], scale, parent.ToGlobal(local)), sprite_scale, sprite_transform), class_scale, class_transform);
+		vertices[i] = class_transform.Transform(sprite_transform.Transform((parent.ToGlobal(local)).Transform(vertices[i], scale), sprite_scale), class_scale);
 	}
 }
 
