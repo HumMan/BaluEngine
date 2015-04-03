@@ -114,7 +114,7 @@ std::string GenerateUnpackConstructorMacro(int params_count)
 	for (int i = 0; i < params_count; i++)
 	{
 		std::string param_wrapper = "param" + IntToStr(i) + "_wrapper";
-		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::Arg\\\n";
+		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::PassInMethodAs\\\n";
 	}
 	result += ">));\n";
 
@@ -153,7 +153,7 @@ std::string GenerateUnpackMacro(int params_count, bool have_result, bool const_m
 
 	if (have_result)
 	{	
-		result += "<ret_wrapper, ret_wrapper::Arg, interface_wrapper\\\n";
+		result += "<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\\\n";
 	}
 	else
 	{
@@ -163,7 +163,7 @@ std::string GenerateUnpackMacro(int params_count, bool have_result, bool const_m
 	for (int i = 0; i < params_count; i++)
 	{
 		std::string param_wrapper = "param" + IntToStr(i) + "_wrapper";
-		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::Arg\\\n";
+		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::PassInMethodAs\\\n";
 	}
 	result += ", &interface_wrapper::InterfaceType::method_name>));\n";
 

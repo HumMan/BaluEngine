@@ -56,7 +56,7 @@ namespace EngineInterface
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IProperties, "IProperties");
-	MUnpackRA2(WrapValue<bool>, TYPE, HasProperty, TStringWrapper<std::string>, WrapValue<PropertyType>);
+	MUnpackRA2(WrapValue<bool>, WrapInterface<IProperties>, HasProperty, TStringWrapper<std::string _COMMA const std::string&>, WrapValue<PropertyType _COMMA PropertyType&>);
 	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IProperties>);
 #endif
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

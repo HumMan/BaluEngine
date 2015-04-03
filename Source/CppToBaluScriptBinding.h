@@ -4,7 +4,7 @@ template<class T>
 class WrapPointer
 {
 public:
-	typedef T* Arg;
+	typedef T* PassInMethodAs;
 	typedef T TypeForGetName;
 	typedef T InterfaceType;
 	T* obj;
@@ -18,12 +18,13 @@ public:
 	}
 };
 
-template<class T>
+template<class T, class pass_as = T>
 class WrapInterface
 {
 public:
 	typedef T InterfaceType;
 	typedef T TypeForGetName;
+	typedef T* PassInMethodAs;
 	T* obj;
 	WrapInterface(T* copy_from_cpp)
 	{
@@ -35,13 +36,13 @@ public:
 	}
 };
 
-template<class T>
+template<class T, class pass_as = T>
 class WrapValue
 {
 public:
-	typedef T Arg;
 	typedef T InterfaceType;
 	typedef T TypeForGetName;
+	typedef pass_as PassInMethodAs;
 	T obj;
 	WrapValue(const T& copy_from_cpp)
 	{

@@ -6,7 +6,7 @@ methods.push_back(SetAsConstructor(new UnpackConstructorA0<interface_wrapper\
 >));
 #define MUnpackRA0(ret_wrapper, interface_wrapper, method_name \
 )\
-methods.push_back(SetName(#method_name, new UnpackRA0<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
+methods.push_back(SetName(#method_name, new UnpackRA0<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackA0(interface_wrapper,  method_name \
 )\
@@ -14,7 +14,7 @@ methods.push_back(SetName(#method_name, new UnpackA0<interface_wrapper\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCRA0(ret_wrapper, interface_wrapper, method_name \
 )\
-methods.push_back(SetName(#method_name, new UnpackCRA0<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
+methods.push_back(SetName(#method_name, new UnpackCRA0<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCA0(interface_wrapper,  method_name \
 )\
@@ -144,31 +144,31 @@ public:
 , param0_wrapper\
 )\
 methods.push_back(SetAsConstructor(new UnpackConstructorA1<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
 >));
 #define MUnpackRA1(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackRA1<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
+methods.push_back(SetName(#method_name, new UnpackRA1<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackA1(interface_wrapper,  method_name \
 , param0_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackA1<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCRA1(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackCRA1<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
+methods.push_back(SetName(#method_name, new UnpackCRA1<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCA1(interface_wrapper,  method_name \
 , param0_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackCA1<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 
 
@@ -310,40 +310,40 @@ public:
 , param1_wrapper\
 )\
 methods.push_back(SetAsConstructor(new UnpackConstructorA2<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
 >));
 #define MUnpackRA2(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
 , param1_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackRA2<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, decltype(interface_wrapper::InterfaceType::method_name)>));
+methods.push_back(SetName(#method_name, new UnpackRA2<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackA2(interface_wrapper,  method_name \
 , param0_wrapper\
 , param1_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackA2<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCRA2(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
 , param1_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackCRA2<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
+methods.push_back(SetName(#method_name, new UnpackCRA2<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCA2(interface_wrapper,  method_name \
 , param0_wrapper\
 , param1_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackCA2<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 
 
@@ -379,8 +379,7 @@ public:
 template<class Tresult_type, class TCppResult, class Tobject_type
 , class Ta0, class Ta0_cpp
 , class Ta1, class Ta1_cpp
- //, TCppResult(Tobject_type::InterfaceType::*CppMethod)(const Ta0_cpp&, Ta1_cpp&)>
- , typename CppMethod>
+ , TCppResult(Tobject_type::InterfaceType::*CppMethod)(Ta0_cpp, Ta1_cpp)>
 class UnpackRA2 : public Unpacker
 {
 public:
@@ -396,12 +395,11 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		CppMethod();
-		//result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
-		//(
-		//	formal_params[0].get_as<Ta0>().GetCppValue(), 
-		//	formal_params[1].get_as<Ta1>().GetCppValue()
-		//));
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(
+			formal_params[0].get_as<Ta0>().GetCppValue(), 
+			formal_params[1].get_as<Ta1>().GetCppValue()
+		));
 	}
 	TExternalSMethod GetUnpackMethod()
 	{		return Run;
@@ -503,19 +501,19 @@ public:
 , param2_wrapper\
 )\
 methods.push_back(SetAsConstructor(new UnpackConstructorA3<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
 >));
 #define MUnpackRA3(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
 , param1_wrapper\
 , param2_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackRA3<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
+methods.push_back(SetName(#method_name, new UnpackRA3<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackA3(interface_wrapper,  method_name \
 , param0_wrapper\
@@ -523,19 +521,19 @@ methods.push_back(SetName(#method_name, new UnpackRA3<ret_wrapper, ret_wrapper::
 , param2_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackA3<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCRA3(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
 , param1_wrapper\
 , param2_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackCRA3<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
+methods.push_back(SetName(#method_name, new UnpackCRA3<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCA3(interface_wrapper,  method_name \
 , param0_wrapper\
@@ -543,9 +541,9 @@ methods.push_back(SetName(#method_name, new UnpackCRA3<ret_wrapper, ret_wrapper:
 , param2_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackCA3<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 
 
@@ -719,10 +717,10 @@ public:
 , param3_wrapper\
 )\
 methods.push_back(SetAsConstructor(new UnpackConstructorA4<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
 >));
 #define MUnpackRA4(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
@@ -730,11 +728,11 @@ methods.push_back(SetAsConstructor(new UnpackConstructorA4<interface_wrapper\
 , param2_wrapper\
 , param3_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackRA4<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
+methods.push_back(SetName(#method_name, new UnpackRA4<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackA4(interface_wrapper,  method_name \
 , param0_wrapper\
@@ -743,10 +741,10 @@ methods.push_back(SetName(#method_name, new UnpackRA4<ret_wrapper, ret_wrapper::
 , param3_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackA4<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCRA4(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
@@ -754,11 +752,11 @@ methods.push_back(SetName(#method_name, new UnpackA4<interface_wrapper\
 , param2_wrapper\
 , param3_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackCRA4<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
+methods.push_back(SetName(#method_name, new UnpackCRA4<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCA4(interface_wrapper,  method_name \
 , param0_wrapper\
@@ -767,10 +765,10 @@ methods.push_back(SetName(#method_name, new UnpackCRA4<ret_wrapper, ret_wrapper:
 , param3_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackCA4<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 
 
@@ -960,11 +958,11 @@ public:
 , param4_wrapper\
 )\
 methods.push_back(SetAsConstructor(new UnpackConstructorA5<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
-, param4_wrapper, param4_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
+, param4_wrapper, param4_wrapper::PassInMethodAs\
 >));
 #define MUnpackRA5(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
@@ -973,12 +971,12 @@ methods.push_back(SetAsConstructor(new UnpackConstructorA5<interface_wrapper\
 , param3_wrapper\
 , param4_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackRA5<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
-, param4_wrapper, param4_wrapper::Arg\
+methods.push_back(SetName(#method_name, new UnpackRA5<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
+, param4_wrapper, param4_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackA5(interface_wrapper,  method_name \
 , param0_wrapper\
@@ -988,11 +986,11 @@ methods.push_back(SetName(#method_name, new UnpackRA5<ret_wrapper, ret_wrapper::
 , param4_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackA5<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
-, param4_wrapper, param4_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
+, param4_wrapper, param4_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCRA5(ret_wrapper, interface_wrapper, method_name \
 , param0_wrapper\
@@ -1001,12 +999,12 @@ methods.push_back(SetName(#method_name, new UnpackA5<interface_wrapper\
 , param3_wrapper\
 , param4_wrapper\
 )\
-methods.push_back(SetName(#method_name, new UnpackCRA5<ret_wrapper, ret_wrapper::Arg, interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
-, param4_wrapper, param4_wrapper::Arg\
+methods.push_back(SetName(#method_name, new UnpackCRA5<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
+, param4_wrapper, param4_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 #define MUnpackCA5(interface_wrapper,  method_name \
 , param0_wrapper\
@@ -1016,11 +1014,11 @@ methods.push_back(SetName(#method_name, new UnpackCRA5<ret_wrapper, ret_wrapper:
 , param4_wrapper\
 )\
 methods.push_back(SetName(#method_name, new UnpackCA5<interface_wrapper\
-, param0_wrapper, param0_wrapper::Arg\
-, param1_wrapper, param1_wrapper::Arg\
-, param2_wrapper, param2_wrapper::Arg\
-, param3_wrapper, param3_wrapper::Arg\
-, param4_wrapper, param4_wrapper::Arg\
+, param0_wrapper, param0_wrapper::PassInMethodAs\
+, param1_wrapper, param1_wrapper::PassInMethodAs\
+, param2_wrapper, param2_wrapper::PassInMethodAs\
+, param3_wrapper, param3_wrapper::PassInMethodAs\
+, param4_wrapper, param4_wrapper::PassInMethodAs\
 , &interface_wrapper::InterfaceType::method_name>));
 
 
