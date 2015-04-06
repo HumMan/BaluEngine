@@ -1,13 +1,24 @@
-#pragma once
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IClass.h"
+#endif
 
 #include "../../BaluLib/Source/BVolumes/AABB.h"
 
 #include "../exportMacro.h"
+#endif
 
 namespace EngineInterface
 {
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSceneClassInstance
 	{
 	public:
@@ -18,7 +29,9 @@ namespace EngineInterface
 		virtual TVec2 GetScale() = 0;
 		virtual IBaluClass* GetClass() = 0;
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluScene
 	{
 	public:
@@ -42,24 +55,12 @@ namespace EngineInterface
 		virtual IBaluSceneClassInstance* CreateInstance(IBaluClass* balu_class) = 0;
 		virtual void DestroyInstance(IBaluSceneClassInstance* instance) = 0;
 	};
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-
-	void IBaluScene_FindViewport(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
-	{
-		result.get_as<IViewport*>() = object.get_as<IBaluScene*>()->FindViewport(*formal_params[0].get_as<TString>().v);
-	}
-
-	void IBaluScene_register(TClassRegistryParams& params)
-	{
-		auto scl = RegisterExternClass(params,
-			"class extern IScene\n"
-			"{\n"
-			"func FindViewport(string name):IViewport;\n"
-			"}\n",
-			sizeof(IBaluScene*));
-		RegisterMethod(params, scl, "FindViewport", IBaluScene_FindViewport);
-	}
-	static bool IBaluScene_registered = TScriptClassesRegistry::Register("IScene", IBaluScene_register);
 #endif
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES	
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluScene, "IScene");
+	MUnpackRA1(WrapPointer<IViewport>, TYPE, FindViewport, TString);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluScene>);
+#endif
+
 }

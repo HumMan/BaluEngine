@@ -1,33 +1,49 @@
-#pragma once
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 #include "../../BaluLib/Source/Math/vec.h"
+#endif
 
 namespace EngineInterface
 {
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluPhysShape
 	{
 	public:
 		virtual ~IBaluPhysShape(){};
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluPolygonShape
 	{
 	public:
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluCircleShape
 	{
 	public:
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluBoxShape
 	{
 	public:
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluPhysShapeFactory
 	{
 	public:
@@ -36,4 +52,6 @@ namespace EngineInterface
 		virtual IBaluCircleShape* CreateCircleShape(float radius, TVec2 pos) = 0;
 		virtual IBaluBoxShape* CreateBoxShape(float width, float height) = 0;
 	};
+#endif
+
 }

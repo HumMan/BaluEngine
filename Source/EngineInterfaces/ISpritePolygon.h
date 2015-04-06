@@ -1,16 +1,25 @@
-#pragma once
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IMaterial.h"
 #include "IAnimationFrames.h"
+#include "../RenderCommand.h"
+#endif
 
 #include "../../BaluLib/Source/Math/vec.h"
-
-#include "../RenderCommand.h"
-
 #include <vector>
+#endif
 
 namespace EngineInterface
 {
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSpritePolygon
 	{
 	public:
@@ -48,6 +57,7 @@ namespace EngineInterface
 		virtual void OnCustomDraw(CallbackWithData<TCustomDrawCallback> callback) = 0;
 
 		virtual bool IsCustomDraw() = 0;
-
 	};
+#endif
+
 }

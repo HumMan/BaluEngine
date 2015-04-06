@@ -1,15 +1,31 @@
-#pragma once
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 #include "../../../BaluLib/Source/Math/vec.h"
 #include "../../../BaluLib/Source/Math/matrix.h"
 #include "../../../BaluLib/Source/BVolumes/OBB.h"
 
 #include <string>
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IProperties.h"
+#endif
 
 namespace EngineInterface
 {
+	class TScreen;
+	class TView;
+}
+#endif
+
+namespace EngineInterface
+{
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	struct TRot
 	{
 		TRot() {}
@@ -51,6 +67,7 @@ namespace EngineInterface
 		}
 		float s, c;
 	};
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapValue, TRot, "TRot");
@@ -60,6 +77,8 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_END_CLASS(WrapValue<TRot>);
 #endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TBaluTransform
 	{
 	public:
@@ -110,6 +129,7 @@ namespace EngineInterface
 			return this->ToGlobal((vertex).ComponentMul(scale));
 		}
 	};
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapValue, TBaluTransform, "TTransform");
@@ -117,6 +137,7 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_END_CLASS(WrapValue<TBaluTransform>);
 #endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IViewport
 	{
 	public:
@@ -128,6 +149,7 @@ namespace EngineInterface
 		virtual void SetSize(TVec2 size) = 0;
 		virtual TVec2 GetSize() = 0;
 	};
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IViewport, "IViewport");
@@ -136,6 +158,7 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IViewport>);
 #endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluMaterial
 	{
 	public:
@@ -148,14 +171,9 @@ namespace EngineInterface
 		virtual std::string GetImagePath() = 0;
 		virtual void SetColor(TVec4 color) = 0;
 	};
-}
+#endif
 
-namespace EngineInterface
-{
-	class IViewport;
-	class TScreen;
-	class TView;
-
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	struct TDrawingHelperContext
 	{
 		TScreen* screen;
@@ -168,5 +186,7 @@ namespace EngineInterface
 			viewport = nullptr;
 		}
 	};
+#endif
+
 }
 

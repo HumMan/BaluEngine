@@ -1,12 +1,23 @@
-#pragma once
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IPhysShape.h"
 #include "ISpritePolygon.h"
+#endif
 
 #include <string>
+#endif
 
 namespace EngineInterface
 {
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSprite
 	{
 	public:
@@ -21,4 +32,6 @@ namespace EngineInterface
 		virtual void SetPhysShapeFromGeometry() = 0;
 		virtual IBaluSpritePolygon* GetPolygone() = 0;
 	};
+#endif
+
 }

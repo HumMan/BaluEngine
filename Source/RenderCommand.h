@@ -12,7 +12,7 @@ class NVGcontext;
 
 namespace EngineInterface
 {
-		struct TRenderCommand
+	struct TRenderCommand
 	{
 	public:
 		TMaterialInstance* material_id;

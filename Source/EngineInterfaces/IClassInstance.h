@@ -1,22 +1,37 @@
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IClass.h"
-
 #include "ISpriteInstance.h"
+#endif
+
+#endif
 
 namespace EngineInterface
 {
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ISensorInstance
 	{
 
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassPhysBodyIntance
 	{
 	public:
 		virtual TVec2 GetLinearVelocity() = 0;
 		virtual void SetLinearVelocity(TVec2 velocity) = 0;
 	};
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluClassPhysBodyIntance, "IClassPhysBodyInstance");
@@ -25,6 +40,8 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluClassPhysBodyIntance>);
 #endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ISkeletonAnimationInstance
 	{
 	public:
@@ -32,12 +49,16 @@ namespace EngineInterface
 		virtual void PlayAnimation(std::string name, float alpha) = 0;
 		virtual void StopAnimation(std::string name) = 0;
 	};
+#endif
+
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, ISkeletonAnimationInstance, "ISkeletonAnimationInstance");
 	MUnpackA2(TYPE, PlayAnimation, TStringWrapper<std::string>, WrapValue<float>);
 	MUnpackA1(TYPE, StopAnimation, TStringWrapper<std::string>);
 	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<ISkeletonAnimationInstance>);
 #endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluInstance
 	{
 	public:
@@ -54,6 +75,7 @@ namespace EngineInterface
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
 		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
 	};
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluInstance, "IInstance");

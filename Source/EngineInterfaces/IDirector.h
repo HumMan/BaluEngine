@@ -1,19 +1,27 @@
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IResources.h"
-
 #include "IWorldInstance.h"
-
 #include "../Render.h"
+#endif
 
 namespace EngineInterface
 {
 	class IDirector;
 }
-
+#endif
 
 namespace EngineInterface
 {
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IDirector
 	{
 	public:
@@ -41,6 +49,7 @@ namespace EngineInterface
 		BALUENGINEDLL_API static EngineInterface::IDirector* CreateDirector();
 		BALUENGINEDLL_API static void DestroyDirector(EngineInterface::IDirector* director);
 	};
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IDirector, "IDirector");

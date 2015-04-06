@@ -1,9 +1,21 @@
-#pragma once
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "ISpritePolygon.h"
+#endif
+
+#endif
 
 namespace EngineInterface
 {
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSpritePolygonInstance
 	{
 	public:
@@ -13,4 +25,6 @@ namespace EngineInterface
 		virtual void SetActiveAnimation(std::string) = 0;
 		//virtual TBaluTransform GetGlobalTransform() = 0;
 	};
+#endif
+
 }

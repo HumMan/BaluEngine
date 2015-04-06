@@ -1,10 +1,12 @@
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
+#endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #include "../../BaluLib/Source/Math/vec.h"
-
 #include <vector>
-
-
 #include "../exportMacro.h"
 
 namespace pugi
@@ -14,10 +16,12 @@ namespace pugi
 
 class TBaluWorld;
 class TBaluSpritePolygon;
+#endif
 
 namespace EngineInterface
 {
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class BALUENGINEDLL_API TFrame
 	{
 	public:
@@ -36,7 +40,7 @@ namespace EngineInterface
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
-
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, TFrame, "TFrame");
@@ -46,6 +50,7 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<TFrame>);
 #endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TAnimDesc
 	{
 	public:
@@ -54,7 +59,9 @@ namespace EngineInterface
 		virtual void Save(pugi::xml_node& parent_node, const int version)=0;
 		virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)=0;
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	typedef TAnimDesc*(*AnimDescClone)();
 	class BALUENGINEDLL_API AnimDescFactory
 	{
@@ -62,7 +69,9 @@ namespace EngineInterface
 		static bool Register(const char* name, AnimDescClone clone);
 		static TAnimDesc* Create(const char* name);
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class BALUENGINEDLL_API TSpecificFrame : public TAnimDesc
 	{
 		TVec2 left_bottom;
@@ -82,7 +91,9 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 	static bool TSpecificFrame_registered = AnimDescFactory::Register("SpecificFrame", TSpecificFrame::Clone);
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class BALUENGINEDLL_API TGridFrames : public TAnimDesc
 	{
 		TVec2 left_bottom;
@@ -104,7 +115,9 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 	static bool TGridFrames_registered = AnimDescFactory::Register("GridFrames", TGridFrames::Clone);
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class BALUENGINEDLL_API TFramesRange
 	{
 		int start;
@@ -113,7 +126,9 @@ namespace EngineInterface
 		TFramesRange(int start, int end);
 		std::vector<int> ToFramesArray();
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class BALUENGINEDLL_API TAnimationFrames
 	{
 	public:
@@ -128,7 +143,9 @@ namespace EngineInterface
 		void Save(pugi::xml_node& parent_node, const int version, TBaluSpritePolygon* sprite_polygon);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TBaluSpritePolygon* sprite_polygon);
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class BALUENGINEDLL_API TAnimLine
 	{
 	public:
@@ -138,5 +155,5 @@ namespace EngineInterface
 		void Save(pugi::xml_node& parent_node, const int version, TBaluSpritePolygon* sprite_polygon);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TBaluSpritePolygon* sprite_polygon);
 	};
+#endif
 }
-

@@ -1,14 +1,27 @@
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "../RenderCommand.h"
-
 #include "IScene.h"
 #include "IClassInstance.h"
+#endif
 
 namespace EngineInterface
 {
 	class IBaluWorldInstance;
+}
+#endif
 
+namespace EngineInterface
+{
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSceneInstance
 	{
 	public:
@@ -21,24 +34,12 @@ namespace EngineInterface
 		virtual IBaluInstance* CreateInstance(IBaluClass* use_class, TBaluTransform transform, TVec2 scale) = 0;
 		virtual void DestroyInstance(EngineInterface::IBaluInstance*) = 0;
 	};
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-
-	void IBaluSceneInstance_GetSource(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
-	{
-		result.get_as<IBaluScene*>() = object.get_as<IBaluSceneInstance*>()->GetSource();
-	}
-
-	void IBaluSceneInstance_register(TClassRegistryParams& params)
-	{
-		auto scl = RegisterExternClass(params,
-			"class extern ISceneInstance\n"
-			"{\n"
-			"func GetSource():IScene;\n"
-			"}\n",
-			sizeof(IBaluSceneInstance*));
-		RegisterMethod(params, scl, "GetSource", IBaluSceneInstance_GetSource);
-	}
-	static bool IBaluSceneInstance_registered = TScriptClassesRegistry::Register("ISceneInstance", IBaluSceneInstance_register);
 #endif
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES	
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSceneInstance, "ISceneInstance");
+	MUnpackRA0(WrapPointer<IBaluScene>, TYPE, GetSource);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluSceneInstance>);
+#endif
+
 }

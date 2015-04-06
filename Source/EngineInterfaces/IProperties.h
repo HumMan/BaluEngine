@@ -1,4 +1,10 @@
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #include <string>
 
@@ -6,14 +12,23 @@ namespace EngineInterface
 {
 	class IProperties;
 	class IBaluSceneClassInstance;
+}
 
+#endif
+
+namespace EngineInterface
+{
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluWorldObject
 	{
 	public:
 		virtual IProperties* GetProperties() = 0;
 		virtual std::string GetName() = 0;
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	enum class PropertyType
 	{
 		Bool,
@@ -22,6 +37,7 @@ namespace EngineInterface
 		String,
 		SceneClassInstance,
 	};
+#endif
 
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
@@ -44,6 +60,7 @@ namespace EngineInterface
 	static bool PropertyType_registered = TScriptClassesRegistry::Register("PropertyType", PropertyType_register);
 #endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IProperties
 	{
 	public:
@@ -53,6 +70,7 @@ namespace EngineInterface
 		virtual void SetSceneClassInstance(const std::string& name, IBaluSceneClassInstance* value) = 0;
 		virtual IBaluSceneClassInstance* GetSceneClassInstance(const std::string& name) = 0;
 	};
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IProperties, "IProperties");

@@ -1,19 +1,39 @@
-#pragma once
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IMaterial.h"
 #include "ISprite.h"
 #include "IClass.h"
 #include "IScene.h"
+#endif
 
 namespace EngineInterface
 {
+	class IDirector;
+	class IBaluWorldInstance;
+	class TRender;
+}
+#endif
+
+namespace EngineInterface
+{
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	enum class TMouseButton
 	{
 		Left,
 		Right,
 		Middle
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	struct TMouseEventArgs
 	{
 		TMouseButton button;
@@ -25,22 +45,17 @@ namespace EngineInterface
 			this->location = location;
 		}
 	};
+#endif
 
-
-	class IDirector;
-	class IBaluWorldInstance;
-
-
-	class TRender;
-
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	typedef void(*MouseUpDownCallback)(TCallbackData* callback, TMouseEventArgs e);
 	typedef void(*MouseMoveCallback)(TCallbackData* callback, TMouseEventArgs e);
 
 	typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render);
 	typedef void(*ViewportResizeCallback)(TCallbackData* data, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
+#endif
 
-
-
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluWorld
 	{
 	public:
@@ -104,8 +119,10 @@ namespace EngineInterface
 		virtual void LoadFromXML(std::string path) = 0;
 
 	};
+#endif
 
-
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	BALUENGINEDLL_API EngineInterface::IBaluWorld* CreateWorld();
 	BALUENGINEDLL_API void DestroyWorld(EngineInterface::IBaluWorld* world);
+#endif
 }

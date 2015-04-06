@@ -1,4 +1,6 @@
-#pragma once
+//#pragma once
+
+#include "RenderCommand.h"
 
 #include "EngineInterfaces\IAnimationFrames.h"
 #include "EngineInterfaces\IMaterial.h"
@@ -13,6 +15,7 @@
 #include "EngineInterfaces\ISpritePolygonInstance.h"
 #include "EngineInterfaces\IPhysShapeInstance.h"
 #include "EngineInterfaces\ISpriteInstance.h"
+#include "EngineInterfaces\IProperties.h"
 #include "EngineInterfaces\IClassInstance.h"
 #include "EngineInterfaces\ISceneInstance.h"
 #include "EngineInterfaces\IWorldInstance.h"

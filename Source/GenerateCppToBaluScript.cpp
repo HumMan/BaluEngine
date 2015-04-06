@@ -11,11 +11,9 @@ namespace EngineInterface
 	DECL_SCRIPT_TYPE(string, "string");
 }
 
-//generate script bindings
-#define BALU_ENGINE_SCRIPT_CLASSES
-#pragma push_macro("new")
-#undef new
-
+#define BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "EngineInterfacesIncludes.h"
 
-#pragma pop("new")
+//generate script bindings
+#define BALU_ENGINE_SCRIPT_CLASSES
+#include "EngineInterfacesIncludes.h"

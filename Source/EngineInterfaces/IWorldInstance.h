@@ -1,11 +1,27 @@
-#pragma once
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSESclass IBaluWorldInstance
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IScene.h"
 #include "ISceneInstance.h"
 #include "IWorld.h"
+#endif
 
 namespace EngineInterface
 {
+	class IResources;
+}
+#endif
+
+namespace EngineInterface
+{
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluWorldInstance
 	{
 	public:
@@ -23,18 +39,18 @@ namespace EngineInterface
 
 		virtual void CompileScripts() = 0;
 	};
-
-	class IResources;
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorldInstance, "IWorldInstance");
-	//MUnpackRA1(WrapPointer<IBaluSceneInstance>, WrapInterface<IBaluWorldInstance>, GetSceneInstance, WrapValue<int>);
+	MUnpackRA1(WrapPointer<IBaluSceneInstance>, WrapInterface<IBaluWorldInstance>, GetSceneInstance, WrapValue<int>);
 	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluWorldInstance>);
 #endif
 
-
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	BALUENGINEDLL_API EngineInterface::IBaluWorldInstance* CreateWorldInstance(EngineInterface::IBaluWorld* source, EngineInterface::IResources* resources);
 	BALUENGINEDLL_API void DestroyWorldInstance(EngineInterface::IBaluWorldInstance* world);
+#endif
 
 }
 

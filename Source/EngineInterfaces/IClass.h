@@ -1,8 +1,16 @@
-#pragma once
 
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#pragma once
+#endif
+
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IProperties.h"
 #include "ISprite.h"
 #include "IPhysShape.h"
+#endif
 
 namespace EngineInterface
 {
@@ -10,9 +18,12 @@ namespace EngineInterface
 	class IBaluPhysShapeInstance;
 	class ISensorInstance;
 }
+#endif
 
 namespace EngineInterface
 {
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	enum TKey :int
 	{
 		Left,
@@ -20,9 +31,9 @@ namespace EngineInterface
 		Up,
 		Down
 	};
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
-
 	void TKey_register(TClassRegistryParams& params)
 	{
 		auto scl = RegisterClass(params,
@@ -37,6 +48,8 @@ namespace EngineInterface
 	static bool TKey_registered = TScriptClassesRegistry::Register("TKey", TKey_register);
 #endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	typedef void(*KeyUpDownCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
 
 	typedef void(*BeforePhysicsCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
@@ -48,24 +61,36 @@ namespace EngineInterface
 		Dynamic,
 		Kinematic
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassSprite
 	{
 	public:
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBone
 	{
 	public:
 		virtual void SetTransform(TBaluTransform)=0;
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ISkin
 	{
 	public:
 		virtual void SetBoneSprite(int bone_index, IBaluSprite* sprite, TBaluTransform global)=0;
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ISkeleton
 	{
 	public:
@@ -79,18 +104,26 @@ namespace EngineInterface
 		virtual IBone* GetRoot() = 0;
 		//virtual std::vector<IBone*> GetAllBones() = 0;
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ITrackFrame
 	{
 	public:
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ITrack
 	{
 	public:
 		virtual ITrackFrame* CreateFrame(float time, float rotation)=0;
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ITimeLine
 	{
 	public:
@@ -98,19 +131,28 @@ namespace EngineInterface
 		virtual void DestroyTrack(ITrack* track) = 0;
 		virtual void SetTimelineSize(float size) = 0;
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ISkeletonAnimation
 	{
 	public:
 		virtual ITimeLine* CreateAnimation(std::string name)=0;
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class  ISensor
 	{
 	public:
 		virtual ~ISensor() {}
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassPhysBody
 	{
 	public:
@@ -122,7 +164,10 @@ namespace EngineInterface
 		virtual bool IsEnable() = 0;
 		virtual ISensor* CreateSensor(IBaluPhysShape* shape) = 0;
 	};
+#endif
 
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClass
 	{
 	public:
@@ -147,4 +192,5 @@ namespace EngineInterface
 		virtual void OnBeginContact(ISensor* sensor, SensorCollideCallback callback) = 0;
 		virtual void OnEndContact(ISensor* sensor, SensorCollideCallback callback) = 0;
 	};
+#endif
 }
