@@ -114,6 +114,9 @@ public:
 	void RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback>);
 	void RemoveOnMouseMove(CallbackWithData<MouseUpDownCallback>);
 
+	void AddOnWorldStart();
+	void RemoveOnWorldEnd();
+
 	void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback);
 	void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback);
 

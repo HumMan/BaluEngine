@@ -350,7 +350,9 @@ namespace Editor
 
 		p->director->SetWorldInstance(p->world_instance);
 		auto callback = CallbackWithData<RenderWorldCallback>(RenderWorld, &p->world->GetCallbacksActiveType(), p, TCallbacksActiveType::EDITOR);
-		p->director->SetRenderWorldCallback(callback);
+		p->world->SetRenderWorldCallback(callback);
+
+		p->world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 
 	}
 
@@ -540,12 +542,12 @@ namespace Editor
 		p = new BaluEditorControlPrivate();
 		p->callbackbridge.reset(new TCallbackManagedBridge(this));
 
-		p->director = CreateDirector();
+		p->director = IDirector::CreateDirector();
 
 		p->base_path = p->director->GetBasePath();
 
 		p->director->Initialize((void*)handle.ToPointer());
-		p->director->SetViewportResizeCallback(ViewportResize);
+		
 	}
 
 	void BaluEditorControl::BeginFrame()

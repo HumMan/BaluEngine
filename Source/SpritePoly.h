@@ -28,7 +28,6 @@ private:
 	TVec2 scale;
 	TBaluTransform local; //положение полигона в спрайте
 
-	//std::vector<TVec2> vertices;
 	std::vector<TVec2> polygon_vertices;
 	std::vector<TVec2> triangulated;
 

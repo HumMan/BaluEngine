@@ -265,6 +265,9 @@
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Composer.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -422,6 +425,9 @@
     </ClCompile>
     <ClCompile Include="Source\GenerateCppToBaluScript.cpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Composer.cpp">
+      <Filter>Definitions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

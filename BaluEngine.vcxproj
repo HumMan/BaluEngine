@@ -94,6 +94,7 @@
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h" />
     <ClInclude Include="Source\Class.h" />
     <ClInclude Include="Source\ClassInstance.h" />
+    <ClInclude Include="Source\Composer.h" />
     <ClInclude Include="Source\CppToBaluScriptBinding.h" />
     <ClInclude Include="Source\Director.h" />
     <ClInclude Include="Source\EditorInterfaces.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Source\Class.cpp" />
     <ClCompile Include="Source\ClassInstance.cpp" />
+    <ClCompile Include="Source\Composer.cpp" />
     <ClCompile Include="Source\Director.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
