@@ -198,7 +198,7 @@ char* RenderWorld_source = //(IDirector director, IWorldInstance world, IRender 
 
 char* WorldStart_source = //(IWorldInstance world_instance, IComposer composer)
 "	IScene scene = world_instance.GetSource().GetScene(0);\n"
-"	ISceneInstance scene_instance = world_instance.RunScene(scene)\n"
+"	ISceneInstance scene_instance = world_instance.RunScene(scene);\n"
 "	composer.AddToRender(scene_instance, scene.FindViewport(\"main_viewport\"));\n";
 
 #endif

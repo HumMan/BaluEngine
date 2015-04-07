@@ -6,7 +6,7 @@
 
 using namespace EngineInterface;
 
-#define USE_CALLBACKS
+//#define USE_CALLBACKS
 #include "DemoWorld.h"
 
 IBaluSceneInstance* scene_instance;
@@ -39,7 +39,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	demo_world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize, &demo_world->GetCallbacksActiveType()));
 #else
 	//demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
-	demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
+	//demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
+	demo_world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 	demo_world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 #endif
 

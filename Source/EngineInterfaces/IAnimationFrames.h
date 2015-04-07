@@ -47,7 +47,7 @@ namespace EngineInterface
 	MUnpackConstrA2(WrapInterface<TFrame>, Constr, WrapValue<TVec2>, WrapValue<TVec2>);
 	MUnpackRA0(WrapValue<TVec2>, WrapInterface<TFrame>, GetLeftBottom);
 	MUnpackRA0(WrapValue<TVec2>, WrapInterface<TFrame>, GetRightTop);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<TFrame>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES

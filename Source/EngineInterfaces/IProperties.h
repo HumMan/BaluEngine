@@ -46,7 +46,7 @@ namespace EngineInterface
 
 	void PropertyType_register(TClassRegistryParams& params)
 	{
-		auto scl = RegisterClass(params,
+		auto scl = RegisterEnum(params,
 			"enum PropertyType\n"
 			"{\n"
 			"Bool,\n"
@@ -57,7 +57,7 @@ namespace EngineInterface
 			"}\n"
 			);
 	}
-	static bool PropertyType_registered = TScriptClassesRegistry::Register("PropertyType", PropertyType_register);
+	static bool PropertyType_registered = TScriptClassesRegistry::RegisterEnum("PropertyType", PropertyType_register);
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -77,7 +77,7 @@ namespace EngineInterface
 	MUnpackRA2(WrapValue<bool>, WrapInterface<IProperties>, HasProperty, TStringWrapper<std::string _COMMA const std::string&>, WrapValue<PropertyType _COMMA PropertyType&>);
 	MUnpackRA1(WrapValue<bool>, WrapInterface<IProperties>, GetBool, TStringWrapper<std::string _COMMA const std::string&>);
 	MUnpackA2(WrapInterface<IProperties>, SetBool, TStringWrapper<std::string _COMMA const std::string&>, WrapValue<bool>);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IProperties>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 }

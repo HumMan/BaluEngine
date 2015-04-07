@@ -80,16 +80,19 @@ struct CppTypeToScript < cpp_class >\
 }
 #define BALU_ENGINE_SCRIPT_BEGIN_CLASS(interface_wrapper_template, interface_type, script_name)\
 	DECL_SCRIPT_TYPE(interface_wrapper_template<interface_type>::TypeForGetName, script_name);\
-	void interface_type##_register(TClassRegistryParams& params);\
-	static bool interface_type##_registered = TScriptClassesRegistry::Register(CppTypeToScript<interface_wrapper_template<interface_type>::TypeForGetName>::Get(), interface_type##_register);\
-	void interface_type##_register(TClassRegistryParams& params)\
+	bool interface_type##_register();\
+	static bool interface_type##_registered =interface_type##_register();\
+	bool interface_type##_register()\
 		{\
 		typedef interface_wrapper_template<interface_type> TYPE;\
-		std::vector<Unpacker*> methods;
+		TClassBinding* binding = new TClassBinding();\
+		binding->class_name = CppTypeToScript<interface_wrapper_template<interface_type>::TypeForGetName>::Get();\
+		binding->size = sizeof(interface_wrapper_template<interface_type>::InterfaceType);\
+		std::vector<Unpacker*> methods;\
+		TScriptClassesRegistry::RegisterClassBinding(binding);
 
-#define BALU_ENGINE_SCRIPT_END_CLASS(interface_wrapper)\
-	auto scl = RegisterExternClass2(params, CppTypeToScript<interface_wrapper::TypeForGetName>::Get(), sizeof(interface_wrapper::InterfaceType), methods);\
-		}
+#define BALU_ENGINE_SCRIPT_END_CLASS\
+		binding->SetMethods(methods); return true; }
 	
 #pragma push_macro("new")
 #undef new

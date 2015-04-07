@@ -54,7 +54,7 @@ namespace EngineInterface
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IDirector, "IDirector");
 	MUnpackRA0(WrapPointer<IBaluWorldInstance>, WrapInterface<IDirector>, GetWorldInstance);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IDirector>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 }

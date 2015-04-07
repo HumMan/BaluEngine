@@ -9,10 +9,16 @@
 #include "../Source/semanticAnalyzer.h"
 
 //https://isocpp.org/wiki/faq/ctors#static-init-order-on-first-use
-std::vector < std::pair<const char*, RegisterScriptClass>>& get_script_class_registry()
+std::vector < std::unique_ptr<TClassBinding>>& get_script_class_registry()
 {
-	static std::vector < std::pair<const char*, RegisterScriptClass>> script_class_registry;
+	static std::vector <std::unique_ptr<TClassBinding>> script_class_registry;
 	return script_class_registry;
+}
+
+std::vector < std::pair<const char*, RegisterScriptClass>>& get_script_enum_registry()
+{
+	static std::vector < std::pair<const char*, RegisterScriptClass>> script_enum_registry;
+	return script_enum_registry;
 }
 
 TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size)
@@ -40,7 +46,7 @@ TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, i
 	return scl;
 }
 
-TSClass* RegisterClass(TClassRegistryParams& params, const char* source)
+TSClass* RegisterEnum(TClassRegistryParams& params, const char* source)
 {
 	auto syntax = params.syntax;
 	TClass* cl = new TClass(syntax->base_class.get());
@@ -102,7 +108,7 @@ void RegisterMethod2(TClassRegistryParams& params, TSClass* class_syntax, Unpack
 	}
 }
 
-std::string BuildExternClassSource(const char* name, std::vector<Unpacker*> methods)
+std::string BuildExternClassSource(const char* name, std::vector<std::unique_ptr<Unpacker>>& methods)
 {
 	std::string result;
 	result += (std::string("class extern ") + name + "\n{\n");
@@ -114,9 +120,26 @@ std::string BuildExternClassSource(const char* name, std::vector<Unpacker*> meth
 	return result;
 }
 
-TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, int size, std::vector<Unpacker*> methods)
+void DeclareMethod(TClassRegistryParams& params, TSClass* class_syntax, Unpacker* method)
 {
-	std::string source = BuildExternClassSource(name, methods);
+	std::vector<TSMethod*> m;
+	auto& syntax = params.syntax;
+	m.clear();
+	if (method->IsConstructor())
+	{
+		class_syntax->GetCopyConstructors(m);
+		m[0]->SetAsExternal(method->GetUnpackMethod());
+	}
+	else
+	{
+		class_syntax->GetMethods(m, syntax->lexer.GetIdFromName(method->GetFuncName()));
+		m[0]->SetAsExternal(method->GetUnpackMethod());
+	}
+}
+
+void DeclareExternClass(TClassRegistryParams& params, TClassBinding* binding)
+{
+	std::string source = BuildExternClassSource(binding->class_name, binding->methods);
 
 	auto& syntax = params.syntax;
 	TClass* cl = new TClass(syntax->base_class.get());
@@ -125,25 +148,63 @@ TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, in
 	cl->AnalyzeSyntax(syntax->lexer);
 	syntax->lexer.GetToken(TTokenType::Done);
 
-	TSClass* scl = new TSClass(syntax->sem_base_class.get(), cl);
-	syntax->sem_base_class->AddClass(scl);
-	scl->Build();
+	binding->compiled = new TSClass(syntax->sem_base_class.get(), cl);
+	syntax->sem_base_class->AddClass(binding->compiled);
+	binding->compiled->Build();
 
-	scl->SetSize(IntSizeOf(size) / sizeof(int));
-	scl->SetAutoMethodsInitialized();
+	binding->compiled->SetSize(IntSizeOf(binding->size) / sizeof(int));
+	binding->compiled->SetAutoMethodsInitialized();
+}
 
+void BuildExternClass(TClassRegistryParams& params, TClassBinding* binding)
+{
 	std::vector<TSClassField*> static_fields;
 	std::vector<TSLocalVar*> static_variables;
 
-	scl->LinkSignature(&static_fields, &static_variables);
-	scl->CalculateMethodsSizes();
+	binding->compiled->LinkSignature(&static_fields, &static_variables);
+	binding->compiled->CalculateMethodsSizes();
 
-	for (auto& v : methods)
+	for (auto& v : binding->methods)
 	{
-		RegisterMethod2(params, scl, v);
+		DeclareMethod(params, binding->compiled, v.get());
 	}
+}
 
-	return scl;
+//TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, int size, std::vector<Unpacker*> methods)
+//{
+//	std::string source = BuildExternClassSource(name, methods);
+//
+//	auto& syntax = params.syntax;
+//	TClass* cl = new TClass(syntax->base_class.get());
+//	syntax->base_class->AddNested(cl);
+//	syntax->lexer.ParseSource(source.c_str());
+//	cl->AnalyzeSyntax(syntax->lexer);
+//	syntax->lexer.GetToken(TTokenType::Done);
+//
+//	TSClass* scl = new TSClass(syntax->sem_base_class.get(), cl);
+//	syntax->sem_base_class->AddClass(scl);
+//	scl->Build();
+//
+//	scl->SetSize(IntSizeOf(size) / sizeof(int));
+//	scl->SetAutoMethodsInitialized();
+//
+//	std::vector<TSClassField*> static_fields;
+//	std::vector<TSLocalVar*> static_variables;
+//
+//	scl->LinkSignature(&static_fields, &static_variables);
+//	scl->CalculateMethodsSizes();
+//
+//	for (auto& v : methods)
+//	{
+//		RegisterMethod2(params, scl, v);
+//	}
+//
+//	return scl;
+//}
+
+void TScriptClassesRegistry::RegisterClassBinding(TClassBinding* binding)
+{
+	get_script_class_registry().push_back(std::unique_ptr<TClassBinding>(binding));
 }
 
 Unpacker* SetName(const char* name, Unpacker* method)
@@ -158,21 +219,26 @@ Unpacker* SetAsConstructor(Unpacker* method)
 	return method;
 }
 
-bool TScriptClassesRegistry::Register(const char* name, RegisterScriptClass reg)
+bool TScriptClassesRegistry::RegisterEnum(const char* name, RegisterScriptClass reg)
 {
-	get_script_class_registry().push_back(std::pair<const char*, RegisterScriptClass>(name, reg));
+	get_script_enum_registry().push_back(std::pair<const char*, RegisterScriptClass>(name, reg));
 	return true;
 }
 
 void TScriptClassesRegistry::RegisterClassesInScript(TClassRegistryParams& params)
 {
-	for (int i = 0; i < get_script_class_registry().size(); i++)
+	for (auto& v : get_script_enum_registry())
 	{
-		get_script_class_registry()[i].second(params);
+		v.second(params);
 	}
-}
 
-void TScriptClassesRegistry::Clear()
-{
-	//TODO
+	for (auto& v : get_script_class_registry())
+	{
+		DeclareExternClass(params, v.get());
+	}
+
+	for (auto& v : get_script_class_registry())
+	{
+		BuildExternClass(params, v.get());
+	}
 }

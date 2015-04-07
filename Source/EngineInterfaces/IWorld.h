@@ -133,7 +133,7 @@ namespace EngineInterface
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorld, "IBaluWorld");
 	MUnpackRA1(WrapPointer<IBaluScene>, WrapInterface<IBaluWorld>, GetScene, WrapValue<int>);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluWorld>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES

@@ -78,8 +78,12 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 
 	CompileScripts();
 
-	source->on_start_world_callback.Execute(this, &composer);
+	if (source->on_start_world_callback.IsScript())
+		source->on_start_world_callback.GetScriptEngine()->CallMethod(source->on_start_world_callback, this, &composer);
+	else
+		source->on_start_world_callback.Execute(this, &composer);
 }
+
 TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 {
 	instances.push_back(std::make_unique<TBaluSceneInstance>(this, scene_source, resources));
@@ -190,6 +194,15 @@ void TBaluWorldInstance::CompileScripts()
 		//auto method_body = source->render_world_callback.GetScriptSource();
 		//std::string method = std::string("func static RenderWorld(IDirector director, IWorldInstance world, IRender render)\n{\n") + method_body + "\n}\n";
 		//script_engine.CreateMethod(&source->render_world_callback, method.c_str());
+	}
+
+	{
+		if (source->on_start_world_callback.IsScript())
+		{
+			auto method_body = source->on_start_world_callback.GetScriptSource();
+			std::string method = std::string("func static StartWorld(IWorldInstance world_instance, IComposer composer)\n{\n") + method_body + "\n}\n";
+			script_engine.CreateMethod(&source->on_start_world_callback, method.c_str());
+		}
 	}
 
 	{

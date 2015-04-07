@@ -36,7 +36,7 @@ namespace EngineInterface
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	void TKey_register(TClassRegistryParams& params)
 	{
-		auto scl = RegisterClass(params,
+		auto scl = RegisterEnum(params,
 			"enum TKey\n"
 			"{\n"
 			"	Left,\n"
@@ -45,7 +45,7 @@ namespace EngineInterface
 			"	Down,\n"
 			"}\n");
 	}
-	static bool TKey_registered = TScriptClassesRegistry::Register("TKey", TKey_register);
+	static bool TKey_registered = TScriptClassesRegistry::RegisterEnum("TKey", TKey_register);
 #endif
 
 

@@ -74,7 +74,7 @@ namespace EngineInterface
 	MUnpackA1(TYPE, Set, WrapValue<float>);
 	MUnpackA0(TYPE, SetIdentity);
 	MUnpackCRA0(WrapValue<float>, TYPE, GetAngle);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapValue<TRot>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 
@@ -134,7 +134,7 @@ namespace EngineInterface
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapValue, TBaluTransform, "TTransform");
 	MUnpackRA2(WrapValue<TVec2>, TYPE, Transform, WrapValue<TVec2>, WrapValue<TVec2>);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapValue<TBaluTransform>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -155,7 +155,7 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IViewport, "IViewport");
 	MUnpackA1(TYPE, SetSize, WrapValue<TVec2>);
 	MUnpackRA0(WrapValue<TVec2>, TYPE, GetSize);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IViewport>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES

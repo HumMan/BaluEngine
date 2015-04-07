@@ -37,7 +37,7 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluClassPhysBodyIntance, "IClassPhysBodyInstance");
 	MUnpackRA0(WrapValue<TVec2>, TYPE, GetLinearVelocity);
 	MUnpackA1(TYPE, SetLinearVelocity, WrapValue<TVec2>);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluClassPhysBodyIntance>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 
@@ -55,7 +55,7 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, ISkeletonAnimationInstance, "ISkeletonAnimationInstance");
 	MUnpackA2(TYPE, PlayAnimation, TStringWrapper<std::string>, WrapValue<float>);
 	MUnpackA1(TYPE, StopAnimation, TStringWrapper<std::string>);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<ISkeletonAnimationInstance>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -81,6 +81,6 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluInstance, "IInstance");
 	MUnpackRA0(WrapPointer<IProperties>, WrapInterface<IBaluInstance>, GetProperties);
 	MUnpackRA0(WrapPointer<IBaluClassPhysBodyIntance>, WrapInterface<IBaluInstance>, GetPhysBody);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluInstance>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 }

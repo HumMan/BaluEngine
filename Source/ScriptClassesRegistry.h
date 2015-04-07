@@ -31,6 +31,30 @@ public:
 	{
 		return is_constructor;
 	}
+	virtual ~Unpacker()
+	{
+	}
+};
+
+class TClassBinding
+{
+public:
+	const char* class_name;
+	int size;
+	std::vector<std::unique_ptr<Unpacker>> methods;
+	TSClass* compiled;
+	TClassBinding()
+	{
+		class_name = nullptr;
+		size = 0;
+		compiled = nullptr;
+	}
+
+	void SetMethods(std::vector<Unpacker*> methods)
+	{
+		for (auto v : methods)
+			this->methods.push_back(std::unique_ptr<Unpacker>(v));
+	}
 };
 
 class TClassRegistryParams
@@ -43,19 +67,20 @@ public:
 
 typedef void(*RegisterScriptClass)(TClassRegistryParams& params);
 
-TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size);
-TSClass* RegisterClass(TClassRegistryParams& params, const char* source);
-void RegisterMethod(TClassRegistryParams& params, TSClass* class_syntax, const char* name, TExternalSMethod func);
+//TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size);
+TSClass* RegisterEnum(TClassRegistryParams& params, const char* source);
+//void RegisterMethod(TClassRegistryParams& params, TSClass* class_syntax, const char* name, TExternalSMethod func);
 
-void RegisterMethod2(TClassRegistryParams& params, TSClass* class_syntax, Unpacker* method);
-TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, int size, std::vector<Unpacker*> methods);
+//void RegisterMethod2(TClassRegistryParams& params, TSClass* class_syntax, Unpacker* method);
+//TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, int size, std::vector<Unpacker*> methods);
+//void RegisterExternClass2(TClassBinding* binding);
 Unpacker* SetName(const char* name, Unpacker* method);
 Unpacker* SetAsConstructor(Unpacker* method);
 
 class TScriptClassesRegistry
 {
 public:
-	static bool Register(const char* name, RegisterScriptClass reg);
+	static bool RegisterEnum(const char* name, RegisterScriptClass reg);
+	static void RegisterClassBinding(TClassBinding* binding);
 	static void RegisterClassesInScript(TClassRegistryParams& params);
-	static void Clear();
 };

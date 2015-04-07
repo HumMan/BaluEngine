@@ -39,7 +39,7 @@ namespace EngineInterface
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSceneInstance, "ISceneInstance");
 	MUnpackRA0(WrapPointer<IBaluScene>, TYPE, GetSource);
-	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluSceneInstance>);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 }
