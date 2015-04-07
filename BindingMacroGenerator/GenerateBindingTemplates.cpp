@@ -337,7 +337,7 @@ std::string GenerateTemplateConstructorClass(int params_count)
 		"	{\n";
 
 		result +=
-			"		(new (&object.get_as<Tobject_type>().GetCppValue())Tobject_type::InterfaceType\n"
+			"		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType\n"
 			"		(\n";
 
 	for (int i = 0; i < params_count; i++)
@@ -407,13 +407,13 @@ std::string GenerateTemplateClass(int params_count, bool have_return, bool const
 	if (have_return)
 	{
 		result +=
-			"		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)\n"
+			"		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)\n"
 			"		(\n";
 	}
 	else
 	{
 		result +=
-			"		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)\n"
+			"		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)\n"
 			"		(\n";
 	}
 	for (int i = 0; i < params_count; i++)

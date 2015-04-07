@@ -29,8 +29,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	auto world_instance = CreateWorldInstance(world, director->GetResources());
 
-	world_instance->CompileScripts();
-
 	director->SetWorldInstance(world_instance);
 
 	director->MainLoop();

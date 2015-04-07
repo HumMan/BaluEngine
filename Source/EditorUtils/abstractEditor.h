@@ -32,6 +32,10 @@ public:
 	TAbstractEditor()
 	{
 		editor_global_pos = TVec2(0, 0);
+		current_local_editor = nullptr;
+		world = nullptr;
+		active_tool = nullptr;
+		editor_global_pos = TVec2(0, 0);
 	}
 
 	virtual bool CanSetSelectedAsWork() = 0;

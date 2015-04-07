@@ -8,6 +8,10 @@
 
 #include "EngineInterfaces\IAnimationFrames.h"
 
+#include "EngineInterfaces\ISpritePolygon.h"
+
+#include "Callbacks.h"
+
 using namespace EngineInterface;
 
 namespace pugi

@@ -6,7 +6,7 @@
 
 #include <box2D.h>
 
-#include "EngineInterfaces.h"
+#include "EngineInterfaces\IMaterial.h"
 
 namespace pugi
 {

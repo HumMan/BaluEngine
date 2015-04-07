@@ -5,6 +5,7 @@
 #include "Resources.h"
 
 #include "EngineInterfaces\IDirector.h"
+#include "EngineInterfaces\IComposer.h"
 
 class TGameInternal;
 class TBaluWorldInstance;

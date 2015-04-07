@@ -8,9 +8,6 @@
     <Filter Include="EditorUtils">
       <UniqueIdentifier>{323efbd3-8031-4cef-a566-a51a7da05312}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Instances">
-      <UniqueIdentifier>{acaae9c6-0b41-48ff-8626-1eed73c7234a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Definitions">
       <UniqueIdentifier>{64be69d9-b263-4bfb-bca3-7f3cd1d50825}</UniqueIdentifier>
     </Filter>
@@ -34,6 +31,9 @@
     </Filter>
     <Filter Include="EditorUtils\SpriteEditor">
       <UniqueIdentifier>{4813426d-acf3-4300-885b-c230894f7c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions_instances">
+      <UniqueIdentifier>{acaae9c6-0b41-48ff-8626-1eed73c7234a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -101,31 +101,31 @@
       <Filter>Definitions</Filter>
     </ClInclude>
     <ClInclude Include="Source\ClassInstance.h">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\MaterialInstance.h">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\PhysShapeInstance.h">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneInstance.h">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\SkeletonAnimationInstance.h">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\SkeletonInstance.h">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\SpriteInstance.h">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\SpritePolyInstance.h">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldInstance.h">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClInclude>
     <ClInclude Include="Source\Render.h">
       <Filter>Core</Filter>
@@ -268,6 +268,12 @@
     <ClInclude Include="Source\Composer.h">
       <Filter>Definitions</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IComposer.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Callbacks.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -328,31 +334,31 @@
       <Filter>Definitions</Filter>
     </ClCompile>
     <ClCompile Include="Source\ClassInstance.cpp">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\MaterialInstance.cpp">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\PhysShapeInstance.cpp">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneInstance.cpp">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\SkeletonAnimationInstance.cpp">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\SkeletonInstance.cpp">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\SpriteInstance.cpp">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\SpritePolyInstance.cpp">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\WorldInstance.cpp">
-      <Filter>Instances</Filter>
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\Render.cpp">
       <Filter>Core</Filter>

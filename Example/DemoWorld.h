@@ -127,33 +127,40 @@ void ViewportResize(TCallbackData* data, IDirector* director, TVec2i old_size, T
 	auto new_vieport_size = old_vieport_size.ComponentMul(k);
 	main_viewport->SetSize(new_vieport_size);
 }
-#else
-void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
+
+void WorldStart(TCallbackData* data, IBaluWorldInstance* world_instance, IComposer* composer)
 {
-	auto screen = TScreen(director->GetScreenSize());
-	auto main_viewport = world->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
-	std::vector<TRenderCommand> render_commands;
-	std::vector<TCustomDrawCommand> custom_draw_commands;
-	auto viewport_aabb = main_viewport->GetAABB();
-	world->GetSceneInstance(0)->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
-
-	//TODO где то нужно хранить viewport_view
-	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
-
-	for (auto& v : custom_draw_commands)
-	{
-		v.screen = &screen;
-		v.view = &main_viewport_view;
-		v.viewport = &viewport_aabb;
-	}
-
-	//render->EnableScissor(true);
-	//render->SetScissorRect(*screen, main_viewport_view);
-	render->Render(render_commands, custom_draw_commands, main_viewport);
-	//render->EnableScissor(false);
+	auto scene = world_instance->GetSource()->GetScenes()[0].second;
+	auto scene_instance = world_instance->RunScene(scene);
+	composer->AddToRender(scene_instance, scene->FindViewport("main_viewport"));
 }
 
+//void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
+//{
+//	auto screen = TScreen(director->GetScreenSize());
+//	auto main_viewport = world->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
+//	std::vector<TRenderCommand> render_commands;
+//	std::vector<TCustomDrawCommand> custom_draw_commands;
+//	auto viewport_aabb = main_viewport->GetAABB();
+//	world->GetSceneInstance(0)->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
+//
+//	//TODO где то нужно хранить viewport_view
+//	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+//
+//	for (auto& v : custom_draw_commands)
+//	{
+//		v.screen = &screen;
+//		v.view = &main_viewport_view;
+//		v.viewport = &viewport_aabb;
+//	}
+//
+//	//render->EnableScissor(true);
+//	//render->SetScissorRect(*screen, main_viewport_view);
+//	render->Render(render_commands, custom_draw_commands, main_viewport);
+//	//render->EnableScissor(false);
+//}
 
+#else
 
 char* PlayerJump_source = //(IBaluInstance object)
 "	//if (object.GetProperties().GetBool(\"can_jump\"))\n"
@@ -187,6 +194,12 @@ char* RenderWorld_source = //(IDirector director, IWorldInstance world, IRender 
 "		v.viewport = &viewport_aabb;\n"
 "	}\n"
 "	render->Render(render_commands, custom_draw_commands, main_viewport);\n";
+
+
+char* WorldStart_source = //(IWorldInstance world_instance, IComposer composer)
+"	IScene scene = world_instance.GetSource().GetScene(0);\n"
+"	ISceneInstance scene_instance = world_instance.RunScene(scene)\n"
+"	composer.AddToRender(scene_instance, scene.FindViewport(\"main_viewport\"));\n";
 
 #endif
 

@@ -5,6 +5,8 @@
 
 #include "Utils/DebugDraw.h"
 
+#include "EngineInterfaces\ISceneInstance.h"
+
 class TBaluWorldInstance;
 
 class TBaluSceneInstance : public b2ContactListener, public EngineInterface::IBaluSceneInstance

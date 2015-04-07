@@ -7,7 +7,7 @@
 
 #include <map>
 
-#include "EngineInterfaces.h"
+#include "EngineInterfaces\IWorld.h"
 
 class TBaluPhysShapeFactory : public EngineInterface::IBaluPhysShapeFactory
 {
@@ -57,8 +57,10 @@ private:
 		return result;
 	}
 
-	CallbackWithData<RenderWorldCallback> render_world_callback;
+	//CallbackWithData<RenderWorldCallback> render_world_callback;
+	CallbackWithData<OnStartWorldCallback> on_start_world_callback;
 	CallbackWithData<ViewportResizeCallback> viewport_resize_callback;
+
 public:
 	TBaluWorld();
 	TCallbacksActiveType& GetCallbacksActiveType()
@@ -84,6 +86,11 @@ public:
 	TBaluSprite* GetSprite(const char* sprite_name);
 	TBaluClass* GetClass(const char* class_name);
 	TBaluScene* GetScene(const char* scene_name);
+
+	IBaluScene* GetScene(int index)
+	{
+		return GetScenes()[0].second;
+	}
 	
 	std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials()
 	{
@@ -114,10 +121,10 @@ public:
 	void RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback>);
 	void RemoveOnMouseMove(CallbackWithData<MouseUpDownCallback>);
 
-	void AddOnWorldStart();
-	void RemoveOnWorldEnd();
+	void AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback);
+	//void AddOnWorldEnd();
 
-	void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback);
+	//void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback);
 	void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback);
 
 	void SaveToXML(std::string path);

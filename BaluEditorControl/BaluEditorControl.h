@@ -74,6 +74,8 @@ namespace Editor
 
 		//BaluEditorControl();
 		BaluEditorControl(IntPtr handle);
+
+		void Destroy();
 		void BeginFrame();
 		void EndFrame();
 
@@ -114,9 +116,12 @@ namespace Editor
 		property ToolStrip^ EditorToolsBar;
 		property ToolStrip^ ToolStateToolsBar;
 		property ListBox^ ToolObjectSelect;
-	protected:
 
 		!BaluEditorControl();
+
+	protected:
+
+		
 	};
 
 	//public ref class BaluEditorOpenglWindow

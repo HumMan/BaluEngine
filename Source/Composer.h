@@ -1,6 +1,9 @@
 #pragma once
 
 #include "EngineInterfaces\ISceneInstance.h"
+#include "EngineInterfaces\IComposer.h"
+
+#include <memory>
 
 namespace EngineInterface
 {
@@ -9,8 +12,9 @@ namespace EngineInterface
 
 class TComposer;
 
-class TComposerStage
+class TComposerStage : public EngineInterface::IComposerStage
 {
+	friend class TComposer;
 	TComposer* composer;
 
 	EngineInterface::IBaluSceneInstance* scene_instance;
@@ -24,10 +28,17 @@ public:
 	void MoveBackward();
 };
 
-class TComposer
+class TComposerPrivate;
+
+class TComposer: public EngineInterface::IComposer
 {
+	std::unique_ptr<TComposerPrivate> p;
 public:
-	TComposer(EngineInterface::TRender* render);
-	TComposerStage* AddToRender(EngineInterface::IBaluSceneInstance* scene_instance);
-	void RemoveFromRender(TComposerStage* stage);
+	TComposer();
+	//TComposer(EngineInterface::TRender* render);
+	TComposerStage* AddToRender(EngineInterface::IBaluSceneInstance* scene_instance, EngineInterface::IViewport* viewport);
+	void RemoveFromRender(EngineInterface::IComposerStage* stage);
+
+	void Render(EngineInterface::TRender* render);
+	~TComposer();
 };

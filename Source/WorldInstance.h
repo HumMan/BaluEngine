@@ -2,8 +2,11 @@
 
 #include "World.h"
 #include "SceneInstance.h"
+#include "Composer.h"
 
 #include "baluScript.h"
+
+#include "EngineInterfaces\IWorldInstance.h"
 
 class TDirector;
 
@@ -44,18 +47,30 @@ public:
 		TStackValue result, object;
 		viewport_resize_callback.GetCompiledScript()->Run(static_objects, params, result, object);
 	}
-	void CallMethod(CallbackWithData<RenderWorldCallback> render_world_callback, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render)
+	//void CallMethod(CallbackWithData<RenderWorldCallback> render_world_callback, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render)
+	//{
+	//	std::vector<TStackValue> params;
+	//	params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IDirector"))));
+	//	params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IWorldInstance"))));
+	//	params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IRender"))));
+	//	*(EngineInterface::IDirector**)params[0].get() = director;
+	//	*(EngineInterface::IBaluWorldInstance**)params[1].get() = world;
+	//	*(TRender**)params[2].get() = render;
+
+	//	TStackValue result, object;
+	//	render_world_callback.GetCompiledScript()->Run(static_objects, params, result, object);
+	//}
+
+	void CallMethod(CallbackWithData<OnStartWorldCallback> start_world_callback, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer)
 	{
 		std::vector<TStackValue> params;
-		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IDirector"))));
 		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IWorldInstance"))));
-		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IRender"))));
-		*(EngineInterface::IDirector**)params[0].get() = director;
-		*(EngineInterface::IBaluWorldInstance**)params[1].get() = world;
-		*(TRender**)params[2].get() = render;
+		params.push_back(TStackValue(false, syntax->sem_base_class->GetClass(syntax->lexer.GetIdFromName("IComposer"))));
+		*(EngineInterface::IBaluWorldInstance**)params[0].get() = world_instance;
+		*(EngineInterface::IComposer**)params[1].get() = composer;
 
 		TStackValue result, object;
-		render_world_callback.GetCompiledScript()->Run(static_objects, params, result, object);
+		start_world_callback.GetCompiledScript()->Run(static_objects, params, result, object);
 	}
 	void CallMethod(CallbackWithData<KeyUpDownCallback>callback, TBaluInstance* obj)
 	{
@@ -75,6 +90,7 @@ private:
 	std::vector<std::unique_ptr<TBaluSceneInstance>> instances;
 	TResources* resources;
 	TBaluScriptInstance script_engine;
+	TComposer composer;
 public:
 	TBaluWorld* GetSource();
 
@@ -109,10 +125,15 @@ public:
 	void MouseVerticalWheel(int amount);
 
 	void ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size);
-	void Render(TDirector* director, TRender* render);
+	//void Render(TDirector* director, TRender* render);
 
 	void UpdateTransform();
 	void DebugDraw();
 
 	void CompileScripts();
+
+	TComposer* GetComposer()
+	{
+		return &composer;
+	}
 };

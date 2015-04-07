@@ -47,6 +47,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\..\BaluLib\Include;$(ProjectDir)\..\Include;</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>$(ProjectDir)\..\..\BaluScript\source\memleaks.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -48,7 +48,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\SDL2-2.0.3\include;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\include\;$(ProjectDir)/../nanovg\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -67,7 +67,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -92,6 +92,7 @@
     <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep.h" />
     <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep_context.h" />
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h" />
+    <ClInclude Include="Source\Callbacks.h" />
     <ClInclude Include="Source\Class.h" />
     <ClInclude Include="Source\ClassInstance.h" />
     <ClInclude Include="Source\Composer.h" />
@@ -117,6 +118,7 @@
     <ClInclude Include="Source\EngineInterfaces\IAnimationFrames.h" />
     <ClInclude Include="Source\EngineInterfaces\IClass.h" />
     <ClInclude Include="Source\EngineInterfaces\IClassInstance.h" />
+    <ClInclude Include="Source\EngineInterfaces\IComposer.h" />
     <ClInclude Include="Source\EngineInterfaces\IDirector.h" />
     <ClInclude Include="Source\EngineInterfaces\IMaterial.h" />
     <ClInclude Include="Source\EngineInterfaces\IMaterialInstance.h" />

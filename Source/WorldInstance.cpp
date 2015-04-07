@@ -76,7 +76,9 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 	this->source = source;
 	this->resources = resources;
 
+	CompileScripts();
 
+	source->on_start_world_callback.Execute(this, &composer);
 }
 TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 {
@@ -191,9 +193,12 @@ void TBaluWorldInstance::CompileScripts()
 	}
 
 	{
-		auto method_body = source->viewport_resize_callback.GetScriptSource();
-		std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
-		script_engine.CreateMethod(&source->viewport_resize_callback, method.c_str());
+		if (source->viewport_resize_callback.IsScript())
+		{
+			auto method_body = source->viewport_resize_callback.GetScriptSource();
+			std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
+			script_engine.CreateMethod(&source->viewport_resize_callback, method.c_str());
+		}
 	}
 
 	for (auto& v : source->mouse_up_callbacks)
@@ -267,10 +272,10 @@ void TBaluWorldInstance::ViewportResize(TDirector* director, TVec2i old_size, TV
 		GetSource()->viewport_resize_callback.Execute(director, old_size, new_size);
 }
 
-void TBaluWorldInstance::Render(TDirector* director, TRender* render)
-{
-	if (GetSource()->render_world_callback.IsScript())
-		GetSource()->render_world_callback.GetScriptEngine()->CallMethod(GetSource()->render_world_callback, director, this, render);
-	else
-		GetSource()->render_world_callback.Execute(director, this, render);
-}
+//void TBaluWorldInstance::Render(TDirector* director, TRender* render)
+//{
+//	if (GetSource()->render_world_callback.IsScript())
+//		GetSource()->render_world_callback.GetScriptEngine()->CallMethod(GetSource()->render_world_callback, director, this, render);
+//	else
+//		GetSource()->render_world_callback.Execute(director, this, render);
+//}

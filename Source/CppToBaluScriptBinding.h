@@ -22,17 +22,21 @@ template<class T>
 class WrapInterface
 {
 public:
-	typedef T InterfaceType;
-	typedef T TypeForGetName;
 	typedef T* PassInMethodAs;
+	typedef T InterfaceType;
+	typedef T TypeForGetName;	
 	T* obj;
 	WrapInterface(T* copy_from_cpp)
 	{
 		obj = copy_from_cpp;
 	}
-	T& GetCppValue()
+	T& GetInterface()
 	{
 		return *obj;
+	}
+	T*& GetCppValue()
+	{
+		return obj;
 	}
 };
 
@@ -49,6 +53,10 @@ public:
 		obj = copy_from_cpp;
 	}
 	T& GetCppValue()
+	{
+		return obj;
+	}
+	T& GetInterface()
 	{
 		return obj;
 	}

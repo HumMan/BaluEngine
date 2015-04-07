@@ -52,7 +52,7 @@ public:
 void TDirector::Render()
 {
 	if (p->world_instance != nullptr)
-		p->world_instance->Render(this, p->render.get());
+		p->world_instance->GetComposer()->Render(p->render.get());
 }
 
 void TDirector::Step(float step)

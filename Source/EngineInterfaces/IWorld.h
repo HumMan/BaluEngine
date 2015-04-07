@@ -11,6 +11,7 @@
 #include "ISprite.h"
 #include "IClass.h"
 #include "IScene.h"
+
 #endif
 
 namespace EngineInterface
@@ -18,6 +19,7 @@ namespace EngineInterface
 	class IDirector;
 	class IBaluWorldInstance;
 	class TRender;
+	class IComposer;
 }
 #endif
 
@@ -51,7 +53,10 @@ namespace EngineInterface
 	typedef void(*MouseUpDownCallback)(TCallbackData* callback, TMouseEventArgs e);
 	typedef void(*MouseMoveCallback)(TCallbackData* callback, TMouseEventArgs e);
 
-	typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render);
+	//typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render);
+
+	typedef void(*OnStartWorldCallback)(TCallbackData* data, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer);
+
 	typedef void(*ViewportResizeCallback)(TCallbackData* data, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
 #endif
 
@@ -92,7 +97,10 @@ namespace EngineInterface
 		virtual void DestroyClass(const char* class_name) = 0;
 		virtual void DestroyScene(const char* scene_name) = 0;
 
-		virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback) = 0;
+		//virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback) = 0;
+
+		virtual void AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback) = 0;
+
 		virtual void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback) = 0;
 
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
@@ -101,6 +109,7 @@ namespace EngineInterface
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluScene*>> GetScenes() = 0;
 
 		virtual IBaluScene* GetScene(const char* scene_name) = 0;
+		virtual IBaluScene* GetScene(int index) = 0;
 
 		virtual IBaluPhysShapeFactory* GetPhysShapeFactory() = 0;
 
@@ -119,6 +128,12 @@ namespace EngineInterface
 		virtual void LoadFromXML(std::string path) = 0;
 
 	};
+#endif
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorld, "IBaluWorld");
+	MUnpackRA1(WrapPointer<IBaluScene>, WrapInterface<IBaluWorld>, GetScene, WrapValue<int>);
+	BALU_ENGINE_SCRIPT_END_CLASS(WrapInterface<IBaluWorld>);
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES

@@ -36,7 +36,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(new (&object.get_as<Tobject_type>().GetCppValue())Tobject_type::InterfaceType
+		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
 		));
 	}
@@ -60,7 +60,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 		));
 	}
@@ -83,7 +83,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 		));
 	}
@@ -107,7 +107,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 		));
 	}
@@ -130,7 +130,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 		));
 	}
@@ -188,7 +188,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(new (&object.get_as<Tobject_type>().GetCppValue())Tobject_type::InterfaceType
+		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue()
 		));
@@ -215,7 +215,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue()
 		));
@@ -241,7 +241,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue()
 		));
@@ -268,7 +268,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue()
 		));
@@ -294,7 +294,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue()
 		));
@@ -365,7 +365,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(new (&object.get_as<Tobject_type>().GetCppValue())Tobject_type::InterfaceType
+		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue()
@@ -395,7 +395,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue()
@@ -424,7 +424,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue()
@@ -454,7 +454,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue()
@@ -483,7 +483,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue()
@@ -567,7 +567,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(new (&object.get_as<Tobject_type>().GetCppValue())Tobject_type::InterfaceType
+		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -600,7 +600,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -632,7 +632,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -665,7 +665,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -697,7 +697,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -794,7 +794,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(new (&object.get_as<Tobject_type>().GetCppValue())Tobject_type::InterfaceType
+		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -830,7 +830,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -865,7 +865,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -901,7 +901,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -936,7 +936,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -1046,7 +1046,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(new (&object.get_as<Tobject_type>().GetCppValue())Tobject_type::InterfaceType
+		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -1085,7 +1085,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -1123,7 +1123,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -1162,7 +1162,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 
@@ -1200,7 +1200,7 @@ public:
 	}
 	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
 	{
-		(((object.get_as<Tobject_type>().GetCppValue()).*CppMethod)
+		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 			formal_params[0].get_as<Ta0>().GetCppValue(), 
 			formal_params[1].get_as<Ta1>().GetCppValue(), 

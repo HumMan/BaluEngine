@@ -3,7 +3,7 @@
 #include "SpritePoly.h"
 #include "PhysShape.h"
 
-#include "EngineInterfaces.h"
+#include "EngineInterfaces\ISprite.h"
 
 #include <pugixml.hpp>
 

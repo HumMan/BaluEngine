@@ -2,6 +2,8 @@
 
 #include "RenderCommand.h"
 
+#include "EngineInterfaces\IComposer.h"
+
 #include "EngineInterfaces\IAnimationFrames.h"
 #include "EngineInterfaces\IMaterial.h"
 #include "EngineInterfaces\ISpritePolygon.h"

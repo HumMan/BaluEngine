@@ -339,25 +339,27 @@ namespace Editor
 		}
 		p->world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
 
-		p->screen = new TScreen(p->director->GetScreenSize());
-		p->director->SetSymulatePhysics(false);
+		
+		//auto callback = CallbackWithData<RenderWorldCallback>(RenderWorld, &p->world->GetCallbacksActiveType(), p, TCallbacksActiveType::EDITOR);
+		//p->world->SetRenderWorldCallback(callback);
 
-		p->main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+		p->world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::EDITOR));
+		p->world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 
 		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
 
 		p->scene_instance = p->world_instance->RunScene(editor_scene);
 
+		p->screen = new TScreen(p->director->GetScreenSize());
+		p->director->SetSymulatePhysics(false);
+		p->main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
 		p->director->SetWorldInstance(p->world_instance);
-		auto callback = CallbackWithData<RenderWorldCallback>(RenderWorld, &p->world->GetCallbacksActiveType(), p, TCallbacksActiveType::EDITOR);
-		p->world->SetRenderWorldCallback(callback);
-
-		p->world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
-
+		
 	}
 
 	void BaluEditorControl::DestroyEditorScene()
 	{
+		DestroyWorldInstance(p->world_instance);
 		IBaluScene* result;
 		if (p->world->TryFind("EditorScene", result))
 			p->world->DestroyScene("EditorScene");
@@ -560,9 +562,28 @@ namespace Editor
 		p->director->EndFrame();
 	}
 
+	void BaluEditorControl::Destroy()
+	{
+		DestroyEditorScene();
+
+		DestroyWorldInstance(p->world_instance);
+		DestroyWorld(p->world);
+		IDirector::DestroyDirector(p->director);
+
+		delete p;
+		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	}
+
 	BaluEditorControl::!BaluEditorControl()
 	{
-		delete p;
+		//DestroyEditorScene();
+
+		//DestroyWorldInstance(p->world_instance);
+		//DestroyWorld(p->world);
+		//IDirector::DestroyDirector(p->director);
+
+		//delete p;
+		//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	}
 
 	TMouseEventArgs Convert(MouseEventArgs^ e)

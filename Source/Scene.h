@@ -6,6 +6,8 @@
 #include "../../BaluLib/Source/BVolumes/AABB.h"
 #include "../../BaluLib/Source/BVolumes/OBB.h"
 
+#include "EngineInterfaces\IScene.h"
+
 class TViewport : public EngineInterface::IViewport
 {
 	TBaluTransform transform;

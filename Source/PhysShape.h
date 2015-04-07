@@ -4,6 +4,8 @@
 
 #include <Box2D.h>
 
+#include "EngineInterfaces\IPhysShape.h"
+
 using namespace EngineInterface;
 
 class TBaluPhysShape: public EngineInterface::IBaluPhysShape

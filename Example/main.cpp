@@ -6,7 +6,7 @@
 
 using namespace EngineInterface;
 
-//#define USE_CALLBACKS
+#define USE_CALLBACKS
 #include "DemoWorld.h"
 
 IBaluSceneInstance* scene_instance;
@@ -34,7 +34,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	demo_world->GetCallbacksActiveType().active_type = TCallbacksActiveType::DEFAULT;
 
 #ifdef USE_CALLBACKS
-	demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
+	//demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
+	demo_world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart, &demo_world->GetCallbacksActiveType()));
 	demo_world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize, &demo_world->GetCallbacksActiveType()));
 #else
 	//demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
@@ -47,8 +48,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
 
 	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources());
-
-	demo_world_instance->CompileScripts();
 
 	auto demo_scene = demo_world->GetScene("scene0");
 
@@ -69,7 +68,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	director->SetSymulatePhysics(true);
 
-	//director->MainLoop();
+	director->MainLoop();
 
 	DestroySceneEditor(scene_editor);
 
@@ -77,8 +76,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	DestroyWorld(demo_world);
 	IDirector::DestroyDirector(director);
 	
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	_CrtDumpMemoryLeaks();
+	//_CrtDumpMemoryLeaks();
 
 	return 0;
 }

@@ -7,6 +7,8 @@
 
 #include "Sprite.h"
 
+#include "EngineInterfaces\IClass.h"
+
 class TSkeleton;
 
 class TBone : public EngineInterface::IBone

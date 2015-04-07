@@ -299,11 +299,15 @@ void TBaluWorld::RemoveOnMouseMove(CallbackWithData<MouseMoveCallback> callback)
 	RemoveCallback(callback, mouse_move_callbacks);
 }
 
-
-void TBaluWorld::SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)
+void TBaluWorld::AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback)
 {
-	render_world_callback = callback;
+	on_start_world_callback = callback;
 }
+
+//void TBaluWorld::SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)
+//{
+//	render_world_callback = callback;
+//}
 
 void TBaluWorld::SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback)
 {

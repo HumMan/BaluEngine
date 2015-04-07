@@ -194,5 +194,10 @@ namespace BaluEditor
         {
             events_editor.ShowDialog();
         }
+
+        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            baluEditorControl1.Destroy();
+        }
     }
 }
