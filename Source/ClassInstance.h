@@ -14,7 +14,7 @@ public:
 	std::unique_ptr<TBaluPhysShapeInstance> shape;
 	TBaluInstance* parent;
 
-
+	std::vector<IBaluPhysShapeInstance*> obstacle_shapes;
 
 	TSensorInstance(TSensor* source, TBaluInstance* parent);
 	void BuildFixture(b2Body* body, TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);

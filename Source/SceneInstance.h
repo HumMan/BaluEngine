@@ -60,9 +60,6 @@ public:
 	EngineInterface::IBaluInstance* CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform, TVec2 scale);
 	void DestroyInstance(EngineInterface::IBaluInstance*);
 
-	TVec2 WorldToScene(const TVec2& v);
-	TVec2 SceneToWorld(const TVec2& v);
-	
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TCustomDrawCommand>& custom_draw);
 

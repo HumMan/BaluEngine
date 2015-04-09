@@ -6,7 +6,7 @@
 
 using namespace EngineInterface;
 
-//#define USE_CALLBACKS
+#define USE_CALLBACKS
 #include "DemoWorld.h"
 
 IBaluSceneInstance* scene_instance;

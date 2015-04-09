@@ -49,7 +49,7 @@ void BonesPlayerLeft(TCallbackData* data, IBaluInstance* object)
 //}
 
 //TODO перенести в классы
-std::vector<IBaluPhysShapeInstance*> obstacle_shapes;
+//std::vector<IBaluPhysShapeInstance*> obstacle_shapes;
 
 void PlayerJumpSensorBeginCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, IBaluPhysShapeInstance* obstacle_shape)
 {
@@ -135,31 +135,6 @@ void WorldStart(TCallbackData* data, IBaluWorldInstance* world_instance, ICompos
 	composer->AddToRender(scene_instance, scene->FindViewport("main_viewport"));
 }
 
-//void RenderWorld(TCallbackData* data, IDirector* director, IBaluWorldInstance* world, TRender* render)
-//{
-//	auto screen = TScreen(director->GetScreenSize());
-//	auto main_viewport = world->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
-//	std::vector<TRenderCommand> render_commands;
-//	std::vector<TCustomDrawCommand> custom_draw_commands;
-//	auto viewport_aabb = main_viewport->GetAABB();
-//	world->GetSceneInstance(0)->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
-//
-//	//TODO где то нужно хранить viewport_view
-//	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
-//
-//	for (auto& v : custom_draw_commands)
-//	{
-//		v.screen = &screen;
-//		v.view = &main_viewport_view;
-//		v.viewport = &viewport_aabb;
-//	}
-//
-//	//render->EnableScissor(true);
-//	//render->SetScissorRect(*screen, main_viewport_view);
-//	render->Render(render_commands, custom_draw_commands, main_viewport);
-//	//render->EnableScissor(false);
-//}
-
 #else
 
 char* PlayerJump_source = //(IBaluInstance object)
@@ -176,25 +151,6 @@ char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_s
 "	vec2 old_vieport_size = main_viewport.GetSize();\n"
 "	vec2 new_vieport_size = old_vieport_size*k;\n"
 "	main_viewport.SetSize(new_vieport_size);\n";
-
-char* RenderWorld_source = //(IDirector director, IWorldInstance world, IRender render)
-"	auto screen = TScreen(director->GetScreenSize());\n"
-"	auto main_viewport = world->GetSceneInstance(0)->GetSource()->FindViewport(\"main_viewport\");\n"
-"	std::vector<TRenderCommand> render_commands;\n"
-"	std::vector<TCustomDrawCommand> custom_draw_commands;\n"
-"	auto viewport_aabb = main_viewport->GetAABB();\n"
-"	world->GetSceneInstance(0)->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);\n"
-
-"	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));\n"
-
-"	for (auto& v : custom_draw_commands)\n"
-"	{\n"
-"		v.screen = &screen;\n"
-"		v.view = &main_viewport_view;\n"
-"		v.viewport = &viewport_aabb;\n"
-"	}\n"
-"	render->Render(render_commands, custom_draw_commands, main_viewport);\n";
-
 
 char* WorldStart_source = //(IWorldInstance world_instance, IComposer composer)
 "	IScene scene = world_instance.GetSource().GetScene(0);\n"

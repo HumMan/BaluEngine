@@ -131,18 +131,6 @@ void TBaluSceneInstance::DestroyInstance(EngineInterface::IBaluInstance* instanc
 		}
 }
 
-TVec2 TBaluSceneInstance::WorldToScene(const TVec2& v)
-{
-	//TODO
-	return TVec2();
-}
-
-TVec2 TBaluSceneInstance::SceneToWorld(const TVec2& v)
-{
-	//TODO
-	return TVec2();
-}
-
 void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results)
 {
 	for (int i = 0; i < instances.size(); i++)

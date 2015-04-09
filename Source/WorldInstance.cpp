@@ -19,6 +19,7 @@ TBaluScriptInstance::TBaluScriptInstance()
 	char* script_base_source;
 	{
 		TFileData file("../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
+		//TFileData file("base_types.bscript", "rb");
 		script_base_source = file.ReadAll();
 		script_base_source[file.GetSize()] = '\0';
 	}

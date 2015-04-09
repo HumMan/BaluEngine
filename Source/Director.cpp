@@ -218,8 +218,11 @@ void TDirector::MainLoop()
 
 	auto last_tick = SDL_GetTicks();
 
+	SDL_GL_SetSwapInterval(1);
+
 	while (!quit)
 	{
+		//SDL_Delay(10);
 		auto curr_tick = SDL_GetTicks();
 		float step = (curr_tick - last_tick) / 1000.0;
 		last_tick = curr_tick;
