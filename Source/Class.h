@@ -13,51 +13,25 @@
 //TODO определиться в какой СК передавать координаты курсора мыши
 typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);
 
-
-class TSensor: public EngineInterface::ISensor
-{
-public:
-	//std::unique_ptr<TBaluPhysShape> shape;
-	std::unique_ptr<TBaluPhysShape> phys_shape;
-	//std::vector<SensorCollideCallback> on_sensor_collide_callbacks;
-	std::vector<SensorCollideCallback> on_begin_contact, on_end_contact;
-	TSensor()
-	{
-	}
-	TSensor(TBaluPhysShape* shape)
-	{
-		//this->shape.reset(shape);
-		this->phys_shape.reset(shape);
-	}
-
-	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-};
-
 class TBaluClassPhysBody: public EngineInterface::IBaluClassPhysBody
 {
 private:
 	b2BodyDef body_def;
 	bool enable;
-	std::vector<std::unique_ptr<TSensor>> sensors;
 public:
 	TBaluClassPhysBody();
 	TBaluClassPhysBody(TBaluClassPhysBody&& right)
 		:body_def(std::move(right.body_def))
 		, enable(std::move(right.enable))
-		, sensors(std::move(right.sensors))
 	{
 
 	}
 	int GetSensorsCount();
-	TSensor* GetSensor(int index);
 	void SetFixedRotation(bool fixed);
 	void SetPhysBodyType(TPhysBodyType type);
 	void Enable(bool enable);
 	bool IsEnable();
 	b2BodyDef GetBodyDef();
-	TSensor* CreateSensor(TBaluPhysShape* shape);
-	EngineInterface::ISensor* CreateSensor(EngineInterface::IBaluPhysShape* shape);
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
@@ -140,12 +114,6 @@ public:
 	void OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback);
 
 	void OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback> callback);
-
-	void OnBeginContact(TSensor* sensor, SensorCollideCallback callback);
-	void OnBeginContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback);
-
-	void OnEndContact(TSensor* sensor, SensorCollideCallback callback);
-	void OnEndContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback);
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

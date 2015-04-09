@@ -15,6 +15,8 @@ namespace EngineInterface
 	class IBaluPhysShape
 	{
 	public:
+		virtual void SetIsSensor(bool value)=0;
+		virtual bool IsSensor()=0;
 		virtual ~IBaluPhysShape(){};
 	};
 #endif

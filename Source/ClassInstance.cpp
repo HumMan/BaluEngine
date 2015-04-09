@@ -2,17 +2,6 @@
 
 #include "WorldInstance.h"
 
-TSensorInstance::TSensorInstance(TSensor* source, TBaluInstance* parent)
-{
-	this->parent = parent;
-	this->source = source;
-	shape = std::make_unique<TBaluPhysShapeInstance>(source->phys_shape.get(), parent, this);
-}
-void TSensorInstance::BuildFixture(b2Body* body, TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform)
-{
-	shape->BuildFixture(body,class_scale, class_transform, sprite_scale, sprite_transform);
-}
-
 TBaluClass* TBaluInstance::GetClass()
 {
 	return instance_class;
@@ -138,12 +127,6 @@ bool TBaluClassPhysBodyIntance::IsEnable()
 
 void TBaluClassPhysBodyIntance::BuildAllFixtures()
 {
-	for (int i = 0; i < source->GetSensorsCount(); i++)
-	{
-		//sensors.back()->BuildFixture(phys_body, parent->GetScale());
-		sensors[i]->BuildFixture(phys_body, parent->GetScale(), parent->GetTransform(), TVec2(1, 1), TBaluTransform(TVec2(0, 0), TRot(0)));
-	}
-
 	for (int i = 0; i < parent->GetSpritesCount(); i++)
 	{
 		auto sensor_source = parent->GetSprite(i);
@@ -171,12 +154,6 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 		//	body_def.angularVelocity = 10;
 
 		phys_body = phys_world->CreateBody(&body_def);
-
-		for (int i = 0; i < source->GetSensorsCount(); i++)
-		{
-			auto sensor_source = source->GetSensor(i);
-			sensors.push_back(std::make_unique<TSensorInstance>(sensor_source, parent));
-		}
 
 		BuildAllFixtures();
 	}
@@ -267,18 +244,18 @@ void TBaluInstance::DoBeforePhysicsStep()
 //	}	
 //}
 
-void TBaluInstance::DoBeginContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
-{
-	for (const SensorCollideCallback& i : sensor->source->on_begin_contact)
-	{
-		i(this, sensor, obstancle, obstacle_shape);
-	}	
-}
-
-void TBaluInstance::DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
-{
-	for (const SensorCollideCallback& i : sensor->source->on_end_contact)
-	{
-		i(this, sensor, obstancle, obstacle_shape);
-	}
-}
+//void TBaluInstance::DoBeginContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
+//{
+//	for (const SensorCollideCallback& i : sensor->source->on_begin_contact)
+//	{
+//		i(this, sensor, obstancle, obstacle_shape);
+//	}	
+//}
+//
+//void TBaluInstance::DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
+//{
+//	for (const SensorCollideCallback& i : sensor->source->on_end_contact)
+//	{
+//		i(this, sensor, obstancle, obstacle_shape);
+//	}
+//}

@@ -6,15 +6,6 @@ TBaluClassPhysBody::TBaluClassPhysBody()
 	enable = false;
 }
 
-int TBaluClassPhysBody::GetSensorsCount()
-{
-	return sensors.size();
-}
-TSensor* TBaluClassPhysBody::GetSensor(int index)
-{
-	return sensors[index].get();
-}
-
 void TBaluClassPhysBody::SetFixedRotation(bool fixed)
 {
 	body_def.fixedRotation = fixed;
@@ -127,19 +118,6 @@ TSkeleton* TBaluClass::GetSkeleton()
 	return skeleton.get();
 }
 
-TSensor* TBaluClassPhysBody::CreateSensor(TBaluPhysShape* shape)
-{
-	sensors.push_back(std::make_unique<TSensor>(shape));
-	return sensors.back().get();
-}
-
-EngineInterface::ISensor* TBaluClassPhysBody::CreateSensor(EngineInterface::IBaluPhysShape* shape)
-{
-	sensors.push_back(std::make_unique<TSensor>(static_cast<TBaluPhysShape*>(shape)));
-	return sensors.back().get();
-}
-
-
 TBaluClass::TBaluSpriteInstance* TBaluClass::AddSprite(TBaluSprite* sprite)
 {
 	sprites.push_back(std::make_unique<TBaluClass::TBaluSpriteInstance>(sprite));
@@ -205,29 +183,4 @@ void TBaluClass::OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback)
 void TBaluClass::OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback> callback)
 {
 	before_physics_callbacks.push_back(callback);
-}
-
-//void TBaluClass::OnSensorCollide(TSensor* sensor, SensorCollideCallback callback)
-//{
-//	sensor->on_sensor_collide_callbacks.push_back(callback);
-//}
-
-void TBaluClass::OnBeginContact(TSensor* sensor, SensorCollideCallback callback)
-{
-	sensor->on_begin_contact.push_back(callback);
-}
-
-void TBaluClass::OnBeginContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback)
-{
-	dynamic_cast<TSensor*>(sensor)->on_begin_contact.push_back(callback);
-}
-
-void TBaluClass::OnEndContact(TSensor* sensor, SensorCollideCallback callback)
-{
-	sensor->on_end_contact.push_back(callback);
-}
-
-void TBaluClass::OnEndContact(EngineInterface::ISensor* sensor, SensorCollideCallback callback)
-{
-	dynamic_cast<TSensor*>(sensor)->on_end_contact.push_back(callback);
 }

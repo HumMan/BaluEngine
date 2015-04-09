@@ -51,25 +51,30 @@ void BonesPlayerLeft(TCallbackData* data, IBaluInstance* object)
 //TODO перенести в классы
 //std::vector<IBaluPhysShapeInstance*> obstacle_shapes;
 
-void PlayerJumpSensorBeginCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, IBaluPhysShapeInstance* obstacle_shape)
+void PlayerJumpSensorCollide(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluInstance* obstacle)
 {
-	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
-	if (it == obstacle_shapes.end())
-	{
-		obstacle_shapes.push_back(obstacle_shape);
-	}
-	source->GetProperties()->SetBool("can_jump", obstacle_shapes.size()>0);
+	source->GetParent()->GetProperties()->SetBool("can_jump", true);
 }
 
-void PlayerJumpSensorEndCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, IBaluPhysShapeInstance* obstacle_shape)
-{
-	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
-	if (it != obstacle_shapes.end())
-	{
-		obstacle_shapes.erase(it);
-	}
-	source->GetProperties()->SetBool("can_jump", obstacle_shapes.size()>0);
-}
+//void PlayerJumpSensorBeginCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, IBaluPhysShapeInstance* obstacle_shape)
+//{
+//	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
+//	if (it == obstacle_shapes.end())
+//	{
+//		obstacle_shapes.push_back(obstacle_shape);
+//	}
+//	source->GetProperties()->SetBool("can_jump", obstacle_shapes.size()>0);
+//}
+//
+//void PlayerJumpSensorEndCollide(IBaluInstance* source, ISensorInstance* sensor, IBaluInstance* obstacle, IBaluPhysShapeInstance* obstacle_shape)
+//{
+//	auto it = std::find(obstacle_shapes.begin(), obstacle_shapes.end(), obstacle_shape);
+//	if (it != obstacle_shapes.end())
+//	{
+//		obstacle_shapes.erase(it);
+//	}
+//	source->GetProperties()->SetBool("can_jump", obstacle_shapes.size()>0);
+//}
 
 void PlayerPrePhysStep(TCallbackData* data, IBaluInstance* object)
 {
@@ -100,6 +105,8 @@ void PlayerPrePhysStep(TCallbackData* data, IBaluInstance* object)
 			v_anim = "jump_down";
 	}
 	object->GetSprite(0)->GetPolygon()->SetActiveAnimation((v_anim + hor_anim).c_str());
+
+	object->GetProperties()->SetBool("can_jump", false);
 }
 
 void BonesPlayerPrePhysStep(TCallbackData* data, IBaluInstance* object)
@@ -213,7 +220,9 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 	player_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
 	player_class->GetPhysBody()->SetFixedRotation(true);
 
-	auto sensor = player_class->GetPhysBody()->CreateSensor(world->GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -2.5))->GetPhysShape());
+	auto player_phys_sprite = world->CreateSprite("player_phys");
+	player_phys_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -2.5))->GetPhysShape());
+	player_phys_sprite->GetPhysShape()->SetIsSensor(true);
 
 #ifdef USE_CALLBACKS
 	player_class->OnKeyDown(TKey::Up, CallbackWithData<KeyUpDownCallback>(PlayerJump, &world->GetCallbacksActiveType()));
@@ -224,8 +233,10 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 	
 	//player_class->OnSensorCollide(sensor, PlayerJumpSensorCollide);
 
-	player_class->OnBeginContact(sensor, PlayerJumpSensorBeginCollide);
-	player_class->OnEndContact(sensor, PlayerJumpSensorEndCollide);
+	//player_class->OnBeginContact(sensor, PlayerJumpSensorBeginCollide);
+	//player_class->OnEndContact(sensor, PlayerJumpSensorEndCollide);
+
+	player_phys_sprite->OnCollide(box_class, CallbackWithData<CollideCallback>(PlayerJumpSensorCollide, &world->GetCallbacksActiveType()));
 #else
 	player_class->OnKeyDown(TKey::Up, CallbackWithData<KeyUpDownCallback>(PlayerJump_source, &world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 #endif

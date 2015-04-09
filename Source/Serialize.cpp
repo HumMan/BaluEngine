@@ -323,20 +323,6 @@ void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBa
 	}
 }
 
-void TSensor::Save(pugi::xml_node& parent_node, const int version)
-{
-	auto sensor_node = parent_node.append_child("Sensor");
-	phys_shape->Save(sensor_node, version);
-}
-
-void TSensor::Load(const pugi::xml_node& sensor_node, const int version, TBaluWorld* world)
-{
-	auto phys_shape_node = sensor_node.first_child();
-	auto new_shape = PhysShapeFactory::Create(phys_shape_node.name());
-	new_shape->Load(phys_shape_node, version, world);
-	this->phys_shape.reset(new_shape);
-}
-
 void TBaluClassPhysBody::Save(pugi::xml_node& parent_node, const int version)
 {
 	auto phys_Body_node = parent_node.append_child("PhysBody");
@@ -344,11 +330,6 @@ void TBaluClassPhysBody::Save(pugi::xml_node& parent_node, const int version)
 	auto body_def_node = phys_Body_node.append_child("PhysBody");
 	body_def_node.append_attribute("fixed_rotation").set_value(body_def.fixedRotation);
 	body_def_node.append_attribute("type").set_value(body_def.type);
-	auto sensors_node = phys_Body_node.append_child("Sensors");
-	for (auto& sensor : sensors)
-	{
-		sensor->Save(sensors_node, version);
-	}
 }
 
 void TBaluClassPhysBody::Load(const pugi::xml_node& phys_body_node, const int version, TBaluWorld* world)
@@ -357,13 +338,6 @@ void TBaluClassPhysBody::Load(const pugi::xml_node& phys_body_node, const int ve
 	auto body_def_node = phys_body_node.child("PhysBody");
 	body_def.fixedRotation = body_def_node.attribute("fixed_rotation").as_bool();
 	body_def.type = (b2BodyType)body_def_node.attribute("type").as_int();
-
-	auto sensors_node = phys_body_node.child("Sensors");
-	for (pugi::xml_node polygon = sensors_node.first_child(); polygon; polygon = polygon.next_sibling())
-	{
-		sensors.emplace_back(std::make_unique<TSensor>());
-		sensors.back()->Load(polygon, version, world);
-	}
 }
 
 void TTrackFrame::Save(pugi::xml_node& parent_node, const int version)const

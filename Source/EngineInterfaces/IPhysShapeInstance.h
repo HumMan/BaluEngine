@@ -3,6 +3,11 @@
 #pragma once
 #endif
 
+namespace EngineInterface
+{
+	class IBaluInstance;
+	class IBaluSpriteInstance;
+}
 
 namespace EngineInterface
 {
@@ -11,6 +16,8 @@ namespace EngineInterface
 	class IBaluPhysShapeInstance
 	{
 	public:
+		virtual IBaluInstance* GetParent()=0;
+		virtual IBaluSpriteInstance* GetSpriteInstance() = 0;
 	};
 #endif
 

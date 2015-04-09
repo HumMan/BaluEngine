@@ -26,49 +26,56 @@ EngineInterface::IBaluWorldInstance* TBaluSceneInstance::GetWorld()
 	return dynamic_cast<EngineInterface::IBaluWorldInstance*>(world);
 }
 
-void TBaluSceneInstance::BeginContact(b2Contact* contact) 
+void TContactsHolder::BeginContact(b2Contact* contact)
 { 
-	auto fixtureA = (TBaluPhysShapeInstance*) contact->GetFixtureA()->GetUserData();
-	auto fixtureB = (TBaluPhysShapeInstance*)contact->GetFixtureB()->GetUserData();
+	TCollisionInfo collision(contact->GetFixtureA(), contact->GetFixtureB());
 
-	if (fixtureA->GetParent() != fixtureB->GetParent())
-	{
-		if (fixtureA->IsSensor())
-			//collisions.push_back(TCollisionInfo(fixtureA, fixtureB));
-			begin_contact.push_back(TCollisionInfo(fixtureA, fixtureB));
-		else if (fixtureB->IsSensor())
-			//collisions.push_back(TCollisionInfo(fixtureB, fixtureA));
-			begin_contact.push_back(TCollisionInfo(fixtureB, fixtureA));
-	}
+	RemoveInStepContact(collision);
+	AddContact(collision);
 }
-void TBaluSceneInstance::EndContact(b2Contact* contact)
+void TContactsHolder::EndContact(b2Contact* contact)
 {
-	auto fixtureA = (TBaluPhysShapeInstance*)contact->GetFixtureA()->GetUserData();
-	auto fixtureB = (TBaluPhysShapeInstance*)contact->GetFixtureB()->GetUserData();
+	TCollisionInfo collision(contact->GetFixtureA(), contact->GetFixtureB());
 
-	if (fixtureA->GetParent() != fixtureB->GetParent())
+	AddInStepContact(collision);
+	RemoveContact(collision);
+}
+
+void TContactsHolder::OnProcessCollisions()
+{
+	for (auto& v : contacts)
 	{
-		if (fixtureA->IsSensor())
-			//collisions.push_back(TCollisionInfo(fixtureA, fixtureB));
-			end_contact.push_back(TCollisionInfo(fixtureA, fixtureB));
-		else if (fixtureB->IsSensor())
-			//collisions.push_back(TCollisionInfo(fixtureB, fixtureA));
-			end_contact.push_back(TCollisionInfo(fixtureB, fixtureA));
-		/*auto iter = std::find_if(collisions.begin(), collisions.end(),
-			[&](TBaluSceneInstance::TCollisionInfo& p)
+		auto shape_a = (TBaluPhysShapeInstance*)v.A->GetUserData();
+		auto shape_b = (TBaluPhysShapeInstance*) v.B->GetUserData();
+
+		auto instance_a = shape_a->GetParent();
+		auto instance_b = shape_b->GetParent();
+
+		auto class_a = instance_a->GetClass();
+		auto class_b = instance_b->GetClass();
+
+		auto sprite_a = shape_a->GetSpriteInstance();
+		auto sprite_b = shape_b->GetSpriteInstance();
+
+		auto c = (dynamic_cast<TBaluSpriteInstance*>(sprite_a))->GetSourceSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
+		if (c != nullptr)
 		{
-			return (p.A == fixtureA && p.B == fixtureB) || (p.A == fixtureB && p.B == fixtureA);
-		});
-		if (iter != collisions.end())
-			collisions.erase(iter);*/
+			c->Execute(shape_a, instance_b);
+		}
+		c = (dynamic_cast<TBaluSpriteInstance*>(sprite_b))->GetSourceSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_a));
+		if (c != nullptr)
+		{
+			c->Execute(shape_b, instance_a);
+		}
 	}
 }
-void TBaluSceneInstance::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
+
+void TContactsHolder::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
 	B2_NOT_USED(contact);
 	B2_NOT_USED(oldManifold);
 }
-void TBaluSceneInstance::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
+void TContactsHolder::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
 {
 	B2_NOT_USED(contact);
 	B2_NOT_USED(impulse);
@@ -89,7 +96,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	//phys_debug.Create();
 
 	//phys_world->SetDebugDraw(&phys_debug);
-	phys_world->SetContactListener(this);
+	phys_world->SetContactListener(&contact_listener);
 
 	for (int i = 0; i < source->GetInstancesCount(); i++)
 	{
@@ -139,8 +146,6 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygo
 	}
 }
 
-
-
 void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TCustomDrawCommand>& custom_draw)
 {
 	std::vector<TBaluSpritePolygonInstance*> polygons;
@@ -169,26 +174,13 @@ void TBaluSceneInstance::OnPrePhysStep()
 }
 void TBaluSceneInstance::PhysStep(float step)
 {
-	//collisions.clear();
-	begin_contact.clear();
-	end_contact.clear();
+	contact_listener.BeforePhysStep();
 	phys_world->Step(step*10, 3, 5);
 }
 
 void TBaluSceneInstance::OnProcessCollisions()
 {
-	//for (int i = 0; i < collisions.size(); i++)
-	//{
-	//	collisions[i].A->GetParent()->DoSensorCollide(collisions[i].A->GetParentSensor(), collisions[i].B->GetParent(), collisions[i].B);
-	//}
-	for (int i = 0; i < begin_contact.size(); i++)
-	{
-		begin_contact[i].A->GetParent()->DoBeginContact(begin_contact[i].A->GetParentSensor(), begin_contact[i].B->GetParent(), begin_contact[i].B);
-	}
-	for (int i = 0; i < end_contact.size(); i++)
-	{
-		end_contact[i].A->GetParent()->DoEndContact(end_contact[i].A->GetParentSensor(), end_contact[i].B->GetParent(), end_contact[i].B);
-	}
+	contact_listener.OnProcessCollisions();
 }
 
 void TBaluSceneInstance::OnStep(float step)

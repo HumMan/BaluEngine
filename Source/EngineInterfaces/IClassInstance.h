@@ -15,15 +15,6 @@
 
 namespace EngineInterface
 {
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-	class ISensorInstance
-	{
-
-	};
-#endif
-
-
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassPhysBodyIntance
 	{

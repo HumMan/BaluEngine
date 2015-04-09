@@ -11,11 +11,20 @@
 #include "ISpritePolygon.h"
 #endif
 
+namespace EngineInterface
+{
+	class IBaluPhysShapeInstance;
+	class IBaluInstance;
+	class IBaluClass;
+}
+
 #include <string>
 #endif
 
 namespace EngineInterface
 {
+	
+	typedef void(*CollideCallback)(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluInstance* obstacle);
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSprite
@@ -31,6 +40,10 @@ namespace EngineInterface
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 		virtual void SetPhysShapeFromGeometry() = 0;
 		virtual IBaluSpritePolygon* GetPolygone() = 0;
+
+		virtual void OnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback)=0;
+		virtual CallbackWithData<CollideCallback>* GetOnCollide(IBaluClass* obstancle_class)=0;
+
 	};
 #endif
 

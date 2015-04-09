@@ -16,7 +16,7 @@ TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TBaluTransform loc
 	//this->parent = parent;
 	this->source = source;
 	this->local = local;
-	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetPhysShape(), parent);
+	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetPhysShape(), parent, this);
 }
 
 TAABB2 TBaluSpriteInstance::GetAABB()

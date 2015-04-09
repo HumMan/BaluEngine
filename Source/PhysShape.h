@@ -13,9 +13,11 @@ class TBaluPhysShape: public EngineInterface::IBaluPhysShape
 protected:
 	TBaluTransform local;
 	TVec2 scale;
+	bool is_sensor;
 public:
 	TBaluPhysShape()
 	{
+		is_sensor = false;
 		local = TBaluTransform(TVec2(0, 0), TRot(0));
 		scale = TVec2(1, 1);
 	}
@@ -28,6 +30,14 @@ public:
 	void SetScale(TVec2 scale)
 	{
 		this->scale = scale;
+	}
+	void SetIsSensor(bool value)
+	{
+		is_sensor = value;
+	}
+	bool IsSensor()
+	{
+		return is_sensor;
 	}
 	//virtual TBaluPhysShape* GetPhysShape() = 0;
 	virtual void Save(pugi::xml_node& parent_node, const int version)=0;
