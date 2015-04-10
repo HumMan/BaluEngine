@@ -27,4 +27,9 @@ namespace EngineInterface
 	};
 #endif
 
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSpritePolygonInstance, "ISpritePolygonInstance");
+	MUnpackA1(TYPE, SetActiveAnimation, TString);
+	BALU_ENGINE_SCRIPT_END_CLASS;
+#endif
 }

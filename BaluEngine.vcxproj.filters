@@ -274,6 +274,12 @@
     <ClInclude Include="Source\Callbacks.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ScriptInstance.h">
+      <Filter>Definitions_instances</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\ICallbacks.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -434,6 +440,9 @@
     </ClCompile>
     <ClCompile Include="Source\Composer.cpp">
       <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScriptInstance.cpp">
+      <Filter>Definitions_instances</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

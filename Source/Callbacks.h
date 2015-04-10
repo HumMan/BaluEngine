@@ -97,9 +97,13 @@ namespace EngineInterface
 		template<typename... Args>
 		void Execute(Args... args)
 		{
-			assert(!is_script);//должно производиться через TScriptInstance
 			if (active_type->active_type == callback_type)
-				callback(this, args...);
+			{
+				if (IsScript())
+					GetScriptEngine()->CallMethod(*this, args...);
+				else
+					callback(this, args...);
+			}
 		}
 		void Initialize(T callback, TCallbacksActiveType* active_type, void* user_data, int callback_type, char* script_source = nullptr)
 		{
@@ -116,26 +120,17 @@ namespace EngineInterface
 		{
 			callback = nullptr;
 		}
-		CallbackWithData(char* script_source, TCallbacksActiveType* active_type, int callback_type)
+		CallbackWithData(char* script_source, TCallbacksActiveType* active_type, int callback_type = TCallbacksActiveType::DEFAULT)
 		{
 			Initialize(nullptr, active_type, nullptr, callback_type, script_source);
 		}
-		CallbackWithData(T callback, TCallbacksActiveType* active_type, void* user_data, int callback_type)
+		CallbackWithData(T callback, TCallbacksActiveType* active_type, void* user_data, int callback_type = TCallbacksActiveType::DEFAULT)
 		{
 			Initialize(callback, active_type, user_data, callback_type);
-		}
-		CallbackWithData(T callback, TCallbacksActiveType* active_type, void* user_data)
-		{
-			Initialize(callback, active_type, user_data, TCallbacksActiveType::DEFAULT);
 		}
 		CallbackWithData(T callback, TCallbacksActiveType* active_type)
 		{
 			Initialize(callback, active_type, nullptr, TCallbacksActiveType::DEFAULT);
 		}
 	};
-
-	class TCustomDrawCommand;
-
-	typedef void(*TCustomDrawCallback)(TCallbackData* callback, NVGcontext* vg, TCustomDrawCommand* params);
-
 }

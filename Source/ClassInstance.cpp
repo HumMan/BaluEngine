@@ -211,10 +211,7 @@ void TBaluInstance::DoKeyDown(TKey key)
 	{
 		for (int i = 0; i < it->second.size(); i++)
 		{
-			if (it->second[i].IsScript())
-				it->second[i].GetScriptEngine()->CallMethod(it->second[i],this);
-			else
-				it->second[i].Execute(this);
+			it->second[i].Execute(this);
 		}
 	}
 }

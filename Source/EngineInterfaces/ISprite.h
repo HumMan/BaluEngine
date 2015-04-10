@@ -7,6 +7,7 @@
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#include "ICallbacks.h"
 #include "IPhysShape.h"
 #include "ISpritePolygon.h"
 #endif
@@ -23,8 +24,6 @@ namespace EngineInterface
 
 namespace EngineInterface
 {
-	
-	typedef void(*CollideCallback)(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluInstance* obstacle);
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSprite
@@ -47,4 +46,11 @@ namespace EngineInterface
 	};
 #endif
 
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSprite, "ISprite");
+	MUnpackA1(TYPE, SetPhysShape, WrapInterface<IBaluPhysShape>);
+	MUnpackRA0(WrapPointer<IBaluPhysShape>, TYPE, GetPhysShape);
+	MUnpackRA0(WrapPointer<IBaluSpritePolygon>, TYPE, GetPolygone);
+	BALU_ENGINE_SCRIPT_END_CLASS;
+#endif
 }

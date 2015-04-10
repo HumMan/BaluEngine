@@ -10,6 +10,8 @@
 
 #include "MaterialInstance.h"
 
+#include "ScriptInstance.h"
+
 #include <nanovg.h>
 
 using namespace TBaluRenderEnums;

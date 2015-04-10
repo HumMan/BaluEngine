@@ -21,6 +21,13 @@ namespace EngineInterface
 	};
 #endif
 
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluPhysShape, "IPhysShape");
+	MUnpackA1(TYPE, SetIsSensor, WrapValue<bool>);
+	MUnpackRA0(WrapValue<bool>, TYPE, IsSensor);
+	BALU_ENGINE_SCRIPT_END_CLASS;
+#endif
+
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluPolygonShape
 	{

@@ -31,8 +31,11 @@ namespace EngineInterface
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
-
-	DECL_SCRIPT_TYPE(IBaluSpriteInstance, "ISpriteInstance");
-
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSpriteInstance, "ISpriteInstance");
+	MUnpackRA0(WrapPointer<IBaluSprite>,				TYPE, GetSourceSprite);
+	MUnpackRA0(WrapPointer<IBaluPhysShapeInstance>,		TYPE, GetPhysShape);
+	MUnpackRA0(WrapValue<TVec2>,						TYPE, GetScale);
+	MUnpackRA0(WrapPointer<IBaluSpritePolygonInstance>,	TYPE, GetPolygon);
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 }

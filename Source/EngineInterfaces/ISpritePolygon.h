@@ -60,4 +60,8 @@ namespace EngineInterface
 	};
 #endif
 
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSpritePolygon, "ISpritePolygon");
+	BALU_ENGINE_SCRIPT_END_CLASS;
+#endif
 }

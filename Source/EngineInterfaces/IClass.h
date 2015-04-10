@@ -49,10 +49,6 @@ namespace EngineInterface
 
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	typedef void(*KeyUpDownCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
-
-	typedef void(*BeforePhysicsCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
-	
 
 	enum TPhysBodyType
 	{

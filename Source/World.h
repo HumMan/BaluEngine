@@ -36,9 +36,10 @@ private:
 	TBaluPhysShapeFactory shape_factory;
 
 	//TODO такие колбэки должны задаваться в worldInstance, а здесь только исходники скриптов
-	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_down_callbacks;
-	std::vector<CallbackWithData<MouseUpDownCallback>> mouse_up_callbacks;
-	std::vector<CallbackWithData<MouseMoveCallback>> mouse_move_callbacks;
+	std::vector<CallbackWithData<MouseCallback>> 
+		mouse_down_callbacks,
+		mouse_up_callbacks,
+		mouse_move_callbacks;
 
 	TCallbacksActiveType callback_active_type;
 
@@ -113,13 +114,13 @@ public:
 
 	//void OnKeyDown(TKey key, KeyDownCallback callback);
 
-	void AddOnMouseDown(CallbackWithData<MouseUpDownCallback>);
-	void AddOnMouseUp(CallbackWithData<MouseUpDownCallback>);
-	void AddOnMouseMove(CallbackWithData<MouseUpDownCallback>);
+	void AddOnMouseDown(CallbackWithData<MouseCallback>);
+	void AddOnMouseUp(CallbackWithData<MouseCallback>);
+	void AddOnMouseMove(CallbackWithData<MouseCallback>);
 
-	void RemoveOnMouseDown(CallbackWithData<MouseUpDownCallback>);
-	void RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback>);
-	void RemoveOnMouseMove(CallbackWithData<MouseUpDownCallback>);
+	void RemoveOnMouseDown(CallbackWithData<MouseCallback>);
+	void RemoveOnMouseUp(CallbackWithData<MouseCallback>);
+	void RemoveOnMouseMove(CallbackWithData<MouseCallback>);
 
 	void AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback);
 	//void AddOnWorldEnd();

@@ -2,14 +2,6 @@
 
 #include "World.h"
 
-#include "../Source/Semantic/SMethod.h"
-#include "../Source/Semantic/SClass.h"
-#include "../Source/Semantic/FormalParam.h"
-#include "../Source/Semantic/SStatements.h"
-#include "../Source/Syntax/Statements.h"
-#include "../Source/Syntax/Method.h"
-#include "../Source/semanticAnalyzer.h"
-
 #include "Director.h"
 #include "WorldInstance.h"
 

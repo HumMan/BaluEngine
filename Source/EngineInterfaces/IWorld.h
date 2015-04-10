@@ -7,11 +7,11 @@
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#include "ICallbacks.h"
 #include "IMaterial.h"
 #include "ISprite.h"
 #include "IClass.h"
 #include "IScene.h"
-
 #endif
 
 namespace EngineInterface
@@ -35,9 +35,24 @@ namespace EngineInterface
 	};
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-	struct TMouseEventArgs
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	void TMouseButton_register(TClassRegistryParams& params)
 	{
+		auto scl = RegisterEnum(params,
+			"enum TMouseButton\n"
+			"{\n"
+			"	Left,\n"
+			"	Right,\n"
+			"	Middle,\n"
+			"}\n");
+	}
+	static bool TMouseButton_registered = TScriptClassesRegistry::RegisterEnum("TMouseButton", TMouseButton_register);
+#endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+	class TMouseEventArgs
+	{
+	public:
 		TMouseButton button;
 		TVec2i location;
 		TMouseEventArgs(){}
@@ -49,15 +64,9 @@ namespace EngineInterface
 	};
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-	typedef void(*MouseUpDownCallback)(TCallbackData* callback, TMouseEventArgs e);
-	typedef void(*MouseMoveCallback)(TCallbackData* callback, TMouseEventArgs e);
-
-	//typedef void(*RenderWorldCallback)(TCallbackData* data, EngineInterface::IDirector* director, EngineInterface::IBaluWorldInstance* world, TRender* render);
-
-	typedef void(*OnStartWorldCallback)(TCallbackData* data, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer);
-
-	typedef void(*ViewportResizeCallback)(TCallbackData* data, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, TMouseEventArgs, "TMouseEventArgs");
+	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -116,13 +125,13 @@ namespace EngineInterface
 		//void OnKeyDown(TKey key, KeyDownCallback callback);
 		//void OnKeyUp(TKey key, KeyDownCallback callback);
 
-		virtual void AddOnMouseDown(CallbackWithData<MouseUpDownCallback>) = 0;
-		virtual void AddOnMouseUp(CallbackWithData<MouseUpDownCallback>) = 0;
-		virtual void AddOnMouseMove(CallbackWithData<MouseMoveCallback>) = 0;
+		virtual void AddOnMouseDown(CallbackWithData<MouseCallback>) = 0;
+		virtual void AddOnMouseUp(CallbackWithData<MouseCallback>) = 0;
+		virtual void AddOnMouseMove(CallbackWithData<MouseCallback>) = 0;
 
-		virtual void RemoveOnMouseDown(CallbackWithData<MouseUpDownCallback>) = 0;
-		virtual void RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback>) = 0;
-		virtual void RemoveOnMouseMove(CallbackWithData<MouseMoveCallback>) = 0;
+		virtual void RemoveOnMouseDown(CallbackWithData<MouseCallback>) = 0;
+		virtual void RemoveOnMouseUp(CallbackWithData<MouseCallback>) = 0;
+		virtual void RemoveOnMouseMove(CallbackWithData<MouseCallback>) = 0;
 
 		virtual void SaveToXML(std::string path) = 0;
 		virtual void LoadFromXML(std::string path) = 0;

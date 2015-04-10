@@ -21,4 +21,9 @@ namespace EngineInterface
 	};
 #endif
 
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluPhysShapeInstance, "IPhysShapeInstance");
+	MUnpackRA0(WrapPointer<IBaluInstance>, TYPE, GetParent);
+	BALU_ENGINE_SCRIPT_END_CLASS;
+#endif
 }

@@ -116,6 +116,7 @@
     <ClInclude Include="Source\EngineInterfaces.h" />
     <ClInclude Include="Source\EngineInterfacesIncludes.h" />
     <ClInclude Include="Source\EngineInterfaces\IAnimationFrames.h" />
+    <ClInclude Include="Source\EngineInterfaces\ICallbacks.h" />
     <ClInclude Include="Source\EngineInterfaces\IClass.h" />
     <ClInclude Include="Source\EngineInterfaces\IClassInstance.h" />
     <ClInclude Include="Source\EngineInterfaces\IComposer.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneInstance.h" />
     <ClInclude Include="Source\ScriptClassesRegistry.h" />
+    <ClInclude Include="Source\ScriptInstance.h" />
     <ClInclude Include="Source\Skeleton.h" />
     <ClInclude Include="Source\SkeletonAnimation.h" />
     <ClInclude Include="Source\SkeletonAnimationInstance.h" />
@@ -198,18 +200,25 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\EngineInterfaces.cpp" />
-    <ClCompile Include="Source\GenerateCppToBaluScript.cpp" />
+    <ClCompile Include="Source\GenerateCppToBaluScript.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\Layers.cpp" />
     <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\MaterialInstance.cpp" />
     <ClCompile Include="Source\nanovg_support.cpp" />
     <ClCompile Include="Source\PhysShape.cpp" />
     <ClCompile Include="Source\PhysShapeInstance.cpp" />
-    <ClCompile Include="Source\Render.cpp" />
+    <ClCompile Include="Source\Render.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\Resources.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
-    <ClCompile Include="Source\SceneInstance.cpp" />
+    <ClCompile Include="Source\SceneInstance.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\ScriptClassesRegistry.cpp" />
+    <ClCompile Include="Source\ScriptInstance.cpp" />
     <ClCompile Include="Source\Serialize.cpp" />
     <ClCompile Include="Source\Skeleton.cpp" />
     <ClCompile Include="Source\SkeletonAnimation.cpp" />
@@ -225,8 +234,13 @@
     <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
     <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
     <ClCompile Include="Source\Utils\texture_polygon.cpp" />
-    <ClCompile Include="Source\World.cpp" />
-    <ClCompile Include="Source\WorldInstance.cpp" />
+    <ClCompile Include="Source\World.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\WorldInstance.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

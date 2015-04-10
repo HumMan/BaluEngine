@@ -72,6 +72,7 @@ namespace EngineInterface
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluInstance, "IInstance");
 	MUnpackRA0(WrapPointer<IProperties>, WrapInterface<IBaluInstance>, GetProperties);
 	MUnpackRA0(WrapPointer<IBaluClassPhysBodyIntance>, WrapInterface<IBaluInstance>, GetPhysBody);
+	MUnpackRA1(WrapPointer<IBaluSpriteInstance>, WrapInterface<IBaluInstance>, GetSprite, WrapValue<int>);
 	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 }

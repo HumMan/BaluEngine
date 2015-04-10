@@ -269,32 +269,32 @@ void RemoveCallback(T callback, ArrayType& array)
 	return;
 }
 
-void TBaluWorld::AddOnMouseDown(CallbackWithData<MouseUpDownCallback> callback)
+void TBaluWorld::AddOnMouseDown(CallbackWithData<MouseCallback> callback)
 {
 	AddCallback(callback, mouse_down_callbacks);
 }
 
-void TBaluWorld::AddOnMouseUp(CallbackWithData<MouseUpDownCallback> callback)
+void TBaluWorld::AddOnMouseUp(CallbackWithData<MouseCallback> callback)
 {
 	AddCallback(callback, mouse_up_callbacks);
 }
 
-void TBaluWorld::AddOnMouseMove(CallbackWithData<MouseMoveCallback> callback)
+void TBaluWorld::AddOnMouseMove(CallbackWithData<MouseCallback> callback)
 {
 	AddCallback(callback, mouse_move_callbacks);
 }
 
-void TBaluWorld::RemoveOnMouseDown(CallbackWithData<MouseUpDownCallback> callback)
+void TBaluWorld::RemoveOnMouseDown(CallbackWithData<MouseCallback> callback)
 {
 	RemoveCallback(callback, mouse_down_callbacks);
 }
 
-void TBaluWorld::RemoveOnMouseUp(CallbackWithData<MouseUpDownCallback> callback)
+void TBaluWorld::RemoveOnMouseUp(CallbackWithData<MouseCallback> callback)
 {
 	RemoveCallback(callback, mouse_up_callbacks);
 }
 
-void TBaluWorld::RemoveOnMouseMove(CallbackWithData<MouseMoveCallback> callback)
+void TBaluWorld::RemoveOnMouseMove(CallbackWithData<MouseCallback> callback)
 {
 	RemoveCallback(callback, mouse_move_callbacks);
 }

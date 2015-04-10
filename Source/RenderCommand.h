@@ -1,14 +1,27 @@
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
+#endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #include "../../BaluLib/Source/Math/vec.h"
 #include "../../BaluLib/Source/BVolumes/AABB.h"
 
-#include "Callbacks.h"
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#include "EngineInterfaces/ICallbacks.h"
+#endif
 
 class TMaterialInstance;
+namespace EngineInterface
+{
+	class IBaluSpritePolygonInstance;
+}
+#endif
 
 namespace EngineInterface
 {
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	struct TRenderCommand
 	{
 	public:
@@ -34,7 +47,9 @@ namespace EngineInterface
 			//this->indices = indices;
 		}
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TView
 	{
 		//TODO заменить на матрицу ориентации и масштабирование
@@ -62,7 +77,9 @@ namespace EngineInterface
 			return size;
 		}
 	};
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TScreen
 	{
 	public:
@@ -120,11 +137,12 @@ namespace EngineInterface
 				);
 		}
 	};
+#endif
 
 	//TODO в дальнейшем вся информация для рендера должна находиться полностью здесь, для возможности параллельной отрисовки
 
-	class IBaluSpritePolygonInstance;
-
+	
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TCustomDrawCommand
 	{
 	public:
@@ -134,5 +152,5 @@ namespace EngineInterface
 		TView* view;
 		CallbackWithData<TCustomDrawCallback> command;
 	};
-
+#endif
 }

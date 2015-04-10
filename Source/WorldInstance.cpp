@@ -12,61 +12,6 @@
 
 #include "Director.h"
 
-TBaluScriptInstance::TBaluScriptInstance()
-{
-	time.Start();
-
-	char* script_base_source;
-	{
-		TFileData file("../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
-		//TFileData file("base_types.bscript", "rb");
-		script_base_source = file.ReadAll();
-		script_base_source[file.GetSize()] = '\0';
-	}
-	syntax.reset(new TSyntaxAnalyzer());
-	syntax->Compile((char*)(("class Script{" + std::string(script_base_source) + "}").c_str()), time);
-
-	TClassRegistryParams params;
-	params.smethods = &smethods;
-	params.static_objects = &static_objects;
-	params.syntax = syntax.get();
-	TScriptClassesRegistry::RegisterClassesInScript(params);
-}
-
-void TBaluScriptInstance::CreateMethod(TScriptData* script_data, const char* code)
-{
-	try
-	{
-		TMethod* m = new TMethod(syntax->base_class.get());
-		syntax->lexer.ParseSource(code);
-		m->AnalyzeSyntax(syntax->lexer);
-		syntax->lexer.GetToken(TTokenType::Done);
-
-		TSMethod* ms = new TSMethod(syntax->sem_base_class.get(), m);
-		smethods.push_back(std::unique_ptr<TSMethod>(ms));
-		ms->Build();
-
-		std::vector<TSClassField*> static_fields;
-		std::vector<TSLocalVar*> static_variables;
-
-		ms->LinkSignature(&static_fields, &static_variables);
-		ms->LinkBody(&static_fields, &static_variables);
-		ms->CalculateParametersOffsets();
-
-		std::vector<TSClass*> owners;
-		syntax->sem_base_class->CalculateSizes(owners);
-
-		InitializeStaticClassFields(static_fields, static_objects);
-		InitializeStaticVariables(static_variables, static_objects);
-
-		script_data->SetCompiledScript(ms, this);
-	}
-	catch (std::string s)
-	{
-		errors.push_back(s);
-	}
-}
-
 TBaluWorld* TBaluWorldInstance::GetSource()
 {
 	return source;
@@ -79,10 +24,7 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 
 	CompileScripts();
 
-	if (source->on_start_world_callback.IsScript())
-		source->on_start_world_callback.GetScriptEngine()->CallMethod(source->on_start_world_callback, this, &composer);
-	else
-		source->on_start_world_callback.Execute(this, &composer);
+	source->on_start_world_callback.Execute(this, &composer);
 }
 
 TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
@@ -152,7 +94,7 @@ void TBaluWorldInstance::MouseDown(TMouseEventArgs e)
 {
 	for (auto& v : source->mouse_down_callbacks)
 	{
-		v.Execute(e);
+		v.Execute(&e);
 	}
 }
 
@@ -160,7 +102,7 @@ void TBaluWorldInstance::MouseMove(TMouseEventArgs e)
 {
 	for (auto& v : source->mouse_move_callbacks)
 	{
-		v.Execute(e);
+		v.Execute(&e);
 	}
 }
 
@@ -168,7 +110,7 @@ void TBaluWorldInstance::MouseUp(TMouseEventArgs e)
 {
 	for (auto& v : source->mouse_up_callbacks)
 	{
-		v.Execute(e);
+		v.Execute(&e);
 	}
 }
 
@@ -191,12 +133,6 @@ void TBaluWorldInstance::DebugDraw()
 
 void TBaluWorldInstance::CompileScripts()
 {
-	{
-		//auto method_body = source->render_world_callback.GetScriptSource();
-		//std::string method = std::string("func static RenderWorld(IDirector director, IWorldInstance world, IRender render)\n{\n") + method_body + "\n}\n";
-		//script_engine.CreateMethod(&source->render_world_callback, method.c_str());
-	}
-
 	{
 		if (source->on_start_world_callback.IsScript())
 		{
@@ -249,9 +185,7 @@ void TBaluWorldInstance::CompileScripts()
 			if (v.IsScript())
 			{
 				auto method_body = v.GetScriptSource();
-				std::string method = std::string("") 
-					+ method_body 
-					+ "";
+				std::string method = std::string("func static BeforePhys(IInstance object)\n{\n") + method_body + "\n}\n";
 				script_engine.CreateMethod(&v, method.c_str());
 			}
 		}
@@ -271,25 +205,27 @@ void TBaluWorldInstance::CompileScripts()
 				if (v.IsScript())
 				{
 					auto method_body = v.GetScriptSource();
-					std::string method = std::string("") + method_body + "";
+					std::string method = std::string("func static KeyUp(IInstance object)\n{\n") + method_body + "\n}\n";
 					script_engine.CreateMethod(&v, method.c_str());
 				}
+		}
+	}
+
+	for (auto& k : source->sprites)
+	{
+		for(auto& v :k.second.collide_callbacks)
+		{
+			if (v.second.IsScript())
+			{
+				auto method_body = v.second.GetScriptSource();
+				std::string method = std::string("func static Collide(IPhysShapeInstance source, IInstance obstancle)\n{\n") + method_body + "\n}\n";
+				script_engine.CreateMethod(&v.second, method.c_str());
+			}
 		}
 	}
 }
 
 void TBaluWorldInstance::ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size)
 {
-	if (GetSource()->viewport_resize_callback.IsScript())
-		GetSource()->viewport_resize_callback.GetScriptEngine()->CallMethod(GetSource()->viewport_resize_callback, director, old_size, new_size);
-	else
-		GetSource()->viewport_resize_callback.Execute(director, old_size, new_size);
+	GetSource()->viewport_resize_callback.Execute(director, old_size, new_size);
 }
-
-//void TBaluWorldInstance::Render(TDirector* director, TRender* render)
-//{
-//	if (GetSource()->render_world_callback.IsScript())
-//		GetSource()->render_world_callback.GetScriptEngine()->CallMethod(GetSource()->render_world_callback, director, this, render);
-//	else
-//		GetSource()->render_world_callback.Execute(director, this, render);
-//}

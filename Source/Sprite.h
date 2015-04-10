@@ -219,8 +219,11 @@ private:
 	int layer;
 	TProperties properties;
 
-	std::vector<std::pair<TBaluClass*, CallbackWithData<CollideCallback>>> collide_callbacks;
+	
 public:
+
+	std::vector<std::pair<TBaluClass*, CallbackWithData<CollideCallback>>> collide_callbacks;
+
 	EngineInterface::IProperties* GetProperties()
 	{
 		return &properties;

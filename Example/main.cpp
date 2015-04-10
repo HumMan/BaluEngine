@@ -23,6 +23,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	director = IDirector::CreateDirector();
 
 	auto base_path = director->GetBasePath();
@@ -77,7 +79,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	DestroyWorld(demo_world);
 	IDirector::DestroyDirector(director);
 	
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	
 
 	//_CrtDumpMemoryLeaks();
 
