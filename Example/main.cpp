@@ -79,9 +79,5 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	DestroyWorld(demo_world);
 	IDirector::DestroyDirector(director);
 	
-	
-
-	//_CrtDumpMemoryLeaks();
-
 	return 0;
 }

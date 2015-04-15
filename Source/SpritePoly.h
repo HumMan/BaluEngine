@@ -50,6 +50,8 @@ private:
 
 	bool is_custom_draw;
 	std::vector<CallbackWithData<TCustomDrawCallback>> custom_draw_callbacks;
+
+
 	TAABB2 GetVerticesBox();
 public:
 

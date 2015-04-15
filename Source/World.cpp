@@ -224,7 +224,7 @@ TBaluClass* TBaluWorld::GetClass(const char* scene_name)
 	}
 	else
 	{
-		throw std::invalid_argument("—цена с данным имененем отсутсвует");
+		throw std::invalid_argument(" ласс с данным имененем отсутсвует");
 	}
 }
 

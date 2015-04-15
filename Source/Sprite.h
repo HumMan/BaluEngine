@@ -224,6 +224,12 @@ public:
 
 	std::vector<std::pair<TBaluClass*, CallbackWithData<CollideCallback>>> collide_callbacks;
 
+	void OnCollide(TBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
+	CallbackWithData<CollideCallback>* GetOnCollide(TBaluClass* obstancle_class);
+
+	void OnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
+	CallbackWithData<CollideCallback>* GetOnCollide(IBaluClass* obstancle_class);
+
 	EngineInterface::IProperties* GetProperties()
 	{
 		return &properties;
@@ -241,12 +247,6 @@ public:
 	void SetPhysShapeFromGeometry();
 
 	TBaluSpritePolygon* GetPolygone();
-
-	void OnCollide(TBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
-	CallbackWithData<CollideCallback>* GetOnCollide(TBaluClass* obstancle_class);
-
-	void OnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
-	CallbackWithData<CollideCallback>* GetOnCollide(IBaluClass* obstancle_class);
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

@@ -135,7 +135,7 @@ char* PlayerRight_source = //(TCallbackData* data, IBaluInstance* object)
 "	object.GetPhysBody().SetLinearVelocity(speed);\n";
 
 char* PlayerJumpSensorCollide_source = //(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluInstance* obstacle)
-"	//source.GetParent().GetProperties().SetBool(\"can_jump\", true);\n";
+"	source.GetParent().GetProperties().SetBool(\"can_jump\", true);\n";
 
 char* PlayerPrePhysStep_source = //(TCallbackData* data, IBaluInstance* object)
 "	PropertyType type;\n"
@@ -147,51 +147,23 @@ char* PlayerPrePhysStep_source = //(TCallbackData* data, IBaluInstance* object)
 "	if (speed.x > 0)\n"
 "		hor_anim = \"_right\";\n"
 "	else\n"
-"		hor_anim = \"_left\";\n";
-//"	if (can_jump)\n"
-//"	{\n"
-//"		if (Abs(speed.x) > 0.5)\n"
-//"			v_anim = \"run\";\n"
-//"		else\n"
-//"			v_anim = \"stay\";\n"
-//"	}\n"
-//"	else\n"
-//"	{\n"
-//"		if (speed.y > 0)\n"
-//"			v_anim = \"jump_up\";\n"
-//"		else\n"
-//"			v_anim = \"jump_down\";\n"
-//"	}\n"
-//"	object.GetSprite(0).GetPolygon().SetActiveAnimation(v_anim + hor_anim);\n"
-//"	object.GetProperties().SetBool(\"can_jump\", false);\n";
-//
-//char* PlayerPrePhysStep_source = //(TCallbackData* data, IBaluInstance* object)
-//"	PropertyType type;\n"
-//"	if (!object.GetProperties().HasProperty(\"can_jump\", type))\n"
-//"		object.GetProperties().SetBool(\"can_jump\", false);\n"
-//"	bool can_jump = object.GetProperties().GetBool(\"can_jump\");\n"
-//"	vec2 speed = object.GetPhysBody().GetLinearVelocity();\n"
-//"	string hor_anim, v_anim;\n"
-//"	if (speed.x > 0)\n"
-//"		hor_anim = \"_right\";\n"
-//"	else\n"
-//"		hor_anim = \"_left\";\n"
-//"	if (can_jump)\n"
-//"	{\n"
-//"		if (Abs(speed.x) > 0.5)\n"
-//"			v_anim = \"run\";\n"
-//"		else\n"
-//"			v_anim = \"stay\";\n"
-//"	}\n"
-//"	else\n"
-//"	{\n"
-//"		if (speed.y > 0)\n"
-//"			v_anim = \"jump_up\";\n"
-//"		else\n"
-//"			v_anim = \"jump_down\";\n"
-//"	}\n"
-//"	object.GetSprite(0).GetPolygon().SetActiveAnimation(v_anim + hor_anim);\n"
-//"	object.GetProperties().SetBool(\"can_jump\", false);\n";
+"		hor_anim = \"_left\";\n"
+"	if (can_jump)\n"
+"	{\n"
+"		if (Abs(speed.x) > 0.5)\n"
+"			v_anim = \"run\";\n"
+"		else\n"
+"			v_anim = \"stay\";\n"
+"	}\n"
+"	else\n"
+"	{\n"
+"		if (speed.y > 0)\n"
+"			v_anim = \"jump_up\";\n"
+"		else\n"
+"			v_anim = \"jump_down\";\n"
+"	}\n"
+"	object.GetSprite(0).GetPolygon().SetActiveAnimation(v_anim + hor_anim);\n"
+"	object.GetProperties().SetBool(\"can_jump\", false);\n";
 
 char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
 "	vec2 k = vec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"

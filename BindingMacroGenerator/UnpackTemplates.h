@@ -34,9 +34,9 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
 		));
 	}
@@ -58,9 +58,9 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 		));
 	}
@@ -81,9 +81,9 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 		));
 	}
@@ -105,9 +105,9 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 		));
 	}
@@ -128,9 +128,9 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
 		));
 	}
@@ -186,11 +186,11 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -213,11 +213,11 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -239,11 +239,11 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -266,11 +266,11 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -292,11 +292,11 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -363,12 +363,12 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -393,12 +393,12 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -422,12 +422,12 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -452,12 +452,12 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -481,12 +481,12 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -565,13 +565,13 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -598,13 +598,13 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -630,13 +630,13 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -663,13 +663,13 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -695,13 +695,13 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -792,14 +792,14 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -828,14 +828,14 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -863,14 +863,14 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -899,14 +899,14 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -934,14 +934,14 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -1044,15 +1044,15 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue(), 
-			formal_params[4].get_as<Ta4>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue(), 
+			(*run_context.formal_params)[4].get_as<Ta4>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -1083,15 +1083,15 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue(), 
-			formal_params[4].get_as<Ta4>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue(), 
+			(*run_context.formal_params)[4].get_as<Ta4>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -1121,15 +1121,15 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue(), 
-			formal_params[4].get_as<Ta4>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue(), 
+			(*run_context.formal_params)[4].get_as<Ta4>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -1160,15 +1160,15 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue(), 
-			formal_params[4].get_as<Ta4>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue(), 
+			(*run_context.formal_params)[4].get_as<Ta4>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()
@@ -1198,15 +1198,15 @@ public:
 		);
 		return buf;
 	}
-	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)
+	static void Run(TMethodRunContext run_context)
 	{
-		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)
+		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)
 		(
-			formal_params[0].get_as<Ta0>().GetCppValue(), 
-			formal_params[1].get_as<Ta1>().GetCppValue(), 
-			formal_params[2].get_as<Ta2>().GetCppValue(), 
-			formal_params[3].get_as<Ta3>().GetCppValue(), 
-			formal_params[4].get_as<Ta4>().GetCppValue()
+			(*run_context.formal_params)[0].get_as<Ta0>().GetCppValue(), 
+			(*run_context.formal_params)[1].get_as<Ta1>().GetCppValue(), 
+			(*run_context.formal_params)[2].get_as<Ta2>().GetCppValue(), 
+			(*run_context.formal_params)[3].get_as<Ta3>().GetCppValue(), 
+			(*run_context.formal_params)[4].get_as<Ta4>().GetCppValue()
 		));
 	}
 	TExternalSMethod GetUnpackMethod()

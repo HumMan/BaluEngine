@@ -333,16 +333,16 @@ std::string GenerateTemplateConstructorClass(int params_count)
 		"		);\n"
 		"		return buf;\n"
 		"	}\n"
-		"	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)\n"
+		"	static void Run(TMethodRunContext run_context)\n"
 		"	{\n";
 
 		result +=
-			"		(new (&object.get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType\n"
+			"		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType\n"
 			"		(\n";
 
 	for (int i = 0; i < params_count; i++)
 	{
-		result += "			formal_params[" + IntToStr(i) + "].get_as<Ta" + IntToStr(i) + ">().GetCppValue()"
+		result += "			(*run_context.formal_params)[" + IntToStr(i) + "].get_as<Ta" + IntToStr(i) + ">().GetCppValue()"
 			+ ((i < params_count - 1) ? ", \n" : "\n");;
 	}
 	result +=
@@ -402,23 +402,23 @@ std::string GenerateTemplateClass(int params_count, bool have_return, bool const
 		"		);\n"
 		"		return buf;\n"
 		"	}\n"
-		"	static void Run(std::vector<TStaticValue> &static_fields, std::vector<TStackValue> &formal_params, TStackValue& result, TStackValue& object)\n"
+		"	static void Run(TMethodRunContext run_context)\n"
 		"	{\n";
 	if (have_return)
 	{
 		result +=
-			"		result.get_as<Tresult_type>() = Tresult_type(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)\n"
+			"		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)\n"
 			"		(\n";
 	}
 	else
 	{
 		result +=
-			"		(((object.get_as<Tobject_type>().GetInterface()).*CppMethod)\n"
+			"		(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)\n"
 			"		(\n";
 	}
 	for (int i = 0; i < params_count; i++)
 	{
-		result += "			formal_params[" + IntToStr(i) + "].get_as<Ta" + IntToStr(i) + ">().GetCppValue()"
+		result += "			(*run_context.formal_params)[" + IntToStr(i) + "].get_as<Ta" + IntToStr(i) + ">().GetCppValue()"
 			+ ((i < params_count - 1) ? ", \n" : "\n");;
 	}
 	result +=

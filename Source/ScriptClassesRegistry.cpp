@@ -21,31 +21,6 @@ std::vector < std::pair<const char*, RegisterScriptClass>>& get_script_enum_regi
 	return script_enum_registry;
 }
 
-TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size)
-{
-	auto& syntax = params.syntax;
-	TClass* cl = new TClass(syntax->base_class.get());
-	syntax->base_class->AddNested(cl);
-	syntax->lexer.ParseSource(source);
-	cl->AnalyzeSyntax(syntax->lexer);
-	syntax->lexer.GetToken(TTokenType::Done);
-
-	TSClass* scl = new TSClass(syntax->sem_base_class.get(), cl);
-	syntax->sem_base_class->AddClass(scl);
-	scl->Build();
-
-	scl->SetSize(IntSizeOf(size) / sizeof(int));
-	scl->SetAutoMethodsInitialized();
-
-	std::vector<TSClassField*> static_fields;
-	std::vector<TSLocalVar*> static_variables;
-
-	scl->LinkSignature(&static_fields, &static_variables);
-	scl->CalculateMethodsSizes();
-
-	return scl;
-}
-
 TSClass* RegisterEnum(TClassRegistryParams& params, const char* source)
 {
 	auto syntax = params.syntax;
@@ -62,9 +37,11 @@ TSClass* RegisterEnum(TClassRegistryParams& params, const char* source)
 	std::vector<TSClassField*> static_fields;
 	std::vector<TSLocalVar*> static_variables;
 
-	scl->LinkSignature(&static_fields, &static_variables);
+	TGlobalBuildContext global_build_context(&static_fields, &static_variables);
+
+	scl->LinkSignature(global_build_context);
 	scl->InitAutoMethods();
-	scl->LinkBody(&static_fields, &static_variables);
+	scl->LinkBody(global_build_context);
 	scl->CheckForErrors();
 
 	std::vector<TSClass*> owners;
@@ -78,34 +55,6 @@ TSClass* RegisterEnum(TClassRegistryParams& params, const char* source)
 	InitializeStaticVariables(static_variables, *params.static_objects);
 
 	return scl;
-}
-
-void RegisterMethod(TClassRegistryParams& params, TSClass* class_syntax, const char* name, TExternalSMethod func)
-{
-	std::vector<TSMethod*> m;
-	auto& syntax = params.syntax;
-	m.clear();
-	class_syntax->GetMethods(m, syntax->lexer.GetIdFromName(name));
-	m[0]->SetAsExternal(func);
-}
-
-
-
-void RegisterMethod2(TClassRegistryParams& params, TSClass* class_syntax, Unpacker* method)
-{
-	std::vector<TSMethod*> m;
-	auto& syntax = params.syntax;
-	m.clear();
-	if (method->IsConstructor())
-	{
-		class_syntax->GetCopyConstructors(m);
-		m[0]->SetAsExternal(method->GetUnpackMethod());
-	}
-	else
-	{
-		class_syntax->GetMethods(m, syntax->lexer.GetIdFromName(method->GetFuncName()));
-		m[0]->SetAsExternal(method->GetUnpackMethod());
-	}
 }
 
 std::string BuildExternClassSource(const char* name, std::vector<std::unique_ptr<Unpacker>>& methods)
@@ -153,7 +102,7 @@ void DeclareExternClass(TClassRegistryParams& params, TClassBinding* binding)
 	binding->compiled->Build();
 
 	binding->compiled->SetSize(IntSizeOf(binding->size) / sizeof(int));
-	binding->compiled->SetAutoMethodsInitialized();
+	//binding->compiled->SetAutoMethodsInitialized();
 }
 
 void BuildExternClass(TClassRegistryParams& params, TClassBinding* binding)
@@ -161,7 +110,10 @@ void BuildExternClass(TClassRegistryParams& params, TClassBinding* binding)
 	std::vector<TSClassField*> static_fields;
 	std::vector<TSLocalVar*> static_variables;
 
-	binding->compiled->LinkSignature(&static_fields, &static_variables);
+	TGlobalBuildContext global_build_context(&static_fields, &static_variables);
+
+	binding->compiled->LinkSignature(global_build_context);
+	binding->compiled->InitAutoMethods();
 	binding->compiled->CalculateMethodsSizes();
 
 	for (auto& v : binding->methods)
@@ -169,38 +121,6 @@ void BuildExternClass(TClassRegistryParams& params, TClassBinding* binding)
 		DeclareMethod(params, binding->compiled, v.get());
 	}
 }
-
-//TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, int size, std::vector<Unpacker*> methods)
-//{
-//	std::string source = BuildExternClassSource(name, methods);
-//
-//	auto& syntax = params.syntax;
-//	TClass* cl = new TClass(syntax->base_class.get());
-//	syntax->base_class->AddNested(cl);
-//	syntax->lexer.ParseSource(source.c_str());
-//	cl->AnalyzeSyntax(syntax->lexer);
-//	syntax->lexer.GetToken(TTokenType::Done);
-//
-//	TSClass* scl = new TSClass(syntax->sem_base_class.get(), cl);
-//	syntax->sem_base_class->AddClass(scl);
-//	scl->Build();
-//
-//	scl->SetSize(IntSizeOf(size) / sizeof(int));
-//	scl->SetAutoMethodsInitialized();
-//
-//	std::vector<TSClassField*> static_fields;
-//	std::vector<TSLocalVar*> static_variables;
-//
-//	scl->LinkSignature(&static_fields, &static_variables);
-//	scl->CalculateMethodsSizes();
-//
-//	for (auto& v : methods)
-//	{
-//		RegisterMethod2(params, scl, v);
-//	}
-//
-//	return scl;
-//}
 
 void TScriptClassesRegistry::RegisterClassBinding(TClassBinding* binding)
 {

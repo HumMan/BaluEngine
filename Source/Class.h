@@ -79,7 +79,6 @@ public:
 
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_down_callbacks;
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_up_callbacks;
-
 	std::vector<CallbackWithData<BeforePhysicsCallback>> before_physics_callbacks;
 
 	std::string GetName();

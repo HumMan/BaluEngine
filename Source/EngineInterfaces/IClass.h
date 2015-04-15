@@ -170,7 +170,6 @@ namespace EngineInterface
 
 		virtual void OnKeyDown(TKey key, CallbackWithData<KeyUpDownCallback> callback) = 0;
 		virtual void OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback) = 0;
-
 		virtual void OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback> callback) = 0;
 	};
 #endif

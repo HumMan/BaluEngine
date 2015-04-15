@@ -8,6 +8,11 @@ class TSMethod;
 class TBaluScriptInstance;
 class NVGcontext;
 
+namespace pugi
+{
+	class xml_node;
+}
+
 namespace EngineInterface
 {
 
@@ -43,7 +48,7 @@ namespace EngineInterface
 
 
 
-	class TScriptData
+	class TScriptData : public TCallbackData
 	{
 	protected:
 		std::string script_source;
@@ -82,10 +87,13 @@ namespace EngineInterface
 			assert(is_script);
 			return script_source;
 		}
+
+		void SaveToXML(pugi::xml_node& parent_node, const int version);
+		void LoadFromXML(const pugi::xml_node& document_node, const int version);
 	};
 
 	template<class T>
-	class CallbackWithData :public TCallbackData, public TScriptData
+	class CallbackWithData : public TScriptData
 	{
 	private:
 		T callback;

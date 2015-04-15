@@ -67,13 +67,8 @@ public:
 
 typedef void(*RegisterScriptClass)(TClassRegistryParams& params);
 
-//TSClass* RegisterExternClass(TClassRegistryParams& params, const char* source, int size);
 TSClass* RegisterEnum(TClassRegistryParams& params, const char* source);
-//void RegisterMethod(TClassRegistryParams& params, TSClass* class_syntax, const char* name, TExternalSMethod func);
 
-//void RegisterMethod2(TClassRegistryParams& params, TSClass* class_syntax, Unpacker* method);
-//TSClass* RegisterExternClass2(TClassRegistryParams& params, const char* name, int size, std::vector<Unpacker*> methods);
-//void RegisterExternClass2(TClassBinding* binding);
 Unpacker* SetName(const char* name, Unpacker* method);
 Unpacker* SetAsConstructor(Unpacker* method);
 

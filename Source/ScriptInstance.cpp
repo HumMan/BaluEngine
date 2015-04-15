@@ -33,6 +33,7 @@ TBaluScriptInstance::TBaluScriptInstance()
 	char* script_base_source;
 	{
 		TFileData file("../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
+		//TFileData file("../../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
 		//TFileData file("base_types.bscript", "rb");
 		script_base_source = file.ReadAll();
 		script_base_source[file.GetSize()] = '\0';
@@ -63,8 +64,10 @@ void TBaluScriptInstance::CreateMethod(TScriptData* script_data, const char* cod
 		std::vector<TSClassField*> static_fields;
 		std::vector<TSLocalVar*> static_variables;
 
-		ms->LinkSignature(&static_fields, &static_variables);
-		ms->LinkBody(&static_fields, &static_variables);
+		TGlobalBuildContext global_build_context(&static_fields, &static_variables);
+
+		ms->LinkSignature(global_build_context);
+		ms->LinkBody(global_build_context);
 		ms->CalculateParametersOffsets();
 
 		std::vector<TSClass*> owners;
@@ -99,7 +102,7 @@ void TBaluScriptInstance::CallMethod(CallbackWithData<ViewportResizeCallback> &v
 	*(TVec2i*)params[1].get() = old_size;
 	*(TVec2i*)params[2].get() = new_size;
 	TStackValue result, object;
-	viewport_resize_callback.GetCompiledScript()->Run(p->static_objects, params, result, object);
+	viewport_resize_callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
 void TBaluScriptInstance::CallMethod(CallbackWithData<OnStartWorldCallback> &start_world_callback, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer)
 {
@@ -110,7 +113,7 @@ void TBaluScriptInstance::CallMethod(CallbackWithData<OnStartWorldCallback> &sta
 	*(EngineInterface::IComposer**)params[1].get() = composer;
 
 	TStackValue result, object;
-	start_world_callback.GetCompiledScript()->Run(p->static_objects, params, result, object);
+	start_world_callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
 void TBaluScriptInstance::CallMethod(CallbackWithData<KeyUpDownCallback> &callback, IBaluInstance* obj)
 {
@@ -119,7 +122,7 @@ void TBaluScriptInstance::CallMethod(CallbackWithData<KeyUpDownCallback> &callba
 	*(EngineInterface::IBaluInstance**)params[0].get() = obj;
 
 	TStackValue result, object;
-	callback.GetCompiledScript()->Run(p->static_objects, params, result, object);
+	callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
 
 void TBaluScriptInstance::CallMethod(EngineInterface::CallbackWithData<EngineInterface::MouseCallback> &callback, EngineInterface::TMouseEventArgs* e)
@@ -129,7 +132,7 @@ void TBaluScriptInstance::CallMethod(EngineInterface::CallbackWithData<EngineInt
 	params[0].get_as<EngineInterface::TMouseEventArgs>() = *e;
 
 	TStackValue result, object;
-	callback.GetCompiledScript()->Run(p->static_objects, params, result, object);
+	callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
 
 void TBaluScriptInstance::CallMethod(EngineInterface::CallbackWithData<EngineInterface::TCustomDrawCallback> &callback, NVGcontext* context, EngineInterface::TCustomDrawCommand* command)
@@ -143,8 +146,8 @@ void TBaluScriptInstance::CallMethod(EngineInterface::CallbackWithData<EngineInt
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IPhysShapeInstance"))));
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IInstance"))));
 	params[0].get_as<IBaluPhysShapeInstance*>() = obj_a;
-	params[0].get_as<IBaluInstance*>() = obj_b;
+	params[1].get_as<IBaluInstance*>() = obj_b;
 
 	TStackValue result, object;
-	callback.GetCompiledScript()->Run(p->static_objects, params, result, object);
+	callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
