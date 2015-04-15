@@ -73,6 +73,7 @@ namespace EngineInterface
 	MUnpackRA0(WrapPointer<IProperties>, WrapInterface<IBaluInstance>, GetProperties);
 	MUnpackRA0(WrapPointer<IBaluClassPhysBodyIntance>, WrapInterface<IBaluInstance>, GetPhysBody);
 	MUnpackRA1(WrapPointer<IBaluSpriteInstance>, WrapInterface<IBaluInstance>, GetSprite, WrapValue<int>);
+	MUnpackRA0(WrapPointer<ISkeletonAnimationInstance>, WrapInterface<IBaluInstance>, GetSkeletonAnimation);
 	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 }

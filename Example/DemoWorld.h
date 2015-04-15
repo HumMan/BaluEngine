@@ -165,6 +165,13 @@ char* PlayerPrePhysStep_source = //(TCallbackData* data, IBaluInstance* object)
 "	object.GetSprite(0).GetPolygon().SetActiveAnimation(v_anim + hor_anim);\n"
 "	object.GetProperties().SetBool(\"can_jump\", false);\n";
 
+char* BonesPlayerPrePhysStep_source = //(TCallbackData* data, IBaluInstance* object)
+"	vec2 speed = object.GetPhysBody().GetLinearVelocity();\n"
+"	if (Abs(speed[0]) > 0)\n"
+"		object.GetSkeletonAnimation().PlayAnimation(\"walk\", 1);\n"
+"	else\n"
+"		object.GetSkeletonAnimation().StopAnimation(\"walk\");\n";
+
 char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
 "	vec2 k = vec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
 "	IViewport main_viewport = director.GetWorldInstance().GetSceneInstance(0).GetSource().FindViewport(\"main_viewport\");\n"
@@ -173,7 +180,7 @@ char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_s
 "	main_viewport.SetSize(new_vieport_size);\n";
 
 char* WorldStart_source = //(IWorldInstance world_instance, IComposer composer)
-"	IScene scene = world_instance.GetSource().GetScene(0);\n"
+"	IScene scene = world_instance.GetSource().GetScene(1);\n"
 "	ISceneInstance scene_instance = world_instance.RunScene(scene);\n"
 "	composer.AddToRender(scene_instance, scene.FindViewport(\"main_viewport\"));\n";
 
@@ -259,6 +266,7 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 	bones_player->OnKeyDown(TKey::Left, CallbackWithData<KeyUpDownCallback>(BonesPlayerLeft, &world->GetCallbacksActiveType()));
 	bones_player->OnBeforePhysicsStep(CallbackWithData<KeyUpDownCallback>(BonesPlayerPrePhysStep, &world->GetCallbacksActiveType()));
 #else
+	bones_player->OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback>(BonesPlayerPrePhysStep_source, &world->GetCallbacksActiveType()));
 #endif
 	{
 		auto bones_mat = world->CreateMaterial("zombie");

@@ -105,6 +105,8 @@ namespace EngineInterface
 		template<typename... Args>
 		void Execute(Args... args)
 		{
+			if (active_type == nullptr)
+				return;
 			if (active_type->active_type == callback_type)
 			{
 				if (IsScript())

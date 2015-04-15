@@ -19,7 +19,6 @@ namespace EngineInterface
 	class IDirector;
 	class IBaluWorldInstance;
 	class TRender;
-	class IComposer;
 }
 #endif
 

@@ -343,12 +343,14 @@ namespace Editor
 		//auto callback = CallbackWithData<RenderWorldCallback>(RenderWorld, &p->world->GetCallbacksActiveType(), p, TCallbacksActiveType::EDITOR);
 		//p->world->SetRenderWorldCallback(callback);
 
-		p->world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::EDITOR));
-		p->world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+		//p->world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::EDITOR));
+		//p->world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 
 		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
 
 		p->scene_instance = p->world_instance->RunScene(editor_scene);
+
+		p->world_instance->GetComposer()->AddToRender(p->scene_instance, editor_scene->FindViewport("main_viewport"));
 
 		p->screen = new TScreen(p->director->GetScreenSize());
 		p->director->SetSymulatePhysics(false);
