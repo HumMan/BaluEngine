@@ -884,6 +884,17 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 			materials[new_material.GetName()] = new_material;
 		}
 	}
+	//pre create classes
+	{
+		xml_node classes_node = world_node.child("Classes");
+		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
+		{
+			TBaluClass new_class;
+			//new_class.Load(class_node, version, this);
+			new_class.SetName(class_node.attribute("class_name").as_string());
+			classes.insert(std::make_pair(new_class.GetName(), std::move(new_class)));
+		}
+	}
 	{
 		xml_node sprites_node = world_node.child("Sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
@@ -892,13 +903,13 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 			sprites[sprite_name].Load(sprite_node, version, this);
 		}
 	}
+	//load classes fully
 	{
 		xml_node classes_node = world_node.child("Classes");
+		auto curr_class = classes.begin();
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
 		{
-			TBaluClass new_class;
-			new_class.Load(class_node, version, this);
-			classes.insert(std::make_pair(new_class.GetName(), std::move(new_class)));
+			curr_class->second.Load(class_node, version, this);
 		}
 	}
 	{
@@ -938,9 +949,9 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		}
 	}
 	{
-		xml_node callbacks_node = world_node.child("StartWorldScript");
+		xml_node callbacks_node = world_node.child("StartWorldScript").first_child();
 		on_start_world_callback.LoadFromXML(callbacks_node, version);
-		callbacks_node = world_node.child("ViewportResizeScript");
+		callbacks_node = world_node.child("ViewportResizeScript").first_child();
 		viewport_resize_callback.LoadFromXML(callbacks_node, version);
 	}
 }
@@ -959,7 +970,7 @@ void TScriptData::SaveToXML(pugi::xml_node& parent_node, const int version)
 void TScriptData::LoadFromXML(const pugi::xml_node& document_node, const int version)
 {
 	callback_type = document_node.attribute("callback_type").as_int();
-	is_script = document_node.attribute("is_script").as_int();
+	is_script = document_node.attribute("is_script").as_bool();
 	//script_source = document_node.attribute("script_source").as_string();
 	script_source = document_node.child_value();
 }

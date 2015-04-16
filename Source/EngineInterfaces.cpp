@@ -19,9 +19,9 @@ namespace EngineInterface
 
 
 
-	EngineInterface::IDirector* IDirector::CreateDirector()
+	EngineInterface::IDirector* IDirector::CreateDirector(std::string assets_dir)
 	{
-		return new TDirector();
+		return new TDirector(assets_dir);
 	}
 
 	void IDirector::DestroyDirector(EngineInterface::IDirector* director)

@@ -94,7 +94,7 @@ public:
 	void SetMaterial(TBaluMaterial* material);
 	void SetMaterial(EngineInterface::IBaluMaterial* material);
 	void SetAsBox(float width, float height);
-	void SetPolygonFromTexture();
+	void SetPolygonFromTexture(std::string assets_dir);
 	void SetVertices(std::vector<TVec2> vertices);
 	std::vector<TVec2> GetTriangulatedVertices();
 	std::vector<TVec2> GetPolygon();

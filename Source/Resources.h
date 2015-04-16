@@ -18,8 +18,9 @@ class TResources: public EngineInterface::IResources
 {
 	friend class TBaluEngineRender;
 	std::unique_ptr<TResourcesInternal> p;
-	TResources(TBaluRender* render);
 public:
+	TResources(TBaluRender* render, std::string assets_dir);
 	TBaluTexture CreateTextureFromFile(std::string path);
+	std::string GetAssetsDir();
 	~TResources();
 };

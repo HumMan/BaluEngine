@@ -64,6 +64,9 @@
       <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;glew32.lib;pugixmlsd.lib;SDL2.lib;DevIL.lib;ilu.lib;ilut.lib;nanovg.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\glew-1.11.0\lib\Release\Win32;$(ProjectDir)\..\pugixml\scripts\vs2010\x32\;$(ProjectDir)\..\SDL2-2.0.3\lib\x86\;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)/../nanovg/build</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy $(ProjectDir)\..\BaluScript\Source\NativeTypes\base_types.bscript $(ProjectDir)\asserts\scripts\ /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -82,6 +85,9 @@
       <AdditionalLibraryDirectories>$(ProjectDir)\..\BaluEngine\Library\$(Configuration);$(ProjectDir)\..\BaluRender\Library\$(Configuration);$(ProjectDir)\..\BaluScript\Library\$(Configuration);$(ProjectDir)\..\BaluLib\Library\$(Configuration);$(ProjectDir)\..\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)\..\glew-1.11.0\lib\Release\Win32;$(ProjectDir)\..\pugixml\scripts\vs2010\x32\;$(ProjectDir)\..\SDL2-2.0.3\lib\x86\;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\lib;$(ProjectDir)/../nanovg/build</AdditionalLibraryDirectories>
       <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;glew32.lib;pugixmls.lib;SDL2.lib;DevIL.lib;ilu.lib;ilut.lib;nanovg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy $(ProjectDir)\..\BaluScript\Source\NativeTypes\base_types.bscript $(ProjectDir)\asserts\scripts\ /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\poly2tri\poly2tri\common\shapes.h" />

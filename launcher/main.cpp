@@ -10,20 +10,45 @@ EngineInterface::IDirector* director;
 
 #include <Windows.h>
 
+
+std::string WideToMultiByte(std::wstring source)
+{
+	char buf[1000];
+	size_t num;
+	wcstombs_s(&num, buf, source.c_str(), 1000);
+	return std::string(buf);
+}
+
+void Run(std::string assets_dir, std::string file_to_run);
+
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
-	director = IDirector::CreateDirector();
+	int num_args;
+	LPWSTR* args;
+	args = CommandLineToArgvW(GetCommandLine(), &num_args);
 
-	auto base_path = director->GetBasePath();
+	if (num_args == 3)
+	{
+		Run(WideToMultiByte(args[1]), WideToMultiByte(args[2]));
+	}	
+
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	return 0;
+}
+
+void Run(std::string assets_dir, std::string file_to_run)
+{
+	director = IDirector::CreateDirector(assets_dir);
 
 	director->Initialize(true);
 
 	IBaluWorld* world = CreateWorld();
 
-	world->LoadFromXML("");
+	world->LoadFromXML(file_to_run.c_str());
 
 	world->GetCallbacksActiveType().active_type = TCallbacksActiveType::DEFAULT;
 
@@ -36,8 +61,4 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	DestroyWorldInstance(world_instance);
 	DestroyWorld(world);
 	IDirector::DestroyDirector(director);
-
-	_CrtDumpMemoryLeaks();
-
-	return 0;
 }

@@ -206,14 +206,14 @@ void TBaluSpritePolygon::SetScale(TVec2 scale)
 	this->scale = scale;
 }
 
-void TBaluSpritePolygon::SetPolygonFromTexture()
+void TBaluSpritePolygon::SetPolygonFromTexture(std::string assets_dir)
 {
 	if (material != nullptr)
 	{
 		ILuint handle;
 		ilGenImages(1, &handle);
 		ilBindImage(handle);
-		if (ilLoadImage(material->GetImagePath().c_str()))
+		if (ilLoadImage((assets_dir+"//"+material->GetImagePath()).c_str()))
 		{
 			auto w = ilGetInteger(IL_IMAGE_WIDTH);
 			auto h = ilGetInteger(IL_IMAGE_HEIGHT);

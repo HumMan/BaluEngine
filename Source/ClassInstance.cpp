@@ -26,6 +26,7 @@ TOBB2 TBaluInstance::GetOBB()
 TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources) 
 	:skeleton(source->GetSkeleton(), this, resources), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
 {
+	skeleton_animation.Init();
 	instance_transform = transform;
 	instance_scale = scale;
 	this->instance_class = source;

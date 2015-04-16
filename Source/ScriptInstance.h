@@ -16,7 +16,7 @@ public:
 
 	bool HasErrors();
 	std::vector<std::string> GetErrors();
-	TBaluScriptInstance();
+	TBaluScriptInstance(std::string assets_dir);
 	~TBaluScriptInstance();
 	//std::vector<TStaticValue>* GetStaticObjects();
 	void CreateMethod(EngineInterface::TScriptData* script_data, const char* code);

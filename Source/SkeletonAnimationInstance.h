@@ -49,6 +49,7 @@ private:
 	std::vector<std::unique_ptr<TTimeLineInstance>> animations;
 public:
 	TSkeletonAnimationInstance(TSkeletonInstance* skeleton, TSkeletonAnimation* source);
+	void Init();
 	void Update(float step);
 	void PlayAnimation(std::string name, float alpha);
 	void StopAnimation(std::string name);

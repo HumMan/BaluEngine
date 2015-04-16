@@ -9,11 +9,14 @@ class TResourcesInternal
 public:
 	std::map<std::string, TTextureId> textures;
 	TBaluRender* render;
+	std::string assets_dir;
 };
 
 TBaluTexture TResources::CreateTextureFromFile(std::string path)
 {
 	TBaluTexture tex;
+
+	path = p->assets_dir + "\\" + path;
 
 	if (p->textures.find(path) != p->textures.end())
 		return *(TBaluTexture*)&p->textures[path];
@@ -26,10 +29,16 @@ TBaluTexture TResources::CreateTextureFromFile(std::string path)
 
 }
 
-TResources::TResources(TBaluRender* render)
+TResources::TResources(TBaluRender* render, std::string assets_dir)
 {
 	p.reset(new TResourcesInternal());
 	p->render = render;
+	p->assets_dir = assets_dir;
+}
+
+std::string TResources::GetAssetsDir()
+{
+	return p->assets_dir;
 }
 
 TResources::~TResources()

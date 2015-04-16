@@ -186,19 +186,22 @@ char* WorldStart_source = //(IWorldInstance world_instance, IComposer composer)
 
 #endif
 
-IBaluWorld* CreateDemoWorld(std::string base_path)
+IBaluWorld* CreateDemoWorld(std::string assets_dir)
 {
 	auto world = CreateWorld();
 
+	world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+	world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+
 	auto brick_mat = world->CreateMaterial("brick");
 
-	brick_mat->SetImagePath(base_path + "\\textures\\brick.png");
+	brick_mat->SetImagePath("\\textures\\brick.png");
 	brick_mat->SetColor(TVec4(1, 1, 1, 1));
 
 	auto box_sprite = world->CreateSprite("box0");
 	box_sprite->GetPolygone()->SetMaterial(brick_mat);
 	//box_sprite->GetPolygone()->SetAsBox(1, 1);
-	box_sprite->GetPolygone()->SetPolygonFromTexture();
+	box_sprite->GetPolygone()->SetPolygonFromTexture(assets_dir);
 	box_sprite->GetPolygone()->SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
 	box_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateBoxShape(1, 1)->GetPhysShape());
 
@@ -208,7 +211,7 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 	box_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Static);
 
 	auto player_mat = world->CreateMaterial("player_skin");
-	player_mat->SetImagePath(base_path + "\\textures\\player.png");
+	player_mat->SetImagePath("\\textures\\player.png");
 	auto player_sprite = world->CreateSprite("player");
 
 	player_sprite->GetPolygone()->SetMaterial(player_mat);
@@ -271,7 +274,7 @@ IBaluWorld* CreateDemoWorld(std::string base_path)
 	{
 		auto bones_mat = world->CreateMaterial("zombie");
 
-		bones_mat->SetImagePath(base_path + "\\textures\\zombie.png");
+		bones_mat->SetImagePath("\\textures\\zombie.png");
 		bones_mat->SetColor(TVec4(1, 1, 1, 1));
 
 		//special phys sprite

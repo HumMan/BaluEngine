@@ -105,13 +105,11 @@ namespace EngineInterface
 		template<typename... Args>
 		void Execute(Args... args)
 		{
-			if (active_type == nullptr)
-				return;
-			if (active_type->active_type == callback_type)
+			if ((active_type != nullptr && active_type->active_type == callback_type) || (active_type == nullptr && callback_type == TCallbacksActiveType::DEFAULT))
 			{
 				if (IsScript())
 					GetScriptEngine()->CallMethod(*this, args...);
-				else
+				else if (callback!=nullptr)
 					callback(this, args...);
 			}
 		}

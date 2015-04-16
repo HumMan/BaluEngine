@@ -34,7 +34,7 @@ namespace EngineInterface
 		virtual int Initialize(bool create_window)=0;
 		virtual void MainLoop()=0;
 		virtual IResources* GetResources()=0;
-		virtual std::string GetBasePath() = 0;
+		virtual std::string GetAssetsDir() = 0;
 		virtual TVec2i GetScreenSize() = 0;
 		virtual void SetScreenSize(TVec2i size) = 0;
 		virtual void SetViewport(TVec2i use_size)=0;
@@ -46,7 +46,7 @@ namespace EngineInterface
 		virtual void EndFrame()=0;
 		//
 
-		BALUENGINEDLL_API static EngineInterface::IDirector* CreateDirector();
+		BALUENGINEDLL_API static EngineInterface::IDirector* CreateDirector(std::string assets_dir);
 		BALUENGINEDLL_API static void DestroyDirector(EngineInterface::IDirector* director);
 	};
 #endif

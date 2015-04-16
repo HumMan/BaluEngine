@@ -73,7 +73,7 @@ namespace Editor
 		void OnObjectCreatedByEditor(IBaluWorldObject* new_object);
 
 		//BaluEditorControl();
-		BaluEditorControl(IntPtr handle);
+		BaluEditorControl(IntPtr handle, String^ assets_dir);
 
 		void Destroy();
 		void BeginFrame();

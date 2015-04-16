@@ -14,7 +14,7 @@ namespace BaluEditor
     {
         private Editor.BaluEditorControl baluEditorControl1;
         private EventsEditor events_editor;
-        public MainWindow()
+        public MainWindow(string assets_dir)
         {
             InitializeComponent();
 
@@ -22,7 +22,7 @@ namespace BaluEditor
 
             panel2.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseWheel);
 
-            baluEditorControl1 = new Editor.BaluEditorControl(panel2.Handle);
+            baluEditorControl1 = new Editor.BaluEditorControl(panel2.Handle, assets_dir);
 
             baluEditorControl1.SetViewport(panel2.Width, panel2.Height);
 

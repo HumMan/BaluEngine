@@ -24,7 +24,7 @@ TBaluScriptInstance::~TBaluScriptInstance()
 {
 }
 
-TBaluScriptInstance::TBaluScriptInstance()
+TBaluScriptInstance::TBaluScriptInstance(std::string assets_dir)
 {
 	p = std::make_unique<TBaluScriptInstancePrivate>();
 
@@ -32,9 +32,8 @@ TBaluScriptInstance::TBaluScriptInstance()
 
 	char* script_base_source;
 	{
-		//TFileData file("../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
-		TFileData file("../../../BaluScript/Source/NativeTypes/base_types.bscript", "rb");
-		//TFileData file("base_types.bscript", "rb");
+		TFileData file((assets_dir+"//"+"scripts/base_types.bscript").c_str(), "rb");
+
 		script_base_source = file.ReadAll();
 		script_base_source[file.GetSize()] = '\0';
 	}

@@ -10,16 +10,6 @@
 
 #include <baluRender.h>
 
-class TBaluEngineRender
-{
-public:
-	static TResources* CreateResources(TBaluRender* render)
-	{
-		return new TResources(render);
-	}
-};
-
-
 class TGameInternal
 {
 public:
@@ -38,7 +28,7 @@ public:
 
 	TBaluWorldInstance* world_instance;
 
-	
+	std::string assets_dir;
 
 	bool physics_sym;
 };
@@ -151,13 +141,14 @@ int TDirector::Initialize(bool create_window)
 
 	p->render.reset(new TRender(p->internal_render.get()));
 
-	p->resources.reset(TBaluEngineRender::CreateResources(p->internal_render.get()));
+	p->resources.reset(new TResources(p->internal_render.get(), p->assets_dir));
 
 }
 
-std::string TDirector::GetBasePath()
+std::string TDirector::GetAssetsDir()
 {
-	return SDL_GetBasePath();
+	//return SDL_GetBasePath();
+	return p->assets_dir;
 }
 
 TVec2i TDirector::GetScreenSize()
@@ -196,7 +187,7 @@ void TDirector::Initialize(void* handle)
 
 	p->render.reset(new TRender(p->internal_render.get()));
 
-	p->resources.reset(TBaluEngineRender::CreateResources(p->internal_render.get()));
+	p->resources.reset(new TResources(p->internal_render.get(), p->assets_dir));
 
 }
 void TDirector::BeginFrame()
@@ -292,9 +283,10 @@ void TDirector::MainLoop()
 	SDL_Quit();
 }
 
-TDirector::TDirector()
+TDirector::TDirector(std::string assets_dir)
 {
 	p = std::make_unique<TGameInternal>();
+	p->assets_dir = assets_dir;
 }
 
 TDirector::~TDirector()

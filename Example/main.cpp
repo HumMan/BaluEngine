@@ -18,20 +18,44 @@ EngineInterface::IDirector* director;
 
 #include <Windows.h>
 
+std::string WideToMultiByte(std::wstring source)
+{
+	char buf[1000];
+	size_t num;
+	wcstombs_s(&num, buf, source.c_str(), 1000);
+	return std::string(buf);
+}
+
+void Run(std::string assets_dir);
+
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
+	int num_args;
+	LPWSTR* args;
+	args = CommandLineToArgvW(GetCommandLine(), &num_args);
+
+	if (num_args == 2)
+	{
+		Run(WideToMultiByte(args[1]));
+	}
+
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	director = IDirector::CreateDirector();
+	return 0;
+}
 
-	auto base_path = director->GetBasePath();
+void Run(std::string assets_dir)
+{
+	director = IDirector::CreateDirector(assets_dir);
+
+	//auto base_path = director->GetBasePath();
 
 	director->Initialize(true);
 
-	auto demo_world = CreateDemoWorld(base_path);
+	auto demo_world = CreateDemoWorld(director->GetAssetsDir());
 
 	demo_world->GetCallbacksActiveType().active_type = TCallbacksActiveType::DEFAULT;
 
@@ -42,8 +66,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 #else
 	//demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 	//demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
-	demo_world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
-	demo_world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+	//demo_world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+	//demo_world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &demo_world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 #endif
 
 	screen = new TScreen(director->GetScreenSize());
@@ -78,6 +102,4 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	DestroyWorldInstance(demo_world_instance);
 	DestroyWorld(demo_world);
 	IDirector::DestroyDirector(director);
-	
-	return 0;
 }

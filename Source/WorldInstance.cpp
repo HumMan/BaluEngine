@@ -18,6 +18,7 @@ TBaluWorld* TBaluWorldInstance::GetSource()
 }
 
 TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources)
+	:script_engine(resources->GetAssetsDir())
 {
 	this->source = source;
 	this->resources = resources;

@@ -29,7 +29,7 @@ public:
 	void BeginFrame();
 	void EndFrame();
 	//
-	TDirector();
+	TDirector(std::string assets_dir);
 	void SetWorldInstance(TBaluWorldInstance* world_instance);
 	void SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance);
 	EngineInterface::IBaluWorldInstance* GetWorldInstance();
@@ -39,7 +39,7 @@ public:
 	TResources* GetResources();
 	~TDirector();
 
-	std::string GetBasePath();
+	std::string GetAssetsDir();
 	TVec2i GetScreenSize();
 	void SetScreenSize(TVec2i size);
 

@@ -59,7 +59,7 @@ public:
 	IDirector* director;
 	IBaluWorld* world;
 	IBaluWorldInstance* world_instance;
-	std::string base_path;
+
 	IBaluSceneInstance* scene_instance;
 	TScreen* screen;
 	IViewport* main_viewport;
@@ -90,6 +90,8 @@ public:
 		main_viewport = nullptr;
 		active_editor = nullptr;
 		active_edited_object = nullptr;
+
+		viewport_drag_active = false;
 	}
 };
 
@@ -343,8 +345,8 @@ namespace Editor
 		//auto callback = CallbackWithData<RenderWorldCallback>(RenderWorld, &p->world->GetCallbacksActiveType(), p, TCallbacksActiveType::EDITOR);
 		//p->world->SetRenderWorldCallback(callback);
 
-		//p->world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::EDITOR));
-		//p->world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+		p->world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+		p->world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 
 		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
 
@@ -448,7 +450,7 @@ namespace Editor
 			DestroyWorld(p->world);
 			p->world = nullptr;
 		}
-		p->world = CreateDemoWorld(p->base_path);
+		p->world = CreateDemoWorld(p->director->GetAssetsDir());
 		CreateWorldTree(WorldTreeView, p->world);
 	}
 	
@@ -541,14 +543,12 @@ namespace Editor
 
 	
 
-	BaluEditorControl::BaluEditorControl(IntPtr handle)
+	BaluEditorControl::BaluEditorControl(IntPtr handle, String^ assets_dir)
 	{
 		p = new BaluEditorControlPrivate();
 		p->callbackbridge.reset(new TCallbackManagedBridge(this));
 
-		p->director = IDirector::CreateDirector();
-
-		p->base_path = p->director->GetBasePath();
+		p->director = IDirector::CreateDirector(msclr::interop::marshal_as<std::string>(assets_dir));
 
 		p->director->Initialize((void*)handle.ToPointer());
 		

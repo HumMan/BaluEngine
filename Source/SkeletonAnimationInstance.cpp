@@ -8,7 +8,7 @@ TTrackInstance::TTrackInstance(TBoneInstance* bone, TTrack* source)
 
 float Blend(float time0, float value0, float time1, float value1, float time)
 {
-	assert(time1 > time0);
+	assert(time1 >= time0);
 	float length = time1 - time0;
 	float t = time - time0;
 	float alpha = t / length;
@@ -28,6 +28,10 @@ void TTrackInstance::Update(float time, float timeline_size)
 			auto t0 = std::prev(frames.end());
 			auto t1 = frames.begin();
 			amount = Blend(t0->time, t0->rotation, timeline_size, t1->rotation, time);
+		}
+		else if (lower_it == frames.begin())
+		{
+			amount = lower_it->rotation;
 		}
 		else
 		{
@@ -116,6 +120,11 @@ TSkeletonAnimationInstance::TSkeletonAnimationInstance(TSkeletonInstance* skelet
 	this->skeleton = skeleton;
 	this->source = source;
 
+	
+}
+
+void TSkeletonAnimationInstance::Init()
+{
 	for (int i = 0; i < source->GetAnimationsCount(); i++)
 	{
 		animations.push_back(std::make_unique<TTimeLineInstance>(skeleton, source->GetAnimation(i)));
