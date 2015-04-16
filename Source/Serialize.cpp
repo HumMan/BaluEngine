@@ -717,6 +717,26 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 	skeleton_animation->Load(skeleton_animation_node, version, world);
 
 	properties.Load(node, version, world);
+
+	{
+		xml_node node = node.child("KeyDownScripts");
+		for (pugi::xml_node instance_node = node.first_child(); instance_node; instance_node = instance_node.next_sibling())
+		{
+			//TODO
+		}
+		node = node.child("KeyUpScripts");
+		for (pugi::xml_node instance_node = node.first_child(); instance_node; instance_node = instance_node.next_sibling())
+		{
+			//TODO
+		}
+		node = node.child("BeforePhysicsScripts");
+		for (pugi::xml_node instance_node = node.first_child(); instance_node; instance_node = instance_node.next_sibling())
+		{
+			CallbackWithData<BeforePhysicsCallback> t;
+			t.LoadFromXML(instance_node, version);
+			before_physics_callbacks.push_back(t);
+		}
+	}
 }
 
 void TBaluScene::TClassInstance::Save(pugi::xml_node& parent_node, const int version)
@@ -910,6 +930,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
 		{
 			curr_class->second.Load(class_node, version, this);
+			curr_class++;
 		}
 	}
 	{
