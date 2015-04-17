@@ -719,18 +719,30 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 	properties.Load(node, version, world);
 
 	{
-		xml_node node = node.child("KeyDownScripts");
-		for (pugi::xml_node instance_node = node.first_child(); instance_node; instance_node = instance_node.next_sibling())
+		xml_node child_node = node.child("KeyDownScripts");
+		for (pugi::xml_node instance_node = child_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
-			//TODO
+			auto key = (TKey)(instance_node.attribute("key").as_int());
+			for (pugi::xml_node callback = instance_node.first_child(); callback; callback = callback.next_sibling())
+			{
+				CallbackWithData<KeyUpDownCallback> t;
+				t.LoadFromXML(callback, version);
+				on_key_down_callbacks[key].push_back(t);
+			}
 		}
-		node = node.child("KeyUpScripts");
-		for (pugi::xml_node instance_node = node.first_child(); instance_node; instance_node = instance_node.next_sibling())
+		child_node = node.child("KeyUpScripts");
+		for (pugi::xml_node instance_node = child_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
-			//TODO
+			auto key = (TKey)(instance_node.attribute("key").as_int());
+			for (pugi::xml_node callback = instance_node.first_child(); callback; callback = callback.next_sibling())
+			{
+				CallbackWithData<KeyUpDownCallback> t;
+				t.LoadFromXML(callback, version);
+				on_key_up_callbacks[key].push_back(t);
+			}
 		}
-		node = node.child("BeforePhysicsScripts");
-		for (pugi::xml_node instance_node = node.first_child(); instance_node; instance_node = instance_node.next_sibling())
+		child_node = node.child("BeforePhysicsScripts");
+		for (pugi::xml_node instance_node = child_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
 			CallbackWithData<BeforePhysicsCallback> t;
 			t.LoadFromXML(instance_node, version);

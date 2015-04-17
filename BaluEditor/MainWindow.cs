@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,24 @@ namespace BaluEditor
     {
         private Editor.BaluEditorControl baluEditorControl1;
         private EventsEditor events_editor;
+
+        string _active_project;
+        string active_project
+        {
+            get
+            {
+                return _active_project;
+            }
+            set
+            {
+                _active_project = value;
+                Text = _active_project;
+            }
+        }
+        string assets_dir;
         public MainWindow(string assets_dir)
         {
+            this.assets_dir = assets_dir;
             InitializeComponent();
 
             events_editor = new EventsEditor();
@@ -130,6 +147,7 @@ namespace BaluEditor
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 baluEditorControl1.SaveWorldTo(saveFileDialog1.FileName);
+                active_project = saveFileDialog1.FileName;
             }
         }
 
@@ -142,6 +160,7 @@ namespace BaluEditor
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 baluEditorControl1.LoadWorldFrom(openFileDialog.FileName);
+                active_project = openFileDialog.FileName;
             }
         }
 
@@ -198,6 +217,16 @@ namespace BaluEditor
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             baluEditorControl1.Destroy();
+        }
+
+        private void runToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process myProcess = new Process();
+            myProcess.StartInfo.UseShellExecute = false;
+            myProcess.StartInfo.FileName = "launcher.exe";
+            myProcess.StartInfo.Arguments = System.IO.Path.GetFullPath(assets_dir) + " " + active_project;
+            myProcess.StartInfo.CreateNoWindow = true;
+            myProcess.Start();
         }
     }
 }

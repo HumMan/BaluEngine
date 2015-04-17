@@ -26,6 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
+	MessageBoxA(0, "", "", MB_OK);
 	int num_args;
 	LPWSTR* args;
 	args = CommandLineToArgvW(GetCommandLine(), &num_args);

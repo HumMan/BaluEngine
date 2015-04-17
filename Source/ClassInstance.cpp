@@ -234,26 +234,3 @@ void TBaluInstance::DoBeforePhysicsStep()
 		i.Execute(this);
 	}
 }
-//void TBaluInstance::DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
-//{
-//	for (const SensorCollideCallback& i : sensor->source->on_sensor_collide_callbacks)
-//	{
-//		i(this, sensor, obstancle, obstacle_shape);
-//	}	
-//}
-
-//void TBaluInstance::DoBeginContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
-//{
-//	for (const SensorCollideCallback& i : sensor->source->on_begin_contact)
-//	{
-//		i(this, sensor, obstancle, obstacle_shape);
-//	}	
-//}
-//
-//void TBaluInstance::DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape)
-//{
-//	for (const SensorCollideCallback& i : sensor->source->on_end_contact)
-//	{
-//		i(this, sensor, obstancle, obstacle_shape);
-//	}
-//}

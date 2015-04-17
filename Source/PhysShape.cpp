@@ -50,6 +50,7 @@ TBaluCircleShape::TBaluCircleShape(float radius, TVec2 pos)
 {
 	b2shape.m_radius = radius;
 	b2shape.m_p = *(b2Vec2*)&pos;
+	local.position = pos;
 }
 
 b2CircleShape* TBaluCircleShape::GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform)
