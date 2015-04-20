@@ -70,6 +70,8 @@ TBaluPhysShape* TBaluCircleShape::GetPhysShape()
 
 TBaluBoxShape::TBaluBoxShape(float width, float height)
 {
+	this->width = width;
+	this->height = height;
 	b2shape.SetAsBox(width / 2, height / 2);
 }
 

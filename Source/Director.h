@@ -29,7 +29,7 @@ public:
 	void BeginFrame();
 	void EndFrame();
 	//
-	TDirector(std::string assets_dir);
+	TDirector(std::string assets_dir, std::string log_file_path);
 	void SetWorldInstance(TBaluWorldInstance* world_instance);
 	void SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance);
 	EngineInterface::IBaluWorldInstance* GetWorldInstance();

@@ -49,7 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 void Run(std::string assets_dir)
 {
-	director = IDirector::CreateDirector(assets_dir);
+	director = IDirector::CreateDirector(assets_dir, "example.log");
 
 	//auto base_path = director->GetBasePath();
 

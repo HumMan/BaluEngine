@@ -70,19 +70,20 @@ void TBaluMaterial::Load(const pugi::xml_node& node, const int version, TBaluWor
 
 void TBaluBoxShape::Save(pugi::xml_node& parent_node, const int version)
 {
-	xml_node new_node = parent_node.append_child("CircleShape");
+	xml_node new_node = parent_node.append_child("BoxShape");
 	{
-		new_node.append_attribute("radius").set_value(b2shape.m_radius);
-		SaveTransform(new_node, "Transform", local);
+		new_node.append_attribute("width").set_value(width);
+		new_node.append_attribute("height").set_value(height);
+		TBaluPolygonShape::Save(new_node, version);
 	}
 }
 
 void TBaluBoxShape::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
-	float radius = node.attribute("radius").as_float();
-	TVec2 pos = LoadCoord(node.child("position"));
-	local = LoadTransform(node.child("Transform"));
-	b2shape.m_radius = radius;
+	width = node.attribute("width").as_float();
+	height = node.attribute("height").as_float();
+	xml_node new_node = node.child("PolygoneShape");
+	TBaluPolygonShape::Load(new_node, version, world);
 }
 
 

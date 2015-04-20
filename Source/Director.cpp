@@ -29,6 +29,7 @@ public:
 	TBaluWorldInstance* world_instance;
 
 	std::string assets_dir;
+	std::string log_file_path;
 
 	bool physics_sym;
 };
@@ -137,7 +138,7 @@ int TDirector::Initialize(bool create_window)
 		//SDL_GL_SetSwapInterval(1);
 	}
 
-	p->internal_render.reset(new TBaluRender(TVec2i(512, 512)));
+	p->internal_render.reset(new TBaluRender(TVec2i(512, 512), p->log_file_path));
 
 	p->render.reset(new TRender(p->internal_render.get()));
 
@@ -183,7 +184,7 @@ void TDirector::Initialize(void* handle)
 {
 	p->base_path = SDL_GetBasePath();
 	p->physics_sym = true;
-	p->internal_render.reset(new TBaluRender((int)handle, TVec2i(512, 512)));
+	p->internal_render.reset(new TBaluRender((int)handle, TVec2i(512, 512), p->log_file_path));
 
 	p->render.reset(new TRender(p->internal_render.get()));
 
@@ -283,10 +284,11 @@ void TDirector::MainLoop()
 	SDL_Quit();
 }
 
-TDirector::TDirector(std::string assets_dir)
+TDirector::TDirector(std::string assets_dir, std::string log_file_path)
 {
 	p = std::make_unique<TGameInternal>();
 	p->assets_dir = assets_dir;
+	p->log_file_path = log_file_path;
 }
 
 TDirector::~TDirector()

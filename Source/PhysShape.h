@@ -55,7 +55,7 @@ public:
 
 class TBaluPolygonShape : public TBaluPhysShape, public EngineInterface::IBaluPolygonShape
 {
-private:
+protected:
 	b2PolygonShape b2shape;
 public:
 	TBaluPolygonShape()
@@ -93,10 +93,9 @@ public:
 };
 static bool TBaluCircleShape_registered = PhysShapeFactory::Register("CircleShape", TBaluCircleShape::Clone);
 
-class TBaluBoxShape : public TBaluPhysShape, public EngineInterface::IBaluBoxShape
+class TBaluBoxShape : public TBaluPolygonShape, public EngineInterface::IBaluBoxShape
 {
-private:
-	b2PolygonShape b2shape;
+	float width, height;
 public:
 	TBaluBoxShape()
 	{

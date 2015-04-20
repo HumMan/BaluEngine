@@ -548,7 +548,7 @@ namespace Editor
 		p = new BaluEditorControlPrivate();
 		p->callbackbridge.reset(new TCallbackManagedBridge(this));
 
-		p->director = IDirector::CreateDirector(msclr::interop::marshal_as<std::string>(assets_dir));
+		p->director = IDirector::CreateDirector(msclr::interop::marshal_as<std::string>(assets_dir), "editor_control.log");
 
 		p->director->Initialize((void*)handle.ToPointer());
 		

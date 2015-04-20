@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 void Run(std::string assets_dir, std::string file_to_run)
 {
-	director = IDirector::CreateDirector(assets_dir);
+	director = IDirector::CreateDirector(assets_dir, "launcher.log");
 
 	director->Initialize(true);
 
