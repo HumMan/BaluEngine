@@ -191,7 +191,7 @@ namespace BaluEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            baluEditorControl1.SaveWorldTo(active_project);
         }
 
         private void loadDemoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -221,6 +221,8 @@ namespace BaluEditor
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            baluEditorControl1.SaveWorldTo(active_project);
+
             Process myProcess = new Process();
             myProcess.StartInfo.UseShellExecute = false;
             myProcess.StartInfo.FileName = "launcher.exe";
