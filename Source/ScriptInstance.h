@@ -27,4 +27,6 @@ public:
 	void CallMethod(EngineInterface::CallbackWithData<EngineInterface::MouseCallback> &callback, EngineInterface::TMouseEventArgs* e);
 	void CallMethod(EngineInterface::CallbackWithData<EngineInterface::TCustomDrawCallback> &callback, NVGcontext* context, EngineInterface::TCustomDrawCommand* command);
 	void CallMethod(EngineInterface::CallbackWithData<EngineInterface::CollideCallback> &callback, EngineInterface::IBaluPhysShapeInstance* obj_a, EngineInterface::IBaluInstance* obj_b);
+
+	std::string GetEventSignature(EngineInterface::TEventType event_type);
 };

@@ -153,6 +153,11 @@ namespace BaluEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveAs();
+        }
+
+        private void SaveAs()
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "BaluWorld files (*.bew)|*.bew";
             openFileDialog.FilterIndex = 1;
@@ -221,7 +226,11 @@ namespace BaluEditor
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            baluEditorControl1.SaveWorldTo(active_project);
+            if(active_project==null)
+            {
+                SaveAs();
+            }else
+                baluEditorControl1.SaveWorldTo(active_project);
 
             Process myProcess = new Process();
             myProcess.StartInfo.UseShellExecute = false;

@@ -66,6 +66,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDemoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -75,7 +76,6 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -368,6 +368,13 @@
             this.eventsToolStripMenuItem.Text = "Events";
             this.eventsToolStripMenuItem.Click += new System.EventHandler(this.eventsToolStripMenuItem_Click);
             // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.runToolStripMenuItem.Text = "Run";
+            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -454,13 +461,6 @@
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // runToolStripMenuItem
-            // 
-            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.runToolStripMenuItem.Text = "Run";
-            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -474,7 +474,7 @@
             this.Controls.Add(this.panel1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
-            this.Text = "Form1";
+            this.Text = "Editor";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

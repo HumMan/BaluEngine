@@ -365,8 +365,11 @@ namespace Editor
 	{
 		DestroyWorldInstance(p->world_instance);
 		IBaluScene* result;
-		if (p->world->TryFind("EditorScene", result))
-			p->world->DestroyScene("EditorScene");
+		if (p->world != nullptr)
+		{
+			if (p->world->TryFind("EditorScene", result))
+				p->world->DestroyScene("EditorScene");
+		}
 	}
 
 

@@ -25,4 +25,19 @@ namespace EngineInterface
 	typedef void(*KeyUpDownCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
 	typedef void(*BeforePhysicsCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
 	typedef void(*TCustomDrawCallback)(TCallbackData* callback, NVGcontext* vg, TCustomDrawCommand* params);
+
+	enum class TEventType
+	{
+		OnWorldStart,
+		OnViewportResize,
+		OnGlobalMouseMove,
+		OnGlobalMouseUp,
+		OnGlobalMouseDown,
+		OnClassBeforePhys,
+		OnClassKeyDown,
+		OnClassKeyUp,
+		OnSpriteCollide,
+	};
+
+	
 }

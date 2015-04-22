@@ -9,6 +9,19 @@
 
 using namespace EngineInterface;
 
+const char* EventSignatures[] =
+{
+	"func static StartWorld%s(IWorldInstance world_instance, IComposer composer)",
+	"func static ViewportResize%s(IDirector director, vec2i old_size, vec2i new_size)",
+	"func static MouseMove%s(IWorldInstance world_instance, TMouseEventArgs event)",
+	"func static MouseUp%s(IWorldInstance world_instance, TMouseEventArgs event)",
+	"func static MouseDown%s(IWorldInstance world_instance, TMouseEventArgs event)",
+	"func static BeforePhys%s(IInstance object)",
+	"func static KeyDown%s(IInstance object)",
+	"func static KeyUp%s(IInstance object)",
+	"func static Collide%s(IPhysShapeInstance source, IInstance obstancle)"
+};
+
 class TBaluScriptInstancePrivate
 {
 public:
@@ -149,4 +162,9 @@ void TBaluScriptInstance::CallMethod(EngineInterface::CallbackWithData<EngineInt
 
 	TStackValue result, object;
 	callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
+}
+
+std::string TBaluScriptInstance::GetEventSignature(EngineInterface::TEventType event_type)
+{
+	return EventSignatures[(int)event_type];
 }
