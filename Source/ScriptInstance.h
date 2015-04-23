@@ -29,4 +29,12 @@ public:
 	void CallMethod(EngineInterface::CallbackWithData<EngineInterface::CollideCallback> &callback, EngineInterface::IBaluPhysShapeInstance* obj_a, EngineInterface::IBaluInstance* obj_b);
 
 	std::string GetEventSignature(EngineInterface::TEventType event_type);
+
+	std::string AddName(std::string format, std::string name)
+	{
+		size_t size = format.size() + name.size();
+		std::unique_ptr<char> buf(new char[size]);
+		sprintf_s(buf.get(), size*sizeof(char), format.c_str());
+		return buf.get();
+	}
 };

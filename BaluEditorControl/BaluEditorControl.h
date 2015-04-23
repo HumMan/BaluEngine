@@ -111,6 +111,10 @@ namespace Editor
 		void LoadWorldFrom(String^ path);
 		void LoadDemoWorld();
 
+		//events editor
+		//
+		//
+
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;
 		property ToolStrip^ EditorToolsBar;
