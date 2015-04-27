@@ -34,7 +34,7 @@ public:
 TCreateClassInstanceTool::TCreateClassInstanceTool(TSceneEditorScene* scene_editor_scene)
 {
 	this->scene_editor_scene = scene_editor_scene;
-	//active_tool_class = nullptr;
+	active_tool_class = nullptr;
 }
 
 void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)

@@ -22,7 +22,6 @@ namespace Editor
 	using namespace System::ComponentModel;
 	using namespace System::Threading;
 	using namespace System::Collections::Generic;
-	//using namespace System::Runtime::InteropServices;
 
 	using namespace EngineInterface;
 
@@ -111,9 +110,13 @@ namespace Editor
 		void LoadWorldFrom(String^ path);
 		void LoadDemoWorld();
 
-		//events editor
-		//
-		//
+		////events editor
+		////
+		//array<String^>^ GetClasses();
+		//int GetClassEventsCount(String^ event_type);
+		//void SetClassEventSource(String^ event_type, int index, String^ source);
+		//String^ GetClassEventSource(String^ event_type, int index);
+		////
 
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;
@@ -127,15 +130,4 @@ namespace Editor
 
 		
 	};
-
-	//public ref class BaluEditorOpenglWindow
-	//{
-	//private:
-
-	//	BaluEditorOpenglWindowPrivate* p;
-	//public:
-	//	BaluEditorOpenglWindow(IntPtr handle);
-	//	void BeginFrame();
-	//	void EndFrame();
-	//};
 }

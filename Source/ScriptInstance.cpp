@@ -53,6 +53,8 @@ TBaluScriptInstance::TBaluScriptInstance(std::string assets_dir)
 	p->syntax.reset(new TSyntaxAnalyzer());
 	p->syntax->Compile((char*)(("class Script{" + std::string(script_base_source) + "}").c_str()), p->time);
 
+	delete script_base_source;
+
 	TClassRegistryParams params;
 	params.smethods = &p->smethods;
 	params.static_objects = &p->static_objects;

@@ -64,7 +64,8 @@ namespace EngineInterface
 		}
 		void SetCompiledScript(TSMethod* method, TBaluScriptInstance* script_engine)
 		{
-			assert(compiled_script == nullptr);
+			//TODO compiled_script не очищается после смены сцены редактора
+			//assert(compiled_script == nullptr);
 			this->compiled_script = method;
 			this->script_engine = script_engine;
 		}

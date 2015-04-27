@@ -363,7 +363,9 @@ namespace Editor
 
 	void BaluEditorControl::DestroyEditorScene()
 	{
+		delete p->screen;
 		DestroyWorldInstance(p->world_instance);
+		p->world_instance = nullptr;
 		IBaluScene* result;
 		if (p->world != nullptr)
 		{
@@ -391,14 +393,6 @@ namespace Editor
 		auto& tools = p->active_editor->GetAvailableTools();
 		p->active_editor->SetActiveTool(tools[0].tool.get());
 		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools, p->active_editor, this);
-
-		//ed->OnSelectionChanged.connect(boost::bind(&TBaluEditor::OnSelectionChangedEvent, this, _1, _2));
-		//assert(ed != nullptr);
-		//if (ed != nullptr)
-		//{
-		//	ed->Initialize(obj_to_edit, TVec2(0, 0));
-		//	p->active_editor = ed;
-		//}
 	}
 
 	bool BaluEditorControl::CanSetSelectedAsWork()
@@ -569,9 +563,14 @@ namespace Editor
 
 	void BaluEditorControl::Destroy()
 	{
+		if (p->active_edited_object != nullptr)
+		DestroyEditorOfWorldObject(p->active_edited_object);
+
 		DestroyEditorScene();
 
-		DestroyWorldInstance(p->world_instance);
+		if (p->world_instance!=nullptr)
+			DestroyWorldInstance(p->world_instance);
+
 		DestroyWorld(p->world);
 		IDirector::DestroyDirector(p->director);
 

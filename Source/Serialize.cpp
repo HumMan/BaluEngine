@@ -672,7 +672,8 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 			key_callbacks.append_attribute("key").set_value(i->first);
 			for (auto& v : i->second)
 			{
-				v.SaveToXML(key_callbacks, version);
+				if (v.IsScript())
+					v.SaveToXML(key_callbacks, version);
 			}
 		}
 
@@ -683,14 +684,16 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 			key_callbacks.append_attribute("key").set_value(i->first);
 			for (auto& v : i->second)
 			{
-				v.SaveToXML(key_callbacks, version);
+				if (v.IsScript())
+					v.SaveToXML(key_callbacks, version);
 			}
 		}
 
 		callbacks_node = new_node.append_child("BeforePhysicsScripts");
 		for (auto i = before_physics_callbacks.begin(); i != before_physics_callbacks.end(); i++)
 		{
-			i->SaveToXML(callbacks_node, version);
+			if (i->IsScript())
+				i->SaveToXML(callbacks_node, version);
 		}
 	}
 }
@@ -880,21 +883,24 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 		xml_node callbacks_node = new_node.append_child("MouseDownScripts");
 		for (auto& v : mouse_down_callbacks)
 		{
-			v.SaveToXML(callbacks_node, version);
+			if (v.IsScript())
+				v.SaveToXML(callbacks_node, version);
 		}
 	}
 	{
 		xml_node callbacks_node = new_node.append_child("MouseUpScripts");
 		for (auto& v : mouse_up_callbacks)
 		{
-			v.SaveToXML(callbacks_node, version);
+			if (v.IsScript())
+				v.SaveToXML(callbacks_node, version);
 		}
 	}
 	{
 		xml_node callbacks_node = new_node.append_child("MouseMoveScripts");
 		for (auto& v : mouse_move_callbacks)
 		{
-			v.SaveToXML(callbacks_node, version);
+			if (v.IsScript())
+				v.SaveToXML(callbacks_node, version);
 		}
 	}
 	{
