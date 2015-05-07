@@ -16,7 +16,7 @@ using namespace EngineInterface;
 
 namespace Editor
 {
-	class TEventParams
+	class TEventInfo
 	{
 	public:
 		TEventType event_type;
@@ -25,30 +25,44 @@ namespace Editor
 		TScriptData* event_data;
 	};
 
+	class TEventsOfType
+	{
+	public:
+		std::vector<TEventInfo> events;
+		TEventsOfType()
+		{
+		}
+	};
+
 	class TEventsEditorPrivate
 	{
 	public:
 		IBaluWorld* world;
-		std::vector<TEventParams> events;
+		std::vector<TEventsOfType> events;
 	};
 	TEventsEditor::TEventsEditor(IBaluWorld* world)
 	{
 		this->p = new TEventsEditorPrivate();
 		this->p->world = world;
 	}
+	void TEventsEditor::FindAllEvents()
+	{
+		p->events.resize((int)TEventType::End);
+		p->events[(int)TEventType::OnWorldStart].insert(p->world->GetOnWorldStart()
+	}
 	TEventsEditor::!TEventsEditor()
 	{
 		delete p;
 	}
-	array<String^>^ TEventsEditor::GetEventsList()
+	array<String^>^ TEventsEditor::GetEventsList(int event_type)
 	{
-		//p->world->GetOnMouseDown();
+		p->world->GetOnMouseDown();
 	}
-	int TEventsEditor::GetEventsCount()
+	int TEventsEditor::GetEventsCount(int event_type)
 	{
 
 	}
-	array<TNodeType>^ TEventsEditor::GetEventParameters()
+	array<TNodeType>^ TEventsEditor::GetEventParameters(int event_type, int event_id)
 	{
 
 	}
@@ -56,15 +70,15 @@ namespace Editor
 	{
 
 	}
-	void TEventsEditor::SetEventParameter(int event_id, String^ object_name)
+	void TEventsEditor::SetEventParameter(int event_type, int event_id, String^ object_name)
 	{
 
 	}
-	String^ TEventsEditor::GetEventScript(int event_id)
+	String^ TEventsEditor::GetEventScript(int event_type, int event_id)
 	{
 
 	}
-	void TEventsEditor::SetEventScript(int event_id, String^ script)
+	void TEventsEditor::SetEventScript(int event_type, int event_id, String^ script)
 	{
 
 	}

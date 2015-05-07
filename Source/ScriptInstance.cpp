@@ -9,6 +9,19 @@
 
 using namespace EngineInterface;
 
+const std::string TEventTypeString::List[] =
+{
+	"OnWorldStart",
+	"OnViewportResize",
+	"OnGlobalMouseMove",
+	"OnGlobalMouseUp",
+	"OnGlobalMouseDown",
+	"OnClassBeforePhys",
+	"OnClassKeyDown",
+	"OnClassKeyUp",
+	"OnSpriteCollide",
+};
+
 const char* EventSignatures[] =
 {
 	"func static StartWorld%s(IWorldInstance world_instance, IComposer composer)",

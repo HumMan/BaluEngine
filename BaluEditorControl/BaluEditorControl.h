@@ -33,6 +33,7 @@ namespace Editor
 		Class,
 		Scene
 	};
+
 	public ref class TWolrdTreeNodeTag
 	{
 	public:
@@ -59,15 +60,19 @@ namespace Editor
 	internal:
 		TEventsEditorPrivate* p;
 		TEventsEditor(IBaluWorld* world);
+		void FindAllEvents();
 	public:
 		!TEventsEditor();
-		array<String^>^ GetEventsList();
-		int GetEventsCount();
-		array<TNodeType>^ GetEventParameters();
+		array<String^>^ GetEventsList(int event_type);
+		int GetEventsCount(int event_type);
+		array<TNodeType>^ GetEventParameters(int event_type, int event_id);
 		array<String^>^ GetObjectsList(TNodeType object_type);
-		void SetEventParameter(int event_id, String^ object_name);
-		String^ GetEventScript(int event_id);
-		void SetEventScript(int event_id, String^ script);
+		void SetEventParameter(int event_type, int event_id, String^ object_name);
+		String^ GetEventScript(int event_type, int event_id);
+		void SetEventScript(int event_type, int event_id, String^ script);
+
+		int GetEventTypesCount();
+		String^ GetEventTypeName(int event_type);
 	};
 
 	public ref class BaluEditorControl

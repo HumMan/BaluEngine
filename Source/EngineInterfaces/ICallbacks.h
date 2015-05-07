@@ -37,7 +37,12 @@ namespace EngineInterface
 		OnClassKeyDown,
 		OnClassKeyUp,
 		OnSpriteCollide,
+		End
 	};
 
-	
+	class TEventTypeString
+	{
+	public:
+		static const std::string List[];
+	};
 }
