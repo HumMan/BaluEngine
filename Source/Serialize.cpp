@@ -904,10 +904,18 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 		}
 	}
 	{
-		xml_node callbacks_node = new_node.append_child("StartWorldScript");
-		on_start_world_callback.SaveToXML(callbacks_node, version);
-		callbacks_node = new_node.append_child("ViewportResizeScript");
-		viewport_resize_callback.SaveToXML(callbacks_node, version);
+		xml_node callbacks_node = new_node.append_child("StartWorldScripts");
+		for (auto& v : on_start_world_callback)
+		{
+			if (v.IsScript())
+				v.SaveToXML(callbacks_node, version);
+		}
+		callbacks_node = new_node.append_child("ViewportResizeScripts");
+		for (auto& v : viewport_resize_callback)
+		{
+			if (v.IsScript())
+				v.SaveToXML(callbacks_node, version);
+		}
 	}
 }
 
@@ -989,10 +997,22 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		}
 	}
 	{
-		xml_node callbacks_node = world_node.child("StartWorldScript").first_child();
-		on_start_world_callback.LoadFromXML(callbacks_node, version);
-		callbacks_node = world_node.child("ViewportResizeScript").first_child();
-		viewport_resize_callback.LoadFromXML(callbacks_node, version);
+		xml_node callbacks_node = world_node.child("StartWorldScripts");
+		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
+		{
+			CallbackWithData<OnStartWorldCallback> new_callback;
+			new_callback.LoadFromXML(callback_node, version);
+			on_start_world_callback.push_back(new_callback);
+		}
+	}
+	{
+		xml_node callbacks_node = world_node.child("ViewportResizeScripts");
+		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
+		{
+			CallbackWithData<ViewportResizeCallback> new_callback;
+			new_callback.LoadFromXML(callback_node, version);
+			viewport_resize_callback.push_back(new_callback);
+		}
 	}
 }
 

@@ -99,10 +99,6 @@ namespace EngineInterface
 	private:
 		T callback;
 	public:
-		bool operator==(const CallbackWithData& right)
-		{
-			return callback = right.callback;
-		}
 		template<typename... Args>
 		void Execute(Args... args)
 		{

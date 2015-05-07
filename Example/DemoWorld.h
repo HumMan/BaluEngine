@@ -191,7 +191,7 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	auto world = CreateWorld();
 
 	world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
-	world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+	world->AddOnViewportResize(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 
 	auto brick_mat = world->CreateMaterial("brick");
 
@@ -261,7 +261,7 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	player_class->OnKeyDown(TKey::Right, CallbackWithData<KeyUpDownCallback>(PlayerRight_source, &world->GetCallbacksActiveType()));
 
 	player_class->OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback>(PlayerPrePhysStep_source, &world->GetCallbacksActiveType()));
-	player_phys_sprite->OnCollide(box_class, CallbackWithData<CollideCallback>(PlayerJumpSensorCollide_source, &world->GetCallbacksActiveType()));
+	player_phys_sprite->AddOnCollide(box_class, CallbackWithData<CollideCallback>(PlayerJumpSensorCollide_source, &world->GetCallbacksActiveType()));
 #endif
 
 	auto bones_player = world->CreateClass("bones");

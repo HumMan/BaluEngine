@@ -346,7 +346,7 @@ namespace Editor
 		//p->world->SetRenderWorldCallback(callback);
 
 		p->world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
-		p->world->SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+		p->world->AddOnViewportResize(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
 
 		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
 

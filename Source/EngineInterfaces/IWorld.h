@@ -105,12 +105,6 @@ namespace EngineInterface
 		virtual void DestroyClass(const char* class_name) = 0;
 		virtual void DestroyScene(const char* scene_name) = 0;
 
-		//virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback) = 0;
-
-		virtual void AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback) = 0;
-
-		virtual void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback) = 0;
-
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluSprite*>> GetSprites() = 0;
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluClass*>> GetClasses() = 0;
@@ -121,19 +115,30 @@ namespace EngineInterface
 
 		virtual IBaluPhysShapeFactory* GetPhysShapeFactory() = 0;
 
-		//void OnKeyDown(TKey key, KeyDownCallback callback);
-		//void OnKeyUp(TKey key, KeyDownCallback callback);
-
 		virtual void AddOnMouseDown(CallbackWithData<MouseCallback>) = 0;
 		virtual void AddOnMouseUp(CallbackWithData<MouseCallback>) = 0;
 		virtual void AddOnMouseMove(CallbackWithData<MouseCallback>) = 0;
 
-		virtual void RemoveOnMouseDown(CallbackWithData<MouseCallback>) = 0;
-		virtual void RemoveOnMouseUp(CallbackWithData<MouseCallback>) = 0;
-		virtual void RemoveOnMouseMove(CallbackWithData<MouseCallback>) = 0;
+		virtual std::vector<CallbackWithData<MouseCallback>> GetOnMouseDown()=0;
+		virtual std::vector<CallbackWithData<MouseCallback>> GetOnMouseUp() = 0;
+		virtual std::vector<CallbackWithData<MouseCallback>> GetOnMouseMove() = 0;
+
+		virtual void AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback) = 0;
+		virtual std::vector<CallbackWithData<OnStartWorldCallback>> GetOnWorldStart() = 0;
+		virtual void RemoveOnWorldStart(int index) = 0;
+
+		virtual void AddOnViewportResize(CallbackWithData<ViewportResizeCallback> callback) = 0;
+		virtual std::vector<CallbackWithData<ViewportResizeCallback>> GetOnViewportResize() = 0;
+		virtual void RemoveOnViewportResize(int index) = 0;
+
+		virtual void RemoveOnMouseDown(int index) = 0;
+		virtual void RemoveOnMouseUp(int index) = 0;
+		virtual void RemoveOnMouseMove(int index) = 0;
 
 		virtual void SaveToXML(std::string path) = 0;
 		virtual void LoadFromXML(std::string path) = 0;
+
+		
 
 	};
 #endif

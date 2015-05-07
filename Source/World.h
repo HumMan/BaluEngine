@@ -59,8 +59,8 @@ private:
 	}
 
 	//CallbackWithData<RenderWorldCallback> render_world_callback;
-	CallbackWithData<OnStartWorldCallback> on_start_world_callback;
-	CallbackWithData<ViewportResizeCallback> viewport_resize_callback;
+	std::vector<CallbackWithData<OnStartWorldCallback>> on_start_world_callback;
+	std::vector<CallbackWithData<ViewportResizeCallback>> viewport_resize_callback;
 
 public:
 	TBaluWorld();
@@ -118,15 +118,21 @@ public:
 	void AddOnMouseUp(CallbackWithData<MouseCallback>);
 	void AddOnMouseMove(CallbackWithData<MouseCallback>);
 
-	void RemoveOnMouseDown(CallbackWithData<MouseCallback>);
-	void RemoveOnMouseUp(CallbackWithData<MouseCallback>);
-	void RemoveOnMouseMove(CallbackWithData<MouseCallback>);
+	std::vector<CallbackWithData<MouseCallback>> GetOnMouseDown();
+	std::vector<CallbackWithData<MouseCallback>> GetOnMouseUp();
+	std::vector<CallbackWithData<MouseCallback>> GetOnMouseMove();
+
+	void RemoveOnMouseDown(int index);
+	void RemoveOnMouseUp(int index);
+	void RemoveOnMouseMove(int index);
 
 	void AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback);
-	//void AddOnWorldEnd();
-
-	//void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback);
-	void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback);
+	std::vector<CallbackWithData<OnStartWorldCallback>> GetOnWorldStart();
+	void RemoveOnWorldStart(int index);
+	
+	void AddOnViewportResize(CallbackWithData<ViewportResizeCallback> callback);
+	std::vector<CallbackWithData<ViewportResizeCallback>> GetOnViewportResize();
+	void RemoveOnViewportResize(int index);
 
 	void SaveToXML(std::string path);
 	void LoadFromXML(std::string path);

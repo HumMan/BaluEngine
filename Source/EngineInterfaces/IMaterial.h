@@ -138,6 +138,55 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+	//TODO
+	class TBaluTransformWithScale
+	{
+	public:
+		TBaluTransform transform;
+		TVec2 scale;
+		TBaluTransformWithScale()
+		{
+			scale = TVec2(1, 1);
+		}
+		TBaluTransformWithScale(TBaluTransform transform, TVec2 scale)
+		{
+			this->transform = transform;
+			this->scale = scale;
+		}
+		//TVec2 ToGlobal(TVec2 p)
+		//{
+		//	return GetOrientation()*p + position;
+		//}
+		//TVec2 ToLocal(TVec2 p)
+		//{
+		//	return GetOrientation().TransMul((p - position));
+		//}
+
+		//TOBB2 ToGlobal(TOBB2 box)
+		//{
+		//	//TODO
+		//	return TOBB2(box.pos + position, GetOrientation()*box.orient, box.local);
+		//}
+		//TOBB2 ToGlobal(TAABB2 box)
+		//{
+		//	//TODO
+		//	return TOBB2(position, GetOrientation(), box);
+		//}
+		//TBaluTransform ToGlobal(TBaluTransform local)
+		//{
+		//	TBaluTransform global;
+		//	global.position = position + GetOrientation()*local.position;
+		//	global.angle = TRot(angle.GetAngle() + local.angle.GetAngle());
+		//	return global;
+		//}
+		//TVec2 Transform(TVec2 vertex)
+		//{
+		//	return tranform.ToGlobal((vertex).ComponentMul(scale));
+		//}
+	};
+#endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IViewport
 	{
 	public:

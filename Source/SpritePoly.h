@@ -63,7 +63,8 @@ public:
 
 	bool PointCollide(TVec2 sprite_space_point);
 
-	void OnCustomDraw(CallbackWithData<TCustomDrawCallback> callback);
+	void AddOnCustomDraw(CallbackWithData<TCustomDrawCallback> callback);
+	void RemoveOnCustomDraw(int index);
 
 	bool IsCustomDraw()
 	{

@@ -246,72 +246,77 @@ TBaluPhysShapeFactory* TBaluWorld::GetPhysShapeFactory()
 	return &shape_factory;
 }
 
-template<class T, class ArrayType>
-void AddCallback(T callback, ArrayType& array)
-{
-	for (auto& v : array)
-		if (v == callback)
-			assert(false);
-	array.push_back(callback);
-}
-
-template<class T, class ArrayType>
-void RemoveCallback(T callback, ArrayType& array)
-{
-	bool exists = false;
-	for (int i = 0; i < array.size();i++)
-		if (array[i] == callback)
-		{
-			array.erase(array.begin() + i);
-			return;
-		}
-	assert(false);
-	return;
-}
-
 void TBaluWorld::AddOnMouseDown(CallbackWithData<MouseCallback> callback)
 {
-	AddCallback(callback, mouse_down_callbacks);
+	mouse_down_callbacks.push_back(callback);
 }
 
 void TBaluWorld::AddOnMouseUp(CallbackWithData<MouseCallback> callback)
 {
-	AddCallback(callback, mouse_up_callbacks);
+	mouse_up_callbacks.push_back(callback);
 }
 
 void TBaluWorld::AddOnMouseMove(CallbackWithData<MouseCallback> callback)
 {
-	AddCallback(callback, mouse_move_callbacks);
+	mouse_move_callbacks.push_back(callback);
 }
 
-void TBaluWorld::RemoveOnMouseDown(CallbackWithData<MouseCallback> callback)
+std::vector<CallbackWithData<MouseCallback>> TBaluWorld::GetOnMouseDown()
 {
-	RemoveCallback(callback, mouse_down_callbacks);
+	return mouse_down_callbacks;
+}
+std::vector<CallbackWithData<MouseCallback>> TBaluWorld::GetOnMouseUp()
+{
+	return mouse_up_callbacks;
+}
+std::vector<CallbackWithData<MouseCallback>> TBaluWorld::GetOnMouseMove()
+{
+	return mouse_move_callbacks;
 }
 
-void TBaluWorld::RemoveOnMouseUp(CallbackWithData<MouseCallback> callback)
+void TBaluWorld::RemoveOnMouseDown(int index)
 {
-	RemoveCallback(callback, mouse_up_callbacks);
+	mouse_move_callbacks.erase(mouse_down_callbacks.begin() + index);
 }
 
-void TBaluWorld::RemoveOnMouseMove(CallbackWithData<MouseCallback> callback)
+void TBaluWorld::RemoveOnMouseUp(int index)
 {
-	RemoveCallback(callback, mouse_move_callbacks);
+	mouse_move_callbacks.erase(mouse_up_callbacks.begin() + index);
+}
+
+void TBaluWorld::RemoveOnMouseMove(int index)
+{
+	mouse_move_callbacks.erase(mouse_move_callbacks.begin() + index);
 }
 
 void TBaluWorld::AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback)
 {
-	on_start_world_callback = callback;
+	on_start_world_callback.push_back(callback);
 }
 
-//void TBaluWorld::SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)
-//{
-//	render_world_callback = callback;
-//}
-
-void TBaluWorld::SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback)
+std::vector<CallbackWithData<OnStartWorldCallback>> TBaluWorld::GetOnWorldStart()
 {
-	viewport_resize_callback = callback;
+	return on_start_world_callback;
+}
+
+void TBaluWorld::RemoveOnWorldStart(int index)
+{
+	on_start_world_callback.erase(on_start_world_callback.begin() + index);
+}
+
+void TBaluWorld::AddOnViewportResize(CallbackWithData<ViewportResizeCallback> callback)
+{
+	viewport_resize_callback.push_back(callback);
+}
+
+std::vector<CallbackWithData<ViewportResizeCallback>> TBaluWorld::GetOnViewportResize()
+{
+	return viewport_resize_callback;
+}
+
+void TBaluWorld::RemoveOnViewportResize(int index)
+{
+	viewport_resize_callback.erase(viewport_resize_callback.begin() + index);
 }
 
 void TBaluWorld::SaveToXML(std::string path)

@@ -52,9 +52,9 @@ void TAbstractEditor::InitializeControls(IBaluWorld* world)
 
 void TAbstractEditor::DeinitializeControls()
 {
-	world->RemoveOnMouseMove(CallbackWithData<MouseCallback>(OnMouseMove, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
-	world->RemoveOnMouseDown(CallbackWithData<MouseCallback>(OnMouseDown, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
-	world->RemoveOnMouseUp(CallbackWithData<MouseCallback>(OnMouseUp, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->RemoveOnMouseMove(0);
+	world->RemoveOnMouseDown(0);
+	world->RemoveOnMouseUp(0);
 }
 
 void TAbstractEditor::SetActiveTool(IEditorTool* tool)

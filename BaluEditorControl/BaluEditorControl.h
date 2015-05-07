@@ -52,6 +52,24 @@ namespace Editor
 		}
 	};
 
+	class TEventsEditorPrivate;
+
+	public ref class TEventsEditor
+	{
+	internal:
+		TEventsEditorPrivate* p;
+		TEventsEditor(IBaluWorld* world);
+	public:
+		!TEventsEditor();
+		array<String^>^ GetEventsList();
+		int GetEventsCount();
+		array<TNodeType>^ GetEventParameters();
+		array<String^>^ GetObjectsList(TNodeType object_type);
+		void SetEventParameter(int event_id, String^ object_name);
+		String^ GetEventScript(int event_id);
+		void SetEventScript(int event_id, String^ script);
+	};
+
 	public ref class BaluEditorControl
 	{
 	private:
@@ -109,14 +127,6 @@ namespace Editor
 		void SaveWorldTo(String^ path);
 		void LoadWorldFrom(String^ path);
 		void LoadDemoWorld();
-
-		////events editor
-		////
-		//array<String^>^ GetClasses();
-		//int GetClassEventsCount(String^ event_type);
-		//void SetClassEventSource(String^ event_type, int index, String^ source);
-		//String^ GetClassEventSource(String^ event_type, int index);
-		////
 
 		property PropertyGrid^ SelectedObjectProperty;
 		property TreeView^ WorldTreeView;

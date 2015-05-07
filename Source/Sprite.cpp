@@ -45,7 +45,7 @@ CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstanc
 	return nullptr;
 }
 
-void TBaluSprite::OnCollide(EngineInterface::IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback)
+void TBaluSprite::AddOnCollide(EngineInterface::IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback)
 {
 	OnCollide(dynamic_cast<TBaluClass*>(obstancle_class), callback);
 }
@@ -53,6 +53,11 @@ void TBaluSprite::OnCollide(EngineInterface::IBaluClass* obstancle_class, Callba
 CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(EngineInterface::IBaluClass* obstancle_class)
 {
 	return GetOnCollide(dynamic_cast<TBaluClass*>(obstancle_class));
+}
+
+void TBaluSprite::RemoveOnCollide(int index)
+{
+	collide_callbacks.erase(collide_callbacks.begin() + index);
 }
 
 std::string TBaluSprite::GetName()

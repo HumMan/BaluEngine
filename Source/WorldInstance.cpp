@@ -25,7 +25,8 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 
 	CompileScripts();
 
-	source->on_start_world_callback.Execute(this, &composer);
+	for (auto& v : source->on_start_world_callback)
+		v.Execute(this, &composer);
 }
 
 TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
@@ -134,21 +135,22 @@ void TBaluWorldInstance::DebugDraw()
 
 void TBaluWorldInstance::CompileScripts()
 {
+	for(auto& v:source->on_start_world_callback)
 	{
-		if (source->on_start_world_callback.IsScript())
+		if (v.IsScript())
 		{
-			auto method_body = source->on_start_world_callback.GetScriptSource();
+			auto method_body = v.GetScriptSource();
 			std::string method = std::string("func static StartWorld(IWorldInstance world_instance, IComposer composer)\n{\n") + method_body + "\n}\n";
-			script_engine.CreateMethod(&source->on_start_world_callback, method.c_str());
+			script_engine.CreateMethod(&v, method.c_str());
 		}
 	}
-
+	for (auto& v : source->viewport_resize_callback)
 	{
-		if (source->viewport_resize_callback.IsScript())
+		if (v.IsScript())
 		{
-			auto method_body = source->viewport_resize_callback.GetScriptSource();
+			auto method_body = v.GetScriptSource();
 			std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
-			script_engine.CreateMethod(&source->viewport_resize_callback, method.c_str());
+			script_engine.CreateMethod(&v, method.c_str());
 		}
 	}
 
@@ -228,5 +230,6 @@ void TBaluWorldInstance::CompileScripts()
 
 void TBaluWorldInstance::ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size)
 {
-	GetSource()->viewport_resize_callback.Execute(director, old_size, new_size);
+	for (auto& v : GetSource()->viewport_resize_callback)
+		v.Execute(director, old_size, new_size);
 }

@@ -227,8 +227,9 @@ public:
 	void OnCollide(TBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
 	CallbackWithData<CollideCallback>* GetOnCollide(TBaluClass* obstancle_class);
 
-	void OnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
+	void AddOnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
 	CallbackWithData<CollideCallback>* GetOnCollide(IBaluClass* obstancle_class);
+	void RemoveOnCollide(int index);
 
 	EngineInterface::IProperties* GetProperties()
 	{
