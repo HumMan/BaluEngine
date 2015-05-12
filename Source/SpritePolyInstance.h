@@ -64,7 +64,7 @@ public:
 	void Render(TRenderCommand& command);
 	void RenderCustom(std::vector<TCustomDrawCommand>& commands);
 
-	void UpdateTransform(TBaluTransform parent, TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
+	void UpdateTransform(TBaluTransformWithScale parent, TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 	void UpdateAnimation();
 
 	//void SetSpritePolygon(std::string name);

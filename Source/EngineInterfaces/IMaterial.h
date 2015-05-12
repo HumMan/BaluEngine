@@ -147,42 +147,37 @@ namespace EngineInterface
 		TBaluTransformWithScale()
 		{
 			scale = TVec2(1, 1);
+			transform = TBaluTransform(TVec2(0, 0), TRot(0));
 		}
 		TBaluTransformWithScale(TBaluTransform transform, TVec2 scale)
 		{
 			this->transform = transform;
 			this->scale = scale;
 		}
-		//TVec2 ToGlobal(TVec2 p)
-		//{
-		//	return GetOrientation()*p + position;
-		//}
-		//TVec2 ToLocal(TVec2 p)
-		//{
-		//	return GetOrientation().TransMul((p - position));
-		//}
-
-		//TOBB2 ToGlobal(TOBB2 box)
-		//{
-		//	//TODO
-		//	return TOBB2(box.pos + position, GetOrientation()*box.orient, box.local);
-		//}
-		//TOBB2 ToGlobal(TAABB2 box)
-		//{
-		//	//TODO
-		//	return TOBB2(position, GetOrientation(), box);
-		//}
-		//TBaluTransform ToGlobal(TBaluTransform local)
-		//{
-		//	TBaluTransform global;
-		//	global.position = position + GetOrientation()*local.position;
-		//	global.angle = TRot(angle.GetAngle() + local.angle.GetAngle());
-		//	return global;
-		//}
-		//TVec2 Transform(TVec2 vertex)
-		//{
-		//	return tranform.ToGlobal((vertex).ComponentMul(scale));
-		//}
+		TVec2 ToLocal(TVec2 point)
+		{
+			TVec2 p = transform.ToLocal(point);
+			p /= scale;
+			return p;
+		}
+		TVec2 ToGlobal(TVec2 p)
+		{
+			return transform.ToGlobal(p.ComponentMul(scale));
+		}
+		TBaluTransformWithScale ToGlobal(TBaluTransformWithScale local)
+		{
+			TBaluTransformWithScale global;
+			global.transform.position = transform.position + transform.GetOrientation()*(local.transform.position.ComponentMul(scale));
+			global.transform.angle = TRot(transform.angle.GetAngle() + local.transform.angle.GetAngle());
+			global.scale = scale.ComponentMul(local.scale);
+			return global;
+		}
+		TOBB2 ToGlobal(TAABB2 box)
+		{
+			box.border[0] *= scale;
+			box.border[1] *= scale;
+			return transform.ToGlobal(box);
+		}
 	};
 #endif
 

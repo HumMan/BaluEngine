@@ -11,25 +11,22 @@ using namespace EngineInterface;
 class TBaluPhysShape: public EngineInterface::IBaluPhysShape
 {
 protected:
-	TBaluTransform local;
-	TVec2 scale;
+	TBaluTransformWithScale local;
 	bool is_sensor;
 public:
 	TBaluPhysShape()
 	{
 		is_sensor = false;
-		local = TBaluTransform(TVec2(0, 0), TRot(0));
-		scale = TVec2(1, 1);
 	}
 	virtual ~TBaluPhysShape(){}
-	virtual b2Shape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform) = 0;
+	virtual b2Shape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform) = 0;
 	void SetTransform(TBaluTransform local)
 	{
-		this->local = local;
+		this->local.transform = local;
 	}
 	void SetScale(TVec2 scale)
 	{
-		this->scale = scale;
+		this->local.scale = scale;
 	}
 	void SetIsSensor(bool value)
 	{
@@ -65,7 +62,7 @@ public:
 	{
 		return new TBaluPolygonShape();
 	}
-	b2PolygonShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
+	b2PolygonShape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
@@ -86,7 +83,7 @@ public:
 	}
 	TBaluCircleShape(float radius);
 	TBaluCircleShape(float radius, TVec2 pos);
-	b2CircleShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
+	b2CircleShape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
@@ -105,7 +102,7 @@ public:
 		return new TBaluBoxShape();
 	}
 	TBaluBoxShape(float width, float height);
-	b2PolygonShape* GetShape(TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform);
+	b2PolygonShape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

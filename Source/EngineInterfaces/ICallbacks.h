@@ -43,6 +43,43 @@ namespace EngineInterface
 	class TEventTypeString
 	{
 	public:
-		static const std::string List[];
+		static inline const std::string Get(TEventType index)
+		{
+			std::string values[] =
+			{
+				"OnWorldStart",
+				"OnViewportResize",
+				"OnGlobalMouseMove",
+				"OnGlobalMouseUp",
+				"OnGlobalMouseDown",
+				"OnClassBeforePhys",
+				"OnClassKeyDown",
+				"OnClassKeyUp",
+				"OnSpriteCollide",
+			};
+			return values[(int)index];
+		}
+	};
+
+	class TEventSignature
+	{
+	public:
+		static inline const std::string Get(TEventType index)
+		{
+			const char* EventSignatures[] =
+			{
+				"func static StartWorld%s(IWorldInstance world_instance, IComposer composer)",
+				"func static ViewportResize%s(IDirector director, vec2i old_size, vec2i new_size)",
+				"func static MouseMove%s(IWorldInstance world_instance, TMouseEventArgs event)",
+				"func static MouseUp%s(IWorldInstance world_instance, TMouseEventArgs event)",
+				"func static MouseDown%s(IWorldInstance world_instance, TMouseEventArgs event)",
+				"func static BeforePhys%s(IInstance object)",
+				"func static KeyDown%s(IInstance object)",
+				"func static KeyUp%s(IInstance object)",
+				"func static Collide%s(IPhysShapeInstance source, IInstance obstancle)"
+			};
+
+			return EventSignatures[(int)index];
+		}
 	};
 }

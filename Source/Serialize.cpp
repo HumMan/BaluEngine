@@ -41,15 +41,31 @@ TVec2 LoadCoord(pugi::xml_node& node)
 void SaveTransform(pugi::xml_node& parent_node, std::string name, TBaluTransform transform)
 {
 	xml_node new_node = parent_node.append_child(name.c_str());
-	SaveCoord(new_node, "Offset", transform.position);
+	SaveCoord(new_node, "offset", transform.position);
 	new_node.append_attribute("rotation").set_value(transform.angle.GetAngle());
 }
 
 TBaluTransform LoadTransform(pugi::xml_node& node)
 {
 	TBaluTransform transform;
-	transform.position = LoadCoord(node.child("Offset"));
+	transform.position = LoadCoord(node.child("offset"));
 	transform.angle.Set(node.attribute("rotation").as_float());
+	return transform;
+}
+
+void SaveTransformWithScale(pugi::xml_node& parent_node, std::string name, TBaluTransformWithScale transform)
+{
+	xml_node new_node = parent_node.append_child(name.c_str());
+	SaveCoord(new_node, "offset", transform.transform.position);
+	new_node.append_attribute("rotation").set_value(transform.transform.angle.GetAngle());
+	SaveCoord(new_node, "scale", transform.scale);
+}
+
+TBaluTransformWithScale LoadTransformWithScale(pugi::xml_node& node)
+{
+	TBaluTransformWithScale transform;
+	transform.transform = LoadTransform(node);
+	transform.scale = LoadCoord(node.child("scale"));
 	return transform;
 }
 
@@ -92,7 +108,7 @@ void TBaluCircleShape::Save(pugi::xml_node& parent_node, const int version)
 	xml_node new_node = parent_node.append_child("CircleShape");
 	{
 		new_node.append_attribute("radius").set_value(b2shape.m_radius);
-		SaveTransform(new_node, "Transform", local);
+		SaveTransformWithScale(new_node, "Transform", local);
 	}
 }
 
@@ -100,7 +116,7 @@ void TBaluCircleShape::Load(const pugi::xml_node& node, const int version, TBalu
 {
 	float radius = node.attribute("radius").as_float();
 	TVec2 pos = LoadCoord(node.child("position"));
-	local = LoadTransform(node.child("Transform"));
+	local = LoadTransformWithScale(node.child("Transform"));
 	b2shape.m_radius = radius;
 }
 
@@ -114,7 +130,7 @@ void TBaluPolygonShape::Save(pugi::xml_node& parent_node, const int version)
 		{
 			SaveCoord(polygons_node, "vertex", *(TVec2*)(&b2shape.GetVertex(i)));
 		}
-		SaveTransform(new_node, "Transform", local);
+		SaveTransformWithScale(new_node, "Transform", local);
 	}
 }
 
@@ -127,7 +143,7 @@ void TBaluPolygonShape::Load(const pugi::xml_node& node, const int version, TBal
 		vertices.push_back(LoadCoord(polygon_node));
 	}
 	b2shape.Set((b2Vec2*)&vertices[0], vertices.size());
-	local = LoadTransform(node.child("Transform"));
+	local = LoadTransformWithScale(node.child("Transform"));
 }
 
 void EngineInterface::TFrame::Save(pugi::xml_node& parent_node, const int version)
@@ -221,8 +237,8 @@ void TBaluSpritePolygon::Save(pugi::xml_node& parent_node, const int version)
 		new_node.append_attribute("material_name").set_value(material->GetName().c_str());
 
 	SaveCoord(new_node, "size", size);
-	SaveCoord(new_node, "scale", scale);
-	SaveTransform(new_node, "Transform", local);
+
+	SaveTransformWithScale(new_node, "Transform", local);
 
 	SaveCoord(new_node, "tex_coord_origin", tex_coord_origin);
 	SaveCoord(new_node, "tex_coord_scale", tex_coord_scale);
@@ -275,8 +291,8 @@ void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBa
 		material = world->GetMaterial(mat_name);
 
 	size = LoadCoord(node.child("size"));
-	scale = LoadCoord(node.child("scale"));
-	local = LoadTransform(node.child("Transform"));
+
+	local = LoadTransformWithScale(node.child("Transform"));
 
 	tex_coord_origin = LoadCoord(node.child("tex_coord_origin"));
 	tex_coord_scale = LoadCoord(node.child("tex_coord_scale"));
@@ -636,14 +652,14 @@ void TBaluClass::TBaluSpriteInstance::Save(pugi::xml_node& parent_node, const in
 	xml_node sprite_node = parent_node.append_child("sprite");
 	sprite_node.append_attribute("sprite_name").set_value(sprite->GetName().c_str());
 	sprite_node.append_attribute("sprite_tag").set_value(tag.c_str());
-	SaveTransform(sprite_node, "Transform", local);
+	SaveTransformWithScale(sprite_node, "Transform", local);
 }
 
 void TBaluClass::TBaluSpriteInstance::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
 	sprite = world->GetSprite(node.attribute("sprite_name").as_string());
 	tag = node.attribute("sprite_tag").as_string();
-	local = LoadTransform(node.child("Transform"));
+	local = LoadTransformWithScale(node.child("Transform"));
 }
 
 void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
@@ -760,16 +776,14 @@ void TBaluScene::TClassInstance::Save(pugi::xml_node& parent_node, const int ver
 	xml_node new_node = parent_node.append_child("Instance");
 	//new_node.append_attribute("name").set_value(name.c_str());
 	new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
-	SaveTransform(new_node, "Transform", transform);
-	SaveCoord(new_node, "Scale", scale);
+	SaveTransformWithScale(new_node, "Transform", transform);
 }
 
 void TBaluScene::TClassInstance::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
 {
 	//name = instance_node.attribute("name").as_string();
 	balu_class = world->GetClass(instance_node.attribute("class_name").as_string());
-	transform = LoadTransform(instance_node.child("Transform"));
-	scale = LoadCoord(instance_node.child("Scale"));
+	transform = LoadTransformWithScale(instance_node.child("Transform"));
 }
 
 void TViewport::Save(pugi::xml_node& parent_node, const int version)

@@ -45,8 +45,7 @@ class TBaluInstance: public EngineInterface::IBaluInstance//, TLayerObjectInstan
 private:
 	int uid;
 	TBaluClass* instance_class;
-	TBaluTransform instance_transform;
-	TVec2 instance_scale;
+	TBaluTransformWithScale instance_transform;
 
 	b2World* phys_world;
 

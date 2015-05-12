@@ -104,19 +104,19 @@ void TBaluSpritePolygonInstance::UpdateAnimation()
 	}
 }
 
-void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransform parent, TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform)
+void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransformWithScale parent, TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform)
 {
 	if (source->animation_lines.size()>0)
 		UpdateAnimation();
 
 	vertices = source->GetTriangulatedVertices();
 	tex_coords = source->GetTexCoords();
+	auto polygon_transform = TBaluTransformWithScale(source->GetTransform(), source->GetScale());
 	auto local = source->GetTransform();
-	auto scale = source->GetScale();
-
 	for (int i = 0; i < vertices.size(); i++)
 	{
-		vertices[i] = class_transform.Transform(sprite_transform.Transform((parent.ToGlobal(local)).Transform(vertices[i], scale), sprite_scale), class_scale);
+		//vertices[i] = parent.ToGlobal(class_transform.ToGlobal(sprite_transform.ToGlobal(polygon_transform.ToGlobal(vertices[i]))));
+		vertices[i] = class_transform.ToGlobal(sprite_transform.ToGlobal((parent.ToGlobal(polygon_transform)).ToGlobal(vertices[i])));
 	}
 }
 

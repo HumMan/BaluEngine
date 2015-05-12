@@ -76,7 +76,7 @@ TSkinInstance::TSkinInstance(TSkin* source, TBaluInstance* parent, TResources* r
 			TBaluSprite* source(source_sprite_of_bones[k].GetSprite());
 			TBaluTransform local(source_sprite_of_bones[k].GetTransform());
 
-			sprites_of_bones[i].push_back(std::make_unique<TBaluSpriteInstance>(source, local, parent, resources));
+			sprites_of_bones[i].push_back(std::make_unique<TBaluSpriteInstance>(source, TBaluTransformWithScale(local, TVec2(1,1)), parent, resources));
 		}
 	}
 }
@@ -95,13 +95,13 @@ void TSkinInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInst
 	}
 }
 
-void TSkinInstance::UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TVec2 class_scale, TBaluTransform class_transform)
+void TSkinInstance::UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TBaluTransformWithScale class_transform)
 {
 	for (int i = 0; i < sprites_of_bones.size(); i++)
 	{
 		for (int k = 0; k < sprites_of_bones[i].size(); k++)
 		{
-			sprites_of_bones[i][k]->UpdateTranform(bones[i]->GetGlobalTransform(), class_scale, class_transform);
+			sprites_of_bones[i][k]->UpdateTranform(TBaluTransformWithScale(bones[i]->GetGlobalTransform(), TVec2(1,1)), class_transform);
 		}
 	}
 }
@@ -158,14 +158,14 @@ TSkeletonInstance::TSkeletonInstance(TSkeleton* source,TBaluInstance* parent, TR
 	}
 }
 
-void TSkeletonInstance::UpdateTranform(TBaluTransform parent, TVec2 class_scale, TBaluTransform class_transform)
+void TSkeletonInstance::UpdateTranform(TBaluTransformWithScale class_transform)
 {
 	if (root != nullptr)
 	{
-		root->UpdateTranform(parent);
+		root->UpdateTranform(TBaluTransform());
 		for (int i = 0; i < skins.size(); i++)
 		{
-			skins[i]->UpdateSpritesTransform(bones, class_scale, class_transform);
+			skins[i]->UpdateSpritesTransform(bones, class_transform);
 		}
 	}
 }

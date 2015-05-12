@@ -41,7 +41,7 @@ TAABB2 TBaluSpritePolygon::GetVerticesBox()
 	{
 		TAABB2 box(polygon_vertices[0], TVec2(0));
 		for (int i = 1; i < polygon_vertices.size(); i++)
-			box += polygon_vertices[i].ComponentMul(scale);
+			box += polygon_vertices[i].ComponentMul(local.scale);
 		return box;
 	}
 	else
@@ -60,7 +60,7 @@ EngineInterface::TAnimDesc* TBaluSpritePolygon::GetAnimDesc(int index)
 	return anim_descs[index].get();
 }
 
-TAABB2 TBaluSpritePolygon::GetAABB(TBaluTransform sprite_in_class)
+TAABB2 TBaluSpritePolygon::GetAABB(TBaluTransformWithScale sprite_in_class)
 {
 	auto global = sprite_in_class.ToGlobal(local);
 
@@ -181,14 +181,10 @@ void TBaluSpritePolygon::RemoveOnCustomDraw(int index)
 
 TBaluSpritePolygon::TBaluSpritePolygon()
 {
-	local = TBaluTransform(TVec2(0, 0), TRot(0));
-	scale = TVec2(1, 1);
-
 	is_custom_draw = false;
 	material = nullptr;
 
 	size = TVec2(1,1);
-	local.position = TVec2(0,0);
 
 	tex_coord_origin = TVec2(0, 0);
 	tex_coord_scale = TVec2(1, 1);
@@ -196,17 +192,17 @@ TBaluSpritePolygon::TBaluSpritePolygon()
 
 TBaluTransform TBaluSpritePolygon::GetTransform()
 {
-	return local;
+	return local.transform;
 }
 
 void TBaluSpritePolygon::SetTransform(TBaluTransform t)
 {
-	local = t;
+	local.transform = t;
 }
 
 void TBaluSpritePolygon::SetScale(TVec2 scale)
 {
-	this->scale = scale;
+	local.scale = scale;
 }
 
 void TBaluSpritePolygon::SetPolygonFromTexture(std::string assets_dir)
@@ -280,7 +276,7 @@ void TBaluSpritePolygon::TriangulateGeometry()
 void TBaluSpritePolygon::UpdatePolyVertices()
 {
 	for (int i = 0; i < polygon_vertices.size(); i++)
-		polygon_vertices[i] = polygon_vertices[i].ComponentMul(size) + local.position;
+		polygon_vertices[i] = polygon_vertices[i].ComponentMul(size) + local.transform.position;
 }
 
 TBaluMaterial* TBaluSpritePolygon::GetMaterial()
@@ -362,7 +358,7 @@ void TBaluSpritePolygon::UpdateTexCoords()
 {
 	tex_coordinates.resize(triangulated.size());
 	//TODO local
-	auto vertex_left_bottom = local.position - size*0.5;
+	auto vertex_left_bottom = local.transform.position - size*0.5;
 
 	TVec2 right_top = tex_coord_origin + tex_coord_scale*0.5;
 	TVec2 left_bottom = tex_coord_origin - tex_coord_scale*0.5;

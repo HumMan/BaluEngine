@@ -29,8 +29,7 @@ private:
 	TBaluMaterial* material;
 
 	TVec2 size; //используется при генерации полигона по текстуре
-	TVec2 scale;
-	TBaluTransform local; //положение полигона в спрайте
+	TBaluTransformWithScale local; //положение полигона в спрайте
 
 	std::vector<TVec2> polygon_vertices;
 	std::vector<TVec2> triangulated;
@@ -58,7 +57,7 @@ public:
 	int GetAnimDescIndex(EngineInterface::TAnimDesc* desc);
 	EngineInterface::TAnimDesc* GetAnimDesc(int index);
 
-	TAABB2 GetAABB(TBaluTransform sprite_in_class);
+	TAABB2 GetAABB(TBaluTransformWithScale sprite_in_class);
 	TOBB2 GetBoundingBox();
 
 	bool PointCollide(TVec2 sprite_space_point);
@@ -86,7 +85,7 @@ public:
 	TBaluTransform GetTransform();
 	TVec2 GetScale()
 	{
-		return scale;
+		return local.scale;
 	}
 	void SetTransform(TBaluTransform);
 	void SetScale(TVec2 scale);

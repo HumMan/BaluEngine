@@ -43,8 +43,7 @@ public:
 	{
 		TBaluClass* balu_class;
 		//std::string tag;
-		TBaluTransform transform;
-		TVec2 scale;
+		TBaluTransformWithScale transform;
 	public:
 		TClassInstance()
 		{
@@ -52,25 +51,23 @@ public:
 		}
 		TClassInstance(TBaluClass* balu_class)
 		{
-			this->transform = TBaluTransform(TVec2(0, 0), TRot(0));
-			this->scale = TVec2(1, 1);
 			this->balu_class = balu_class;
 		}
 		void SetTransform(TBaluTransform transform)
 		{
-			this->transform = transform;
+			this->transform.transform = transform;
 		}
 		void SetScale(TVec2 scale)
 		{
-			this->scale = scale;
+			this->transform.scale = scale;
 		}
 		TBaluTransform GetTransform()
 		{
-			return transform;
+			return transform.transform;
 		}
 		TVec2 GetScale()
 		{
-			return scale;
+			return transform.scale;
 		}
 		TBaluClass* GetClass()
 		{

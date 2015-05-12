@@ -14,10 +14,8 @@ class TBaluSpriteInstance: public EngineInterface::IBaluSpriteInstance
 private:
 	TBaluSprite* source;
 	
-	TBaluTransform global;
-	
-	TBaluTransform local;
-	TVec2 scale;
+	TBaluTransformWithScale global;
+	TBaluTransformWithScale local;
 
 	std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
 	TBaluSpritePolygonInstance polygon;
@@ -26,16 +24,16 @@ private:
 
 public:
 
-	TBaluSpriteInstance(TBaluSprite* source, TBaluTransform local, TBaluInstance* parent, TResources* resources);
+	TBaluSpriteInstance(TBaluSprite* source, TBaluTransformWithScale local, TBaluInstance* parent, TResources* resources);
 
 	void SetTransform(TBaluTransform local);
 	TBaluTransform GetTransform()
 	{
-		return local;
+		return local.transform;
 	}
 	TVec2 GetScale()
 	{
-		return scale;
+		return local.scale;
 	}
 	TBaluSprite* GetSourceSprite();
 
@@ -49,5 +47,5 @@ public:
 	void PauseAnimation(bool pause);
 	void StopAnimation();
 
-	void UpdateTranform(TBaluTransform parent, TVec2 class_scale, TBaluTransform class_transform);
+	void UpdateTranform(TBaluTransformWithScale parent, TBaluTransformWithScale class_transform);
 };

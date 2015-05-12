@@ -9,26 +9,24 @@ TBaluClass* TBaluInstance::GetClass()
 
 bool TBaluInstance::PointCollide(TVec2 scene_space_point)
 {
-	//TODO untransform
 	TVec2 p = instance_transform.ToLocal(scene_space_point);
-	p /= instance_scale;
 	return instance_class->PointCollide(p);
 }
 
 TOBB2 TBaluInstance::GetOBB()
 {
 	auto aabb = GetClass()->GetAABB();
-	aabb.border[0] *= instance_scale;
-	aabb.border[1] *= instance_scale;
-	return TOBB2(instance_transform.position, instance_transform.GetOrientation(), aabb);
+	//aabb.border[0] *= instance_scale;
+	//aabb.border[1] *= instance_scale;
+	return instance_transform.ToGlobal(aabb);
+	//return TOBB2(instance_transform.position, instance_transform.GetOrientation(), aabb);
 }
 
 TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources) 
 	:skeleton(source->GetSkeleton(), this, resources), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
 {
 	skeleton_animation.Init();
-	instance_transform = transform;
-	instance_scale = scale;
+	instance_transform = TBaluTransformWithScale(transform, scale);
 	this->instance_class = source;
 	this->phys_world = phys_world;
 
@@ -42,7 +40,7 @@ TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTrans
 
 void TBaluInstance::SetTransform(TBaluTransform transform)
 {
-	this->instance_transform = transform;
+	this->instance_transform.transform = transform;
 	if (phys_body->IsEnable())
 	{
 		phys_body->SetTransform(transform);
@@ -51,15 +49,15 @@ void TBaluInstance::SetTransform(TBaluTransform transform)
 
 TBaluTransform TBaluInstance::GetTransform()
 {
-	return instance_transform;
+	return instance_transform.transform;
 }
 TVec2 TBaluInstance::GetScale()
 {
-	return this->instance_scale;
+	return this->instance_transform.scale;
 }
 void TBaluInstance::SetScale(TVec2 scale)
 {
-	this->instance_scale = scale;
+	this->instance_transform.scale = scale;
 	if (phys_body->IsEnable())
 	{
 		phys_body->BuildAllFixtures();
@@ -112,13 +110,13 @@ void TBaluInstance::UpdateTranform()
 {
 	if (phys_body->IsEnable())
 	{
-		instance_transform = phys_body->GetTransform();
+		instance_transform.transform = phys_body->GetTransform();
 	}
 	for (int i = 0; i < sprites.size(); i++)
 	{
-		sprites[i]->UpdateTranform(TBaluTransform(TVec2(0), TRot(0)), instance_scale, instance_transform);
+		sprites[i]->UpdateTranform(TBaluTransformWithScale(), instance_transform);
 	}
-	skeleton.UpdateTranform(TBaluTransform(TVec2(0), TRot(0)), instance_scale, instance_transform);
+	skeleton.UpdateTranform(instance_transform);
 }
 
 bool TBaluClassPhysBodyIntance::IsEnable()
@@ -132,7 +130,7 @@ void TBaluClassPhysBodyIntance::BuildAllFixtures()
 	{
 		auto sensor_source = parent->GetSprite(i);
 		//TODO parent->GetScale()
-		sensor_source->GetPhysShape()->BuildFixture(phys_body, parent->GetScale(), parent->GetTransform(), sensor_source->GetScale(), sensor_source->GetTransform());
+		sensor_source->GetPhysShape()->BuildFixture(phys_body, TBaluTransformWithScale(parent->GetTransform(), parent->GetScale()), TBaluTransformWithScale( sensor_source->GetTransform(), sensor_source->GetScale()));
 	}
 }
 

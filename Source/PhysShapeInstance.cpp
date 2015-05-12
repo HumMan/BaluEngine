@@ -13,7 +13,7 @@ TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInst
 	this->sprite_instance = sprite_instance;
 }
 
-void TBaluPhysShapeInstance::BuildFixture(b2Body* body,TVec2 class_scale, TBaluTransform class_transform, TVec2 sprite_scale, TBaluTransform sprite_transform)
+void TBaluPhysShapeInstance::BuildFixture(b2Body* body, TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform)
 {
 	if (this->body != nullptr)
 		assert(this->body == body);
@@ -24,7 +24,7 @@ void TBaluPhysShapeInstance::BuildFixture(b2Body* body,TVec2 class_scale, TBaluT
 		body->DestroyFixture(fixture);
 	}
 	b2FixtureDef fixture_def;
-	fixture_def.shape = source->GetShape(class_scale, TBaluTransform(TVec2(0, 0), TRot(0)), sprite_scale, sprite_transform);
+	fixture_def.shape = source->GetShape(TBaluTransformWithScale(TBaluTransform(), class_transform.scale), sprite_transform);
 	fixture_def.isSensor = source->IsSensor();
 	if (fixture_def.shape->m_type == b2BodyType::b2_dynamicBody)
 		fixture_def.density = 1.0;
