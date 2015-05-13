@@ -241,7 +241,7 @@
     <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
     <ClCompile Include="Source\Utils\texture_polygon.cpp" />
     <ClCompile Include="Source\World.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\WorldInstance.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>

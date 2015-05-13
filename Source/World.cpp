@@ -276,12 +276,12 @@ std::vector<CallbackWithData<MouseCallback>> TBaluWorld::GetOnMouseMove()
 
 void TBaluWorld::RemoveOnMouseDown(int index)
 {
-	mouse_move_callbacks.erase(mouse_down_callbacks.begin() + index);
+	mouse_down_callbacks.erase(mouse_down_callbacks.begin() + index);
 }
 
 void TBaluWorld::RemoveOnMouseUp(int index)
 {
-	mouse_move_callbacks.erase(mouse_up_callbacks.begin() + index);
+	mouse_up_callbacks.erase(mouse_up_callbacks.begin() + index);
 }
 
 void TBaluWorld::RemoveOnMouseMove(int index)
