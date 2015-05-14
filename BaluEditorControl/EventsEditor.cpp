@@ -68,17 +68,34 @@ namespace Editor
 	{
 	public:
 		IBaluWorld* world;
+		std::string assets_dir;
 		TEventsOfType event_types[(int)TEventType::End];
 	};
-	TEventsEditor::TEventsEditor(IBaluWorld* world)
+	TEventsEditor::TEventsEditor(IBaluWorld* world, const char* assets_dir)
 	{
 		this->p = new TEventsEditorPrivate();
 		this->p->world = world;
+		this->p->assets_dir = assets_dir;
 	}
 	void TEventsEditor::Initialize()
 	{
 		Clear();
 		FindAllEvents();
+	}
+	bool TEventsEditor::CompileScripts(array<String^>^% errors_list)
+	{
+		std::vector<std::string> errors;
+		auto script_engine = EngineInterface::CreateScriptInstance(p->assets_dir);
+		bool result = EngineInterface::CompileScripts(p->world, script_engine, errors);
+		EngineInterface::DestroyScriptInstance(script_engine);
+		array<String^>::Resize(errors_list, errors.size());
+		int i = 0;
+		for (auto& v : errors)
+		{
+			errors_list[i] = gcnew String(v.c_str());
+			i++;
+		}
+		return result;
 	}
 	void TEventsEditor::Clear()
 	{
@@ -189,7 +206,7 @@ namespace Editor
 	}
 	void TEventsEditor::SetEventScript(int event_type, int event_id, String^ script)
 	{
-
+		p->event_types[event_type].events[event_id].event_data->SetScriptSource(msclr::interop::marshal_as<std::string>(script).c_str());
 	}
 	int TEventsEditor::GetEventTypesCount()
 	{

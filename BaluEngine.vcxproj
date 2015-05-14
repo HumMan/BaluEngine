@@ -135,6 +135,7 @@
     <ClInclude Include="Source\EngineInterfaces\IResources.h" />
     <ClInclude Include="Source\EngineInterfaces\IScene.h" />
     <ClInclude Include="Source\EngineInterfaces\ISceneInstance.h" />
+    <ClInclude Include="Source\EngineInterfaces\IScriptInstance.h" />
     <ClInclude Include="Source\EngineInterfaces\ISprite.h" />
     <ClInclude Include="Source\EngineInterfaces\ISpriteInstance.h" />
     <ClInclude Include="Source\EngineInterfaces\ISpritePolygon.h" />

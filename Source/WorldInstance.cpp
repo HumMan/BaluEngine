@@ -23,7 +23,8 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 	this->source = source;
 	this->resources = resources;
 
-	CompileScripts();
+	std::vector<std::string> errors_list;
+	CompileScripts(source, script_engine, errors_list);
 
 	for (auto& v : source->on_start_world_callback)
 		v.Execute(this, &composer);
@@ -133,99 +134,108 @@ void TBaluWorldInstance::DebugDraw()
 		instances[i]->DebugDraw();
 }
 
-void TBaluWorldInstance::CompileScripts()
+bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance& script_engine, std::vector<std::string>& errors_list)
 {
-	for(auto& v:source->on_start_world_callback)
+	try
 	{
-		if (v.IsScript())
+		for (auto& v : source->on_start_world_callback)
 		{
-			auto method_body = v.GetScriptSource();
-			std::string method = std::string("func static StartWorld(IWorldInstance world_instance, IComposer composer)\n{\n") + method_body + "\n}\n";
-			script_engine.CreateMethod(&v, method.c_str());
+			if (v.IsScript())
+			{
+				auto method_body = v.GetScriptSource();
+				std::string method = std::string("func static StartWorld(IWorldInstance world_instance, IComposer composer)\n{\n") + method_body + "\n}\n";
+				script_engine.CreateMethod(&v, method.c_str());
+			}
 		}
-	}
-	for (auto& v : source->viewport_resize_callback)
-	{
-		if (v.IsScript())
+		for (auto& v : source->viewport_resize_callback)
 		{
-			auto method_body = v.GetScriptSource();
-			std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
-			script_engine.CreateMethod(&v, method.c_str());
+			if (v.IsScript())
+			{
+				auto method_body = v.GetScriptSource();
+				std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
+				script_engine.CreateMethod(&v, method.c_str());
+			}
 		}
-	}
 
-	for (auto& v : source->mouse_up_callbacks)
-	{
-		if (v.IsScript())
-		{
-			auto method_body = v.GetScriptSource();
-			std::string method = std::string("") + method_body + "";
-			script_engine.CreateMethod(&v, method.c_str());
-		}
-	}
-	for (auto& v : source->mouse_down_callbacks)
-	{
-		if (v.IsScript())
-		{
-			auto method_body = v.GetScriptSource();
-			std::string method = std::string("") + method_body + "";
-			script_engine.CreateMethod(&v, method.c_str());
-		}
-	}
-	for (auto& v : source->mouse_move_callbacks)
-	{
-		if (v.IsScript())
-		{
-			auto method_body = v.GetScriptSource();
-			std::string method = std::string("") + method_body + "";
-			script_engine.CreateMethod(&v, method.c_str());
-		}
-	}
-	for (auto& k : source->classes)
-	{
-		for (auto& v : k.second.GetOnBeforePhysicsStep())
+		for (auto& v : source->mouse_up_callbacks)
 		{
 			if (v.IsScript())
 			{
 				auto method_body = v.GetScriptSource();
-				std::string method = std::string("func static BeforePhys(IInstance object)\n{\n") + method_body + "\n}\n";
+				std::string method = std::string("") + method_body + "";
 				script_engine.CreateMethod(&v, method.c_str());
 			}
 		}
-		for (auto& s : k.second.GetOnKeyDown())
+		for (auto& v : source->mouse_down_callbacks)
 		{
-			for (auto& v: s.second)
 			if (v.IsScript())
 			{
 				auto method_body = v.GetScriptSource();
-				std::string method = std::string("func static KeyDown(IInstance object)\n{\n") + method_body + "\n}\n";
+				std::string method = std::string("") + method_body + "";
 				script_engine.CreateMethod(&v, method.c_str());
 			}
 		}
-		for (auto& s : k.second.GetOnKeyUp())
+		for (auto& v : source->mouse_move_callbacks)
 		{
-			for (auto& v : s.second)
+			if (v.IsScript())
+			{
+				auto method_body = v.GetScriptSource();
+				std::string method = std::string("") + method_body + "";
+				script_engine.CreateMethod(&v, method.c_str());
+			}
+		}
+		for (auto& k : source->classes)
+		{
+			for (auto& v : k.second.GetOnBeforePhysicsStep())
+			{
 				if (v.IsScript())
 				{
 					auto method_body = v.GetScriptSource();
-					std::string method = std::string("func static KeyUp(IInstance object)\n{\n") + method_body + "\n}\n";
+					std::string method = std::string("func static BeforePhys(IInstance object)\n{\n") + method_body + "\n}\n";
 					script_engine.CreateMethod(&v, method.c_str());
 				}
-		}
-	}
-
-	for (auto& k : source->sprites)
-	{
-		for(auto& v :k.second.GetOnCollide())
-		{
-			if (v.second.IsScript())
+			}
+			for (auto& s : k.second.GetOnKeyDown())
 			{
-				auto method_body = v.second.GetScriptSource();
-				std::string method = std::string("func static Collide(IPhysShapeInstance source, IInstance obstancle)\n{\n") + method_body + "\n}\n";
-				script_engine.CreateMethod(&v.second, method.c_str());
+				for (auto& v : s.second)
+					if (v.IsScript())
+					{
+						auto method_body = v.GetScriptSource();
+						std::string method = std::string("func static KeyDown(IInstance object)\n{\n") + method_body + "\n}\n";
+						script_engine.CreateMethod(&v, method.c_str());
+					}
+			}
+			for (auto& s : k.second.GetOnKeyUp())
+			{
+				for (auto& v : s.second)
+					if (v.IsScript())
+					{
+						auto method_body = v.GetScriptSource();
+						std::string method = std::string("func static KeyUp(IInstance object)\n{\n") + method_body + "\n}\n";
+						script_engine.CreateMethod(&v, method.c_str());
+					}
+			}
+		}
+
+		for (auto& k : source->sprites)
+		{
+			for (auto& v : k.second.GetOnCollide())
+			{
+				if (v.second.IsScript())
+				{
+					auto method_body = v.second.GetScriptSource();
+					std::string method = std::string("func static Collide(IPhysShapeInstance source, IInstance obstancle)\n{\n") + method_body + "\n}\n";
+					script_engine.CreateMethod(&v.second, method.c_str());
+				}
 			}
 		}
 	}
+	catch (std::string ex)
+	{
+		errors_list = script_engine.GetErrors();
+		return false;
+	}
+	return true;
 }
 
 void TBaluWorldInstance::ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size)

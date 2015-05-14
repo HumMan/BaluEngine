@@ -88,7 +88,10 @@ namespace EngineInterface
 			assert(is_script);
 			return script_source;
 		}
-
+		void SetScriptSource(const char* source)
+		{
+			script_source = source;
+		}
 		void SaveToXML(pugi::xml_node& parent_node, const int version);
 		void LoadFromXML(const pugi::xml_node& document_node, const int version);
 	};

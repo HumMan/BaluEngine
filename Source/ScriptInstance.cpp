@@ -82,6 +82,7 @@ void TBaluScriptInstance::CreateMethod(TScriptData* script_data, const char* cod
 	catch (std::string s)
 	{
 		p->errors.push_back(s);
+		throw;
 	}
 }
 

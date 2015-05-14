@@ -37,6 +37,8 @@ namespace EngineInterface
 		virtual void MouseUp(TMouseEventArgs e) = 0;
 		virtual void MouseVerticalWheel(int amount)=0;
 		virtual IComposer* GetComposer() = 0;
+
+		
 	};
 #endif
 
@@ -47,6 +49,8 @@ namespace EngineInterface
 	MUnpackRA0(WrapPointer<IBaluWorld>, WrapInterface<IBaluWorldInstance>, GetSource);
 	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
+
+
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	BALUENGINEDLL_API EngineInterface::IBaluWorldInstance* CreateWorldInstance(EngineInterface::IBaluWorld* source, EngineInterface::IResources* resources);

@@ -4,6 +4,7 @@
 
 #include "Director.h"
 #include "WorldInstance.h"
+#include "ScriptInstance.h"
 
 namespace EngineInterface
 {
@@ -37,5 +38,21 @@ namespace EngineInterface
 	void DestroyWorldInstance(EngineInterface::IBaluWorldInstance* world)
 	{
 		delete dynamic_cast<TBaluWorldInstance*>(world);
+	}
+
+	bool CompileScripts(IBaluWorld* source, IBaluScriptInstance* script_engine, std::vector<std::string>& errors_list)
+	{
+		return TBaluWorldInstance::CompileScripts(dynamic_cast<TBaluWorld*>(source), *(dynamic_cast<TBaluScriptInstance*>(script_engine)), errors_list);
+	}
+
+	IBaluScriptInstance* CreateScriptInstance(std::string assets_dir)
+	{
+		return new TBaluScriptInstance(assets_dir);
+	}
+
+	void DestroyScriptInstance(IBaluScriptInstance* instance)
+	{
+		auto ed = dynamic_cast<TBaluScriptInstance*>(instance);
+		delete ed;
 	}
 }

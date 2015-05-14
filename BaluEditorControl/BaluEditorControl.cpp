@@ -56,6 +56,7 @@ public:
 class BaluEditorControlPrivate
 {
 public:
+	std::string assets_dir;
 	IDirector* director;
 	IBaluWorld* world;
 	IBaluWorldInstance* world_instance;
@@ -228,6 +229,11 @@ namespace Editor
 			DestroySceneEditor(p->active_editor);
 	}
 
+	String^ BaluEditorControl::GetAssetsDir()
+	{
+		return gcnew String(p->assets_dir.c_str());
+	}
+
 	bool BaluEditorControl::ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list)
 	{
 		selection_list.clear();
@@ -284,7 +290,7 @@ namespace Editor
 
 	TEventsEditor^ BaluEditorControl::GetEventsEditor()
 	{
-		return gcnew TEventsEditor(p->world);
+		return gcnew TEventsEditor(p->world, p->assets_dir.c_str());
 	}
 
 	template<class T>
@@ -548,9 +554,11 @@ namespace Editor
 	BaluEditorControl::BaluEditorControl(IntPtr handle, String^ assets_dir)
 	{
 		p = new BaluEditorControlPrivate();
+
+		p->assets_dir = msclr::interop::marshal_as<std::string>(assets_dir);
 		p->callbackbridge.reset(new TCallbackManagedBridge(this));
 
-		p->director = IDirector::CreateDirector(msclr::interop::marshal_as<std::string>(assets_dir), "editor_control.log");
+		p->director = IDirector::CreateDirector(p->assets_dir, "editor_control.log");
 
 		p->director->Initialize((void*)handle.ToPointer());
 		

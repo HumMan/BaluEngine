@@ -25,6 +25,7 @@
 #include "EngineInterfaces\IClassInstance.h"
 #include "EngineInterfaces\ISceneInstance.h"
 #include "EngineInterfaces\IWorldInstance.h"
+#include "EngineInterfaces\IScriptInstance.h"
 
 #include "EngineInterfaces\IResources.h"
 

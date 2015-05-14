@@ -6,9 +6,11 @@
 
 #include "EngineInterfaces\ICallbacks.h"
 
+#include "EngineInterfaces\IScriptInstance.h"
+
 class TBaluScriptInstancePrivate;
 
-class TBaluScriptInstance
+class TBaluScriptInstance : public EngineInterface::IBaluScriptInstance
 {
 private:
 	std::unique_ptr<TBaluScriptInstancePrivate> p;

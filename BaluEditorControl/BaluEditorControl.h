@@ -59,10 +59,11 @@ namespace Editor
 	{
 	internal:
 		TEventsEditorPrivate* p;
-		TEventsEditor(IBaluWorld* world);
+		TEventsEditor(IBaluWorld* world, const char* assets_dir);
 		void FindAllEvents();
 		void Clear();
 	public:
+		bool TEventsEditor::CompileScripts(array<String^>^% errors_list);
 		void Initialize();
 		!TEventsEditor();
 		array<String^>^ GetEventsList(int event_type);
@@ -90,6 +91,8 @@ namespace Editor
 		void CreateEditorScene();
 		void DestroyEditorScene();
 	public:
+		String^ GetAssetsDir();
+
 		bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list);
 
 		//called by balu editor

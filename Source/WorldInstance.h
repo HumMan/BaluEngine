@@ -57,7 +57,7 @@ public:
 	void UpdateTransform();
 	void DebugDraw();
 
-	void CompileScripts();
+	static bool CompileScripts(TBaluWorld* source, TBaluScriptInstance& script_engine, std::vector<std::string>& errors_list);
 
 	TComposer* GetComposer()
 	{

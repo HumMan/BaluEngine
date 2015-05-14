@@ -280,6 +280,9 @@
     <ClInclude Include="Source\EngineInterfaces\ICallbacks.h">
       <Filter>EngineInterfaces</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\IScriptInstance.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
