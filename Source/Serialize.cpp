@@ -601,7 +601,7 @@ void TBaluSprite::Save(pugi::xml_node& parent_node, const int version)
 
 	{
 		xml_node collide_collbacks = new_node.append_child("CollideScripts");
-		for (auto& v : collide_callbacks)
+		for (auto& v : on_collide_callbacks)
 		{
 			xml_node collide_with = collide_collbacks.append_child("CollideWith");
 			collide_with.append_attribute("class").set_value(v.first->GetName().c_str());
@@ -642,7 +642,7 @@ void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld
 
 			auto class_name = collide_collback_node.attribute("class").as_string();
 			auto collide_with_class = world->GetClass(class_name);
-			collide_callbacks.push_back(std::make_pair(collide_with_class, new_callback));
+			on_collide_callbacks.push_back(std::make_pair(collide_with_class, new_callback));
 		}
 	}
 }

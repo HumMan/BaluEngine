@@ -261,15 +261,15 @@ void TBaluWorld::AddOnMouseMove(CallbackWithData<MouseCallback> callback)
 	mouse_move_callbacks.push_back(callback);
 }
 
-std::vector<CallbackWithData<MouseCallback>> TBaluWorld::GetOnMouseDown()
+std::vector<CallbackWithData<MouseCallback>>& TBaluWorld::GetOnMouseDown()
 {
 	return mouse_down_callbacks;
 }
-std::vector<CallbackWithData<MouseCallback>> TBaluWorld::GetOnMouseUp()
+std::vector<CallbackWithData<MouseCallback>>& TBaluWorld::GetOnMouseUp()
 {
 	return mouse_up_callbacks;
 }
-std::vector<CallbackWithData<MouseCallback>> TBaluWorld::GetOnMouseMove()
+std::vector<CallbackWithData<MouseCallback>>& TBaluWorld::GetOnMouseMove()
 {
 	return mouse_move_callbacks;
 }
@@ -294,7 +294,7 @@ void TBaluWorld::AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback
 	on_start_world_callback.push_back(callback);
 }
 
-std::vector<CallbackWithData<OnStartWorldCallback>> TBaluWorld::GetOnWorldStart()
+std::vector<CallbackWithData<OnStartWorldCallback>>& TBaluWorld::GetOnWorldStart()
 {
 	return on_start_world_callback;
 }
@@ -309,7 +309,7 @@ void TBaluWorld::AddOnViewportResize(CallbackWithData<ViewportResizeCallback> ca
 	viewport_resize_callback.push_back(callback);
 }
 
-std::vector<CallbackWithData<ViewportResizeCallback>> TBaluWorld::GetOnViewportResize()
+std::vector<CallbackWithData<ViewportResizeCallback>>& TBaluWorld::GetOnViewportResize()
 {
 	return viewport_resize_callback;
 }

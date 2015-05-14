@@ -118,20 +118,20 @@ public:
 	void AddOnMouseUp(CallbackWithData<MouseCallback>);
 	void AddOnMouseMove(CallbackWithData<MouseCallback>);
 
-	std::vector<CallbackWithData<MouseCallback>> GetOnMouseDown();
-	std::vector<CallbackWithData<MouseCallback>> GetOnMouseUp();
-	std::vector<CallbackWithData<MouseCallback>> GetOnMouseMove();
+	std::vector<CallbackWithData<MouseCallback>>& GetOnMouseDown();
+	std::vector<CallbackWithData<MouseCallback>>& GetOnMouseUp();
+	std::vector<CallbackWithData<MouseCallback>>& GetOnMouseMove();
 
 	void RemoveOnMouseDown(int index);
 	void RemoveOnMouseUp(int index);
 	void RemoveOnMouseMove(int index);
 
 	void AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback);
-	std::vector<CallbackWithData<OnStartWorldCallback>> GetOnWorldStart();
+	std::vector<CallbackWithData<OnStartWorldCallback>>& GetOnWorldStart();
 	void RemoveOnWorldStart(int index);
 	
 	void AddOnViewportResize(CallbackWithData<ViewportResizeCallback> callback);
-	std::vector<CallbackWithData<ViewportResizeCallback>> GetOnViewportResize();
+	std::vector<CallbackWithData<ViewportResizeCallback>>& GetOnViewportResize();
 	void RemoveOnViewportResize(int index);
 
 	void SaveToXML(std::string path);

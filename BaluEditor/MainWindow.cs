@@ -35,11 +35,13 @@ namespace BaluEditor
             this.assets_dir = assets_dir;
             InitializeComponent();
 
-            events_editor = new EventsEditor();
+            
 
             panel2.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseWheel);
 
             baluEditorControl1 = new Editor.BaluEditorControl(panel2.Handle, assets_dir);
+
+            events_editor = new EventsEditor();
 
             baluEditorControl1.SetViewport(panel2.Width, panel2.Height);
 
@@ -221,6 +223,7 @@ namespace BaluEditor
 
         private void eventsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            events_editor.RefreshAllData(baluEditorControl1.GetEventsEditor());
             events_editor.ShowDialog();
         }
 

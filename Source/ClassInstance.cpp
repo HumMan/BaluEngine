@@ -32,7 +32,7 @@ TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTrans
 
 	for (int i = 0; i < source->GetSpritesCount(); i++)
 	{
-		sprites.push_back(std::make_unique<TBaluSpriteInstance>(source->GetSprite(i)->sprite, source->GetSprite(i)->local, this, resources));
+		sprites.push_back(std::make_unique<TBaluSpriteInstance>(source->GetSprite(i)->GetSprite(), source->GetSprite(i)->local, this, resources));
 	}
 
 	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, source->GetPhysBody(), this);
@@ -205,8 +205,8 @@ void TBaluClassPhysBodyIntance::SetTransform(TBaluTransform transform)
 
 void TBaluInstance::DoKeyDown(TKey key)
 {
-	auto it = instance_class->on_key_down_callbacks.find(key);
-	if (it != instance_class->on_key_down_callbacks.end())
+	auto it = instance_class->GetOnKeyDown().find(key);
+	if (it != instance_class->GetOnKeyDown().end())
 	{
 		for (int i = 0; i < it->second.size(); i++)
 		{
@@ -217,8 +217,8 @@ void TBaluInstance::DoKeyDown(TKey key)
 
 void TBaluInstance::DoKeyUp(TKey key)
 {
-	auto it = instance_class->on_key_up_callbacks.find(key);
-	if (it != instance_class->on_key_up_callbacks.end())
+	auto it = instance_class->GetOnKeyUp().find(key);
+	if (it != instance_class->GetOnKeyUp().end())
 	{
 		for (int i = 0; i < it->second.size(); i++)
 			it->second[i].Execute(this);
@@ -227,7 +227,7 @@ void TBaluInstance::DoKeyUp(TKey key)
 
 void TBaluInstance::DoBeforePhysicsStep()
 {
-	for (auto& i : instance_class->before_physics_callbacks)
+	for (auto& i : instance_class->GetOnBeforePhysicsStep())
 	{
 		i.Execute(this);
 	}

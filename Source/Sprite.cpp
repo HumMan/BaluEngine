@@ -32,14 +32,14 @@ TBaluSpritePolygon* TBaluSprite::GetPolygone()
 	return &sprite_polygon;
 }
 
-void TBaluSprite::OnCollide(TBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback)
+std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>>& TBaluSprite::GetOnCollide()
 {
-	collide_callbacks.push_back(std::make_pair(obstancle_class, callback));
+	return on_collide_callbacks;
 }
 
 CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class)
 {
-	for (auto& v : collide_callbacks)
+	for (auto& v : on_collide_callbacks)
 		if (v.first == obstancle_class)
 			return &v.second;
 	return nullptr;
@@ -47,17 +47,12 @@ CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstanc
 
 void TBaluSprite::AddOnCollide(EngineInterface::IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback)
 {
-	OnCollide(dynamic_cast<TBaluClass*>(obstancle_class), callback);
-}
-
-CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(EngineInterface::IBaluClass* obstancle_class)
-{
-	return GetOnCollide(dynamic_cast<TBaluClass*>(obstancle_class));
+	on_collide_callbacks.push_back(std::make_pair(dynamic_cast<TBaluClass*>(obstancle_class), callback));
 }
 
 void TBaluSprite::RemoveOnCollide(int index)
 {
-	collide_callbacks.erase(collide_callbacks.begin() + index);
+	on_collide_callbacks.erase(on_collide_callbacks.begin() + index);
 }
 
 std::string TBaluSprite::GetName()

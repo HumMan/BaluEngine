@@ -282,6 +282,11 @@ namespace Editor
 		CreateWorldTree(WorldTreeView, p->world);
 	}
 
+	TEventsEditor^ BaluEditorControl::GetEventsEditor()
+	{
+		return gcnew TEventsEditor(p->world);
+	}
+
 	template<class T>
 	IBaluWorldObject* CreateItem(IBaluWorld* world)
 	{

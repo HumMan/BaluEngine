@@ -42,10 +42,15 @@ class TBaluClass : public EngineInterface::IBaluClass, public EngineInterface::I
 public:
 	class TBaluSpriteInstance : public EngineInterface::IBaluClassSprite
 	{
-	public:
 		TBaluSprite* sprite;
+		
+	public:
 		std::string tag;
 		TBaluTransformWithScale local;
+		TBaluSprite* GetSprite()
+		{
+			return sprite;
+		}
 		TBaluSpriteInstance()
 		{
 			sprite = nullptr;
@@ -66,6 +71,10 @@ private:
 	std::unique_ptr<TSkeleton> skeleton;
 	std::unique_ptr<TSkeletonAnimation> skeleton_animation;
 	TProperties properties;
+
+	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_down_callbacks;
+	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_up_callbacks;
+	std::vector<CallbackWithData<BeforePhysicsCallback>> before_physics_callbacks;
 public:
 	EngineInterface::IProperties* GetProperties()
 	{
@@ -73,10 +82,6 @@ public:
 	}
 	bool PointCollide(TVec2 class_space_point);
 	TAABB2 GetAABB();
-
-	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_down_callbacks;
-	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_up_callbacks;
-	std::vector<CallbackWithData<BeforePhysicsCallback>> before_physics_callbacks;
 
 	std::string GetName();
 	void SetName(std::string name);
@@ -108,8 +113,11 @@ public:
 
 	void OnKeyDown(TKey key, CallbackWithData<KeyUpDownCallback> callback);
 	void OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback);
-
 	void OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback> callback);
+
+	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>>& GetOnKeyDown();
+	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>>& GetOnKeyUp();
+	std::vector<CallbackWithData<BeforePhysicsCallback>>& GetOnBeforePhysicsStep();
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

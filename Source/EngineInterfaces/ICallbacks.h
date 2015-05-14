@@ -59,6 +59,15 @@ namespace EngineInterface
 			};
 			return values[(int)index];
 		}
+		static inline TEventType From(std::string name)
+		{
+			for (int i = 0; i < (int)TEventType::End; i++)
+			{
+				if (Get((TEventType)i) == name)
+					return (TEventType)i;
+			}
+			return TEventType::End;
+		}
 	};
 
 	class TEventSignature

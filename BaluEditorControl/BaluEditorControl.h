@@ -61,7 +61,9 @@ namespace Editor
 		TEventsEditorPrivate* p;
 		TEventsEditor(IBaluWorld* world);
 		void FindAllEvents();
+		void Clear();
 	public:
+		void Initialize();
 		!TEventsEditor();
 		array<String^>^ GetEventsList(int event_type);
 		int GetEventsCount(int event_type);
@@ -73,6 +75,7 @@ namespace Editor
 
 		int GetEventTypesCount();
 		String^ GetEventTypeName(int event_type);
+		int EventTypeFromName(String^ name);
 	};
 
 	public ref class BaluEditorControl
@@ -112,6 +115,8 @@ namespace Editor
 		virtual void Render();
 
 		void InitializeEngine();
+
+		TEventsEditor^ GetEventsEditor();
 
 		void CreateMaterial();
 		void CreateSprite();

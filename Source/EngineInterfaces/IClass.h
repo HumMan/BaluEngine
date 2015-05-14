@@ -6,10 +6,14 @@
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
+#include <map>
+
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IProperties.h"
 #include "ISprite.h"
 #include "IPhysShape.h"
+
+
 #endif
 
 namespace EngineInterface
@@ -63,6 +67,7 @@ namespace EngineInterface
 	class IBaluClassSprite
 	{
 	public:
+		virtual IBaluSprite* GetSprite() = 0;
 	};
 #endif
 
@@ -171,6 +176,10 @@ namespace EngineInterface
 		virtual void OnKeyDown(TKey key, CallbackWithData<KeyUpDownCallback> callback) = 0;
 		virtual void OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback) = 0;
 		virtual void OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback> callback) = 0;
+
+		virtual std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>>& GetOnKeyDown()=0;
+		virtual std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>>& GetOnKeyUp() = 0;
+		virtual std::vector<CallbackWithData<BeforePhysicsCallback>>& GetOnBeforePhysicsStep() = 0;
 	};
 #endif
 }
