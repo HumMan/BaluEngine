@@ -68,6 +68,8 @@ namespace BaluEditor
             event_editor.SetEventScript(type_id, id, source);
 
             Compile();
+
+            event_editor.GetEventParameters(type_id, id);
         }
 
         private void Compile()

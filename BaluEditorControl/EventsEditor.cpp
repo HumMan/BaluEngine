@@ -169,7 +169,8 @@ namespace Editor
 				for (auto& some_sprite_event : some_sprite->GetOnCollide())
 				{
 					std::vector<TEventParam> params;
-					params.push_back(TEventParam(TWorldObjectType::Class, some_class.second->GetName()));
+					params.push_back(TEventParam(TWorldObjectType::Class, some_sprite_event.first->GetName()));
+					params.push_back(TEventParam(TWorldObjectType::Sprite, some_sprite->GetName()));
 					p->event_types[(int)TEventType::OnSpriteCollide].events.push_back(TEventInfo(TEventType::OnSpriteCollide, params, &some_sprite_event.second));
 				}
 			}
