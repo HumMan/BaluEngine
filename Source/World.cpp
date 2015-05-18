@@ -198,7 +198,7 @@ TBaluMaterial* TBaluWorld::GetMaterial(const char* scene_name)
 	}
 	else
 	{
-		throw std::invalid_argument("Сцена с данным имененем отсутсвует");
+		throw std::invalid_argument("Материал с данным имененем отсутсвует");
 	}
 }
 
@@ -211,7 +211,7 @@ TBaluSprite* TBaluWorld::GetSprite(const char* scene_name)
 	}
 	else
 	{
-		throw std::invalid_argument("Сцена с данным имененем отсутсвует");
+		throw std::invalid_argument("Спрайт с данным имененем отсутсвует");
 	}
 }
 

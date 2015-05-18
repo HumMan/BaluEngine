@@ -63,6 +63,7 @@ namespace EngineInterface
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSpritePolygon, "ISpritePolygon");
+	MUnpackA1(TYPE, SetScale, WrapValue<TVec2>);
 	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 }

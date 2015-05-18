@@ -14,6 +14,8 @@ using namespace EngineInterface;
 
 #include "../Example/DemoWorld.h"
 
+#include "EventsEditor.h"
+
 class TCallbackManagedBridge
 {
 	gcroot<Editor::BaluEditorControl^> managed_object;

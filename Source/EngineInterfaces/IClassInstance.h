@@ -70,10 +70,11 @@ namespace EngineInterface
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluInstance, "IInstance");
-	MUnpackRA0(WrapPointer<IProperties>, WrapInterface<IBaluInstance>, GetProperties);
-	MUnpackRA0(WrapPointer<IBaluClassPhysBodyIntance>, WrapInterface<IBaluInstance>, GetPhysBody);
-	MUnpackRA1(WrapPointer<IBaluSpriteInstance>, WrapInterface<IBaluInstance>, GetSprite, WrapValue<int>);
-	MUnpackRA0(WrapPointer<ISkeletonAnimationInstance>, WrapInterface<IBaluInstance>, GetSkeletonAnimation);
+	MUnpackA1(TYPE, SetScale, WrapValue<TVec2>);
+	MUnpackRA0(WrapPointer<IProperties>, TYPE, GetProperties);
+	MUnpackRA0(WrapPointer<IBaluClassPhysBodyIntance>, TYPE, GetPhysBody);
+	MUnpackRA1(WrapPointer<IBaluSpriteInstance>, TYPE, GetSprite, WrapValue<int>);
+	MUnpackRA0(WrapPointer<ISkeletonAnimationInstance>, TYPE, GetSkeletonAnimation);
 	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 }

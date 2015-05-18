@@ -1,4 +1,4 @@
-#include "BaluEditorControl.h"
+#include "EventsEditor.h"
 
 #include <vcclr.h>
 #include <msclr\marshal_cppstd.h>
@@ -180,11 +180,7 @@ namespace Editor
 	{
 		delete p;
 	}
-	array<String^>^ TEventsEditor::GetEventsList(int event_type)
-	{
-		//p->world->GetOnMouseDown();
-		return nullptr;
-	}
+
 	int TEventsEditor::GetEventsCount(int event_type)
 	{
 		return p->event_types[event_type].events.size();

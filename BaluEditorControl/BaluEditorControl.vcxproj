@@ -83,6 +83,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaluEditorControl.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="EventsEditor.h" />
     <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h" />
   </ItemGroup>
   <ItemGroup>

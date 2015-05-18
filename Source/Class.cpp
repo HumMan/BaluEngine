@@ -48,7 +48,7 @@ bool TBaluClass::PointCollide(TVec2 class_space_point)
 	for (auto& s : sprites)
 	{
 		TVec2 p = s->local.ToLocal(class_space_point);
-		bool is_in_sprite = s->GetSprite()->GetPolygone()->PointCollide(p);
+		bool is_in_sprite = s->GetSprite()->GetPolygon()->PointCollide(p);
 		if (is_in_sprite)
 			return true;
 	}
@@ -59,9 +59,9 @@ TAABB2 TBaluClass::GetAABB()
 {
 	if (sprites.size() > 0)
 	{
-		TAABB2 box(sprites[0]->GetSprite()->GetPolygone()->GetAABB(sprites[0]->local));
+		TAABB2 box(sprites[0]->GetSprite()->GetPolygon()->GetAABB(sprites[0]->local));
 		for (int i = 1; i < sprites.size(); i++)
-			box += sprites[i]->GetSprite()->GetPolygone()->GetAABB(sprites[i]->local);
+			box += sprites[i]->GetSprite()->GetPolygon()->GetAABB(sprites[i]->local);
 		return box;
 	}
 	else

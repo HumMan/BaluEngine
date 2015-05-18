@@ -15,7 +15,7 @@ protected:
 public:
 	void Activate()
 	{
- 		sprite_editor_scene->boundary_box.SetBoundary(sprite_editor_scene->source_sprite->GetPolygone()->GetBoundingBox());
+ 		sprite_editor_scene->boundary_box.SetBoundary(sprite_editor_scene->source_sprite->GetPolygon()->GetBoundingBox());
 		sprite_editor_scene->boundary_box.enable = true;
 		sprite_editor_scene->boundary_box.OnChange = this;
 	}
@@ -40,22 +40,22 @@ public:
 	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
-		sprite_editor_scene->source_sprite->GetPolygone()->SetScale(
-			sprite_editor_scene->source_sprite->GetPolygone()->GetScale().ComponentMul(scale));
+		sprite_editor_scene->source_sprite->GetPolygon()->SetScale(
+			sprite_editor_scene->source_sprite->GetPolygon()->GetScale().ComponentMul(scale));
 		sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{
-		auto trans = sprite_editor_scene->source_sprite->GetPolygone()->GetTransform();
+		auto trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransform();
 		trans.position = new_pos;
-		sprite_editor_scene->source_sprite->GetPolygone()->SetTransform(trans);
+		sprite_editor_scene->source_sprite->GetPolygon()->SetTransform(trans);
 		sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
 	}
 	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
-		auto trans = sprite_editor_scene->source_sprite->GetPolygone()->GetTransform();
+		auto trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransform();
 		trans.angle = TRot(new_box);
-		sprite_editor_scene->source_sprite->GetPolygone()->SetTransform(trans);
+		sprite_editor_scene->source_sprite->GetPolygon()->SetTransform(trans);
 		sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
 	}
 
@@ -279,7 +279,7 @@ public:
 
 	void UpdateOldPolygon()
 	{
-		mouse_down_polygon = sprite_editor_scene->source_sprite->GetPolygone()->GetPolygon();
+		mouse_down_polygon = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
 	}
 
 	void OnMouseDown(TMouseEventArgs e)
@@ -340,10 +340,10 @@ public:
 				{
 					if (selected_points.size() > 0)
 					{
-						auto vertices = sprite_editor_scene->source_sprite->GetPolygone()->GetPolygon();
+						auto vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
 						for (auto& v : selected_points)
 							vertices[v] = mouse_down_polygon[v] + new_pos - mouse_down_pos;
-						sprite_editor_scene->source_sprite->GetPolygone()->SetVertices(vertices);
+						sprite_editor_scene->source_sprite->GetPolygon()->SetVertices(vertices);
 					}
 				}
 			}
@@ -351,7 +351,7 @@ public:
 			{
 				sprite_editor_scene->sprite_polygon_adornment->ShowSelectionBox(false);
 
-				auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygone()->GetPolygon();
+				auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
 				int size = poly_vertices.size();
 
 				nearest_point = -1;
@@ -373,7 +373,7 @@ public:
 		}
 		else if (active_state == "create")
 		{
-			auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygone()->GetPolygon();
+			auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
 			int size = poly_vertices.size();
 			
 			int nearest_line = -1;

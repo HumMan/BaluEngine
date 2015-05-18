@@ -199,10 +199,10 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	brick_mat->SetColor(TVec4(1, 1, 1, 1));
 
 	auto box_sprite = world->CreateSprite("box0");
-	box_sprite->GetPolygone()->SetMaterial(brick_mat);
-	//box_sprite->GetPolygone()->SetAsBox(1, 1);
-	box_sprite->GetPolygone()->SetPolygonFromTexture(assets_dir);
-	box_sprite->GetPolygone()->SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
+	box_sprite->GetPolygon()->SetMaterial(brick_mat);
+	//box_sprite->GetPolygon()->SetAsBox(1, 1);
+	box_sprite->GetPolygon()->SetPolygonFromTexture(assets_dir);
+	box_sprite->GetPolygon()->SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
 	box_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateBoxShape(1, 1)->GetPhysShape());
 
 	auto box_class = world->CreateClass("box");
@@ -214,27 +214,27 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	player_mat->SetImagePath("\\textures\\player.png");
 	auto player_sprite = world->CreateSprite("player");
 
-	player_sprite->GetPolygone()->SetMaterial(player_mat);
-	//player_sprite->GetPolygone()->SetAsBox(20.0/8, 20.0/8);
-	player_sprite->GetPolygone()->SetAsBox(6, 6);
-	//player_sprite->GetPolygone()->SetPolygonFromTexture();
-	//player_sprite->GetPolygone()->SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
+	player_sprite->GetPolygon()->SetMaterial(player_mat);
+	//player_sprite->GetPolygon()->SetAsBox(20.0/8, 20.0/8);
+	player_sprite->GetPolygon()->SetAsBox(6, 6);
+	//player_sprite->GetPolygon()->SetPolygonFromTexture();
+	//player_sprite->GetPolygon()->SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
 	player_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(2.5)->GetPhysShape());
 	//player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));
 
 	TGridFrames* grid_frames = new TGridFrames(TVec2(0, 0), TVec2(1, 1), 8, 4);
 
-	player_sprite->GetPolygone()->AddAnimDesc(grid_frames);
+	player_sprite->GetPolygon()->AddAnimDesc(grid_frames);
 
-	player_sprite->GetPolygone()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
-	player_sprite->GetPolygone()->CreateAnimationLine("jump_up_right", grid_frames, TFramesRange(9, 9).ToFramesArray());
-	player_sprite->GetPolygone()->CreateAnimationLine("jump_down_right", grid_frames, TFramesRange(10, 10).ToFramesArray());
-	player_sprite->GetPolygone()->CreateAnimationLine("stay_right", grid_frames, TFramesRange(11, 11).ToFramesArray());
-	player_sprite->GetPolygone()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
-	player_sprite->GetPolygone()->CreateAnimationLine("run_left", grid_frames, TFramesRange(16, 16 + 7).ToFramesArray());
-	player_sprite->GetPolygone()->CreateAnimationLine("jump_up_left", grid_frames, TFramesRange(16 + 7 + 2, 16 + 7 + 2).ToFramesArray());
-	player_sprite->GetPolygone()->CreateAnimationLine("jump_down_left", grid_frames, TFramesRange(16 + 7 + 3, 16 + 7 + 3).ToFramesArray());
-	player_sprite->GetPolygone()->CreateAnimationLine("stay_left", grid_frames, TFramesRange(16 + 7 + 4, 16 + 7 + 4).ToFramesArray());
+	player_sprite->GetPolygon()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
+	player_sprite->GetPolygon()->CreateAnimationLine("jump_up_right", grid_frames, TFramesRange(9, 9).ToFramesArray());
+	player_sprite->GetPolygon()->CreateAnimationLine("jump_down_right", grid_frames, TFramesRange(10, 10).ToFramesArray());
+	player_sprite->GetPolygon()->CreateAnimationLine("stay_right", grid_frames, TFramesRange(11, 11).ToFramesArray());
+	player_sprite->GetPolygon()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
+	player_sprite->GetPolygon()->CreateAnimationLine("run_left", grid_frames, TFramesRange(16, 16 + 7).ToFramesArray());
+	player_sprite->GetPolygon()->CreateAnimationLine("jump_up_left", grid_frames, TFramesRange(16 + 7 + 2, 16 + 7 + 2).ToFramesArray());
+	player_sprite->GetPolygon()->CreateAnimationLine("jump_down_left", grid_frames, TFramesRange(16 + 7 + 3, 16 + 7 + 3).ToFramesArray());
+	player_sprite->GetPolygon()->CreateAnimationLine("stay_left", grid_frames, TFramesRange(16 + 7 + 4, 16 + 7 + 4).ToFramesArray());
 
 	auto player_class = world->CreateClass("player");
 	auto player_class_instance = player_class->AddSprite(player_sprite);
@@ -280,7 +280,7 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 		//special phys sprite
 		auto bones_phys_sprite = world->CreateSprite("bones_phys_sprite");
 		bones_phys_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(1.0, TVec2(0, -1.5))->GetPhysShape());
-		bones_phys_sprite->GetPolygone()->SetEnable(false);
+		bones_phys_sprite->GetPolygon()->SetEnable(false);
 
 		auto bones_player_class_instance = bones_player->AddSprite(bones_phys_sprite);
 		bones_player->GetPhysBody()->Enable(true);
@@ -289,58 +289,58 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 
 		//sprites
 		auto bones_head = world->CreateSprite("bones_head");
-		bones_head->GetPolygone()->SetMaterial(bones_mat);
-		bones_head->GetPolygone()->SetAsBox(2, 2);
-		bones_head->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 256) / 256, TVec2(73, 256 - 192) / 256);
+		bones_head->GetPolygon()->SetMaterial(bones_mat);
+		bones_head->GetPolygon()->SetAsBox(2, 2);
+		bones_head->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 256) / 256, TVec2(73, 256 - 192) / 256);
 
 		auto bones_torso = world->CreateSprite("bones_torso");
-		bones_torso->GetPolygone()->SetMaterial(bones_mat);
-		bones_torso->GetPolygone()->SetAsBox(1.6, 2.5);
-		bones_torso->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 189) / 256, TVec2(53, 256 - 112) / 256);
+		bones_torso->GetPolygon()->SetMaterial(bones_mat);
+		bones_torso->GetPolygon()->SetAsBox(1.6, 2.5);
+		bones_torso->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 189) / 256, TVec2(53, 256 - 112) / 256);
 
 		//hands
 
 		auto bones_left_shoulder = world->CreateSprite("bones_left_shoulder");
-		bones_left_shoulder->GetPolygone()->SetMaterial(bones_mat);
-		bones_left_shoulder->GetPolygone()->SetAsBox(1, 1);
-		bones_left_shoulder->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(113, 256 - 190) / 256, TVec2(152, 256 - 142) / 256);
+		bones_left_shoulder->GetPolygon()->SetMaterial(bones_mat);
+		bones_left_shoulder->GetPolygon()->SetAsBox(1, 1);
+		bones_left_shoulder->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(113, 256 - 190) / 256, TVec2(152, 256 - 142) / 256);
 
 		auto bones_left_hand = world->CreateSprite("bones_left_hand");
-		bones_left_hand->GetPolygone()->SetMaterial(bones_mat);
-		bones_left_hand->GetPolygone()->SetAsBox(1, 1);
-		bones_left_hand->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(75, 256 - 256) / 256, TVec2(138, 256 - 193) / 256);
+		bones_left_hand->GetPolygon()->SetMaterial(bones_mat);
+		bones_left_hand->GetPolygon()->SetAsBox(1, 1);
+		bones_left_hand->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(75, 256 - 256) / 256, TVec2(138, 256 - 193) / 256);
 
 		auto bones_right_shoulder = world->CreateSprite("bones_right_shoulder");
-		bones_right_shoulder->GetPolygone()->SetMaterial(bones_mat);
-		bones_right_shoulder->GetPolygone()->SetAsBox(1, 1);
-		bones_right_shoulder->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(152, 256 - 192) / 256, TVec2(183, 256 - 143) / 256);
+		bones_right_shoulder->GetPolygon()->SetMaterial(bones_mat);
+		bones_right_shoulder->GetPolygon()->SetAsBox(1, 1);
+		bones_right_shoulder->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(152, 256 - 192) / 256, TVec2(183, 256 - 143) / 256);
 
 		auto bones_right_hand = world->CreateSprite("bones_right_hand");
-		bones_right_hand->GetPolygone()->SetMaterial(bones_mat);
-		bones_right_hand->GetPolygone()->SetAsBox(1, 1);
-		bones_right_hand->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(58, 256 - 190) / 256, TVec2(113, 256 - 129) / 256);
+		bones_right_hand->GetPolygon()->SetMaterial(bones_mat);
+		bones_right_hand->GetPolygon()->SetAsBox(1, 1);
+		bones_right_hand->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(58, 256 - 190) / 256, TVec2(113, 256 - 129) / 256);
 
 		//legs
 
 		auto bones_left_leg = world->CreateSprite("bones_left_leg");
-		bones_left_leg->GetPolygone()->SetMaterial(bones_mat);
-		bones_left_leg->GetPolygone()->SetAsBox(1, 1);
-		bones_left_leg->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(55, 256 - 72) / 256, TVec2(94, 256 - 14) / 256);
+		bones_left_leg->GetPolygon()->SetMaterial(bones_mat);
+		bones_left_leg->GetPolygon()->SetAsBox(1, 1);
+		bones_left_leg->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(55, 256 - 72) / 256, TVec2(94, 256 - 14) / 256);
 
 		auto bones_left_foot = world->CreateSprite("bones_left_foot");
-		bones_left_foot->GetPolygone()->SetMaterial(bones_mat);
-		bones_left_foot->GetPolygone()->SetAsBox(1, 1);
-		bones_left_foot->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(54, 256 - 131) / 256, TVec2(94, 256 - 75) / 256);
+		bones_left_foot->GetPolygon()->SetMaterial(bones_mat);
+		bones_left_foot->GetPolygon()->SetAsBox(1, 1);
+		bones_left_foot->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(54, 256 - 131) / 256, TVec2(94, 256 - 75) / 256);
 
 		auto bones_right_leg = world->CreateSprite("bones_right_leg");
-		bones_right_leg->GetPolygone()->SetMaterial(bones_mat);
-		bones_right_leg->GetPolygone()->SetAsBox(1, 1);
-		bones_right_leg->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 55) / 256, TVec2(44, 256 - 7) / 256);
+		bones_right_leg->GetPolygon()->SetMaterial(bones_mat);
+		bones_right_leg->GetPolygon()->SetAsBox(1, 1);
+		bones_right_leg->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 55) / 256, TVec2(44, 256 - 7) / 256);
 
 		auto bones_right_foot = world->CreateSprite("bones_right_foot");
-		bones_right_foot->GetPolygone()->SetMaterial(bones_mat);
-		bones_right_foot->GetPolygone()->SetAsBox(1, 1);
-		bones_right_foot->GetPolygone()->SetTexCoordsFromVerticesByRegion(TVec2(9, 256 - 112) / 256, TVec2(39, 256 - 56) / 256);
+		bones_right_foot->GetPolygon()->SetMaterial(bones_mat);
+		bones_right_foot->GetPolygon()->SetAsBox(1, 1);
+		bones_right_foot->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(9, 256 - 112) / 256, TVec2(39, 256 - 56) / 256);
 
 		auto bones_player_skel = bones_player->GetSkeleton();
 

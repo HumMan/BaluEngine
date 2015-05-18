@@ -10,7 +10,7 @@ TBaluSpritePolygonInstance* TBaluSpriteInstance::GetPolygon()
 	return &polygon;
 }
 
-TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TBaluTransformWithScale local, TBaluInstance* parent, TResources* resources) :polygon(source->GetPolygone(), resources)
+TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TBaluTransformWithScale local, TBaluInstance* parent, TResources* resources) :polygon(source->GetPolygon(), resources)
 {
 	this->source = source;
 	this->local = local;

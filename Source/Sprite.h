@@ -242,7 +242,7 @@ public:
 	TBaluPhysShape* GetPhysShape();
 	void SetPhysShapeFromGeometry();
 
-	TBaluSpritePolygon* GetPolygone();
+	TBaluSpritePolygon* GetPolygon();
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

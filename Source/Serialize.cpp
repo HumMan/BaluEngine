@@ -286,9 +286,11 @@ void TBaluSpritePolygon::Save(pugi::xml_node& parent_node, const int version)
 
 void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
-	auto mat_name = node.attribute("material_name").as_string();
+	std::string mat_name = "";
+	if (node.attribute("material_name"))
+		mat_name = node.attribute("material_name").as_string();
 	if (mat_name != "")
-		material = world->GetMaterial(mat_name);
+		material = world->GetMaterial(mat_name.c_str());
 
 	size = LoadCoord(node.child("size"));
 

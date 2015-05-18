@@ -50,8 +50,8 @@ EngineInterface::IBaluClass* TSpriteOBBAdornment::CreateClass(IBaluWorld* world,
 	dynamic_cast<IBaluWorldObject*>(adornment_class)->GetProperties()->SetBool("editor_temp_object", true);
 	auto adornment_sprite = world->CreateSprite("SpritePolygonOBBAdornment_custom_draw_sprite");
 	dynamic_cast<IBaluWorldObject*>(adornment_sprite)->GetProperties()->SetBool("editor_temp_object", true);
-	//adornment_sprite->GetPolygone()->SetEnable(false);
-	adornment_sprite->GetPolygone()->AddOnCustomDraw(CallbackWithData<TCustomDrawCallback>(SpritePolygonOBBAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+	//adornment_sprite->GetPolygon()->SetEnable(false);
+	adornment_sprite->GetPolygon()->AddOnCustomDraw(CallbackWithData<TCustomDrawCallback>(SpritePolygonOBBAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;
@@ -148,7 +148,7 @@ void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCust
 	auto state = (TSpritePolygonAdornmentPrivate*)data->GetUserData();
 	if (state->visible)
 	{
-		auto sprite_poly = state->visual->GetPolygone();
+		auto sprite_poly = state->visual->GetPolygon();
 		auto vertices = sprite_poly->GetPolygon();
 		state->drawing_helper->RenderLinesLoop(vertices, sprite_poly->GetTransform(), sprite_poly->GetScale());
 		for (auto& v : vertices)
@@ -184,8 +184,8 @@ EngineInterface::IBaluClass* TSpritePolygonAdornment::CreateClass(IBaluWorld* wo
 	dynamic_cast<IBaluWorldObject*>(adornment_class)->GetProperties()->SetBool("editor_temp_object", true);
 	auto adornment_sprite = world->CreateSprite("SpritePolygonAdornment_custom_draw_sprite");
 	dynamic_cast<IBaluWorldObject*>(adornment_sprite)->GetProperties()->SetBool("editor_temp_object", true);
-	//adornment_sprite->GetPolygone()->SetEnable(false);
-	adornment_sprite->GetPolygone()->AddOnCustomDraw(CallbackWithData<TCustomDrawCallback>(SpritePolygonAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+	//adornment_sprite->GetPolygon()->SetEnable(false);
+	adornment_sprite->GetPolygon()->AddOnCustomDraw(CallbackWithData<TCustomDrawCallback>(SpritePolygonAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;

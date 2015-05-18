@@ -24,6 +24,12 @@
     <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h">
       <Filter>Source Files\PropertiesRegistry</Filter>
     </ClInclude>
+    <ClInclude Include="EventsEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaluEditorControl.cpp">
