@@ -83,9 +83,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaluEditorControl.h" />
-    <ClInclude Include="Common.h" />
     <ClInclude Include="EventsEditor.h" />
     <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h" />
+    <ClInclude Include="WorldDirector.h" />
+    <ClInclude Include="WorldObjectEditor.h" />
+    <ClInclude Include="WorldTreeEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -95,6 +97,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="WorldDirector.cpp" />
+    <ClCompile Include="WorldObjectEditor.cpp" />
+    <ClCompile Include="WorldTreeEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

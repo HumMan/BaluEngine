@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include "Common.h"
 
 class TCallbackManagedBridge;
 
@@ -27,25 +26,7 @@ namespace Editor
 	using namespace EngineInterface;
 
 	ref class TEventsEditor;
-
-	public ref class TWolrdTreeNodeTag
-	{
-	public:
-		IBaluWorldObject* world_object;
-		TNodeType NodeType;
-		bool IsSpecialNode;
-		TWolrdTreeNodeTag(TNodeType NodeType)
-		{
-			IsSpecialNode = true;
-			this->NodeType = NodeType;
-		}
-		TWolrdTreeNodeTag(TNodeType NodeType, IBaluWorldObject* world_object)
-		{
-			IsSpecialNode = false;
-			this->NodeType = NodeType;
-			this->world_object = world_object;
-		}
-	};
+	ref class TWorldTreeEditor;
 
 	public ref class BaluEditorControl
 	{

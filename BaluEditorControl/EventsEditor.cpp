@@ -8,8 +8,6 @@
 #include "../Source/EngineInterfaces.h"
 #include "../Source/EditorInterfaces.h"
 
-#include "Source/PropertiesRegistry/propertiesRegistry.h"
-
 using namespace EngineInterface;
 
 namespace Editor
@@ -185,11 +183,11 @@ namespace Editor
 	{
 		return p->event_types[event_type].events.size();
 	}
-	array<TNodeType>^ TEventsEditor::GetEventParameters(int event_type, int event_id)
+	array<int>^ TEventsEditor::GetEventParameters(int event_type, int event_id)
 	{
 		return nullptr;
 	}
-	array<String^>^ TEventsEditor::GetObjectsList(TNodeType object_type)
+	array<String^>^ TEventsEditor::GetEventParameterVariants(int object_type)
 	{
 		return nullptr;
 	}

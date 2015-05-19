@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include "Common.h"
 
 class TCallbackManagedBridge;
 
@@ -41,8 +40,9 @@ namespace Editor
 		!TEventsEditor();
 
 		int GetEventsCount(int event_type);
-		array<TNodeType>^ GetEventParameters(int event_type, int event_id);
-		array<String^>^ GetObjectsList(TNodeType object_type);
+		array<int>^ GetEventParameters(int event_type, int event_id);
+		String^ GetEventSignature(int event_type, int event_id);
+		array<String^>^ GetEventParameterVariants(int object_type);
 		void SetEventParameter(int event_type, int event_id, String^ object_name);
 
 		String^ GetEventScript(int event_type, int event_id);
@@ -51,6 +51,10 @@ namespace Editor
 		int GetEventTypesCount();
 		String^ GetEventTypeName(int event_type);
 		int EventTypeFromName(String^ name);
+
+		void CreateEvent(int event_type);
+		void DestroyEvent(int event_type, int event_id);
+		void MoveEvent(int event_type, int from_id, int to_id, bool before);
 	};
 
 }

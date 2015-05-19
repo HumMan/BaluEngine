@@ -13,6 +13,7 @@ enum class TWorldObjectType
 	Material,
 	Sprite,
 	Class,
+	Scene,
 	None
 };
 
