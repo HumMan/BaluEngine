@@ -1,8 +1,5 @@
 #include "BaluEditorControl.h"
 
-#include <vcclr.h>
-#include <msclr\marshal_cppstd.h>
-
 #include <baluLib.h>
 
 #include "../Source/EngineInterfaces.h"
@@ -189,48 +186,6 @@ namespace Editor
 			}
 		}
 
-	IAbstractEditor* BaluEditorControl::CreateEditorOfWorldObject(IBaluWorldObject* obj)
-	{
-		//if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
-		//	return new TMaterialEditor();
-
-		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
-		//	return new TSpritePolygonEditor();
-
-		p->active_edited_object = obj;
-
-		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
-			return CreateSpriteEditor(p->drawing_context, p->world, dynamic_cast<IBaluSprite*>(obj), p->scene_instance);
-
-		//if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
-		//	return new TClassEditor();
-
-		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
-			return CreateSceneEditor(p->drawing_context, p->world, dynamic_cast<IBaluScene*>(obj), p->scene_instance);
-
-		return nullptr;
-	}
-
-	void BaluEditorControl::DestroyEditorOfWorldObject(IBaluWorldObject* obj)
-	{
-		//if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
-		//	return new TMaterialEditor();
-
-		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
-		//	return new TSpritePolygonEditor();
-
-		p->active_edited_object = nullptr;
-
-		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
-			return DestroySpriteEditor(p->active_editor);
-
-		//if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
-		//	return new TClassEditor();
-
-		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
-			DestroySceneEditor(p->active_editor);
-	}
-
 	String^ BaluEditorControl::GetAssetsDir()
 	{
 		return gcnew String(p->assets_dir.c_str());
@@ -258,49 +213,11 @@ namespace Editor
 		CreateWorldTree(WorldTreeView, p->world);
 	}
 
-	TEventsEditor^ BaluEditorControl::GetEventsEditor()
-	{
-		return gcnew TEventsEditor(p->world, p->assets_dir.c_str());
-	}
-
 	void BaluEditorControl::SetSelectedWorldNode(TWolrdTreeNodeTag^ node)
 	{
 		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(p->world, node->world_object);
 		SelectedObjectProperty->SelectedObject = obj;
 	}
-
-
-
-	void BaluEditorControl::SaveWorldTo(String^ path)
-	{
-		p->world->SaveToXML(msclr::interop::marshal_as<std::string>(path));
-	}
-
-	void BaluEditorControl::LoadDemoWorld()
-	{
-		WorldTreeView->Nodes->Clear();
-		if (p->world != nullptr)
-		{
-			DestroyWorld(p->world);
-			p->world = nullptr;
-		}
-		p->world = CreateDemoWorld(p->director->GetAssetsDir());
-		CreateWorldTree(WorldTreeView, p->world);
-	}
-	
-	void BaluEditorControl::LoadWorldFrom(String^ path)
-	{
-		WorldTreeView->Nodes->Clear();
-		if (p->world != nullptr)
-		{
-			DestroyWorld(p->world);
-			p->world = nullptr;
-		}
-		p->world = CreateWorld();
-		p->world->LoadFromXML(msclr::interop::marshal_as<std::string>(path));
-		CreateWorldTree(WorldTreeView, p->world);
-	}
-
 
 	BaluEditorControl::BaluEditorControl(IntPtr handle, String^ assets_dir)
 	{
@@ -346,21 +263,6 @@ namespace Editor
 		//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	}
 
-	TMouseEventArgs Convert(MouseEventArgs^ e)
-	{
-		TMouseEventArgs result;
-		switch (e->Button)
-		{
-		case MouseButtons::Left:
-			result.button = TMouseButton::Left; break;
-		case MouseButtons::Middle:
-			result.button = TMouseButton::Middle; break;
-		case MouseButtons::Right:
-			result.button = TMouseButton::Right; break;
-		}
-		result.location[0] = e->X;
-		result.location[1] = e->Y;
-		return result;
-	}
+	
 
 }

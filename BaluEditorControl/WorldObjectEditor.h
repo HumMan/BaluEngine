@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "WorldDirector.h"
+
 class TCallbackManagedBridge;
 
 namespace EngineInterface
@@ -11,22 +13,20 @@ namespace EngineInterface
 	class IAbstractEditor;
 }
 
-class TWorldObjectEditorPrivate;
-
 namespace Editor
 {
 	using namespace System;
-	using namespace System::Diagnostics;
 	using namespace System::Windows::Forms;
-	using namespace System::ComponentModel;
-	using namespace System::Threading;
 	using namespace System::Collections::Generic;
 
 	using namespace EngineInterface;
+	
+	ref class TWorldDirector;
+	class TWorldObjectEditorPrivate;
 
-	public ref class TWorldObjectEditor
+	public ref class TWorldObjectEditor: public TEditor
 	{
-	internal:
+	private:
 
 		TWorldObjectEditorPrivate* p;
 
@@ -35,13 +35,13 @@ namespace Editor
 		void CreateEditorScene();
 		void DestroyEditorScene();
 
-		TWorldObjectEditor(int handle, IBaluWorld* world, const char* assets_dir);
-
-		void Destroy();
 	public:
 
-		bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list);
+		TWorldObjectEditor(IntPtr handle, TWorldDirector worl_director);
+		void Deinitialize();
 
+		bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list);
+		void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
 		void Resize(int width, int height);
 
 		void MouseDown(MouseEventArgs^ e) ;
@@ -50,9 +50,6 @@ namespace Editor
 		void MouseWheel(MouseEventArgs^ e) ;
 
 		void Render();
-
-		//void SetSelectedWorldNode(TWolrdTreeNodeTag^ node);
-		//void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
 
 		bool CanSetSelectedAsWork();
 		void SetSelectedAsWork();

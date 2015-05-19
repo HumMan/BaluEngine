@@ -38,16 +38,20 @@ namespace Editor
 	//	}
 	//};
 
+	ref class TWorldDirector;
+
 	class TWorldTreeEditorPrivate;
 
 	public ref class TWorldTreeEditor
 	{
 	internal:
 		TWorldTreeEditorPrivate* p;
-		TWorldTreeEditor(IBaluWorld* world, const char* assets_dir);
-		void FindAllEvents();
-		void Clear();
+		
+		std::vector<std::string> GetObjectNames(int obj_type);
 	public:
+
+		TWorldTreeEditor(TWorldDirector^ world);
+
 		void Deinitialize();
 
 		int GetWorldObjectTypesCount();

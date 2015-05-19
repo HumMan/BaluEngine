@@ -83,7 +83,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaluEditorControl.h" />
+    <ClInclude Include="Converters.h" />
+    <ClInclude Include="Delegate.h" />
     <ClInclude Include="EventsEditor.h" />
+    <ClInclude Include="PropertiesEditor.h" />
     <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h" />
     <ClInclude Include="WorldDirector.h" />
     <ClInclude Include="WorldObjectEditor.h" />
@@ -91,14 +94,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="BaluEditorControl.cpp" />
-    <ClCompile Include="EventsEditor.cpp" />
+    <ClCompile Include="BaluEditorControl.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Converters.cpp" />
+    <ClCompile Include="EventsEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PropertiesEditor.cpp" />
     <ClCompile Include="Source\PropertiesRegistry\propertiesRegistry.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="WorldDirector.cpp" />
-    <ClCompile Include="WorldObjectEditor.cpp" />
+    <ClCompile Include="WorldDirector.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="WorldObjectEditor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="WorldTreeEditor.cpp" />
   </ItemGroup>
   <ItemGroup>

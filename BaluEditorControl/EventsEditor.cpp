@@ -1,12 +1,11 @@
 #include "EventsEditor.h"
 
-#include <vcclr.h>
-#include <msclr\marshal_cppstd.h>
-
 #include <baluLib.h>
 
 #include "../Source/EngineInterfaces.h"
 #include "../Source/EditorInterfaces.h"
+
+#include "Converters.h"
 
 using namespace EngineInterface;
 
@@ -187,6 +186,12 @@ namespace Editor
 	{
 		return nullptr;
 	}
+
+	String^ TEventsEditor::GetEventSignature(int event_type, int event_id)
+	{
+		return nullptr;
+	}
+
 	array<String^>^ TEventsEditor::GetEventParameterVariants(int object_type)
 	{
 		return nullptr;
@@ -201,7 +206,7 @@ namespace Editor
 	}
 	void TEventsEditor::SetEventScript(int event_type, int event_id, String^ script)
 	{
-		p->event_types[event_type].events[event_id].event_data->SetScriptSource(msclr::interop::marshal_as<std::string>(script).c_str());
+		p->event_types[event_type].events[event_id].event_data->SetScriptSource(Converters::FromClrString(script).c_str());
 	}
 	int TEventsEditor::GetEventTypesCount()
 	{
@@ -209,11 +214,24 @@ namespace Editor
 	}
 	String^ TEventsEditor::GetEventTypeName(int event_type)
 	{
-		return gcnew String(TEventTypeString::Get((TEventType)event_type).c_str());
+		return gcnew String(TEventTypeString::Get((TEventType)event_type));
 	}
 	int TEventsEditor::EventTypeFromName(String^ name)
 	{
-		auto s = msclr::interop::marshal_as<std::string>(name);
+		auto s = Converters::FromClrString(name).c_str();
 		return (int)TEventTypeString::From(s);
+	}
+
+	void TEventsEditor::CreateEvent(int event_type)
+	{
+
+	}
+	void TEventsEditor::DestroyEvent(int event_type, int event_id)
+	{
+
+	}
+	void TEventsEditor::MoveEvent(int event_type, int from_id, int to_id, bool before)
+	{
+
 	}
 }

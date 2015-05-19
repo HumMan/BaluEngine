@@ -1,9 +1,6 @@
 
 #include "WorldObjectEditor.h"
 
-#include <vcclr.h>
-#include <msclr\marshal_cppstd.h>
-
 #include <baluLib.h>
 #include <assert.h>
 
@@ -13,18 +10,23 @@
 namespace Editor
 {
 
-	void BaluEditorControl::Render()
+	class TWorldObjectEditorPrivate
+	{
+
+	};
+
+	void TWorldObjectEditor::Render()
 	{
 		p->director->Render();
 	}
 
-	void BaluEditorControl::SetViewport(int width, int height)
+	void TWorldObjectEditor::SetViewport(int width, int height)
 	{
 		p->director->SetViewport(TVec2i(width, height));
 	}
 
 
-	void BaluEditorControl::Resize(int width, int height)
+	void TWorldObjectEditor::Resize(int width, int height)
 	{
 		*p->screen = TVec2i(width, height);
 		p->director->SetScreenSize(p->screen->size);
@@ -32,7 +34,7 @@ namespace Editor
 
 
 
-	void BaluEditorControl::SetEditedWorldNode(TWolrdTreeNodeTag^ node)
+	void TWorldObjectEditor::SetEditedWorldNode(TWolrdTreeNodeTag^ node)
 	{
 		if (p->active_edited_object != nullptr)
 			DestroyEditorOfWorldObject(p->active_edited_object);
@@ -52,7 +54,7 @@ namespace Editor
 		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools, p->active_editor, this);
 	}
 
-	bool BaluEditorControl::CanSetSelectedAsWork()
+	bool TWorldObjectEditor::CanSetSelectedAsWork()
 	{
 		assert(p->active_editor != nullptr);
 		return p->active_editor != nullptr && p->active_editor->CanSetSelectedAsWork();
@@ -67,19 +69,19 @@ namespace Editor
 		TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools, p->active_editor, this);
 	}
 
-	bool BaluEditorControl::CanEndSelectedAsWork()
+	bool TWorldObjectEditor::CanEndSelectedAsWork()
 	{
 		assert(p->active_editor != nullptr);
 		return p->active_editor != nullptr && p->active_editor->CanEndSelectedAsWork();
 	}
-	void BaluEditorControl::EndSelectedAsWork()
+	void TWorldObjectEditor::EndSelectedAsWork()
 	{
 		assert(p->active_editor != nullptr);
 		if (p->active_editor != nullptr)
 			p->active_editor->EndSelectedAsWork();
 	}
 
-	void BaluEditorControl::SetToolSelectedObject(String^ name)
+	void TWorldObjectEditor::SetToolSelectedObject(String^ name)
 	{
 		auto str_name = msclr::interop::marshal_as<std::string>(name);
 		EngineInterface::IBaluWorldObject* obj = nullptr;
@@ -92,7 +94,7 @@ namespace Editor
 	}
 
 
-	bool BaluEditorControl::ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list)
+	bool TWorldObjectEditor::ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list)
 	{
 		selection_list.clear();
 		assert(p->active_editor != nullptr);
@@ -126,7 +128,7 @@ namespace Editor
 	}
 
 
-	void BaluEditorControl::CreateEditorScene()
+	void TWorldObjectEditor::CreateEditorScene()
 	{
 		auto editor_scene = p->world->CreateScene("EditorScene");
 		dynamic_cast<IBaluWorldObject*>(editor_scene)->GetProperties()->SetBool("editor_temp_object", true);
@@ -161,7 +163,7 @@ namespace Editor
 
 	}
 
-	void BaluEditorControl::DestroyEditorScene()
+	void TWorldObjectEditor::DestroyEditorScene()
 	{
 		delete p->screen;
 		DestroyWorldInstance(p->world_instance);
@@ -175,18 +177,18 @@ namespace Editor
 	}
 
 
-	void BaluEditorControl::BeginFrame()
+	void TWorldObjectEditor::BeginFrame()
 	{
 		p->director->Step(0.01);
 		p->director->BeginFrame();
 	}
-	void BaluEditorControl::EndFrame()
+	void TWorldObjectEditor::EndFrame()
 	{
 		p->director->EndFrame();
 	}
 
 
-	void BaluEditorControl::MouseDown(MouseEventArgs^ e)
+	void TWorldObjectEditor::MouseDown(MouseEventArgs^ e)
 	{
 		if (p->world_instance != nullptr)
 		{
@@ -209,7 +211,7 @@ namespace Editor
 		return scene_coord;
 	}
 
-	void BaluEditorControl::MouseMove(MouseEventArgs^ e)
+	void TWorldObjectEditor::MouseMove(MouseEventArgs^ e)
 	{
 		if (p->world_instance != nullptr)
 		{
@@ -228,7 +230,7 @@ namespace Editor
 		}
 	}
 
-	void BaluEditorControl::MouseUp(MouseEventArgs^ e)
+	void TWorldObjectEditor::MouseUp(MouseEventArgs^ e)
 	{
 		if (p->world_instance != nullptr)
 		{
@@ -240,7 +242,7 @@ namespace Editor
 		}
 	}
 
-	void BaluEditorControl::MouseWheel(MouseEventArgs^ e)
+	void TWorldObjectEditor::MouseWheel(MouseEventArgs^ e)
 	{
 		if (p->world_instance != nullptr)
 		{
@@ -250,5 +252,64 @@ namespace Editor
 				p->main_viewport->SetWidth(p->main_viewport->GetSize()[0] * (e->Delta>0 ? 1.1 : 0.9));
 			}
 		}
+	}
+
+
+	IAbstractEditor* TWorldObjectEditor::CreateEditorOfWorldObject(IBaluWorldObject* obj)
+	{
+		//if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
+		//	return new TMaterialEditor();
+
+		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
+		//	return new TSpritePolygonEditor();
+
+		p->active_edited_object = obj;
+
+		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
+			return CreateSpriteEditor(p->drawing_context, p->world, dynamic_cast<IBaluSprite*>(obj), p->scene_instance);
+
+		//if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
+		//	return new TClassEditor();
+
+		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
+			return CreateSceneEditor(p->drawing_context, p->world, dynamic_cast<IBaluScene*>(obj), p->scene_instance);
+
+		return nullptr;
+	}
+
+	void TWorldObjectEditor::DestroyEditorOfWorldObject(IBaluWorldObject* obj)
+	{
+		//if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
+		//	return new TMaterialEditor();
+
+		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
+		//	return new TSpritePolygonEditor();
+
+		p->active_edited_object = nullptr;
+
+		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
+			return DestroySpriteEditor(p->active_editor);
+
+		//if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
+		//	return new TClassEditor();
+
+		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
+			DestroySceneEditor(p->active_editor);
+	}
+	TMouseEventArgs TWorldObjectEditor::Convert(MouseEventArgs^ e)
+	{
+		TMouseEventArgs result;
+		switch (e->Button)
+		{
+		case MouseButtons::Left:
+			result.button = TMouseButton::Left; break;
+		case MouseButtons::Middle:
+			result.button = TMouseButton::Middle; break;
+		case MouseButtons::Right:
+			result.button = TMouseButton::Right; break;
+		}
+		result.location[0] = e->X;
+		result.location[1] = e->Y;
+		return result;
 	}
 }

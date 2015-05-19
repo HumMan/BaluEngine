@@ -43,9 +43,9 @@ namespace EngineInterface
 	class TEventTypeString
 	{
 	public:
-		static inline const std::string Get(TEventType index)
+		static inline const char* Get(TEventType index)
 		{
-			std::string values[] =
+			char* values[] =
 			{
 				"OnWorldStart",
 				"OnViewportResize",

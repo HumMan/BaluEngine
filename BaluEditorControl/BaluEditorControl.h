@@ -52,53 +52,10 @@ namespace Editor
 		//BaluEditorControl();
 		BaluEditorControl(IntPtr handle, String^ assets_dir);
 
-		void Destroy();
-		void BeginFrame();
-		void EndFrame();
-
-		virtual void Resize(int width, int height) override;
-		void SetViewport(int width, int height);
-
-		virtual void MouseDown(MouseEventArgs^ e) override;
-		virtual void MouseMove(MouseEventArgs^ e) override;
-		virtual void MouseUp(MouseEventArgs^ e) override;
-		virtual void MouseWheel(MouseEventArgs^ e) override;
-
-		virtual void Render();
+		
 
 		void InitializeEngine();
 
-		TEventsEditor^ GetEventsEditor();
-
-		void CreateMaterial();
-		void CreateSprite();
-		void CreateClass();
-		void CreateScene();
-
-		void SetSelectedWorldNode(TWolrdTreeNodeTag^ node);
-		void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
-
-		bool CanSetSelectedAsWork();
-		void SetSelectedAsWork();
-
-		bool CanEndSelectedAsWork();
-		void EndSelectedAsWork();
-
-		void SetToolSelectedObject(String^ name);
-
-		void SaveWorldTo(String^ path);
-		void LoadWorldFrom(String^ path);
-		void LoadDemoWorld();
-
-		property PropertyGrid^ SelectedObjectProperty;
-		property TreeView^ WorldTreeView;
-		property ToolStrip^ EditorToolsBar;
-		property ToolStrip^ ToolStateToolsBar;
-		property ListBox^ ToolObjectSelect;
-
-		!BaluEditorControl();
-
-	protected:
 
 		
 	};

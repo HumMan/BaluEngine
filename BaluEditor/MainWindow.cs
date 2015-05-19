@@ -13,7 +13,8 @@ namespace BaluEditor
 {
     public partial class MainWindow : Form
     {
-        private Editor.BaluEditorControl baluEditorControl1;
+        //private Editor.BaluEditorControl baluEditorControl1;
+        private Editor.
         private EventsEditor events_editor;
 
         string _active_project;

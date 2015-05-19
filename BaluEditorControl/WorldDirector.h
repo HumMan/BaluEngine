@@ -2,32 +2,49 @@
 
 #include <vector>
 
-class TWorldDirectorPrivate;
+#include "Delegate.h"
+
+namespace EngineInterface
+{
+	class IBaluWorld;
+	class IBaluWorldObject;
+}
 
 namespace Editor
 {
 	using namespace System;
-	using namespace System::Diagnostics;
-	using namespace System::Windows::Forms;
-	using namespace System::ComponentModel;
-	using namespace System::Threading;
 	using namespace System::Collections::Generic;
 
-	ref class TEventsEditor;
-	ref class TWorldTreeEditor;
+	class TWorldDirectorPrivate;
 
 	public ref class TWorldDirector
 	{
 	private:
 		TWorldDirectorPrivate* p;
-	public:
-		String^ GetAssetsDir();
 
-		TEventsEditor^ GetEventsEditor();
-		TWorldTreeEditor^ GetTreeEditor();
+		array<TEditor^>^ editors;
+	internal:
+		EngineInterface::IBaluWorld* GetWorld();
+		void RegisterEditor(TEditor^ editor);
+		void UnregisterEditor(TEditor^ editor);
+
+		void OnSelectWorldNode(TEditor^ sender, IBaluWorldObject* new_selection);
+	public:
+		TWorldDirector(String^ assets_dir);
+		void Destroy();
+
+		String^ GetAssetsDir();
 
 		void SaveWorldTo(String^ path);
 		void LoadWorldFrom(String^ path);
 		void LoadDemoWorld();
+	};
+
+
+	ref class TEditor
+	{
+	public:
+		virtual void OnSelectWorldNode(TEditor^ sender, IBaluWorldObject* old_selection, IBaluWorldObject* new_selection){};
+		virtual void OnObjectCreate(TEditor^ sender, IObservableCollection* collection, IBaluWorldObject* created_object){}
 	};
 }
