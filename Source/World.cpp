@@ -4,6 +4,9 @@
 
 using namespace pugi;
 
+//needed for polygon from image contruction
+#include <IL/ilut.h>
+
 TBaluPolygonShape* TBaluPhysShapeFactory::CreatePolygonShape()
 {
 	return new TBaluPolygonShape();
@@ -47,6 +50,12 @@ TBaluBoxShape* TBaluPhysShapeFactory::CreateBoxShape(float width, float height)
 TBaluWorld::TBaluWorld()
 {
 	callback_active_type.active_type = 0;
+	ilInit();
+}
+
+TBaluWorld::~TBaluWorld()
+{
+	ilShutDown();
 }
 
 template<class T, class find_array>
@@ -187,7 +196,143 @@ void TBaluWorld::DestroyScene(const char* scene_name)
 	}
 }
 
+template<class T, class M>
+std::vector<T*> GetObjectsFromMap(M& map)
+{
+	std::vector<T*> result;
+	for (auto& v : map)
+	{
+		result.push_back(&v.second);
+	}
+	return result;
+}
 
+IBaluWorldObject* TBaluWorld::GetObjectByName(TWorldObjectType type, const char* name)
+{
+	switch (type)
+	{
+	case TWorldObjectType::Material:
+		return &materials[name];
+		break;
+	case TWorldObjectType::Sprite:
+		return &sprites[name];
+		break;
+	case TWorldObjectType::Class:
+		return &classes[name];
+		break;
+	case TWorldObjectType::Scene:
+		return &scenes[name];
+		break;
+	case TWorldObjectType::None:
+		assert(false);
+		break;
+	default:
+		assert(false);
+		break;
+	}
+}
+
+std::vector<IBaluWorldObject*> TBaluWorld::GetObjects(TWorldObjectType type)
+{
+	switch (type)
+	{
+	case TWorldObjectType::Material:
+		return GetObjectsFromMap<IBaluWorldObject>(materials);
+		break;
+	case TWorldObjectType::Sprite:
+		return GetObjectsFromMap<IBaluWorldObject>(sprites);
+		break;
+	case TWorldObjectType::Class:
+		return GetObjectsFromMap<IBaluWorldObject>(classes);
+		break;
+	case TWorldObjectType::Scene:
+		return GetObjectsFromMap<IBaluWorldObject>(scenes);
+		break;
+	case TWorldObjectType::None:
+		assert(false);
+		break;
+	default:
+		assert(false);
+		break;
+	}
+	
+}
+
+bool TBaluWorld::ObjectNameExists(TWorldObjectType type, const char* name)
+{
+	switch (type)
+	{
+	case TWorldObjectType::Material:
+		return materials.find(name) != materials.end();
+		break;
+	case TWorldObjectType::Sprite:
+		return sprites.find(name) != sprites.end();
+		break;
+	case TWorldObjectType::Class:
+		return classes.find(name) != classes.end();
+		break;
+	case TWorldObjectType::Scene:
+		return scenes.find(name) != scenes.end();
+		break;
+	case TWorldObjectType::None:
+		assert(false);
+		break;
+	default:
+		assert(false);
+		break;
+	}
+	//TODO rename - после перехода на shared_ptr не нужно будет заботиться о том что объект map был перемещен и нужно обновлять указатели в остальных местах (world_instance например)
+}
+
+void TBaluWorld::CreateObject(TWorldObjectType type, const char* name)
+{
+	switch (type)
+	{
+	case TWorldObjectType::Material:
+		materials.emplace(name, name);
+		break;
+	case TWorldObjectType::Sprite:
+		sprites.emplace(name, name);
+		break;
+	case TWorldObjectType::Class:
+		classes.emplace(name, name);
+		break;
+	case TWorldObjectType::Scene:
+		scenes.emplace(name, name);
+		break;
+	case TWorldObjectType::None:
+		assert(false);
+		break;
+	default:
+		assert(false);
+		break;
+	}
+}
+
+void TBaluWorld::DestroyObject(TWorldObjectType type, const char* name)
+{
+	switch (type)
+	{
+	case TWorldObjectType::Material:
+		materials.erase(name);
+		break;
+	case TWorldObjectType::Sprite:
+		sprites.erase(name);
+		break;
+	case TWorldObjectType::Class:
+		classes.erase(name);
+		break;
+	case TWorldObjectType::Scene:
+		scenes.erase(name);
+		break;
+	case TWorldObjectType::None:
+		assert(false);
+		break;
+	default:
+		assert(false);
+		break;
+	}
+}
 
 TBaluMaterial* TBaluWorld::GetMaterial(const char* scene_name)
 {

@@ -165,10 +165,10 @@ public:
 	TProperties()
 	{
 	}
-	TProperties(TProperties&& right)
-		:properties(std::move(right.properties))
-	{
-	}
+	//TProperties(TProperties&& right)
+	//	:properties(std::move(right.properties))
+	//{
+	//}
 	bool HasProperty(const std::string& name, EngineInterface::PropertyType& type)
 	{
 		auto it = properties.find(name);
@@ -221,7 +221,10 @@ private:
 
 	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>> on_collide_callbacks;
 public:
-
+	TBaluSprite(const char* name)
+	{
+		this->sprite_name = name;
+	}
 	void AddOnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
 	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>>& GetOnCollide();
 	CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class);

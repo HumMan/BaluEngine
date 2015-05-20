@@ -124,11 +124,11 @@ TBaluSceneInstance::~TBaluSceneInstance()
 	//g_debugDraw.Destroy();
 }
 
-TBaluSceneInstance::TBaluSceneInstance(TBaluSceneInstance&& right)
-{
-	phys_world = std::move(right.phys_world);
-	instances = std::move(right.instances);
-}
+//TBaluSceneInstance::TBaluSceneInstance(TBaluSceneInstance&& right)
+//{
+//	phys_world = std::move(right.phys_world);
+//	instances = std::move(right.instances);
+//}
 
 TBaluInstance* TBaluSceneInstance::CreateInstance(TBaluClass* use_class, TBaluTransform transform, TVec2 scale)
 {

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-class TCallbackManagedBridge;
+#include "WorldDirector.h"
 
 namespace EngineInterface
 {
@@ -22,7 +22,7 @@ namespace Editor
 	ref class TWorldDirector;
 	class TPropertiesEditorPrivate;
 
-	public ref class TPropertiesEditor
+	public ref class TPropertiesEditor: public TEditor
 	{
 	private:
 
@@ -31,7 +31,7 @@ namespace Editor
 	public:
 
 		TPropertiesEditor(IntPtr handle, TWorldDirector worl_director);
-		void Deinitialize();
+		void Destroy() override;
 
 	};
 }

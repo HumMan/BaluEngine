@@ -47,7 +47,7 @@ CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstanc
 
 void TBaluSprite::AddOnCollide(EngineInterface::IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback)
 {
-	on_collide_callbacks.push_back(std::make_pair(dynamic_cast<TBaluClass*>(obstancle_class), callback));
+	on_collide_callbacks.emplace_back(dynamic_cast<TBaluClass*>(obstancle_class), callback);
 }
 
 void TBaluSprite::RemoveOnCollide(int index)

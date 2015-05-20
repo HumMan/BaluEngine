@@ -22,6 +22,34 @@ namespace EngineInterface
 }
 #endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+enum class TWorldObjectType
+{
+	Material,
+	Sprite,
+	Class,
+	Scene,
+	None
+};
+
+class TWorldObjectTypeString
+{
+public:
+	static inline const char* Get(TWorldObjectType index)
+	{
+		char* values[] =
+		{
+			"Material",
+			"Sprite",
+			"Class",
+			"Scene",
+			"None",
+		};
+		return values[(int)index];
+	}
+};
+#endif
+
 namespace EngineInterface
 {
 
@@ -104,6 +132,12 @@ namespace EngineInterface
 		virtual void DestroySprite(const char* class_name) = 0;
 		virtual void DestroyClass(const char* class_name) = 0;
 		virtual void DestroyScene(const char* scene_name) = 0;
+
+		virtual IBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name)=0;
+		virtual std::vector<IBaluWorldObject*> GetObjects(TWorldObjectType type)=0;
+		virtual bool ObjectNameExists(TWorldObjectType type, const char* name)=0;
+		virtual void CreateObject(TWorldObjectType type, const char* name)=0;
+		virtual void DestroyObject(TWorldObjectType type, const char* name)=0;
 
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
 		virtual std::vector<std::pair<std::string, EngineInterface::IBaluSprite*>> GetSprites() = 0;

@@ -14,9 +14,8 @@ namespace BaluEditor
     public partial class MainWindow : Form
     {
         //private Editor.BaluEditorControl baluEditorControl1;
-        private Editor.
+        private Editor.TWorldDirector director;
         private EventsEditor events_editor;
-
         string _active_project;
         string active_project
         {
@@ -33,26 +32,32 @@ namespace BaluEditor
         string assets_dir;
         public MainWindow(string assets_dir)
         {
+            Editor.TWorldDirector.DetectMemLeaks();
+
             this.assets_dir = assets_dir;
             InitializeComponent();
 
             
+            ///panel2.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseWheel);
 
-            panel2.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseWheel);
+            director = new Editor.TWorldDirector(assets_dir);
 
-            baluEditorControl1 = new Editor.BaluEditorControl(panel2.Handle, assets_dir);
+            worldTreeEditor1.EditorInitialize(director);
 
             events_editor = new EventsEditor();
 
-            baluEditorControl1.SetViewport(panel2.Width, panel2.Height);
 
-            this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
-            this.baluEditorControl1.ToolStateToolsBar = this.toolStrip2;
-            this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
-            this.baluEditorControl1.ToolObjectSelect = this.listBox1;
-            this.baluEditorControl1.WorldTreeView = this.treeView1;
+            //director.InitializeEngine();
 
-            baluEditorControl1.InitializeEngine();
+            //baluEditorControl1.SetViewport(panel2.Width, panel2.Height);
+
+            //this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
+            //this.baluEditorControl1.ToolStateToolsBar = this.toolStrip2;
+            //this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
+            //this.baluEditorControl1.ToolObjectSelect = this.listBox1;
+            //this.baluEditorControl1.WorldTreeView = this.treeView1;
+
+           
 
             InitializeCreateNodeContextMenu();
             
@@ -61,23 +66,23 @@ namespace BaluEditor
 
         void InitializeCreateNodeContextMenu()
         {
-            var n = WorldContextMenu.Items.Add("Create") as ToolStripMenuItem;
+            //var n = WorldContextMenu.Items.Add("Create") as ToolStripMenuItem;
 
-            var i = n.DropDown.Items.Add("Material");
-            i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Material);
-            i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateMaterial(); };
+            //var i = n.DropDown.Items.Add("Material");
+            //i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Material);
+            //i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateMaterial(); };
 
-            i = n.DropDown.Items.Add("Sprite");
-            i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Sprite);
-            i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateSprite(); };
+            //i = n.DropDown.Items.Add("Sprite");
+            //i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Sprite);
+            //i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateSprite(); };
 
-            i = n.DropDown.Items.Add("Class");
-            i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Class);
-            i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateClass(); };
+            //i = n.DropDown.Items.Add("Class");
+            //i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Class);
+            //i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateClass(); };
 
-            i = n.DropDown.Items.Add("Scene");
-            i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Scene);
-            i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateScene(); };
+            //i = n.DropDown.Items.Add("Scene");
+            //i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Scene);
+            //i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateScene(); };
         }
 
         bool times_is_work = false;
@@ -86,58 +91,58 @@ namespace BaluEditor
             if (times_is_work) return;
             times_is_work = true;
 
-            baluEditorControl1.BeginFrame();
-            baluEditorControl1.Render();
-            baluEditorControl1.EndFrame();
+            //baluEditorControl1.BeginFrame();
+            //baluEditorControl1.Render();
+            //baluEditorControl1.EndFrame();
 
             times_is_work = false;
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var n = e.Node.Tag as Editor.TWolrdTreeNodeTag;
-            if(n!=null)
-            {
-                if(!n.IsSpecialNode)
-                {
-                    baluEditorControl1.SetSelectedWorldNode(n);
-                }
-            }
+            //var n = e.Node.Tag as Editor.TWolrdTreeNodeTag;
+            //if(n!=null)
+            //{
+            //    if(!n.IsSpecialNode)
+            //    {
+            //        baluEditorControl1.SetSelectedWorldNode(n);
+            //    }
+            //}
         }
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var n = e.Node.Tag as Editor.TWolrdTreeNodeTag;
-            if (n != null)
-            {
-                if (!n.IsSpecialNode)
-                {
-                    baluEditorControl1.SetEditedWorldNode(n);
-                }
-            }
+            //var n = e.Node.Tag as Editor.TWolrdTreeNodeTag;
+            //if (n != null)
+            //{
+            //    if (!n.IsSpecialNode)
+            //    {
+            //        baluEditorControl1.SetEditedWorldNode(n);
+            //    }
+            //}
         }
 
         private void EditorContextMenu_Opening(object sender, CancelEventArgs e)
         {
-            EditorContextMenu.Items[0].Enabled = baluEditorControl1.CanSetSelectedAsWork();
-            EditorContextMenu.Items[1].Enabled = baluEditorControl1.CanEndSelectedAsWork();
+           // EditorContextMenu.Items[0].Enabled = baluEditorControl1.CanSetSelectedAsWork();
+            //EditorContextMenu.Items[1].Enabled = baluEditorControl1.CanEndSelectedAsWork();
         }
 
         private void EditorContextMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            if (e.ClickedItem == toolStripMenuItem1)
-            {
-                baluEditorControl1.SetSelectedAsWork();
-            }
-            if (e.ClickedItem == toolStripMenuItem2)
-            {
-                baluEditorControl1.EndSelectedAsWork();
-            }
+            //if (e.ClickedItem == toolStripMenuItem1)
+            //{
+            //    baluEditorControl1.SetSelectedAsWork();
+            //}
+            //if (e.ClickedItem == toolStripMenuItem2)
+            //{
+            //    baluEditorControl1.EndSelectedAsWork();
+            //}
         }
 
         private void listBox1_SelectedValueChanged(object sender, EventArgs e)
         {
-            baluEditorControl1.SetToolSelectedObject(listBox1.SelectedItem as string);
+            //baluEditorControl1.SetToolSelectedObject(listBox1.SelectedItem as string);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -159,7 +164,7 @@ namespace BaluEditor
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                baluEditorControl1.SaveWorldTo(saveFileDialog1.FileName);
+                director.SaveWorldTo(saveFileDialog1.FileName);
                 active_project = saveFileDialog1.FileName;
             }
         }
@@ -172,65 +177,65 @@ namespace BaluEditor
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                baluEditorControl1.LoadWorldFrom(openFileDialog.FileName);
+                director.LoadWorldFrom(openFileDialog.FileName);
                 active_project = openFileDialog.FileName;
             }
         }
 
         private void panel2_MouseMove(object sender, MouseEventArgs e)
         {
-            baluEditorControl1.MouseMove(e);
+            //baluEditorControl1.MouseMove(e);
         }
 
         private void panel2_MouseDown(object sender, MouseEventArgs e)
         {
-            baluEditorControl1.MouseDown(e);
+            //baluEditorControl1.MouseDown(e);
         }
 
         private void panel2_MouseUp(object sender, MouseEventArgs e)
         {
-            baluEditorControl1.MouseUp(e);
+            //baluEditorControl1.MouseUp(e);
         }
 
         private void panel2_MouseWheel(object sender, MouseEventArgs e)
         {
-            baluEditorControl1.MouseWheel(e);
+           // baluEditorControl1.MouseWheel(e);
         }
 
         private void panel2_Resize(object sender, EventArgs e)
         {
-            baluEditorControl1.Resize(panel2.Width, panel2.Height);
+           // baluEditorControl1.Resize(panel2.Width, panel2.Height);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            baluEditorControl1.SaveWorldTo(active_project);
+           // baluEditorControl1.SaveWorldTo(active_project);
         }
 
         private void loadDemoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            baluEditorControl1.LoadDemoWorld();
+            director.LoadDemoWorld();
         }
 
         private void panel2_MouseHover(object sender, EventArgs e)
         {
-            panel2.Focus();
+            //panel2.Focus();
         }
 
         private void panel2_MouseEnter(object sender, EventArgs e)
         {
-            panel2.Focus();
+            //panel2.Focus();
         }
 
         private void eventsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            events_editor.RefreshAllData(baluEditorControl1.GetEventsEditor());
+            events_editor.EditorInitialize(director);
             events_editor.ShowDialog();
         }
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            baluEditorControl1.Destroy();
+            director.Destroy();
         }
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
@@ -239,7 +244,7 @@ namespace BaluEditor
             {
                 SaveAs();
             }else
-                baluEditorControl1.SaveWorldTo(active_project);
+                director.SaveWorldTo(active_project);
 
             Process myProcess = new Process();
             myProcess.StartInfo.UseShellExecute = false;
@@ -247,6 +252,11 @@ namespace BaluEditor
             myProcess.StartInfo.Arguments = System.IO.Path.GetFullPath(assets_dir) + " " + active_project;
             myProcess.StartInfo.CreateNoWindow = true;
             myProcess.Start();
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

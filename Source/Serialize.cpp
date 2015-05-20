@@ -952,10 +952,8 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node classes_node = world_node.child("Classes");
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
 		{
-			TBaluClass new_class;
-			//new_class.Load(class_node, version, this);
-			new_class.SetName(class_node.attribute("class_name").as_string());
-			classes.insert(std::make_pair(new_class.GetName(), std::move(new_class)));
+			std::string class_name = class_node.attribute("class_name").as_string();
+			classes.emplace(class_name, class_name.c_str());
 		}
 	}
 	{

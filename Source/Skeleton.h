@@ -83,7 +83,7 @@ public:
 	{
 		root = -1;
 	}
-	TSkeleton(TSkeleton&& right);
+	//TSkeleton(TSkeleton&& right);
 	TSkin* CreateSkin();
 	void DestroySkin(TSkin* skin);
 	void DestroySkin(EngineInterface::ISkin* skin);

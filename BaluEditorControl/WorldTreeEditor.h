@@ -2,7 +2,7 @@
 
 #include <vector>
 
-class TCallbackManagedBridge;
+#include "WorldDirector.h"
 
 namespace EngineInterface
 {
@@ -42,27 +42,40 @@ namespace Editor
 
 	class TWorldTreeEditorPrivate;
 
-	public ref class TWorldTreeEditor
+	
+
+	public ref class TWorldTreeEditor: public TEditor
 	{
 	internal:
 		TWorldTreeEditorPrivate* p;
-		
+		TWorldDirector^ director;
+
 		std::vector<std::string> GetObjectNames(int obj_type);
+
+		void OnAfterWorldLoad()override;
+		void OnObjectCreate(TEditor^ sender, int type, int index)override;
+		void OnObjectRemove(TEditor^ sender, int type, int index)override;
 	public:
 
-		TWorldTreeEditor(TWorldDirector^ world);
+		event OnAfterWorldLoadDelegate^ AfterWorldLoad;
+		event OnObjectCreateDelegate^ ObjectCreate;
+		event OnObjectRemoveDelegate^ ObjectRemove;
 
-		void Deinitialize();
+		TWorldTreeEditor(TWorldDirector^ director);
 
-		int GetWorldObjectTypesCount();
-		String^ GetObjectTypeName(int obj_type);
+		void Destroy() override;
+
+		static int GetWorldObjectTypesCount();
+		static String^ GetObjectTypeName(int obj_type);
 
 		int GetObjectsCount(int obj_type);
 		String^ GetObjectName(int obj_type, int obj_index);
 		void SetObjectName(int obj_type, int obj_index, String^ new_name);
 		bool CanSetObjectName(int obj_type, int obj_index, String^ new_name);
+		int GetObjectIndex(int obj_type, String^ new_name);
 
-		void CreateObject(int obj_type);
-		void DestroyObject(int obj_type, int obj_index);
+		void CreateObject(int obj_type, String^ name);
+		bool CanCreateObject(int obj_type, String^ name);
+		void DestroyObject(int obj_type, String^ name);
 	};
 }

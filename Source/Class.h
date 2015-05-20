@@ -20,12 +20,12 @@ private:
 	bool enable;
 public:
 	TBaluClassPhysBody();
-	TBaluClassPhysBody(TBaluClassPhysBody&& right)
-		:body_def(std::move(right.body_def))
-		, enable(std::move(right.enable))
-	{
+	//TBaluClassPhysBody(TBaluClassPhysBody&& right)
+	//	:body_def(std::move(right.body_def))
+	//	, enable(std::move(right.enable))
+	//{
 
-	}
+	//}
 	int GetSensorsCount();
 	void SetFixedRotation(bool fixed);
 	void SetPhysBodyType(TPhysBodyType type);
@@ -75,6 +75,8 @@ private:
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_down_callbacks;
 	std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>> on_key_up_callbacks;
 	std::vector<CallbackWithData<BeforePhysicsCallback>> before_physics_callbacks;
+
+	void Initialize();
 public:
 	EngineInterface::IProperties* GetProperties()
 	{
@@ -87,7 +89,12 @@ public:
 	void SetName(std::string name);
 
 	TBaluClass();
-	TBaluClass(TBaluClass&& right);
+	//TBaluClass(TBaluClass&& right);
+	TBaluClass(const char* name)
+	{
+		this->class_name = name;
+		Initialize();
+	}
 	virtual ~TBaluClass();
 
 	void OnMouseMove(TMouseMoveCallback);

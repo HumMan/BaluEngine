@@ -186,9 +186,13 @@
     <ClCompile Include="..\poly2tri\poly2tri\sweep\cdt.cc" />
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep.cc" />
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
-    <ClCompile Include="Source\Class.cpp" />
+    <ClCompile Include="Source\Class.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\ClassInstance.cpp" />
-    <ClCompile Include="Source\Composer.cpp" />
+    <ClCompile Include="Source\Composer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\Director.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -217,30 +221,48 @@
     <ClCompile Include="Source\GenerateCppToBaluScript.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Source\Layers.cpp" />
-    <ClCompile Include="Source\Material.cpp" />
+    <ClCompile Include="Source\Layers.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Material.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\MaterialInstance.cpp" />
     <ClCompile Include="Source\nanovg_support.cpp" />
-    <ClCompile Include="Source\PhysShape.cpp" />
+    <ClCompile Include="Source\PhysShape.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\PhysShapeInstance.cpp" />
     <ClCompile Include="Source\Render.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\Resources.cpp" />
-    <ClCompile Include="Source\Scene.cpp" />
+    <ClCompile Include="Source\Scene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\SceneInstance.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\ScriptClassesRegistry.cpp" />
     <ClCompile Include="Source\ScriptInstance.cpp" />
-    <ClCompile Include="Source\Serialize.cpp" />
-    <ClCompile Include="Source\Skeleton.cpp" />
-    <ClCompile Include="Source\SkeletonAnimation.cpp" />
+    <ClCompile Include="Source\Serialize.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Skeleton.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\SkeletonAnimation.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\SkeletonAnimationInstance.cpp" />
     <ClCompile Include="Source\SkeletonInstance.cpp" />
-    <ClCompile Include="Source\Sprite.cpp" />
+    <ClCompile Include="Source\Sprite.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\SpriteInstance.cpp" />
-    <ClCompile Include="Source\SpritePoly.cpp" />
+    <ClCompile Include="Source\SpritePoly.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\SpritePolyInstance.cpp" />
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
@@ -250,6 +272,7 @@
     <ClCompile Include="Source\Utils\texture_polygon.cpp" />
     <ClCompile Include="Source\World.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\WorldInstance.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>

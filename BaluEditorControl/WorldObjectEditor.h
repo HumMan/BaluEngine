@@ -37,11 +37,11 @@ namespace Editor
 
 	public:
 
-		TWorldObjectEditor(IntPtr handle, TWorldDirector worl_director);
+		TWorldObjectEditor(IntPtr handle, TWorldDirector^ worl_director);
 		void Deinitialize();
 
-		bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list);
-		void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
+		//bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list);
+		//void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
 		void Resize(int width, int height);
 
 		void MouseDown(MouseEventArgs^ e) ;

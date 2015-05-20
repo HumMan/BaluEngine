@@ -86,6 +86,11 @@ private:
 
 	TProperties properties;
 public:
+	TBaluScene(){}
+	TBaluScene(const char* name)
+	{
+		this->scene_name = name;
+	}
 	EngineInterface::IProperties* GetProperties()
 	{
 		return &properties;

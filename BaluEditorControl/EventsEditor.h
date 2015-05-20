@@ -2,7 +2,7 @@
 
 #include <vector>
 
-class TCallbackManagedBridge;
+#include "WorldDirector.h"
 
 namespace EngineInterface
 {
@@ -10,9 +10,6 @@ namespace EngineInterface
 	class IBaluWorld;
 	class IAbstractEditor;
 }
-
-class BaluEditorControlPrivate;
-class BaluEditorOpenglWindowPrivate;
 
 namespace Editor
 {
@@ -27,17 +24,20 @@ namespace Editor
 
 	class TEventsEditorPrivate;
 
-	public ref class TEventsEditor
+	public ref class TEventsEditor:public TEditor
 	{
 	internal:
 		TEventsEditorPrivate* p;
-		TEventsEditor(IBaluWorld* world, const char* assets_dir);
+		
 		void FindAllEvents();
 		void Clear();
 	public:
+
+		TEventsEditor(TWorldDirector^ world);
+
 		bool TEventsEditor::CompileScripts(array<String^>^% errors_list);
 		void Initialize();
-		!TEventsEditor();
+		void Destroy() override;
 
 		int GetEventsCount(int event_type);
 		array<int>^ GetEventParameters(int event_type, int event_id);

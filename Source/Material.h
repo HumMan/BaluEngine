@@ -96,6 +96,14 @@ private:
 	std::string image_path;
 	TVec4 color;
 public:
+	TBaluMaterial()
+	{
+
+	}
+	TBaluMaterial(const char* name)
+	{
+		this->material_name = name;
+	}
 	void SetBlendMode(TTransparentMode mode);
 	void SetAlphaTestValue(float alpha_test_value);
 	void SetName(std::string name);

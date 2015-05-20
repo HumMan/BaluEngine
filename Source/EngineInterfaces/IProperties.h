@@ -20,15 +20,6 @@ namespace EngineInterface
 {
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	class IBaluWorldObject
-	{
-	public:
-		virtual IProperties* GetProperties() = 0;
-		virtual std::string GetName() = 0;
-	};
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	enum class PropertyType
 	{
 		Bool,

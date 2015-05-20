@@ -64,6 +64,7 @@ private:
 
 public:
 	TBaluWorld();
+	~TBaluWorld();
 	TCallbacksActiveType& GetCallbacksActiveType()
 	{
 		return callback_active_type;
@@ -87,6 +88,12 @@ public:
 	TBaluSprite* GetSprite(const char* sprite_name);
 	TBaluClass* GetClass(const char* class_name);
 	TBaluScene* GetScene(const char* scene_name);
+
+	IBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name);
+	std::vector<IBaluWorldObject*> GetObjects(TWorldObjectType type);
+	bool ObjectNameExists(TWorldObjectType type, const char* name);
+	void CreateObject(TWorldObjectType type, const char* name);
+	void DestroyObject(TWorldObjectType type, const char* name);
 
 	IBaluScene* GetScene(int index)
 	{

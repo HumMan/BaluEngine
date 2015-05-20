@@ -12,16 +12,16 @@ namespace BaluEditor
 {
     public partial class EventsEditor : Form
     {
-        Editor.TEventsEditor event_editor;
+        private Editor.TEventsEditor event_editor;
         public EventsEditor()
         {
             InitializeComponent();
         }
 
-        public void RefreshAllData(Editor.TEventsEditor event_editor)
+        public void EditorInitialize(Editor.TWorldDirector director)
         {
             treeView1.Nodes.Clear();
-            this.event_editor = event_editor;
+            event_editor = new Editor.TEventsEditor(director);
             event_editor.Initialize();
 
             for(int curr_event_type = 0; curr_event_type<event_editor.GetEventTypesCount();curr_event_type++)
@@ -33,6 +33,11 @@ namespace BaluEditor
                     var event_node = curr_type_node.Nodes.Add(i.ToString());
                 }
             }
+        }
+
+        public void EditorDeinitialize()
+        {
+            event_editor.Destroy();
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)

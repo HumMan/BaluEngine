@@ -73,13 +73,13 @@ std::vector<TSkin::TBaluSpriteInstance>& TSkin::GetSpritesOfBone(int bone_index)
 	return sprites_of_bones[bone_index];
 }
 
-TSkeleton::TSkeleton(TSkeleton&& right)
-	:root(std::move(right.root))
-	, bones(std::move(right.bones))
-	, skins(std::move(right.skins))
-{
-	
-}
+//TSkeleton::TSkeleton(TSkeleton&& right)
+//	:root(std::move(right.root))
+//	, bones(std::move(right.bones))
+//	, skins(std::move(right.skins))
+//{
+//	
+//}
 
 TSkin* TSkeleton::CreateSkin()
 {

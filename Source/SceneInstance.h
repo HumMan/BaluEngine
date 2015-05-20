@@ -116,7 +116,7 @@ public:
 	TViewport* GetViewport(std::string name);
 
 	TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* source, TResources* resources);
-	TBaluSceneInstance(TBaluSceneInstance&& right);
+	//TBaluSceneInstance(TBaluSceneInstance&& right);
 	~TBaluSceneInstance();
 
 	TBaluInstance* CreateInstance(TBaluClass* use_class, TBaluTransform transform, TVec2 scale);

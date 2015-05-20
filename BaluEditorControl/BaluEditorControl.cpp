@@ -13,45 +13,6 @@ using namespace EngineInterface;
 
 #include "EventsEditor.h"
 
-class TCallbackManagedBridge
-{
-	gcroot<Editor::BaluEditorControl^> managed_object;
-public:
-	TCallbackManagedBridge(Editor::BaluEditorControl^ use_obj){ managed_object = use_obj; }
-	static void OnSelectionChanged(void* calle, IBaluWorldObject* old_selection, IBaluWorldObject* new_selection)
-	{
-		((TCallbackManagedBridge*)calle)->managed_object->OnSelectionChangedByEditor(old_selection, new_selection);
-	}
-	static void OnPropertiesChanged(void* calle, IBaluWorldObject* changed_obj)
-	{
-		((TCallbackManagedBridge*)calle)->managed_object->OnPropertiesChangedByEditor(changed_obj);
-	}
-	static void OnObjectCreated(void* calle, IBaluWorldObject* new_object)
-	{
-		((TCallbackManagedBridge*)calle)->managed_object->OnObjectCreatedByEditor(new_object);
-	}
-};
-
-template<class T>
-std::string GetNewDefaultName()
-{
-	int static id = 0;
-	id++;
-	char buf[100];
-	sprintf_s(buf, "%s%i",T::GetDefaultName().c_str(), id);
-	return std::string(buf);
-}
-
-class TMyEditorSelectionChangedListener : public IEditorSelectionChangedListener
-{
-public:
-	BaluEditorControlPrivate* p;
-	void SelectionChanged(IProperties* old_selection, IProperties* new_selection)
-	{
-
-	}
-};
-
 class BaluEditorControlPrivate
 {
 public:
@@ -158,7 +119,7 @@ namespace Editor
 
 		void OnClick(Object ^ sender, EventArgs ^ e)
 		{
-			auto t = msclr::interop::marshal_as<std::string>(state->ToString());
+			auto t = Converters::FromClrString(state->ToString());
 			tool->SetActiveState(t);
 		}
 	};
@@ -223,7 +184,7 @@ namespace Editor
 	{
 		p = new BaluEditorControlPrivate();
 
-		p->assets_dir = msclr::interop::marshal_as<std::string>(assets_dir);
+		p->assets_dir = Converters::FromClrString(assets_dir);
 		p->callbackbridge.reset(new TCallbackManagedBridge(this));
 
 		p->director = IDirector::CreateDirector(p->assets_dir, "editor_control.log");

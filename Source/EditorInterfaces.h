@@ -8,32 +8,6 @@
 #include <memory>
 #include <vector>
 
-enum class TWorldObjectType
-{
-	Material,
-	Sprite,
-	Class,
-	Scene,
-	None
-};
-
-class TWorldObjectTypeString
-{
-public:
-	static inline const char* Get(TWorldObjectType index)
-	{
-		char* values[] =
-		{
-			"Material",
-			"Sprite",
-			"Class",
-			"Scene",
-			"None",
-		};
-		return values[(int)index];
-	}
-};
-
 namespace EngineInterface
 {
 	

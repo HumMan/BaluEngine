@@ -5,25 +5,49 @@
 #include "../Source/EngineInterfaces.h"
 #include "../Source/EditorInterfaces.h"
 
+#include "Converters.h"
+
 namespace Editor
 {
 	class TWorldTreeEditorPrivate
 	{
 	public:
+		IBaluWorld* world;
 
 	};
+
+	void TWorldTreeEditor::OnAfterWorldLoad()
+	{
+		p->world = director->GetWorld();
+		AfterWorldLoad();
+	}
+
+	void TWorldTreeEditor::OnObjectCreate(TEditor^ sender, int type, int index)
+	{
+		ObjectCreate(sender, type, index);
+	}
+
+	void TWorldTreeEditor::OnObjectRemove(TEditor^ sender, int type, int index)
+	{
+		ObjectRemove(sender, type, index);
+	}
 
 	std::vector<std::string> TWorldTreeEditor::GetObjectNames(int obj_type)
 	{
 		return std::vector<std::string>();
 	}
 
-	TWorldTreeEditor::TWorldTreeEditor(TWorldDirector^ world)
+	TWorldTreeEditor::TWorldTreeEditor(TWorldDirector^ director)
 	{
+		this->director = director;
+		director->RegisterEditor(this);
+
 		p = new TWorldTreeEditorPrivate();
+
+		p->world = director->GetWorld();
 	}
 
-	void TWorldTreeEditor::Deinitialize()
+	void TWorldTreeEditor::Destroy()
 	{
 		delete p;
 	}
@@ -39,28 +63,44 @@ namespace Editor
 
 	int TWorldTreeEditor::GetObjectsCount(int obj_type)
 	{
-		return -1;
+		return p->world->GetObjects((TWorldObjectType)obj_type).size();
 	}
 	String^ TWorldTreeEditor::GetObjectName(int obj_type, int obj_index)
 	{
-		return nullptr;
+		return Converters::ToClrString(p->world->GetObjects((TWorldObjectType)obj_type)[obj_index]->GetName());
 	}
 	void TWorldTreeEditor::SetObjectName(int obj_type, int obj_index, String^ new_name)
 	{
-
+		//TODO
 	}
 	bool TWorldTreeEditor::CanSetObjectName(int obj_type, int obj_index, String^ new_name)
 	{
-		return false;
+		return p->world->ObjectNameExists((TWorldObjectType)obj_type, Converters::FromClrString(new_name).c_str());
 	}
-
-	void TWorldTreeEditor::CreateObject(int obj_type)
+	int TWorldTreeEditor::GetObjectIndex(int obj_type, String^ new_name)
 	{
-
+		auto name = Converters::FromClrString(new_name);
+		auto arr = p->world->GetObjects((TWorldObjectType)obj_type);
+		int index = 0;
+		for (auto& v : arr)
+		{
+			if (v->GetName() == name)
+				return index;
+			index++;
+		}
+		return -1;
 	}
-	void TWorldTreeEditor::DestroyObject(int obj_type, int obj_index)
+	void TWorldTreeEditor::CreateObject(int obj_type, String^ name)
 	{
-
+		p->world->CreateObject((TWorldObjectType)obj_type, Converters::FromClrString(name).c_str());
+	}
+	bool TWorldTreeEditor::CanCreateObject(int obj_type, String^ name)
+	{
+		return !(p->world->ObjectNameExists((TWorldObjectType)obj_type, Converters::FromClrString(name).c_str()));
+	}
+	void TWorldTreeEditor::DestroyObject(int obj_type, String^ name)
+	{
+		p->world->DestroyObject((TWorldObjectType)obj_type, Converters::FromClrString(name).c_str());
 	}
 
 	//template<class T>

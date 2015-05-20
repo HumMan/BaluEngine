@@ -68,11 +68,14 @@ namespace Editor
 		std::string assets_dir;
 		TEventsOfType event_types[(int)TEventType::End];
 	};
-	TEventsEditor::TEventsEditor(IBaluWorld* world, const char* assets_dir)
+
+	TEventsEditor::TEventsEditor(TWorldDirector^ director)
 	{
+		director->RegisterEditor(this);
+
 		this->p = new TEventsEditorPrivate();
-		this->p->world = world;
-		this->p->assets_dir = assets_dir;
+		this->p->world = director->GetWorld();
+		this->p->assets_dir = Converters::FromClrString(director->GetAssetsDir());
 	}
 	void TEventsEditor::Initialize()
 	{
@@ -173,7 +176,7 @@ namespace Editor
 			}
 		}
 	}
-	TEventsEditor::!TEventsEditor()
+	void TEventsEditor::Destroy()
 	{
 		delete p;
 	}
@@ -218,8 +221,8 @@ namespace Editor
 	}
 	int TEventsEditor::EventTypeFromName(String^ name)
 	{
-		auto s = Converters::FromClrString(name).c_str();
-		return (int)TEventTypeString::From(s);
+		auto s = Converters::FromClrString(name);
+		return (int)TEventTypeString::From(s.c_str());
 	}
 
 	void TEventsEditor::CreateEvent(int event_type)
