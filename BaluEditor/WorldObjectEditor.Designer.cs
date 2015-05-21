@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -56,6 +58,12 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(470, 445);
             this.panel2.TabIndex = 6;
+            this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseDown);
+            this.panel2.MouseEnter += new System.EventHandler(this.panel2_MouseEnter);
+            this.panel2.MouseHover += new System.EventHandler(this.panel2_MouseHover);
+            this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseMove);
+            this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseUp);
+            this.panel2.Resize += new System.EventHandler(this.panel2_Resize);
             // 
             // toolStrip2
             // 
@@ -74,6 +82,10 @@
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // WorldObjectEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -81,7 +93,6 @@
             this.Controls.Add(this.panel1);
             this.Name = "WorldObjectEditor";
             this.Size = new System.Drawing.Size(476, 476);
-            this.Load += new System.EventHandler(this.WorldObjectEditor_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -96,6 +107,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.Timer timer1;
 
     }
 }

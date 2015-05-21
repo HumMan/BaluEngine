@@ -29,7 +29,7 @@ namespace BaluEditor
             editor = new Editor.TWorldTreeEditor(director);
             editor.AfterWorldLoad += editor_on_after_world_load;
             editor.ObjectCreate += editor_ObjectCreate;
-            editor.ObjectRemove += editor_ObjectRemove;
+            editor.ObjectDestroy += editor_ObjectRemove;
         }
 
         void UpdateIndexOfNodes(TreeNodeCollection nodes)
@@ -84,7 +84,7 @@ namespace BaluEditor
         {
             editor.AfterWorldLoad -= editor_on_after_world_load;
             editor.ObjectCreate -= editor_ObjectCreate;
-            editor.ObjectRemove -= editor_ObjectRemove;
+            editor.ObjectDestroy -= editor_ObjectRemove;
 
             editor.Destroy();
         }

@@ -32,6 +32,14 @@ enum class TWorldObjectType
 	None
 };
 
+enum class TWorldObjectSubType
+{
+	SpritePolygon,
+	SpritePhysShape,
+	ClassSpriteInstance,
+	SceneClassInstance
+};
+
 class TWorldObjectTypeString
 {
 public:

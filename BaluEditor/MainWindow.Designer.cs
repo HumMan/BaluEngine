@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.WorldContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -76,11 +75,6 @@
             this.menuStrip1.SuspendLayout();
             this.EditorContextMenu.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 10;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // propertyGrid1
             // 
@@ -415,7 +409,7 @@
             // 
             this.worldTreeEditor1.Location = new System.Drawing.Point(12, 34);
             this.worldTreeEditor1.Name = "worldTreeEditor1";
-            this.worldTreeEditor1.Size = new System.Drawing.Size(287, 289);
+            this.worldTreeEditor1.Size = new System.Drawing.Size(278, 289);
             this.worldTreeEditor1.TabIndex = 8;
             // 
             // MainWindow
@@ -444,7 +438,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ContextMenuStrip WorldContextMenu;

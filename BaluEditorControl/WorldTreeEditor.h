@@ -53,14 +53,7 @@ namespace Editor
 		std::vector<std::string> GetObjectNames(int obj_type);
 
 		void OnAfterWorldLoad()override;
-		void OnObjectCreate(TEditor^ sender, int type, int index)override;
-		void OnObjectRemove(TEditor^ sender, int type, int index)override;
 	public:
-
-		event OnAfterWorldLoadDelegate^ AfterWorldLoad;
-		event OnObjectCreateDelegate^ ObjectCreate;
-		event OnObjectRemoveDelegate^ ObjectRemove;
-
 		TWorldTreeEditor(TWorldDirector^ director);
 
 		void Destroy() override;

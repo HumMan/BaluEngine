@@ -102,7 +102,7 @@ namespace Editor
 	{
 		for each (auto ed in editors)
 		{
-			ed->OnObjectRemove(sender, type, index);
+			ed->OnObjectDestroy(sender, type, index);
 		}
 	}
 

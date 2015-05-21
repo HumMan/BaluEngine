@@ -19,17 +19,7 @@ namespace Editor
 	void TWorldTreeEditor::OnAfterWorldLoad()
 	{
 		p->world = director->GetWorld();
-		AfterWorldLoad();
-	}
-
-	void TWorldTreeEditor::OnObjectCreate(TEditor^ sender, int type, int index)
-	{
-		ObjectCreate(sender, type, index);
-	}
-
-	void TWorldTreeEditor::OnObjectRemove(TEditor^ sender, int type, int index)
-	{
-		ObjectRemove(sender, type, index);
+		TEditor::AfterWorldLoad();
 	}
 
 	std::vector<std::string> TWorldTreeEditor::GetObjectNames(int obj_type)

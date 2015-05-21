@@ -13,7 +13,6 @@ namespace BaluEditor
 {
     public partial class MainWindow : Form
     {
-        //private Editor.BaluEditorControl baluEditorControl1;
         private Editor.TWorldDirector director;
         private EventsEditor events_editor;
         string _active_project;
@@ -37,9 +36,6 @@ namespace BaluEditor
             this.assets_dir = assets_dir;
             InitializeComponent();
 
-            
-            ///panel2.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseWheel);
-
             director = new Editor.TWorldDirector(assets_dir);
 
             worldTreeEditor1.EditorInitialize(director);
@@ -50,52 +46,6 @@ namespace BaluEditor
             //director.InitializeEngine();
 
             //baluEditorControl1.SetViewport(panel2.Width, panel2.Height);
-
-            //this.baluEditorControl1.EditorToolsBar = this.toolStrip1;
-            //this.baluEditorControl1.ToolStateToolsBar = this.toolStrip2;
-            //this.baluEditorControl1.SelectedObjectProperty = this.propertyGrid1;
-            //this.baluEditorControl1.ToolObjectSelect = this.listBox1;
-            //this.baluEditorControl1.WorldTreeView = this.treeView1;
-
-           
-
-            InitializeCreateNodeContextMenu();
-            
-            timer1.Enabled = true;
-        }
-
-        void InitializeCreateNodeContextMenu()
-        {
-            //var n = WorldContextMenu.Items.Add("Create") as ToolStripMenuItem;
-
-            //var i = n.DropDown.Items.Add("Material");
-            //i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Material);
-            //i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateMaterial(); };
-
-            //i = n.DropDown.Items.Add("Sprite");
-            //i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Sprite);
-            //i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateSprite(); };
-
-            //i = n.DropDown.Items.Add("Class");
-            //i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Class);
-            //i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateClass(); };
-
-            //i = n.DropDown.Items.Add("Scene");
-            //i.Tag = new Editor.TWolrdTreeNodeTag(Editor.TNodeType.Scene);
-            //i.Click += (object sender, EventArgs e) => { baluEditorControl1.CreateScene(); };
-        }
-
-        bool times_is_work = false;
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (times_is_work) return;
-            times_is_work = true;
-
-            //baluEditorControl1.BeginFrame();
-            //baluEditorControl1.Render();
-            //baluEditorControl1.EndFrame();
-
-            times_is_work = false;
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -182,31 +132,6 @@ namespace BaluEditor
             }
         }
 
-        private void panel2_MouseMove(object sender, MouseEventArgs e)
-        {
-            //baluEditorControl1.MouseMove(e);
-        }
-
-        private void panel2_MouseDown(object sender, MouseEventArgs e)
-        {
-            //baluEditorControl1.MouseDown(e);
-        }
-
-        private void panel2_MouseUp(object sender, MouseEventArgs e)
-        {
-            //baluEditorControl1.MouseUp(e);
-        }
-
-        private void panel2_MouseWheel(object sender, MouseEventArgs e)
-        {
-           // baluEditorControl1.MouseWheel(e);
-        }
-
-        private void panel2_Resize(object sender, EventArgs e)
-        {
-           // baluEditorControl1.Resize(panel2.Width, panel2.Height);
-        }
-
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
            // baluEditorControl1.SaveWorldTo(active_project);
@@ -215,16 +140,6 @@ namespace BaluEditor
         private void loadDemoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             director.LoadDemoWorld();
-        }
-
-        private void panel2_MouseHover(object sender, EventArgs e)
-        {
-            //panel2.Focus();
-        }
-
-        private void panel2_MouseEnter(object sender, EventArgs e)
-        {
-            //panel2.Focus();
         }
 
         private void eventsToolStripMenuItem_Click(object sender, EventArgs e)

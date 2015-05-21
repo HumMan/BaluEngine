@@ -147,12 +147,6 @@ namespace Editor
 			}
 		}
 
-	String^ BaluEditorControl::GetAssetsDir()
-	{
-		return gcnew String(p->assets_dir.c_str());
-	}
-
-
 	void BaluEditorControl::OnSelectionChangedByEditor(IBaluWorldObject* old_selection, IBaluWorldObject* new_selection)
 	{
 		TPropertiesObject^ obj = TPropertiesRegistry::CreateProperties(p->world, new_selection);

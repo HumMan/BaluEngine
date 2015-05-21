@@ -29,6 +29,7 @@ namespace Editor
 	private:
 
 		TWorldObjectEditorPrivate* p;
+		TWorldDirector^ director;
 
 		IAbstractEditor* CreateEditorOfWorldObject(IBaluWorldObject* obj);
 		void DestroyEditorOfWorldObject(IBaluWorldObject* obj);
@@ -37,11 +38,12 @@ namespace Editor
 
 	public:
 
-		TWorldObjectEditor(IntPtr handle, TWorldDirector^ worl_director);
-		void Deinitialize();
+		TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ worl_director);
+		void Destroy() override;
 
 		//bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list);
 		//void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
+		void SetEditedObject(int type, int index);
 		void Resize(int width, int height);
 
 		void MouseDown(MouseEventArgs^ e) ;
