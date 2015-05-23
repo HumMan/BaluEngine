@@ -98,11 +98,19 @@ namespace Editor
 		}
 	}
 
-	void TWorldDirector::OnObjectRemove(TEditor^ sender, int type, int index)
+	void TWorldDirector::OnObjectDestroy(TEditor^ sender, int type, int index)
 	{
 		for each (auto ed in editors)
 		{
 			ed->OnObjectDestroy(sender, type, index);
+		}
+	}
+
+	void TWorldDirector::OnEditedObjectChange(TEditor^ sender, int type, int index)
+	{
+		for each (auto ed in editors)
+		{
+			ed->OnEditedObjectChange(sender, type, index);
 		}
 	}
 

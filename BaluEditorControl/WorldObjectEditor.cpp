@@ -54,6 +54,8 @@ namespace Editor
 		TWorldObjectEditorPrivate()
 		{
 			world = nullptr;
+
+			director = nullptr;
 			world_instance = nullptr;
 			scene_instance = nullptr;
 			screen = nullptr;
@@ -75,35 +77,66 @@ namespace Editor
 
 	TWorldObjectEditor::TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ world_director)
 	{
+		this->director = world_director;
+		world_director->RegisterEditor(this);
+
+		auto assets_dir = Converters::FromClrString(world_director->GetAssetsDir());
 		p = new TWorldObjectEditorPrivate();
-		p->director->SetViewport(TVec2i(width, height));
-		p->director = IDirector::CreateDirector(Converters::FromClrString(world_director->GetAssetsDir()), "editor_control.log");
+		p->director = IDirector::CreateDirector(assets_dir, "object_editor.log");
 		p->director->Initialize((void*)handle.ToPointer());
+		p->director->SetViewport(TVec2i(width, height));
+
+		p->world = world_director->GetWorld();
+
+		p->screen = new TScreen(TVec2i(width, height));
+		p->director->SetSymulatePhysics(false);
+		p->main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
 	}
 
 	void TWorldObjectEditor::Destroy()
 	{
-
+		delete p->screen;
+		OnEditedObjectChange(this, (int)TWorldObjectType::None, -1);
+		IDirector::DestroyDirector(p->director);
+		p->director = nullptr;
+		p->world = nullptr;
+		director = nullptr;
 	}
 
 	void TWorldObjectEditor::Resize(int width, int height)
 	{
-		*p->screen = TVec2i(width, height);
-		p->director->SetScreenSize(p->screen->size);
+			*p->screen = TVec2i(width, height);
+			p->director->SetScreenSize(p->screen->size);
 	}
 
-	void TWorldObjectEditor::SetEditedObject(int _type, int index)
+	void TWorldObjectEditor::OnAfterWorldLoad()
 	{
-		
+		p->world = director->GetWorld();
+		OnEditedObjectChange(this, (int)TWorldObjectType::None, -1);
+	}
+
+	void TWorldObjectEditor::OnEditedObjectChange(TEditor^ sender, int _type, int index)
+	{		
 		TWorldObjectType type = (TWorldObjectType)_type;
-		auto objects = p->world->GetObjects(type);
-		auto new_edit_obj = objects[index];
+		
+		IBaluWorldObject* new_edit_obj = nullptr;
+		if (type != TWorldObjectType::None)
+		{
+			auto objects = p->world->GetObjects(type);
+			new_edit_obj = objects[index];			
+		}
 		if (new_edit_obj != p->active_edited_object)
 		{
 			if (p->active_edited_object != nullptr)
+			{
 				DestroyEditorOfWorldObject(p->active_edited_object);
-			DestroyEditorScene();
-
+				DestroyEditorScene();
+			}
+			if (type != TWorldObjectType::None)
+			{
+				auto objects = p->world->GetObjects(type);
+				new_edit_obj = objects[index];
+			}
 			p->active_edited_object = new_edit_obj;
 			if (type != TWorldObjectType::None)
 			{
@@ -112,6 +145,7 @@ namespace Editor
 				p->drawing_context.view = &p->main_viewport_view;
 				p->drawing_context.viewport = p->main_viewport;
 				
+				auto objects = p->world->GetObjects(type);
 				p->active_editor = CreateEditorOfWorldObject(new_edit_obj);
 
 				auto& tools = p->active_editor->GetAvailableTools();
@@ -194,54 +228,59 @@ namespace Editor
 	//	p->active_selection_list.clear();
 	//	return false;
 	//}
-
+	char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
+		"	vec2 k = vec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
+		"	IViewport main_viewport = director.GetWorldInstance().GetSceneInstance(0).GetSource().FindViewport(\"main_viewport\");\n"
+		"	vec2 old_vieport_size = main_viewport.GetSize();\n"
+		"	vec2 new_vieport_size = old_vieport_size*k;\n"
+		"	main_viewport.SetSize(new_vieport_size);\n";
 
 	void TWorldObjectEditor::CreateEditorScene()
 	{
-		//auto editor_scene = p->world->CreateScene("EditorScene");
-		//dynamic_cast<IBaluWorldObject*>(editor_scene)->GetProperties()->SetBool("editor_temp_object", true);
+		auto editor_scene = p->world->CreateScene("EditorScene");
+		dynamic_cast<IBaluWorldObject*>(editor_scene)->GetProperties()->SetBool("editor_temp_object", true);
 
-		//if (editor_scene->FindViewport("main_viewport") == nullptr)
-		//{
-		//	p->main_viewport = editor_scene->CreateViewport("main_viewport");
-		//	p->main_viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
-		//	p->main_viewport->SetAspectRatio(1);
-		//	p->main_viewport->SetWidth(20);
+		if (editor_scene->FindViewport("main_viewport") == nullptr)
+		{
+			p->main_viewport = editor_scene->CreateViewport("main_viewport");
+			p->main_viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
+			p->main_viewport->SetAspectRatio(((float)p->screen->size[1])/ p->screen->size[0]);
+			p->main_viewport->SetWidth(20);
 
-		//}
-		//p->world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
+		}
+		p->world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
 
 
-		////auto callback = CallbackWithData<RenderWorldCallback>(RenderWorld, &p->world->GetCallbacksActiveType(), p, TCallbacksActiveType::EDITOR);
-		////p->world->SetRenderWorldCallback(callback);
+		//auto callback = CallbackWithData<RenderWorldCallback>(RenderWorld, &p->world->GetCallbacksActiveType(), p, TCallbacksActiveType::EDITOR);
+		//p->world->SetRenderWorldCallback(callback);
 
-		//p->world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
-		//p->world->AddOnViewportResize(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+		//p->world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::EDITOR));
+		p->world->AddOnViewportResize(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::EDITOR));
 
-		//p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
+		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
 
-		//p->scene_instance = p->world_instance->RunScene(editor_scene);
+		p->scene_instance = p->world_instance->RunScene(editor_scene);
 
-		//p->world_instance->GetComposer()->AddToRender(p->scene_instance, editor_scene->FindViewport("main_viewport"));
+		p->world_instance->GetComposer()->AddToRender(p->scene_instance, editor_scene->FindViewport("main_viewport"));
 
-		//p->screen = new TScreen(p->director->GetScreenSize());
-		//p->director->SetSymulatePhysics(false);
-		//p->main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
-		//p->director->SetWorldInstance(p->world_instance);
+		
+		
+		p->director->SetWorldInstance(p->world_instance);
 
 	}
 
 	void TWorldObjectEditor::DestroyEditorScene()
 	{
-		//delete p->screen;
-		//DestroyWorldInstance(p->world_instance);
-		//p->world_instance = nullptr;
-		//IBaluScene* result;
-		//if (p->world != nullptr)
-		//{
-		//	if (p->world->TryFind("EditorScene", result))
-		//		p->world->DestroyScene("EditorScene");
-		//}
+		
+		DestroyWorldInstance(p->world_instance);
+		p->world_instance = nullptr;
+		IBaluScene* result;
+		if (p->world != nullptr)
+		{
+			p->world->RemoveOnViewportResize(p->world->GetOnViewportResize().size()-1);
+			if (p->world->TryFind("EditorScene", result))
+				p->world->DestroyScene("EditorScene");
+		}
 	}
 
 	void TWorldObjectEditor::MouseDown(MouseEventArgs^ e)
@@ -313,44 +352,44 @@ namespace Editor
 
 	IAbstractEditor* TWorldObjectEditor::CreateEditorOfWorldObject(IBaluWorldObject* obj)
 	{
-		////if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
-		////	return new TMaterialEditor();
+		//if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
+		//	return new TMaterialEditor();
 
-		////if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
-		////	return new TSpritePolygonEditor();
+		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
+		//	return new TSpritePolygonEditor();
 
-		//p->active_edited_object = obj;
+		p->active_edited_object = obj;
 
-		//if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
-		//	return CreateSpriteEditor(p->drawing_context, p->world, dynamic_cast<IBaluSprite*>(obj), p->scene_instance);
+		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
+			return CreateSpriteEditor(p->drawing_context, p->world, dynamic_cast<IBaluSprite*>(obj), p->scene_instance);
 
-		////if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
-		////	return new TClassEditor();
+		//if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
+		//	return new TClassEditor();
 
-		//if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
-		//	return CreateSceneEditor(p->drawing_context, p->world, dynamic_cast<IBaluScene*>(obj), p->scene_instance);
+		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
+			return CreateSceneEditor(p->drawing_context, p->world, dynamic_cast<IBaluScene*>(obj), p->scene_instance);
 
 		return nullptr;
 	}
 
 	void TWorldObjectEditor::DestroyEditorOfWorldObject(IBaluWorldObject* obj)
 	{
-		////if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
-		////	return new TMaterialEditor();
+		//if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
+		//	return new TMaterialEditor();
 
-		////if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
-		////	return new TSpritePolygonEditor();
+		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
+		//	return new TSpritePolygonEditor();
 
-		//p->active_edited_object = nullptr;
+		p->active_edited_object = nullptr;
 
-		//if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
-		//	return DestroySpriteEditor(p->active_editor);
+		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
+			return DestroySpriteEditor(p->active_editor);
 
-		////if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
-		////	return new TClassEditor();
+		//if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
+		//	return new TClassEditor();
 
-		//if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
-		//	DestroySceneEditor(p->active_editor);
+		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
+			DestroySceneEditor(p->active_editor);
 	}
 	
 }

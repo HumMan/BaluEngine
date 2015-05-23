@@ -161,7 +161,8 @@ void TDirector::SetScreenSize(TVec2i new_size)
 {
 	auto old_screen_size = p->internal_render->Get.Viewport();
 	p->internal_render->Set.Viewport(new_size);
-	p->world_instance->ViewportResize(this, old_screen_size, new_size);
+	if (p->world_instance!=nullptr)
+		p->world_instance->ViewportResize(this, old_screen_size, new_size);
 	//if (p->viewport_resize_callback.IsScript())
 	//{
 	//	p->viewport_resize_callback.GetScriptEngine()->CallMethod(p->viewport_resize_callback, this, old_screen_size, new_size);

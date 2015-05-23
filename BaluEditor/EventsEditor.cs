@@ -21,6 +21,15 @@ namespace BaluEditor
         public void EditorInitialize(Editor.TWorldDirector director)
         {
             treeView1.Nodes.Clear();
+
+            textBox1.Enabled = false;
+            textBox2.Enabled = false;
+            textBox3.Enabled = false;
+
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+
             event_editor = new Editor.TEventsEditor(director);
             event_editor.Initialize();
 
@@ -51,6 +60,10 @@ namespace BaluEditor
             int id;
             if(int.TryParse(e.Node.Text, out id))
             {
+                textBox1.Enabled = true;
+                textBox2.Enabled = true;
+                textBox3.Enabled = true;
+
                 var event_type_string = e.Node.Parent.Text;
                 int type_id = event_editor.EventTypeFromName(event_type_string);
                 var source = event_editor.GetEventScript(type_id, id);
@@ -60,6 +73,12 @@ namespace BaluEditor
                 seek_text_changed = true;
 
                 Compile();
+            }
+            else
+            {
+                textBox1.Enabled = false;
+                textBox2.Enabled = false;
+                textBox3.Enabled = false;
             }
         }
 
@@ -83,6 +102,19 @@ namespace BaluEditor
             event_editor.CompileScripts(ref errors_list);
 
             textBox3.Text = string.Join(Environment.NewLine, errors_list);
+        }
+
+        private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            int id;
+            if (int.TryParse(e.Node.Text, out id))
+            {
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

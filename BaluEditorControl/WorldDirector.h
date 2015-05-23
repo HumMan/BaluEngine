@@ -22,12 +22,16 @@ namespace Editor
 
 	public delegate void OnAfterWorldLoadDelegate();
 	public delegate void OnBeforeWorldLoadDelegate();
+
 	public delegate void OnObjectCreateDelegate(TEditor^ sender, int type, int index);
 	public delegate void OnObjectChangeDelegate(TEditor^ sender, int type, int index);
 	public delegate void OnObjectDestroyDelegate(TEditor^ sender, int type, int index);
+
 	public delegate void OnSubObjectCreateDelegate(TEditor^ sender, int obj_type, int obj_index, int sub_obj_type, int sub_obj_index);
 	public delegate void OnSubObjectChangeDelegate(TEditor^ sender, int obj_type, int obj_index, int sub_obj_type, int sub_obj_index);
 	public delegate void OnSubObjectDestroyDelegate(TEditor^ sender, int obj_type, int obj_index, int sub_obj_type, int sub_obj_index);
+
+	public delegate void OnEditedObjectChangeDelegate(TEditor^ sender, int type, int index);
 
 	public ref class TEditor
 	{
@@ -66,6 +70,10 @@ namespace Editor
 		{
 			SubObjectDestroy(sender, obj_type, obj_index, sub_obj_type, sub_obj_index);
 		}
+		virtual void OnEditedObjectChange(TEditor^ sender, int type, int index)
+		{
+			EditedObjectChange(sender, type, index);
+		}
 	public:
 		event OnAfterWorldLoadDelegate^ AfterWorldLoad;
 		event OnBeforeWorldLoadDelegate^ BeforeWorldLoad;
@@ -75,6 +83,7 @@ namespace Editor
 		event OnSubObjectCreateDelegate^ SubObjectCreate;
 		event OnSubObjectChangeDelegate^ SubObjectChange;
 		event OnSubObjectDestroyDelegate^ SubObjectDestroy;
+		event OnEditedObjectChangeDelegate^ EditedObjectChange;
 	};	
 
 	public ref class TWorldDirector
@@ -94,7 +103,8 @@ namespace Editor
 		void OnBeforeWorldLoad();
 		void OnAfterWorldLoad();
 		void OnObjectCreate(TEditor^ sender, int type, int index);
-		void OnObjectRemove(TEditor^ sender, int type, int index);
+		void OnObjectDestroy(TEditor^ sender, int type, int index);
+		void OnEditedObjectChange(TEditor^ sender, int type, int index);
 
 		TWorldDirector(String^ assets_dir);
 		void Destroy();

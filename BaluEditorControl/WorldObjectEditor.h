@@ -26,6 +26,9 @@ namespace Editor
 
 	public ref class TWorldObjectEditor: public TEditor
 	{
+	internal:
+		void OnAfterWorldLoad()override;
+		void OnEditedObjectChange(TEditor^ sender, int type, int index)override;
 	private:
 
 		TWorldObjectEditorPrivate* p;
@@ -37,13 +40,12 @@ namespace Editor
 		void DestroyEditorScene();
 
 	public:
+		
 
 		TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ worl_director);
 		void Destroy() override;
 
 		//bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list);
-		//void SetEditedWorldNode(TWolrdTreeNodeTag^ node);
-		void SetEditedObject(int type, int index);
 		void Resize(int width, int height);
 
 		void MouseDown(MouseEventArgs^ e) ;

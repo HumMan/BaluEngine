@@ -154,7 +154,7 @@ namespace BaluEditor
             {
                 var node =treeView1.SelectedNode.Tag as TWorldObjectNode;
                 editor.DestroyObject(node.type, node.name);
-                director.OnObjectRemove(editor, node.type, node.index);
+                director.OnObjectDestroy(editor, node.type, node.index);
             }
         }
 
@@ -168,7 +168,16 @@ namespace BaluEditor
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            treeView1.SelectedNode = e.Node;
+            
+        }
+
+        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (treeView1.SelectedNode.Tag is TWorldObjectNode)
+            {
+                var node = treeView1.SelectedNode.Tag as TWorldObjectNode;
+                director.OnEditedObjectChange(editor, node.type, node.index);
+            }
         }
     }
 }
