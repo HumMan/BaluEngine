@@ -155,6 +155,19 @@ namespace Editor
 		}
 	}
 
+	void TWorldObjectEditor::OnObjectListSelectionChange(TEditor^ sender, int _type, int index)
+	{
+		TWorldObjectType type = (TWorldObjectType)_type;
+		IBaluWorldObject* new_edit_obj = nullptr;
+		if (type != TWorldObjectType::None)
+		{
+			auto objects = p->world->GetObjects(type);
+			new_edit_obj = objects[index];
+		}
+
+		p->active_editor->GetActiveTool()->SetSelectedObject(new_edit_obj);
+	}
+
 	bool TWorldObjectEditor::CanSetSelectedAsWork()
 	{
 		assert(p->active_editor != nullptr);
@@ -182,19 +195,13 @@ namespace Editor
 		if (p->active_editor != nullptr)
 			p->active_editor->EndSelectedAsWork();
 	}
-
-	void TWorldObjectEditor::SetToolSelectedObject(String^ name)
+	void TWorldObjectEditor::SetActiveTool(int index)
 	{
-		//auto str_name = msclr::interop::marshal_as<std::string>(name);
-		//EngineInterface::IBaluWorldObject* obj = nullptr;
-		//for (auto& v : p->active_selection_list)
-		//	if (v->GetName() == str_name)
-		//		obj = v;
-		//assert(obj != nullptr);
-		//p->active_editor->GetActiveTool()->SetSelectedObject(obj);
-		////engine->SetToolSelectedObject();
+		auto& tools = p->active_editor->GetAvailableTools();
+		auto tool = tools[index].tool.get();
+		p->active_editor->SetActiveTool(tool);
+		director->OnSelectObjectsTypeChange(this,(int) tool->NeedObjectSelect());
 	}
-
 
 	//bool TWorldObjectEditor::ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list)
 	//{
@@ -250,11 +257,6 @@ namespace Editor
 		}
 		p->world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
 
-
-		//auto callback = CallbackWithData<RenderWorldCallback>(RenderWorld, &p->world->GetCallbacksActiveType(), p, TCallbacksActiveType::EDITOR);
-		//p->world->SetRenderWorldCallback(callback);
-
-		//p->world->AddOnWorldStart(CallbackWithData<OnStartWorldCallback>(WorldStart_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::EDITOR));
 		p->world->AddOnViewportResize(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::EDITOR));
 
 		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());

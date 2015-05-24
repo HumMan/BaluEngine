@@ -114,6 +114,22 @@ namespace Editor
 		}
 	}
 
+	void TWorldDirector::OnSelectObjectsTypeChange(TEditor^ sender, int type)
+	{
+		for each (auto ed in editors)
+		{
+			ed->OnSelectObjectsTypeChange(sender, type);
+		}
+	}
+
+	void TWorldDirector::OnObjectListSelectionChange(TEditor^ sender, int type, int index)
+	{
+		for each (auto ed in editors)
+		{
+			ed->OnObjectListSelectionChange(sender, type, index);
+		}
+	}
+
 	String^ TWorldDirector::GetAssetsDir()
 	{
 		return Converters::ToClrString(p->assets_dir);

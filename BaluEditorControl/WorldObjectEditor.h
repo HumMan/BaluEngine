@@ -29,6 +29,7 @@ namespace Editor
 	internal:
 		void OnAfterWorldLoad()override;
 		void OnEditedObjectChange(TEditor^ sender, int type, int index)override;
+		void OnObjectListSelectionChange(TEditor^ sender, int type, int index)override;
 	private:
 
 		TWorldObjectEditorPrivate* p;
@@ -61,6 +62,7 @@ namespace Editor
 		bool CanEndSelectedAsWork();
 		void EndSelectedAsWork();
 
-		void SetToolSelectedObject(String^ name);
+		void SetActiveTool(int index);
+		//void SetToolSelectedObject(String^ name);
 	};
 }
