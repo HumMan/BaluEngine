@@ -15,7 +15,7 @@ using namespace EngineInterface;
 
 #include "../OBBContour.h"
 
-class TSceneEditorScene// : public TBoundaryBoxScene
+class TSceneEditorScene
 {
 private:
 	std::unique_ptr<TClassInstanceAdornment> adornment_instance;

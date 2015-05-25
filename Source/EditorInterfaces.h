@@ -85,6 +85,9 @@ namespace EngineInterface
 	BALUENGINEDLL_API IAbstractEditor* CreateSceneEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* edited_scene, EngineInterface::IBaluSceneInstance* editor_scene_instance);
 	BALUENGINEDLL_API void DestroySceneEditor(EngineInterface::IAbstractEditor*);
 
+	BALUENGINEDLL_API IAbstractEditor* CreateClassEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluClass* edited_class, EngineInterface::IBaluSceneInstance* editor_scene_instance);
+	BALUENGINEDLL_API void DestroyClassEditor(EngineInterface::IAbstractEditor*);
+
 	BALUENGINEDLL_API IAbstractEditor* CreateSpriteEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluSprite* edited_sprite, EngineInterface::IBaluSceneInstance* editor_scene_instance);
 	BALUENGINEDLL_API void DestroySpriteEditor(EngineInterface::IAbstractEditor*);
 }

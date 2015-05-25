@@ -90,6 +90,7 @@
     <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h" />
     <ClInclude Include="WorldDirector.h" />
     <ClInclude Include="WorldObjectEditor.h" />
+    <ClInclude Include="WorldObjectsList.h" />
     <ClInclude Include="WorldTreeEditor.h" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +113,7 @@
     <ClCompile Include="WorldObjectEditor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="WorldObjectsList.cpp" />
     <ClCompile Include="WorldTreeEditor.cpp" />
   </ItemGroup>
   <ItemGroup>

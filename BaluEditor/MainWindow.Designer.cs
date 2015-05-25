@@ -68,10 +68,10 @@
             this.EditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.worldObjectEditor1 = new BaluEditor.WorldObjectEditor();
             this.worldTreeEditor1 = new BaluEditor.WorldTreeEditor();
+            this.worldObjectsList1 = new BaluEditor.WorldObjectsList();
             this.menuStrip1.SuspendLayout();
             this.EditorContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -375,18 +375,6 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(138, 22);
             this.toolStripMenuItem2.Text = "Stop editing";
             // 
-            // listBox1
-            // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.listBox1.Enabled = false;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 329);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(287, 290);
-            this.listBox1.TabIndex = 7;
-            this.listBox1.SelectedValueChanged += new System.EventHandler(this.listBox1_SelectedValueChanged);
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 624);
@@ -412,14 +400,21 @@
             this.worldTreeEditor1.Size = new System.Drawing.Size(278, 289);
             this.worldTreeEditor1.TabIndex = 8;
             // 
+            // worldObjectsList1
+            // 
+            this.worldObjectsList1.Location = new System.Drawing.Point(12, 329);
+            this.worldObjectsList1.Name = "worldObjectsList1";
+            this.worldObjectsList1.Size = new System.Drawing.Size(278, 292);
+            this.worldObjectsList1.TabIndex = 10;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1112, 646);
+            this.Controls.Add(this.worldObjectsList1);
             this.Controls.Add(this.worldObjectEditor1);
             this.Controls.Add(this.worldTreeEditor1);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.menuStrip1);
@@ -471,7 +466,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ContextMenuStrip EditorContextMenu;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
@@ -480,6 +474,7 @@
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private WorldTreeEditor worldTreeEditor1;
         private WorldObjectEditor worldObjectEditor1;
+        private WorldObjectsList worldObjectsList1;
     }
 }
 

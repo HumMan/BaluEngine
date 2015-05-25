@@ -26,7 +26,12 @@ namespace EngineInterface
 		virtual IBaluSprite* GetSourceSprite() = 0;
 		virtual IBaluPhysShapeInstance* GetPhysShape() = 0;
 		virtual TVec2 GetScale() = 0;
+		virtual TOBB2 GetOBB() = 0;
+		virtual void SetScale(TVec2 scale) = 0;
+		virtual void SetTransform(TBaluTransform local) = 0;
+		virtual TBaluTransform GetTransform() = 0;
 		virtual IBaluSpritePolygonInstance* GetPolygon() = 0;
+		virtual EngineInterface::IProperties* GetProperties() = 0;
 	};
 #endif
 

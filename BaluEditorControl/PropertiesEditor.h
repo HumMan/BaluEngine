@@ -30,7 +30,7 @@ namespace Editor
 
 	public:
 
-		TPropertiesEditor(IntPtr handle, TWorldDirector worl_director);
+		TPropertiesEditor(IntPtr handle, TWorldDirector world_director);
 		void Destroy() override;
 
 	};

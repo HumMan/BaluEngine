@@ -21,6 +21,7 @@ namespace EngineInterface
 	class IBaluPhysShapeInstance;
 	class IBaluInstance;
 	class IBaluClass;
+	class IBaluClassSprite;
 }
 
 class TProperty
@@ -142,6 +143,42 @@ public:
 };
 static bool TSceneClassInstanceProperty_registered = PropertiesFactory::Register("sceneClassInstance", TSceneClassInstanceProperty::Clone);
 
+class TClassSpriteInstanceProperty : public TPropertyValue<EngineInterface::IBaluClassSprite*>
+{
+public:
+	TClassSpriteInstanceProperty()
+	{
+	}
+	TClassSpriteInstanceProperty(EngineInterface::IBaluClassSprite* value) : TPropertyValue<EngineInterface::IBaluClassSprite*>(value)
+	{
+	}
+	static TProperty* Clone()
+	{
+		return new TClassSpriteInstanceProperty();
+	}
+	const char* GetTypeString()
+	{
+		return "classSpriteInstance";
+	}
+	EngineInterface::PropertyType GetType()
+	{
+		return EngineInterface::PropertyType::SceneClassInstance;
+	}
+	void Save(pugi::xml_node& parent_node, const int version)
+	{
+		TProperty::Save(parent_node, version);
+		//parent_node.append_attribute("value").set_value(value);
+		//TODO get class instance id
+	}
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+	{
+		TProperty::Load(instance_node, version, world);
+		//value = instance_node.attribute("value").as_string();
+		//TODO find by class instance id
+	}
+};
+static bool TClassSpriteInstanceProperty_registered = PropertiesFactory::Register("classSpriteInstance", TClassSpriteInstanceProperty::Clone);
+
 class TProperties : public EngineInterface::IProperties
 {
 public:
@@ -201,7 +238,16 @@ public:
 		Get(name, value);
 		return *value;
 	}
-
+	void SetClassSpriteInstance(const std::string& name, EngineInterface::IBaluClassSprite* value)
+	{
+		properties[name].reset(new TClassSpriteInstanceProperty(value));
+	}
+	EngineInterface::IBaluClassSprite* GetClassSpriteInstance(const std::string& name)
+	{
+		EngineInterface::IBaluClassSprite** value = nullptr;
+		Get(name, value);
+		return *value;
+	}
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

@@ -35,6 +35,9 @@
     <Filter Include="Definitions_instances">
       <UniqueIdentifier>{acaae9c6-0b41-48ff-8626-1eed73c7234a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUtils\ClassEditor">
+      <UniqueIdentifier>{d3b36ffa-d2bb-43da-b9fa-235bc5684d3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utils\texture_polygon.h">
@@ -283,6 +286,18 @@
     <ClInclude Include="Source\EngineInterfaces\IScriptInstance.h">
       <Filter>EngineInterfaces</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditor.h">
+      <Filter>EditorUtils\ClassEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorAdornments.h">
+      <Filter>EditorUtils\ClassEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorScene.h">
+      <Filter>EditorUtils\ClassEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorTools.h">
+      <Filter>EditorUtils\ClassEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -446,6 +461,18 @@
     </ClCompile>
     <ClCompile Include="Source\ScriptInstance.cpp">
       <Filter>Definitions_instances</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditor.cpp">
+      <Filter>EditorUtils\ClassEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorAdornments.cpp">
+      <Filter>EditorUtils\ClassEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorTools.cpp">
+      <Filter>EditorUtils\ClassEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorScene.cpp">
+      <Filter>EditorUtils\ClassEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

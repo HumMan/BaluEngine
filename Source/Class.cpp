@@ -47,9 +47,8 @@ bool TBaluClass::PointCollide(TVec2 class_space_point)
 {
 	for (auto& s : sprites)
 	{
-		TVec2 p = s->local.ToLocal(class_space_point);
-		bool is_in_sprite = s->GetSprite()->GetPolygon()->PointCollide(p);
-		if (is_in_sprite)
+		bool sprite_collide = s->PointCollide(class_space_point);
+		if (sprite_collide)
 			return true;
 	}
 	return false;

@@ -73,6 +73,8 @@
             this.toolStrip2.Size = new System.Drawing.Size(111, 25);
             this.toolStrip2.TabIndex = 7;
             this.toolStrip2.Text = "toolStrip2";
+            this.toolStrip2.Visible = false;
+            this.toolStrip2.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip2_ItemClicked);
             // 
             // toolStrip1
             // 
@@ -81,6 +83,8 @@
             this.toolStrip1.Size = new System.Drawing.Size(470, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.Visible = false;
+            this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip1_ItemClicked);
             // 
             // timer1
             // 

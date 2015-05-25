@@ -148,9 +148,8 @@ namespace Editor
 				auto objects = p->world->GetObjects(type);
 				p->active_editor = CreateEditorOfWorldObject(new_edit_obj);
 
-				auto& tools = p->active_editor->GetAvailableTools();
-				p->active_editor->SetActiveTool(tools[0].tool.get());
-				//TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools, p->active_editor, this);
+				SetActiveTool(0);
+				OnToolsChange();
 			}
 		}
 	}
@@ -181,7 +180,6 @@ namespace Editor
 			p->active_editor->SetSelectedAsWork();
 
 		auto &tools = p->active_editor->GetAvailableTools();
-		//TUtils::CreateEditorToolsToolBar(EditorToolsBar, tools, p->active_editor, this);
 	}
 
 	bool TWorldObjectEditor::CanEndSelectedAsWork()
@@ -202,7 +200,43 @@ namespace Editor
 		p->active_editor->SetActiveTool(tool);
 		director->OnSelectObjectsTypeChange(this,(int) tool->NeedObjectSelect());
 	}
-
+	int TWorldObjectEditor::GetActiveTool()
+	{
+		auto active_tool = p->active_editor->GetActiveTool();
+		auto& tools = p->active_editor->GetAvailableTools();
+		for (int i = 0; i < tools.size(); i++)
+		{
+			if (tools[i].tool.get() == active_tool)
+				return i;
+		}
+		return -1;
+	}
+	void TWorldObjectEditor::SetActiveToolState(int index)
+	{
+		auto active_tool = p->active_editor->GetActiveTool();
+		auto new_state = active_tool->GetAvailableStates()[index];
+		active_tool->SetActiveState(new_state);
+	}
+	int TWorldObjectEditor::GetToolsCount()
+	{
+		auto& tools = p->active_editor->GetAvailableTools();
+		return tools.size();
+	}
+	String^ TWorldObjectEditor::GetToolName(int index)
+	{
+		auto& tools = p->active_editor->GetAvailableTools();
+		return Converters::ToClrString(tools[index].name);
+	}
+	int TWorldObjectEditor::GetToolStatesCount(int index)
+	{
+		auto& tools = p->active_editor->GetAvailableTools();
+		return tools[index].tool->GetAvailableStates().size();
+	}
+	String^ TWorldObjectEditor::GetToolStateName(int tool_index, int tool_state_index)
+	{
+		auto& tools = p->active_editor->GetAvailableTools();
+		return Converters::ToClrString(tools[tool_index].tool->GetAvailableStates()[tool_state_index]);
+	}
 	//bool TWorldObjectEditor::ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list)
 	//{
 	//	selection_list.clear();
@@ -365,8 +399,8 @@ namespace Editor
 		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
 			return CreateSpriteEditor(p->drawing_context, p->world, dynamic_cast<IBaluSprite*>(obj), p->scene_instance);
 
-		//if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
-		//	return new TClassEditor();
+		if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
+			return CreateClassEditor(p->drawing_context, p->world, dynamic_cast<IBaluClass*>(obj), p->scene_instance);
 
 		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
 			return CreateSceneEditor(p->drawing_context, p->world, dynamic_cast<IBaluScene*>(obj), p->scene_instance);
@@ -387,8 +421,8 @@ namespace Editor
 		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
 			return DestroySpriteEditor(p->active_editor);
 
-		//if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
-		//	return new TClassEditor();
+		if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
+			return DestroyClassEditor(p->active_editor);
 
 		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
 			DestroySceneEditor(p->active_editor);

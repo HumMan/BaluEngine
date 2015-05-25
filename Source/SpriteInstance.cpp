@@ -10,20 +10,18 @@ TBaluSpritePolygonInstance* TBaluSpriteInstance::GetPolygon()
 	return &polygon;
 }
 
-TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TBaluTransformWithScale local, TBaluInstance* parent, TResources* resources) :polygon(source->GetPolygon(), resources)
+TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TBaluClass::TBaluSpriteInstance* sprite_source, TBaluTransformWithScale local, TBaluInstance* parent, TResources* resources) :polygon(source->GetPolygon(), resources)
 {
+	this->sprite_source = sprite_source;
 	this->source = source;
 	this->local = local;
 	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetPhysShape(), parent, this);
 }
 
-TAABB2 TBaluSpriteInstance::GetAABB()
+TOBB2 TBaluSpriteInstance::GetOBB()
 {
-	//TAABB2 aabb(TVec2(0, 0), TVec2(width, width / aspect));
-
-	//return TOBB<float, 2>(transform.position, transform.GetOrientation(), aabb).GetAABB();
-	//TODO
-	return TAABB2();
+	//source->GetPolygon()->GetAABB(local);
+	return TOBB2();
 }
 
 void TBaluSpriteInstance::UpdateTranform(TBaluTransformWithScale parent_transform, TBaluTransformWithScale class_transform)

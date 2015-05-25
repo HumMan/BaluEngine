@@ -59,6 +59,28 @@ public:
 		{
 			this->sprite = sprite;
 		}
+		void SetTransform(TBaluTransform transform)
+		{
+			this->local.transform = transform;
+		}
+		void SetScale(TVec2 scale)
+		{
+			this->local.scale = scale;
+		}
+		TBaluTransform GetTransform()
+		{
+			return local.transform;
+		}
+		TVec2 GetScale()
+		{
+			return local.scale;
+		}
+		bool PointCollide(TVec2 class_space_point)
+		{
+			TVec2 p = local.ToLocal(class_space_point);
+			bool is_in_sprite = GetSprite()->GetPolygon()->PointCollide(p);
+			return (is_in_sprite);
+		}
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};

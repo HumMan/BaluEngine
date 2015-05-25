@@ -68,6 +68,10 @@ namespace EngineInterface
 	{
 	public:
 		virtual IBaluSprite* GetSprite() = 0;
+		virtual void SetTransform(TBaluTransform transform) = 0;
+		virtual void SetScale(TVec2 scale) = 0;
+		virtual TBaluTransform GetTransform() = 0;
+		virtual TVec2 GetScale() = 0;
 	};
 #endif
 

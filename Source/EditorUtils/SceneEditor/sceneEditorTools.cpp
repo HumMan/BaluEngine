@@ -27,7 +27,6 @@ public:
 	void OnMouseUp(TMouseEventArgs e);
 	void CancelOperation()
 	{
-
 	}
 };
 

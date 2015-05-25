@@ -2,6 +2,10 @@
 
 #include "../BoundaryEditor.h"
 
+#include "../../EditorInterfaces.h"
+
+using namespace EngineInterface;
+
 class TClassEditorScene;
 
 class TClassEditorToolsRegistry

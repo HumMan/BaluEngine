@@ -43,6 +43,7 @@ namespace BaluEditor
             events_editor = new EventsEditor();
 
             worldObjectEditor1.EditorInitialize(director);
+            worldObjectsList1.EditorInitialize(director);
 
             //director.InitializeEngine();
 

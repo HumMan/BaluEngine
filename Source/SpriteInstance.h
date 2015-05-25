@@ -13,6 +13,8 @@ class TBaluSpriteInstance: public EngineInterface::IBaluSpriteInstance
 {
 private:
 	TBaluSprite* source;
+
+	TBaluClass::TBaluSpriteInstance* sprite_source;
 	
 	TBaluTransformWithScale global;
 	TBaluTransformWithScale local;
@@ -21,12 +23,19 @@ private:
 	TBaluSpritePolygonInstance polygon;
 
 	//TBaluInstance* parent;
-
+	TProperties properties;
 public:
+	EngineInterface::IProperties* GetProperties()
+	{
+		return &properties;
+	}
 
-	TBaluSpriteInstance(TBaluSprite* source, TBaluTransformWithScale local, TBaluInstance* parent, TResources* resources);
+	TBaluSpriteInstance(TBaluSprite* source, TBaluClass::TBaluSpriteInstance* sprite_source, TBaluTransformWithScale local, TBaluInstance* parent, TResources* resources);
 
-	void SetTransform(TBaluTransform local);
+	void SetTransform(TBaluTransform local)
+	{
+		this->local.transform = local;
+	}
 	TBaluTransform GetTransform()
 	{
 		return local.transform;
@@ -35,9 +44,17 @@ public:
 	{
 		return local.scale;
 	}
+	void SetScale(TVec2 scale)
+	{
+		local.scale = scale;
+	}
 	TBaluSprite* GetSourceSprite();
+	TBaluClass::TBaluSpriteInstance* GetSourceSpriteInstance()
+	{
+		return sprite_source;
+	}
 
-	TAABB2 GetAABB();
+	TOBB2 GetOBB();
 
 	TBaluPhysShapeInstance* GetPhysShape();
 

@@ -1,28 +1,24 @@
 #pragma once
 
-#include "../abstractEditor.h"
-#include "../BoundaryEditor.h"
 
-class TClassSpriteAdornment : public  TBoundaryBoxAdornment
-{
-	TBaluSpriteInstanceDef* sprite_instance;
-public:
-	TBaluSpriteInstanceDef* GetSpriteInstance(){ return sprite_instance; }
-	TClassSpriteAdornment(TBaluSpriteInstanceDef* sprite_instance);
-	void OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box);
-	void Render(TDrawingHelper* drawing_helper);
-	bool IsCollideWithAdornment(TVec2 world_cursor_location);
-	bool IsCollideWithObject(TVec2 world_cursor_location);
-};
+#include <memory>
 
-class TClassPhysBodyAdornment : public  TBoundaryBoxAdornment
+#include "..\..\EngineInterfaces.h"
+
+
+using namespace EngineInterface;
+
+class TDrawingHelper;
+class IVisualAdornment;
+
+class TSpriteInstanceAdornmentPrivate;
+
+class TClassSpriteAdornment
 {
-	TBaluBodyInstanceDef* body_instance;
+	std::unique_ptr<TSpriteInstanceAdornmentPrivate> p;
 public:
-	TBaluBodyInstanceDef* GetPhysBodyInstance(){ return body_instance; }
-	TClassPhysBodyAdornment(TBaluBodyInstanceDef* body_instance);
-	void OnBoxChange(TOBB<float, 2> old_box, TOBB<float, 2> new_box);
-	void Render(TDrawingHelper* drawing_helper);
-	bool IsCollideWithAdornment(TVec2 world_cursor_location);
-	bool IsCollideWithObject(TVec2 world_cursor_location);
+	TClassSpriteAdornment(EngineInterface::IBaluSceneInstance* scene_instance, IVisualAdornment* visual, TDrawingHelper* drawing_helper);
+
+	static EngineInterface::IBaluClass* TClassSpriteAdornment::CreateClass(EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* scene, TSpriteInstanceAdornmentPrivate* data);
+	~TClassSpriteAdornment();
 };

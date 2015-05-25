@@ -2,6 +2,7 @@
 #include "EditorInterfaces.h"
 
 #include "EditorUtils\SceneEditor\sceneEditor.h"
+#include "EditorUtils\ClassEditor\classEditor.h"
 #include "EditorUtils\SpriteEditor\spriteEditor.h"
 
 namespace EngineInterface
@@ -14,6 +15,20 @@ namespace EngineInterface
 	}
 
 	void DestroySceneEditor(EngineInterface::IAbstractEditor* editor)
+	{
+		auto ed = dynamic_cast<TSceneEditor*>(editor);
+		ed->Deinitialize();
+		delete ed;
+	}
+
+	EngineInterface::IAbstractEditor* CreateClassEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluClass* edited_class, EngineInterface::IBaluSceneInstance* editor_scene_instance)
+	{
+		auto result = new TClassEditor();
+		result->Initialize(drawing_context, world, edited_class, editor_scene_instance);
+		return result;
+	}
+
+	void DestroyClassEditor(EngineInterface::IAbstractEditor* editor)
 	{
 		auto ed = dynamic_cast<TSceneEditor*>(editor);
 		ed->Deinitialize();

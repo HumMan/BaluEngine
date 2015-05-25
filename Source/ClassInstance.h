@@ -56,6 +56,8 @@ private:
 
 	TProperties properties;
 
+	TResources* resources;
+
 public:
 	TBaluClass* GetClass();
 	bool PointCollide(TVec2 scene_space_point);
@@ -73,10 +75,13 @@ public:
 
 	int GetSpritesCount();
 	TBaluSpriteInstance* GetSprite(int index);
+	TBaluSpriteInstance* AddSprite(IBaluSprite* source, TBaluTransformWithScale local_transform);
 
 	TAABB2 GetAABB();
 
 	TSkeletonAnimationInstance* GetSkeletonAnimation();
+
+	bool PointCollide(TVec2 class_space_point, EngineInterface::IBaluSpriteInstance* &result);
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 

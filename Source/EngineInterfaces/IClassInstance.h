@@ -62,9 +62,11 @@ namespace EngineInterface
 		virtual void SetScale(TVec2 scale) = 0;
 		virtual int GetSpritesCount() = 0;
 		virtual IBaluSpriteInstance* GetSprite(int index) = 0;
+		virtual IBaluSpriteInstance* AddSprite(IBaluSprite* source, TBaluTransformWithScale local_transform)=0;
 		virtual IProperties* GetProperties() = 0;
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
 		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
+		virtual bool PointCollide(TVec2 class_space_point, EngineInterface::IBaluSpriteInstance* &result)=0;
 	};
 #endif
 

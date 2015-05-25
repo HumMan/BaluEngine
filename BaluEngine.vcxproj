@@ -114,6 +114,10 @@
     <ClInclude Include="Source\EditorInterfaces.h" />
     <ClInclude Include="Source\EditorUtils\abstractEditor.h" />
     <ClInclude Include="Source\EditorUtils\BoundaryEditor.h" />
+    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditor.h" />
+    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorAdornments.h" />
+    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorScene.h" />
+    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorTools.h" />
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h" />
     <ClInclude Include="Source\EditorUtils\EditorControlsModel.h" />
     <ClInclude Include="Source\EditorUtils\OBBContour.h" />
@@ -199,6 +203,10 @@
     <ClCompile Include="Source\EditorInterfaces.cpp" />
     <ClCompile Include="Source\EditorUtils\abstractEditor.cpp" />
     <ClCompile Include="Source\EditorUtils\BoundaryEditor.cpp" />
+    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditor.cpp" />
+    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorAdornments.cpp" />
+    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorScene.cpp" />
+    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorTools.cpp" />
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>

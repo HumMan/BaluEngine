@@ -5,124 +5,172 @@
 
 #include "classEditorAdornments.h"
 
-class TCreateClassSpriteTool : public TEditorTool
+#include "../DrawingHelper.h"
+
+class TCreateClassSpriteTool : public IEditorTool
 {
 protected:
 	TClassEditorScene* class_editor_scene;
-	TBaluSpriteDef* active_tool_sprite;
+	IBaluSprite* active_tool_sprite;
 public:
 	TWorldObjectType NeedObjectSelect()
 	{
 		return TWorldObjectType::Sprite;
 	}
-	void SetSelectedObject(TWorldObjectDef* obj)
+	void SetSelectedObject(IBaluWorldObject* obj)
 	{
-		active_tool_sprite = dynamic_cast<TBaluSpriteDef*>(obj);
+		active_tool_sprite = dynamic_cast<IBaluSprite*>(obj);
 	}
-	TCreateClassSpriteTool(TClassEditorScene* class_editor_scene);
-	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
-	void Render(TDrawingHelper* drawing_helper);
+	TCreateClassSpriteTool(TClassEditorScene* class_editor_scene)
+	{
+		this->class_editor_scene = class_editor_scene;
+		active_tool_sprite = nullptr;
+	}
+	void OnMouseDown(TMouseEventArgs e)
+	{
+		if (active_tool_sprite != nullptr)
+		{
+			//трансформируем позицию курсора в координаты сцены
+			auto transform = TBaluTransform(class_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location), TRot(0));
+
+			//создаем в редактируемом классе новый спрайт
+			auto new_sprite_instance = class_editor_scene->source_class->AddSprite(active_tool_sprite);
+			new_sprite_instance->SetTransform(transform);
+
+			////создаем в сцене редактора класса новый инстанс отвечающий за новый спрайт
+			//auto new_class_instance = class_editor_scene->editor_scene_instance->CreateInstance(active_tool_class, transform, TVec2(1, 1));
+
+			auto new_editor_class_sprite_instance = class_editor_scene->editor_scene_class_instance->AddSprite(active_tool_sprite, TBaluTransformWithScale(transform, TVec2(1, 1)));
+
+			class_editor_scene->selected_instance_source = new_sprite_instance;
+			class_editor_scene->selected_instance = new_editor_class_sprite_instance;
+
+			//записываем в экземл€р спрайта указатель на исходный экземпл€р спрайта в редактируемом классе - дл€ использовани€ в других инструментах (перемещение и т.д.)
+			new_editor_class_sprite_instance->GetProperties()->SetClassSpriteInstance("editor_source_instance", new_sprite_instance);
+
+			class_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+		}
+	}
+	void OnMouseMove(TMouseEventArgs e)
+	{
+	}
+	void OnMouseUp(TMouseEventArgs e)
+	{
+	}
+	void CancelOperation()
+	{
+	}
 };
 
-class TCreateClassPhysBodyTool : public TEditorTool
+
+class TModifyClassSpriteTool : public IEditorTool, public TBoundaryBoxChangeListener
 {
 protected:
 	TClassEditorScene* class_editor_scene;
-	TBaluPhysBodyDef* active_tool_sprite;
+	IBaluSprite* active_tool_sprite;
 public:
 	TWorldObjectType NeedObjectSelect()
 	{
-		return TWorldObjectType::PhysBody;
+		return TWorldObjectType::None;
 	}
-	void SetSelectedObject(TWorldObjectDef* obj)
+	void SetSelectedObject(IBaluWorldObject* obj)
 	{
-		active_tool_sprite = dynamic_cast<TBaluPhysBodyDef*>(obj);
+		active_tool_sprite = dynamic_cast<IBaluSprite*>(obj);
 	}
-	TCreateClassPhysBodyTool(TClassEditorScene* class_editor_scene);
-	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
-	void Render(TDrawingHelper* drawing_helper);
+	TModifyClassSpriteTool(TClassEditorScene* class_editor_scene)
+	{
+		this->class_editor_scene = class_editor_scene;
+	}
+
+	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
+	{
+		auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
+		auto new_scale = class_editor_scene->selected_instance->GetScale().ComponentMul(scale);
+		class_editor_scene->selected_instance->SetScale(new_scale);
+		class_editor_scene->selected_instance->GetProperties()->GetClassSpriteInstance("editor_source_instance")->SetScale(new_scale);
+	}
+	void BoxMove(TVec2 old_pos, TVec2 new_pos)
+	{
+		auto trans = class_editor_scene->selected_instance->GetTransform();
+		trans.position = new_pos;
+		class_editor_scene->selected_instance->SetTransform(trans);
+		class_editor_scene->selected_instance->GetProperties()->GetClassSpriteInstance("editor_source_instance")->SetTransform(trans);
+	}
+	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
+	{
+		auto trans = class_editor_scene->selected_instance->GetTransform();
+		trans.angle = TRot(new_box);
+		class_editor_scene->selected_instance->SetTransform(trans);
+		class_editor_scene->selected_instance->GetProperties()->GetClassSpriteInstance("editor_source_instance")->SetTransform(trans);
+	}
+
+	void OnMouseDown(TMouseEventArgs e)
+	{
+		if (class_editor_scene->boundary_box.enable)
+		{
+			class_editor_scene->boundary_box.OnMouseDown(e, class_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+		}
+		if (!class_editor_scene->boundary_box.IsCursorCaptured())
+		{
+			if (class_editor_scene->hightlighted_instance != nullptr)
+			{
+				class_editor_scene->selected_instance = class_editor_scene->hightlighted_instance;
+				class_editor_scene->boundary_box.OnChange = this;
+				class_editor_scene->boundary_box.enable = true;
+				class_editor_scene->boundary_box.SetBoundary(class_editor_scene->selected_instance->GetOBB());
+			}
+			else
+			{
+				class_editor_scene->boundary_box.enable = false;
+				class_editor_scene->selected_instance = nullptr;
+			}
+		}
+	}
+	void OnMouseMove(TMouseEventArgs e)
+	{
+		if (class_editor_scene->boundary_box.enable)
+		{
+			class_editor_scene->boundary_box.OnMouseMove(e, class_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+		}
+		if (!class_editor_scene->boundary_box.IsCursorCaptured())
+		{
+			auto world_cursor_location = class_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
+			IBaluSpriteInstance* instance_collision(nullptr);
+			if (class_editor_scene->editor_scene_class_instance->PointCollide(world_cursor_location, instance_collision))
+			{
+				class_editor_scene->boundary_box_contour->SetEnable(true);
+				class_editor_scene->boundary_box_contour->SetBox(instance_collision->GetOBB());
+				class_editor_scene->hightlighted_instance = instance_collision;
+			}
+			else
+			{
+				class_editor_scene->boundary_box_contour->SetEnable(false);
+				class_editor_scene->hightlighted_instance = nullptr;
+			}
+		}
+
+	}
+	void OnMouseUp(TMouseEventArgs e)
+	{
+		if (class_editor_scene->boundary_box.enable)
+		{
+			class_editor_scene->boundary_box.OnMouseUp(e, class_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+		}
+		if (!class_editor_scene->boundary_box.IsCursorCaptured())
+		{
+		}
+	}
+	void CancelOperation()
+	{
+
+	}
 };
-
-TCreateClassSpriteTool::TCreateClassSpriteTool(TClassEditorScene* class_editor_scene)
-{
-	this->class_editor_scene = class_editor_scene;
-	active_tool_sprite = nullptr;
-}
-
-void TCreateClassSpriteTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	if (active_tool_sprite != nullptr)
-	{
-		auto new_sprite_instance = new TBaluSpriteInstanceDef();
-
-		new_sprite_instance->transform.position = world_cursor_location;
-		new_sprite_instance->transform.angle.Set(0);
-		new_sprite_instance->sprite = active_tool_sprite;
-		class_editor_scene->balu_class->sprites.push_back(std::unique_ptr<TBaluSpriteInstanceDef>(new_sprite_instance));
-
-		auto new_box = new TClassSpriteAdornment(new_sprite_instance);
-		class_editor_scene->boundaries.push_back(std::unique_ptr<TClassSpriteAdornment>(new_box));
-	}
-}
-
-void TCreateClassSpriteTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-
-}
-void TCreateClassSpriteTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-
-}
-void TCreateClassSpriteTool::Render(TDrawingHelper* drawing_helper)
-{
-
-}
-
-TCreateClassPhysBodyTool::TCreateClassPhysBodyTool(TClassEditorScene* class_editor_scene)
-{
-	this->class_editor_scene = class_editor_scene;
-	active_tool_sprite = nullptr;
-}
-
-void TCreateClassPhysBodyTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-	if (active_tool_sprite != nullptr)
-	{
-		auto new_phys_body_instance = new TBaluBodyInstanceDef();
-
-		new_phys_body_instance->transform.position = world_cursor_location;
-		new_phys_body_instance->transform.angle.Set(0);
-		new_phys_body_instance->body = active_tool_sprite;
-		class_editor_scene->balu_class->bodies.push_back(std::unique_ptr<TBaluBodyInstanceDef>(new_phys_body_instance));
-
-		auto new_box = new TClassPhysBodyAdornment(new_phys_body_instance);
-		class_editor_scene->boundaries.push_back(std::unique_ptr<TClassPhysBodyAdornment>(new_box));
-	}
-}
-
-void TCreateClassPhysBodyTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-
-}
-void TCreateClassPhysBodyTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
-{
-
-}
-void TCreateClassPhysBodyTool::Render(TDrawingHelper* drawing_helper)
-{
-
-}
 
 TClassEditorToolsRegistry::TClassEditorToolsRegistry(TClassEditorScene* scene)
 {
 	this->scene = scene;
 	tools.emplace_back(new TCreateClassSpriteTool(scene), "Sprite");
-	tools.emplace_back(new TCreateClassPhysBodyTool(scene), "Body");
-	tools.emplace_back(new TBoundaryBoxesModifyTool(scene), "Modify");
+	tools.emplace_back(new TModifyClassSpriteTool(scene), "Modify");
 }
 TClassEditorToolsRegistry::TClassEditorToolsRegistry(TClassEditorToolsRegistry&& o)
 {

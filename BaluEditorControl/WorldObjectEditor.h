@@ -24,6 +24,9 @@ namespace Editor
 	ref class TWorldDirector;
 	class TWorldObjectEditorPrivate;
 
+	public delegate void OnToolsChangeDelegate();
+	public delegate void OnSelectedObjectChangeDelegate(int type, int subtype, int index);
+
 	public ref class TWorldObjectEditor: public TEditor
 	{
 	internal:
@@ -42,8 +45,10 @@ namespace Editor
 
 	public:
 		
+		event OnToolsChangeDelegate^ OnToolsChange;
+		event OnSelectedObjectChangeDelegate^ OnSelectedObjectChange;
 
-		TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ worl_director);
+		TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ world_director);
 		void Destroy() override;
 
 		//bool ToolNeedObjectSelect(std::vector<IBaluWorldObject*>& selection_list);
@@ -63,6 +68,12 @@ namespace Editor
 		void EndSelectedAsWork();
 
 		void SetActiveTool(int index);
-		//void SetToolSelectedObject(String^ name);
+		int GetActiveTool();
+		void SetActiveToolState(int index);
+
+		int GetToolsCount();
+		String^ GetToolName(int index);
+		int GetToolStatesCount(int index);
+		String^ GetToolStateName(int tool_index, int tool_state_index);
 	};
 }
