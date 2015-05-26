@@ -193,7 +193,10 @@ TBaluSpritePolygon::TBaluSpritePolygon()
 	tex_coord_origin = TVec2(0, 0);
 	tex_coord_scale = TVec2(1, 1);
 }
-
+TBaluTransformWithScale TBaluSpritePolygon::GetTransformWithScale()
+{
+	return local;
+}
 TBaluTransform TBaluSpritePolygon::GetTransform()
 {
 	return local.transform;

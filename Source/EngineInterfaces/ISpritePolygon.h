@@ -46,6 +46,7 @@ namespace EngineInterface
 		virtual TVec2 GetPolygonVertex(int id) = 0;
 		virtual TVec2 GetVertex(int id) = 0;
 
+		virtual TBaluTransformWithScale GetTransformWithScale() = 0;
 		virtual TBaluTransform GetTransform()=0;
 		virtual TVec2 GetScale() = 0;
 		virtual void SetTransform(TBaluTransform)=0;

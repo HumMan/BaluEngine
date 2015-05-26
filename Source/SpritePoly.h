@@ -84,6 +84,7 @@ public:
 	TBaluSpritePolygon();
 
 	TBaluTransform GetTransform();
+	TBaluTransformWithScale GetTransformWithScale();
 	TVec2 GetScale()
 	{
 		return local.scale;

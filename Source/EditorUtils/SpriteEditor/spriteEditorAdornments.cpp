@@ -150,19 +150,19 @@ void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCust
 	{
 		auto sprite_poly = state->visual->GetPolygon();
 		auto vertices = sprite_poly->GetPolygon();
-		state->drawing_helper->RenderLinesLoop(vertices, sprite_poly->GetTransform(), sprite_poly->GetScale());
+		state->drawing_helper->RenderLinesLoop(vertices, sprite_poly->GetTransformWithScale());
 		for (auto& v : vertices)
-			state->drawing_helper->RenderPointAdornment(v, sprite_poly->GetTransform(), sprite_poly->GetScale());
+			state->drawing_helper->RenderPointAdornment(v, sprite_poly->GetTransformWithScale());
 
 		if (state->show_add_point_control && state->line_start_point_index!=-1)
 		{
 			TVec2 left, right;
 			left = vertices[state->line_start_point_index];
 			right = vertices[(state->line_start_point_index + 1) % vertices.size()];
-			state->drawing_helper->RenderPointAdornment(state->point_to_add);
+			state->drawing_helper->RenderPointAdornment(state->point_to_add, sprite_poly->GetTransformWithScale());
 
-			state->drawing_helper->RenderLine(left, state->point_to_add);
-			state->drawing_helper->RenderLine(right, state->point_to_add);
+			state->drawing_helper->RenderLine(left, state->point_to_add, sprite_poly->GetTransformWithScale());
+			state->drawing_helper->RenderLine(right, state->point_to_add, sprite_poly->GetTransformWithScale());
 		}
 		if (state->show_selection_box)
 		{
@@ -172,7 +172,7 @@ void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCust
 		{
 			for (auto& v : state->hightlight_poly_point_index)
 			{
-				state->drawing_helper->RenderPointHighlightAdornment(vertices[v]);
+				state->drawing_helper->RenderPointHighlightAdornment(vertices[v], sprite_poly->GetTransformWithScale());
 			}
 		}
 	}

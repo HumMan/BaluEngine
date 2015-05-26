@@ -286,6 +286,7 @@ public:
 	{
 		if (e.button != TMouseButton::Left) return;
 		mouse_down = true;
+		//auto poly_trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransformWithScale();
 		mouse_down_pos = sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location);
 		UpdateOldPolygon();
 		if (active_state == "edit")
@@ -350,7 +351,7 @@ public:
 			else
 			{
 				sprite_editor_scene->sprite_polygon_adornment->ShowSelectionBox(false);
-
+				//auto poly_trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransformWithScale();
 				auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
 				int size = poly_vertices.size();
 
