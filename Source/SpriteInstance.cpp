@@ -12,6 +12,7 @@ TBaluSpritePolygonInstance* TBaluClassInstanceSpriteInstance::GetPolygon()
 
 TBaluClassInstanceSpriteInstance::TBaluClassInstanceSpriteInstance(TBaluClassSpriteInstance* source,TBaluInstance* parent, TResources* resources) :polygon(source->GetSprite()->GetPolygon(), resources)
 {
+	tag = nullptr;
 	this->source = source;
 	this->local = source->GetTransformWithScale();
 	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetSprite()->GetPhysShape(), parent, this->GetSource());

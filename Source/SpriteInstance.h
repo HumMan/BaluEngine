@@ -21,7 +21,17 @@ private:
 	TBaluSpritePolygonInstance polygon;
 
 	TProperties properties;
+	void* tag;
 public:
+	void SetTag(void* tag)
+	{
+		tag = tag;
+	}
+	void* GetTag()
+	{
+		return tag;
+	}
+
 	EngineInterface::IProperties* GetProperties()
 	{
 		return &properties;

@@ -27,8 +27,26 @@ namespace EngineInterface
 		Int,
 		Float,
 		String,
-		SceneClassInstance,
-		ClassSpriteInstance,
+		Color,
+		ColorWithAlpha,
+		TransparentMode,
+		AlphaTestFunc,
+		BlendFunc,
+		BlendEquation,
+		TexFilter,
+		TexClamp,
+		Size,
+		TransformWithScale,
+		Transform,
+		Scale,
+		Pos,
+		Rotation,
+		Material,
+		PhysShapeType,
+		Layer,
+		Properties,
+		//SceneClassInstance,
+		//ClassSpriteInstance,
 	};
 #endif
 
@@ -60,10 +78,10 @@ namespace EngineInterface
 		virtual bool HasProperty(const std::string& name, PropertyType& type) = 0;
 		virtual void SetBool(const std::string& name, bool value) = 0;
 		virtual bool GetBool(const std::string& name) = 0;
-		virtual void SetSceneClassInstance(const std::string& name, IBaluSceneClassInstance* value) = 0;
-		virtual IBaluSceneClassInstance* GetSceneClassInstance(const std::string& name) = 0;
-		virtual void SetClassSpriteInstance(const std::string& name, IBaluClassSpriteInstance* value) = 0;
-		virtual IBaluClassSpriteInstance* GetClassSpriteInstance(const std::string& name) = 0;
+		//virtual void SetSceneClassInstance(const std::string& name, IBaluSceneClassInstance* value) = 0;
+		//virtual IBaluSceneClassInstance* GetSceneClassInstance(const std::string& name) = 0;
+		//virtual void SetClassSpriteInstance(const std::string& name, IBaluClassSpriteInstance* value) = 0;
+		//virtual IBaluClassSpriteInstance* GetClassSpriteInstance(const std::string& name) = 0;
 	};
 #endif
 

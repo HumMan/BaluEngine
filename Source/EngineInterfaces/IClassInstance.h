@@ -67,6 +67,8 @@ namespace EngineInterface
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
 		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
 		virtual bool PointCollide(TVec2 class_space_point, EngineInterface::IBaluClassInstanceSpriteInstance* &result) = 0;
+		virtual void SetTag(void* tag) = 0;
+		virtual void* GetTag() = 0;
 	};
 #endif
 

@@ -1,5 +1,15 @@
 #include "Material.h"
 
+TBaluMaterial::TBaluMaterial(const char* name, TBaluWorld* world)
+{
+	this->material_name = name;
+}
+
+EngineInterface::IProperties* TBaluMaterial::GetProperties()
+{
+	return nullptr;
+}
+
 void TBaluMaterial::SetBlendMode(TTransparentMode mode)
 {
 	this->blend_mode = mode;

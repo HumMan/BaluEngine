@@ -160,6 +160,7 @@
     <ClInclude Include="Source\nanovg_support.h" />
     <ClInclude Include="Source\PhysShape.h" />
     <ClInclude Include="Source\PhysShapeInstance.h" />
+    <ClInclude Include="Source\Properties.h" />
     <ClInclude Include="Source\Render.h" />
     <ClInclude Include="Source\RenderCommand.h" />
     <ClInclude Include="Source\Resources.h" />

@@ -57,10 +57,17 @@ private:
 	TProperties properties;
 
 	TResources* resources;
-
+	void* tag;
 public:
 	TBaluClass* GetClass();
-	
+	void SetTag(void* tag)
+	{
+		tag = tag;
+	}
+	void* GetTag()
+	{
+		return tag;
+	}
 
 	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources);
 	void SetTransform(TBaluTransform transform);

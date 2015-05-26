@@ -298,6 +298,9 @@
     <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorTools.h">
       <Filter>EditorUtils\ClassEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Properties.h">
+      <Filter>Definitions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">

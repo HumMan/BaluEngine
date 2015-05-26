@@ -32,6 +32,8 @@ namespace EngineInterface
 		virtual TBaluTransform GetTransform() = 0;
 		virtual IBaluSpritePolygonInstance* GetPolygon() = 0;
 		virtual EngineInterface::IProperties* GetProperties() = 0;
+		virtual void SetTag(void* tag)=0;
+		virtual void* GetTag()=0;
 	};
 #endif
 

@@ -51,7 +51,7 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 		scene_editor_scene->selected_instance_source = new_source_scene_instance;
 		scene_editor_scene->selected_instance = new_class_instance;
 
-		new_class_instance->GetProperties()->SetSceneClassInstance("editor_source_instance", new_source_scene_instance);
+		new_class_instance->SetTag(new_source_scene_instance);
 
 		scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
 	}
@@ -90,21 +90,21 @@ public:
 		auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
 		auto new_scale = scene_editor_scene->selected_instance->GetScale().ComponentMul(scale);
 		scene_editor_scene->selected_instance->SetScale(new_scale);
-		scene_editor_scene->selected_instance->GetProperties()->GetSceneClassInstance("editor_source_instance")->SetScale(new_scale);
+		((IBaluInstance*)(scene_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{
 		auto trans = scene_editor_scene->selected_instance->GetTransform();
 		trans.position = new_pos;
 		scene_editor_scene->selected_instance->SetTransform(trans);
-		scene_editor_scene->selected_instance->GetProperties()->GetSceneClassInstance("editor_source_instance")->SetTransform(trans);
+		((IBaluInstance*)(scene_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
 	}
 	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto trans = scene_editor_scene->selected_instance->GetTransform();
 		trans.angle = TRot(new_box);
 		scene_editor_scene->selected_instance->SetTransform(trans);
-		scene_editor_scene->selected_instance->GetProperties()->GetSceneClassInstance("editor_source_instance")->SetTransform(trans);
+		((IBaluInstance*)(scene_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
 	}
 
 	void OnMouseDown(TMouseEventArgs e)

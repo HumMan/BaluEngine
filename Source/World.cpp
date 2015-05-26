@@ -289,7 +289,7 @@ void TBaluWorld::CreateObject(TWorldObjectType type, const char* name)
 	switch (type)
 	{
 	case TWorldObjectType::Material:
-		materials.emplace(name, name);
+		materials.emplace(std::piecewise_construct, std::make_tuple(name), std::make_tuple(name, this));
 		break;
 	case TWorldObjectType::Sprite:
 		sprites.emplace(name, name);

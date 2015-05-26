@@ -47,7 +47,7 @@ public:
 			class_editor_scene->selected_instance = class_instance_sprite_instance;
 
 			//записываем в экземл€р спрайта указатель на исходный экземпл€р спрайта в редактируемом классе - дл€ использовани€ в других инструментах (перемещение и т.д.)
-			class_instance_sprite_instance->GetProperties()->SetClassSpriteInstance("editor_source_instance", new_sprite_instance);
+			class_instance_sprite_instance->SetTag(new_sprite_instance);
 
 			class_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
 		}
@@ -88,21 +88,21 @@ public:
 		auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
 		auto new_scale = class_editor_scene->selected_instance->GetScale().ComponentMul(scale);
 		class_editor_scene->selected_instance->SetScale(new_scale);
-		class_editor_scene->selected_instance->GetProperties()->GetClassSpriteInstance("editor_source_instance")->SetScale(new_scale);
+		((IBaluClassSpriteInstance*)(class_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{
 		auto trans = class_editor_scene->selected_instance->GetTransform();
 		trans.position = new_pos;
 		class_editor_scene->selected_instance->SetTransform(trans);
-		class_editor_scene->selected_instance->GetProperties()->GetClassSpriteInstance("editor_source_instance")->SetTransform(trans);
+		((IBaluClassSpriteInstance*)(class_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
 	}
 	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto trans = class_editor_scene->selected_instance->GetTransform();
 		trans.angle = TRot(new_box);
 		class_editor_scene->selected_instance->SetTransform(trans);
-		class_editor_scene->selected_instance->GetProperties()->GetClassSpriteInstance("editor_source_instance")->SetTransform(trans);
+		((IBaluClassSpriteInstance*)(class_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
 	}
 
 	void OnMouseDown(TMouseEventArgs e)

@@ -98,23 +98,23 @@ private:
 public:
 	TBaluMaterial()
 	{
-
 	}
-	TBaluMaterial(const char* name)
-	{
-		this->material_name = name;
-	}
+	TBaluMaterial(const char* name, TBaluWorld* world);
+	
 	void SetBlendMode(TTransparentMode mode);
+	
+
 	void SetAlphaTestValue(float alpha_test_value);
+
 	void SetName(std::string name);
 	std::string GetName();
+
 	void SetImagePath(std::string image_path);
 	std::string GetImagePath();
+
 	void SetColor(TVec4 color);
-	EngineInterface::IProperties* GetProperties()
-	{
-		return nullptr;
-	}
+
+	EngineInterface::IProperties* GetProperties();
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
