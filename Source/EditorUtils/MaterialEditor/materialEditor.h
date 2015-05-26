@@ -6,18 +6,31 @@
 #include "materialEditorScene.h"
 #include "materialEditorTools.h"
 
+#include "../../EngineInterfaces/IScene.h"
+#include "../../EngineInterfaces/IWorld.h"
+
+using namespace EngineInterface;
+
+#include "../DrawingHelper.h"
+
 class TMaterialEditor:public TAbstractEditor
 {
 public:
 	
 	TMaterialEditorScene scene;
 	TMaterialEditorToolsRegistry tools_registry;
+	std::unique_ptr<TDrawingHelper> drawing_helper;
 public:
 	TMaterialEditor();
 	void UnsetAcitveTool();
 
-	void Initialize(TWorldObjectDef* obj, TVec2 editor_global_pos);
-	void Initialize(TBaluMaterialDef* obj);
+	void Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluMaterial* edited_material, IBaluSceneInstance* editor_scene_instance);
+	void Deinitialize()
+	{
+		scene.Deinitialize();
+		drawing_helper.reset();
+		DeinitializeControls();
+	}
 
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
@@ -25,11 +38,5 @@ public:
 	bool CanEndSelectedAsWork();
 	bool EndSelectedAsWork();
 
-	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
-
-	void Render(TDrawingHelper* drawing_helper);
 	const std::vector<TToolWithDescription>& GetAvailableTools();
-	void SetActiveTool(TEditorTool* tool);
 };

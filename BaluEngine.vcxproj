@@ -120,6 +120,10 @@
     <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorTools.h" />
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h" />
     <ClInclude Include="Source\EditorUtils\EditorControlsModel.h" />
+    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditor.h" />
+    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorAdornments.h" />
+    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorScene.h" />
+    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorTools.h" />
     <ClInclude Include="Source\EditorUtils\OBBContour.h" />
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditor.h" />
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.h" />
@@ -213,6 +217,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\EditorControlsModel.cpp" />
+    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditor.cpp" />
+    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorAdornments.cpp" />
+    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorScene.cpp" />
+    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorTools.cpp" />
     <ClCompile Include="Source\EditorUtils\OBBContour.cpp" />
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditor.cpp" />
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.cpp" />

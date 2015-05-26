@@ -73,21 +73,24 @@ namespace BaluEditor
         }
         private void RefreshToolStates()
         {
-            int active_tool = editor.GetActiveTool();
-            int states_count = editor.GetToolStatesCount(active_tool);
-            toolStrip2.Items.Clear();
-            if (states_count > 0)
+            if (editor.GetToolsCount() > 0)
             {
-                toolStrip2.Visible = true;
-                for (int i = 0; i < states_count; i++)
+                int active_tool = editor.GetActiveTool();
+                int states_count = editor.GetToolStatesCount(active_tool);
+                toolStrip2.Items.Clear();
+                if (states_count > 0)
                 {
-                    toolStrip2.Items.Add(editor.GetToolStateName(active_tool, i));
-                    toolStrip2.Items[toolStrip2.Items.Count - 1].Tag = new TSelectToolModeNode(active_tool, i);
+                    toolStrip2.Visible = true;
+                    for (int i = 0; i < states_count; i++)
+                    {
+                        toolStrip2.Items.Add(editor.GetToolStateName(active_tool, i));
+                        toolStrip2.Items[toolStrip2.Items.Count - 1].Tag = new TSelectToolModeNode(active_tool, i);
 
+                    }
                 }
+                else
+                    toolStrip2.Visible = false;
             }
-            else
-                toolStrip2.Visible = false;
         }
         private void timer1_Tick(object sender, EventArgs e)
         {

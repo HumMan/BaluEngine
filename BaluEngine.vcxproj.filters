@@ -38,6 +38,9 @@
     <Filter Include="EditorUtils\ClassEditor">
       <UniqueIdentifier>{d3b36ffa-d2bb-43da-b9fa-235bc5684d3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUtils\MaterialEditor">
+      <UniqueIdentifier>{8ad19343-6578-4904-b3ac-e77607a3e838}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utils\texture_polygon.h">
@@ -301,6 +304,18 @@
     <ClInclude Include="Source\Properties.h">
       <Filter>Definitions</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorTools.h">
+      <Filter>EditorUtils\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorScene.h">
+      <Filter>EditorUtils\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditor.h">
+      <Filter>EditorUtils\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorAdornments.h">
+      <Filter>EditorUtils\MaterialEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -476,6 +491,18 @@
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorScene.cpp">
       <Filter>EditorUtils\ClassEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorTools.cpp">
+      <Filter>EditorUtils\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditor.cpp">
+      <Filter>EditorUtils\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorAdornments.cpp">
+      <Filter>EditorUtils\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorScene.cpp">
+      <Filter>EditorUtils\MaterialEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

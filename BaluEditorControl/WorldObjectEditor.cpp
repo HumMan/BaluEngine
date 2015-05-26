@@ -148,7 +148,8 @@ namespace Editor
 				auto objects = p->world->GetObjects(type);
 				p->active_editor = CreateEditorOfWorldObject(new_edit_obj);
 
-				SetActiveTool(0);
+				if (p->active_editor->GetAvailableTools().size()>0)
+					SetActiveTool(0);
 				OnToolsChange();
 			}
 		}
@@ -388,13 +389,11 @@ namespace Editor
 
 	IAbstractEditor* TWorldObjectEditor::CreateEditorOfWorldObject(IBaluWorldObject* obj)
 	{
-		//if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
-		//	return new TMaterialEditor();
-
-		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
-		//	return new TSpritePolygonEditor();
-
+		
 		p->active_edited_object = obj;
+
+		if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
+			return CreateMaterialEditor(p->drawing_context, p->world, dynamic_cast<IBaluMaterial*>(obj), p->scene_instance);
 
 		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
 			return CreateSpriteEditor(p->drawing_context, p->world, dynamic_cast<IBaluSprite*>(obj), p->scene_instance);
@@ -410,13 +409,12 @@ namespace Editor
 
 	void TWorldObjectEditor::DestroyEditorOfWorldObject(IBaluWorldObject* obj)
 	{
-		//if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
-		//	return new TMaterialEditor();
-
-		//if ((dynamic_cast<TBaluSpritePolygonDef*>(obj)) != nullptr)
-		//	return new TSpritePolygonEditor();
+		
 
 		p->active_edited_object = nullptr;
+
+		if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
+			return DestroyMaterialEditor(p->active_editor);
 
 		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
 			return DestroySpriteEditor(p->active_editor);

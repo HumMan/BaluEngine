@@ -4,6 +4,7 @@
 #include "EditorUtils\SceneEditor\sceneEditor.h"
 #include "EditorUtils\ClassEditor\classEditor.h"
 #include "EditorUtils\SpriteEditor\spriteEditor.h"
+#include "EditorUtils\MaterialEditor\materialEditor.h"
 
 namespace EngineInterface
 {
@@ -45,6 +46,20 @@ namespace EngineInterface
 	void DestroySpriteEditor(EngineInterface::IAbstractEditor* editor)
 	{
 		auto ed = dynamic_cast<TSpriteEditor*>(editor);
+		ed->Deinitialize();
+		delete ed;
+	}
+
+	EngineInterface::IAbstractEditor* CreateMaterialEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluMaterial* edited_material, EngineInterface::IBaluSceneInstance* editor_scene_instance)
+	{
+		auto result = new TMaterialEditor();
+		result->Initialize(drawing_context, world, edited_material, editor_scene_instance);
+		return result;
+	}
+
+	void DestroyMaterialEditor(EngineInterface::IAbstractEditor* editor)
+	{
+		auto ed = dynamic_cast<TMaterialEditor*>(editor);
 		ed->Deinitialize();
 		delete ed;
 	}
