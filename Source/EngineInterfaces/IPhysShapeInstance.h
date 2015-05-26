@@ -6,7 +6,7 @@
 namespace EngineInterface
 {
 	class IBaluInstance;
-	class IBaluSpriteInstance;
+	class IBaluClassSpriteInstance;
 }
 
 namespace EngineInterface
@@ -17,7 +17,7 @@ namespace EngineInterface
 	{
 	public:
 		virtual IBaluInstance* GetParent()=0;
-		virtual IBaluSpriteInstance* GetSpriteInstance() = 0;
+		virtual IBaluClassSpriteInstance* GetSpriteInstance() = 0;
 	};
 #endif
 

@@ -33,7 +33,7 @@ public:
 class TSkinInstance
 {
 private:
-	std::vector<std::vector<std::unique_ptr<TBaluSpriteInstance>>> sprites_of_bones;
+	std::vector<std::vector<std::unique_ptr<TBaluClassInstanceSpriteInstance>>> sprites_of_bones;
 public:
 	TSkinInstance(TSkin* source, TBaluInstance* parent, TResources* resources);
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);

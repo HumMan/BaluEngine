@@ -4,6 +4,7 @@
 #include "PhysShape.h"
 
 #include "EngineInterfaces\ISprite.h"
+#include "EngineInterfaces\ISpriteInstance.h"
 
 #include <pugixml.hpp>
 
@@ -21,7 +22,7 @@ namespace EngineInterface
 	class IBaluPhysShapeInstance;
 	class IBaluInstance;
 	class IBaluClass;
-	class IBaluClassSprite;
+	class IBaluClassSpriteInstance;
 }
 
 class TProperty
@@ -143,13 +144,13 @@ public:
 };
 static bool TSceneClassInstanceProperty_registered = PropertiesFactory::Register("sceneClassInstance", TSceneClassInstanceProperty::Clone);
 
-class TClassSpriteInstanceProperty : public TPropertyValue<EngineInterface::IBaluClassSprite*>
+class TClassSpriteInstanceProperty : public TPropertyValue<EngineInterface::IBaluClassSpriteInstance*>
 {
 public:
 	TClassSpriteInstanceProperty()
 	{
 	}
-	TClassSpriteInstanceProperty(EngineInterface::IBaluClassSprite* value) : TPropertyValue<EngineInterface::IBaluClassSprite*>(value)
+	TClassSpriteInstanceProperty(EngineInterface::IBaluClassSpriteInstance* value) : TPropertyValue<EngineInterface::IBaluClassSpriteInstance*>(value)
 	{
 	}
 	static TProperty* Clone()
@@ -238,13 +239,13 @@ public:
 		Get(name, value);
 		return *value;
 	}
-	void SetClassSpriteInstance(const std::string& name, EngineInterface::IBaluClassSprite* value)
+	void SetClassSpriteInstance(const std::string& name, EngineInterface::IBaluClassSpriteInstance* value)
 	{
 		properties[name].reset(new TClassSpriteInstanceProperty(value));
 	}
-	EngineInterface::IBaluClassSprite* GetClassSpriteInstance(const std::string& name)
+	EngineInterface::IBaluClassSpriteInstance* GetClassSpriteInstance(const std::string& name)
 	{
-		EngineInterface::IBaluClassSprite** value = nullptr;
+		EngineInterface::IBaluClassSpriteInstance** value = nullptr;
 		Get(name, value);
 		return *value;
 	}
@@ -293,6 +294,56 @@ public:
 
 	TBaluSpritePolygon* GetPolygon();
 
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+};
+
+
+class TBaluClassSpriteInstance : public EngineInterface::IBaluClassSpriteInstance
+{
+	TBaluSprite* sprite;
+	TBaluTransformWithScale local;
+public:
+	//std::string tag;
+
+	TBaluSprite* GetSprite()
+	{
+		return sprite;
+	}
+	TBaluClassSpriteInstance()
+	{
+		sprite = nullptr;
+	}
+	TBaluClassSpriteInstance(TBaluSprite* sprite)
+	{
+		this->sprite = sprite;
+	}
+	void SetTransform(TBaluTransform transform)
+	{
+		this->local.transform = transform;
+	}
+	void SetScale(TVec2 scale)
+	{
+		this->local.scale = scale;
+	}
+	TBaluTransformWithScale GetTransformWithScale()
+	{
+		return local;
+	}
+	TBaluTransform GetTransform()
+	{
+		return local.transform;
+	}
+	TVec2 GetScale()
+	{
+		return local.scale;
+	}
+	bool PointCollide(TVec2 class_space_point)
+	{
+		TVec2 p = local.ToLocal(class_space_point);
+		bool is_in_sprite = GetSprite()->GetPolygon()->PointCollide(p);
+		return (is_in_sprite);
+	}
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

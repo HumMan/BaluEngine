@@ -18,12 +18,12 @@ namespace EngineInterface
 {
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	class IBaluSpriteInstance
+	class IBaluClassInstanceSpriteInstance
 	{
 	public:
 		//virtual void SetTransform(TBaluTransform local)=0;
 		//virtual TBaluTransform GetTransform() = 0;
-		virtual IBaluSprite* GetSourceSprite() = 0;
+		virtual IBaluClassSpriteInstance* GetSource()=0;
 		virtual IBaluPhysShapeInstance* GetPhysShape() = 0;
 		virtual TVec2 GetScale() = 0;
 		virtual TOBB2 GetOBB() = 0;
@@ -36,11 +36,12 @@ namespace EngineInterface
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSpriteInstance, "ISpriteInstance");
-	MUnpackRA0(WrapPointer<IBaluSprite>,				TYPE, GetSourceSprite);
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluClassInstanceSpriteInstance, "IClassInstanceSpriteInstance");
+	MUnpackRA0(WrapPointer<IBaluClassSpriteInstance>,	TYPE, GetSource);
 	MUnpackRA0(WrapPointer<IBaluPhysShapeInstance>,		TYPE, GetPhysShape);
 	MUnpackRA0(WrapValue<TVec2>,						TYPE, GetScale);
 	MUnpackRA0(WrapPointer<IBaluSpritePolygonInstance>,	TYPE, GetPolygon);
 	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
+
 }

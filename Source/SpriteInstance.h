@@ -9,12 +9,10 @@
 
 #include "EngineInterfaces\ISpriteInstance.h"
 
-class TBaluSpriteInstance: public EngineInterface::IBaluSpriteInstance
+class TBaluClassInstanceSpriteInstance : public EngineInterface::IBaluClassInstanceSpriteInstance
 {
 private:
-	TBaluSprite* source;
-
-	TBaluClass::TBaluSpriteInstance* sprite_source;
+	TBaluClassSpriteInstance* source;
 	
 	TBaluTransformWithScale global;
 	TBaluTransformWithScale local;
@@ -22,7 +20,6 @@ private:
 	std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
 	TBaluSpritePolygonInstance polygon;
 
-	//TBaluInstance* parent;
 	TProperties properties;
 public:
 	EngineInterface::IProperties* GetProperties()
@@ -30,7 +27,7 @@ public:
 		return &properties;
 	}
 
-	TBaluSpriteInstance(TBaluSprite* source, TBaluClass::TBaluSpriteInstance* sprite_source, TBaluTransformWithScale local, TBaluInstance* parent, TResources* resources);
+	TBaluClassInstanceSpriteInstance(TBaluClassSpriteInstance* source, TBaluInstance* parent, TResources* resources);
 
 	void SetTransform(TBaluTransform local)
 	{
@@ -48,11 +45,7 @@ public:
 	{
 		local.scale = scale;
 	}
-	TBaluSprite* GetSourceSprite();
-	TBaluClass::TBaluSpriteInstance* GetSourceSpriteInstance()
-	{
-		return sprite_source;
-	}
+	TBaluClassSpriteInstance* GetSource();
 
 	TOBB2 GetOBB();
 

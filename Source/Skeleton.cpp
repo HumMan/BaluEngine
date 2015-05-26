@@ -1,5 +1,6 @@
 #include "Skeleton.h"
 
+#include "Class.h"
 
 TBone::TBone(TBone* parent)
 {
@@ -29,24 +30,6 @@ TBone* TBone::GetChild(int index)
 	return children[index];
 }
 
-TSkin::TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* sprite)
-{
-	this->sprite = sprite;
-}
-void TSkin::TBaluSpriteInstance::SetTransform(TBaluTransform global)
-{
-	transform = global;
-}
-TBaluTransform TSkin::TBaluSpriteInstance::GetTransform()
-{
-	return transform;
-}
-
-TBaluSprite* TSkin::TBaluSpriteInstance::GetSprite()
-{
-	return sprite;
-}
-
 TSkin::TSkin(int bones_count)
 {
 	sprites_of_bones.resize(bones_count);
@@ -54,7 +37,7 @@ TSkin::TSkin(int bones_count)
 
 void TSkin::SetBoneSprite(int bone_index, TBaluSprite* sprite, TBaluTransform global)
 {
-	sprites_of_bones[bone_index].push_back(TBaluSpriteInstance(sprite));
+	sprites_of_bones[bone_index].push_back(TBaluClassSpriteInstance(sprite));
 	sprites_of_bones[bone_index].back().SetTransform(global);
 }
 
@@ -68,7 +51,7 @@ int TSkin::GetBonesCount()
 	return sprites_of_bones.size();
 }
 
-std::vector<TSkin::TBaluSpriteInstance>& TSkin::GetSpritesOfBone(int bone_index)
+std::vector<TBaluClassSpriteInstance>& TSkin::GetSpritesOfBone(int bone_index)
 {
 	return sprites_of_bones[bone_index];
 }

@@ -63,18 +63,6 @@ namespace EngineInterface
 #endif
 
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-	class IBaluClassSprite
-	{
-	public:
-		virtual IBaluSprite* GetSprite() = 0;
-		virtual void SetTransform(TBaluTransform transform) = 0;
-		virtual void SetScale(TVec2 scale) = 0;
-		virtual TBaluTransform GetTransform() = 0;
-		virtual TVec2 GetScale() = 0;
-	};
-#endif
-
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBone
@@ -169,10 +157,10 @@ namespace EngineInterface
 			return "class";
 		}
 		virtual TAABB2 GetAABB()=0;
-		virtual IBaluClassSprite* AddSprite(IBaluSprite* sprite)=0;
+		virtual IBaluClassSpriteInstance* AddSprite(IBaluSprite* sprite) = 0;
 
 		virtual int GetSpritesCount() = 0;
-		virtual IBaluClassSprite* GetSprite(int index) = 0;
+		virtual IBaluClassSpriteInstance* GetSprite(int index) = 0;
 		virtual ISkeletonAnimation* GetSkeletonAnimation() = 0;
 		virtual IBaluClassPhysBody* GetPhysBody()=0;
 		virtual ISkeleton* GetSkeleton()=0;

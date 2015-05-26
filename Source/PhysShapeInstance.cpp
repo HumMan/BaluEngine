@@ -4,7 +4,7 @@
 
 #include "ClassInstance.h"
 
-TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TBaluSpriteInstance* sprite_instance)
+TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TBaluClassSpriteInstance* sprite_instance)
 {
 	this->fixture = nullptr;
 	this->body = nullptr;
@@ -38,7 +38,7 @@ IBaluInstance* TBaluPhysShapeInstance::GetParent()
 	return parent;
 }
 
-IBaluSpriteInstance* TBaluPhysShapeInstance::GetSpriteInstance()
+IBaluClassSpriteInstance* TBaluPhysShapeInstance::GetSpriteInstance()
 {
 	return sprite_instance;
 }

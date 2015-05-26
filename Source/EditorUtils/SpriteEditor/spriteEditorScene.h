@@ -28,7 +28,7 @@ public:
 	TDrawingHelper* drawing_helper;
 
 	//IBaluInstance* selected_instance;
-	//IBaluSpriteInstance* selected_instance_source;
+	//IBaluClassSpriteInstance* selected_instance_source;
 
 	std::unique_ptr<TSpritePolygonAdornment> sprite_polygon_adornment; //отображение контрола редактирования геометрии срайта
 	std::unique_ptr<TSpriteAdornment> sprite_adornment; //отображение редактируемого спрайта

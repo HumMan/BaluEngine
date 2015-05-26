@@ -61,12 +61,12 @@ namespace EngineInterface
 		virtual TVec2 GetScale() = 0;
 		virtual void SetScale(TVec2 scale) = 0;
 		virtual int GetSpritesCount() = 0;
-		virtual IBaluSpriteInstance* GetSprite(int index) = 0;
-		virtual IBaluSpriteInstance* AddSprite(IBaluSprite* source, TBaluTransformWithScale local_transform)=0;
+		virtual IBaluClassInstanceSpriteInstance* GetSprite(int index) = 0;
+		virtual IBaluClassInstanceSpriteInstance* AddSprite(IBaluClassSpriteInstance* source) = 0;
 		virtual IProperties* GetProperties() = 0;
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
 		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
-		virtual bool PointCollide(TVec2 class_space_point, EngineInterface::IBaluSpriteInstance* &result)=0;
+		virtual bool PointCollide(TVec2 class_space_point, EngineInterface::IBaluClassInstanceSpriteInstance* &result) = 0;
 	};
 #endif
 
@@ -75,7 +75,7 @@ namespace EngineInterface
 	MUnpackA1(TYPE, SetScale, WrapValue<TVec2>);
 	MUnpackRA0(WrapPointer<IProperties>, TYPE, GetProperties);
 	MUnpackRA0(WrapPointer<IBaluClassPhysBodyIntance>, TYPE, GetPhysBody);
-	MUnpackRA1(WrapPointer<IBaluSpriteInstance>, TYPE, GetSprite, WrapValue<int>);
+	MUnpackRA1(WrapPointer<IBaluClassInstanceSpriteInstance>, TYPE, GetSprite, WrapValue<int>);
 	MUnpackRA0(WrapPointer<ISkeletonAnimationInstance>, TYPE, GetSkeletonAnimation);
 	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif

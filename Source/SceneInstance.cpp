@@ -58,12 +58,12 @@ void TContactsHolder::OnProcessCollisions()
 		auto sprite_a = shape_a->GetSpriteInstance();
 		auto sprite_b = shape_b->GetSpriteInstance();
 
-		auto c = (dynamic_cast<TBaluSpriteInstance*>(sprite_a))->GetSourceSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
+		auto c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_a))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
 		if (c != nullptr)
 		{
 			c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_a), instance_b);
 		}
-		c = (dynamic_cast<TBaluSpriteInstance*>(sprite_b))->GetSourceSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_a));
+		c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_b))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_a));
 		if (c != nullptr)
 		{
 			c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_b), instance_a);

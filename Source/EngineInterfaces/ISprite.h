@@ -52,4 +52,22 @@ namespace EngineInterface
 	MUnpackRA0(WrapPointer<IBaluSpritePolygon>, TYPE, GetPolygon);
 	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+	class IBaluClassSpriteInstance
+	{
+	public:
+		virtual IBaluSprite* GetSprite() = 0;
+		virtual void SetTransform(TBaluTransform transform) = 0;
+		virtual void SetScale(TVec2 scale) = 0;
+		virtual TBaluTransform GetTransform() = 0;
+		virtual TVec2 GetScale() = 0;
+	};
+#endif
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluClassSpriteInstance, "IClassSpriteInstance");
+	MUnpackRA0(WrapPointer<IBaluSprite>, TYPE, GetSprite);
+	BALU_ENGINE_SCRIPT_END_CLASS;
+#endif
 }

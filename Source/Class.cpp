@@ -58,9 +58,9 @@ TAABB2 TBaluClass::GetAABB()
 {
 	if (sprites.size() > 0)
 	{
-		TAABB2 box(sprites[0]->GetSprite()->GetPolygon()->GetAABB(sprites[0]->local));
+		TAABB2 box(sprites[0]->GetSprite()->GetPolygon()->GetAABB(sprites[0]->GetTransformWithScale()));
 		for (int i = 1; i < sprites.size(); i++)
-			box += sprites[i]->GetSprite()->GetPolygon()->GetAABB(sprites[i]->local);
+			box += sprites[i]->GetSprite()->GetPolygon()->GetAABB(sprites[i]->GetTransformWithScale());
 		return box;
 	}
 	else
@@ -85,16 +85,7 @@ TBaluClass::TBaluClass()
 {
 	Initialize();
 }
-//TBaluClass::TBaluClass(TBaluClass&& right)
-//	:layer_name(std::move(right.layer_name))
-//	, class_name(std::move(right.class_name))
-//	, sprites (std::move(right.sprites))
-//	, phys_body(std::move(right.phys_body))
-//	, skeleton(std::move(right.skeleton))
-//	, skeleton_animation ( std::move(right.skeleton_animation))
-//	, properties(std::move(right.properties))
-//{
-//}
+
 TBaluClass::~TBaluClass()
 {
 
@@ -102,7 +93,7 @@ TBaluClass::~TBaluClass()
 
 void TBaluClass::OnMouseMove(TMouseMoveCallback)
 {
-
+	
 }
 
 TBaluClassPhysBody* TBaluClass::GetPhysBody()
@@ -120,13 +111,13 @@ TSkeleton* TBaluClass::GetSkeleton()
 	return skeleton.get();
 }
 
-TBaluClass::TBaluSpriteInstance* TBaluClass::AddSprite(TBaluSprite* sprite)
+TBaluClassSpriteInstance* TBaluClass::AddSprite(TBaluSprite* sprite)
 {
-	sprites.push_back(std::make_unique<TBaluClass::TBaluSpriteInstance>(sprite));
+	sprites.push_back(std::make_unique<TBaluClassSpriteInstance>(sprite));
 	return sprites.back().get();
 }
 
-EngineInterface::IBaluClassSprite* TBaluClass::AddSprite(EngineInterface::IBaluSprite* sprite)
+EngineInterface::IBaluClassSpriteInstance* TBaluClass::AddSprite(EngineInterface::IBaluSprite* sprite)
 {
 	return AddSprite(dynamic_cast<TBaluSprite*>(sprite));
 }
@@ -141,34 +132,9 @@ int TBaluClass::GetSpritesCount()
 	return sprites.size();
 }
 
-TBaluClass::TBaluSpriteInstance* TBaluClass::GetSprite(int index)
+TBaluClassSpriteInstance* TBaluClass::GetSprite(int index)
 {
 	return sprites[index].get();
-}
-
-void TBaluClass::CreateBone()
-{
-
-}
-void TBaluClass::AttachSpriteToBone()
-{
-
-}
-void TBaluClass::CreateAnimationLine()
-{
-
-}
-void TBaluClass::SetBoneTransform()
-{
-
-}
-void TBaluClass::CreateKeyFrame()
-{
-
-}
-void TBaluClass::SetAnimationTime()
-{
-
 }
 
 void TBaluClass::OnKeyDown(TKey key, CallbackWithData<KeyUpDownCallback> callback)

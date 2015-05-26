@@ -484,19 +484,6 @@ void TBone::Load(const pugi::xml_node& bone_node, const int version, TBaluWorld*
 	}
 }
 
-void TSkin::TBaluSpriteInstance::Save(pugi::xml_node& parent_node, const int version)
-{
-	xml_node sprite_node = parent_node.append_child("Sprite");
-	sprite_node.append_attribute("sprite_name").set_value(sprite->GetName().c_str());
-	SaveTransform(sprite_node, "Transform", transform);
-}
-
-void TSkin::TBaluSpriteInstance::Load(const pugi::xml_node& skin_sprite_node, const int version, TBaluWorld* world)
-{
-	sprite = world->GetSprite(skin_sprite_node.attribute("sprite_name").as_string());
-	transform = LoadTransform(skin_sprite_node.child("Transform"));
-}
-
 void TSkin::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node skin_node = parent_node.append_child("Skin");
@@ -649,18 +636,16 @@ void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld
 	}
 }
 
-void TBaluClass::TBaluSpriteInstance::Save(pugi::xml_node& parent_node, const int version)
+void TBaluClassSpriteInstance::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node sprite_node = parent_node.append_child("sprite");
 	sprite_node.append_attribute("sprite_name").set_value(sprite->GetName().c_str());
-	sprite_node.append_attribute("sprite_tag").set_value(tag.c_str());
 	SaveTransformWithScale(sprite_node, "Transform", local);
 }
 
-void TBaluClass::TBaluSpriteInstance::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluClassSpriteInstance::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
 	sprite = world->GetSprite(node.attribute("sprite_name").as_string());
-	tag = node.attribute("sprite_tag").as_string();
 	local = LoadTransformWithScale(node.child("Transform"));
 }
 
@@ -724,9 +709,9 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 		xml_node sprites_node = node.child("sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
-			TBaluSpriteInstance* new_sprite_instance = new TBaluSpriteInstance();
+			TBaluClassSpriteInstance* new_sprite_instance = new TBaluClassSpriteInstance();
 			new_sprite_instance->Load(sprite_node, version, world);
-			sprites.push_back(std::unique_ptr<TBaluSpriteInstance>(new_sprite_instance));
+			sprites.push_back(std::unique_ptr<TBaluClassSpriteInstance>(new_sprite_instance));
 		}
 	}
 	xml_node phys_body_node = node.child("PhysBody");

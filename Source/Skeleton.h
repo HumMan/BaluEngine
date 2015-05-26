@@ -11,6 +11,7 @@
 
 class TSkeleton;
 
+
 class TBone : public EngineInterface::IBone
 {
 private:
@@ -37,27 +38,8 @@ public:
 
 class TSkin: public EngineInterface::ISkin
 {
-public:
-	class TBaluSpriteInstance
-	{
-	private:
-		TBaluSprite* sprite;
-		TBaluTransform transform;
-	public:
-		TBaluSpriteInstance()
-		{
-			sprite = nullptr;
-		}
-		TBaluSpriteInstance(TBaluSprite* sprite);
-		void SetTransform(TBaluTransform global);
-		TBaluTransform GetTransform();
-		TBaluSprite* GetSprite();
-
-		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-	};
 private:
-	std::vector<std::vector<TBaluSpriteInstance>> sprites_of_bones;
+	std::vector<std::vector<TBaluClassSpriteInstance>> sprites_of_bones;
 public:
 	TSkin()
 	{
@@ -66,7 +48,7 @@ public:
 	void SetBoneSprite(int bone_index, TBaluSprite* sprite, TBaluTransform global);
 	void SetBoneSprite(int bone_index, EngineInterface::IBaluSprite* sprite, TBaluTransform global);
 	int GetBonesCount();
-	std::vector<TBaluSpriteInstance>& GetSpritesOfBone(int bone_index);
+	std::vector<TBaluClassSpriteInstance>& GetSpritesOfBone(int bone_index);
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

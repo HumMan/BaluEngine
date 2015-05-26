@@ -49,7 +49,7 @@ private:
 
 	b2World* phys_world;
 
-	std::vector<std::unique_ptr<TBaluSpriteInstance>> sprites;
+	std::vector<std::unique_ptr<TBaluClassInstanceSpriteInstance>> sprites;
 	std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
 	TSkeletonInstance skeleton;
 	TSkeletonAnimationInstance skeleton_animation;
@@ -60,9 +60,7 @@ private:
 
 public:
 	TBaluClass* GetClass();
-	bool PointCollide(TVec2 scene_space_point);
-
-	TOBB2 GetOBB();
+	
 
 	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources);
 	void SetTransform(TBaluTransform transform);
@@ -74,15 +72,15 @@ public:
 	TBaluClassPhysBodyIntance* GetPhysBody();
 
 	int GetSpritesCount();
-	TBaluSpriteInstance* GetSprite(int index);
-	TBaluSpriteInstance* AddSprite(IBaluSprite* source, TBaluTransformWithScale local_transform);
-
-	TAABB2 GetAABB();
+	TBaluClassInstanceSpriteInstance* GetSprite(int index);
+	TBaluClassInstanceSpriteInstance* AddSprite(IBaluClassSpriteInstance* source);
 
 	TSkeletonAnimationInstance* GetSkeletonAnimation();
 
-	bool PointCollide(TVec2 class_space_point, EngineInterface::IBaluSpriteInstance* &result);
-
+	bool PointCollide(TVec2 class_space_point, EngineInterface::IBaluClassInstanceSpriteInstance* &result);
+	bool PointCollide(TVec2 scene_space_point);
+	TOBB2 GetOBB();
+	TAABB2 GetAABB();
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 
 	void UpdateTranform();

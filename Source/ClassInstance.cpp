@@ -33,7 +33,7 @@ TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTrans
 
 	for (int i = 0; i < source->GetSpritesCount(); i++)
 	{
-		sprites.push_back(std::make_unique<TBaluSpriteInstance>(source->GetSprite(i)->GetSprite(), source->GetSprite(i), source->GetSprite(i)->local, this, resources));
+		sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source->GetSprite(i), this, resources));
 	}
 
 	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, source->GetPhysBody(), this);
@@ -78,15 +78,15 @@ int TBaluInstance::GetSpritesCount()
 {
 	return sprites.size();
 }
-TBaluSpriteInstance* TBaluInstance::GetSprite(int index)
+TBaluClassInstanceSpriteInstance* TBaluInstance::GetSprite(int index)
 {
 	return sprites[index].get();
 }
 
-TBaluSpriteInstance* TBaluInstance::AddSprite(IBaluSprite* _source, TBaluTransformWithScale local_transform)
+TBaluClassInstanceSpriteInstance* TBaluInstance::AddSprite(IBaluClassSpriteInstance* _source)
 {
-	TBaluSprite* source = dynamic_cast<TBaluSprite*>(_source);
-	sprites.push_back(std::make_unique<TBaluSpriteInstance>(source, nullptr, local_transform, this, resources));
+	TBaluClassSpriteInstance* source = dynamic_cast<TBaluClassSpriteInstance*>(_source);
+	sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source, this, resources));
 	return sprites.back().get();
 }
 
@@ -101,11 +101,11 @@ TSkeletonAnimationInstance* TBaluInstance::GetSkeletonAnimation()
 	return &skeleton_animation;
 }
 
-bool TBaluInstance::PointCollide(TVec2 class_space_point, EngineInterface::IBaluSpriteInstance* &result)
+bool TBaluInstance::PointCollide(TVec2 class_space_point, EngineInterface::IBaluClassInstanceSpriteInstance* &result)
 {
 	for (int i = 0; i < sprites.size(); i++)
 	{
-		bool collide = sprites[i]->GetSourceSpriteInstance()->PointCollide(class_space_point);
+		bool collide = sprites[i]->GetSource()->PointCollide(class_space_point);
 		if (collide)
 		{
 			result = sprites[i].get();

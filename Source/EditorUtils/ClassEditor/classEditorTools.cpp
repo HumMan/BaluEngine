@@ -39,14 +39,15 @@ public:
 
 			////создаем в сцене редактора класса новый инстанс отвечающий за новый спрайт
 			//auto new_class_instance = class_editor_scene->editor_scene_instance->CreateInstance(active_tool_class, transform, TVec2(1, 1));
-
-			auto new_editor_class_sprite_instance = class_editor_scene->editor_scene_class_instance->AddSprite(active_tool_sprite, TBaluTransformWithScale(transform, TVec2(1, 1)));
+			auto class_sprite_instance = class_editor_scene->source_class->AddSprite(active_tool_sprite);
+			class_sprite_instance->SetTransform(transform);
+			auto class_instance_sprite_instance = class_editor_scene->editor_scene_class_instance->AddSprite(class_sprite_instance);
 
 			class_editor_scene->selected_instance_source = new_sprite_instance;
-			class_editor_scene->selected_instance = new_editor_class_sprite_instance;
+			class_editor_scene->selected_instance = class_instance_sprite_instance;
 
 			//записываем в экземл€р спрайта указатель на исходный экземпл€р спрайта в редактируемом классе - дл€ использовани€ в других инструментах (перемещение и т.д.)
-			new_editor_class_sprite_instance->GetProperties()->SetClassSpriteInstance("editor_source_instance", new_sprite_instance);
+			class_instance_sprite_instance->GetProperties()->SetClassSpriteInstance("editor_source_instance", new_sprite_instance);
 
 			class_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
 		}
@@ -135,7 +136,7 @@ public:
 		if (!class_editor_scene->boundary_box.IsCursorCaptured())
 		{
 			auto world_cursor_location = class_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
-			IBaluSpriteInstance* instance_collision(nullptr);
+			IBaluClassInstanceSpriteInstance* instance_collision(nullptr);
 			if (class_editor_scene->editor_scene_class_instance->PointCollide(world_cursor_location, instance_collision))
 			{
 				class_editor_scene->boundary_box_contour->SetEnable(true);

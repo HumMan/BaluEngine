@@ -5,7 +5,7 @@
 #include "EngineInterfaces\IPhysShapeInstance.h"
 
 class TBaluInstance;
-class TBaluSpriteInstance;
+class TBaluClassSpriteInstance;
 class TSensorInstance;
 
 class TBaluPhysShapeInstance: public EngineInterface::IBaluPhysShapeInstance
@@ -16,14 +16,14 @@ protected:
 	b2Fixture* fixture;
 	b2Body* body;
 	TBaluInstance* parent;
-	TBaluSpriteInstance* sprite_instance;
+	TBaluClassSpriteInstance* sprite_instance;
 public:
-	TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent_instance, TBaluSpriteInstance* sprite_instance);
+	TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent_instance, TBaluClassSpriteInstance* sprite_instance);
 	void BuildFixture(b2Body* body, TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 
 	//TODO попытаться сделать TBaluInstance
 	IBaluInstance* GetParent();
-	IBaluSpriteInstance* GetSpriteInstance();
+	IBaluClassSpriteInstance* GetSpriteInstance();
 };
 
 //

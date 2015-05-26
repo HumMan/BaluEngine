@@ -30,7 +30,7 @@ namespace EngineInterface
 
 	void DestroyClassEditor(EngineInterface::IAbstractEditor* editor)
 	{
-		auto ed = dynamic_cast<TSceneEditor*>(editor);
+		auto ed = dynamic_cast<TClassEditor*>(editor);
 		ed->Deinitialize();
 		delete ed;
 	}

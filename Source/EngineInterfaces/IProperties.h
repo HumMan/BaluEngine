@@ -12,7 +12,7 @@ namespace EngineInterface
 {
 	class IProperties;
 	class IBaluSceneClassInstance;
-	class IBaluClassSprite;
+	class IBaluClassSpriteInstance;
 }
 
 #endif
@@ -62,8 +62,8 @@ namespace EngineInterface
 		virtual bool GetBool(const std::string& name) = 0;
 		virtual void SetSceneClassInstance(const std::string& name, IBaluSceneClassInstance* value) = 0;
 		virtual IBaluSceneClassInstance* GetSceneClassInstance(const std::string& name) = 0;
-		virtual void SetClassSpriteInstance(const std::string& name, IBaluClassSprite* value) = 0;
-		virtual IBaluClassSprite* GetClassSpriteInstance(const std::string& name) = 0;
+		virtual void SetClassSpriteInstance(const std::string& name, IBaluClassSpriteInstance* value) = 0;
+		virtual IBaluClassSpriteInstance* GetClassSpriteInstance(const std::string& name) = 0;
 	};
 #endif
 
