@@ -62,7 +62,7 @@ public:
 	TBaluClass* GetClass();
 	void SetTag(void* tag)
 	{
-		tag = tag;
+		this->tag = tag;
 	}
 	void* GetTag()
 	{

@@ -28,10 +28,10 @@ private:
 
 	TBaluMaterial* material;
 
+	std::vector<TVec2> polygon_vertices;//вершины замкнутого контура спрайта
+
 	TVec2 size; //используется при генерации полигона по текстуре
 	TBaluTransformWithScale local; //положение полигона в спрайте
-
-	std::vector<TVec2> polygon_vertices;
 
 	std::vector<TVec2> triangulated;
 
@@ -48,11 +48,12 @@ private:
 	void UpdatePolyVertices();
 	void TriangulateGeometry();
 
+	//на данный момент применяется только в редакторе для отрисовки GUI - заменить на набор готовых объектов редактора (разновидность класса)
 	bool is_custom_draw;
 	std::vector<CallbackWithData<TCustomDrawCallback>> custom_draw_callbacks;
 
 
-	TAABB2 GetVerticesBox();
+	TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
 public:
 
 	int GetAnimDescIndex(EngineInterface::TAnimDesc* desc);

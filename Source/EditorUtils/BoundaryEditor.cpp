@@ -32,25 +32,35 @@ void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)
 
 		TVec2 local_diff = boundary.box.GetOrient().TransMul(diff);
 
+		auto scale = boundary.box.GetOrient().TransMul(new_pos)/boundary.box.GetOrient().TransMul(p.GetPosition());
+
 		if (p.x_resize == -1)
 			local_diff[0] = -local_diff[0];
 		if (p.x_resize == 0)
+		{
 			local_diff[0] = 0;
+			scale[0] = 1;
+		}
 		if (p.x_resize == 1)
 			local_diff[0] = local_diff[0];
 
 		if (p.y_resize == -1)
 			local_diff[1] = -local_diff[1];
 		if (p.y_resize == 0)
+		{
 			local_diff[1] = 0;
+			scale[1] = 1;
+		}
 		if (p.y_resize == 1)
 			local_diff[1] = local_diff[1];
 
-		old_b.Extend(local_diff);
+		//old_b.Extend(local_diff);
+		old_b.border[0] *= scale;
+		old_b.border[1] *= scale;
 		boundary.box.SetAABB(old_b);
 
 		UpdatePointsPos();
-		OnChange->BoxResize(old_boundary.box, boundary.box);
+		OnChange->BoxResize(old_boundary.box, boundary.box, scale);
 	}
 		break;
 	case TPointAdornmentType::Rotate:

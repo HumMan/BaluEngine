@@ -25,7 +25,7 @@ private:
 public:
 	void SetTag(void* tag)
 	{
-		tag = tag;
+		this->tag = tag;
 	}
 	void* GetTag()
 	{

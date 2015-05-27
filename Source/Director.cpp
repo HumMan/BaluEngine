@@ -48,31 +48,37 @@ void TDirector::Render()
 
 void TDirector::Step(float step)
 {
-	if (p->world_instance == nullptr)
-		return;
-	if (p->physics_sym)
+	try
 	{
-		p->world_instance->OnPrePhysStep();
-		p->world_instance->PhysStep(step);
+		if (p->world_instance == nullptr)
+			return;
+		if (p->physics_sym)
+		{
+			p->world_instance->OnPrePhysStep();
+			p->world_instance->PhysStep(step);
 
+		}
+		p->world_instance->UpdateTransform();
+
+		Render();
+
+		if (p->physics_sym)
+		{
+			p->world_instance->OnProcessCollisions();
+		}
+
+		p->world_instance->OnStep(step);
+
+		g_camera.m_height = 512;
+		g_camera.m_width = 512;
+		g_camera.m_extent = 10;
+		g_camera.m_zoom = 1;
+
+		p->world_instance->DebugDraw();
 	}
-	p->world_instance->UpdateTransform();
-
-	Render();
-
-	if (p->physics_sym)
+	catch (std::exception ex)
 	{
-		p->world_instance->OnProcessCollisions();
 	}
-
-	p->world_instance->OnStep(step);
-
-	g_camera.m_height = 512;
-	g_camera.m_width = 512;
-	g_camera.m_extent = 10;
-	g_camera.m_zoom = 1;
-
-	p->world_instance->DebugDraw();
 }
 
 void TDirector::SetWorldInstance(TBaluWorldInstance* world_instance)

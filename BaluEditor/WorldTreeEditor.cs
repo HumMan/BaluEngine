@@ -173,7 +173,7 @@ namespace BaluEditor
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (treeView1.SelectedNode.Tag is TWorldObjectNode)
+            if (treeView1.SelectedNode!=null && treeView1.SelectedNode.Tag is TWorldObjectNode)
             {
                 var node = treeView1.SelectedNode.Tag as TWorldObjectNode;
                 director.OnEditedObjectChange(editor, node.type, node.index);

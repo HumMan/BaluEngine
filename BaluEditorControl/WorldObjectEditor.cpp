@@ -69,10 +69,17 @@ namespace Editor
 
 	void TWorldObjectEditor::Render()
 	{
-		p->director->Step(0.01);
-		p->director->BeginFrame();
-		p->director->Render();
-		p->director->EndFrame();
+		try
+		{
+			p->director->Step(0.01);
+			p->director->BeginFrame();
+			p->director->Render();
+			p->director->EndFrame();
+		}
+		catch (std::exception)
+		{
+
+		}
 	}
 
 	TWorldObjectEditor::TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ world_director)

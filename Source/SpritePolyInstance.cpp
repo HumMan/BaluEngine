@@ -46,7 +46,8 @@ void TBaluSpritePolygonInstance::Render(TRenderCommand& command)
 			command.vertices_count = vertices.size();
 			assert(tex_coords.size() != 0);
 			command.tex_coords = &tex_coords[0];
-		}
+		}else
+			command.vertices_count = 0;
 	}
 }
 

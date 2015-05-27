@@ -45,7 +45,7 @@ TAABB2 TBaluSpritePolygon::GetVerticesBox()
 	{
 		TAABB2 box(polygon_vertices[0], TVec2(0));
 		for (int i = 1; i < polygon_vertices.size(); i++)
-			box += polygon_vertices[i].ComponentMul(local.scale);
+			box +=polygon_vertices[i];
 		return box;
 	}
 	else
@@ -256,34 +256,49 @@ void TBaluSpritePolygon::SetPolygonFromTexture(std::string assets_dir)
 
 void TBaluSpritePolygon::TriangulateGeometry()
 {
-	std::vector<p2t::Point> points;
-	points.resize(polygon_vertices.size());
-	for (int i = 0; i < points.size(); i++)
-		points[i] = p2t::Point(polygon_vertices[i][0], polygon_vertices[i][1]);
-
-	std::vector<p2t::Point*> polyline;
-	polyline.resize(points.size());
-	for (int i = 0; i < polyline.size(); i++)
-		polyline[i] = &points[i];
-
-	p2t::CDT cdt(polyline);
-	cdt.Triangulate();
-	auto triangles = cdt.GetTriangles();
-	triangulated.resize(triangles.size() * 3);
-	for (int i = 0; i < triangles.size(); i++)
+	if (polygon_vertices.size() <= 2)
 	{
-		for (int k = 0; k < 3; k++)
+		triangulated.clear();
+		
+		return;
+	}
+	try
+
+	{
+		std::vector<p2t::Point> points;
+		points.resize(polygon_vertices.size());
+		for (int i = 0; i < points.size(); i++)
+			points[i] = p2t::Point(polygon_vertices[i][0], polygon_vertices[i][1]);
+
+		std::vector<p2t::Point*> polyline;
+		polyline.resize(points.size());
+		for (int i = 0; i < polyline.size(); i++)
+			polyline[i] = &points[i];
+
+		p2t::CDT cdt(polyline);
+		cdt.Triangulate();
+		auto triangles = cdt.GetTriangles();
+		triangulated.resize(triangles.size() * 3);
+		for (int i = 0; i < triangles.size(); i++)
 		{
-			auto tri_point = triangles[i]->GetPoint(k);
-			triangulated[i * 3 + k] = TVec2(tri_point->x, tri_point->y);
+			for (int k = 0; k < 3; k++)
+			{
+				auto tri_point = triangles[i]->GetPoint(k);
+				triangulated[i * 3 + k] = TVec2(tri_point->x, tri_point->y);
+			}
 		}
+	}
+	catch (std::exception ex)
+	{
+		triangulated.clear();
+		return;
 	}
 }
 
 void TBaluSpritePolygon::UpdatePolyVertices()
 {
 	for (int i = 0; i < polygon_vertices.size(); i++)
-		polygon_vertices[i] = polygon_vertices[i].ComponentMul(size) + local.transform.position;
+		polygon_vertices[i] = local.ToGlobal(polygon_vertices[i]);
 }
 
 TBaluMaterial* TBaluSpritePolygon::GetMaterial()
@@ -364,18 +379,12 @@ void TBaluSpritePolygon::SetTexCoordsFromVertices(TVec2 tex_coord_origin, TVec2 
 void TBaluSpritePolygon::UpdateTexCoords()
 {
 	tex_coordinates.resize(triangulated.size());
-	//TODO local
-	auto vertex_left_bottom = local.transform.position - size*0.5;
+	auto vertex_left_bottom = - size*0.5;
 
 	TVec2 right_top = tex_coord_origin + tex_coord_scale*0.5;
 	TVec2 left_bottom = tex_coord_origin - tex_coord_scale*0.5;
 
 	auto tex_coord_size = right_top - left_bottom;
-
-	//for (int i = 0; i < tex_coordinates.size(); i++)
-	//{
-	//	tex_coordinates[i] = ((triangulated[i]) / this->size).ComponentMul(tex_coord_scale) - tex_coord_origin;
-	//}
 
 	for (int i = 0; i < tex_coordinates.size(); i++)
 	{

@@ -37,9 +37,9 @@ public:
 		this->sprite_editor_scene = sprite_editor_scene;
 	}
 
-	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
+	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box, TVec2 scale)
 	{
-		auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
+		//auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
 		sprite_editor_scene->source_sprite->GetPolygon()->SetScale(
 			sprite_editor_scene->source_sprite->GetPolygon()->GetScale().ComponentMul(scale));
 		sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
@@ -117,7 +117,7 @@ public:
 	}
 	void CancelOperation()
 	{
-
+		sprite_editor_scene->boundary_box.enable = false;
 	}
 };
 //
@@ -216,6 +216,7 @@ protected:
 	std::vector<TVec2> mouse_down_polygon;
 
 	int nearest_point;
+	int nearest_line;
 	float nearest_point_dist;
 
 	enum class CurrEditState
@@ -229,6 +230,15 @@ protected:
 	
 	int point_under_cursor;
 public:
+	TEditSpritePolygon(TSpriteEditorScene* sprite_editor_scene)
+	{
+		this->sprite_editor_scene = sprite_editor_scene;
+		this->active_state = GetAvailableStates()[0];
+		this->mouse_down = false;
+		this->curr_edit_state = CurrEditState::None;
+		this->nearest_point = -1;
+		this->nearest_line = -1;
+	}
 	void Activate()
 	{
 		sprite_editor_scene->sprite_polygon_adornment->SetVisible(true);
@@ -262,6 +272,7 @@ public:
 		else if (active_state == "create")
 		{
 			sprite_editor_scene->sprite_polygon_adornment->ShowAddPointControl(true);
+			sprite_editor_scene->sprite_polygon_adornment->SetAddPointControlData(-1, TVec2());
 		}
 		else if (active_state == "delete")
 		{
@@ -272,10 +283,7 @@ public:
 	{
 		assert(false);
 	}
-	TEditSpritePolygon(TSpriteEditorScene* sprite_editor_scene)
-	{
-		this->sprite_editor_scene = sprite_editor_scene;
-	}
+	
 
 	void UpdateOldPolygon()
 	{
@@ -286,8 +294,8 @@ public:
 	{
 		if (e.button != TMouseButton::Left) return;
 		mouse_down = true;
-		//auto poly_trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransformWithScale();
-		mouse_down_pos = sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location);
+		auto poly_trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransformWithScale();
+		mouse_down_pos = poly_trans.ToLocal(sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
 		UpdateOldPolygon();
 		if (active_state == "edit")
 		{
@@ -305,16 +313,55 @@ public:
 		}
 		else if (active_state == "create")
 		{
-
+			if (nearest_line != -1)
+			{
+				auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
+				poly_vertices.insert(poly_vertices.begin() + nearest_line + 1, mouse_down_pos);
+				sprite_editor_scene->source_sprite->GetPolygon()->SetVertices(poly_vertices);
+			}
+			else
+			{
+				auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
+				poly_vertices.push_back(mouse_down_pos);
+				sprite_editor_scene->source_sprite->GetPolygon()->SetVertices(poly_vertices);
+			}
 		}
 		else if (active_state == "delete")
 		{
+			if (curr_edit_state == CurrEditState::MovingSelected)
+			{
+				if (nearest_point != -1)
+				{
+					auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
+					poly_vertices.erase(poly_vertices.begin() + nearest_point);
+					sprite_editor_scene->source_sprite->GetPolygon()->SetVertices(poly_vertices);
+					selected_points.clear();
+					sprite_editor_scene->sprite_polygon_adornment->SetShowPointHightlightData(selected_points);
+				}
+			}
+		}
+	}
+	void FindNearestPoint(TVec2 new_pos)
+	{
+		auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
+		int size = poly_vertices.size();
 
+		nearest_point = -1;
+		nearest_point_dist = 0;
+		for (int i = 0; i < size; i++)
+		{
+			float dist = poly_vertices[i].Distance(new_pos);
+			if (nearest_point == -1 || nearest_point_dist > dist)
+			{
+				nearest_point = i;
+				nearest_point_dist = dist;
+			}
 		}
 	}
 	void OnMouseMove(TMouseEventArgs e)
 	{
-		TVec2 new_pos = sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location);
+		auto poly_trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransformWithScale();
+		TVec2 new_pos = poly_trans.ToLocal(sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
 
 		if (active_state == "edit")
 		{
@@ -323,14 +370,16 @@ public:
 				if (curr_edit_state == CurrEditState::SelectionBox)
 				{
 					sprite_editor_scene->sprite_polygon_adornment->ShowPointHightLinght(true);
-					//TODO Orientation transform
-					TOBB2 selection_box = TOBB2((new_pos + mouse_down_pos)*0.5, TMatrix2::GetIdentity(), TAABB2(TVec2(0, 0), (new_pos - mouse_down_pos).GetAbs()*0.5));
+					TOBB2 selection_box = TOBB2(
+						(poly_trans.ToGlobal(new_pos) + poly_trans.ToGlobal(mouse_down_pos))*0.5,
+						TMatrix2::GetIdentity(), 
+						TAABB2(TVec2(0, 0), (poly_trans.ToGlobal(new_pos) - poly_trans.ToGlobal(mouse_down_pos)).GetAbs()*0.5));
 					sprite_editor_scene->sprite_polygon_adornment->ShowSelectionBox(true);
 					sprite_editor_scene->sprite_polygon_adornment->SetSelectionBox(selection_box);
 					selected_points.clear();
 					for (int i = 0; i < mouse_down_polygon.size();i++)
 					{
-						if (selection_box.PointCollide(mouse_down_polygon[i]))
+						if (selection_box.PointCollide(poly_trans.ToGlobal(mouse_down_polygon[i])))
 						{
 							selected_points.push_back(i);
 						}
@@ -351,25 +400,21 @@ public:
 			else
 			{
 				sprite_editor_scene->sprite_polygon_adornment->ShowSelectionBox(false);
-				//auto poly_trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransformWithScale();
-				auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
-				int size = poly_vertices.size();
-
-				nearest_point = -1;
-				nearest_point_dist = 0;
-				for (int i = 0; i < size; i++)
+				sprite_editor_scene->sprite_polygon_adornment->ShowPointHightLinght(true);
+				FindNearestPoint(new_pos);
+				if (nearest_point!=-1&&nearest_point_dist < 0.3)
 				{
-					float dist = poly_vertices[i].Distance(new_pos);
-					if (nearest_point == -1 || nearest_point_dist > dist)
-					{
-						nearest_point = i;
-						nearest_point_dist = dist;
-					}
-				}
-				if (nearest_point_dist < 0.3)
 					curr_edit_state = CurrEditState::MovingSelected;
+					std::vector<int> v;
+					v.push_back(nearest_point);
+					sprite_editor_scene->sprite_polygon_adornment->SetShowPointHightlightData(v);
+				}
 				else
+				{
 					curr_edit_state = CurrEditState::SelectionBox;
+					std::vector<int> v;
+					sprite_editor_scene->sprite_polygon_adornment->SetShowPointHightlightData(v);
+				}
 			}
 		}
 		else if (active_state == "create")
@@ -377,33 +422,45 @@ public:
 			auto poly_vertices = sprite_editor_scene->source_sprite->GetPolygon()->GetPolygon();
 			int size = poly_vertices.size();
 			
-			int nearest_line = -1;
+			nearest_line = -1;
 			float nearest_line_dist = 0;
-			for (int i = 0; i < size + 1; i++)
+			if (size > 0)
 			{
-				float t;
-				TVec2 p;
-				float dist = DistanceBetweenPointSegment(new_pos, TSegment<float, 2>(poly_vertices[i%size], poly_vertices[(i + 1) % size]), t, p);
-				//if (t>0 && t < 1)
+				for (int i = 0; i < size + 1; i++)
 				{
-					if (nearest_line == -1 || dist < nearest_line_dist)
+					float t;
+					TVec2 p;
+					float dist = DistanceBetweenPointSegment(new_pos, TSegment<float, 2>(poly_vertices[i%size], poly_vertices[(i + 1) % size]), t, p);
+					//if (t>0 && t < 1)
 					{
-						nearest_line = i;
-						nearest_line_dist = dist;
+						if (nearest_line == -1 || dist < nearest_line_dist)
+						{
+							nearest_line = i;
+							nearest_line_dist = dist;
+						}
 					}
 				}
 			}
-			
-			/*else if (nearest_line != -1 && nearest_line_dist < nearest_point_dist)
-			{
-			curr_state = CurrState::CanSubdivide;
-			}*/
-
 			sprite_editor_scene->sprite_polygon_adornment->SetAddPointControlData(nearest_line, new_pos);
 		}
 		else if (active_state == "delete")
 		{
-
+			sprite_editor_scene->sprite_polygon_adornment->ShowSelectionBox(false);
+			sprite_editor_scene->sprite_polygon_adornment->ShowPointHightLinght(true);
+			FindNearestPoint(new_pos);
+			if (nearest_point!=-1&&nearest_point_dist < 0.3)
+			{
+				curr_edit_state = CurrEditState::MovingSelected;
+				selected_points.clear();
+				selected_points.push_back(nearest_point);
+				sprite_editor_scene->sprite_polygon_adornment->SetShowPointHightlightData(selected_points);
+			}
+			else
+			{
+				curr_edit_state = CurrEditState::None;
+				selected_points.clear();
+				sprite_editor_scene->sprite_polygon_adornment->SetShowPointHightlightData(selected_points);
+			}
 		}
 	}
 	void OnMouseUp(TMouseEventArgs e)

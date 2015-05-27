@@ -118,12 +118,10 @@ namespace EngineInterface
 
 		TOBB2 ToGlobal(TOBB2 box)
 		{
-			//TODO
 			return TOBB2(box.pos + position, GetOrientation()*box.orient, box.local);
 		}
 		TOBB2 ToGlobal(TAABB2 box)
 		{
-			//TODO
 			return TOBB2(position, GetOrientation(), box);
 		}
 		TBaluTransform ToGlobal(TBaluTransform local)
@@ -147,7 +145,6 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	//TODO
 	class TBaluTransformWithScale
 	{
 	public:
@@ -185,6 +182,12 @@ namespace EngineInterface
 		{
 			box.border[0] *= scale;
 			box.border[1] *= scale;
+			return transform.ToGlobal(box);
+		}
+		TOBB2 ToGlobal(TOBB2 box)
+		{
+			box.local.border[0] *= scale;
+			box.local.border[1] *= scale;
 			return transform.ToGlobal(box);
 		}
 	};

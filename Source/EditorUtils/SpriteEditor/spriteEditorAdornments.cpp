@@ -149,20 +149,21 @@ void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCust
 	if (state->visible)
 	{
 		auto sprite_poly = state->visual->GetPolygon();
+		auto sprite_poly_trans = sprite_poly->GetTransformWithScale();
 		auto vertices = sprite_poly->GetPolygon();
-		state->drawing_helper->RenderLinesLoop(vertices, sprite_poly->GetTransformWithScale());
+		state->drawing_helper->RenderLinesLoop(vertices, sprite_poly_trans);
 		for (auto& v : vertices)
-			state->drawing_helper->RenderPointAdornment(v, sprite_poly->GetTransformWithScale());
+			state->drawing_helper->RenderPointAdornment(v, sprite_poly_trans);
 
 		if (state->show_add_point_control && state->line_start_point_index!=-1)
 		{
 			TVec2 left, right;
-			left = vertices[state->line_start_point_index];
-			right = vertices[(state->line_start_point_index + 1) % vertices.size()];
-			state->drawing_helper->RenderPointAdornment(state->point_to_add, sprite_poly->GetTransformWithScale());
+			left = sprite_poly_trans.ToGlobal(vertices[state->line_start_point_index]);
+			right = sprite_poly_trans.ToGlobal(vertices[(state->line_start_point_index + 1) % vertices.size()]);
+			state->drawing_helper->RenderPointAdornment(state->point_to_add, sprite_poly_trans);
 
-			state->drawing_helper->RenderLine(left, state->point_to_add, sprite_poly->GetTransformWithScale());
-			state->drawing_helper->RenderLine(right, state->point_to_add, sprite_poly->GetTransformWithScale());
+			state->drawing_helper->RenderLine(left, sprite_poly_trans.ToGlobal(state->point_to_add));
+			state->drawing_helper->RenderLine(right, sprite_poly_trans.ToGlobal(state->point_to_add));
 		}
 		if (state->show_selection_box)
 		{
@@ -172,7 +173,7 @@ void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCust
 		{
 			for (auto& v : state->hightlight_poly_point_index)
 			{
-				state->drawing_helper->RenderPointHighlightAdornment(vertices[v], sprite_poly->GetTransformWithScale());
+				state->drawing_helper->RenderPointHighlightAdornment(vertices[v], sprite_poly_trans);
 			}
 		}
 	}

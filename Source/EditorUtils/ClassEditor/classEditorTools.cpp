@@ -83,9 +83,9 @@ public:
 		this->class_editor_scene = class_editor_scene;
 	}
 
-	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
+	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box, TVec2 scale)
 	{
-		auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
+		//auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
 		auto new_scale = class_editor_scene->selected_instance->GetScale().ComponentMul(scale);
 		class_editor_scene->selected_instance->SetScale(new_scale);
 		((IBaluClassSpriteInstance*)(class_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);

@@ -9,7 +9,7 @@ using namespace EngineInterface;
 class TBoundaryBoxChangeListener
 {
 public:
-	virtual void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box) = 0;
+	virtual void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box, TVec2 scale) = 0;
 	virtual void BoxMove(TVec2 old_pos, TVec2 new_pos) = 0;
 	virtual void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box) = 0;
 };
