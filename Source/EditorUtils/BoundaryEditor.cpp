@@ -24,7 +24,6 @@ void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)
 		UpdatePointsPos();
 		OnChange->BoxMove(old_boundary.box.pos, boundary.box.pos);
 		break;
-	//case TPointAdornmentType::ResizeOneDim:
 	case TPointAdornmentType::Resize:
 	{
 		TAABB<float, 2> source_b = start_edit_boundary.GetLocalAABB();
@@ -32,7 +31,7 @@ void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)
 
 		TVec2 local_diff = boundary.box.GetOrient().TransMul(diff);
 
-		auto scale = boundary.box.GetOrient().TransMul(new_pos)/boundary.box.GetOrient().TransMul(p.GetPosition());
+		auto scale = boundary.box.GetOrient().TransMul(new_pos - boundary.box.GetPos()) / boundary.box.GetOrient().TransMul(p.GetPosition() - boundary.box.GetPos());
 
 		if (p.x_resize == -1)
 			local_diff[0] = -local_diff[0];
@@ -77,17 +76,6 @@ void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)
 		break;
 	}
 }
-
-//void TBoundaryBoxAdornment::Render(TDrawingHelper* drawing_helper)
-//{
-//	if (box_under_cursor)
-//	{
-//		TEditorObjectControls::Render(drawing_helper);
-//		drawing_helper->SetSelectedBoundaryColor();
-//		drawing_helper->DrawBoundary(boundary,false);
-//		drawing_helper->UnsetColor();
-//	}
-//}
 
 bool TBoundaryBoxAdornment::IsCollide(TVec2 point)
 {

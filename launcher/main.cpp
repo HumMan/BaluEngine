@@ -34,7 +34,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	if (num_args == 3)
 	{
 		Run(WideToMultiByte(args[1]), WideToMultiByte(args[2]));
-	}	
+	}
+	else
+	{
+		Run("assets", "game.bew");
+	}
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
