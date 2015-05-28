@@ -48,6 +48,14 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 			streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
 			//streams.AddStream(TStream::Color, TDataType::Float, 4, c.colors);
 			render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
+			if (c.draw_triangles_grid)
+			{
+				render->Texture.Enable(false);
+				render->Set.PolygonMode(TPolygonMode::Line);
+				render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
+				render->Set.PolygonMode(TPolygonMode::Fill);
+				render->Texture.Enable(true);
+			}
 		}
 	}
 
@@ -56,7 +64,7 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 
 	render->Set.PolygonMode(TBaluRenderEnums::TPolygonMode::Fill);
 
-	auto vg_context = GetContext();
+	auto vg_context = GetNanoVGContext();
 	//render_test();
 
 	//render->Depth.Test(false);

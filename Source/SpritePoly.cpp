@@ -185,6 +185,7 @@ void TBaluSpritePolygon::RemoveOnCustomDraw(int index)
 
 TBaluSpritePolygon::TBaluSpritePolygon()
 {
+	draw_triangles_grid = true;
 	is_custom_draw = false;
 	material = nullptr;
 

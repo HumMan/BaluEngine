@@ -241,6 +241,8 @@ namespace EngineInterface
 			view = nullptr;
 			viewport = nullptr;
 		}
+		TVec2 FromScreenPixelsToScene(TVec2i screen_pixels);
+		TVec2i FromSceneToScreenPixels(TVec2 scene_coordinates);
 	};
 #endif
 

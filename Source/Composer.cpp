@@ -4,7 +4,11 @@
 
 #include "baluRender.h"
 
+#include "SceneInstance.h"
+
 using namespace EngineInterface;
+
+#include "EngineInterfaces\IMaterial.h"
 
 class TComposerPrivate
 {
@@ -52,6 +56,13 @@ void TComposer::Render(EngineInterface::TRender* render)
 		//render->EnableScissor(true);
 		//render->SetScissorRect(*screen, main_viewport_view);
 		render->Render(render_commands, custom_draw_commands, main_viewport);
+
+		TDrawingHelperContext drawing_context;
+		drawing_context.screen = &screen;
+		drawing_context.view = &main_viewport_view;
+		drawing_context.viewport = main_viewport;
+
+		(dynamic_cast<TBaluSceneInstance*>(v.scene_instance))->DebugDraw(drawing_context);
 		//render->EnableScissor(false);
 	}		
 }

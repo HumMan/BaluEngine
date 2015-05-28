@@ -8,7 +8,7 @@ class NVGcontext;
 
 BALUENGINEDLL_API void nanovg_init();
 BALUENGINEDLL_API void nanovg_deinit();
-BALUENGINEDLL_API NVGcontext* GetContext();
+BALUENGINEDLL_API NVGcontext* GetNanoVGContext();
 //void render_test();
 
 BALUENGINEDLL_API void begin_frame(TVec2i screen_size);

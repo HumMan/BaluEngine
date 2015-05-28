@@ -43,6 +43,7 @@ private:
 	std::map<std::string, EngineInterface::TAnimLine> animation_lines;
 
 	bool enable;
+	bool draw_triangles_grid;
 
 	void UpdateTexCoords();
 	void UpdatePolyVertices();
@@ -55,6 +56,11 @@ private:
 
 	TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
 public:
+
+	void SetDrawTrianglesGrid(bool draw)
+	{
+		draw_triangles_grid = draw;
+	}
 
 	int GetAnimDescIndex(EngineInterface::TAnimDesc* desc);
 	EngineInterface::TAnimDesc* GetAnimDesc(int index);

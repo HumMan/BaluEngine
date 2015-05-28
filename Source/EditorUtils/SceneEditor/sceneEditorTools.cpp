@@ -40,7 +40,7 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 {
 	if (active_tool_class != nullptr)
 	{
-		auto transform = TBaluTransform(scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location), TRot(0));
+		auto transform = TBaluTransform(scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location), TRot(0));
 
 		auto new_source_scene_instance = scene_editor_scene->source_scene->CreateInstance(active_tool_class);
 		new_source_scene_instance->SetTransform(transform);
@@ -111,7 +111,7 @@ public:
 	{
 		if (scene_editor_scene->boundary_box.enable)
 		{
-			scene_editor_scene->boundary_box.OnMouseDown(e, scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+			scene_editor_scene->boundary_box.OnMouseDown(e, scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
 		if (!scene_editor_scene->boundary_box.IsCursorCaptured())
 		{
@@ -133,11 +133,11 @@ public:
 	{
 		if (scene_editor_scene->boundary_box.enable)
 		{
-			scene_editor_scene->boundary_box.OnMouseMove(e, scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+			scene_editor_scene->boundary_box.OnMouseMove(e, scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
 		if (!scene_editor_scene->boundary_box.IsCursorCaptured())
 		{
-			auto world_cursor_location = scene_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
+			auto world_cursor_location = scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
 			IBaluInstance* instance_collision(nullptr);
 			if (scene_editor_scene->editor_scene_instance->PointCollide(world_cursor_location, instance_collision))
 			{
@@ -157,7 +157,7 @@ public:
 	{
 		if (scene_editor_scene->boundary_box.enable)
 		{
-			scene_editor_scene->boundary_box.OnMouseUp(e, scene_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+			scene_editor_scene->boundary_box.OnMouseUp(e, scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
 		if (!scene_editor_scene->boundary_box.IsCursorCaptured())
 		{

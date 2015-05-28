@@ -41,6 +41,7 @@ void TBaluSpritePolygonInstance::Render(TRenderCommand& command)
 		//TODO убрать резервирование места если здесь ничего не добавляется
 		if (vertices.size() > 0)
 		{
+			command.draw_triangles_grid = source->draw_triangles_grid;
 			command.material_id = &material;
 			command.vertices = &vertices[0];
 			command.vertices_count = vertices.size();

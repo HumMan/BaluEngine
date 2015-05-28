@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.WorldContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,7 +63,6 @@
             this.loadDemoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -73,7 +70,6 @@
             this.worldTreeEditor1 = new BaluEditor.WorldTreeEditor();
             this.worldObjectsList1 = new BaluEditor.WorldObjectsList();
             this.menuStrip1.SuspendLayout();
-            this.EditorContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // propertyGrid1
@@ -84,12 +80,6 @@
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(240, 594);
             this.propertyGrid1.TabIndex = 1;
-            // 
-            // WorldContextMenu
-            // 
-            this.WorldContextMenu.Name = "contextMenuStrip1";
-            this.WorldContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.WorldContextMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // menuStrip1
             // 
@@ -353,16 +343,6 @@
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
-            // EditorContextMenu
-            // 
-            this.EditorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2});
-            this.EditorContextMenu.Name = "EditorContextMenu";
-            this.EditorContextMenu.Size = new System.Drawing.Size(139, 48);
-            this.EditorContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.EditorContextMenu_Opening);
-            this.EditorContextMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.EditorContextMenu_ItemClicked);
-            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -421,11 +401,11 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.Text = "Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.EditorContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -435,7 +415,6 @@
 
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ContextMenuStrip WorldContextMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -466,7 +445,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ContextMenuStrip EditorContextMenu;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem loadDemoToolStripMenuItem;

@@ -44,57 +44,6 @@ namespace BaluEditor
 
             worldObjectEditor1.EditorInitialize(director);
             worldObjectsList1.EditorInitialize(director);
-
-            //director.InitializeEngine();
-
-            //baluEditorControl1.SetViewport(panel2.Width, panel2.Height);
-        }
-
-        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            //var n = e.Node.Tag as Editor.TWolrdTreeNodeTag;
-            //if(n!=null)
-            //{
-            //    if(!n.IsSpecialNode)
-            //    {
-            //        baluEditorControl1.SetSelectedWorldNode(n);
-            //    }
-            //}
-        }
-
-        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            //var n = e.Node.Tag as Editor.TWolrdTreeNodeTag;
-            //if (n != null)
-            //{
-            //    if (!n.IsSpecialNode)
-            //    {
-            //        baluEditorControl1.SetEditedWorldNode(n);
-            //    }
-            //}
-        }
-
-        private void EditorContextMenu_Opening(object sender, CancelEventArgs e)
-        {
-           // EditorContextMenu.Items[0].Enabled = baluEditorControl1.CanSetSelectedAsWork();
-            //EditorContextMenu.Items[1].Enabled = baluEditorControl1.CanEndSelectedAsWork();
-        }
-
-        private void EditorContextMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            //if (e.ClickedItem == toolStripMenuItem1)
-            //{
-            //    baluEditorControl1.SetSelectedAsWork();
-            //}
-            //if (e.ClickedItem == toolStripMenuItem2)
-            //{
-            //    baluEditorControl1.EndSelectedAsWork();
-            //}
-        }
-
-        private void listBox1_SelectedValueChanged(object sender, EventArgs e)
-        {
-            //baluEditorControl1.SetToolSelectedObject(listBox1.SelectedItem as string);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -148,11 +97,12 @@ namespace BaluEditor
         {
             events_editor.EditorInitialize(director);
             events_editor.ShowDialog();
+            events_editor.EditorDeinitialize();
         }
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            director.Destroy();
+            //director.Destroy();
         }
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
@@ -174,6 +124,13 @@ namespace BaluEditor
         private void MainWindow_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            director.Destroy();
+            director = null;
+            e.Cancel = false;
         }
     }
 }

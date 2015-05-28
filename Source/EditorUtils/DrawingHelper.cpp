@@ -10,41 +10,16 @@
 
 using namespace EngineInterface;
 
-TDrawingHelper::TDrawingHelper(TDrawingHelperContext context)
+TDrawingHelper::TDrawingHelper(TDrawingHelperContext drawing_context)
 {
-	this->context = GetContext();
-	this->viewport = context.viewport;
-	this->view = context.view;
-	this->screen = context.screen;
+	this->context = GetNanoVGContext();
+	this->drawing_context = drawing_context;
 }
-
-TVec2 TDrawingHelper::FromScreenPixelsToScene(TVec2i screen_pixels)
-{
-
-	auto screen_coords = screen->FromScreenPixels2(screen_pixels);
-	auto view_coord = screen->FromScreenToView(*view, screen_coords);
-	auto scene_coord = IBaluScene::FromViewportToScene(viewport, view_coord);
-	return scene_coord;
-}
-
-TVec2i TDrawingHelper::FromSceneToScreenPixels(TVec2 scene_coordinates)
-{
-	auto viewport_coord = IBaluScene::FromSceneToViewport(viewport, scene_coordinates);
-	auto screen_coord = screen->FromViewToScreen(*view, viewport_coord);
-	auto screen_pixels = screen->ToScreenPixels2(screen_coord);
-	return screen_pixels;
-}
-
-//
-//void TDrawingHelper::SetTransform(TBaluTransform transform)
-//{
-//	this->transform = transform;
-//}
 
 void TDrawingHelper::RenderPointAdornment(TVec2 p, TBaluTransformWithScale trans)
 {
 	auto c = trans.ToGlobal(p);
-	auto temp = FromSceneToScreenPixels(c);
+	auto temp = drawing_context.FromSceneToScreenPixels(c);
 	auto pos = TVec2(temp[0], temp[1]);
 
 	nvgBeginPath(context);
@@ -61,7 +36,7 @@ void TDrawingHelper::RenderPointAdornment(TVec2 p, TBaluTransformWithScale trans
 void TDrawingHelper::RenderPointHighlightAdornment(TVec2 p, TBaluTransformWithScale trans)
 {
 	auto c = trans.ToGlobal(p);
-	auto temp = FromSceneToScreenPixels(c);
+	auto temp = drawing_context.FromSceneToScreenPixels(c);
 	auto pos = TVec2(temp[0], temp[1]);
 
 	nvgBeginPath(context);
@@ -92,8 +67,8 @@ void TDrawingHelper::RenderBoxCountour(TOBB2 box, float width)
 
 	for (int i = 0; i < vertices.size(); i += 2)
 	{
-		auto c0 = FromSceneToScreenPixels(vertices[i]);
-		auto c1 = FromSceneToScreenPixels(vertices[i + 1]);
+		auto c0 = drawing_context.FromSceneToScreenPixels(vertices[i]);
+		auto c1 = drawing_context.FromSceneToScreenPixels(vertices[i + 1]);
 
 		nvgMoveTo(context, c0[0], c0[1]);
 		nvgLineTo(context, c1[0], c1[1]);
@@ -116,8 +91,8 @@ void TDrawingHelper::RenderSelectionBox(TOBB2 box)
 
 	for (int i = 0; i < vertices.size(); i += 2)
 	{
-		auto c0 = FromSceneToScreenPixels(vertices[i]);
-		auto c1 = FromSceneToScreenPixels(vertices[i + 1]);
+		auto c0 = drawing_context.FromSceneToScreenPixels(vertices[i]);
+		auto c1 = drawing_context.FromSceneToScreenPixels(vertices[i + 1]);
 
 		nvgMoveTo(context, c0[0], c0[1]);
 		nvgLineTo(context, c1[0], c1[1]);
@@ -137,8 +112,8 @@ void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices, TBaluTr
 	int size = vertices.size();
 	for (int i = 0; i < size; i++)
 	{
-		auto c0 = FromSceneToScreenPixels(trans.ToGlobal(vertices[i]));
-		auto c1 = FromSceneToScreenPixels(trans.ToGlobal(vertices[(i + 1) % size]));
+		auto c0 = drawing_context.FromSceneToScreenPixels(trans.ToGlobal(vertices[i]));
+		auto c1 = drawing_context.FromSceneToScreenPixels(trans.ToGlobal(vertices[(i + 1) % size]));
 
 		nvgMoveTo(context, c0[0], c0[1]);
 		nvgLineTo(context, c1[0], c1[1]);
@@ -155,8 +130,8 @@ void TDrawingHelper::RenderLine(const TVec2& p0, const TVec2& p1, TBaluTransform
 	nvgStrokeColor(context, nvgRGBA(220, 20, 220, 160));
 
 
-	auto c0 = FromSceneToScreenPixels(trans.ToGlobal(p0));
-	auto c1 = FromSceneToScreenPixels(trans.ToGlobal(p1));
+	auto c0 = drawing_context.FromSceneToScreenPixels(trans.ToGlobal(p0));
+	auto c1 = drawing_context.FromSceneToScreenPixels(trans.ToGlobal(p1));
 
 	nvgMoveTo(context, c0[0], c0[1]);
 	nvgLineTo(context, c1[0], c1[1]);

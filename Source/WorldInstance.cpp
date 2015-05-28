@@ -128,12 +128,6 @@ void TBaluWorldInstance::UpdateTransform()
 		instances[i]->UpdateTransform();
 }
 
-void TBaluWorldInstance::DebugDraw()
-{
-	for (int i = 0; i < instances.size(); i++)
-		instances[i]->DebugDraw();
-}
-
 bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance& script_engine, std::vector<std::string>& errors_list)
 {
 	try

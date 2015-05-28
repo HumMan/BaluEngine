@@ -30,82 +30,82 @@ DebugDraw g_debugDraw;
 Camera g_camera;
 
 //
-b2Vec2 Camera::ConvertScreenToWorld(const b2Vec2& ps)
-{
-    float32 w = float32(m_width);
-    float32 h = float32(m_height);
-	float32 u = ps.x / w;
-	float32 v = (h - ps.y) / h;
+//b2Vec2 Camera::ConvertScreenToWorld(const b2Vec2& ps)
+//{
+ //   float32 w = float32(m_width);
+ //   float32 h = float32(m_height);
+	//float32 u = ps.x / w;
+	//float32 v = (h - ps.y) / h;
 
-	float32 ratio = w / h;
-	b2Vec2 extents(ratio * 25.0f, 25.0f);
-	extents *= m_zoom;
+	//float32 ratio = w / h;
+	//b2Vec2 extents(ratio * 25.0f, 25.0f);
+	//extents *= m_zoom;
 
-	b2Vec2 lower = m_center - extents;
-	b2Vec2 upper = m_center + extents;
+	//b2Vec2 lower = m_center - extents;
+	//b2Vec2 upper = m_center + extents;
 
-	b2Vec2 pw;
-	pw.x = (1.0f - u) * lower.x + u * upper.x;
-	pw.y = (1.0f - v) * lower.y + v * upper.y;
-	return pw;
-}
+	//b2Vec2 pw;
+	//pw.x = (1.0f - u) * lower.x + u * upper.x;
+	//pw.y = (1.0f - v) * lower.y + v * upper.y;
+	//return pw;
+//}
 
 //
-b2Vec2 Camera::ConvertWorldToScreen(const b2Vec2& pw)
-{
-	float32 w = float32(m_width);
-	float32 h = float32(m_height);
-	float32 ratio = w / h;
-	b2Vec2 extents(ratio * 25.0f, 25.0f);
-	extents *= m_zoom;
+//b2Vec2 Camera::ConvertWorldToScreen(const b2Vec2& pw)
+//{
+	//float32 w = float32(m_width);
+	//float32 h = float32(m_height);
+	//float32 ratio = w / h;
+	//b2Vec2 extents(ratio * 25.0f, 25.0f);
+	//extents *= m_zoom;
 
-	b2Vec2 lower = m_center - extents;
-	b2Vec2 upper = m_center + extents;
+	//b2Vec2 lower = m_center - extents;
+	//b2Vec2 upper = m_center + extents;
 
-	float32 u = (pw.x - lower.x) / (upper.x - lower.x);
-	float32 v = (pw.y - lower.y) / (upper.y - lower.y);
+	//float32 u = (pw.x - lower.x) / (upper.x - lower.x);
+	//float32 v = (pw.y - lower.y) / (upper.y - lower.y);
 
-	b2Vec2 ps;
-	ps.x = u * w;
-	ps.y = (1.0f - v) * h;
-	return ps;
-}
+	//b2Vec2 ps;
+	//ps.x = u * w;
+	//ps.y = (1.0f - v) * h;
+	//return ps;
+//}
+
 
 // Convert from world coordinates to normalized device coordinates.
 // http://www.songho.ca/opengl/gl_projectionmatrix.html
 void Camera::BuildProjectionMatrix(float32* m, float32 zBias)
 {
-	float32 w = float32(m_width);
-	float32 h = float32(m_height);
-	float32 ratio = w / h;
-	b2Vec2 extents(ratio * m_extent, m_extent);
-	extents *= m_zoom;
+	//float32 w = float32(m_width);
+	//float32 h = float32(m_height);
+	//float32 ratio = w / h;
+	//b2Vec2 extents(ratio * m_extent, m_extent);
+	//extents *= m_zoom;
 
-	b2Vec2 lower = m_center - extents;
-	b2Vec2 upper = m_center + extents;
+	//b2Vec2 lower = m_center - extents;
+	//b2Vec2 upper = m_center + extents;
 
-	m[0] = 2.0f / (upper.x - lower.x);
-	m[1] = 0.0f;
-	m[2] = 0.0f;
-	m[3] = 0.0f;
+	//m[0] = 2.0f / (upper.x - lower.x);
+	//m[1] = 0.0f;
+	//m[2] = 0.0f;
+	//m[3] = 0.0f;
 
-	m[4] = 0.0f;
-	m[5] = 2.0f / (upper.y - lower.y);
-	m[6] = 0.0f;
-	m[7] = 0.0f;
+	//m[4] = 0.0f;
+	//m[5] = 2.0f / (upper.y - lower.y);
+	//m[6] = 0.0f;
+	//m[7] = 0.0f;
 
-	m[8] = 0.0f;
-	m[9] = 0.0f;
-	m[10] = 1.0f;
-	m[11] = 0.0f;
+	//m[8] = 0.0f;
+	//m[9] = 0.0f;
+	//m[10] = 1.0f;
+	//m[11] = 0.0f;
 
-	m[12] = -(upper.x + lower.x) / (upper.x - lower.x);
-	m[13] = -(upper.y + lower.y) / (upper.y - lower.y);
-	m[14] = zBias;
-	m[15] = 1.0f;
+	//m[12] = -(upper.x + lower.x) / (upper.x - lower.x);
+	//m[13] = -(upper.y + lower.y) / (upper.y - lower.y);
+	//m[14] = zBias;
+	//m[15] = 1.0f;
 }
 
-//
 static void sCheckGLError()
 {
 	GLenum errCode = glGetError();
@@ -213,57 +213,57 @@ struct GLRenderPoints
         "	color = f_color;\n"
         "}\n";
         
-		m_programId = sCreateShaderProgram(vs, fs);
-		m_projectionUniform = glGetUniformLocation(m_programId, "projectionMatrix");
+		//m_programId = sCreateShaderProgram(vs, fs);
+		//m_projectionUniform = glGetUniformLocation(m_programId, "projectionMatrix");
 		m_vertexAttribute = 0;
 		m_colorAttribute = 1;
 		m_sizeAttribute = 2;
         
-		// Generate
-		glGenVertexArrays(1, &m_vaoId);
-		glGenBuffers(3, m_vboIds);
-        
-		glBindVertexArray(m_vaoId);
-		glEnableVertexAttribArray(m_vertexAttribute);
-		glEnableVertexAttribArray(m_colorAttribute);
-		glEnableVertexAttribArray(m_sizeAttribute);
-        
-		// Vertex buffer
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
-		glVertexAttribPointer(m_vertexAttribute, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices, GL_DYNAMIC_DRAW);
-        
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
-		glVertexAttribPointer(m_colorAttribute, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_colors), m_colors, GL_DYNAMIC_DRAW);
-        
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[2]);
-		glVertexAttribPointer(m_sizeAttribute, 1, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_sizes), m_sizes, GL_DYNAMIC_DRAW);
+		//// Generate
+		//glGenVertexArrays(1, &m_vaoId);
+		//glGenBuffers(3, m_vboIds);
+  //      
+		//glBindVertexArray(m_vaoId);
+		//glEnableVertexAttribArray(m_vertexAttribute);
+		//glEnableVertexAttribArray(m_colorAttribute);
+		//glEnableVertexAttribArray(m_sizeAttribute);
+  //      
+		//// Vertex buffer
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
+		//glVertexAttribPointer(m_vertexAttribute, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices, GL_DYNAMIC_DRAW);
+  //      
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
+		//glVertexAttribPointer(m_colorAttribute, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(m_colors), m_colors, GL_DYNAMIC_DRAW);
+  //      
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[2]);
+		//glVertexAttribPointer(m_sizeAttribute, 1, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(m_sizes), m_sizes, GL_DYNAMIC_DRAW);
 
-		sCheckGLError();
-        
-		// Cleanup
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-        
+		//sCheckGLError();
+  //      
+		//// Cleanup
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//glBindVertexArray(0);
+  //      
 		m_count = 0;
 	}
     
 	void Destroy()
 	{
-		if (m_vaoId)
-		{
-			glDeleteVertexArrays(1, &m_vaoId);
-			glDeleteBuffers(2, m_vboIds);
-			m_vaoId = 0;
-		}
-        
-		if (m_programId)
-		{
-			glDeleteProgram(m_programId);
-			m_programId = 0;
-		}
+		//if (m_vaoId)
+		//{
+		//	glDeleteVertexArrays(1, &m_vaoId);
+		//	glDeleteBuffers(2, m_vboIds);
+		//	m_vaoId = 0;
+		//}
+  //      
+		//if (m_programId)
+		//{
+		//	glDeleteProgram(m_programId);
+		//	m_programId = 0;
+		//}
 	}
     
 	void Vertex(const b2Vec2& v, const b2Color& c, float32 size)
@@ -282,34 +282,45 @@ struct GLRenderPoints
         if (m_count == 0)
             return;
         
-		glUseProgram(m_programId);
-        
-		float32 proj[16] = { 0.0f };
-		g_camera.BuildProjectionMatrix(proj, 0.0f);
-        
-		glUniformMatrix4fv(m_projectionUniform, 1, GL_FALSE, proj);
-        
-		glBindVertexArray(m_vaoId);
-        
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Vec2), m_vertices);
-        
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Color), m_colors);
-        
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[2]);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(float32), m_sizes);
+		//glUseProgram(m_programId);
+  //      
+		//float32 proj[16] = { 0.0f };
+		//g_camera.BuildProjectionMatrix(proj, 0.0f);
+  //      
+		//glUniformMatrix4fv(m_projectionUniform, 1, GL_FALSE, proj);
+  //      
+		//glBindVertexArray(m_vaoId);
+  //      
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
+		//glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Vec2), m_vertices);
+  //      
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
+		//glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Color), m_colors);
+  //      
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[2]);
+		//glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(float32), m_sizes);
 
-		glEnable(GL_PROGRAM_POINT_SIZE);
+		//glEnable(GL_PROGRAM_POINT_SIZE);
+		//glDrawArrays(GL_POINTS, 0, m_count);
+  //      glDisable(GL_PROGRAM_POINT_SIZE);
+
+		//sCheckGLError();
+  //      
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//glBindVertexArray(0);
+		//glUseProgram(0);
+		glDisable(GL_TEXTURE_2D);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT, 0, m_vertices);
+
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_FLOAT, 0, m_colors);
+
 		glDrawArrays(GL_POINTS, 0, m_count);
-        glDisable(GL_PROGRAM_POINT_SIZE);
 
-		sCheckGLError();
-        
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-		glUseProgram(0);
-        
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glEnable(GL_TEXTURE_2D);
 		m_count = 0;
 	}
     
@@ -355,51 +366,51 @@ struct GLRenderLines
         "	color = f_color;\n"
         "}\n";
         
-		m_programId = sCreateShaderProgram(vs, fs);
-		m_projectionUniform = glGetUniformLocation(m_programId, "projectionMatrix");
+		//m_programId = sCreateShaderProgram(vs, fs);
+		//m_projectionUniform = glGetUniformLocation(m_programId, "projectionMatrix");
 		m_vertexAttribute = 0;
 		m_colorAttribute = 1;
         
-		// Generate
-		glGenVertexArrays(1, &m_vaoId);
-		glGenBuffers(2, m_vboIds);
-        
-		glBindVertexArray(m_vaoId);
-		glEnableVertexAttribArray(m_vertexAttribute);
-		glEnableVertexAttribArray(m_colorAttribute);
-        
-		// Vertex buffer
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
-		glVertexAttribPointer(m_vertexAttribute, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices, GL_DYNAMIC_DRAW);
-        
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
-		glVertexAttribPointer(m_colorAttribute, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_colors), m_colors, GL_DYNAMIC_DRAW);
-        
-		sCheckGLError();
-        
-		// Cleanup
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-        
+		//// Generate
+		//glGenVertexArrays(1, &m_vaoId);
+		//glGenBuffers(2, m_vboIds);
+  //      
+		//glBindVertexArray(m_vaoId);
+		//glEnableVertexAttribArray(m_vertexAttribute);
+		//glEnableVertexAttribArray(m_colorAttribute);
+  //      
+		//// Vertex buffer
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
+		//glVertexAttribPointer(m_vertexAttribute, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices, GL_DYNAMIC_DRAW);
+  //      
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
+		//glVertexAttribPointer(m_colorAttribute, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(m_colors), m_colors, GL_DYNAMIC_DRAW);
+  //      
+		//sCheckGLError();
+  //      
+		//// Cleanup
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//glBindVertexArray(0);
+  //      
 		m_count = 0;
 	}
     
 	void Destroy()
 	{
-		if (m_vaoId)
-		{
-			glDeleteVertexArrays(1, &m_vaoId);
-			glDeleteBuffers(2, m_vboIds);
-			m_vaoId = 0;
-		}
-        
-		if (m_programId)
-		{
-			glDeleteProgram(m_programId);
-			m_programId = 0;
-		}
+		//if (m_vaoId)
+		//{
+		//	glDeleteVertexArrays(1, &m_vaoId);
+		//	glDeleteBuffers(2, m_vboIds);
+		//	m_vaoId = 0;
+		//}
+  //      
+		//if (m_programId)
+		//{
+		//	glDeleteProgram(m_programId);
+		//	m_programId = 0;
+		//}
 	}
     
 	void Vertex(const b2Vec2& v, const b2Color& c)
@@ -417,7 +428,7 @@ struct GLRenderLines
         if (m_count == 0)
             return;
         
-		glUseProgram(m_programId);
+		/*glUseProgram(m_programId);
         
 		float32 proj[16] = { 0.0f };
 		g_camera.BuildProjectionMatrix(proj, 0.1f);
@@ -438,8 +449,19 @@ struct GLRenderLines
         
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
-		glUseProgram(0);
-        
+		glUseProgram(0);*/
+		glDisable(GL_TEXTURE_2D);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT, 0, m_vertices);
+
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_FLOAT, 0, m_colors);
+
+		glDrawArrays(GL_LINES, 0, m_count);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glEnable(GL_TEXTURE_2D);
 		m_count = 0;
 	}
     
@@ -483,51 +505,51 @@ struct GLRenderTriangles
 			"	color = f_color;\n"
 			"}\n";
 
-		m_programId = sCreateShaderProgram(vs, fs);
-		m_projectionUniform = glGetUniformLocation(m_programId, "projectionMatrix");
-		m_vertexAttribute = 0;
-		m_colorAttribute = 1;
+		//m_programId = sCreateShaderProgram(vs, fs);
+		//m_projectionUniform = glGetUniformLocation(m_programId, "projectionMatrix");
+		//m_vertexAttribute = 0;
+		//m_colorAttribute = 1;
 
 		// Generate
-		glGenVertexArrays(1, &m_vaoId);
-		glGenBuffers(2, m_vboIds);
+		//glGenVertexArrays(1, &m_vaoId);
+		//glGenBuffers(2, m_vboIds);
 
-		glBindVertexArray(m_vaoId);
-		glEnableVertexAttribArray(m_vertexAttribute);
-		glEnableVertexAttribArray(m_colorAttribute);
+		//glBindVertexArray(m_vaoId);
+		//glEnableVertexAttribArray(m_vertexAttribute);
+		//glEnableVertexAttribArray(m_colorAttribute);
 
-		// Vertex buffer
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
-		glVertexAttribPointer(m_vertexAttribute, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices, GL_DYNAMIC_DRAW);
+		//// Vertex buffer
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
+		//glVertexAttribPointer(m_vertexAttribute, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices, GL_DYNAMIC_DRAW);
 
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
-		glVertexAttribPointer(m_colorAttribute, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_colors), m_colors, GL_DYNAMIC_DRAW);
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
+		//glVertexAttribPointer(m_colorAttribute, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(m_colors), m_colors, GL_DYNAMIC_DRAW);
 
-		sCheckGLError();
+		//sCheckGLError();
 
-		// Cleanup
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
+		//// Cleanup
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//glBindVertexArray(0);
 
 		m_count = 0;
 	}
 
 	void Destroy()
 	{
-		if (m_vaoId)
-		{
-			glDeleteVertexArrays(1, &m_vaoId);
-			glDeleteBuffers(2, m_vboIds);
-			m_vaoId = 0;
-		}
+		//if (m_vaoId)
+		//{
+		//	glDeleteVertexArrays(1, &m_vaoId);
+		//	glDeleteBuffers(2, m_vboIds);
+		//	m_vaoId = 0;
+		//}
 
-		if (m_programId)
-		{
-			glDeleteProgram(m_programId);
-			m_programId = 0;
-		}
+		//if (m_programId)
+		//{
+		//	glDeleteProgram(m_programId);
+		//	m_programId = 0;
+		//}
 	}
 
 	void Vertex(const b2Vec2& v, const b2Color& c)
@@ -545,32 +567,46 @@ struct GLRenderTriangles
         if (m_count == 0)
             return;
         
-		glUseProgram(m_programId);
-        
-		float32 proj[16] = { 0.0f };
-		g_camera.BuildProjectionMatrix(proj, 0.2f);
-        
-		glUniformMatrix4fv(m_projectionUniform, 1, GL_FALSE, proj);
-        
-		glBindVertexArray(m_vaoId);
-        
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Vec2), m_vertices);
-        
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Color), m_colors);
-        
+		//glUseProgram(m_programId);
+  //      
+		//float32 proj[16] = { 0.0f };
+		//g_camera.BuildProjectionMatrix(proj, 0.2f);
+  //      
+		//glUniformMatrix4fv(m_projectionUniform, 1, GL_FALSE, proj);
+  //      
+		//glBindVertexArray(m_vaoId);
+  //      
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
+		//glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Vec2), m_vertices);
+  //      
+		//glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
+		//glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Color), m_colors);
+  //      
         glEnable(GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glDisable(GL_TEXTURE_2D);
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT, 0, m_vertices);
+
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_FLOAT, 0, m_colors);
+
 		glDrawArrays(GL_TRIANGLES, 0, m_count);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+
+		glEnable(GL_TEXTURE_2D);
         glDisable(GL_BLEND);
         
 		sCheckGLError();
         
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-		glUseProgram(0);
-        
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//glBindVertexArray(0);
+		//glUseProgram(0);
+  //      
 		m_count = 0;
 	}
     
@@ -599,9 +635,9 @@ DebugDraw::DebugDraw()
 //
 DebugDraw::~DebugDraw()
 {
-	b2Assert(m_points == NULL);
-	b2Assert(m_lines == NULL);
-	b2Assert(m_triangles == NULL);
+	//b2Assert(m_points == NULL);
+	//b2Assert(m_lines == NULL);
+	//b2Assert(m_triangles == NULL);
 }
 
 //

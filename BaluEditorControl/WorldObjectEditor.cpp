@@ -108,6 +108,7 @@ namespace Editor
 		p->director = nullptr;
 		p->world = nullptr;
 		director = nullptr;
+		delete p;
 	}
 
 	void TWorldObjectEditor::Resize(int width, int height)
@@ -115,7 +116,15 @@ namespace Editor
 			*p->screen = TVec2i(width, height);
 			p->director->SetScreenSize(p->screen->size);
 	}
-
+	void TWorldObjectEditor::OnBeforeWorldLoad()
+	{
+		//p->world = director->GetWorld();
+		if (p->world != nullptr)
+		{
+			OnEditedObjectChange(this, (int)TWorldObjectType::None, -1);
+			p->director->SetWorldInstance(nullptr);
+		}
+	}
 	void TWorldObjectEditor::OnAfterWorldLoad()
 	{
 		p->world = director->GetWorld();

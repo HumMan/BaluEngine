@@ -27,6 +27,7 @@ namespace EngineInterface
 	public:
 		TMaterialInstance* material_id;
 
+		bool draw_triangles_grid;
 		int vertices_count;
 		TVec2* vertices;
 		TVec2* tex_coords;

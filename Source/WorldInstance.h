@@ -22,6 +22,9 @@ public:
 	TBaluWorld* GetSource();
 
 	TBaluWorldInstance(TBaluWorld* source, TResources* resources);
+	~TBaluWorldInstance()
+	{
+	}
 
 	TBaluSceneInstance* RunScene(TBaluScene* scene_source);
 	void StopScene(TBaluSceneInstance*);
@@ -55,7 +58,6 @@ public:
 	//void Render(TDirector* director, TRender* render);
 
 	void UpdateTransform();
-	void DebugDraw();
 
 	static bool CompileScripts(TBaluWorld* source, TBaluScriptInstance& script_engine, std::vector<std::string>& errors_list);
 

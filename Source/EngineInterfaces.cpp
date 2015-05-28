@@ -55,4 +55,20 @@ namespace EngineInterface
 		auto ed = dynamic_cast<TBaluScriptInstance*>(instance);
 		delete ed;
 	}
+
+	TVec2 TDrawingHelperContext::FromScreenPixelsToScene(TVec2i screen_pixels)
+	{
+
+		auto screen_coords = screen->FromScreenPixels2(screen_pixels);
+		auto view_coord = screen->FromScreenToView(*view, screen_coords);
+		auto scene_coord = IBaluScene::FromViewportToScene(viewport, view_coord);
+		return scene_coord;
+	}
+	TVec2i TDrawingHelperContext::FromSceneToScreenPixels(TVec2 scene_coordinates)
+	{
+		auto viewport_coord = IBaluScene::FromSceneToViewport(viewport, scene_coordinates);
+		auto screen_coord = screen->FromViewToScreen(*view, viewport_coord);
+		auto screen_pixels = screen->ToScreenPixels2(screen_coord);
+		return screen_pixels;
+	}
 }

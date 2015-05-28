@@ -105,9 +105,9 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	this->resources = resources;
 	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));
 
-	//phys_debug.Create();
+	phys_debug.Create();
 
-	//phys_world->SetDebugDraw(&phys_debug);
+	phys_world->SetDebugDraw(&phys_debug);
 	phys_world->SetContactListener(&contact_listener);
 
 	for (int i = 0; i < source->GetInstancesCount(); i++)
@@ -121,7 +121,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 
 TBaluSceneInstance::~TBaluSceneInstance()
 {
-	//g_debugDraw.Destroy();
+	phys_debug.Destroy();
 }
 
 //TBaluSceneInstance::TBaluSceneInstance(TBaluSceneInstance&& right)
@@ -217,15 +217,15 @@ void TBaluSceneInstance::UpdateTransform()
 	}
 }
 
-void TBaluSceneInstance::DebugDraw()
+void TBaluSceneInstance::DebugDraw(TDrawingHelperContext drawing_context)
 {
 	uint32 flags = 0;
 	flags |= b2Draw::e_shapeBit;
 	flags |= b2Draw::e_jointBit;
 	//flags |= b2Draw::e_aabbBit;
 	flags |= b2Draw::e_centerOfMassBit;
-	//phys_debug.SetFlags(flags);
-
-	//phys_world->DrawDebugData();
-	//phys_debug.Flush();
+	phys_debug.SetFlags(flags);
+	g_camera.drawing_context = drawing_context;
+	phys_world->DrawDebugData();
+	phys_debug.Flush();
 }

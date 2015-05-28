@@ -69,12 +69,6 @@ void TDirector::Step(float step)
 
 		p->world_instance->OnStep(step);
 
-		g_camera.m_height = 512;
-		g_camera.m_width = 512;
-		g_camera.m_extent = 10;
-		g_camera.m_zoom = 1;
-
-		p->world_instance->DebugDraw();
 	}
 	catch (std::exception ex)
 	{

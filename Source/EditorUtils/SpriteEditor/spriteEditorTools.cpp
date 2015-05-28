@@ -63,7 +63,7 @@ public:
 	{
 		if (sprite_editor_scene->boundary_box.enable)
 		{
-			sprite_editor_scene->boundary_box.OnMouseDown(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+			sprite_editor_scene->boundary_box.OnMouseDown(e, sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
 		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
 		{
@@ -85,11 +85,11 @@ public:
 	{
 		if (sprite_editor_scene->boundary_box.enable)
 		{
-			sprite_editor_scene->boundary_box.OnMouseMove(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+			sprite_editor_scene->boundary_box.OnMouseMove(e, sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
 		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
 		{
-			auto world_cursor_location = sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
+			auto world_cursor_location = sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
 			//IBaluInstance* instance_collision(nullptr);
 			//if (sprite_editor_scene->source_sprite->PointCollide(world_cursor_location, instance_collision))
 			//{
@@ -109,7 +109,7 @@ public:
 	{
 		if (sprite_editor_scene->boundary_box.enable)
 		{
-			sprite_editor_scene->boundary_box.OnMouseUp(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+			sprite_editor_scene->boundary_box.OnMouseUp(e, sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
 		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
 		{
@@ -295,7 +295,7 @@ public:
 		if (e.button != TMouseButton::Left) return;
 		mouse_down = true;
 		auto poly_trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransformWithScale();
-		mouse_down_pos = poly_trans.ToLocal(sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+		mouse_down_pos = poly_trans.ToLocal(sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		UpdateOldPolygon();
 		if (active_state == "edit")
 		{
@@ -361,7 +361,7 @@ public:
 	void OnMouseMove(TMouseEventArgs e)
 	{
 		auto poly_trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransformWithScale();
-		TVec2 new_pos = poly_trans.ToLocal(sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+		TVec2 new_pos = poly_trans.ToLocal(sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 
 		if (active_state == "edit")
 		{

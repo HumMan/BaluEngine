@@ -210,6 +210,11 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	box_class->GetPhysBody()->Enable(true);
 	box_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Static);
 
+	auto box_class_dyn = world->CreateClass("box_dyn");
+	auto box_class_instance_dyn = box_class_dyn->AddSprite(box_sprite);
+	box_class_dyn->GetPhysBody()->Enable(true);
+	box_class_dyn->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
+
 	auto player_mat = world->CreateMaterial("player_skin");
 	player_mat->SetImagePath("\\textures\\player.png");
 	auto player_sprite = world->CreateSprite("player");
@@ -421,6 +426,12 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	{
 		auto inst0 = scene0->CreateInstance(box_class);
 		inst0->SetTransform(TBaluTransform(TVec2(-5 + i*0.9 + 0.3, -7 + sinf(i*0.3) * 1), TRot(i)));
+	}
+
+	for (int i = -0; i < 10; i++)
+	{
+		auto inst0 = scene0->CreateInstance(box_class_dyn);
+		inst0->SetTransform(TBaluTransform(TVec2(-5 + i*0.9 + 0.3, 7 + sinf(i*0.3) * 1), TRot(i)));
 	}
 
 	auto main_viewport = scene0->CreateViewport("main_viewport");

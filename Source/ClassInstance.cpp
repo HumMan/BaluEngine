@@ -170,6 +170,7 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 		body_def.position = *(b2Vec2*)&instance_transform.position;
 		body_def.angle = instance_transform.angle.GetAngle();
 		body_def.linearDamping = 0.1;
+		//body_def.angularDamping = 0.1;
 		//body_def.fixedRotation = false;
 		//if (body_def.type == b2BodyType::b2_dynamicBody)
 		//	body_def.angularVelocity = 10;

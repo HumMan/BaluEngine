@@ -30,6 +30,7 @@ namespace Editor
 	public ref class TWorldObjectEditor: public TEditor
 	{
 	internal:
+		void OnBeforeWorldLoad()override;
 		void OnAfterWorldLoad()override;
 		void OnEditedObjectChange(TEditor^ sender, int type, int index)override;
 		void OnObjectListSelectionChange(TEditor^ sender, int type, int index)override;

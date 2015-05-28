@@ -82,7 +82,7 @@ private:
 
 	std::unique_ptr<b2World> phys_world;
 
-	//DebugDraw phys_debug;
+	DebugDraw phys_debug;
 
 	TBaluScene* source;
 	std::vector<std::unique_ptr<TBaluInstance>> instances;
@@ -137,5 +137,5 @@ public:
 
 	void UpdateTransform();
 
-	void DebugDraw();
+	void DebugDraw(TDrawingHelperContext drawing_context);
 };

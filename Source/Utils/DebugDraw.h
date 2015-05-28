@@ -21,6 +21,8 @@
 
 #include <Box2D.h>
 
+#include "../EngineInterfaces/IMaterial.h"
+
 struct b2AABB;
 struct GLRenderPoints;
 struct GLRenderLines;
@@ -29,24 +31,25 @@ struct GLRenderTriangles;
 //
 struct Camera
 {
-	Camera()
-	{
-		m_center.Set(0.0f, 0.0f);
-		m_extent = 25.0f;
-		m_zoom = 1.0f;
-		m_width = 1280;
-		m_height = 800;
-	}
+	//Camera()
+	//{
+	//	m_center.Set(0.0f, 0.0f);
+	//	m_extent = 25.0f;
+	//	m_zoom = 1.0f;
+	//	m_width = 1280;
+	//	m_height = 800;
+	//}
+	EngineInterface::TDrawingHelperContext drawing_context;
+	void Camera::BuildProjectionMatrix(float32* m, float32 zBias);
+	//b2Vec2 ConvertScreenToWorld(const b2Vec2& screenPoint);
+	//b2Vec2 ConvertWorldToScreen(const b2Vec2& worldPoint);
+	//void BuildProjectionMatrix(float32* m, float32 zBias);
 
-	b2Vec2 ConvertScreenToWorld(const b2Vec2& screenPoint);
-	b2Vec2 ConvertWorldToScreen(const b2Vec2& worldPoint);
-	void BuildProjectionMatrix(float32* m, float32 zBias);
-
-	b2Vec2 m_center;
-	float32 m_extent;
-	float32 m_zoom;
-	int32 m_width;
-	int32 m_height;
+	//b2Vec2 m_center;
+	//float32 m_extent;
+	//float32 m_zoom;
+	//int32 m_width;
+	//int32 m_height;
 };
 
 // This class implements debug drawing callbacks that are invoked
@@ -88,7 +91,6 @@ private:
     GLRenderTriangles* m_triangles;
 };
 
-extern DebugDraw g_debugDraw;
 extern Camera g_camera;
 
 #endif
