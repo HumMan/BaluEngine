@@ -91,21 +91,23 @@ private:
 	TBlendEquation blend_left, blend_right;
 	TTexFilter texture_filter;
 	TTexClamp texture_clamp;
-
-	std::string material_name;
 	std::string image_path;
 	TVec4 color;
+
+#ifdef BALUENGINE_DESIGN_TIME
+	TBaluWorld* world;
+#endif
+
 public:
-	TBaluMaterial()
-	{
-	}
-	TBaluMaterial(const char* name, TBaluWorld* world);
-	
+	TBaluMaterial();
+
+#ifdef BALUENGINE_DESIGN_TIME
+	TBaluMaterial(TBaluWorld* world);	
+#endif
+
 	void SetBlendMode(TTransparentMode mode);
-	
-
 	void SetAlphaTestValue(float alpha_test_value);
-
+	
 	void SetName(std::string name);
 	std::string GetName();
 
@@ -117,5 +119,5 @@ public:
 	EngineInterface::IProperties* GetProperties();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };

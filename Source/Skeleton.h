@@ -51,7 +51,7 @@ public:
 	std::vector<TBaluClassSpriteInstance>& GetSpritesOfBone(int bone_index);
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };
 
 class TSkeleton: public EngineInterface::ISkeleton
@@ -85,5 +85,5 @@ public:
 	std::vector<TBone*> GetAllBones();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };

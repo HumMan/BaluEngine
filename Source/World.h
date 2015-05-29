@@ -89,6 +89,9 @@ public:
 	TBaluClass* GetClass(const char* class_name);
 	TBaluScene* GetScene(const char* scene_name);
 
+	void RenameObject(TWorldObjectType type, const char* old_name, const char* new_name);
+	std::string GetObjectName(TWorldObjectType type, IBaluWorldObject* obj);
+
 	IBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name);
 	std::vector<IBaluWorldObject*> GetObjects(TWorldObjectType type);
 	bool ObjectNameExists(TWorldObjectType type, const char* name);

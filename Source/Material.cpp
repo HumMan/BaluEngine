@@ -1,9 +1,17 @@
 #include "Material.h"
+#include "World.h"
 
-TBaluMaterial::TBaluMaterial(const char* name, TBaluWorld* world)
+TBaluMaterial::TBaluMaterial()
 {
-	this->material_name = name;
+	world = nullptr;
 }
+
+#ifdef BALUENGINE_DESIGN_TIME
+TBaluMaterial::TBaluMaterial(TBaluWorld* world)
+{
+	this->world = world;
+}
+#endif
 
 EngineInterface::IProperties* TBaluMaterial::GetProperties()
 {
@@ -22,12 +30,12 @@ void TBaluMaterial::SetAlphaTestValue(float alpha_test_value)
 
 void TBaluMaterial::SetName(std::string name)
 {
-	this->material_name = name;
+	world->RenameObject(TWorldObjectType::Material, world->GetObjectName(TWorldObjectType::Material, this).c_str(), name.c_str());
 }
 
 std::string TBaluMaterial::GetName()
 {
-	return material_name;
+	return  world->GetObjectName(TWorldObjectType::Material, this);
 }
 
 void TBaluMaterial::SetImagePath(std::string image_path)

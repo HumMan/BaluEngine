@@ -2,3 +2,7 @@
 toggles actions для abstract editor (настройки отображения, общие функции)
 TClass сделать абстрактным, для возможности использования других сущностей: класс, текст, источник света, система частиц
 заменить custom_draw на набор стандартных элементов рисования
+
+разбить callbacks на type и instance
+
+http://www.codeproject.com/Articles/415070/Dynamic-Type-Description-Framework-for-PropertyGri

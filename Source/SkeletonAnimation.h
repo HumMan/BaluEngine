@@ -34,7 +34,7 @@ public:
 		this->rotation = 0;
 	}
 	void Save(pugi::xml_node& parent_node, const int version) const;
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };
 
 class TFrameComparer
@@ -104,6 +104,6 @@ public:
 	TTimeLine* GetAnimation(int index);
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };
 

@@ -33,7 +33,7 @@ public:
 	b2BodyDef GetBodyDef();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };
 
 
@@ -98,5 +98,5 @@ public:
 	std::vector<CallbackWithData<BeforePhysicsCallback>>& GetOnBeforePhysicsStep();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };

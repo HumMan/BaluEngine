@@ -65,7 +65,7 @@ public:
 	TBaluSpritePolygon* GetPolygon();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };
 
 
@@ -113,5 +113,5 @@ public:
 		return (is_in_sprite);
 	}
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };

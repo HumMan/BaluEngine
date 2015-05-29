@@ -33,7 +33,7 @@ public:
 	}
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };
 
 class TBaluScene : public EngineInterface::IBaluScene, public EngineInterface::IBaluWorldObject
@@ -74,7 +74,7 @@ public:
 			return balu_class;
 		}
 		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+		void Load(const pugi::xml_node& instance_node, const int version);
 	};
 private:
 	std::vector<std::unique_ptr<TClassInstance>> instances;
@@ -112,5 +112,5 @@ public:
 	void DestroyInstance(EngineInterface::IBaluSceneClassInstance* instance);
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };

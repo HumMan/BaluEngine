@@ -15,7 +15,7 @@ public:
 	{
 		parent_node.append_attribute("type").set_value(GetTypeString());
 	}
-	virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+	virtual void Load(const pugi::xml_node& instance_node, const int version)
 	{}
 	virtual ~TProperty()
 	{
@@ -81,7 +81,7 @@ public:
 		TProperty::Save(parent_node, version);
 		parent_node.append_attribute("value").set_value(value);
 	}
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+	void Load(const pugi::xml_node& instance_node, const int version)
 	{
 		value = instance_node.attribute("value").as_bool();
 	}
@@ -115,7 +115,7 @@ public:
 		TProperty::Save(parent_node, version);
 		parent_node.append_attribute("value").set_value(value.c_str());
 	}
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+	void Load(const pugi::xml_node& instance_node, const int version)
 	{
 		TProperty::Load(instance_node, version, world);
 	}
@@ -149,7 +149,7 @@ static bool TStringProperty_registered = PropertiesFactory::Register("string", T
 //		//parent_node.append_attribute("value").set_value(value);
 //		//TODO get class instance id
 //	}
-//	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+//	void Load(const pugi::xml_node& instance_node, const int version)
 //	{
 //		TProperty::Load(instance_node, version, world);
 //		//value = instance_node.attribute("value").as_string();
@@ -185,7 +185,7 @@ static bool TStringProperty_registered = PropertiesFactory::Register("string", T
 //		//parent_node.append_attribute("value").set_value(value);
 //		//TODO get class instance id
 //	}
-//	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+//	void Load(const pugi::xml_node& instance_node, const int version)
 //	{
 //		TProperty::Load(instance_node, version, world);
 //		//value = instance_node.attribute("value").as_string();
@@ -280,6 +280,6 @@ public:
 		return *value;
 	}*/
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };
 

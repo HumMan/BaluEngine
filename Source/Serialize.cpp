@@ -4,6 +4,9 @@
 
 using namespace pugi;
 
+//вызывающий создает xml_node - методы только считывают или записывают данные
+//т.к. вызывающий может записать дополнительную инфу (например имя спрайта)
+
 void SaveColor(pugi::xml_node& parent_node, std::string name, TVec4 color)
 {
 	xml_node new_node = parent_node.append_child(name.c_str());
@@ -77,9 +80,8 @@ void TBaluMaterial::Save(pugi::xml_node& parent_node, const int version)
 	SaveColor(new_node, "color", color);
 }
 
-void TBaluMaterial::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluMaterial::Load(const pugi::xml_node& node, const int version)
 {
-	material_name = node.attribute("name").as_string();
 	image_path = node.attribute("image_path").as_string();
 	color = LoadColor(node.child("color"));
 }
@@ -94,12 +96,12 @@ void TBaluBoxShape::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TBaluBoxShape::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluBoxShape::Load(const pugi::xml_node& node, const int version)
 {
 	width = node.attribute("width").as_float();
 	height = node.attribute("height").as_float();
 	xml_node new_node = node.child("PolygoneShape");
-	TBaluPolygonShape::Load(new_node, version, world);
+	TBaluPolygonShape::Load(new_node, version);
 }
 
 
@@ -112,7 +114,7 @@ void TBaluCircleShape::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TBaluCircleShape::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluCircleShape::Load(const pugi::xml_node& node, const int version)
 {
 	float radius = node.attribute("radius").as_float();
 	TVec2 pos = LoadCoord(node.child("position"));
@@ -134,7 +136,7 @@ void TBaluPolygonShape::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TBaluPolygonShape::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluPolygonShape::Load(const pugi::xml_node& node, const int version)
 {
 	xml_node polygons_node = node.child("polygon_vertex");
 	std::vector<TVec2> vertices;
@@ -153,7 +155,7 @@ void EngineInterface::TFrame::Save(pugi::xml_node& parent_node, const int versio
 	SaveCoord(frame_node, "right_top", right_top);
 }
 
-void EngineInterface::TFrame::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void EngineInterface::TFrame::Load(const pugi::xml_node& instance_node, const int version)
 {
 	left_bottom = LoadCoord(instance_node.child("left_bottom"));
 	right_top = LoadCoord(instance_node.child("right_top"));
@@ -166,7 +168,7 @@ void EngineInterface::TSpecificFrame::Save(pugi::xml_node& parent_node, const in
 	SaveCoord(frame_node, "right_top", right_top);
 }
 
-void EngineInterface::TSpecificFrame::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void EngineInterface::TSpecificFrame::Load(const pugi::xml_node& instance_node, const int version)
 {
 	left_bottom = LoadCoord(instance_node.child("left_bottom"));
 	right_top = LoadCoord(instance_node.child("right_top"));
@@ -180,7 +182,7 @@ void EngineInterface::TGridFrames::Save(pugi::xml_node& parent_node, const int v
 	SaveCoord(frame_node, "width_height", width_height);
 }
 
-void EngineInterface::TGridFrames::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void EngineInterface::TGridFrames::Load(const pugi::xml_node& instance_node, const int version)
 {
 	cell_count_x = instance_node.attribute("cell_count_x").as_int();
 	cell_count_y=instance_node.attribute("cell_count_y").as_int();
@@ -188,7 +190,7 @@ void EngineInterface::TGridFrames::Load(const pugi::xml_node& instance_node, con
 	width_height = LoadCoord(instance_node.child("width_height"));
 }
 
-void EngineInterface::TAnimationFrames::Save(pugi::xml_node& parent_node, const int version, TBaluSpritePolygon* sprite_polygon)
+void EngineInterface::TAnimationFrames::Save(pugi::xml_node& parent_node, const int version)
 {
 	auto frames_node = parent_node.append_child("AnimationFrames");
 	frames_node.append_attribute("anim_desc_id").set_value(sprite_polygon->GetAnimDescIndex(desc));
@@ -197,7 +199,7 @@ void EngineInterface::TAnimationFrames::Save(pugi::xml_node& parent_node, const 
 		f_node.append_child("Frame").append_attribute("value").set_value(v);
 }
 
-void EngineInterface::TAnimationFrames::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TBaluSpritePolygon* sprite_polygon)
+void EngineInterface::TAnimationFrames::Load(const pugi::xml_node& instance_node, const int version)
 {
 	int anim_desc_id = instance_node.attribute("anim_desc_id").as_int();
 	desc = sprite_polygon->GetAnimDesc(anim_desc_id);
@@ -209,7 +211,7 @@ void EngineInterface::TAnimationFrames::Load(const pugi::xml_node& instance_node
 }
 
 
-void EngineInterface::TAnimLine::Save(pugi::xml_node& parent_node, const int version, TBaluSpritePolygon* sprite_polygon)
+void EngineInterface::TAnimLine::Save(pugi::xml_node& parent_node, const int version)
 {
 	auto anim_line_node = parent_node.append_child("AnimLine");
 	anim_line_node.append_attribute("name").set_value(line_name.c_str());
@@ -218,7 +220,7 @@ void EngineInterface::TAnimLine::Save(pugi::xml_node& parent_node, const int ver
 		frame.Save(frames_node, version, sprite_polygon);
 }
 
-void EngineInterface::TAnimLine::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TBaluSpritePolygon* sprite_polygon)
+void EngineInterface::TAnimLine::Load(const pugi::xml_node& instance_node, const int version)
 {
 	line_name = instance_node.attribute("name").as_string();
 	auto f_node = instance_node.child("Frames");
@@ -284,7 +286,7 @@ void TBaluSpritePolygon::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version)
 {
 	std::string mat_name = "";
 	if (node.attribute("material_name"))
@@ -327,7 +329,7 @@ void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBa
 		for (pugi::xml_node polygon = polygons_node.first_child(); polygon; polygon = polygon.next_sibling())
 		{
 			EngineInterface::TAnimDesc* new_desc = EngineInterface::AnimDescFactory::Create(polygon.name());
-			new_desc->Load(polygon, version, world);
+			new_desc->Load(polygon, version);
 			anim_descs.push_back(std::unique_ptr<EngineInterface::TAnimDesc>(new_desc));
 		}
 	}
@@ -351,7 +353,7 @@ void TBaluClassPhysBody::Save(pugi::xml_node& parent_node, const int version)
 	body_def_node.append_attribute("type").set_value(body_def.type);
 }
 
-void TBaluClassPhysBody::Load(const pugi::xml_node& phys_body_node, const int version, TBaluWorld* world)
+void TBaluClassPhysBody::Load(const pugi::xml_node& phys_body_node, const int version)
 {
 	enable = phys_body_node.attribute("enable").as_bool();
 	auto body_def_node = phys_body_node.child("PhysBody");
@@ -366,7 +368,7 @@ void TTrackFrame::Save(pugi::xml_node& parent_node, const int version)const
 	frame_node.append_attribute("rotation").set_value(rotation);
 }
 
-void TTrackFrame::Load(const pugi::xml_node& frame_node, const int version, TBaluWorld* world)
+void TTrackFrame::Load(const pugi::xml_node& frame_node, const int version)
 {
 	time = frame_node.attribute("time").as_float();
 	rotation = frame_node.attribute("rotation").as_float();
@@ -384,14 +386,14 @@ void TTrack::Save(pugi::xml_node& parent_node, const int version, TSkeleton* ske
 	}
 }
 
-void TTrack::Load(const pugi::xml_node& track_node, const int version, TBaluWorld* world, TSkeleton* skeleton)
+void TTrack::Load(const pugi::xml_node& track_node, const int version, TSkeleton* skeleton)
 {
 	bone = skeleton->GetBone(track_node.attribute("bone_id").as_int());
 	auto tracks_node = track_node.child("Frames");
 	for (pugi::xml_node prop_node = tracks_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
 		TTrackFrame frame;
-		frame.Load(prop_node, version, world);
+		frame.Load(prop_node, version);
 		frames.insert(frame);
 	}
 }
@@ -410,7 +412,7 @@ void TTimeLine::Save(pugi::xml_node& parent_node, const int version, TSkeleton* 
 	}
 }
 
-void TTimeLine::Load(const pugi::xml_node& timeline_node, const int version, TBaluWorld* world, TSkeleton* skeleton)
+void TTimeLine::Load(const pugi::xml_node& timeline_node, const int version, TSkeleton* skeleton)
 {
 	name = timeline_node.attribute("name").as_string();
 	timeline_size = timeline_node.attribute("timeline_size").as_float();
@@ -435,7 +437,7 @@ void TSkeletonAnimation::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TSkeletonAnimation::Load(const pugi::xml_node& skel_animation_node, const int version, TBaluWorld* world)
+void TSkeletonAnimation::Load(const pugi::xml_node& skel_animation_node, const int version)
 {
 	auto animation_node = skel_animation_node.child("Animations");
 	for (pugi::xml_node prop_node = animation_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
@@ -467,7 +469,7 @@ void TBone::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skel
 	}
 }
 
-void TBone::Load(const pugi::xml_node& bone_node, const int version, TBaluWorld* world, TSkeleton* skeleton)
+void TBone::Load(const pugi::xml_node& bone_node, const int version, TSkeleton* skeleton)
 {
 	auto parent_id = bone_node.attribute("parent_id").as_int();
 	if (parent_id == -1)
@@ -498,7 +500,7 @@ void TSkin::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TSkin::Load(const pugi::xml_node& skin_node, const int version, TBaluWorld* world)
+void TSkin::Load(const pugi::xml_node& skin_node, const int version)
 {
 	xml_node sprites_of_bones_node = skin_node.child("SpritesOfBones");
 	for (pugi::xml_node sprites_node = sprites_of_bones_node.first_child(); sprites_node; sprites_node = sprites_node.next_sibling())
@@ -507,7 +509,7 @@ void TSkin::Load(const pugi::xml_node& skin_node, const int version, TBaluWorld*
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
 			sprites_of_bones.back().emplace_back();
-			sprites_of_bones.back().back().Load(sprite_node, version, world);
+			sprites_of_bones.back().back().Load(sprite_node, version);
 		}
 	}
 }
@@ -528,7 +530,7 @@ void TSkeleton::Save(pugi::xml_node& parent_node, const int version)
 	skeleton_node.append_attribute("root_node").set_value(root);
 }
 
-void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version, TBaluWorld* world)
+void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version)
 {
 	if (skeleton_node.first_child())
 	{
@@ -548,7 +550,7 @@ void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version, TBa
 		for (pugi::xml_node prop_node = skins_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 		{
 			auto temp = std::make_unique<TSkin>();
-			temp->Load(prop_node, version, world);
+			temp->Load(prop_node, version);
 			skins.push_back(std::move(temp));
 		}
 	}
@@ -564,13 +566,13 @@ void TProperties::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TProperties::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void TProperties::Load(const pugi::xml_node& instance_node, const int version)
 {
 	xml_node props_node = instance_node.child("Properties");
 	for (pugi::xml_node prop_node = props_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
 		auto new_prop = PropertiesFactory::Create(prop_node.attribute("type").as_string());
-		new_prop->Load(prop_node, version, world);
+		new_prop->Load(prop_node, version);
 		auto name = prop_node.attribute("name").as_string();
 		properties[name].reset(new_prop);
 	}
@@ -599,11 +601,11 @@ void TBaluSprite::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluSprite::Load(const pugi::xml_node& node, const int version)
 {
 	sprite_name = node.attribute("name").as_string();
 	xml_node polygon_node = node.child("SpritePolygon");
-	sprite_polygon.Load(polygon_node, version, world);
+	sprite_polygon.Load(polygon_node, version);
 
 	xml_node fixture = node.child("Fixture");
 	if (!fixture.empty())
@@ -616,7 +618,7 @@ void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld
 			new_shape = new TBaluCircleShape();
 		if (std::string(fixture.name()) == "BoxShape")
 			new_shape = new TBaluBoxShape();
-		new_shape->Load(fixture, version, world);
+		new_shape->Load(fixture, version);
 		phys_shape.reset(new_shape);
 	}
 
@@ -643,7 +645,7 @@ void TBaluClassSpriteInstance::Save(pugi::xml_node& parent_node, const int versi
 	SaveTransformWithScale(sprite_node, "Transform", local);
 }
 
-void TBaluClassSpriteInstance::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluClassSpriteInstance::Load(const pugi::xml_node& node, const int version)
 {
 	sprite = world->GetSprite(node.attribute("sprite_name").as_string());
 	local = LoadTransformWithScale(node.child("Transform"));
@@ -701,7 +703,7 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluClass::Load(const pugi::xml_node& node, const int version)
 {
 	class_name = node.attribute("class_name").as_string();
 	layer_name = node.attribute("layer_name").as_string();
@@ -710,20 +712,20 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
 			TBaluClassSpriteInstance* new_sprite_instance = new TBaluClassSpriteInstance();
-			new_sprite_instance->Load(sprite_node, version, world);
+			new_sprite_instance->Load(sprite_node, version);
 			sprites.push_back(std::unique_ptr<TBaluClassSpriteInstance>(new_sprite_instance));
 		}
 	}
 	xml_node phys_body_node = node.child("PhysBody");
-	phys_body.Load(phys_body_node, version, world);
+	phys_body.Load(phys_body_node, version);
 
 	xml_node skeleton_node = node.child("Skeleton");
-	skeleton->Load(skeleton_node, version, world);
+	skeleton->Load(skeleton_node, version);
 
 	xml_node skeleton_animation_node = node.child("SkeletonAnimation");
-	skeleton_animation->Load(skeleton_animation_node, version, world);
+	skeleton_animation->Load(skeleton_animation_node, version);
 
-	properties.Load(node, version, world);
+	properties.Load(node, version);
 
 	{
 		xml_node child_node = node.child("KeyDownScripts");
@@ -766,7 +768,7 @@ void TBaluScene::TClassInstance::Save(pugi::xml_node& parent_node, const int ver
 	SaveTransformWithScale(new_node, "Transform", transform);
 }
 
-void TBaluScene::TClassInstance::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void TBaluScene::TClassInstance::Load(const pugi::xml_node& instance_node, const int version)
 {
 	//name = instance_node.attribute("name").as_string();
 	balu_class = world->GetClass(instance_node.attribute("class_name").as_string());
@@ -781,7 +783,7 @@ void TViewport::Save(pugi::xml_node& parent_node, const int version)
 	viewport_node.append_attribute("width").set_value(width);
 }
 
-void TViewport::Load(const pugi::xml_node& viewport_node, const int version, TBaluWorld* world)
+void TViewport::Load(const pugi::xml_node& viewport_node, const int version)
 {
 	LoadTransform(viewport_node.child("transform"));
 	aspect = viewport_node.attribute("aspect").as_float();
@@ -814,7 +816,7 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 	properties.Save(new_node, version);
 }
 
-void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBaluWorld* world)
+void TBaluScene::Load(const pugi::xml_node& scene_node, const int version)
 {
 	scene_name = scene_node.attribute("name").as_string();
 	{
@@ -822,7 +824,7 @@ void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBalu
 		for (pugi::xml_node instance_node = instances_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
 			TBaluScene::TClassInstance* new_instance = new TBaluScene::TClassInstance();
-			new_instance->Load(instance_node, version, world);
+			new_instance->Load(instance_node, version);
 			instances.push_back(std::unique_ptr<TBaluScene::TClassInstance>(new_instance));
 		}
 	}
@@ -831,12 +833,12 @@ void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBalu
 		for (pugi::xml_node instance_node = viewports_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
 			TViewport temp;
-			temp.Load(instance_node, version, world);
+			temp.Load(instance_node, version);
 			viewports.insert(std::make_pair(instance_node.attribute("name").as_string(), temp));
 		}
 	}
 	//TODO TLayersManager layers;
-	properties.Load(scene_node, version, world);
+	properties.Load(scene_node, version);
 }
 
 void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
@@ -928,7 +930,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		for (pugi::xml_node material = materials_node.first_child(); material; material = material.next_sibling())
 		{
 			TBaluMaterial new_material;
-			new_material.Load(material, version, this);
+			new_material.Load(material, version);
 			materials[new_material.GetName()] = new_material;
 		}
 	}
@@ -946,7 +948,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
 			auto sprite_name = sprite_node.attribute("name").as_string();
-			sprites[sprite_name].Load(sprite_node, version, this);
+			sprites[sprite_name].Load(sprite_node, version);
 		}
 	}
 	//load classes fully
@@ -955,7 +957,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		auto curr_class = classes.begin();
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
 		{
-			curr_class->second.Load(class_node, version, this);
+			curr_class->second.Load(class_node, version);
 			curr_class++;
 		}
 	}
@@ -964,7 +966,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		for (pugi::xml_node scene_node = scenes_node.first_child(); scene_node; scene_node = scene_node.next_sibling())
 		{
 			auto scene_name = scene_node.attribute("name").as_string();
-			scenes[scene_name].Load(scene_node, version, this);
+			scenes[scene_name].Load(scene_node, version);
 		}
 	}
 
