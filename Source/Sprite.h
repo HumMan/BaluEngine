@@ -36,7 +36,7 @@ private:
 	int layer;
 	TProperties properties;
 
-	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>> on_collide_callbacks;
+	std::vector<std::pair<std::string, CallbackWithData<CollideCallback>>> on_collide_callbacks;
 public:
 	TBaluSprite(const char* name)
 	{
@@ -71,7 +71,7 @@ public:
 
 class TBaluClassSpriteInstance : public EngineInterface::IBaluClassSpriteInstance
 {
-	TBaluSprite* sprite;
+	std::string sprite_name;
 	TBaluTransformWithScale local;
 public:
 	TBaluSprite* GetSprite()

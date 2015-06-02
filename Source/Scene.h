@@ -41,7 +41,7 @@ class TBaluScene : public EngineInterface::IBaluScene, public EngineInterface::I
 public:
 	class TClassInstance : public EngineInterface::IBaluSceneClassInstance
 	{
-		TBaluClass* balu_class;
+		std::string class_name;
 		//std::string tag;
 		TBaluTransformWithScale transform;
 	public:

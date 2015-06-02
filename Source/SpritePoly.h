@@ -26,7 +26,9 @@ class TBaluSpritePolygon: public EngineInterface::IBaluSpritePolygon
 private:
 	friend class TBaluSpritePolygonInstance;
 
-	TBaluMaterial* material;
+	//TBaluMaterial* material;
+
+	std::string material_name;
 
 	std::vector<TVec2> polygon_vertices;//вершины замкнутого контура спрайта
 

@@ -7,13 +7,12 @@ using namespace pugi;
 //вызывающий создает xml_node - методы только считывают или записывают данные
 //т.к. вызывающий может записать дополнительную инфу (например имя спрайта)
 
-void SaveColor(pugi::xml_node& parent_node, std::string name, TVec4 color)
+void SaveColor(pugi::xml_node& node, TVec4 color)
 {
-	xml_node new_node = parent_node.append_child(name.c_str());
-	new_node.append_attribute("r").set_value(color[0]);
-	new_node.append_attribute("g").set_value(color[1]);
-	new_node.append_attribute("b").set_value(color[2]);
-	new_node.append_attribute("a").set_value(color[3]);
+	node.append_attribute("r").set_value(color[0]);
+	node.append_attribute("g").set_value(color[1]);
+	node.append_attribute("b").set_value(color[2]);
+	node.append_attribute("a").set_value(color[3]);
 }
 
 TVec4 LoadColor(pugi::xml_node& node)
@@ -26,11 +25,10 @@ TVec4 LoadColor(pugi::xml_node& node)
 	return color;
 }
 
-void SaveCoord(pugi::xml_node& parent_node, std::string name, TVec2 coord)
+void SaveCoord(pugi::xml_node& node, TVec2 coord)
 {
-	xml_node new_node = parent_node.append_child(name.c_str());
-	new_node.append_attribute("x").set_value(coord[0]);
-	new_node.append_attribute("y").set_value(coord[1]);
+	node.append_attribute("x").set_value(coord[0]);
+	node.append_attribute("y").set_value(coord[1]);
 }
 
 TVec2 LoadCoord(pugi::xml_node& node)
@@ -41,11 +39,10 @@ TVec2 LoadCoord(pugi::xml_node& node)
 	return coord;
 }
 
-void SaveTransform(pugi::xml_node& parent_node, std::string name, TBaluTransform transform)
+void SaveTransform(pugi::xml_node& node, TBaluTransform transform)
 {
-	xml_node new_node = parent_node.append_child(name.c_str());
-	SaveCoord(new_node, "offset", transform.position);
-	new_node.append_attribute("rotation").set_value(transform.angle.GetAngle());
+	SaveCoord(node.append_child("Offset"), transform.position);
+	node.append_attribute("rotation").set_value(transform.angle.GetAngle());
 }
 
 TBaluTransform LoadTransform(pugi::xml_node& node)
@@ -56,28 +53,25 @@ TBaluTransform LoadTransform(pugi::xml_node& node)
 	return transform;
 }
 
-void SaveTransformWithScale(pugi::xml_node& parent_node, std::string name, TBaluTransformWithScale transform)
+void SaveTransformWithScale(pugi::xml_node& node, TBaluTransformWithScale transform)
 {
-	xml_node new_node = parent_node.append_child(name.c_str());
-	SaveCoord(new_node, "offset", transform.transform.position);
-	new_node.append_attribute("rotation").set_value(transform.transform.angle.GetAngle());
-	SaveCoord(new_node, "scale", transform.scale);
+	SaveCoord(node.append_child("Offset"), transform.transform.position);
+	node.append_attribute("Rotation").set_value(transform.transform.angle.GetAngle());
+	SaveCoord(node.append_child("Scale"), transform.scale);
 }
 
 TBaluTransformWithScale LoadTransformWithScale(pugi::xml_node& node)
 {
 	TBaluTransformWithScale transform;
 	transform.transform = LoadTransform(node);
-	transform.scale = LoadCoord(node.child("scale"));
+	transform.scale = LoadCoord(node.child("Scale"));
 	return transform;
 }
 
-void TBaluMaterial::Save(pugi::xml_node& parent_node, const int version)
+void TBaluMaterial::Save(pugi::xml_node& node, const int version)
 {
-	xml_node new_node = parent_node.append_child("Material");
-	new_node.append_attribute("name").set_value(material_name.c_str());
-	new_node.append_attribute("image_path").set_value(image_path.c_str());
-	SaveColor(new_node, "color", color);
+	node.append_attribute("image_path").set_value(image_path.c_str());
+	SaveColor(node.append_child("Color"), color);
 }
 
 void TBaluMaterial::Load(const pugi::xml_node& node, const int version)
@@ -86,13 +80,13 @@ void TBaluMaterial::Load(const pugi::xml_node& node, const int version)
 	color = LoadColor(node.child("color"));
 }
 
-void TBaluBoxShape::Save(pugi::xml_node& parent_node, const int version)
+void TBaluBoxShape::Save(pugi::xml_node& node, const int version)
 {
-	xml_node new_node = parent_node.append_child("BoxShape");
+	//xml_node new_node = parent_node.append_child("BoxShape");
 	{
-		new_node.append_attribute("width").set_value(width);
-		new_node.append_attribute("height").set_value(height);
-		TBaluPolygonShape::Save(new_node, version);
+		node.append_attribute("width").set_value(width);
+		node.append_attribute("height").set_value(height);
+		TBaluPolygonShape::Save(node, version);
 	}
 }
 
@@ -105,12 +99,12 @@ void TBaluBoxShape::Load(const pugi::xml_node& node, const int version)
 }
 
 
-void TBaluCircleShape::Save(pugi::xml_node& parent_node, const int version)
+void TBaluCircleShape::Save(pugi::xml_node& node, const int version)
 {
-	xml_node new_node = parent_node.append_child("CircleShape");
+	//xml_node new_node = parent_node.append_child("CircleShape");
 	{
-		new_node.append_attribute("radius").set_value(b2shape.m_radius);
-		SaveTransformWithScale(new_node, "Transform", local);
+		node.append_attribute("radius").set_value(b2shape.m_radius);
+		SaveTransformWithScale(node.append_child("Transform"), local);
 	}
 }
 
@@ -123,16 +117,16 @@ void TBaluCircleShape::Load(const pugi::xml_node& node, const int version)
 }
 
 
-void TBaluPolygonShape::Save(pugi::xml_node& parent_node, const int version)
+void TBaluPolygonShape::Save(pugi::xml_node& node, const int version)
 {
-	xml_node new_node = parent_node.append_child("PolygoneShape");
+	//xml_node new_node = parent_node.append_child("PolygoneShape");
 	{
-		xml_node polygons_node = new_node.append_child("polygon_vertex");
+		xml_node polygons_node = node.append_child("polygon_vertex");
 		for (int i = 0; i < b2shape.GetVertexCount(); i++)
 		{
-			SaveCoord(polygons_node, "vertex", *(TVec2*)(&b2shape.GetVertex(i)));
+			SaveCoord(polygons_node.append_child("Vertex"), *(TVec2*)(&b2shape.GetVertex(i)));
 		}
-		SaveTransformWithScale(new_node, "Transform", local);
+		SaveTransformWithScale(node.append_child("Transform"), local);
 	}
 }
 
@@ -148,62 +142,61 @@ void TBaluPolygonShape::Load(const pugi::xml_node& node, const int version)
 	local = LoadTransformWithScale(node.child("Transform"));
 }
 
-void EngineInterface::TFrame::Save(pugi::xml_node& parent_node, const int version)
+void EngineInterface::TFrame::Save(pugi::xml_node& node, const int version)
 {
-	auto frame_node = parent_node.append_child("Frame");
-	SaveCoord(frame_node, "left_bottom", left_bottom);
-	SaveCoord(frame_node, "right_top", right_top);
+	//auto frame_node = parent_node.append_child("Frame");
+	SaveCoord(node.append_child("left_bottom"), left_bottom);
+	SaveCoord(node.append_child("right_top"), right_top);
 }
 
-void EngineInterface::TFrame::Load(const pugi::xml_node& instance_node, const int version)
+void EngineInterface::TFrame::Load(const pugi::xml_node& node, const int version)
 {
-	left_bottom = LoadCoord(instance_node.child("left_bottom"));
-	right_top = LoadCoord(instance_node.child("right_top"));
+	left_bottom = LoadCoord(node.child("left_bottom"));
+	right_top = LoadCoord(node.child("right_top"));
 }
 
-void EngineInterface::TSpecificFrame::Save(pugi::xml_node& parent_node, const int version)
+void EngineInterface::TSpecificFrame::Save(pugi::xml_node& node, const int version)
 {
-	auto frame_node = parent_node.append_child("SpecificFrame");
-	SaveCoord(frame_node, "left_bottom", left_bottom);
-	SaveCoord(frame_node, "right_top", right_top);
+	//auto frame_node = parent_node.append_child("SpecificFrame");
+	SaveCoord(node.append_child("left_bottom"), left_bottom);
+	SaveCoord(node.append_child("right_top"), right_top);
 }
 
-void EngineInterface::TSpecificFrame::Load(const pugi::xml_node& instance_node, const int version)
+void EngineInterface::TSpecificFrame::Load(const pugi::xml_node& node, const int version)
 {
-	left_bottom = LoadCoord(instance_node.child("left_bottom"));
-	right_top = LoadCoord(instance_node.child("right_top"));
+	left_bottom = LoadCoord(node.child("left_bottom"));
+	right_top = LoadCoord(node.child("right_top"));
 }
-void EngineInterface::TGridFrames::Save(pugi::xml_node& parent_node, const int version)
+void EngineInterface::TGridFrames::Save(pugi::xml_node& node, const int version)
 {
-	auto frame_node = parent_node.append_child("GridFrames");
-	frame_node.append_attribute("cell_count_x").set_value(cell_count_x);
-	frame_node.append_attribute("cell_count_y").set_value(cell_count_y);
-	SaveCoord(frame_node, "left_bottom", left_bottom);
-	SaveCoord(frame_node, "width_height", width_height);
-}
-
-void EngineInterface::TGridFrames::Load(const pugi::xml_node& instance_node, const int version)
-{
-	cell_count_x = instance_node.attribute("cell_count_x").as_int();
-	cell_count_y=instance_node.attribute("cell_count_y").as_int();
-	left_bottom = LoadCoord(instance_node.child("left_bottom"));
-	width_height = LoadCoord(instance_node.child("width_height"));
+	//auto frame_node = parent_node.append_child("GridFrames");
+	node.append_attribute("cell_count_x").set_value(cell_count_x);
+	node.append_attribute("cell_count_y").set_value(cell_count_y);
+	SaveCoord(node.append_child("left_bottom"), left_bottom);
+	SaveCoord(node.append_child("width_height"), width_height);
 }
 
-void EngineInterface::TAnimationFrames::Save(pugi::xml_node& parent_node, const int version)
+void EngineInterface::TGridFrames::Load(const pugi::xml_node& node, const int version)
 {
-	auto frames_node = parent_node.append_child("AnimationFrames");
-	frames_node.append_attribute("anim_desc_id").set_value(sprite_polygon->GetAnimDescIndex(desc));
-	auto f_node=frames_node.append_child("Frames");
+	cell_count_x = node.attribute("cell_count_x").as_int();
+	cell_count_y = node.attribute("cell_count_y").as_int();
+	left_bottom = LoadCoord(node.child("left_bottom"));
+	width_height = LoadCoord(node.child("width_height"));
+}
+
+void EngineInterface::TAnimationFrames::Save(pugi::xml_node& node, const int version)
+{
+	//auto frames_node = parent_node.append_child("AnimationFrames");
+	node.append_attribute("anim_desc_id").set_value(anim_desc_id);
+	auto f_node = node.append_child("Frames");
 	for (auto& v : frames)
 		f_node.append_child("Frame").append_attribute("value").set_value(v);
 }
 
-void EngineInterface::TAnimationFrames::Load(const pugi::xml_node& instance_node, const int version)
+void EngineInterface::TAnimationFrames::Load(const pugi::xml_node& node, const int version)
 {
-	int anim_desc_id = instance_node.attribute("anim_desc_id").as_int();
-	desc = sprite_polygon->GetAnimDesc(anim_desc_id);
-	auto f_node = instance_node.child("Frames");
+	anim_desc_id = node.attribute("anim_desc_id").as_int();
+	auto f_node = node.child("Frames");
 	for (pugi::xml_node polygon = f_node.first_child(); polygon; polygon = polygon.next_sibling())
 	{
 		frames.push_back(polygon.attribute("value").as_int());
@@ -211,88 +204,85 @@ void EngineInterface::TAnimationFrames::Load(const pugi::xml_node& instance_node
 }
 
 
-void EngineInterface::TAnimLine::Save(pugi::xml_node& parent_node, const int version)
+void EngineInterface::TAnimLine::Save(pugi::xml_node& node, const int version)
 {
-	auto anim_line_node = parent_node.append_child("AnimLine");
-	anim_line_node.append_attribute("name").set_value(line_name.c_str());
-	auto frames_node = anim_line_node.append_child("Frames");
+	//auto anim_line_node = parent_node.append_child("AnimLine");
+	node.append_attribute("name").set_value(line_name.c_str());
+	auto frames_node = node.append_child("Frames");
 	for (auto& frame : frames)
-		frame.Save(frames_node, version, sprite_polygon);
+		frame.Save(frames_node.append_child("AnimationFrames"), version);
 }
 
-void EngineInterface::TAnimLine::Load(const pugi::xml_node& instance_node, const int version)
+void EngineInterface::TAnimLine::Load(const pugi::xml_node& node, const int version)
 {
-	line_name = instance_node.attribute("name").as_string();
-	auto f_node = instance_node.child("Frames");
+	line_name = node.attribute("name").as_string();
+	auto f_node = node.child("Frames");
 	for (pugi::xml_node polygon = f_node.first_child(); polygon; polygon = polygon.next_sibling())
 	{
 		TAnimationFrames temp;
-		temp.Load(polygon, version, world, sprite_polygon);
+		temp.Load(polygon, version);
 		frames.push_back(temp);
 	}
 }
 
-void TBaluSpritePolygon::Save(pugi::xml_node& parent_node, const int version)
+void TBaluSpritePolygon::Save(pugi::xml_node& node, const int version)
 {
-	xml_node new_node = parent_node.append_child("SpritePolygon");
-	if (material != nullptr)
-		new_node.append_attribute("material_name").set_value(material->GetName().c_str());
+	//xml_node new_node = parent_node.append_child("SpritePolygon");
 
-	SaveCoord(new_node, "size", size);
+	node.append_attribute("material_name").set_value(material_name.c_str());
 
-	SaveTransformWithScale(new_node, "Transform", local);
+	SaveCoord(node.append_child("size"), size);
 
-	SaveCoord(new_node, "tex_coord_origin", tex_coord_origin);
-	SaveCoord(new_node, "tex_coord_scale", tex_coord_scale);
+	SaveTransformWithScale(node.append_child("Transform"), local);
+
+	SaveCoord(node.append_child("tex_coord_origin"), tex_coord_origin);
+	SaveCoord(node.append_child("tex_coord_scale"), tex_coord_scale);
 
 	assert(!is_custom_draw);
 
-	new_node.append_attribute("enable").set_value(enable);
+	node.append_attribute("enable").set_value(enable);
 
 	{
-		xml_node polygons_node = new_node.append_child("polygon_vertices");
+		xml_node polygons_node = node.append_child("polygon_vertices");
 		for (const TVec2& v : polygon_vertices)
 		{
-			SaveCoord(polygons_node, "vertex", v);
+			SaveCoord(polygons_node.append_child("vertex"), v);
 		}
 	}
 	{
-		xml_node polygons_node = new_node.append_child("triangulated");
+		xml_node polygons_node = node.append_child("triangulated");
 		for (const TVec2& v : triangulated)
 		{
-			SaveCoord(polygons_node, "vertex", v);
+			SaveCoord(polygons_node.append_child("vertex"), v);
 		}
 	}
 	{
-		xml_node polygons_node = new_node.append_child("tex_coordinates");
+		xml_node polygons_node = node.append_child("tex_coordinates");
 		for (const TVec2& v : tex_coordinates)
 		{
-			SaveCoord(polygons_node, "vertex", v);
+			SaveCoord(polygons_node.append_child("vertex"), v);
 		}
 	}
 	{
-		xml_node polygons_node = new_node.append_child("AnimDescs");
+		xml_node polygons_node = node.append_child("AnimDescs");
 		for (auto& anim_desc : anim_descs)
 		{
 			anim_desc->Save(polygons_node, version);
 		}
 	}
 	{
-		xml_node polygons_node = new_node.append_child("AnimLines");
+		xml_node polygons_node = node.append_child("AnimLines");
 		for (auto& anim_line : animation_lines)
 		{
-			anim_line.second.Save(polygons_node, version, this);
+			anim_line.second.Save(polygons_node, version);
 		}
 	}
 }
 
 void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version)
 {
-	std::string mat_name = "";
 	if (node.attribute("material_name"))
-		mat_name = node.attribute("material_name").as_string();
-	if (mat_name != "")
-		material = world->GetMaterial(mat_name.c_str());
+		material_name = node.attribute("material_name").as_string();
 
 	size = LoadCoord(node.child("size"));
 
@@ -338,58 +328,58 @@ void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version)
 		for (pugi::xml_node polygon = polygons_node.first_child(); polygon; polygon = polygon.next_sibling())
 		{
 			EngineInterface::TAnimLine line;
-			line.Load(polygon, version, world, this);
+			line.Load(polygon, version);
 			animation_lines.insert(std::make_pair(line.line_name, line));
 		}
 	}
 }
 
-void TBaluClassPhysBody::Save(pugi::xml_node& parent_node, const int version)
+void TBaluClassPhysBody::Save(pugi::xml_node& node, const int version)
 {
-	auto phys_Body_node = parent_node.append_child("PhysBody");
-	phys_Body_node.append_attribute("enable").set_value(enable);
-	auto body_def_node = phys_Body_node.append_child("PhysBody");
+	//auto phys_Body_node = parent_node.append_child("PhysBody");
+	node.append_attribute("enable").set_value(enable);
+	auto body_def_node = node.append_child("PhysBody");
 	body_def_node.append_attribute("fixed_rotation").set_value(body_def.fixedRotation);
 	body_def_node.append_attribute("type").set_value(body_def.type);
 }
 
-void TBaluClassPhysBody::Load(const pugi::xml_node& phys_body_node, const int version)
+void TBaluClassPhysBody::Load(const pugi::xml_node& node, const int version)
 {
-	enable = phys_body_node.attribute("enable").as_bool();
-	auto body_def_node = phys_body_node.child("PhysBody");
+	enable = node.attribute("enable").as_bool();
+	auto body_def_node = node.child("PhysBody");
 	body_def.fixedRotation = body_def_node.attribute("fixed_rotation").as_bool();
 	body_def.type = (b2BodyType)body_def_node.attribute("type").as_int();
 }
 
-void TTrackFrame::Save(pugi::xml_node& parent_node, const int version)const
+void TTrackFrame::Save(pugi::xml_node& node, const int version)const
 {
-	auto frame_node = parent_node.append_child("Frame");
-	frame_node.append_attribute("time").set_value(time);
-	frame_node.append_attribute("rotation").set_value(rotation);
+	//auto frame_node = parent_node.append_child("Frame");
+	node.append_attribute("time").set_value(time);
+	node.append_attribute("rotation").set_value(rotation);
 }
 
-void TTrackFrame::Load(const pugi::xml_node& frame_node, const int version)
+void TTrackFrame::Load(const pugi::xml_node& node, const int version)
 {
-	time = frame_node.attribute("time").as_float();
-	rotation = frame_node.attribute("rotation").as_float();
+	time = node.attribute("time").as_float();
+	rotation = node.attribute("rotation").as_float();
 }
 
 
-void TTrack::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton)
+void TTrack::Save(pugi::xml_node& node, const int version)
 {
-	auto track_node = parent_node.append_child("Track");
-	track_node.append_attribute("bone_id").set_value(skeleton->GetBoneIndex(bone));
-	auto tracks_node = track_node.append_child("Frames");
+	//auto track_node = parent_node.append_child("Track");
+	node.append_attribute("bone_id").set_value(bone_id);
+	auto tracks_node = node.append_child("Frames");
 	for (auto& frame : frames)
 	{
 		frame.Save(tracks_node, version);
 	}
 }
 
-void TTrack::Load(const pugi::xml_node& track_node, const int version, TSkeleton* skeleton)
+void TTrack::Load(const pugi::xml_node& node, const int version)
 {
-	bone = skeleton->GetBone(track_node.attribute("bone_id").as_int());
-	auto tracks_node = track_node.child("Frames");
+	bone_id = node.attribute("bone_id").as_int();
+	auto tracks_node = node.child("Frames");
 	for (pugi::xml_node prop_node = tracks_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
 		TTrackFrame frame;
@@ -399,69 +389,69 @@ void TTrack::Load(const pugi::xml_node& track_node, const int version, TSkeleton
 }
 
 
-void TTimeLine::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton)
+void TTimeLine::Save(pugi::xml_node& node, const int version)
 {
-	auto timeline_node = parent_node.append_child("TimeLine");
-	timeline_node.append_attribute("name").set_value(name.c_str());
-	timeline_node.append_attribute("timeline_size").set_value(timeline_size);
+	//auto timeline_node = parent_node.append_child("TimeLine");
+	node.append_attribute("name").set_value(name.c_str());
+	node.append_attribute("timeline_size").set_value(timeline_size);
 
-	auto tracks_node = timeline_node.append_child("Tracks");
+	auto tracks_node = node.append_child("Tracks");
 	for (auto& track : tracks)
 	{
-		track->Save(tracks_node, version, skeleton);
+		track->Save(tracks_node, version);
 	}
 }
 
-void TTimeLine::Load(const pugi::xml_node& timeline_node, const int version, TSkeleton* skeleton)
+void TTimeLine::Load(const pugi::xml_node& node, const int version)
 {
-	name = timeline_node.attribute("name").as_string();
-	timeline_size = timeline_node.attribute("timeline_size").as_float();
+	name = node.attribute("name").as_string();
+	timeline_size = node.attribute("timeline_size").as_float();
 
-	auto tracks_node = timeline_node.child("Tracks");
+	auto tracks_node = node.child("Tracks");
 	for (pugi::xml_node prop_node = tracks_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
 		auto temp = std::make_unique<TTrack>();
-		temp->Load(prop_node, version, world, skeleton);
+		temp->Load(prop_node, version);
 		tracks.push_back(std::move(temp));
 	}
 }
 
 
-void TSkeletonAnimation::Save(pugi::xml_node& parent_node, const int version)
+void TSkeletonAnimation::Save(pugi::xml_node& node, const int version)
 {
-	xml_node skeleton_animation_node = parent_node.append_child("SkeletonAnimation");
-	xml_node animations_node = skeleton_animation_node.append_child("Animations");
+	//xml_node skeleton_animation_node = parent_node.append_child("SkeletonAnimation");
+	xml_node animations_node = node.append_child("Animations");
 	for (auto& v : animations)
 	{
-		v->Save(animations_node, version, skeleton);
+		v->Save(animations_node, version);
 	}
 }
 
-void TSkeletonAnimation::Load(const pugi::xml_node& skel_animation_node, const int version)
+void TSkeletonAnimation::Load(const pugi::xml_node& node, const int version)
 {
-	auto animation_node = skel_animation_node.child("Animations");
+	auto animation_node = node.child("Animations");
 	for (pugi::xml_node prop_node = animation_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
 		auto temp = std::make_unique<TTimeLine>();
-		temp->Load(prop_node, version, world, skeleton);
+		temp->Load(prop_node, version);
 		animations.push_back(std::move(temp));
 	}
 }
 
-void TBone::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton)
+void TBone::Save(pugi::xml_node& node, const int version)
 {
-	xml_node bone_node = parent_node.append_child("Bone");
+	//xml_node bone_node = parent_node.append_child("Bone");
 
-	bone_node.append_attribute("id").set_value(skeleton->GetBoneIndex(this));
+	node.append_attribute("id").set_value(skeleton->GetBoneIndex(this));
 
 	if (parent != nullptr)
-		bone_node.append_attribute("parent_id").set_value(skeleton->GetBoneIndex(parent));
+		node.append_attribute("parent_id").set_value(skeleton->GetBoneIndex(parent));
 	else
-		bone_node.append_attribute("parent_id").set_value(-1);
+		node.append_attribute("parent_id").set_value(-1);
 
-	SaveTransform(bone_node, "LocalTransform", local);
+	SaveTransform(node.append_child("LocalTransform"), local);
 
-	xml_node children_node = bone_node.append_child("Children");
+	xml_node children_node = node.append_child("Children");
 	for (auto& v : children)
 	{
 		xml_node child_node = children_node.append_child("Child");
@@ -469,9 +459,9 @@ void TBone::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skel
 	}
 }
 
-void TBone::Load(const pugi::xml_node& bone_node, const int version, TSkeleton* skeleton)
+void TBone::Load(const pugi::xml_node& node, const int version)
 {
-	auto parent_id = bone_node.attribute("parent_id").as_int();
+	auto parent_id = node.attribute("parent_id").as_int();
 	if (parent_id == -1)
 		parent = nullptr;
 	else
@@ -486,10 +476,10 @@ void TBone::Load(const pugi::xml_node& bone_node, const int version, TSkeleton* 
 	}
 }
 
-void TSkin::Save(pugi::xml_node& parent_node, const int version)
+void TSkin::Save(pugi::xml_node& node, const int version)
 {
-	xml_node skin_node = parent_node.append_child("Skin");
-	xml_node sprites_of_bones_node = skin_node.append_child("SpritesOfBones");
+	//xml_node skin_node = parent_node.append_child("Skin");
+	xml_node sprites_of_bones_node = node.append_child("SpritesOfBones");
 	for (auto& sprites : sprites_of_bones)
 	{
 		xml_node sprites_of_bone_node = sprites_of_bones_node.append_child("SpritesOfBone");
@@ -500,9 +490,9 @@ void TSkin::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TSkin::Load(const pugi::xml_node& skin_node, const int version)
+void TSkin::Load(const pugi::xml_node& node, const int version)
 {
-	xml_node sprites_of_bones_node = skin_node.child("SpritesOfBones");
+	xml_node sprites_of_bones_node = node.child("SpritesOfBones");
 	for (pugi::xml_node sprites_node = sprites_of_bones_node.first_child(); sprites_node; sprites_node = sprites_node.next_sibling())
 	{
 		sprites_of_bones.emplace_back();
@@ -514,20 +504,20 @@ void TSkin::Load(const pugi::xml_node& skin_node, const int version)
 	}
 }
 
-void TSkeleton::Save(pugi::xml_node& parent_node, const int version)
+void TSkeleton::Save(pugi::xml_node& node, const int version)
 {
-	xml_node skeleton_node = parent_node.append_child("Skeleton");
-	xml_node bones_node = skeleton_node.append_child("Bones");
+	//xml_node skeleton_node = parent_node.append_child("Skeleton");
+	xml_node bones_node = node.append_child("Bones");
 	for (auto& v : bones)
 	{
-		v->Save(bones_node, version, this);
+		v->Save(bones_node, version);
 	}
-	xml_node skins_node = skeleton_node.append_child("Skins");
+	xml_node skins_node = node.append_child("Skins");
 	for (auto& v : skins)
 	{
 		v->Save(skins_node, version);
 	}
-	skeleton_node.append_attribute("root_node").set_value(root);
+	node.append_attribute("root_node").set_value(root);
 }
 
 void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version)
@@ -612,12 +602,13 @@ void TBaluSprite::Load(const pugi::xml_node& node, const int version)
 	{
 		fixture = fixture.first_child();
 		TBaluPhysShape* new_shape = nullptr;
-		if (std::string(fixture.name()) == "PolygoneShape")
-			new_shape = new TBaluPolygonShape();
-		if (std::string(fixture.name()) == "CircleShape")
-			new_shape = new TBaluCircleShape();
-		if (std::string(fixture.name()) == "BoxShape")
-			new_shape = new TBaluBoxShape();
+		new_shape = PhysShapeFactory::Create(fixture.name());
+		//if (std::string(fixture.name()) == "PolygoneShape")
+		//	new_shape = new TBaluPolygonShape();
+		//if (std::string(fixture.name()) == "CircleShape")
+		//	new_shape = new TBaluCircleShape();
+		//if (std::string(fixture.name()) == "BoxShape")
+		//	new_shape = new TBaluBoxShape();
 		new_shape->Load(fixture, version);
 		phys_shape.reset(new_shape);
 	}
@@ -632,22 +623,21 @@ void TBaluSprite::Load(const pugi::xml_node& node, const int version)
 			new_callback.LoadFromXML(collide_with_node, version);
 
 			auto class_name = collide_collback_node.attribute("class").as_string();
-			auto collide_with_class = world->GetClass(class_name);
-			on_collide_callbacks.push_back(std::make_pair(collide_with_class, new_callback));
+			on_collide_callbacks.push_back(std::make_pair(class_name, new_callback));
 		}
 	}
 }
 
-void TBaluClassSpriteInstance::Save(pugi::xml_node& parent_node, const int version)
+void TBaluClassSpriteInstance::Save(pugi::xml_node& node, const int version)
 {
-	xml_node sprite_node = parent_node.append_child("sprite");
-	sprite_node.append_attribute("sprite_name").set_value(sprite->GetName().c_str());
-	SaveTransformWithScale(sprite_node, "Transform", local);
+	//xml_node sprite_node = parent_node.append_child("sprite");
+	node.append_attribute("sprite_name").set_value(sprite_name.c_str());
+	SaveTransformWithScale(node.append_child("Transform"), local);
 }
 
 void TBaluClassSpriteInstance::Load(const pugi::xml_node& node, const int version)
 {
-	sprite = world->GetSprite(node.attribute("sprite_name").as_string());
+	sprite_name = node.attribute("sprite_name").as_string();
 	local = LoadTransformWithScale(node.child("Transform"));
 }
 
@@ -760,34 +750,34 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version)
 	}
 }
 
-void TBaluScene::TClassInstance::Save(pugi::xml_node& parent_node, const int version)
+void TBaluScene::TClassInstance::Save(pugi::xml_node& node, const int version)
 {
-	xml_node new_node = parent_node.append_child("Instance");
+	//xml_node new_node = parent_node.append_child("Instance");
 	//new_node.append_attribute("name").set_value(name.c_str());
-	new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
-	SaveTransformWithScale(new_node, "Transform", transform);
+	node.append_attribute("class_name").set_value(class_name.c_str());
+	SaveTransformWithScale(node.append_child("Transform"), transform);
 }
 
 void TBaluScene::TClassInstance::Load(const pugi::xml_node& instance_node, const int version)
 {
 	//name = instance_node.attribute("name").as_string();
-	balu_class = world->GetClass(instance_node.attribute("class_name").as_string());
+	class_name = instance_node.attribute("class_name").as_string();
 	transform = LoadTransformWithScale(instance_node.child("Transform"));
 }
 
-void TViewport::Save(pugi::xml_node& parent_node, const int version)
+void TViewport::Save(pugi::xml_node& node, const int version)
 {
-	xml_node viewport_node = parent_node.append_child("Viewport");
-	SaveTransform(viewport_node, "transform", transform);
-	viewport_node.append_attribute("aspect").set_value(aspect);
-	viewport_node.append_attribute("width").set_value(width);
+	//xml_node viewport_node = parent_node.append_child("Viewport");
+	SaveTransform(node.append_child("Transform"), transform);
+	node.append_attribute("aspect").set_value(aspect);
+	node.append_attribute("width").set_value(width);
 }
 
-void TViewport::Load(const pugi::xml_node& viewport_node, const int version)
+void TViewport::Load(const pugi::xml_node& node, const int version)
 {
-	LoadTransform(viewport_node.child("transform"));
-	aspect = viewport_node.attribute("aspect").as_float();
-	width = viewport_node.attribute("width").as_float();
+	LoadTransform(node.child("Transform"));
+	aspect = node.attribute("aspect").as_float();
+	width = node.attribute("width").as_float();
 }
 
 void TBaluScene::Save(pugi::xml_node& parent_node, const int version)

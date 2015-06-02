@@ -50,20 +50,20 @@ public:
 class TTrack: public EngineInterface::ITrack
 {
 private:
-	TBone* bone;
+	int bone_id;
 	std::set<TTrackFrame, TFrameComparer> frames;
 public:
 	TTrack()
 	{
-		bone = nullptr;
+		bone_id = -1;
 	}
 	TTrack(TBone* bone);
 	TTrackFrame* CreateFrame(float time, float rotation);
 	void DestroyFrame(TTrackFrame* frame);
 	TBone* GetBone();
 	std::set<TTrackFrame, TFrameComparer>& GetFrames();
-	void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };
 
 class TTimeLine : public EngineInterface::ITimeLine
@@ -86,15 +86,15 @@ public:
 	std::string GetName();
 	int GetTracksCount();
 	TTrack* GetTrack(int index);
-	void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version);
 };
 
 class TSkeletonAnimation: public EngineInterface::ISkeletonAnimation
 {
 private:
 	std::vector<std::unique_ptr<TTimeLine>> animations;
-	TSkeleton* skeleton;
+	//TSkeleton* skeleton;
 public:
 	TSkeletonAnimation();
 	TSkeletonAnimation(TSkeleton* skeleton);
