@@ -438,7 +438,7 @@ void TSkeletonAnimation::Load(const pugi::xml_node& node, const int version)
 	}
 }
 
-void TBone::Save(pugi::xml_node& node, const int version)
+void TBone::Save(pugi::xml_node& node, const int version, TSkeleton* skeleton)
 {
 	//xml_node bone_node = parent_node.append_child("Bone");
 
@@ -459,7 +459,7 @@ void TBone::Save(pugi::xml_node& node, const int version)
 	}
 }
 
-void TBone::Load(const pugi::xml_node& node, const int version)
+void TBone::Load(const pugi::xml_node& node, const int version, TSkeleton* skeleton)
 {
 	auto parent_id = node.attribute("parent_id").as_int();
 	if (parent_id == -1)
@@ -467,9 +467,9 @@ void TBone::Load(const pugi::xml_node& node, const int version)
 	else
 		parent = skeleton->GetBone(parent_id);
 
-	local = LoadTransform(bone_node.child("LocalTransform"));
+	local = LoadTransform(node.child("LocalTransform"));
 
-	xml_node children_node = bone_node.child("Children");
+	xml_node children_node = node.child("Children");
 	for (pugi::xml_node prop_node = children_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
 		children.push_back(skeleton->GetBone(prop_node.attribute("Id").as_int()));
@@ -510,7 +510,7 @@ void TSkeleton::Save(pugi::xml_node& node, const int version)
 	xml_node bones_node = node.append_child("Bones");
 	for (auto& v : bones)
 	{
-		v->Save(bones_node, version);
+		v->Save(bones_node, version, this);
 	}
 	xml_node skins_node = node.append_child("Skins");
 	for (auto& v : skins)
@@ -533,7 +533,7 @@ void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version)
 		int i = 0;
 		for (pugi::xml_node prop_node = bones_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 		{
-			bones[i]->Load(prop_node, version, world, this);
+			bones[i]->Load(prop_node, version, this);
 			i++;
 		}
 		xml_node skins_node = skeleton_node.child("Skins");
@@ -585,7 +585,7 @@ void TBaluSprite::Save(pugi::xml_node& parent_node, const int version)
 		for (auto& v : on_collide_callbacks)
 		{
 			xml_node collide_with = collide_collbacks.append_child("CollideWith");
-			collide_with.append_attribute("class").set_value(v.first->GetName().c_str());
+			collide_with.append_attribute("class").set_value(v.first.c_str());
 			v.second.SaveToXML(collide_with, version);
 		}
 	}

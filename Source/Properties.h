@@ -117,7 +117,7 @@ public:
 	}
 	void Load(const pugi::xml_node& instance_node, const int version)
 	{
-		TProperty::Load(instance_node, version, world);
+		TProperty::Load(instance_node, version);
 	}
 };
 static bool TStringProperty_registered = PropertiesFactory::Register("string", TStringProperty::Clone);

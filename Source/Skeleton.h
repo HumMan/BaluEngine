@@ -11,12 +11,11 @@
 
 class TSkeleton;
 
-
 class TBone : public EngineInterface::IBone
 {
 private:
-	int parent;
-	std::vector<int> children;
+	TBone* parent;
+	std::vector<TBone*> children;
 	TBaluTransform local;
 public:
 	TBone()
@@ -31,8 +30,8 @@ public:
 	int GetChildrenCount();
 	TBone* GetChild(int index);
 
-	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
+	void Load(const pugi::xml_node& instance_node, const int version, TSkeleton* skeleton);
 };
 
 class TSkin: public EngineInterface::ISkin

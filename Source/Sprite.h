@@ -42,6 +42,10 @@ public:
 	{
 		this->sprite_name = name;
 	}
+	TBaluSprite* GetSprite()
+	{
+		return world->GetSprite(sprite_name);
+	}
 	void AddOnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
 	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>>& GetOnCollide();
 	CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class);
@@ -74,17 +78,16 @@ class TBaluClassSpriteInstance : public EngineInterface::IBaluClassSpriteInstanc
 	std::string sprite_name;
 	TBaluTransformWithScale local;
 public:
-	TBaluSprite* GetSprite()
+	std::string GetSpriteName()
 	{
-		return sprite;
+		return sprite_name;
 	}
 	TBaluClassSpriteInstance()
 	{
-		sprite = nullptr;
 	}
-	TBaluClassSpriteInstance(TBaluSprite* sprite)
+	TBaluClassSpriteInstance(std::string sprite_name)
 	{
-		this->sprite = sprite;
+		this->sprite_name = sprite_name;
 	}
 	void SetTransform(TBaluTransform transform)
 	{

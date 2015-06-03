@@ -47,11 +47,10 @@ public:
 	public:
 		TClassInstance()
 		{
-			balu_class = nullptr;
 		}
-		TClassInstance(TBaluClass* balu_class)
+		TClassInstance(std::string class_name)
 		{
-			this->balu_class = balu_class;
+			this->class_name = class_name;
 		}
 		void SetTransform(TBaluTransform transform)
 		{
@@ -69,9 +68,9 @@ public:
 		{
 			return transform.scale;
 		}
-		TBaluClass* GetClass()
+		std::string GetClassName()
 		{
-			return balu_class;
+			return class_name;
 		}
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version);
