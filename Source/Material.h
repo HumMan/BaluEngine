@@ -105,6 +105,8 @@ public:
 	TBaluMaterial(TBaluWorld* world);	
 #endif
 
+	TBaluWorld* GetWorld();
+
 	void SetBlendMode(TTransparentMode mode);
 	void SetAlphaTestValue(float alpha_test_value);
 	

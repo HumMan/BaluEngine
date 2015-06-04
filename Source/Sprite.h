@@ -28,8 +28,6 @@ namespace EngineInterface
 class TBaluSprite :public EngineInterface::IBaluSprite, public EngineInterface::IBaluWorldObject
 {
 private:
-	std::string sprite_name;
-	
 	TBaluSpritePolygon sprite_polygon;
 	std::unique_ptr<TBaluPhysShape> phys_shape;
 	
@@ -37,25 +35,24 @@ private:
 	TProperties properties;
 
 	std::vector<std::pair<std::string, CallbackWithData<CollideCallback>>> on_collide_callbacks;
+
+	TBaluWorld* world;
 public:
-	TBaluSprite(const char* name)
+	TBaluSprite();
+	TBaluSprite(TBaluWorld* world)
 	{
-		this->sprite_name = name;
+		this->world = world;
 	}
-	TBaluSprite* GetSprite()
-	{
-		return world->GetSprite(sprite_name);
-	}
-	void AddOnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
-	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>>& GetOnCollide();
-	CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class);
+	void AddOnCollide(std::string, CallbackWithData<CollideCallback> callback);
+	std::vector<std::pair<std::string, CallbackWithData<CollideCallback>>>& GetOnCollide();
+	CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(std::string obstancle_class);
 	void RemoveOnCollide(int index);
 
 	EngineInterface::IProperties* GetProperties()
 	{
 		return &properties;
 	}
-	TBaluSprite();
+	
 
 	std::string GetName();
 	void SetName(std::string name);
@@ -78,6 +75,7 @@ class TBaluClassSpriteInstance : public EngineInterface::IBaluClassSpriteInstanc
 	std::string sprite_name;
 	TBaluTransformWithScale local;
 public:
+	TBaluSprite* GetSprite();
 	std::string GetSpriteName()
 	{
 		return sprite_name;

@@ -334,9 +334,9 @@ void TBaluWorld::DestroyObject(TWorldObjectType type, const char* name)
 	}
 }
 
-TBaluMaterial* TBaluWorld::GetMaterial(const char* scene_name)
+TBaluMaterial* TBaluWorld::GetMaterial(const char* material_name)
 {
-	auto iter = materials.find(scene_name);
+	auto iter = materials.find(material_name);
 	if (iter != materials.end())
 	{
 		return &iter->second;
@@ -347,9 +347,9 @@ TBaluMaterial* TBaluWorld::GetMaterial(const char* scene_name)
 	}
 }
 
-TBaluSprite* TBaluWorld::GetSprite(const char* scene_name)
+TBaluSprite* TBaluWorld::GetSprite(const char* sprite_name)
 {
-	auto iter = sprites.find(scene_name);
+	auto iter = sprites.find(sprite_name);
 	if (iter != sprites.end())
 	{
 		return &iter->second;
@@ -360,9 +360,9 @@ TBaluSprite* TBaluWorld::GetSprite(const char* scene_name)
 	}
 }
 
-TBaluClass* TBaluWorld::GetClass(const char* scene_name)
+TBaluClass* TBaluWorld::GetClass(const char* class_name)
 {
-	auto iter = classes.find(scene_name);
+	auto iter = classes.find(class_name);
 	if (iter != classes.end())
 	{
 		return &iter->second;

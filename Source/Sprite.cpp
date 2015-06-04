@@ -2,9 +2,12 @@
 
 #include "Class.h"
 
+#include "World.h"
+
 TBaluSprite::TBaluSprite()
 {
 	layer = 0;
+	world = nullptr;
 }
 
 void TBaluSprite::SetPhysShape(TBaluPhysShape* shape)
@@ -32,12 +35,12 @@ TBaluSpritePolygon* TBaluSprite::GetPolygon()
 	return &sprite_polygon;
 }
 
-std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>>& TBaluSprite::GetOnCollide()
+std::vector<std::pair<std::string, CallbackWithData<CollideCallback>>>& TBaluSprite::GetOnCollide()
 {
 	return on_collide_callbacks;
 }
 
-CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class)
+CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(std::string obstancle_class)
 {
 	for (auto& v : on_collide_callbacks)
 		if (v.first == obstancle_class)
@@ -45,9 +48,9 @@ CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstanc
 	return nullptr;
 }
 
-void TBaluSprite::AddOnCollide(EngineInterface::IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback)
+void TBaluSprite::AddOnCollide(std::string obstancle_class, CallbackWithData<CollideCallback> callback)
 {
-	on_collide_callbacks.emplace_back(dynamic_cast<TBaluClass*>(obstancle_class), callback);
+	on_collide_callbacks.emplace_back(obstancle_class, callback);
 }
 
 void TBaluSprite::RemoveOnCollide(int index)
@@ -57,10 +60,11 @@ void TBaluSprite::RemoveOnCollide(int index)
 
 std::string TBaluSprite::GetName()
 {
-	return sprite_name;
+	return world->GetObjectName(TWorldObjectType::Sprite, this);
 }
 
 void TBaluSprite::SetName(std::string name)
 {
-	sprite_name = name;
+	auto old_name = GetName();
+	world->RenameObject(TWorldObjectType::Sprite, old_name.c_str(), name.c_str());
 }

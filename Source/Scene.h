@@ -42,8 +42,8 @@ public:
 	class TClassInstance : public EngineInterface::IBaluSceneClassInstance
 	{
 		std::string class_name;
-		//std::string tag;
 		TBaluTransformWithScale transform;
+		TBaluScene* parent;
 	public:
 		TClassInstance()
 		{
@@ -77,24 +77,25 @@ public:
 	};
 private:
 	std::vector<std::unique_ptr<TClassInstance>> instances;
-	std::string scene_name;
 
 	std::map<std::string, TViewport> viewports;
 
 	TLayersManager layers;
 
 	TProperties properties;
+
+	TBaluWorld* world;
 public:
 	TBaluScene(){}
-	TBaluScene(const char* name)
+	TBaluScene(TBaluWorld* world)
 	{
-		this->scene_name = name;
+		this->world = world;
 	}
 	EngineInterface::IProperties* GetProperties()
 	{
 		return &properties;
 	}
-	
+	TBaluWorld* GetWorld();
 	TViewport* CreateViewport(std::string name);
 	TViewport* FindViewport(std::string name);
 
