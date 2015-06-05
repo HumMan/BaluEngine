@@ -33,7 +33,7 @@ public:
 	}
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
 class TBaluScene : public EngineInterface::IBaluScene, public EngineInterface::IBaluWorldObject
@@ -45,6 +45,10 @@ public:
 		//std::string tag;
 		TBaluTransformWithScale transform;
 	public:
+		TClassInstance()
+		{
+			balu_class = nullptr;
+		}
 		TClassInstance(TBaluClass* balu_class)
 		{
 			this->balu_class = balu_class;
@@ -70,7 +74,7 @@ public:
 			return balu_class;
 		}
 		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 private:
 	std::vector<std::unique_ptr<TClassInstance>> instances;
@@ -81,10 +85,12 @@ private:
 	TLayersManager layers;
 
 	TProperties properties;
+	TBaluWorld* world;
 public:
 	TBaluScene(){}
-	TBaluScene(const char* name)
+	TBaluScene(const char* name, TBaluWorld* world)
 	{
+		this->world = world;
 		this->scene_name = name;
 	}
 	EngineInterface::IProperties* GetProperties()
@@ -108,5 +114,5 @@ public:
 	void DestroyInstance(EngineInterface::IBaluSceneClassInstance* instance);
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

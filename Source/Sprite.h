@@ -28,6 +28,7 @@ namespace EngineInterface
 class TBaluSprite :public EngineInterface::IBaluSprite, public EngineInterface::IBaluWorldObject
 {
 private:
+	TBaluWorld* world;
 	std::string sprite_name;
 	
 	TBaluSpritePolygon sprite_polygon;
@@ -37,11 +38,10 @@ private:
 	TProperties properties;
 
 	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>> on_collide_callbacks;
-
-	TBaluWorld* world;
 public:
-	TBaluSprite(const char* name)
+	TBaluSprite(const char* name, TBaluWorld* world)
 	{
+		this->world = world;
 		this->sprite_name = name;
 	}
 	void AddOnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
@@ -67,7 +67,7 @@ public:
 	TBaluSpritePolygon* GetPolygon();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
 
@@ -79,6 +79,10 @@ public:
 	TBaluSprite* GetSprite()
 	{
 		return sprite;
+	}
+	TBaluClassSpriteInstance()
+	{
+		sprite = nullptr;
 	}
 	TBaluClassSpriteInstance(TBaluSprite* sprite)
 	{
@@ -111,5 +115,5 @@ public:
 		return (is_in_sprite);
 	}
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

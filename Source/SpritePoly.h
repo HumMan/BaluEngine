@@ -56,7 +56,6 @@ private:
 
 	TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
 public:
-	TBaluSpritePolygon();
 
 	void SetDrawTrianglesGrid(bool draw)
 	{
@@ -88,6 +87,8 @@ public:
 	{
 		this->enable = enable;
 	}
+
+	TBaluSpritePolygon();
 
 	TBaluTransform GetTransform();
 	TBaluTransformWithScale GetTransformWithScale();
@@ -122,5 +123,5 @@ public:
 	void CreateAnimationLine(std::string line_name, EngineInterface::TAnimDesc* desc, std::vector<int> frames);
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

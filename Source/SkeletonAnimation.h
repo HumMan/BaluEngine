@@ -34,7 +34,7 @@ public:
 		this->rotation = 0;
 	}
 	void Save(pugi::xml_node& parent_node, const int version) const;
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
 class TFrameComparer
@@ -62,8 +62,8 @@ public:
 	void DestroyFrame(TTrackFrame* frame);
 	TBone* GetBone();
 	std::set<TTrackFrame, TFrameComparer>& GetFrames();
-	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
 };
 
 class TTimeLine : public EngineInterface::ITimeLine
@@ -86,8 +86,8 @@ public:
 	std::string GetName();
 	int GetTracksCount();
 	TTrack* GetTrack(int index);
-	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
 };
 
 class TSkeletonAnimation: public EngineInterface::ISkeletonAnimation
@@ -104,6 +104,6 @@ public:
 	TTimeLine* GetAnimation(int index);
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 

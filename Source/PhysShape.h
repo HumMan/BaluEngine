@@ -38,7 +38,7 @@ public:
 	}
 	//virtual TBaluPhysShape* GetPhysShape() = 0;
 	virtual void Save(pugi::xml_node& parent_node, const int version)=0;
-	virtual void Load(const pugi::xml_node& instance_node, const int version)=0;
+	virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)=0;
 };
 
 typedef TBaluPhysShape*(*PhysShapeClone)();
@@ -65,7 +65,7 @@ public:
 	b2PolygonShape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 static bool TBaluPolygonShape_registered = PhysShapeFactory::Register("PolygonShape", TBaluPolygonShape::Clone);
 
@@ -86,7 +86,7 @@ public:
 	b2CircleShape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 static bool TBaluCircleShape_registered = PhysShapeFactory::Register("CircleShape", TBaluCircleShape::Clone);
 
@@ -105,6 +105,6 @@ public:
 	b2PolygonShape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 static bool TBaluBoxShape_registered = PhysShapeFactory::Register("BoxShape", TBaluBoxShape::Clone);

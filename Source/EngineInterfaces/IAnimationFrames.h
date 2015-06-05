@@ -14,6 +14,8 @@ namespace pugi
 	class xml_node;
 }
 
+class TBaluWorld;
+class TBaluSpritePolygon;
 #endif
 
 namespace EngineInterface
@@ -36,7 +38,7 @@ namespace EngineInterface
 		}
 
 		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 #endif
 
@@ -55,7 +57,7 @@ namespace EngineInterface
 		virtual TFrame GetFrame(int index) = 0;
 
 		virtual void Save(pugi::xml_node& parent_node, const int version)=0;
-		virtual void Load(const pugi::xml_node& instance_node, const int version)=0;
+		virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)=0;
 	};
 #endif
 
@@ -86,7 +88,7 @@ namespace EngineInterface
 		TFrame GetFrame(int index);
 
 		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 	static bool TSpecificFrame_registered = AnimDescFactory::Register("SpecificFrame", TSpecificFrame::Clone);
 #endif
@@ -110,7 +112,7 @@ namespace EngineInterface
 		TFrame GetFrame(int index);
 
 		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 	static bool TGridFrames_registered = AnimDescFactory::Register("GridFrames", TGridFrames::Clone);
 #endif
@@ -138,8 +140,8 @@ namespace EngineInterface
 		TAnimationFrames(TAnimDesc* desc, std::vector<int> frames);
 		TAnimationFrames(TAnimDesc* desc, int frame);
 
-		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version);
+		void Save(pugi::xml_node& parent_node, const int version, TBaluSpritePolygon* sprite_polygon);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TBaluSpritePolygon* sprite_polygon);
 	};
 #endif
 
@@ -150,8 +152,8 @@ namespace EngineInterface
 		std::string line_name;
 		std::vector<TAnimationFrames> frames;
 
-		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version);
+		void Save(pugi::xml_node& parent_node, const int version, TBaluSpritePolygon* sprite_polygon);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TBaluSpritePolygon* sprite_polygon);
 	};
 #endif
 }

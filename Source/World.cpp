@@ -289,16 +289,16 @@ void TBaluWorld::CreateObject(TWorldObjectType type, const char* name)
 	switch (type)
 	{
 	case TWorldObjectType::Material:
-		materials.emplace(std::piecewise_construct, std::make_tuple(name), std::make_tuple(name, this));
+		materials.emplace(name, std::make_unique<TBaluMaterial>(name, this));
 		break;
 	case TWorldObjectType::Sprite:
-		sprites.emplace(name, name);
+		sprites.emplace(name, std::make_unique<TBaluSprite>(name, this));
 		break;
 	case TWorldObjectType::Class:
-		classes.emplace(name, name);
+		classes.emplace(name, std::make_unique<TBaluClass>(name, this));
 		break;
 	case TWorldObjectType::Scene:
-		scenes.emplace(name, name);
+		scenes.emplace(name, std::make_unique<TBaluScene>(name, this));
 		break;
 	case TWorldObjectType::None:
 		assert(false);

@@ -95,6 +95,8 @@ private:
 	TVec4 color;
 
 #ifdef BALUENGINE_DESIGN_TIME
+
+	std::string material_name;
 	TBaluWorld* world;
 #endif
 
@@ -102,7 +104,7 @@ public:
 	TBaluMaterial();
 
 #ifdef BALUENGINE_DESIGN_TIME
-	TBaluMaterial(TBaluWorld* world);	
+	TBaluMaterial(std::string material_name, TBaluWorld* world);
 #endif
 
 	void SetBlendMode(TTransparentMode mode);
@@ -119,5 +121,5 @@ public:
 	EngineInterface::IProperties* GetProperties();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

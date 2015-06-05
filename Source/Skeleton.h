@@ -11,11 +11,13 @@
 
 class TSkeleton;
 
+
 class TBone : public EngineInterface::IBone
 {
 private:
 	TBone* parent;
 	std::vector<TBone*> children;
+	
 	TBaluTransform local;
 public:
 	TBone()
@@ -31,7 +33,7 @@ public:
 	TBone* GetChild(int index);
 
 	void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
-	void Load(const pugi::xml_node& instance_node, const int version, TSkeleton* skeleton);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
 };
 
 class TSkin: public EngineInterface::ISkin
@@ -49,7 +51,7 @@ public:
 	std::vector<TBaluClassSpriteInstance>& GetSpritesOfBone(int bone_index);
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
 class TSkeleton: public EngineInterface::ISkeleton
@@ -83,5 +85,5 @@ public:
 	std::vector<TBone*> GetAllBones();
 
 	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };

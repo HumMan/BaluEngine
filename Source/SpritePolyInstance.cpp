@@ -99,7 +99,6 @@ void TBaluSpritePolygonInstance::UpdateAnimation()
 		animation_time_from_start += step;
 
 		auto& active_frame = source->animation_lines[active_animation_line].frames[active_desc_index];
-		
 		auto frame = active_frame.desc->GetFrame(active_frame.frames[active_frame_index]);
 
 		source->SetTexCoordsFromVerticesByRegion(frame.left_bottom, frame.right_top);

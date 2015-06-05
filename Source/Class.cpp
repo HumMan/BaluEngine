@@ -75,7 +75,7 @@ std::string TBaluClass::GetName()
 
 void TBaluClass::SetName(std::string name)
 {
-	world->RenameObject(TWorldObjectType::Sprite, GetName().c_str(), name.c_str());
+	assert(!world->ObjectNameExists(TWorldObjectType::Class, name.c_str()));
 	class_name = name;
 }
 void TBaluClass::Initialize()

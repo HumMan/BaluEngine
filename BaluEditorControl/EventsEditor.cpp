@@ -128,19 +128,19 @@ namespace Editor
 		}
 		for (auto& some_class : p->world->GetClasses())
 		{
-			for (auto& e : some_class.second->GetOnBeforePhysicsStep())
+			for (auto& e : some_class->GetOnBeforePhysicsStep())
 			{
 				std::vector<TEventParam> params;
-				params.push_back(TEventParam(TWorldObjectType::Class, some_class.second->GetName()));
+				params.push_back(TEventParam(TWorldObjectType::Class, some_class->GetName()));
 				p->event_types[(int)TEventType::OnClassBeforePhys].events.push_back(TEventInfo(TEventType::OnClassBeforePhys, params, &e));
 			}
 		}
 		for (auto& some_class : p->world->GetClasses())
 		{
-			for (auto& e : some_class.second->GetOnKeyDown())
+			for (auto& e : some_class->GetOnKeyDown())
 			{
 				std::vector<TEventParam> params;
-				params.push_back(TEventParam(TWorldObjectType::Class, some_class.second->GetName()));
+				params.push_back(TEventParam(TWorldObjectType::Class, some_class->GetName()));
 				params.push_back(TEventParam(e.first));
 				for (auto& key_event : e.second)
 				{
@@ -150,10 +150,10 @@ namespace Editor
 		}
 		for (auto& some_class : p->world->GetClasses())
 		{
-			for (auto& e : some_class.second->GetOnKeyUp())
+			for (auto& e : some_class->GetOnKeyUp())
 			{
 				std::vector<TEventParam> params;
-				params.push_back(TEventParam(TWorldObjectType::Class, some_class.second->GetName()));
+				params.push_back(TEventParam(TWorldObjectType::Class, some_class->GetName()));
 				params.push_back(TEventParam(e.first));
 				for (auto& key_event : e.second)
 				{
@@ -163,9 +163,9 @@ namespace Editor
 		}
 		for (auto& some_class : p->world->GetClasses())
 		{
-			for (int i = 0; i < some_class.second->GetSpritesCount(); i++)
+			for (int i = 0; i < some_class->GetSpritesCount(); i++)
 			{
-				auto some_sprite = some_class.second->GetSprite(i)->GetSprite();
+				auto some_sprite = some_class->GetSprite(i)->GetSprite();
 				for (auto& some_sprite_event : some_sprite->GetOnCollide())
 				{
 					std::vector<TEventParam> params;

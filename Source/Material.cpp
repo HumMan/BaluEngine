@@ -7,8 +7,9 @@ TBaluMaterial::TBaluMaterial()
 }
 
 #ifdef BALUENGINE_DESIGN_TIME
-TBaluMaterial::TBaluMaterial(TBaluWorld* world)
+TBaluMaterial::TBaluMaterial(std::string material_name, TBaluWorld* world)
 {
+	this->material_name = material_name;
 	this->world = world;
 }
 #endif
@@ -30,12 +31,13 @@ void TBaluMaterial::SetAlphaTestValue(float alpha_test_value)
 
 void TBaluMaterial::SetName(std::string name)
 {
-	world->RenameObject(TWorldObjectType::Material, world->GetObjectName(TWorldObjectType::Material, this).c_str(), name.c_str());
+	assert(!world->ObjectNameExists(TWorldObjectType::Material, name.c_str()));
+	material_name = name;
 }
 
 std::string TBaluMaterial::GetName()
 {
-	return  world->GetObjectName(TWorldObjectType::Material, this);
+	return  material_name;
 }
 
 void TBaluMaterial::SetImagePath(std::string image_path)
