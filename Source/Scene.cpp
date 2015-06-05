@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include "World.h"
+
 TVec2 EngineInterface::IBaluScene::FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord)
 {
 	return ((viewport_coord - TVec2(0.5, 0.5))).ComponentMul(viewport->GetAABB().GetSize()) + viewport->GetAABB().GetPosition();
@@ -54,6 +56,7 @@ std::string TBaluScene::GetName()
 
 void TBaluScene::SetName(std::string name)
 {
+	assert(!world->ObjectNameExists(TWorldObjectType::Scene, name.c_str()));
 	scene_name = name;
 }
 

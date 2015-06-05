@@ -108,7 +108,7 @@ TBaluMaterial* TBaluWorld::CreateMaterial(const char* mat_name)
 	auto iter = materials.find(mat_name);
 	if (iter == materials.end())
 	{
-		materials[mat_name]->SetName(mat_name);
+		materials.emplace(mat_name, std::make_unique<TBaluMaterial>(mat_name, this));
 		return materials[mat_name].get();
 	}
 	else
@@ -122,7 +122,7 @@ TBaluSprite* TBaluWorld::CreateSprite(const char* sprite_name)
 	auto iter = sprites.find(sprite_name);
 	if (iter == sprites.end())
 	{
-		sprites[sprite_name]->SetName(sprite_name);
+		sprites.emplace(sprite_name, std::make_unique<TBaluSprite>(sprite_name, this));
 		return sprites[sprite_name].get();
 	}
 	else
@@ -135,7 +135,7 @@ TBaluClass* TBaluWorld::CreateClass(const char* class_name)
 	auto iter = classes.find(class_name);
 	if (iter == classes.end())
 	{
-		classes[class_name]->SetName(class_name);
+		classes.emplace(class_name, std::make_unique<TBaluClass>(class_name, this));
 		return classes[class_name].get();
 	}
 	else
@@ -148,7 +148,7 @@ TBaluScene* TBaluWorld::CreateScene(const char* scene_name)
 	auto iter = scenes.find(scene_name);
 	if (iter == scenes.end())
 	{
-		scenes[scene_name]->SetName(scene_name);
+		scenes.emplace(scene_name, std::make_unique<TBaluScene>(scene_name, this));
 		return scenes[scene_name].get();
 	}
 	else
@@ -230,6 +230,7 @@ IBaluWorldObject* TBaluWorld::GetObjectByName(TWorldObjectType type, const char*
 		assert(false);
 		break;
 	}
+	return nullptr;
 }
 
 std::vector<IBaluWorldObject*> TBaluWorld::GetObjects(TWorldObjectType type)

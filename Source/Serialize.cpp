@@ -4,9 +4,9 @@
 
 using namespace pugi;
 
-void SaveColor(pugi::xml_node& parent_node, std::string name, TVec4 color)
+void SaveColor(pugi::xml_node& parent, TVec4 color)
 {
-	xml_node new_node = parent_node.append_child(name.c_str());
+	xml_node new_node = parent.append_child("Color");
 	new_node.append_attribute("r").set_value(color[0]);
 	new_node.append_attribute("g").set_value(color[1]);
 	new_node.append_attribute("b").set_value(color[2]);
@@ -74,14 +74,14 @@ void TBaluMaterial::Save(pugi::xml_node& parent_node, const int version)
 	xml_node new_node = parent_node.append_child("Material");
 	new_node.append_attribute("name").set_value(material_name.c_str());
 	new_node.append_attribute("image_path").set_value(image_path.c_str());
-	SaveColor(new_node, "color", color);
+	SaveColor(new_node, color);
 }
 
 void TBaluMaterial::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
 	material_name = node.attribute("name").as_string();
 	image_path = node.attribute("image_path").as_string();
-	color = LoadColor(node.child("color"));
+	color = LoadColor(node.child("Color"));
 }
 
 void TBaluBoxShape::Save(pugi::xml_node& parent_node, const int version)

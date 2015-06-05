@@ -2,6 +2,8 @@
 
 #include "Class.h"
 
+#include "World.h"
+
 TBaluSprite::TBaluSprite()
 {
 	layer = 0;
@@ -62,5 +64,6 @@ std::string TBaluSprite::GetName()
 
 void TBaluSprite::SetName(std::string name)
 {
+	assert(!world->ObjectNameExists(TWorldObjectType::Sprite, name.c_str()));
 	sprite_name = name;
 }
