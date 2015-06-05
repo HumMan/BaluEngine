@@ -37,14 +37,12 @@ private:
 	TProperties properties;
 
 	std::vector<std::pair<std::string, CallbackWithData<CollideCallback>>> on_collide_callbacks;
+
+	TBaluWorld* world;
 public:
 	TBaluSprite(const char* name)
 	{
 		this->sprite_name = name;
-	}
-	TBaluSprite* GetSprite()
-	{
-		return world->GetSprite(sprite_name);
 	}
 	void AddOnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
 	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>>& GetOnCollide();
@@ -75,19 +73,16 @@ public:
 
 class TBaluClassSpriteInstance : public EngineInterface::IBaluClassSpriteInstance
 {
-	std::string sprite_name;
+	TBaluSprite* sprite;
 	TBaluTransformWithScale local;
 public:
-	std::string GetSpriteName()
+	TBaluSprite* GetSprite()
 	{
-		return sprite_name;
+		return sprite;
 	}
-	TBaluClassSpriteInstance()
+	TBaluClassSpriteInstance(TBaluSprite* sprite)
 	{
-	}
-	TBaluClassSpriteInstance(std::string sprite_name)
-	{
-		this->sprite_name = sprite_name;
+		this->sprite = sprite;
 	}
 	void SetTransform(TBaluTransform transform)
 	{

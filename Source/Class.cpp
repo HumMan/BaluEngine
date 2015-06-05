@@ -1,5 +1,6 @@
 #include "Class.h"
 
+#include "World.h"
 
 TBaluClassPhysBody::TBaluClassPhysBody()
 {
@@ -74,16 +75,13 @@ std::string TBaluClass::GetName()
 
 void TBaluClass::SetName(std::string name)
 {
+	world->RenameObject(TWorldObjectType::Sprite, GetName().c_str(), name.c_str());
 	class_name = name;
 }
 void TBaluClass::Initialize()
 {
 	skeleton = std::make_unique<TSkeleton>();
 	skeleton_animation = std::make_unique<TSkeletonAnimation>(skeleton.get());
-}
-TBaluClass::TBaluClass()
-{
-	Initialize();
 }
 
 TBaluClass::~TBaluClass()

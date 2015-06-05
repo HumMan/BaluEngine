@@ -28,10 +28,10 @@ class TBaluWorld : public EngineInterface::IBaluWorld
 private:
 	friend class TBaluWorldInstance;
 
-	std::map<std::string, TBaluMaterial> materials;
-	std::map<std::string, TBaluSprite> sprites;
-	std::map<std::string, TBaluClass> classes;
-	std::map<std::string, TBaluScene> scenes;
+	std::map<std::string, std::unique_ptr<TBaluMaterial>> materials;
+	std::map<std::string, std::unique_ptr<TBaluSprite>> sprites;
+	std::map<std::string, std::unique_ptr<TBaluClass>> classes;
+	std::map<std::string, std::unique_ptr<TBaluScene>> scenes;
 
 	TBaluPhysShapeFactory shape_factory;
 
@@ -44,16 +44,13 @@ private:
 	TCallbacksActiveType callback_active_type;
 
 	template<class T, class M>
-	std::vector<std::pair<std::string, T*>> GetPairsFromMap(M& map)
+	std::vector<T*> GetVectorFromMap(M& map)
 	{
-		std::vector<std::pair<std::string, T*>> result;
+		std::vector<T*> result;
 		result.reserve(map.size());
 		for (auto& v : map)
 		{
-			std::pair<std::string, T*> temp;
-			temp.first = v.first;
-			temp.second = &v.second;
-			result.push_back(temp);
+			result.push_back(v.second.get());
 		}
 		return result;
 	}
@@ -100,24 +97,24 @@ public:
 
 	IBaluScene* GetScene(int index)
 	{
-		return GetScenes()[0].second;
+		return GetScenes()[0];
 	}
 	
-	std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials()
+	std::vector<EngineInterface::IBaluMaterial*> GetMaterials()
 	{
-		return GetPairsFromMap<EngineInterface::IBaluMaterial>(materials);
+		return GetVectorFromMap<EngineInterface::IBaluMaterial>(materials);
 	}
-	std::vector<std::pair<std::string, EngineInterface::IBaluSprite*>> GetSprites()
+	std::vector<EngineInterface::IBaluSprite*> GetSprites()
 	{
-		return GetPairsFromMap<EngineInterface::IBaluSprite>(sprites);
+		return GetVectorFromMap<EngineInterface::IBaluSprite>(sprites);
 	}
-	std::vector<std::pair<std::string, EngineInterface::IBaluClass*>> GetClasses()
+	std::vector<EngineInterface::IBaluClass*> GetClasses()
 	{
-		return GetPairsFromMap<EngineInterface::IBaluClass>(classes);
+		return GetVectorFromMap<EngineInterface::IBaluClass>(classes);
 	}
-	std::vector<std::pair<std::string, EngineInterface::IBaluScene*>> GetScenes()
+	std::vector<EngineInterface::IBaluScene*> GetScenes()
 	{
-		return GetPairsFromMap<EngineInterface::IBaluScene>(scenes);
+		return GetVectorFromMap<EngineInterface::IBaluScene>(scenes);
 	}
 
 	TBaluPhysShapeFactory* GetPhysShapeFactory();

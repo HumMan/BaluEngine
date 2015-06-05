@@ -41,16 +41,13 @@ class TBaluScene : public EngineInterface::IBaluScene, public EngineInterface::I
 public:
 	class TClassInstance : public EngineInterface::IBaluSceneClassInstance
 	{
-		std::string class_name;
+		TBaluClass* balu_class;
 		//std::string tag;
 		TBaluTransformWithScale transform;
 	public:
-		TClassInstance()
+		TClassInstance(TBaluClass* balu_class)
 		{
-		}
-		TClassInstance(std::string class_name)
-		{
-			this->class_name = class_name;
+			this->balu_class = balu_class;
 		}
 		void SetTransform(TBaluTransform transform)
 		{
@@ -68,9 +65,9 @@ public:
 		{
 			return transform.scale;
 		}
-		std::string GetClassName()
+		TBaluClass* GetClass()
 		{
-			return class_name;
+			return balu_class;
 		}
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version);

@@ -147,10 +147,10 @@ namespace EngineInterface
 		virtual void CreateObject(TWorldObjectType type, const char* name)=0;
 		virtual void DestroyObject(TWorldObjectType type, const char* name)=0;
 
-		virtual std::vector<std::pair<std::string, EngineInterface::IBaluMaterial*>> GetMaterials() = 0;
-		virtual std::vector<std::pair<std::string, EngineInterface::IBaluSprite*>> GetSprites() = 0;
-		virtual std::vector<std::pair<std::string, EngineInterface::IBaluClass*>> GetClasses() = 0;
-		virtual std::vector<std::pair<std::string, EngineInterface::IBaluScene*>> GetScenes() = 0;
+		virtual std::vector<EngineInterface::IBaluMaterial*> GetMaterials() = 0;
+		virtual std::vector<EngineInterface::IBaluSprite*> GetSprites() = 0;
+		virtual std::vector<EngineInterface::IBaluClass*> GetClasses() = 0;
+		virtual std::vector<EngineInterface::IBaluScene*> GetScenes() = 0;
 
 		virtual IBaluScene* GetScene(const char* scene_name) = 0;
 		virtual IBaluScene* GetScene(int index) = 0;

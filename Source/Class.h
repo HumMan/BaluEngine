@@ -39,12 +39,11 @@ public:
 
 class TBaluClass : public EngineInterface::IBaluClass, public EngineInterface::IBaluWorldObject
 {
-public:
-	
-
 private:
-	std::string layer_name;
 	std::string class_name;
+
+	int layer_id;
+	
 	std::vector<std::unique_ptr<TBaluClassSpriteInstance>> sprites;
 	TBaluClassPhysBody phys_body;
 	std::unique_ptr<TSkeleton> skeleton;
@@ -56,7 +55,16 @@ private:
 	std::vector<CallbackWithData<BeforePhysicsCallback>> before_physics_callbacks;
 
 	void Initialize();
+
+	TBaluWorld* world;
 public:
+	TBaluClass(const char* name, TBaluWorld* world)
+	{
+		Initialize();
+		this->class_name = name;		
+		this->world = world;
+	}
+
 	EngineInterface::IProperties* GetProperties()
 	{
 		return &properties;
@@ -67,13 +75,6 @@ public:
 	std::string GetName();
 	void SetName(std::string name);
 
-	TBaluClass();
-	//TBaluClass(TBaluClass&& right);
-	TBaluClass(const char* name)
-	{
-		this->class_name = name;
-		Initialize();
-	}
 	virtual ~TBaluClass();
 
 	void OnMouseMove(TMouseMoveCallback);
