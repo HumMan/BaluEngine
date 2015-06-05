@@ -26,9 +26,7 @@ class TBaluSpritePolygon: public EngineInterface::IBaluSpritePolygon
 private:
 	friend class TBaluSpritePolygonInstance;
 
-	//TBaluMaterial* material;
-
-	std::string material_name;
+	TBaluMaterial* material;
 
 	std::vector<TVec2> polygon_vertices;//вершины замкнутого контура спрайта
 
@@ -58,6 +56,7 @@ private:
 
 	TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
 public:
+	TBaluSpritePolygon();
 
 	void SetDrawTrianglesGrid(bool draw)
 	{
@@ -89,8 +88,6 @@ public:
 	{
 		this->enable = enable;
 	}
-
-	TBaluSpritePolygon();
 
 	TBaluTransform GetTransform();
 	TBaluTransformWithScale GetTransformWithScale();

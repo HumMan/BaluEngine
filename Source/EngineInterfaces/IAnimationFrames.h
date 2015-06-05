@@ -133,7 +133,7 @@ namespace EngineInterface
 		TAnimationFrames()
 		{
 		}
-		int anim_desc_id;
+		TAnimDesc* desc;
 		std::vector<int> frames;
 		TAnimationFrames(TAnimDesc* desc, std::vector<int> frames);
 		TAnimationFrames(TAnimDesc* desc, int frame);

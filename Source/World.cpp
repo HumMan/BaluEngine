@@ -66,7 +66,7 @@ bool TryFindT(find_array& map, const char* class_name, T*& result)
 		return false;
 	else
 	{
-		result = &iter->second;
+		result = iter->second.get();
 		return true;
 	}
 }
@@ -108,8 +108,8 @@ TBaluMaterial* TBaluWorld::CreateMaterial(const char* mat_name)
 	auto iter = materials.find(mat_name);
 	if (iter == materials.end())
 	{
-		materials[mat_name].SetName(mat_name);
-		return &materials[mat_name];
+		materials[mat_name]->SetName(mat_name);
+		return materials[mat_name].get();
 	}
 	else
 	{
@@ -122,8 +122,8 @@ TBaluSprite* TBaluWorld::CreateSprite(const char* sprite_name)
 	auto iter = sprites.find(sprite_name);
 	if (iter == sprites.end())
 	{
-		sprites[sprite_name].SetName(sprite_name);
-		return &sprites[sprite_name];
+		sprites[sprite_name]->SetName(sprite_name);
+		return sprites[sprite_name].get();
 	}
 	else
 	{
@@ -135,8 +135,8 @@ TBaluClass* TBaluWorld::CreateClass(const char* class_name)
 	auto iter = classes.find(class_name);
 	if (iter == classes.end())
 	{
-		classes[class_name].SetName(class_name);
-		return &classes[class_name];
+		classes[class_name]->SetName(class_name);
+		return classes[class_name].get();
 	}
 	else
 	{
@@ -148,8 +148,8 @@ TBaluScene* TBaluWorld::CreateScene(const char* scene_name)
 	auto iter = scenes.find(scene_name);
 	if (iter == scenes.end())
 	{
-		scenes[scene_name].SetName(scene_name);
-		return &scenes[scene_name];
+		scenes[scene_name]->SetName(scene_name);
+		return scenes[scene_name].get();
 	}
 	else
 	{
@@ -202,7 +202,7 @@ std::vector<T*> GetObjectsFromMap(M& map)
 	std::vector<T*> result;
 	for (auto& v : map)
 	{
-		result.push_back(&v.second);
+		result.push_back(v.second.get());
 	}
 	return result;
 }
@@ -212,16 +212,16 @@ IBaluWorldObject* TBaluWorld::GetObjectByName(TWorldObjectType type, const char*
 	switch (type)
 	{
 	case TWorldObjectType::Material:
-		return &materials[name];
+		return materials[name].get();
 		break;
 	case TWorldObjectType::Sprite:
-		return &sprites[name];
+		return sprites[name].get();
 		break;
 	case TWorldObjectType::Class:
-		return &classes[name];
+		return classes[name].get();
 		break;
 	case TWorldObjectType::Scene:
-		return &scenes[name];
+		return scenes[name].get();
 		break;
 	case TWorldObjectType::None:
 		assert(false);
@@ -339,7 +339,7 @@ TBaluMaterial* TBaluWorld::GetMaterial(const char* scene_name)
 	auto iter = materials.find(scene_name);
 	if (iter != materials.end())
 	{
-		return &iter->second;
+		return iter->second.get();
 	}
 	else
 	{
@@ -352,7 +352,7 @@ TBaluSprite* TBaluWorld::GetSprite(const char* scene_name)
 	auto iter = sprites.find(scene_name);
 	if (iter != sprites.end())
 	{
-		return &iter->second;
+		return iter->second.get();
 	}
 	else
 	{
@@ -365,7 +365,7 @@ TBaluClass* TBaluWorld::GetClass(const char* scene_name)
 	auto iter = classes.find(scene_name);
 	if (iter != classes.end())
 	{
-		return &iter->second;
+		return iter->second.get();
 	}
 	else
 	{
@@ -378,7 +378,7 @@ TBaluScene* TBaluWorld::GetScene(const char* scene_name)
 	auto iter = scenes.find(scene_name);
 	if (iter != scenes.end())
 	{
-		return &iter->second;
+		return iter->second.get();
 	}
 	else
 	{

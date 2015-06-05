@@ -180,7 +180,7 @@ bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance&
 		}
 		for (auto& k : source->classes)
 		{
-			for (auto& v : k.second.GetOnBeforePhysicsStep())
+			for (auto& v : k.second->GetOnBeforePhysicsStep())
 			{
 				if (v.IsScript())
 				{
@@ -189,7 +189,7 @@ bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance&
 					script_engine.CreateMethod(&v, method.c_str());
 				}
 			}
-			for (auto& s : k.second.GetOnKeyDown())
+			for (auto& s : k.second->GetOnKeyDown())
 			{
 				for (auto& v : s.second)
 					if (v.IsScript())
@@ -199,7 +199,7 @@ bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance&
 						script_engine.CreateMethod(&v, method.c_str());
 					}
 			}
-			for (auto& s : k.second.GetOnKeyUp())
+			for (auto& s : k.second->GetOnKeyUp())
 			{
 				for (auto& v : s.second)
 					if (v.IsScript())
@@ -213,7 +213,7 @@ bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance&
 
 		for (auto& k : source->sprites)
 		{
-			for (auto& v : k.second.GetOnCollide())
+			for (auto& v : k.second->GetOnCollide())
 			{
 				if (v.second.IsScript())
 				{

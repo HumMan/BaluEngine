@@ -36,7 +36,7 @@ private:
 	int layer;
 	TProperties properties;
 
-	std::vector<std::pair<std::string, CallbackWithData<CollideCallback>>> on_collide_callbacks;
+	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>> on_collide_callbacks;
 
 	TBaluWorld* world;
 public:

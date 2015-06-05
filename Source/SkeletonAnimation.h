@@ -50,12 +50,12 @@ public:
 class TTrack: public EngineInterface::ITrack
 {
 private:
-	int bone_id;
+	TBone* bone;
 	std::set<TTrackFrame, TFrameComparer> frames;
 public:
 	TTrack()
 	{
-		bone_id = -1;
+		bone = nullptr;
 	}
 	TTrack(TBone* bone);
 	TTrackFrame* CreateFrame(float time, float rotation);
@@ -94,7 +94,7 @@ class TSkeletonAnimation: public EngineInterface::ISkeletonAnimation
 {
 private:
 	std::vector<std::unique_ptr<TTimeLine>> animations;
-	//TSkeleton* skeleton;
+	TSkeleton* skeleton;
 public:
 	TSkeletonAnimation();
 	TSkeletonAnimation(TSkeleton* skeleton);
