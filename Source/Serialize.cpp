@@ -601,6 +601,7 @@ void TBaluSprite::Save(pugi::xml_node& parent_node, const int version)
 
 void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
+	this->world = world;
 	sprite_name = node.attribute("name").as_string();
 	xml_node polygon_node = node.child("SpritePolygon");
 	sprite_polygon.Load(polygon_node, version, world);
@@ -816,6 +817,7 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 
 void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBaluWorld* world)
 {
+	this->world = world;
 	scene_name = scene_node.attribute("name").as_string();
 	{
 		xml_node instances_node = scene_node.child("instances");
@@ -932,7 +934,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 			materials[new_material->GetName()].reset(new_material);
 		}
 	}
-	//pre create classes
+	//предварительно создаем классы, т.к. их имена используются в sprite OnCollide
 	{
 		xml_node classes_node = world_node.child("Classes");
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
@@ -945,11 +947,12 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node sprites_node = world_node.child("Sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
-			auto sprite_name = sprite_node.attribute("name").as_string();
-			sprites[sprite_name]->Load(sprite_node, version, this);
+			TBaluSprite* sprite = new TBaluSprite();
+			sprite->Load(sprite_node, version, this);
+			sprites[sprite->GetName()].reset(sprite);
 		}
 	}
-	//load classes fully
+	//загружаем классы полностью
 	{
 		xml_node classes_node = world_node.child("Classes");
 		auto curr_class = classes.begin();
@@ -963,8 +966,9 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node scenes_node = world_node.child("Scenes");
 		for (pugi::xml_node scene_node = scenes_node.first_child(); scene_node; scene_node = scene_node.next_sibling())
 		{
-			auto scene_name = scene_node.attribute("name").as_string();
-			scenes[scene_name]->Load(scene_node, version, this);
+			TBaluScene* scene = new TBaluScene();
+			scene->Load(scene_node, version, this);
+			scenes[scene->GetName()].reset(scene);
 		}
 	}
 

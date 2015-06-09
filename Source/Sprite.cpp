@@ -7,6 +7,7 @@
 TBaluSprite::TBaluSprite()
 {
 	layer = 0;
+	world = nullptr;
 }
 
 void TBaluSprite::SetPhysShape(TBaluPhysShape* shape)

@@ -3,7 +3,7 @@
 #pragma once
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSESclass IBaluWorldInstance
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IWorld.h"
