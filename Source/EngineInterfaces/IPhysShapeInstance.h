@@ -16,7 +16,7 @@ namespace EngineInterface
 	class IBaluPhysShapeInstance
 	{
 	public:
-		virtual IBaluInstance* GetParent()=0;
+		virtual IBaluInstance* GetParent() = 0;
 		virtual IBaluClassSpriteInstance* GetSpriteInstance() = 0;
 	};
 #endif

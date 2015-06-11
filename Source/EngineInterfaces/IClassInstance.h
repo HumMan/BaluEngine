@@ -50,12 +50,20 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+	class IBaluClassInstance
+	{
+	public:
+		virtual IBaluClass* GetClass() = 0;
+	};
+#endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluInstance
 	{
 	public:
 		virtual void UpdateTranform() = 0;
 		virtual TOBB2 GetOBB() = 0;
-		virtual IBaluClass* GetClass() = 0;
+		virtual IBaluClassInstance* GetClass() = 0;
 		virtual TBaluTransform GetTransform() = 0;
 		virtual void SetTransform(TBaluTransform) = 0;
 		virtual TVec2 GetScale() = 0;

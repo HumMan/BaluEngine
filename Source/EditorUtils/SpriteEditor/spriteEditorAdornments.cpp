@@ -16,7 +16,7 @@ using namespace EngineInterface;
 class TSpritePolygonOBBAdornmentPrivate
 {
 	friend class TSpriteOBBAdornment;
-	friend void SpritePolygonOBBAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params);
+	friend void SpritePolygonOBBAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool visible;
@@ -33,9 +33,9 @@ TSpriteOBBAdornment::~TSpriteOBBAdornment()
 	p->world->DestroySprite("SpritePolygonOBBAdornment_custom_draw_sprite");
 }
 
-void SpritePolygonOBBAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
+void SpritePolygonOBBAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
 {
-	auto state = (TSpritePolygonOBBAdornmentPrivate*)data->GetUserData();
+	auto state = (TSpritePolygonOBBAdornmentPrivate*)user_data;
 	//if (state->visible)
 	{
 		auto items = state->visual->Render();
@@ -51,7 +51,7 @@ EngineInterface::IBaluClass* TSpriteOBBAdornment::CreateClass(IBaluWorld* world,
 	auto adornment_sprite = world->CreateSprite("SpritePolygonOBBAdornment_custom_draw_sprite");
 	dynamic_cast<IBaluWorldObject*>(adornment_sprite)->GetProperties()->SetBool("editor_temp_object", true);
 	//adornment_sprite->GetPolygon()->SetEnable(false);
-	adornment_sprite->GetPolygon()->AddOnCustomDraw(CallbackWithData<TCustomDrawCallback>(SpritePolygonOBBAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+	adornment_sprite->GetPolygon()->AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback>(SpritePolygonOBBAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;
@@ -82,7 +82,7 @@ TSpriteOBBAdornment::TSpriteOBBAdornment(IBaluSceneInstance* scene_instance, IVi
 class TSpritePolygonAdornmentPrivate
 {
 	friend class TSpritePolygonAdornment;
-	friend void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params);
+	friend void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool visible;
@@ -143,9 +143,9 @@ void TSpritePolygonAdornment::SetSelectionBox(TOBB2 box)
 	p->selection_box = box;
 }
 
-void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
+void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
 {
-	auto state = (TSpritePolygonAdornmentPrivate*)data->GetUserData();
+	auto state = (TSpritePolygonAdornmentPrivate*)user_data;
 	if (state->visible)
 	{
 		auto sprite_poly = state->visual->GetPolygon();
@@ -186,7 +186,7 @@ EngineInterface::IBaluClass* TSpritePolygonAdornment::CreateClass(IBaluWorld* wo
 	auto adornment_sprite = world->CreateSprite("SpritePolygonAdornment_custom_draw_sprite");
 	dynamic_cast<IBaluWorldObject*>(adornment_sprite)->GetProperties()->SetBool("editor_temp_object", true);
 	//adornment_sprite->GetPolygon()->SetEnable(false);
-	adornment_sprite->GetPolygon()->AddOnCustomDraw(CallbackWithData<TCustomDrawCallback>(SpritePolygonAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+	adornment_sprite->GetPolygon()->AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback>(SpritePolygonAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;
@@ -216,7 +216,7 @@ TSpritePolygonAdornment::TSpritePolygonAdornment(IBaluSceneInstance* scene_insta
 class TSpriteAdornmentPrivate
 {
 	friend class TSpriteAdornment;
-	friend void SpritePolygonAdornmentCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params);
+	friend void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool visible;

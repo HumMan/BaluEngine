@@ -3,6 +3,8 @@
 #include "SpriteInstance.h"
 #include "Skeleton.h"
 
+class TBaluInstance;
+
 class TBoneInstance
 {
 private:

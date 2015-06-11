@@ -2,7 +2,7 @@
 
 #include "WorldInstance.h"
 
-TBaluClass* TBaluInstance::GetClass()
+TBaluClassInstance* TBaluInstance::GetClass()
 {
 	return instance_class;
 }
@@ -10,20 +10,20 @@ TBaluClass* TBaluInstance::GetClass()
 bool TBaluInstance::PointCollide(TVec2 scene_space_point)
 {
 	TVec2 p = instance_transform.ToLocal(scene_space_point);
-	return instance_class->PointCollide(p);
+	return instance_class->GetClass()->PointCollide(p);
 }
 
 TOBB2 TBaluInstance::GetOBB()
 {
-	auto aabb = GetClass()->GetAABB();
+	auto aabb = GetClass()->GetClass()->GetAABB();
 	//aabb.border[0] *= instance_scale;
 	//aabb.border[1] *= instance_scale;
 	return instance_transform.ToGlobal(aabb);
 	//return TOBB2(instance_transform.position, instance_transform.GetOrientation(), aabb);
 }
 
-TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources) 
-	:skeleton(source->GetSkeleton(), this, resources), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
+TBaluInstance::TBaluInstance(TBaluClassInstance* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources)
+	:skeleton(source->GetClass()->GetSkeleton(), this, resources), skeleton_animation(&skeleton, source->GetClass()->GetSkeletonAnimation())
 {
 	this->resources = resources;
 	skeleton_animation.Init();
@@ -31,12 +31,12 @@ TBaluInstance::TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTrans
 	this->instance_class = source;
 	this->phys_world = phys_world;
 
-	for (int i = 0; i < source->GetSpritesCount(); i++)
+	for (int i = 0; i < source->GetClass()->GetSpritesCount(); i++)
 	{
-		sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source->GetSprite(i), this, resources));
+		sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source->GetClass()->GetSprite(i), this, resources));
 	}
 
-	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, source->GetPhysBody(), this);
+	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, source->GetClass()->GetPhysBody(), this);
 }
 
 void TBaluInstance::SetTransform(TBaluTransform transform)
@@ -226,32 +226,32 @@ void TBaluClassPhysBodyIntance::SetTransform(TBaluTransform transform)
 	phys_body->SetTransform(*(b2Vec2*)&transform.position, transform.angle.GetAngle());
 }
 
-void TBaluInstance::DoKeyDown(TKey key)
+void TBaluClassInstance::DoKeyDown(TKey key, TBaluInstance* instance)
 {
-	auto it = instance_class->GetOnKeyDown().find(key);
-	if (it != instance_class->GetOnKeyDown().end())
+	auto it = on_key_down_callbacks.find(key);
+	if (it != on_key_down_callbacks.end())
 	{
 		for (int i = 0; i < it->second.size(); i++)
 		{
-			it->second[i].Execute(this);
+			it->second[i].Execute(instance);
 		}
 	}
 }
 
-void TBaluInstance::DoKeyUp(TKey key)
+void TBaluClassInstance::DoKeyUp(TKey key, TBaluInstance* instance)
 {
-	auto it = instance_class->GetOnKeyUp().find(key);
-	if (it != instance_class->GetOnKeyUp().end())
+	auto it = on_key_up_callbacks.find(key);
+	if (it != on_key_up_callbacks.end())
 	{
 		for (int i = 0; i < it->second.size(); i++)
-			it->second[i].Execute(this);
+			it->second[i].Execute(instance);
 	}
 }
 
-void TBaluInstance::DoBeforePhysicsStep()
+void TBaluClassInstance::DoBeforePhysicsStep(TBaluInstance* instance)
 {
-	for (auto& i : instance_class->GetOnBeforePhysicsStep())
+	for (auto& i : before_physics_callbacks)
 	{
-		i.Execute(this);
+		i.Execute(instance);
 	}
 }

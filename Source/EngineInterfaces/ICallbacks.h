@@ -18,13 +18,13 @@ namespace EngineInterface
 	class IBaluInstance;
 	class TCustomDrawCommand;
 
-	typedef void(*MouseCallback)(TCallbackData* callback, TMouseEventArgs* e);
-	typedef void(*OnStartWorldCallback)(TCallbackData* data, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer);
-	typedef void(*ViewportResizeCallback)(TCallbackData* data, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
-	typedef void(*CollideCallback)(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluInstance* obstacle);
-	typedef void(*KeyUpDownCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
-	typedef void(*BeforePhysicsCallback)(TCallbackData* data, EngineInterface::IBaluInstance* object);
-	typedef void(*TCustomDrawCallback)(TCallbackData* callback, NVGcontext* vg, TCustomDrawCommand* params);
+	typedef void(*MouseCallback)(void* user_data, TMouseEventArgs* e);
+	typedef void(*OnStartWorldCallback)(void* user_data, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer);
+	typedef void(*ViewportResizeCallback)(void* user_data, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
+	typedef void(*CollideCallback)(void* user_data, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluInstance* obstacle);
+	typedef void(*KeyUpDownCallback)(void* user_data, EngineInterface::IBaluInstance* object);
+	typedef void(*BeforePhysicsCallback)(void* user_data, EngineInterface::IBaluInstance* object);
+	typedef void(*TCustomDrawCallback)(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 
 	enum class TEventType
 	{

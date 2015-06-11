@@ -36,7 +36,7 @@ private:
 	TBaluPhysShapeFactory shape_factory;
 
 	//TODO такие колбэки должны задаваться в worldInstance, а здесь только исходники скриптов
-	std::vector<CallbackWithData<MouseCallback>> 
+	std::vector<TSpecialCallback<MouseCallback>> 
 		mouse_down_callbacks,
 		mouse_up_callbacks,
 		mouse_move_callbacks;
@@ -55,9 +55,8 @@ private:
 		return result;
 	}
 
-	//CallbackWithData<RenderWorldCallback> render_world_callback;
-	std::vector<CallbackWithData<OnStartWorldCallback>> on_start_world_callback;
-	std::vector<CallbackWithData<ViewportResizeCallback>> viewport_resize_callback;
+	std::vector<TSpecialCallback<OnStartWorldCallback>> on_start_world_callback;
+	std::vector<TSpecialCallback<ViewportResizeCallback>> viewport_resize_callback;
 
 public:
 	TBaluWorld();
@@ -118,24 +117,24 @@ public:
 
 	//void OnKeyDown(TKey key, KeyDownCallback callback);
 
-	void AddOnMouseDown(CallbackWithData<MouseCallback>);
-	void AddOnMouseUp(CallbackWithData<MouseCallback>);
-	void AddOnMouseMove(CallbackWithData<MouseCallback>);
+	void AddOnMouseDown(TSpecialCallback<MouseCallback>);
+	void AddOnMouseUp(TSpecialCallback<MouseCallback>);
+	void AddOnMouseMove(TSpecialCallback<MouseCallback>);
 
-	std::vector<CallbackWithData<MouseCallback>>& GetOnMouseDown();
-	std::vector<CallbackWithData<MouseCallback>>& GetOnMouseUp();
-	std::vector<CallbackWithData<MouseCallback>>& GetOnMouseMove();
+	std::vector<TSpecialCallback<MouseCallback>>& GetOnMouseDown();
+	std::vector<TSpecialCallback<MouseCallback>>& GetOnMouseUp();
+	std::vector<TSpecialCallback<MouseCallback>>& GetOnMouseMove();
 
 	void RemoveOnMouseDown(int index);
 	void RemoveOnMouseUp(int index);
 	void RemoveOnMouseMove(int index);
 
-	void AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback);
-	std::vector<CallbackWithData<OnStartWorldCallback>>& GetOnWorldStart();
+	void AddOnWorldStart(TSpecialCallback<OnStartWorldCallback> callback);
+	std::vector<TSpecialCallback<OnStartWorldCallback>>& GetOnWorldStart();
 	void RemoveOnWorldStart(int index);
 	
-	void AddOnViewportResize(CallbackWithData<ViewportResizeCallback> callback);
-	std::vector<CallbackWithData<ViewportResizeCallback>>& GetOnViewportResize();
+	void AddOnViewportResize(TSpecialCallback<ViewportResizeCallback> callback);
+	std::vector<TSpecialCallback<ViewportResizeCallback>>& GetOnViewportResize();
 	void RemoveOnViewportResize(int index);
 
 	void SaveToXML(std::string path);

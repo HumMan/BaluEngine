@@ -392,30 +392,30 @@ TBaluPhysShapeFactory* TBaluWorld::GetPhysShapeFactory()
 	return &shape_factory;
 }
 
-void TBaluWorld::AddOnMouseDown(CallbackWithData<MouseCallback> callback)
+void TBaluWorld::AddOnMouseDown(TSpecialCallback<MouseCallback> callback)
 {
 	mouse_down_callbacks.push_back(callback);
 }
 
-void TBaluWorld::AddOnMouseUp(CallbackWithData<MouseCallback> callback)
+void TBaluWorld::AddOnMouseUp(TSpecialCallback<MouseCallback> callback)
 {
 	mouse_up_callbacks.push_back(callback);
 }
 
-void TBaluWorld::AddOnMouseMove(CallbackWithData<MouseCallback> callback)
+void TBaluWorld::AddOnMouseMove(TSpecialCallback<MouseCallback> callback)
 {
 	mouse_move_callbacks.push_back(callback);
 }
 
-std::vector<CallbackWithData<MouseCallback>>& TBaluWorld::GetOnMouseDown()
+std::vector<TSpecialCallback<MouseCallback>>& TBaluWorld::GetOnMouseDown()
 {
 	return mouse_down_callbacks;
 }
-std::vector<CallbackWithData<MouseCallback>>& TBaluWorld::GetOnMouseUp()
+std::vector<TSpecialCallback<MouseCallback>>& TBaluWorld::GetOnMouseUp()
 {
 	return mouse_up_callbacks;
 }
-std::vector<CallbackWithData<MouseCallback>>& TBaluWorld::GetOnMouseMove()
+std::vector<TSpecialCallback<MouseCallback>>& TBaluWorld::GetOnMouseMove()
 {
 	return mouse_move_callbacks;
 }
@@ -435,12 +435,12 @@ void TBaluWorld::RemoveOnMouseMove(int index)
 	mouse_move_callbacks.erase(mouse_move_callbacks.begin() + index);
 }
 
-void TBaluWorld::AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback)
+void TBaluWorld::AddOnWorldStart(TSpecialCallback<OnStartWorldCallback> callback)
 {
 	on_start_world_callback.push_back(callback);
 }
 
-std::vector<CallbackWithData<OnStartWorldCallback>>& TBaluWorld::GetOnWorldStart()
+std::vector<TSpecialCallback<OnStartWorldCallback>>& TBaluWorld::GetOnWorldStart()
 {
 	return on_start_world_callback;
 }
@@ -450,12 +450,12 @@ void TBaluWorld::RemoveOnWorldStart(int index)
 	on_start_world_callback.erase(on_start_world_callback.begin() + index);
 }
 
-void TBaluWorld::AddOnViewportResize(CallbackWithData<ViewportResizeCallback> callback)
+void TBaluWorld::AddOnViewportResize(TSpecialCallback<ViewportResizeCallback> callback)
 {
 	viewport_resize_callback.push_back(callback);
 }
 
-std::vector<CallbackWithData<ViewportResizeCallback>>& TBaluWorld::GetOnViewportResize()
+std::vector<TSpecialCallback<ViewportResizeCallback>>& TBaluWorld::GetOnViewportResize()
 {
 	return viewport_resize_callback;
 }

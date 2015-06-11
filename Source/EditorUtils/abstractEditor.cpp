@@ -1,8 +1,8 @@
 #include "abstractEditor.h"
 
-void OnMouseMove(TCallbackData* data, TMouseEventArgs* e)
+void OnMouseMove(void* user_data, TMouseEventArgs* e)
 {
-	TAbstractEditor* ed = (TAbstractEditor*)data->GetUserData();
+	TAbstractEditor* ed = (TAbstractEditor*)user_data;
 	if (ed->current_local_editor != nullptr)
 	{
 	}
@@ -14,9 +14,9 @@ void OnMouseMove(TCallbackData* data, TMouseEventArgs* e)
 	}
 }
 
-void OnMouseDown(TCallbackData* data, TMouseEventArgs* e)
+void OnMouseDown(void* user_data, TMouseEventArgs* e)
 {
-	TAbstractEditor* ed = (TAbstractEditor*)data->GetUserData();
+	TAbstractEditor* ed = (TAbstractEditor*)user_data;
 	if (ed->current_local_editor != nullptr)
 	{
 	}
@@ -28,9 +28,9 @@ void OnMouseDown(TCallbackData* data, TMouseEventArgs* e)
 	}
 }
 
-void OnMouseUp(TCallbackData* data, TMouseEventArgs* e)
+void OnMouseUp(void* user_data, TMouseEventArgs* e)
 {
-	TAbstractEditor* ed = (TAbstractEditor*)data->GetUserData();
+	TAbstractEditor* ed = (TAbstractEditor*)user_data;
 	if (ed->current_local_editor != nullptr)
 	{
 	}
@@ -45,9 +45,9 @@ void OnMouseUp(TCallbackData* data, TMouseEventArgs* e)
 void TAbstractEditor::InitializeControls(IBaluWorld* world)
 {
 	this->world = world;
-	world->AddOnMouseMove(CallbackWithData<MouseCallback>(OnMouseMove, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
-	world->AddOnMouseDown(CallbackWithData<MouseCallback>(OnMouseDown, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
-	world->AddOnMouseUp(CallbackWithData<MouseCallback>(OnMouseUp, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->AddOnMouseMove(TSpecialCallback<MouseCallback>(OnMouseMove, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->AddOnMouseDown(TSpecialCallback<MouseCallback>(OnMouseDown, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	world->AddOnMouseUp(TSpecialCallback<MouseCallback>(OnMouseUp, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
 }
 
 void TAbstractEditor::DeinitializeControls()

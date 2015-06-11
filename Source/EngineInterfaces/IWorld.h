@@ -157,20 +157,20 @@ namespace EngineInterface
 
 		virtual IBaluPhysShapeFactory* GetPhysShapeFactory() = 0;
 
-		virtual void AddOnMouseDown(CallbackWithData<MouseCallback>) = 0;
-		virtual void AddOnMouseUp(CallbackWithData<MouseCallback>) = 0;
-		virtual void AddOnMouseMove(CallbackWithData<MouseCallback>) = 0;
+		virtual void AddOnMouseDown(TSpecialCallback<MouseCallback>) = 0;
+		virtual void AddOnMouseUp(TSpecialCallback<MouseCallback>) = 0;
+		virtual void AddOnMouseMove(TSpecialCallback<MouseCallback>) = 0;
 
-		virtual std::vector<CallbackWithData<MouseCallback>>& GetOnMouseDown()=0;
-		virtual std::vector<CallbackWithData<MouseCallback>>& GetOnMouseUp() = 0;
-		virtual std::vector<CallbackWithData<MouseCallback>>& GetOnMouseMove() = 0;
+		virtual std::vector<TSpecialCallback<MouseCallback>>& GetOnMouseDown()=0;
+		virtual std::vector<TSpecialCallback<MouseCallback>>& GetOnMouseUp() = 0;
+		virtual std::vector<TSpecialCallback<MouseCallback>>& GetOnMouseMove() = 0;
 
-		virtual void AddOnWorldStart(CallbackWithData<OnStartWorldCallback> callback) = 0;
-		virtual std::vector<CallbackWithData<OnStartWorldCallback>>& GetOnWorldStart() = 0;
+		virtual void AddOnWorldStart(TSpecialCallback<OnStartWorldCallback> callback) = 0;
+		virtual std::vector<TSpecialCallback<OnStartWorldCallback>>& GetOnWorldStart() = 0;
 		virtual void RemoveOnWorldStart(int index) = 0;
 
-		virtual void AddOnViewportResize(CallbackWithData<ViewportResizeCallback> callback) = 0;
-		virtual std::vector<CallbackWithData<ViewportResizeCallback>>& GetOnViewportResize() = 0;
+		virtual void AddOnViewportResize(TSpecialCallback<ViewportResizeCallback> callback) = 0;
+		virtual std::vector<TSpecialCallback<ViewportResizeCallback>>& GetOnViewportResize() = 0;
 		virtual void RemoveOnViewportResize(int index) = 0;
 
 		virtual void RemoveOnMouseDown(int index) = 0;

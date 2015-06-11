@@ -32,15 +32,15 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 
 TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 {
-	instances.push_back(std::make_unique<TBaluSceneInstance>(this, scene_source, resources));
-	return instances.back().get();
+	scene_instances.push_back(std::make_unique<TBaluSceneInstance>(this, scene_source, resources));
+	return scene_instances.back().get();
 }
 void TBaluWorldInstance::StopScene(TBaluSceneInstance* scene)
 {
-	auto iter = std::find_if(instances.begin(), instances.end(), [&](std::unique_ptr<TBaluSceneInstance>& p){return p.get() == scene; });
-	if (iter != instances.end())
+	auto iter = std::find_if(scene_instances.begin(), scene_instances.end(), [&](std::unique_ptr<TBaluSceneInstance>& p){return p.get() == scene; });
+	if (iter != scene_instances.end())
 	{
-		instances.erase(iter);
+		scene_instances.erase(iter);
 	}
 	else
 	{
@@ -60,31 +60,31 @@ void TBaluWorldInstance::StopScene(EngineInterface::IBaluSceneInstance* scene_in
 
 void TBaluWorldInstance::OnPrePhysStep()
 {
-	for (int i = 0; i < instances.size(); i++)
-		instances[i]->OnPrePhysStep();
+	for (int i = 0; i < scene_instances.size(); i++)
+		scene_instances[i]->OnPrePhysStep();
 }
 
 void TBaluWorldInstance::PhysStep(float step)
 {
-	for (int i = 0; i < instances.size(); i++)
-		instances[i]->PhysStep(step);
+	for (int i = 0; i < scene_instances.size(); i++)
+		scene_instances[i]->PhysStep(step);
 }
 
 void TBaluWorldInstance::OnProcessCollisions()
 {
-	for (int i = 0; i < instances.size(); i++)
-		instances[i]->OnProcessCollisions();
+	for (int i = 0; i < scene_instances.size(); i++)
+		scene_instances[i]->OnProcessCollisions();
 }
 void TBaluWorldInstance::OnStep(float step)
 {
-	for (int i = 0; i < instances.size(); i++)
-		instances[i]->OnStep(step);
+	for (int i = 0; i < scene_instances.size(); i++)
+		scene_instances[i]->OnStep(step);
 }
 
 void TBaluWorldInstance::KeyDown(TKey key)
 {
-	for (int i = 0; i < instances.size(); i++)
-		instances[i]->OnKeyDown(key);
+	for (int i = 0; i < scene_instances.size(); i++)
+		scene_instances[i]->OnKeyDown(key);
 }
 
 void TBaluWorldInstance::KeyUp(TKey key)
@@ -124,8 +124,8 @@ void TBaluWorldInstance::MouseVerticalWheel(int amount)
 
 void TBaluWorldInstance::UpdateTransform()
 {
-	for (int i = 0; i < instances.size(); i++)
-		instances[i]->UpdateTransform();
+	for (int i = 0; i < scene_instances.size(); i++)
+		scene_instances[i]->UpdateTransform();
 }
 
 bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance& script_engine, std::vector<std::string>& errors_list)

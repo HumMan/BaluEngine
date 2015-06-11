@@ -14,7 +14,8 @@ class TBaluWorldInstance : public EngineInterface::IBaluWorldInstance
 {
 private:
 	TBaluWorld* source;
-	std::vector<std::unique_ptr<TBaluSceneInstance>> instances;
+	std::vector<std::unique_ptr<TBaluSceneInstance>> scene_instances;
+	std::vector<std::unique_ptr<TBaluClassInstance>> class_instances;
 	TResources* resources;
 	TBaluScriptInstance script_engine;
 	TComposer composer;
@@ -32,11 +33,11 @@ public:
 	EngineInterface::IBaluSceneInstance* RunScene(EngineInterface::IBaluScene* scene_source);
 	int GetSceneInstancesCount()
 	{
-		return instances.size();
+		return scene_instances.size();
 	}
 	TBaluSceneInstance* GetSceneInstance(int index)
 	{
-		return instances[index].get();
+		return scene_instances[index].get();
 	}
 	void StopScene(EngineInterface::IBaluSceneInstance*);
 

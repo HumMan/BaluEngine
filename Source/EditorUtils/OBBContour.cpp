@@ -6,7 +6,7 @@
 class TOBBContourPrivate
 {
 	friend class TOBBContour;
-	friend void OBBContourCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params);
+	friend void OBBContourCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool enable;
@@ -16,9 +16,9 @@ private:
 	IBaluSceneInstance* scene_instance;
 };
 
-void OBBContourCustomDraw(TCallbackData* data, NVGcontext* vg, TCustomDrawCommand* params)
+void OBBContourCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
 {
-	auto state = (TOBBContourPrivate*)data->GetUserData();
+	auto state = (TOBBContourPrivate*)user_data;
 	if (state->enable)
 	{
 		state->drawing_helper->RenderBoxCountour(state->box, 1);
@@ -59,7 +59,7 @@ EngineInterface::IBaluClass* TOBBContour::CreateClass(EngineInterface::IBaluWorl
 	auto adornment_sprite = world->CreateSprite("SceneEditorOBBContour_custom_draw_sprite");
 	dynamic_cast<IBaluWorldObject*>(adornment_sprite)->GetProperties()->SetBool("editor_temp_object", true);
 	//adornment_sprite->GetPolygon()->SetEnable(false);
-	adornment_sprite->GetPolygon()->AddOnCustomDraw(CallbackWithData<TCustomDrawCallback>(OBBContourCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+	adornment_sprite->GetPolygon()->AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback>(OBBContourCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;

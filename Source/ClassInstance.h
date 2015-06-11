@@ -40,11 +40,34 @@ public:
 	void SetTransform(TBaluTransform transform);
 };
 
-class TBaluInstance: public EngineInterface::IBaluInstance//, TLayerObjectInstance
+class TBaluClassInstance :public EngineInterface::IBaluClassInstance
+{
+private:
+	TBaluClass* source;
+
+	std::map<TKey, std::vector<TSpecialCallbackInstance<KeyUpDownCallback>>> on_key_down_callbacks;
+	std::map<TKey, std::vector<TSpecialCallbackInstance<KeyUpDownCallback>>> on_key_up_callbacks;
+	std::vector<TSpecialCallbackInstance<BeforePhysicsCallback>> before_physics_callbacks;
+public:
+
+	TBaluClass* GetClass()
+	{
+		return source;
+	}
+	void DoKeyDown(TKey key, TBaluInstance* instance);
+	void DoKeyUp(TKey key, TBaluInstance* instance);
+
+	void DoBeforePhysicsStep(TBaluInstance* instance);
+	//void DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
+	//void DoBeginContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
+	//void DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
+};
+
+class TBaluInstance : public EngineInterface::IBaluInstance
 {
 private:
 	int uid;
-	TBaluClass* instance_class;
+	TBaluClassInstance* instance_class;
 	TBaluTransformWithScale instance_transform;
 
 	b2World* phys_world;
@@ -59,7 +82,7 @@ private:
 	TResources* resources;
 	void* tag;
 public:
-	TBaluClass* GetClass();
+	TBaluClassInstance* GetClass();
 	void SetTag(void* tag)
 	{
 		this->tag = tag;
@@ -69,7 +92,7 @@ public:
 		return tag;
 	}
 
-	TBaluInstance(TBaluClass* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources);
+	TBaluInstance(TBaluClassInstance* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources);
 	void SetTransform(TBaluTransform transform);
 	TBaluTransform GetTransform();
 	TVec2 GetScale();
@@ -92,11 +115,5 @@ public:
 
 	void UpdateTranform();
 
-	void DoKeyDown(TKey key);
-	void DoKeyUp(TKey key);
 
-	void DoBeforePhysicsStep();
-	//void DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
-	void DoBeginContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
-	void DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 };

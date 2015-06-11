@@ -135,33 +135,33 @@ TBaluClassSpriteInstance* TBaluClass::GetSprite(int index)
 	return sprites[index].get();
 }
 
-void TBaluClass::OnKeyDown(TKey key, CallbackWithData<KeyUpDownCallback> callback)
+void TBaluClass::OnKeyDown(TKey key, TSpecialCallback<KeyUpDownCallback> callback)
 {
 	on_key_down_callbacks[key].push_back(callback);
 }
 
-void TBaluClass::OnKeyUp(TKey key, CallbackWithData<KeyUpDownCallback> callback)
+void TBaluClass::OnKeyUp(TKey key, TSpecialCallback<KeyUpDownCallback> callback)
 {
 	on_key_up_callbacks[key].push_back(callback);
 }
 
 
-void TBaluClass::OnBeforePhysicsStep(CallbackWithData<BeforePhysicsCallback> callback)
+void TBaluClass::OnBeforePhysicsStep(TSpecialCallback<BeforePhysicsCallback> callback)
 {
 	before_physics_callbacks.push_back(callback);
 }
 
-std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>>& TBaluClass::GetOnKeyDown()
+std::map<TKey, std::vector<TSpecialCallback<KeyUpDownCallback>>>& TBaluClass::GetOnKeyDown()
 {
 	return on_key_down_callbacks;
 }
 
-std::map<TKey, std::vector<CallbackWithData<KeyUpDownCallback>>>& TBaluClass::GetOnKeyUp()
+std::map<TKey, std::vector<TSpecialCallback<KeyUpDownCallback>>>& TBaluClass::GetOnKeyUp()
 {
 	return on_key_up_callbacks;
 }
 
-std::vector<CallbackWithData<BeforePhysicsCallback>>& TBaluClass::GetOnBeforePhysicsStep()
+std::vector<TSpecialCallback<BeforePhysicsCallback>>& TBaluClass::GetOnBeforePhysicsStep()
 {
 	return before_physics_callbacks;
 }

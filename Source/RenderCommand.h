@@ -151,7 +151,7 @@ namespace EngineInterface
 		TScreen* screen;
 		TAABB2* viewport;
 		TView* view;
-		CallbackWithData<TCustomDrawCallback> command;
+		TSpecialCallback<TCustomDrawCallback> command;
 	};
 #endif
 }

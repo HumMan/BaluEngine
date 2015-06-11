@@ -51,7 +51,7 @@ private:
 
 	//на данный момент применяется только в редакторе для отрисовки GUI - заменить на набор готовых объектов редактора (разновидность класса)
 	bool is_custom_draw;
-	std::vector<CallbackWithData<TCustomDrawCallback>> custom_draw_callbacks;
+	std::vector<TSpecialCallback<TCustomDrawCallback>> custom_draw_callbacks;
 
 
 	TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
@@ -70,7 +70,7 @@ public:
 
 	bool PointCollide(TVec2 sprite_space_point);
 
-	void AddOnCustomDraw(CallbackWithData<TCustomDrawCallback> callback);
+	void AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback> callback);
 	void RemoveOnCustomDraw(int index);
 
 	bool IsCustomDraw()

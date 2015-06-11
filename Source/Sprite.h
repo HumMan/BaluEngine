@@ -20,7 +20,6 @@ class TBaluClass;
 namespace EngineInterface
 {
 	class IBaluPhysShapeInstance;
-	class IBaluInstance;
 	class IBaluClass;
 	class IBaluClassSpriteInstance;
 }
@@ -37,16 +36,16 @@ private:
 	int layer;
 	TProperties properties;
 
-	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>> on_collide_callbacks;
+	std::vector<std::pair<IBaluClass*, TSpecialCallback<CollideCallback>>> on_collide_callbacks;
 public:
 	TBaluSprite(const char* name, TBaluWorld* world)
 	{
 		this->world = world;
 		this->sprite_name = name;
 	}
-	void AddOnCollide(IBaluClass* obstancle_class, CallbackWithData<CollideCallback> callback);
-	std::vector<std::pair<IBaluClass*, CallbackWithData<CollideCallback>>>& GetOnCollide();
-	CallbackWithData<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class);
+	void AddOnCollide(IBaluClass* obstancle_class, TSpecialCallback<CollideCallback> callback);
+	std::vector<std::pair<IBaluClass*, TSpecialCallback<CollideCallback>>>& GetOnCollide();
+	TSpecialCallback<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class);
 	void RemoveOnCollide(int index);
 
 	EngineInterface::IProperties* GetProperties()

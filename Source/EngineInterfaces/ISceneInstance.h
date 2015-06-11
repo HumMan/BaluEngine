@@ -26,7 +26,7 @@ namespace EngineInterface
 	{
 	public:
 
-		virtual bool PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result)=0;
+		virtual bool PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result) = 0;
 		virtual IBaluScene* GetSource()=0;
 		virtual IBaluWorldInstance* GetWorld()=0;
 		virtual IViewport* GetViewport(std::string name)=0;

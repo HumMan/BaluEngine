@@ -13,9 +13,9 @@ using namespace EngineInterface;
 
 class TAbstractEditor: public EngineInterface::IAbstractEditor
 {
-	friend void OnMouseMove(TCallbackData* data, TMouseEventArgs* e);
-	friend void OnMouseDown(TCallbackData* data, TMouseEventArgs* e);
-	friend void OnMouseUp(TCallbackData* data, TMouseEventArgs* e);
+	friend void OnMouseMove(void* user_data, TMouseEventArgs* e);
+	friend void OnMouseDown(void* user_data, TMouseEventArgs* e);
+	friend void OnMouseUp(void* user_data, TMouseEventArgs* e);
 private:
 	IBaluWorld* world;
 protected:
