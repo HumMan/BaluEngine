@@ -42,7 +42,9 @@ namespace EngineInterface
 
 	bool CompileScripts(IBaluWorld* source, IBaluScriptInstance* script_engine, std::vector<std::string>& errors_list)
 	{
-		return TBaluWorldInstance::CompileScripts(dynamic_cast<TBaluWorld*>(source), *(dynamic_cast<TBaluScriptInstance*>(script_engine)), errors_list);
+		//TODO uncomment
+		//return TBaluWorldInstance::CompileScripts(dynamic_cast<TBaluWorld*>(source), *(dynamic_cast<TBaluScriptInstance*>(script_engine)), errors_list);
+		return false;
 	}
 
 	IBaluScriptInstance* CreateScriptInstance(std::string assets_dir)

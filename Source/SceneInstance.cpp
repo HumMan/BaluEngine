@@ -61,12 +61,12 @@ void TContactsHolder::OnProcessCollisions()
 		auto c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_a))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
 		if (c != nullptr)
 		{
-			c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_a), instance_b);
+			//c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_a), instance_b);
 		}
 		c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_b))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_a));
 		if (c != nullptr)
 		{
-			c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_b), instance_a);
+			//c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_b), instance_a);
 		}
 
 		//auto c = (dynamic_cast<TBaluInstance*>(class_a))->GetClass()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
@@ -182,7 +182,7 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& 
 void TBaluSceneInstance::OnPrePhysStep()
 {
 	for (int i = 0; i < instances.size(); i++)
-		instances[i]->DoBeforePhysicsStep();
+		instances[i]->GetClass()->DoBeforePhysicsStep(instances[i].get());
 }
 void TBaluSceneInstance::PhysStep(float step)
 {
@@ -206,7 +206,7 @@ void TBaluSceneInstance::OnStep(float step)
 void TBaluSceneInstance::OnKeyDown(TKey key)
 {
 	for (int i = 0; i < instances.size(); i++)
-		instances[i]->DoKeyDown(key);
+		instances[i]->GetClass()->DoKeyDown(key, instances[i].get());
 }
 
 void TBaluSceneInstance::UpdateTransform()

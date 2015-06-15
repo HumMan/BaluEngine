@@ -35,11 +35,7 @@ private:
 
 	TBaluPhysShapeFactory shape_factory;
 
-	//TODO такие колбэки должны задаваться в worldInstance, а здесь только исходники скриптов
-	std::vector<TSpecialCallback<MouseCallback>> 
-		mouse_down_callbacks,
-		mouse_up_callbacks,
-		mouse_move_callbacks;
+	
 
 	TCallbacksActiveType callback_active_type;
 
@@ -55,6 +51,11 @@ private:
 		return result;
 	}
 
+	//TODO такие колбэки должны задаваться в worldInstance, а здесь только исходники скриптов
+	std::vector<TSpecialCallback<MouseCallback>>
+		mouse_down_callbacks,
+		mouse_up_callbacks,
+		mouse_move_callbacks;
 	std::vector<TSpecialCallback<OnStartWorldCallback>> on_start_world_callback;
 	std::vector<TSpecialCallback<ViewportResizeCallback>> viewport_resize_callback;
 

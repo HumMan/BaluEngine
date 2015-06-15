@@ -51,7 +51,7 @@ EngineInterface::IBaluClass* TSpriteOBBAdornment::CreateClass(IBaluWorld* world,
 	auto adornment_sprite = world->CreateSprite("SpritePolygonOBBAdornment_custom_draw_sprite");
 	dynamic_cast<IBaluWorldObject*>(adornment_sprite)->GetProperties()->SetBool("editor_temp_object", true);
 	//adornment_sprite->GetPolygon()->SetEnable(false);
-	adornment_sprite->GetPolygon()->AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback>(SpritePolygonOBBAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+//	adornment_sprite->GetPolygon()->AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback>(SpritePolygonOBBAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;
@@ -186,7 +186,7 @@ EngineInterface::IBaluClass* TSpritePolygonAdornment::CreateClass(IBaluWorld* wo
 	auto adornment_sprite = world->CreateSprite("SpritePolygonAdornment_custom_draw_sprite");
 	dynamic_cast<IBaluWorldObject*>(adornment_sprite)->GetProperties()->SetBool("editor_temp_object", true);
 	//adornment_sprite->GetPolygon()->SetEnable(false);
-	adornment_sprite->GetPolygon()->AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback>(SpritePolygonAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+//	adornment_sprite->GetPolygon()->AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback>(SpritePolygonAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;

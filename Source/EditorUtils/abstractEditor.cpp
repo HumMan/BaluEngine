@@ -45,16 +45,16 @@ void OnMouseUp(void* user_data, TMouseEventArgs* e)
 void TAbstractEditor::InitializeControls(IBaluWorld* world)
 {
 	this->world = world;
-	world->AddOnMouseMove(TSpecialCallback<MouseCallback>(OnMouseMove, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
-	world->AddOnMouseDown(TSpecialCallback<MouseCallback>(OnMouseDown, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
-	world->AddOnMouseUp(TSpecialCallback<MouseCallback>(OnMouseUp, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	//world->AddOnMouseMove(TSpecialCallback<MouseCallback>(OnMouseMove, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	//world->AddOnMouseDown(TSpecialCallback<MouseCallback>(OnMouseDown, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
+	//world->AddOnMouseUp(TSpecialCallback<MouseCallback>(OnMouseUp, &world->GetCallbacksActiveType(), this, TCallbacksActiveType::EDITOR));
 }
 
 void TAbstractEditor::DeinitializeControls()
 {
-	world->RemoveOnMouseMove(0);
-	world->RemoveOnMouseDown(0);
-	world->RemoveOnMouseUp(0);
+	//world->RemoveOnMouseMove(0);
+	//world->RemoveOnMouseDown(0);
+	//world->RemoveOnMouseUp(0);
 }
 
 void TAbstractEditor::SetActiveTool(IEditorTool* tool)

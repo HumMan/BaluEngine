@@ -26,7 +26,7 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 	std::vector<std::string> errors_list;
 	CompileScripts(source, script_engine, errors_list);
 
-	for (auto& v : source->on_start_world_callback)
+	for (auto& v : on_start_world_callback)
 		v.Execute(this, &composer);
 }
 
@@ -95,7 +95,7 @@ void TBaluWorldInstance::KeyUp(TKey key)
 
 void TBaluWorldInstance::MouseDown(TMouseEventArgs e)
 {
-	for (auto& v : source->mouse_down_callbacks)
+	for (auto& v : mouse_down_callbacks)
 	{
 		v.Execute(&e);
 	}
@@ -103,7 +103,7 @@ void TBaluWorldInstance::MouseDown(TMouseEventArgs e)
 
 void TBaluWorldInstance::MouseMove(TMouseEventArgs e)
 {
-	for (auto& v : source->mouse_move_callbacks)
+	for (auto& v : mouse_move_callbacks)
 	{
 		v.Execute(&e);
 	}
@@ -111,7 +111,7 @@ void TBaluWorldInstance::MouseMove(TMouseEventArgs e)
 
 void TBaluWorldInstance::MouseUp(TMouseEventArgs e)
 {
-	for (auto& v : source->mouse_up_callbacks)
+	for (auto& v : mouse_up_callbacks)
 	{
 		v.Execute(&e);
 	}
@@ -128,11 +128,11 @@ void TBaluWorldInstance::UpdateTransform()
 		scene_instances[i]->UpdateTransform();
 }
 
-bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance& script_engine, std::vector<std::string>& errors_list)
+bool TBaluWorldInstance::CompileScripts(TBaluWorldInstance* world_instance, TBaluScriptInstance& script_engine, std::vector<std::string>& errors_list)
 {
 	try
 	{
-		for (auto& v : source->on_start_world_callback)
+		for (auto& v : world_instance->on_start_world_callback)
 		{
 			if (v.IsScript())
 			{
@@ -141,7 +141,7 @@ bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance&
 				script_engine.CreateMethod(&v, method.c_str());
 			}
 		}
-		for (auto& v : source->viewport_resize_callback)
+		for (auto& v : world_instance->viewport_resize_callback)
 		{
 			if (v.IsScript())
 			{
@@ -151,7 +151,7 @@ bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance&
 			}
 		}
 
-		for (auto& v : source->mouse_up_callbacks)
+		for (auto& v : world_instance->mouse_up_callbacks)
 		{
 			if (v.IsScript())
 			{
@@ -160,7 +160,7 @@ bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance&
 				script_engine.CreateMethod(&v, method.c_str());
 			}
 		}
-		for (auto& v : source->mouse_down_callbacks)
+		for (auto& v : world_instance->mouse_down_callbacks)
 		{
 			if (v.IsScript())
 			{
@@ -169,7 +169,7 @@ bool TBaluWorldInstance::CompileScripts(TBaluWorld* source, TBaluScriptInstance&
 				script_engine.CreateMethod(&v, method.c_str());
 			}
 		}
-		for (auto& v : source->mouse_move_callbacks)
+		for (auto& v : world_instance->mouse_move_callbacks)
 		{
 			if (v.IsScript())
 			{

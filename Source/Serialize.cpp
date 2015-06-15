@@ -676,8 +676,7 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 			key_callbacks.append_attribute("key").set_value(i->first);
 			for (auto& v : i->second)
 			{
-				if (v.IsScript())
-					v.SaveToXML(key_callbacks, version);
+				v.SaveToXML(key_callbacks, version);
 			}
 		}
 
@@ -688,16 +687,14 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 			key_callbacks.append_attribute("key").set_value(i->first);
 			for (auto& v : i->second)
 			{
-				if (v.IsScript())
-					v.SaveToXML(key_callbacks, version);
+				v.SaveToXML(key_callbacks, version);
 			}
 		}
 
 		callbacks_node = new_node.append_child("BeforePhysicsScripts");
 		for (auto i = before_physics_callbacks.begin(); i != before_physics_callbacks.end(); i++)
 		{
-			if (i->IsScript())
-				i->SaveToXML(callbacks_node, version);
+			i->SaveToXML(callbacks_node, version);
 		}
 	}
 }
@@ -886,38 +883,33 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 		xml_node callbacks_node = new_node.append_child("MouseDownScripts");
 		for (auto& v : mouse_down_callbacks)
 		{
-			if (v.IsScript())
-				v.SaveToXML(callbacks_node, version);
+			v.SaveToXML(callbacks_node, version);
 		}
 	}
 	{
 		xml_node callbacks_node = new_node.append_child("MouseUpScripts");
 		for (auto& v : mouse_up_callbacks)
 		{
-			if (v.IsScript())
-				v.SaveToXML(callbacks_node, version);
+			v.SaveToXML(callbacks_node, version);
 		}
 	}
 	{
 		xml_node callbacks_node = new_node.append_child("MouseMoveScripts");
 		for (auto& v : mouse_move_callbacks)
 		{
-			if (v.IsScript())
-				v.SaveToXML(callbacks_node, version);
+			v.SaveToXML(callbacks_node, version);
 		}
 	}
 	{
 		xml_node callbacks_node = new_node.append_child("StartWorldScripts");
 		for (auto& v : on_start_world_callback)
 		{
-			if (v.IsScript())
-				v.SaveToXML(callbacks_node, version);
+			v.SaveToXML(callbacks_node, version);
 		}
 		callbacks_node = new_node.append_child("ViewportResizeScripts");
 		for (auto& v : viewport_resize_callback)
 		{
-			if (v.IsScript())
-				v.SaveToXML(callbacks_node, version);
+			v.SaveToXML(callbacks_node, version);
 		}
 	}
 }
@@ -1023,7 +1015,6 @@ void TCallback::SaveToXML(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Script");
 	new_node.append_attribute("callback_type").set_value(callback_type);
-	new_node.append_attribute("is_script").set_value(is_script);
 
 	xml_node ndAvatarData = new_node.append_child(pugi::node_pcdata);
 	ndAvatarData.set_value(script_source.c_str());
@@ -1032,7 +1023,5 @@ void TCallback::SaveToXML(pugi::xml_node& parent_node, const int version)
 void TCallback::LoadFromXML(const pugi::xml_node& document_node, const int version)
 {
 	callback_type = document_node.attribute("callback_type").as_int();
-	is_script = document_node.attribute("is_script").as_bool();
 	script_source = document_node.child_value();
-	user_data = nullptr;
 }

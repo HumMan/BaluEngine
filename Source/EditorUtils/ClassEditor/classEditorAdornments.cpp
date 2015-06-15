@@ -52,7 +52,7 @@ EngineInterface::IBaluClass* TClassSpriteAdornment::CreateClass(IBaluWorld* worl
 	auto adornment_sprite = world->CreateSprite("ClassEditorAdornment_custom_draw_sprite");
 	dynamic_cast<IBaluWorldObject*>(adornment_sprite)->GetProperties()->SetBool("editor_temp_object", true);
 	//adornment_sprite->GetPolygon()->SetEnable(false);
-	adornment_sprite->GetPolygon()->AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback>(SpriteInstanceAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
+	//adornment_sprite->GetPolygon()->AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback>(SpriteInstanceAdornmentCustomDraw, &world->GetCallbacksActiveType(), data, TCallbacksActiveType::EDITOR));
 	adornment_class->AddSprite(adornment_sprite);
 
 	return adornment_class;
