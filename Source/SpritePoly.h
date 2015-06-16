@@ -49,11 +49,6 @@ private:
 	void UpdatePolyVertices();
 	void TriangulateGeometry();
 
-	//на данный момент применяется только в редакторе для отрисовки GUI - заменить на набор готовых объектов редактора (разновидность класса)
-	bool is_custom_draw;
-	std::vector<TSpecialCallback<TCustomDrawCallback>> custom_draw_callbacks;
-
-
 	TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
 public:
 
@@ -69,14 +64,6 @@ public:
 	TOBB2 GetBoundingBox();
 
 	bool PointCollide(TVec2 sprite_space_point);
-
-	void AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback> callback);
-	void RemoveOnCustomDraw(int index);
-
-	bool IsCustomDraw()
-	{
-		return is_custom_draw;
-	}
 
 	bool IsEnable()
 	{

@@ -38,8 +38,8 @@ namespace EngineInterface
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 		virtual void SetPhysShapeFromGeometry() = 0;
 		virtual IBaluSpritePolygon* GetPolygon() = 0;
-		virtual void AddOnCollide(IBaluClass* obstancle_class, TSpecialCallback<CollideCallback> callback) = 0;
-		virtual std::vector<std::pair<IBaluClass*, TSpecialCallback<CollideCallback>>>& GetOnCollide() = 0;
+		virtual void AddOnCollide(IBaluClass* obstancle_class, TScript script) = 0;
+		virtual std::vector<std::pair<IBaluClass*, TScript>>& GetOnCollide() = 0;
 		virtual void RemoveOnCollide(int index)=0;
 	};
 #endif

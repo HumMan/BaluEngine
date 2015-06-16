@@ -45,9 +45,9 @@ class TBaluClassInstance :public EngineInterface::IBaluClassInstance
 private:
 	TBaluClass* source;
 
-	std::map<TKey, std::vector<TSpecialCallbackInstance<KeyUpDownCallback>>> on_key_down_callbacks;
-	std::map<TKey, std::vector<TSpecialCallbackInstance<KeyUpDownCallback>>> on_key_up_callbacks;
-	std::vector<TSpecialCallbackInstance<BeforePhysicsCallback>> before_physics_callbacks;
+	std::map<TKey, std::vector<TScript>> on_key_down_callbacks;
+	std::map<TKey, std::vector<TScript>> on_key_up_callbacks;
+	std::vector<TScript> before_physics_callbacks;
 public:
 
 	TBaluClass* GetClass()

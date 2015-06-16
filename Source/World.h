@@ -37,7 +37,7 @@ private:
 
 	
 
-	TCallbacksActiveType callback_active_type;
+	TScriptActiveType callback_active_type;
 
 	template<class T, class M>
 	std::vector<T*> GetVectorFromMap(M& map)
@@ -52,17 +52,17 @@ private:
 	}
 
 	//TODO такие колбэки должны задаваться в worldInstance, а здесь только исходники скриптов
-	std::vector<TSpecialCallback<MouseCallback>>
+	std::vector<TScript>
 		mouse_down_callbacks,
 		mouse_up_callbacks,
 		mouse_move_callbacks;
-	std::vector<TSpecialCallback<OnStartWorldCallback>> on_start_world_callback;
-	std::vector<TSpecialCallback<ViewportResizeCallback>> viewport_resize_callback;
+	std::vector<TScript> on_start_world_callback;
+	std::vector<TScript> viewport_resize_callback;
 
 public:
 	TBaluWorld();
 	~TBaluWorld();
-	TCallbacksActiveType& GetCallbacksActiveType()
+	TScriptActiveType& GetCallbacksActiveType()
 	{
 		return callback_active_type;
 	}
@@ -118,24 +118,24 @@ public:
 
 	//void OnKeyDown(TKey key, KeyDownCallback callback);
 
-	void AddOnMouseDown(TSpecialCallback<MouseCallback>);
-	void AddOnMouseUp(TSpecialCallback<MouseCallback>);
-	void AddOnMouseMove(TSpecialCallback<MouseCallback>);
+	void AddOnMouseDown(TScript);
+	void AddOnMouseUp(TScript);
+	void AddOnMouseMove(TScript);
 
-	std::vector<TSpecialCallback<MouseCallback>>& GetOnMouseDown();
-	std::vector<TSpecialCallback<MouseCallback>>& GetOnMouseUp();
-	std::vector<TSpecialCallback<MouseCallback>>& GetOnMouseMove();
+	std::vector<TScript>& GetOnMouseDown();
+	std::vector<TScript>& GetOnMouseUp();
+	std::vector<TScript>& GetOnMouseMove();
 
 	void RemoveOnMouseDown(int index);
 	void RemoveOnMouseUp(int index);
 	void RemoveOnMouseMove(int index);
 
-	void AddOnWorldStart(TSpecialCallback<OnStartWorldCallback> callback);
-	std::vector<TSpecialCallback<OnStartWorldCallback>>& GetOnWorldStart();
+	void AddOnWorldStart(TScript callback);
+	std::vector<TScript>& GetOnWorldStart();
 	void RemoveOnWorldStart(int index);
 	
-	void AddOnViewportResize(TSpecialCallback<ViewportResizeCallback> callback);
-	std::vector<TSpecialCallback<ViewportResizeCallback>>& GetOnViewportResize();
+	void AddOnViewportResize(TScript callback);
+	std::vector<TScript>& GetOnViewportResize();
 	void RemoveOnViewportResize(int index);
 
 	void SaveToXML(std::string path);

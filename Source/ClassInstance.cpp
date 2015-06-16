@@ -233,7 +233,7 @@ void TBaluClassInstance::DoKeyDown(TKey key, TBaluInstance* instance)
 	{
 		for (int i = 0; i < it->second.size(); i++)
 		{
-			it->second[i].Execute(instance);
+			//it->second[i].Execute(instance);
 		}
 	}
 }
@@ -243,8 +243,8 @@ void TBaluClassInstance::DoKeyUp(TKey key, TBaluInstance* instance)
 	auto it = on_key_up_callbacks.find(key);
 	if (it != on_key_up_callbacks.end())
 	{
-		for (int i = 0; i < it->second.size(); i++)
-			it->second[i].Execute(instance);
+		//for (int i = 0; i < it->second.size(); i++)
+			//it->second[i].Execute(instance);
 	}
 }
 
@@ -252,6 +252,6 @@ void TBaluClassInstance::DoBeforePhysicsStep(TBaluInstance* instance)
 {
 	for (auto& i : before_physics_callbacks)
 	{
-		i.Execute(instance);
+		//i.Execute(instance);
 	}
 }

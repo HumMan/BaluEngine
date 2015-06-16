@@ -164,13 +164,13 @@ namespace EngineInterface
 		virtual IBaluClassPhysBody* GetPhysBody()=0;
 		virtual ISkeleton* GetSkeleton()=0;
 
-		virtual void OnKeyDown(TKey key, TSpecialCallback<KeyUpDownCallback> callback) = 0;
-		virtual void OnKeyUp(TKey key, TSpecialCallback<KeyUpDownCallback> callback) = 0;
-		virtual void OnBeforePhysicsStep(TSpecialCallback<BeforePhysicsCallback> callback) = 0;
+		virtual void OnKeyDown(TKey key, TScript callback) = 0;
+		virtual void OnKeyUp(TKey key, TScript callback) = 0;
+		virtual void OnBeforePhysicsStep(TScript callback) = 0;
 
-		virtual std::map<TKey, std::vector<TSpecialCallback<KeyUpDownCallback>>>& GetOnKeyDown() = 0;
-		virtual std::map<TKey, std::vector<TSpecialCallback<KeyUpDownCallback>>>& GetOnKeyUp() = 0;
-		virtual std::vector<TSpecialCallback<BeforePhysicsCallback>>& GetOnBeforePhysicsStep() = 0;
+		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyDown() = 0;
+		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyUp() = 0;
+		virtual std::vector<TScript>& GetOnBeforePhysicsStep() = 0;
 	};
 #endif
 }

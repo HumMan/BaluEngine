@@ -20,12 +20,12 @@ private:
 	TBaluScriptInstance script_engine;
 	TComposer composer;
 
-	std::vector<TSpecialCallbackInstance<MouseCallback>>
+	std::vector<TScript>
 		mouse_down_callbacks,
 		mouse_up_callbacks,
 		mouse_move_callbacks;
-	std::vector<TSpecialCallbackInstance<OnStartWorldCallback>> on_start_world_callback;
-	std::vector<TSpecialCallbackInstance<ViewportResizeCallback>> viewport_resize_callback;
+	std::vector<TScript> on_start_world_callback;
+	std::vector<TScript> viewport_resize_callback;
 public:
 	TBaluWorld* GetSource();
 

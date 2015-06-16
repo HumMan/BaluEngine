@@ -62,7 +62,7 @@ public:
 	//void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 
 	void Render(TRenderCommand& command);
-	void RenderCustom(std::vector<TCustomDrawCommand>& commands);
+	//void RenderCustom(std::vector<TCustomDrawCommand>& commands);
 
 	void UpdateTransform(TBaluTransformWithScale parent, TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 	void UpdateAnimation();

@@ -36,16 +36,16 @@ private:
 	int layer;
 	TProperties properties;
 
-	std::vector<std::pair<IBaluClass*, TSpecialCallback<CollideCallback>>> on_collide_callbacks;
+	std::vector<std::pair<IBaluClass*, TScript>> on_collide_callbacks;
 public:
 	TBaluSprite(const char* name, TBaluWorld* world)
 	{
 		this->world = world;
 		this->sprite_name = name;
 	}
-	void AddOnCollide(IBaluClass* obstancle_class, TSpecialCallback<CollideCallback> callback);
-	std::vector<std::pair<IBaluClass*, TSpecialCallback<CollideCallback>>>& GetOnCollide();
-	TSpecialCallback<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class);
+	void AddOnCollide(IBaluClass* obstancle_class, TScript callback);
+	std::vector<std::pair<IBaluClass*, TScript>>& GetOnCollide();
+	TScript* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class);
 	void RemoveOnCollide(int index);
 
 	EngineInterface::IProperties* GetProperties()

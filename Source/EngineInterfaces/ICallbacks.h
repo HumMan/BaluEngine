@@ -16,7 +16,7 @@ namespace EngineInterface
 
 	//class IBaluPhysShapeInstance;
 	//class IBaluInstance;
-	//class TCustomDrawCommand;
+	class TCustomDrawCommand;
 
 	//typedef void(*MouseCallback)(void* user_data, TMouseEventArgs* e);
 	//typedef void(*OnStartWorldCallback)(void* user_data, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer);
@@ -24,7 +24,7 @@ namespace EngineInterface
 	//typedef void(*CollideCallback)(void* user_data, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluInstance* obstacle);
 	//typedef void(*KeyUpDownCallback)(void* user_data, EngineInterface::IBaluInstance* object);
 	//typedef void(*BeforePhysicsCallback)(void* user_data, EngineInterface::IBaluInstance* object);
-	//typedef void(*TCustomDrawCallback)(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
+	typedef void(*TCustomDrawCallback)(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 
 	enum class TEventType
 	{

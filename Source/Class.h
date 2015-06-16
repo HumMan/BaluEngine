@@ -50,9 +50,9 @@ private:
 	std::unique_ptr<TSkeletonAnimation> skeleton_animation;
 	TProperties properties;
 
-	std::map<TKey, std::vector<TSpecialCallback<KeyUpDownCallback>>> on_key_down_callbacks;
-	std::map<TKey, std::vector<TSpecialCallback<KeyUpDownCallback>>> on_key_up_callbacks;
-	std::vector<TSpecialCallback<BeforePhysicsCallback>> before_physics_callbacks;
+	std::map<TKey, std::vector<TScript>> on_key_down_callbacks;
+	std::map<TKey, std::vector<TScript>> on_key_up_callbacks;
+	std::vector<TScript> before_physics_callbacks;
 
 	void Initialize();
 
@@ -90,13 +90,13 @@ public:
 	TSkeletonAnimation* GetSkeletonAnimation();
 	TSkeleton* GetSkeleton();
 
-	void OnKeyDown(TKey key, TSpecialCallback<KeyUpDownCallback> callback);
-	void OnKeyUp(TKey key, TSpecialCallback<KeyUpDownCallback> callback);
-	void OnBeforePhysicsStep(TSpecialCallback<BeforePhysicsCallback> callback);
+	void OnKeyDown(TKey key, TScript callback);
+	void OnKeyUp(TKey key, TScript callback);
+	void OnBeforePhysicsStep(TScript callback);
 
-	std::map<TKey, std::vector<TSpecialCallback<KeyUpDownCallback>>>& GetOnKeyDown();
-	std::map<TKey, std::vector<TSpecialCallback<KeyUpDownCallback>>>& GetOnKeyUp();
-	std::vector<TSpecialCallback<BeforePhysicsCallback>>& GetOnBeforePhysicsStep();
+	std::map<TKey, std::vector<TScript>>& GetOnKeyDown();
+	std::map<TKey, std::vector<TScript>>& GetOnKeyUp();
+	std::vector<TScript>& GetOnBeforePhysicsStep();
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

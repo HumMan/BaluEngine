@@ -147,11 +147,12 @@ namespace EngineInterface
 	class TCustomDrawCommand
 	{
 	public:
-		EngineInterface::IBaluSpritePolygonInstance* poly;
+		//EngineInterface::IBaluSpritePolygonInstance* poly;
 		TScreen* screen;
 		TAABB2* viewport;
 		TView* view;
-		TSpecialCallback<TCustomDrawCallback> command;
+		void* user_data;
+		TCustomDrawCallback command;
 	};
 #endif
 }

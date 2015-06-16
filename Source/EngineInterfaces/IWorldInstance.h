@@ -15,6 +15,7 @@
 namespace EngineInterface
 {
 	class IResources;
+	class IComposer;
 }
 #endif
 

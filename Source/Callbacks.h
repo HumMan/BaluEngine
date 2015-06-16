@@ -16,29 +16,29 @@ namespace pugi
 namespace EngineInterface
 {
 
-	enum class TCallbacksActiveType
+	enum class TScriptActiveType
 	{
 		DEFAULT = 0,
 		EDITOR = 1
 	};
 
-	class TCallback
+	class TScript
 	{
 	private:
 		std::string script_source;
-		TCallbacksActiveType callback_type;
+		TScriptActiveType script_type;
 	public:
-		TCallback()
+		TScript()
 		{
-			callback_type = TCallbacksActiveType::DEFAULT;	
+			script_type = TScriptActiveType::DEFAULT;
 		}
-		TCallbacksActiveType GetCallbackType()
+		TScriptActiveType GetScriptType()
 		{
-			return callback_type;
+			return script_type;
 		}
-		void SetCallbackType(TCallbacksActiveType type)
+		void SetScriptType(TScriptActiveType type)
 		{
-			this->callback_type = type;
+			this->script_type = type;
 		}
 		std::string GetScriptSource()
 		{
@@ -52,13 +52,13 @@ namespace EngineInterface
 		void LoadFromXML(const pugi::xml_node& document_node, const int version);
 	};
 
-	class TCallbackInstance
+	class TScriptInstance
 	{
 	private:
-		TCallback* source;
+		TScript* source;
 		TSMethod* compiled_script;
 	public:
-		TCallbackInstance(TCallback* source, TSMethod* compiled_script)
+		TScriptInstance(TScript* source, TSMethod* compiled_script)
 		{
 			source = nullptr;
 			compiled_script = nullptr;

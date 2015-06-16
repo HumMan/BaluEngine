@@ -243,8 +243,6 @@ void TBaluSpritePolygon::Save(pugi::xml_node& parent_node, const int version)
 	SaveCoord(new_node, "tex_coord_origin", tex_coord_origin);
 	SaveCoord(new_node, "tex_coord_scale", tex_coord_scale);
 
-	assert(!is_custom_draw);
-
 	new_node.append_attribute("enable").set_value(enable);
 
 	{
@@ -627,7 +625,7 @@ void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld
 		{
 			xml_node collide_with_node = collide_collback_node.child("Script");
 
-			TSpecialCallback<CollideCallback> new_callback;
+			TScript new_callback;
 			new_callback.LoadFromXML(collide_with_node, version);
 
 			auto class_name = collide_collback_node.attribute("class").as_string();
@@ -730,7 +728,7 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 			auto key = (TKey)(instance_node.attribute("key").as_int());
 			for (pugi::xml_node callback = instance_node.first_child(); callback; callback = callback.next_sibling())
 			{
-				TSpecialCallback<KeyUpDownCallback> t;
+				TScript t;
 				t.LoadFromXML(callback, version);
 				on_key_down_callbacks[key].push_back(t);
 			}
@@ -741,7 +739,7 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 			auto key = (TKey)(instance_node.attribute("key").as_int());
 			for (pugi::xml_node callback = instance_node.first_child(); callback; callback = callback.next_sibling())
 			{
-				TSpecialCallback<KeyUpDownCallback> t;
+				TScript t;
 				t.LoadFromXML(callback, version);
 				on_key_up_callbacks[key].push_back(t);
 			}
@@ -749,7 +747,7 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 		child_node = node.child("BeforePhysicsScripts");
 		for (pugi::xml_node instance_node = child_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
-			TSpecialCallback<BeforePhysicsCallback> t;
+			TScript t;
 			t.LoadFromXML(instance_node, version);
 			before_physics_callbacks.push_back(t);
 		}
@@ -968,7 +966,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node callbacks_node = world_node.child("MouseDownScripts");
 		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
 		{
-			TSpecialCallback<MouseCallback> new_callback;
+			TScript new_callback;
 			new_callback.LoadFromXML(callback_node, version);
 			mouse_down_callbacks.push_back(new_callback);
 		}
@@ -977,7 +975,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node callbacks_node = world_node.child("MouseUpScripts");
 		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
 		{
-			TSpecialCallback<MouseCallback> new_callback;
+			TScript new_callback;
 			new_callback.LoadFromXML(callback_node, version);
 			mouse_up_callbacks.push_back(new_callback);
 		}
@@ -986,7 +984,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node callbacks_node = world_node.child("MouseMoveScripts");
 		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
 		{
-			TSpecialCallback<MouseCallback> new_callback;
+			TScript new_callback;
 			new_callback.LoadFromXML(callback_node, version);
 			mouse_move_callbacks.push_back(new_callback);
 		}
@@ -995,7 +993,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node callbacks_node = world_node.child("StartWorldScripts");
 		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
 		{
-			TSpecialCallback<OnStartWorldCallback> new_callback;
+			TScript new_callback;
 			new_callback.LoadFromXML(callback_node, version);
 			on_start_world_callback.push_back(new_callback);
 		}
@@ -1004,24 +1002,24 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node callbacks_node = world_node.child("ViewportResizeScripts");
 		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
 		{
-			TSpecialCallback<ViewportResizeCallback> new_callback;
+			TScript new_callback;
 			new_callback.LoadFromXML(callback_node, version);
 			viewport_resize_callback.push_back(new_callback);
 		}
 	}
 }
 
-void TCallback::SaveToXML(pugi::xml_node& parent_node, const int version)
+void TScript::SaveToXML(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Script");
-	new_node.append_attribute("callback_type").set_value(callback_type);
+	new_node.append_attribute("script_type").set_value((int)script_type);
 
 	xml_node ndAvatarData = new_node.append_child(pugi::node_pcdata);
 	ndAvatarData.set_value(script_source.c_str());
 }
 
-void TCallback::LoadFromXML(const pugi::xml_node& document_node, const int version)
+void TScript::LoadFromXML(const pugi::xml_node& document_node, const int version)
 {
-	callback_type = document_node.attribute("callback_type").as_int();
+	script_type = (TScriptActiveType)document_node.attribute("script_type").as_int();
 	script_source = document_node.child_value();
 }

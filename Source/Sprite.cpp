@@ -35,12 +35,12 @@ TBaluSpritePolygon* TBaluSprite::GetPolygon()
 	return &sprite_polygon;
 }
 
-std::vector<std::pair<IBaluClass*, TSpecialCallback<CollideCallback>>>& TBaluSprite::GetOnCollide()
+std::vector<std::pair<IBaluClass*, TScript>>& TBaluSprite::GetOnCollide()
 {
 	return on_collide_callbacks;
 }
 
-TSpecialCallback<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class)
+TScript* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class)
 {
 	for (auto& v : on_collide_callbacks)
 		if (v.first == obstancle_class)
@@ -48,7 +48,7 @@ TSpecialCallback<CollideCallback>* TBaluSprite::GetOnCollide(TBaluClass* obstanc
 	return nullptr;
 }
 
-void TBaluSprite::AddOnCollide(EngineInterface::IBaluClass* obstancle_class, TSpecialCallback<CollideCallback> callback)
+void TBaluSprite::AddOnCollide(EngineInterface::IBaluClass* obstancle_class, TScript callback)
 {
 	on_collide_callbacks.emplace_back(dynamic_cast<TBaluClass*>(obstancle_class), callback);
 }
