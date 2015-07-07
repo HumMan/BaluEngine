@@ -38,8 +38,6 @@ namespace EngineInterface
 		virtual void MouseUp(TMouseEventArgs e) = 0;
 		virtual void MouseVerticalWheel(int amount)=0;
 		virtual IComposer* GetComposer() = 0;
-
-		
 	};
 #endif
 

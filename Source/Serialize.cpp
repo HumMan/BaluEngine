@@ -586,15 +586,7 @@ void TBaluSprite::Save(pugi::xml_node& parent_node, const int version)
 		phys_shape->Save(fixture, version);
 	}
 
-	{
-		xml_node collide_collbacks = new_node.append_child("CollideScripts");
-		for (auto& v : on_collide_callbacks)
-		{
-			xml_node collide_with = collide_collbacks.append_child("CollideWith");
-			collide_with.append_attribute("class").set_value(v.first->GetName().c_str());
-			v.second.SaveToXML(collide_with, version);
-		}
-	}
+
 }
 
 void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
@@ -619,20 +611,7 @@ void TBaluSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld
 		phys_shape.reset(new_shape);
 	}
 
-	{
-		xml_node collide_collbacks_node = node.child("CollideScripts");
-		for (pugi::xml_node collide_collback_node = collide_collbacks_node.first_child(); collide_collback_node; collide_collback_node = collide_collback_node.next_sibling())
-		{
-			xml_node collide_with_node = collide_collback_node.child("Script");
-
-			TScript new_callback;
-			new_callback.LoadFromXML(collide_with_node, version);
-
-			auto class_name = collide_collback_node.attribute("class").as_string();
-			auto collide_with_class = world->GetClass(class_name);
-			on_collide_callbacks.push_back(std::make_pair(collide_with_class, new_callback));
-		}
-	}
+	
 }
 
 void TBaluClassSpriteInstance::Save(pugi::xml_node& parent_node, const int version)
@@ -694,6 +673,15 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 		{
 			i->SaveToXML(callbacks_node, version);
 		}
+
+		callbacks_node = new_node.append_child("CollideScripts");
+		for (auto& v : on_collide_callbacks)
+		{
+			xml_node collide_with = callbacks_node.append_child("CollideWith");
+			collide_with.append_attribute("class").set_value(v.with_class->GetName().c_str());
+			collide_with.append_attribute("sprite").set_value(v.sprite->GetName().c_str());
+			v.script.SaveToXML(collide_with, version);
+		}
 	}
 }
 
@@ -750,6 +738,23 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 			TScript t;
 			t.LoadFromXML(instance_node, version);
 			before_physics_callbacks.push_back(t);
+		}
+
+		{
+			xml_node collide_collbacks_node = node.child("CollideScripts");
+			for (pugi::xml_node collide_collback_node = collide_collbacks_node.first_child(); collide_collback_node; collide_collback_node = collide_collback_node.next_sibling())
+			{
+				xml_node collide_with_node = collide_collback_node.child("Script");
+
+				TScript new_callback;
+				new_callback.LoadFromXML(collide_with_node, version);
+
+				auto class_name = collide_collback_node.attribute("class").as_string();
+				auto sprite_name = collide_collback_node.attribute("sprite").as_string();
+				auto collide_with_class = world->GetClass(class_name);
+				auto collide_sprite = world->GetSprite(sprite_name);
+				on_collide_callbacks.push_back(TSpriteWithClassCollide(collide_sprite, collide_with_class, new_callback));
+			}
 		}
 	}
 }

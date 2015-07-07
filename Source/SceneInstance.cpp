@@ -51,23 +51,26 @@ void TContactsHolder::OnProcessCollisions()
 		auto instance_a = shape_a->GetParent();
 		auto instance_b = shape_b->GetParent();
 
-		auto class_a = instance_a->GetClass();
-		auto class_b = instance_b->GetClass();
+		auto class_a = dynamic_cast<TBaluClassInstance*>(instance_a->GetClass());
+		auto class_b = dynamic_cast<TBaluClassInstance*>(instance_b->GetClass());
 
 
 		auto sprite_a = shape_a->GetSpriteInstance();
 		auto sprite_b = shape_b->GetSpriteInstance();
 
-		auto c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_a))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
-		if (c != nullptr)
-		{
-			//c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_a), instance_b);
-		}
-		c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_b))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_a));
-		if (c != nullptr)
-		{
-			//c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_b), instance_a);
-		}
+		class_a->DoCollide(shape_a, dynamic_cast<TBaluInstance*>(instance_b));
+		class_b->DoCollide(shape_b, dynamic_cast<TBaluInstance*>(instance_a));
+
+		//auto c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_a))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
+		//if (c != nullptr)
+		//{
+		//	//c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_a), instance_b);
+		//}
+		//c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_b))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_a));
+		//if (c != nullptr)
+		//{
+		//	//c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_b), instance_a);
+		//}
 
 		//auto c = (dynamic_cast<TBaluInstance*>(class_a))->GetClass()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
 		//if (c != nullptr)
@@ -132,7 +135,8 @@ TBaluSceneInstance::~TBaluSceneInstance()
 
 TBaluInstance* TBaluSceneInstance::CreateInstance(TBaluClass* use_class, TBaluTransform transform, TVec2 scale)
 {
-	instances.push_back(std::make_unique<TBaluInstance>(use_class, phys_world.get(), transform, scale, resources));
+	auto class_instance = world->GetClassInstance(use_class);
+	instances.push_back(std::make_unique<TBaluInstance>(class_instance, phys_world.get(), transform, scale, resources));
 	return instances.back().get();
 }
 

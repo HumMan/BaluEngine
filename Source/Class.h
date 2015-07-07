@@ -37,6 +37,7 @@ public:
 };
 
 
+
 class TBaluClass : public EngineInterface::IBaluClass, public EngineInterface::IBaluWorldObject
 {
 private:
@@ -54,10 +55,18 @@ private:
 	std::map<TKey, std::vector<TScript>> on_key_up_callbacks;
 	std::vector<TScript> before_physics_callbacks;
 
+	std::vector<TSpriteWithClassCollide> on_collide_callbacks;
+
 	void Initialize();
 
 	TBaluWorld* world;
 public:
+
+	void AddOnCollide(IBaluSprite* sprite, IBaluClass* obstancle_class, TScript callback);
+	std::vector<TSpriteWithClassCollide>& GetOnCollide();
+	TScript* GetOnCollide(IBaluSprite* sprite, TBaluClass* obstancle_class);
+	void RemoveOnCollide(int index);
+
 	TBaluClass(const char* name, TBaluWorld* world)
 	{
 		Initialize();

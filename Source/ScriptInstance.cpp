@@ -49,7 +49,7 @@ TBaluScriptInstance::TBaluScriptInstance(std::string assets_dir)
 	TScriptClassesRegistry::RegisterClassesInScript(params);
 }
 
-void TBaluScriptInstance::CreateMethod(TCallbackInstance* script_data, const char* code)
+EngineInterface::TScriptInstance TBaluScriptInstance::CompileMethod(TScript* script_data, const char* code)
 {
 	try
 	{
@@ -77,7 +77,8 @@ void TBaluScriptInstance::CreateMethod(TCallbackInstance* script_data, const cha
 		InitializeStaticClassFields(static_fields, p->static_objects);
 		InitializeStaticVariables(static_variables, p->static_objects);
 
-		script_data->SetCompiledScript(ms, this);
+
+		return TScriptInstance(script_data, ms);
 	}
 	catch (std::string s)
 	{
@@ -94,7 +95,8 @@ std::vector<std::string> TBaluScriptInstance::GetErrors()
 {
 	return p->errors;
 }
-void TBaluScriptInstance::CallMethod(TSpecialCallbackInstance<ViewportResizeCallback> &viewport_resize_callback, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size)
+
+void TBaluScriptInstance::CallViewportResize(TScriptInstance &viewport_resize_callback, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size)
 {
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IDirector"))));
@@ -106,7 +108,7 @@ void TBaluScriptInstance::CallMethod(TSpecialCallbackInstance<ViewportResizeCall
 	TStackValue result, object;
 	viewport_resize_callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
-void TBaluScriptInstance::CallMethod(TSpecialCallbackInstance<OnStartWorldCallback> &start_world_callback, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer)
+void TBaluScriptInstance::CallWorldStart(TScriptInstance &start_world_callback, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer)
 {
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IWorldInstance"))));
@@ -117,7 +119,7 @@ void TBaluScriptInstance::CallMethod(TSpecialCallbackInstance<OnStartWorldCallba
 	TStackValue result, object;
 	start_world_callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
-void TBaluScriptInstance::CallMethod(TSpecialCallbackInstance<KeyUpDownCallback> &callback, IBaluInstance* obj)
+void TBaluScriptInstance::CallInstanceEvent(TScriptInstance &callback, IBaluInstance* obj)
 {
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IInstance"))));
@@ -127,7 +129,7 @@ void TBaluScriptInstance::CallMethod(TSpecialCallbackInstance<KeyUpDownCallback>
 	callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
 
-void TBaluScriptInstance::CallMethod(EngineInterface::TSpecialCallbackInstance<EngineInterface::MouseCallback> &callback, EngineInterface::TMouseEventArgs* e)
+void TBaluScriptInstance::CallMouseEvent(TScriptInstance &callback, EngineInterface::TMouseEventArgs* e)
 {
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("TMouseEventArgs"))));
@@ -137,12 +139,7 @@ void TBaluScriptInstance::CallMethod(EngineInterface::TSpecialCallbackInstance<E
 	callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
 
-void TBaluScriptInstance::CallMethod(EngineInterface::TSpecialCallbackInstance<EngineInterface::TCustomDrawCallback> &callback, NVGcontext* context, EngineInterface::TCustomDrawCommand* command)
-{
-
-}
-
-void TBaluScriptInstance::CallMethod(EngineInterface::TSpecialCallbackInstance<EngineInterface::CollideCallback> &callback, EngineInterface::IBaluPhysShapeInstance* obj_a, EngineInterface::IBaluInstance* obj_b)
+void TBaluScriptInstance::CallCollide(EngineInterface::TScriptInstance &callback, EngineInterface::IBaluPhysShapeInstance* obj_a, EngineInterface::IBaluInstance* obj_b)
 {
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IPhysShapeInstance"))));

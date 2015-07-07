@@ -190,8 +190,8 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 {
 	auto world = CreateWorld();
 
-	world->AddOnWorldStart(TSpecialCallback<OnStartWorldCallback>(WorldStart_source, &world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
-	world->AddOnViewportResize(TSpecialCallback<ViewportResizeCallback>(ViewportResize_source, &world->GetCallbacksActiveType(), TCallbacksActiveType::DEFAULT));
+	world->AddOnWorldStart(TScript(WorldStart_source));
+	world->AddOnViewportResize(TScript(ViewportResize_source));
 
 	auto brick_mat = world->CreateMaterial("brick");
 
@@ -261,12 +261,13 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	player_class->OnBeforePhysicsStep(TSpecialCallback<BeforePhysicsCallback>(PlayerPrePhysStep, &world->GetCallbacksActiveType()));
 	player_phys_sprite->OnCollide(box_class, TSpecialCallback<CollideCallback>(PlayerJumpSensorCollide, &world->GetCallbacksActiveType()));
 #else
-	player_class->OnKeyDown(TKey::Up, TSpecialCallback<KeyUpDownCallback>(PlayerJump_source, &world->GetCallbacksActiveType()));
-	player_class->OnKeyDown(TKey::Left, TSpecialCallback<KeyUpDownCallback>(PlayerLeft_source, &world->GetCallbacksActiveType()));
-	player_class->OnKeyDown(TKey::Right, TSpecialCallback<KeyUpDownCallback>(PlayerRight_source, &world->GetCallbacksActiveType()));
+	player_class->OnKeyDown(TKey::Up, TScript(PlayerJump_source));
+	player_class->OnKeyDown(TKey::Left, TScript(PlayerLeft_source));
+	player_class->OnKeyDown(TKey::Right, TScript(PlayerRight_source));
 
-	player_class->OnBeforePhysicsStep(TSpecialCallback<BeforePhysicsCallback>(PlayerPrePhysStep_source, &world->GetCallbacksActiveType()));
-	player_phys_sprite->AddOnCollide(box_class, TSpecialCallback<CollideCallback>(PlayerJumpSensorCollide_source, &world->GetCallbacksActiveType()));
+	player_class->OnBeforePhysicsStep(TScript(PlayerPrePhysStep_source));
+	player_class->AddOnCollide(player_phys_sprite, box_class, TScript(PlayerJumpSensorCollide_source));
+	//player_phys_sprite->AddOnCollide(box_class, TScript(PlayerJumpSensorCollide_source, &world->GetCallbacksActiveType()));
 #endif
 
 	auto bones_player = world->CreateClass("bones");
@@ -274,7 +275,7 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	bones_player->OnKeyDown(TKey::Left, TSpecialCallback<KeyUpDownCallback>(BonesPlayerLeft, &world->GetCallbacksActiveType()));
 	bones_player->OnBeforePhysicsStep(TSpecialCallback<KeyUpDownCallback>(BonesPlayerPrePhysStep, &world->GetCallbacksActiveType()));
 #else
-	bones_player->OnBeforePhysicsStep(TSpecialCallback<BeforePhysicsCallback>(BonesPlayerPrePhysStep_source, &world->GetCallbacksActiveType()));
+	bones_player->OnBeforePhysicsStep(TScript(BonesPlayerPrePhysStep_source));
 #endif
 	{
 		auto bones_mat = world->CreateMaterial("zombie");

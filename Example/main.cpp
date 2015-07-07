@@ -57,7 +57,7 @@ void Run(std::string assets_dir)
 
 	auto demo_world = CreateDemoWorld(director->GetAssetsDir());
 
-	demo_world->GetCallbacksActiveType().active_type = TCallbacksActiveType::DEFAULT;
+	demo_world->GetCallbacksActiveType() = TScriptActiveType::DEFAULT;
 
 #ifdef USE_CALLBACKS
 	//demo_world->SetRenderWorldCallback(CallbackWithData<RenderWorldCallback>(RenderWorld, &demo_world->GetCallbacksActiveType()));
@@ -87,9 +87,9 @@ void Run(std::string assets_dir)
 	drawing_context.view = &main_viewport_view;
 	drawing_context.viewport = main_viewport;
 
-	auto scene_editor = CreateSceneEditor(drawing_context, demo_world, demo_scene, scene_instance);
-	auto& tools = scene_editor->GetAvailableTools();
-	scene_editor->SetActiveTool(tools[1].tool.get());
+	//auto scene_editor = CreateSceneEditor(drawing_context, demo_world, demo_scene, scene_instance);
+	//auto& tools = scene_editor->GetAvailableTools();
+	//scene_editor->SetActiveTool(tools[1].tool.get());
 
 	director->SetWorldInstance(demo_world_instance);
 
@@ -97,7 +97,7 @@ void Run(std::string assets_dir)
 
 	director->MainLoop();
 
-	DestroySceneEditor(scene_editor);
+	//DestroySceneEditor(scene_editor);
 
 	DestroyWorldInstance(demo_world_instance);
 	DestroyWorld(demo_world);

@@ -145,8 +145,25 @@ namespace EngineInterface
 	};
 #endif
 
-
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+	struct TSpriteWithClassCollide
+	{
+		IBaluSprite* sprite;
+		IBaluClass* with_class;
+		TScript script;
+		TSpriteWithClassCollide()
+		{
+			sprite = nullptr;
+			with_class = nullptr;
+		}
+		TSpriteWithClassCollide(IBaluSprite* sprite, IBaluClass* with_class, TScript script)
+		{
+			this->sprite = sprite;
+			this->with_class = with_class;
+			this->script = script;
+		}
+	};
+
 	class IBaluClass
 	{
 	public:
@@ -171,6 +188,10 @@ namespace EngineInterface
 		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyDown() = 0;
 		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyUp() = 0;
 		virtual std::vector<TScript>& GetOnBeforePhysicsStep() = 0;
+
+		virtual void AddOnCollide(IBaluSprite* sprite, IBaluClass* obstancle_class, TScript script) = 0;
+		virtual std::vector<TSpriteWithClassCollide>& GetOnCollide() = 0;
+		virtual void RemoveOnCollide(int index) = 0;
 	};
 #endif
 }

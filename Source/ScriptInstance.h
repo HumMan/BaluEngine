@@ -28,13 +28,20 @@ public:
 	~TBaluScriptInstance();
 	//std::vector<TStaticValue>* GetStaticObjects();
 	//void CreateMethod(EngineInterface::TCallbackInstance* script_data, const char* code);
+	EngineInterface::TScriptInstance CompileMethod(EngineInterface::TScript* script, const char* code);
+	//void CallMethod(EngineInterface::TScript &viewport_resize_callback, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
+	void CallViewportResize(EngineInterface::TScriptInstance &viewport_resize_callback, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
+	//void CallMethod(EngineInterface::TScript &start_world_callback, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer);
+	void CallWorldStart(EngineInterface::TScriptInstance &script_instance, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer);
 
-	void CallMethod(EngineInterface::TScript &viewport_resize_callback, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);
-	void CallMethod(EngineInterface::TScript &start_world_callback, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer);
-	void CallMethod(EngineInterface::TScript &callback, EngineInterface::IBaluInstance* obj);
-	void CallMethod(EngineInterface::TScript &callback, EngineInterface::TMouseEventArgs* e);
-	void CallMethod(EngineInterface::TScript &callback, NVGcontext* context, EngineInterface::TCustomDrawCommand* command);
-	void CallMethod(EngineInterface::TScript &callback, EngineInterface::IBaluPhysShapeInstance* obj_a, EngineInterface::IBaluInstance* obj_b);
+	//void CallMethod(EngineInterface::TScript &callback, EngineInterface::IBaluInstance* obj);
+
+	//KeyUp KeyDown BeforePhysicsStep
+	void CallInstanceEvent(EngineInterface::TScriptInstance& script_instance, EngineInterface::IBaluInstance* obj);
+	void CallMouseEvent(EngineInterface::TScriptInstance &callback, EngineInterface::TMouseEventArgs* e);
+	//void CallMethod(EngineInterface::TScript &callback, EngineInterface::TMouseEventArgs* e);
+	//void CallMethod(EngineInterface::TScript &callback, NVGcontext* context, EngineInterface::TCustomDrawCommand* command);
+	void CallCollide(EngineInterface::TScriptInstance &callback, EngineInterface::IBaluPhysShapeInstance* obj_a, EngineInterface::IBaluInstance* obj_b);
 
 	//std::string GetEventSignature(EngineInterface::TEventType event_type);
 

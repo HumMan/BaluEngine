@@ -44,6 +44,31 @@ b2BodyDef TBaluClassPhysBody::GetBodyDef()
 	return body_def;
 }
 
+
+std::vector<TSpriteWithClassCollide>& TBaluClass::GetOnCollide()
+{
+	return on_collide_callbacks;
+}
+
+TScript* TBaluClass::GetOnCollide(IBaluSprite* sprite, TBaluClass* obstancle_class)
+{
+	for (auto& v : on_collide_callbacks)
+		if (v.with_class == obstancle_class && v.sprite == sprite)
+			return &v.script;
+	return nullptr;
+}
+
+void TBaluClass::AddOnCollide(IBaluSprite* sprite, EngineInterface::IBaluClass* obstancle_class, TScript callback)
+{
+	on_collide_callbacks.push_back(TSpriteWithClassCollide(sprite, obstancle_class, callback));
+}
+
+void TBaluClass::RemoveOnCollide(int index)
+{
+	on_collide_callbacks.erase(on_collide_callbacks.begin() + index);
+}
+
+
 bool TBaluClass::PointCollide(TVec2 class_space_point)
 {
 	for (auto& s : sprites)

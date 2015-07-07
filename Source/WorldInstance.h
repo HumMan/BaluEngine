@@ -20,13 +20,24 @@ private:
 	TBaluScriptInstance script_engine;
 	TComposer composer;
 
-	std::vector<TScript>
+	std::vector<TScriptInstance>
 		mouse_down_callbacks,
 		mouse_up_callbacks,
 		mouse_move_callbacks;
-	std::vector<TScript> on_start_world_callback;
-	std::vector<TScript> viewport_resize_callback;
+	std::vector<TScriptInstance> on_start_world_callback;
+	std::vector<TScriptInstance> viewport_resize_callback;
 public:
+	TBaluClassInstance* GetClassInstance(TBaluClass* source)
+	{
+		for (auto& v : class_instances)
+			if (v->GetClass() == source)
+				return v.get();
+		return nullptr;
+	}
+	TBaluScriptInstance* GetScriptEngine()
+	{
+		return &script_engine;
+	}
 	TBaluWorld* GetSource();
 
 	TBaluWorldInstance(TBaluWorld* source, TResources* resources);
@@ -67,7 +78,7 @@ public:
 
 	void UpdateTransform();
 
-	static bool CompileScripts(TBaluWorldInstance* world_instance, TBaluScriptInstance& script_engine, std::vector<std::string>& errors_list);
+	static bool CompileScripts(TBaluWorldInstance* world_instance, std::vector<std::string>& errors_list);
 
 	TComposer* GetComposer()
 	{

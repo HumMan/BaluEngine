@@ -32,6 +32,16 @@ namespace EngineInterface
 		{
 			script_type = TScriptActiveType::DEFAULT;
 		}
+		TScript(std::string script_source)
+		{
+			script_type = TScriptActiveType::DEFAULT;
+			this->script_source = script_source;
+		}
+		TScript(std::string script_source, TScriptActiveType script_type)
+		{
+			this->script_type = script_type;
+			this->script_source = script_source;
+		}
 		TScriptActiveType GetScriptType()
 		{
 			return script_type;
@@ -58,10 +68,15 @@ namespace EngineInterface
 		TScript* source;
 		TSMethod* compiled_script;
 	public:
-		TScriptInstance(TScript* source, TSMethod* compiled_script)
+		TScriptInstance()
 		{
 			source = nullptr;
 			compiled_script = nullptr;
+		}
+		TScriptInstance(TScript* source, TSMethod* compiled_script)
+		{
+			this->source = source;
+			this->compiled_script = compiled_script;
 		}
 		TSMethod* GetCompiledScript()
 		{

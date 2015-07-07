@@ -8,6 +8,7 @@
 #include "EngineInterfaces\IClassInstance.h"
 
 class TBaluInstance;
+class TBaluWorldInstance;
 
 class TBaluClassPhysBodyIntance : public EngineInterface::IBaluClassPhysBodyIntance
 {
@@ -40,24 +41,46 @@ public:
 	void SetTransform(TBaluTransform transform);
 };
 
+struct TSpriteWithClassCollideInstance
+{
+	IBaluSprite* sprite;
+	IBaluClass* with_class;
+	TScriptInstance script;
+	TSpriteWithClassCollideInstance()
+	{
+		sprite = nullptr;
+		with_class = nullptr;
+	}
+	TSpriteWithClassCollideInstance(IBaluSprite* sprite, IBaluClass* with_class, TScriptInstance script)
+	{
+		this->sprite = sprite;
+		this->with_class = with_class;
+		this->script = script;
+	}
+};
+
 class TBaluClassInstance :public EngineInterface::IBaluClassInstance
 {
 private:
+	TBaluWorldInstance* world_instance;
 	TBaluClass* source;
 
-	std::map<TKey, std::vector<TScript>> on_key_down_callbacks;
-	std::map<TKey, std::vector<TScript>> on_key_up_callbacks;
-	std::vector<TScript> before_physics_callbacks;
+	std::vector<std::pair<TKey, TScriptInstance>> on_key_down_callbacks;
+	std::vector<std::pair<TKey, TScriptInstance>> on_key_up_callbacks;
+	std::vector<TScriptInstance> before_physics_callbacks;
+	std::vector<TSpriteWithClassCollideInstance> on_collide_callbacks;
 public:
-
+	TBaluClassInstance(TBaluWorldInstance* world_instance, TBaluClass* source);
 	TBaluClass* GetClass()
 	{
 		return source;
 	}
+	void CompileScripts(std::vector<std::string>& errors_list);
+
 	void DoKeyDown(TKey key, TBaluInstance* instance);
 	void DoKeyUp(TKey key, TBaluInstance* instance);
-
 	void DoBeforePhysicsStep(TBaluInstance* instance);
+	void DoCollide(TBaluPhysShapeInstance* obj_a, TBaluInstance* obstancle);
 	//void DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 	//void DoBeginContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 	//void DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);

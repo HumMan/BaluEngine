@@ -35,29 +35,6 @@ TBaluSpritePolygon* TBaluSprite::GetPolygon()
 	return &sprite_polygon;
 }
 
-std::vector<std::pair<IBaluClass*, TScript>>& TBaluSprite::GetOnCollide()
-{
-	return on_collide_callbacks;
-}
-
-TScript* TBaluSprite::GetOnCollide(TBaluClass* obstancle_class)
-{
-	for (auto& v : on_collide_callbacks)
-		if (v.first == obstancle_class)
-			return &v.second;
-	return nullptr;
-}
-
-void TBaluSprite::AddOnCollide(EngineInterface::IBaluClass* obstancle_class, TScript callback)
-{
-	on_collide_callbacks.emplace_back(dynamic_cast<TBaluClass*>(obstancle_class), callback);
-}
-
-void TBaluSprite::RemoveOnCollide(int index)
-{
-	on_collide_callbacks.erase(on_collide_callbacks.begin() + index);
-}
-
 std::string TBaluSprite::GetName()
 {
 	return sprite_name;

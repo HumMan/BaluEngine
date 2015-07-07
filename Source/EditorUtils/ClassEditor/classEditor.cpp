@@ -14,6 +14,7 @@ void TClassEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld*
 
 	int sprites_count = edited_class->GetSpritesCount();
 
+
 	editor_scene_instance->CreateInstance(edited_class, TBaluTransform(), TVec2(1,1));
 
 }
