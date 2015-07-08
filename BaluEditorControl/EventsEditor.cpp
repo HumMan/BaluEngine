@@ -74,6 +74,7 @@ namespace Editor
 		director->RegisterEditor(this);
 
 		this->p = new TEventsEditorPrivate();
+		this->director = director;
 		this->p->world = director->GetWorld();
 		this->p->assets_dir = Converters::FromClrString(director->GetAssetsDir());
 	}
@@ -174,6 +175,7 @@ namespace Editor
 	}
 	void TEventsEditor::Destroy()
 	{
+		director->UnregisterEditor(this);
 		delete p;
 	}
 

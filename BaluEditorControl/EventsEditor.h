@@ -27,6 +27,7 @@ namespace Editor
 	public ref class TEventsEditor:public TEditor
 	{
 	internal:
+		TWorldDirector^ director;
 		TEventsEditorPrivate* p;
 		
 		void FindAllEvents();
