@@ -30,7 +30,7 @@ TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources
 	}
 
 	std::vector<std::string> errors_list;
-	CompileScripts(this, errors_list);
+	CompileScripts();
 
 	for (auto& v : on_start_world_callback)
 		script_engine.CallWorldStart(v, this, &composer);
@@ -134,51 +134,98 @@ void TBaluWorldInstance::UpdateTransform()
 		scene_instances[i]->UpdateTransform();
 }
 
-bool TBaluWorldInstance::CompileScripts(TBaluWorldInstance* world_instance, std::vector<std::string>& errors_list)
+bool TBaluWorldInstance::CompileScripts()
 {
-	TBaluScriptInstance& script_engine = *world_instance->GetScriptEngine();
-	TBaluWorld* world = world_instance->GetSource();
+	TBaluScriptInstance& script_engine = *GetScriptEngine();
+	TBaluWorld* world = GetSource();
 	try
 	{
 		for (auto& v : world->on_start_world_callback)
 		{
 				auto method_body = v.GetScriptSource();
 				std::string method = std::string("func static StartWorld(IWorldInstance world_instance, IComposer composer)\n{\n") + method_body + "\n}\n";
-				world_instance->on_start_world_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
+				this->on_start_world_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
 		}
 		for (auto& v : world->viewport_resize_callback)
 		{
 				auto method_body = v.GetScriptSource();
 				std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
-				world_instance->viewport_resize_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
+				this->viewport_resize_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
 		}
 
 		for (auto& v : world->mouse_up_callbacks)
 		{
 				auto method_body = v.GetScriptSource();
 				std::string method = std::string("") + method_body + "";
-				world_instance->mouse_up_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
+				this->mouse_up_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
 		}
 		for (auto& v : world->mouse_down_callbacks)
 		{
 				auto method_body = v.GetScriptSource();
 				std::string method = std::string("") + method_body + "";
-				world_instance->mouse_down_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
+				this->mouse_down_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
 		}
 		for (auto& v : world->mouse_move_callbacks)
 		{
 				auto method_body = v.GetScriptSource();
 				std::string method = std::string("") + method_body + "";
-				world_instance->mouse_move_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
+				this->mouse_move_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
 		}
-		for (auto& k : world_instance->class_instances)
+		for (auto& k : this->class_instances)
 		{
-			k->CompileScripts(errors_list);
+			k->CompileScripts();
 		}
 	}
 	catch (std::string ex)
 	{
-		errors_list = script_engine.GetErrors();
+		return false;
+	}
+	return true;
+}
+
+bool TBaluWorldInstance::CheckScriptErrors(TBaluWorld* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list)
+{
+	try
+	{
+		for (auto& v : source->on_start_world_callback)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("func static StartWorld(IWorldInstance world_instance, IComposer composer)\n{\n") + method_body + "\n}\n";
+			script_engine->CompileMethod(&v, method.c_str());
+		}
+		for (auto& v : source->viewport_resize_callback)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
+			script_engine->CompileMethod(&v, method.c_str());
+		}
+
+		for (auto& v : source->mouse_up_callbacks)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("") + method_body + "";
+			script_engine->CompileMethod(&v, method.c_str());
+		}
+		for (auto& v : source->mouse_down_callbacks)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("") + method_body + "";
+			script_engine->CompileMethod(&v, method.c_str());
+		}
+		for (auto& v : source->mouse_move_callbacks)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("") + method_body + "";
+			script_engine->CompileMethod(&v, method.c_str());
+		}
+		for (auto& k : source->classes)
+		{
+			TBaluClassInstance::CheckScriptErrors(k.second.get(), script_engine, errors_list);
+		}
+	}
+	catch (std::string ex)
+	{
+		errors_list = script_engine->GetErrors();
 		return false;
 	}
 	return true;

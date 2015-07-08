@@ -16,10 +16,7 @@ bool TBaluInstance::PointCollide(TVec2 scene_space_point)
 TOBB2 TBaluInstance::GetOBB()
 {
 	auto aabb = GetClass()->GetClass()->GetAABB();
-	//aabb.border[0] *= instance_scale;
-	//aabb.border[1] *= instance_scale;
 	return instance_transform.ToGlobal(aabb);
-	//return TOBB2(instance_transform.position, instance_transform.GetOrientation(), aabb);
 }
 
 TBaluInstance::TBaluInstance(TBaluClassInstance* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources)
@@ -271,7 +268,7 @@ TBaluClassInstance::TBaluClassInstance(TBaluWorldInstance* world_instance, TBalu
 	this->source = source;
 }
 
-void TBaluClassInstance::CompileScripts(std::vector<std::string>& errors_list)
+void TBaluClassInstance::CompileScripts()
 {
 	TBaluScriptInstance& script_engine = *world_instance->GetScriptEngine();
 	for (auto& v : source->GetOnBeforePhysicsStep())
@@ -303,5 +300,40 @@ void TBaluClassInstance::CompileScripts(std::vector<std::string>& errors_list)
 		auto method_body = v.script.GetScriptSource();
 		std::string method = std::string("func static Collide(IPhysShapeInstance source, IInstance obstancle)\n{\n") + method_body + "\n}\n";
 		on_collide_callbacks.push_back(TSpriteWithClassCollideInstance(v.sprite, v.with_class, script_engine.CompileMethod(&v.script, method.c_str())));
+	}
+}
+
+
+void TBaluClassInstance::CheckScriptErrors(TBaluClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list)
+{
+	for (auto& v : source->GetOnBeforePhysicsStep())
+	{
+		auto method_body = v.GetScriptSource();
+		std::string method = std::string("func static BeforePhys(IInstance object)\n{\n") + method_body + "\n}\n";
+		script_engine->CompileMethod(&v, method.c_str());
+	}
+	for (auto& s : source->GetOnKeyDown())
+	{
+		for (auto& v : s.second)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("func static KeyDown(IInstance object)\n{\n") + method_body + "\n}\n";
+			script_engine->CompileMethod(&v, method.c_str());
+		}
+	}
+	for (auto& s : source->GetOnKeyUp())
+	{
+		for (auto& v : s.second)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("func static KeyUp(IInstance object)\n{\n") + method_body + "\n}\n";
+			script_engine->CompileMethod(&v, method.c_str());
+		}
+	}
+	for (auto& v : source->GetOnCollide())
+	{
+		auto method_body = v.script.GetScriptSource();
+		std::string method = std::string("func static Collide(IPhysShapeInstance source, IInstance obstancle)\n{\n") + method_body + "\n}\n";
+		script_engine->CompileMethod(&v.script, method.c_str());
 	}
 }

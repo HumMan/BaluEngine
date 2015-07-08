@@ -46,8 +46,8 @@ namespace Editor
 	public:
 		TEventType event_type;
 		std::vector<TEventParam> params;
-		TScriptData* event_data;
-		TEventInfo(TEventType event_type, std::vector<TEventParam> params, TScriptData* event_data)
+		TScript* event_data;
+		TEventInfo(TEventType event_type, std::vector<TEventParam> params, TScript* event_data)
 		{
 			this->event_type = event_type;
 			this->params = params;
@@ -163,16 +163,12 @@ namespace Editor
 		}
 		for (auto& some_class : p->world->GetClasses())
 		{
-			for (int i = 0; i < some_class->GetSpritesCount(); i++)
+			for (auto& e : some_class->GetOnCollide())
 			{
-				auto some_sprite = some_class->GetSprite(i)->GetSprite();
-				for (auto& some_sprite_event : some_sprite->GetOnCollide())
-				{
-					std::vector<TEventParam> params;
-					params.push_back(TEventParam(TWorldObjectType::Class, some_sprite_event.first->GetName()));
-					params.push_back(TEventParam(TWorldObjectType::Sprite, some_sprite->GetName()));
-					p->event_types[(int)TEventType::OnSpriteCollide].events.push_back(TEventInfo(TEventType::OnSpriteCollide, params, &some_sprite_event.second));
-				}
+				std::vector<TEventParam> params;
+				params.push_back(TEventParam(TWorldObjectType::Class, e.with_class->GetName()));
+				params.push_back(TEventParam(TWorldObjectType::Sprite, e.sprite->GetName()));
+				p->event_types[(int)TEventType::OnSpriteCollide].events.push_back(TEventInfo(TEventType::OnSpriteCollide, params, &e.script));
 			}
 		}
 	}

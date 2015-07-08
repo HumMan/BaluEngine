@@ -306,9 +306,9 @@ namespace Editor
 			p->main_viewport->SetWidth(20);
 
 		}
-		p->world->GetCallbacksActiveType().active_type = TCallbacksActiveType::EDITOR;
+		p->world->GetCallbacksActiveType() = TScriptActiveType::EDITOR;
 
-		p->world->AddOnViewportResize(CallbackWithData<ViewportResizeCallback>(ViewportResize_source, &p->world->GetCallbacksActiveType(), TCallbacksActiveType::EDITOR));
+		p->world->AddOnViewportResize(TScript(ViewportResize_source, TScriptActiveType::EDITOR));
 
 		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
 

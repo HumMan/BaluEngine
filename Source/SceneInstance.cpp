@@ -60,28 +60,6 @@ void TContactsHolder::OnProcessCollisions()
 
 		class_a->DoCollide(shape_a, dynamic_cast<TBaluInstance*>(instance_b));
 		class_b->DoCollide(shape_b, dynamic_cast<TBaluInstance*>(instance_a));
-
-		//auto c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_a))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
-		//if (c != nullptr)
-		//{
-		//	//c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_a), instance_b);
-		//}
-		//c = (dynamic_cast<TBaluClassSpriteInstance*>(sprite_b))->GetSprite()->GetOnCollide(dynamic_cast<TBaluClass*>(class_a));
-		//if (c != nullptr)
-		//{
-		//	//c->Execute(dynamic_cast<IBaluPhysShapeInstance*>(shape_b), instance_a);
-		//}
-
-		//auto c = (dynamic_cast<TBaluInstance*>(class_a))->GetClass()->GetOnCollide(dynamic_cast<TBaluClass*>(class_b));
-		//if (c != nullptr)
-		//{
-		//	c->Execute(instance_a, instance_b);
-		//}
-		//c = (dynamic_cast<TBaluInstance*>(class_b))->GetClass()->GetOnCollide(dynamic_cast<TBaluClass*>(class_a));
-		//if (c != nullptr)
-		//{
-		//	c->Execute(instance_b, instance_a);
-		//}
 	}
 }
 
@@ -127,12 +105,6 @@ TBaluSceneInstance::~TBaluSceneInstance()
 	phys_debug.Destroy();
 }
 
-//TBaluSceneInstance::TBaluSceneInstance(TBaluSceneInstance&& right)
-//{
-//	phys_world = std::move(right.phys_world);
-//	instances = std::move(right.instances);
-//}
-
 TBaluInstance* TBaluSceneInstance::CreateInstance(TBaluClass* use_class, TBaluTransform transform, TVec2 scale)
 {
 	auto class_instance = world->GetClassInstance(use_class);
@@ -166,20 +138,11 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& 
 {
 	std::vector<TBaluSpritePolygonInstance*> polygons;
 	QueryAABB(frustum, polygons);
-	//results.resize(polygons.size());
 
 	for (int i = 0; i < polygons.size(); i++)
 	{
-		//if (polygons[i]->GetSpritePolygon()->IsCustomDraw())
-		//{
-		//	
-		//	polygons[i]->RenderCustom(custom_draw);
-		//}
-		//else
-		{
-			results.emplace_back();
-			polygons[i]->Render(results.back());
-		}
+		results.emplace_back();
+		polygons[i]->Render(results.back());
 	}
 }
 

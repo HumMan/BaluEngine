@@ -78,7 +78,8 @@ public:
 
 	void UpdateTransform();
 
-	static bool CompileScripts(TBaluWorldInstance* world_instance, std::vector<std::string>& errors_list);
+	bool CompileScripts();
+	static bool CheckScriptErrors(TBaluWorld* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
 
 	TComposer* GetComposer()
 	{

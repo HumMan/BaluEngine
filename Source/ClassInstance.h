@@ -75,7 +75,8 @@ public:
 	{
 		return source;
 	}
-	void CompileScripts(std::vector<std::string>& errors_list);
+	void CompileScripts();
+	static void CheckScriptErrors(TBaluClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
 
 	void DoKeyDown(TKey key, TBaluInstance* instance);
 	void DoKeyUp(TKey key, TBaluInstance* instance);

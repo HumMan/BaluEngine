@@ -23,7 +23,7 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	BALUENGINEDLL_API bool CompileScripts(IBaluWorld* source, IBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
+	BALUENGINEDLL_API bool CompileScripts(IBaluWorld* source, IBaluScriptInstance* script_instance, std::vector<std::string>& errors_list);
 	BALUENGINEDLL_API IBaluScriptInstance* CreateScriptInstance(std::string assets_dir);
 	BALUENGINEDLL_API void DestroyScriptInstance(IBaluScriptInstance* instance);
 #endif
