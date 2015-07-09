@@ -87,7 +87,7 @@ public:
 	//void DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 };
 
-class TBaluInstance : public EngineInterface::IBaluInstance
+class TBaluInstance : public EngineInterface::IBaluInstance, public EngineInterface::TSceneObjectInstance
 {
 private:
 	int uid;

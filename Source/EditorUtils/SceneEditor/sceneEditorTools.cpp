@@ -46,14 +46,15 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 		new_source_scene_instance->SetTransform(transform);
 
 
-		auto new_class_instance = scene_editor_scene->editor_scene_instance->CreateInstance(active_tool_class, transform, TVec2(1, 1));
+		auto new_class_instance = scene_editor_scene->editor_scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(active_tool_class), transform, TVec2(1, 1));
 
-		scene_editor_scene->selected_instance_source = new_source_scene_instance;
-		scene_editor_scene->selected_instance = new_class_instance;
+		//TODO uncomment
+		//scene_editor_scene->selected_instance_source = new_source_scene_instance;
+		//scene_editor_scene->selected_instance = new_class_instance;
 
-		new_class_instance->SetTag(new_source_scene_instance);
+		//new_class_instance->SetTag(new_source_scene_instance);
 
-		scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+		//scene_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
 	}
 }
 
@@ -139,17 +140,18 @@ public:
 		{
 			auto world_cursor_location = scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
 			IBaluInstance* instance_collision(nullptr);
-			if (scene_editor_scene->editor_scene_instance->PointCollide(world_cursor_location, instance_collision))
-			{
-				scene_editor_scene->boundary_box_contour->SetEnable(true);
-				scene_editor_scene->boundary_box_contour->SetBox(instance_collision->GetOBB());
-				scene_editor_scene->hightlighted_instance = instance_collision;
-			}
-			else
-			{
-				scene_editor_scene->boundary_box_contour->SetEnable(false);
-				scene_editor_scene->hightlighted_instance = nullptr;
-			}
+			//TODO uncomment
+			//if (scene_editor_scene->editor_scene_instance->PointCollide(world_cursor_location, instance_collision))
+			//{
+			//	scene_editor_scene->boundary_box_contour->SetEnable(true);
+			//	scene_editor_scene->boundary_box_contour->SetBox(instance_collision->GetOBB());
+			//	scene_editor_scene->hightlighted_instance = instance_collision;
+			//}
+			//else
+			//{
+			//	scene_editor_scene->boundary_box_contour->SetEnable(false);
+			//	scene_editor_scene->hightlighted_instance = nullptr;
+			//}
 		}
 
 	}

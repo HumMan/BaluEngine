@@ -16,7 +16,7 @@ using namespace EngineInterface;
 class TSpritePolygonOBBAdornmentPrivate
 {
 	friend class TSpriteOBBAdornment;
-	friend void SpritePolygonOBBAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
+	//friend void SpritePolygonOBBAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool visible;
@@ -28,21 +28,21 @@ private:
 
 TSpriteOBBAdornment::~TSpriteOBBAdornment()
 {
-	p->scene_instance->DestroyInstance(p->class_instance);
+	p->scene_instance->DestroyInstance(dynamic_cast<TSceneObjectInstance*>(p->class_instance));
 	p->world->DestroyClass("SpritePolygonOBBAdornment");
 	p->world->DestroySprite("SpritePolygonOBBAdornment_custom_draw_sprite");
 }
 
-void SpritePolygonOBBAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
-{
-	auto state = (TSpritePolygonOBBAdornmentPrivate*)user_data;
-	//if (state->visible)
-	{
-		auto items = state->visual->Render();
-		for (auto& v : items)
-			v->Render(state->drawing_helper);
-	}
-}
+//void SpritePolygonOBBAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
+//{
+//	auto state = (TSpritePolygonOBBAdornmentPrivate*)user_data;
+//	//if (state->visible)
+//	{
+//		auto items = state->visual->Render();
+//		for (auto& v : items)
+//			v->Render(state->drawing_helper);
+//	}
+//}
 
 EngineInterface::IBaluClass* TSpriteOBBAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TSpritePolygonOBBAdornmentPrivate* data)
 {
@@ -76,13 +76,13 @@ TSpriteOBBAdornment::TSpriteOBBAdornment(IBaluSceneInstance* scene_instance, IVi
 	}
 	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 
-	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
+	p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
 }
 
 class TSpritePolygonAdornmentPrivate
 {
 	friend class TSpritePolygonAdornment;
-	friend void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
+	//friend void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool visible;
@@ -104,7 +104,7 @@ private:
 
 TSpritePolygonAdornment::~TSpritePolygonAdornment()
 {
-	p->scene_instance->DestroyInstance(p->class_instance);
+	p->scene_instance->DestroyInstance(dynamic_cast<TSceneObjectInstance*>(p->class_instance));
 	p->world->DestroyClass("SpritePolygonAdornment");
 	p->world->DestroySprite("SpritePolygonAdornment_custom_draw_sprite");
 }
@@ -143,41 +143,41 @@ void TSpritePolygonAdornment::SetSelectionBox(TOBB2 box)
 	p->selection_box = box;
 }
 
-void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
-{
-	auto state = (TSpritePolygonAdornmentPrivate*)user_data;
-	if (state->visible)
-	{
-		auto sprite_poly = state->visual->GetPolygon();
-		auto sprite_poly_trans = sprite_poly->GetTransformWithScale();
-		auto vertices = sprite_poly->GetPolygon();
-		state->drawing_helper->RenderLinesLoop(vertices, sprite_poly_trans);
-		for (auto& v : vertices)
-			state->drawing_helper->RenderPointAdornment(v, sprite_poly_trans);
-
-		if (state->show_add_point_control && state->line_start_point_index!=-1)
-		{
-			TVec2 left, right;
-			left = sprite_poly_trans.ToGlobal(vertices[state->line_start_point_index]);
-			right = sprite_poly_trans.ToGlobal(vertices[(state->line_start_point_index + 1) % vertices.size()]);
-			state->drawing_helper->RenderPointAdornment(state->point_to_add, sprite_poly_trans);
-
-			state->drawing_helper->RenderLine(left, sprite_poly_trans.ToGlobal(state->point_to_add));
-			state->drawing_helper->RenderLine(right, sprite_poly_trans.ToGlobal(state->point_to_add));
-		}
-		if (state->show_selection_box)
-		{
-			state->drawing_helper->RenderSelectionBox(state->selection_box);
-		}
-		if (state->show_point_hightlight)
-		{
-			for (auto& v : state->hightlight_poly_point_index)
-			{
-				state->drawing_helper->RenderPointHighlightAdornment(vertices[v], sprite_poly_trans);
-			}
-		}
-	}
-}
+//void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
+//{
+//	auto state = (TSpritePolygonAdornmentPrivate*)user_data;
+//	if (state->visible)
+//	{
+//		auto sprite_poly = state->visual->GetPolygon();
+//		auto sprite_poly_trans = sprite_poly->GetTransformWithScale();
+//		auto vertices = sprite_poly->GetPolygon();
+//		state->drawing_helper->RenderLinesLoop(vertices, sprite_poly_trans);
+//		for (auto& v : vertices)
+//			state->drawing_helper->RenderPointAdornment(v, sprite_poly_trans);
+//
+//		if (state->show_add_point_control && state->line_start_point_index!=-1)
+//		{
+//			TVec2 left, right;
+//			left = sprite_poly_trans.ToGlobal(vertices[state->line_start_point_index]);
+//			right = sprite_poly_trans.ToGlobal(vertices[(state->line_start_point_index + 1) % vertices.size()]);
+//			state->drawing_helper->RenderPointAdornment(state->point_to_add, sprite_poly_trans);
+//
+//			state->drawing_helper->RenderLine(left, sprite_poly_trans.ToGlobal(state->point_to_add));
+//			state->drawing_helper->RenderLine(right, sprite_poly_trans.ToGlobal(state->point_to_add));
+//		}
+//		if (state->show_selection_box)
+//		{
+//			state->drawing_helper->RenderSelectionBox(state->selection_box);
+//		}
+//		if (state->show_point_hightlight)
+//		{
+//			for (auto& v : state->hightlight_poly_point_index)
+//			{
+//				state->drawing_helper->RenderPointHighlightAdornment(vertices[v], sprite_poly_trans);
+//			}
+//		}
+//	}
+//}
 
 EngineInterface::IBaluClass* TSpritePolygonAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TSpritePolygonAdornmentPrivate* data)
 {
@@ -209,14 +209,14 @@ TSpritePolygonAdornment::TSpritePolygonAdornment(IBaluSceneInstance* scene_insta
 		assert(false);
 	}
 	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
-	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
+	p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
 }
 
 
 class TSpriteAdornmentPrivate
 {
 	friend class TSpriteAdornment;
-	friend void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
+	//friend void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool visible;
@@ -228,7 +228,7 @@ private:
 
 TSpriteAdornment::~TSpriteAdornment()
 {
-	p->scene_instance->DestroyInstance(p->class_instance);
+	p->scene_instance->DestroyInstance(dynamic_cast<TSceneObjectInstance*>(p->class_instance));
 	p->world->DestroyClass("SpriteAdornment");
 }
 
@@ -259,7 +259,7 @@ TSpriteAdornment::TSpriteAdornment(IBaluSceneInstance* scene_instance, IBaluSpri
 
 	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 
-	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
+	p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
 	p->class_instance->UpdateTranform();
 }
 

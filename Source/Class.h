@@ -37,8 +37,7 @@ public:
 };
 
 
-
-class TBaluClass : public EngineInterface::IBaluClass, public EngineInterface::IBaluWorldObject
+class TBaluClass : public EngineInterface::IBaluClass, public EngineInterface::IBaluWorldObject, public EngineInterface::TSceneObject
 {
 private:
 	std::string class_name;

@@ -16,7 +16,7 @@ using namespace EngineInterface;
 class TSpriteInstanceAdornmentPrivate
 {
 	friend class TClassSpriteAdornment;
-	friend void SpriteInstanceAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
+	//friend void SpriteInstanceAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool visible;
@@ -29,21 +29,21 @@ private:
 
 TClassSpriteAdornment::~TClassSpriteAdornment()
 {
-	p->scene_instance->DestroyInstance(p->class_instance);
+	p->scene_instance->DestroyInstance(dynamic_cast<TSceneObjectInstance*>(p->class_instance));
 	p->world->DestroyClass("ClassEditorSpriteAdornment");
 	p->world->DestroySprite("ClassEditorAdornment_custom_draw_sprite");
 }
 
-void SpriteInstanceAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
-{
-	auto state = (TSpriteInstanceAdornmentPrivate*)user_data;
-	//if (state->visible)
-	{
-		auto items = state->visual->Render();
-		for (auto& v : items)
-			v->Render(state->drawing_helper);
-	}
-}
+//void SpriteInstanceAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
+//{
+//	auto state = (TSpriteInstanceAdornmentPrivate*)user_data;
+//	//if (state->visible)
+//	{
+//		auto items = state->visual->Render();
+//		for (auto& v : items)
+//			v->Render(state->drawing_helper);
+//	}
+//}
 
 EngineInterface::IBaluClass* TClassSpriteAdornment::CreateClass(IBaluWorld* world, IBaluScene* scene, TSpriteInstanceAdornmentPrivate* data)
 {
@@ -75,5 +75,5 @@ TClassSpriteAdornment::TClassSpriteAdornment(IBaluSceneInstance* scene_instance,
 	}
 	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 
-	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
+	p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
 }

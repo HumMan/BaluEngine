@@ -144,15 +144,19 @@ namespace EngineInterface
 
 	
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	class TCustomDrawCommand
+
+	class TGUIVisual
 	{
-	public:
-		//EngineInterface::IBaluSpritePolygonInstance* poly;
-		TScreen* screen;
-		TAABB2* viewport;
-		TView* view;
-		void* user_data;
-		TCustomDrawCallback command;
+		virtual void Draw() = 0;
 	};
+
+	//class TGUIDrawCommand
+	//{
+	//public:
+	//	TScreen* screen;
+	//	TAABB2* viewport;
+	//	TView* view;
+	//	TGUIVisual* visual;
+	//};
 #endif
 }

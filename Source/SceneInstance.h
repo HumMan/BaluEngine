@@ -85,7 +85,7 @@ private:
 	DebugDraw phys_debug;
 
 	TBaluScene* source;
-	std::vector<std::unique_ptr<TBaluInstance>> instances;
+	std::vector<std::unique_ptr<EngineInterface::TSceneObjectInstance>> instances;
 
 	std::map<std::string, TViewport> viewports;
 
@@ -108,7 +108,7 @@ private:
 	TContactsHolder contact_listener;
 public:
 
-	bool PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result);
+	//bool PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result);
 
 	TBaluScene* GetSource();
 	EngineInterface::IBaluWorldInstance* GetWorld();
@@ -119,12 +119,12 @@ public:
 	//TBaluSceneInstance(TBaluSceneInstance&& right);
 	~TBaluSceneInstance();
 
-	TBaluInstance* CreateInstance(TBaluClass* use_class, TBaluTransform transform, TVec2 scale);
-	EngineInterface::IBaluInstance* CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform, TVec2 scale);
-	void DestroyInstance(EngineInterface::IBaluInstance*);
+	TSceneObjectInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
+	//EngineInterface::IBaluInstance* CreateInstance(EngineInterface::TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
+	void DestroyInstance(EngineInterface::TSceneObjectInstance*);
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
-	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TCustomDrawCommand>& custom_draw);
+	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TGUIVisual>& gui);
 
 	
 	void OnPrePhysStep();

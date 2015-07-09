@@ -26,13 +26,13 @@ namespace EngineInterface
 	{
 	public:
 
-		virtual bool PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result) = 0;
+		//virtual bool PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result) = 0;
 		virtual IBaluScene* GetSource()=0;
 		virtual IBaluWorldInstance* GetWorld()=0;
 		virtual IViewport* GetViewport(std::string name)=0;
-		virtual void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TCustomDrawCommand>& custom_draw) = 0;
-		virtual IBaluInstance* CreateInstance(IBaluClass* use_class, TBaluTransform transform, TVec2 scale) = 0;
-		virtual void DestroyInstance(EngineInterface::IBaluInstance*) = 0;
+		virtual void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TGUIVisual>& gui) = 0;
+		virtual TSceneObjectInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale) = 0;
+		virtual void DestroyInstance(EngineInterface::TSceneObjectInstance*) = 0;
 	};
 #endif
 

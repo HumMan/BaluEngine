@@ -32,6 +32,14 @@ namespace EngineInterface
 		virtual IProperties* GetProperties() = 0;
 		virtual std::string GetName() = 0;
 	};
+
+	class TSceneObject
+	{
+	public:
+		virtual ~TSceneObject()
+		{
+		}
+	};
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES

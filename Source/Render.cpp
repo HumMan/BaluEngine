@@ -27,7 +27,7 @@ TRender::~TRender()
 	nanovg_deinit();
 }
 
-void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<TCustomDrawCommand>& custom_draw_commands, EngineInterface::IViewport* viewport)
+void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<TGUIVisual>& gui, EngineInterface::IViewport* viewport)
 {
 	//render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
 	render->Set.ModelView(TMatrix4::GetOrtho(viewport->GetTransform().position, viewport->GetSize(), -1, 1));
@@ -86,7 +86,7 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<T
 	//nvgText(vg_context, 200, 200, "TEST", NULL);
 
 	//
-	for (int i = 0; i < custom_draw_commands.size(); i++)
+	//for (int i = 0; i < custom_draw_commands.size(); i++)
 	{
 		//TODO uncomment
 		//custom_draw_commands[i].command.Execute(vg_context, &custom_draw_commands[i]);

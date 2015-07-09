@@ -6,7 +6,7 @@
 class TOBBContourPrivate
 {
 	friend class TOBBContour;
-	friend void OBBContourCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
+	//friend void OBBContourCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 private:
 	IBaluInstance* class_instance;
 	bool enable;
@@ -16,14 +16,14 @@ private:
 	IBaluSceneInstance* scene_instance;
 };
 
-void OBBContourCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
-{
-	auto state = (TOBBContourPrivate*)user_data;
-	if (state->enable)
-	{
-		state->drawing_helper->RenderBoxCountour(state->box, 1);
-	}
-}
+//void OBBContourCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params)
+//{
+//	auto state = (TOBBContourPrivate*)user_data;
+//	if (state->enable)
+//	{
+//		state->drawing_helper->RenderBoxCountour(state->box, 1);
+//	}
+//}
 
 TOBBContour::TOBBContour(IBaluSceneInstance* scene_instance, TDrawingHelper* drawing_helper)
 {
@@ -39,7 +39,7 @@ TOBBContour::TOBBContour(IBaluSceneInstance* scene_instance, TDrawingHelper* dra
 	}
 	adornment_class = CreateClass(p->world, scene_instance->GetSource(), p.get());
 
-	p->class_instance = scene_instance->CreateInstance(adornment_class, TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1));
+	p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
 }
 
 void TOBBContour::SetBox(TOBB2 box)
@@ -67,7 +67,7 @@ EngineInterface::IBaluClass* TOBBContour::CreateClass(EngineInterface::IBaluWorl
 
 TOBBContour::~TOBBContour()
 {
-	p->scene_instance->DestroyInstance(p->class_instance);
+	p->scene_instance->DestroyInstance(dynamic_cast<TSceneObjectInstance*>(p->class_instance));
 	p->world->DestroyClass("SceneEditorOBBContour");
 	p->world->DestroySprite("SceneEditorOBBContour_custom_draw_sprite");
 }

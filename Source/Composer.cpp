@@ -39,23 +39,23 @@ void TComposer::Render(EngineInterface::TRender* render)
 		auto main_viewport = v.viewport;
 
 		std::vector<TRenderCommand> render_commands;
-		std::vector<TCustomDrawCommand> custom_draw_commands;
+		std::vector<TGUIVisual> gui_draw;
 		auto viewport_aabb = main_viewport->GetAABB();
-		v.scene_instance->QueryAABB(viewport_aabb, render_commands, custom_draw_commands);
+		v.scene_instance->QueryAABB(viewport_aabb, render_commands, gui_draw);
 
 		//TODO где то нужно хранить viewport_view
 		auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
 
-		for (auto& v : custom_draw_commands)
+		for (auto& v : gui_draw)
 		{
-			v.screen = &screen;
-			v.view = &main_viewport_view;
-			v.viewport = &viewport_aabb;
+			//v.screen = &screen;
+			//v.view = &main_viewport_view;
+			//v.viewport = &viewport_aabb;
 		}
 
 		//render->EnableScissor(true);
 		//render->SetScissorRect(*screen, main_viewport_view);
-		render->Render(render_commands, custom_draw_commands, main_viewport);
+		render->Render(render_commands, gui_draw, main_viewport);
 
 		TDrawingHelperContext drawing_context;
 		drawing_context.screen = &screen;

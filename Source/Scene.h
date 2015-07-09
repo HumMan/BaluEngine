@@ -36,48 +36,47 @@ public:
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
+class TBaluSceneClassInstance : public EngineInterface::IBaluSceneClassInstance
+{
+	TSceneObject* balu_class;
+	TBaluTransformWithScale transform;
+public:
+	TBaluSceneClassInstance()
+	{
+		balu_class = nullptr;
+	}
+	TBaluSceneClassInstance(TBaluClass* balu_class)
+	{
+		this->balu_class = balu_class;
+	}
+	void SetTransform(TBaluTransform transform)
+	{
+		this->transform.transform = transform;
+	}
+	void SetScale(TVec2 scale)
+	{
+		this->transform.scale = scale;
+	}
+	TBaluTransform GetTransform()
+	{
+		return transform.transform;
+	}
+	TVec2 GetScale()
+	{
+		return transform.scale;
+	}
+	TSceneObject* GetClass()
+	{
+		return balu_class;
+	}
+	void Save(pugi::xml_node& parent_node, const int version);
+	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+};
+
 class TBaluScene : public EngineInterface::IBaluScene, public EngineInterface::IBaluWorldObject
 {
-public:
-	class TClassInstance : public EngineInterface::IBaluSceneClassInstance
-	{
-		TBaluClass* balu_class;
-		//std::string tag;
-		TBaluTransformWithScale transform;
-	public:
-		TClassInstance()
-		{
-			balu_class = nullptr;
-		}
-		TClassInstance(TBaluClass* balu_class)
-		{
-			this->balu_class = balu_class;
-		}
-		void SetTransform(TBaluTransform transform)
-		{
-			this->transform.transform = transform;
-		}
-		void SetScale(TVec2 scale)
-		{
-			this->transform.scale = scale;
-		}
-		TBaluTransform GetTransform()
-		{
-			return transform.transform;
-		}
-		TVec2 GetScale()
-		{
-			return transform.scale;
-		}
-		TBaluClass* GetClass()
-		{
-			return balu_class;
-		}
-		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-	};
 private:
-	std::vector<std::unique_ptr<TClassInstance>> instances;
+	std::vector<std::unique_ptr<TBaluSceneClassInstance>> instances;
 	std::string scene_name;
 
 	std::map<std::string, TViewport> viewports;
@@ -105,12 +104,12 @@ public:
 	void SetName(std::string name);
 
 	int GetInstancesCount();
-	TClassInstance* GetInstance(int index);
+	TBaluSceneClassInstance* GetInstance(int index);
 
-	TBaluScene::TClassInstance* CreateInstance(TBaluClass* balu_class);
+	TBaluSceneClassInstance* CreateInstance(TBaluClass* balu_class);
 	EngineInterface::IBaluSceneClassInstance* CreateInstance(EngineInterface::IBaluClass* balu_class);
 
-	void DestroyInstance(TBaluScene::TClassInstance*);	
+	void DestroyInstance(TBaluSceneClassInstance*);
 	void DestroyInstance(EngineInterface::IBaluSceneClassInstance* instance);
 
 	void Save(pugi::xml_node& parent_node, const int version);

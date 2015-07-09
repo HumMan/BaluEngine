@@ -9,7 +9,7 @@ void TClassEditorScene::Initialize(IBaluWorld* world, IBaluClass* source_class, 
 	adornment_instance = std::make_unique<TClassSpriteAdornment>(editor_scene_instance, (IVisualAdornment*)&boundary_box, drawing_helper);
 	boundary_box_contour = std::make_unique<TOBBContour>(editor_scene_instance, drawing_helper);
 
-	this->editor_scene_class_instance = editor_scene_instance->CreateInstance(source_class, TBaluTransform(), TVec2(1, 1));
+	this->editor_scene_class_instance = dynamic_cast<IBaluInstance*>(editor_scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(source_class), TBaluTransform(), TVec2(1, 1)));
 
 	boundary_box.enable = false;
 }

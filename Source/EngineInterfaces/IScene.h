@@ -27,7 +27,7 @@ namespace EngineInterface
 		virtual void SetScale(TVec2 scale) = 0;
 		virtual TBaluTransform GetTransform() = 0;
 		virtual TVec2 GetScale() = 0;
-		virtual IBaluClass* GetClass() = 0;
+		virtual TSceneObject* GetClass() = 0;
 	};
 #endif
 

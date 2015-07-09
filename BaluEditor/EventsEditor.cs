@@ -20,6 +20,7 @@ namespace BaluEditor
 
         public void EditorInitialize(Editor.TWorldDirector director)
         {
+            seek_text_changed = false;
             treeView1.Nodes.Clear();
 
             textBox1.Enabled = false;

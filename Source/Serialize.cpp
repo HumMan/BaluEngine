@@ -759,15 +759,17 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 	}
 }
 
-void TBaluScene::TClassInstance::Save(pugi::xml_node& parent_node, const int version)
+void TBaluSceneClassInstance::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Instance");
 	//new_node.append_attribute("name").set_value(name.c_str());
-	new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
+
+	//TODO uncomment
+	//new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
 	SaveTransformWithScale(new_node, "Transform", transform);
 }
 
-void TBaluScene::TClassInstance::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void TBaluSceneClassInstance::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
 {
 	//name = instance_node.attribute("name").as_string();
 	balu_class = world->GetClass(instance_node.attribute("class_name").as_string());
@@ -798,9 +800,10 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 		for (int i = 0; i < instances.size(); i++)
 		{
 			EngineInterface::PropertyType type;
-			if (instances[i]->GetClass()->GetProperties()->HasProperty("editor_temp_object", type))
-				continue;
-			instances[i]->Save(instances_node, version);
+			//TODO uncomment
+			//if (instances[i]->GetClass()->GetProperties()->HasProperty("editor_temp_object", type))
+			//	continue;
+			//instances[i]->Save(instances_node, version);
 		}
 	}
 	xml_node viewports_node = new_node.append_child("Viewports");
@@ -823,9 +826,11 @@ void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBalu
 		xml_node instances_node = scene_node.child("instances");
 		for (pugi::xml_node instance_node = instances_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
-			TBaluScene::TClassInstance* new_instance = new TBaluScene::TClassInstance();
+			//TODO uncomment
+			//
+			/*TBaluScene::TClassInstance* new_instance = new TBaluScene::TClassInstance();
 			new_instance->Load(instance_node, version, world);
-			instances.push_back(std::unique_ptr<TBaluScene::TClassInstance>(new_instance));
+			instances.push_back(std::unique_ptr<TBaluScene::TClassInstance>(new_instance));*/
 		}
 	}
 	{
