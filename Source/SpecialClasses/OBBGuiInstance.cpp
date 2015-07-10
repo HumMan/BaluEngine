@@ -222,7 +222,35 @@ int TBoundaryBoxAdornment::GetNearestControl(TVec2 cursor_pos, float& distance)c
 	return -1;
 }
 
+float TPointAdornment::GetDistance(TVec2 pos)const
+{
+	return this->pos.Distance(pos);
+}
 
+void TPointAdornment::SetPosition(TVec2 position)
+{
+	this->pos = position;
+}
+
+TVec2 TPointAdornment::GetPosition()const
+{
+	return this->pos;
+}
+
+float TOBBAdornment::GetDistance(TVec2 pos)const
+{
+	TPointCollisionInfo<float, 2> collision;
+	this->box.PointCollide(pos, collision);
+	return collision.distance;
+}
+void TOBBAdornment::SetPosition(TVec2 position)
+{
+	this->box.pos = position;
+}
+TVec2 TOBBAdornment::GetPosition()const
+{
+	return box.pos;
+}
 
 TBoundaryBoxAdornment::TBoundaryBoxAdornment(TOBB<float, 2> boundary)
 {

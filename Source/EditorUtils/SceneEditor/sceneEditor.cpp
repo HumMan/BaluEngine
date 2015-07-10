@@ -1,7 +1,5 @@
 #include "sceneEditor.h"
 
-//#include "../../EngineInterfaces/ISceneInstance.h"
-
 TSceneEditor::TSceneEditor() :tools_registry(&scene)
 {
 	active_tool = nullptr;
@@ -21,8 +19,6 @@ void TSceneEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld*
 		auto instance = editor_scene_instance->CreateInstance(source_instance->GetClass(), source_instance->GetTransform(), source_instance->GetScale());
 		//TODO uncomment
 		//instance->SetTag(source_instance);
-
-		//instance->GetProperties()->SetSceneClassInstance("editor_source_instance", source_instance);
 	}
 }
 

@@ -39,24 +39,23 @@ public:
 
 	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box, TVec2 scale)
 	{
-		//auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
 		sprite_editor_scene->source_sprite->GetPolygon()->SetScale(
 			sprite_editor_scene->source_sprite->GetPolygon()->GetScale().ComponentMul(scale));
-		sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
+		//sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{
 		auto trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransform();
 		trans.position = new_pos;
 		sprite_editor_scene->source_sprite->GetPolygon()->SetTransform(trans);
-		sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
+		//sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
 	}
 	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto trans = sprite_editor_scene->source_sprite->GetPolygon()->GetTransform();
 		trans.angle = TRot(new_box);
 		sprite_editor_scene->source_sprite->GetPolygon()->SetTransform(trans);
-		sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
+		//sprite_editor_scene->sprite_adornment->GetInstance()->UpdateTranform();
 	}
 
 	void OnMouseDown(TMouseEventArgs e)

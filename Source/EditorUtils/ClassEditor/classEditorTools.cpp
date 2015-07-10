@@ -46,8 +46,7 @@ public:
 
 			//записываем в экземл€р спрайта указатель на исходный экземпл€р спрайта в редактируемом классе - дл€ использовани€ в других инструментах (перемещение и т.д.)
 			class_instance_sprite_instance->SetTag(new_sprite_instance);
-			//TODO uncomment
-			//class_editor_scene->boundary_box->SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+			class_editor_scene->boundary_box->SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
 		}
 	}
 	void OnMouseMove(TMouseEventArgs e)

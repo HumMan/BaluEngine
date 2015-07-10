@@ -316,6 +316,18 @@
     <ClInclude Include="Source\SpecialClasses\BoxGuiInstance.h">
       <Filter>SpecialClasses</Filter>
     </ClInclude>
+    <ClInclude Include="Source\SpecialClasses\PolygonGui.h">
+      <Filter>SpecialClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpecialClasses\PolygonGuiInstance.h">
+      <Filter>SpecialClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpecialClasses\SpriteGui.h">
+      <Filter>SpecialClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpecialClasses\SpriteGuiInstance.h">
+      <Filter>SpecialClasses</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -493,6 +505,12 @@
       <Filter>SpecialClasses</Filter>
     </ClCompile>
     <ClCompile Include="Source\SpecialClasses\BoxGuiInstance.cpp">
+      <Filter>SpecialClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpecialClasses\PolygonGuiInstance.cpp">
+      <Filter>SpecialClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpecialClasses\SpriteGuiInstance.cpp">
       <Filter>SpecialClasses</Filter>
     </ClCompile>
   </ItemGroup>

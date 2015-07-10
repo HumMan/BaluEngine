@@ -4,40 +4,6 @@
 
 #include "materialEditorAdornments.h"
 
-
-//class TMaterialModifyTool : public TMaterialEditorTools
-//{
-//	TBoundaryBoxAdornment* boundary_under_cursor;
-//public:
-//	TMaterialModifyTool(TMaterialEditorScene* material_editor_scene);
-//	void OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location);
-//	void OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location);
-//	void OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location);
-//	void Render(TDrawingHelper* drawing_helper);
-//};
-//
-//TMaterialModifyTool::TMaterialModifyTool(TMaterialEditorScene* material_editor_scene)
-//{
-//	this->material_editor_scene = material_editor_scene;
-//	boundary_under_cursor = nullptr;
-//}
-//
-//void TMaterialModifyTool::OnMouseDown(TMouseEventArgs e, TVec2 world_cursor_location)
-//{
-//}
-//
-//void TMaterialModifyTool::OnMouseMove(TMouseEventArgs e, TVec2 world_cursor_location)
-//{
-//}
-//void TMaterialModifyTool::OnMouseUp(TMouseEventArgs e, TVec2 world_cursor_location)
-//{
-//}
-//
-//void TMaterialModifyTool::Render(TDrawingHelper* drawing_helper)
-//{
-//}
-//
-
 TMaterialEditorToolsRegistry::TMaterialEditorToolsRegistry(TMaterialEditorScene* material_editor_scene)
 {
 	this->scene = material_editor_scene;
