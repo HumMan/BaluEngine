@@ -15,14 +15,14 @@ protected:
 public:
 	void Activate()
 	{
- 		sprite_editor_scene->boundary_box.SetBoundary(sprite_editor_scene->source_sprite->GetPolygon()->GetBoundingBox());
-		sprite_editor_scene->boundary_box.enable = true;
-		sprite_editor_scene->boundary_box.OnChange = this;
+ 		sprite_editor_scene->boundary_box->SetBoundary(sprite_editor_scene->source_sprite->GetPolygon()->GetBoundingBox());
+		sprite_editor_scene->boundary_box->enable = true;
+		sprite_editor_scene->boundary_box->OnChange = this;
 	}
 	void Deactivate()
 	{
-		sprite_editor_scene->boundary_box.enable = false;
-		sprite_editor_scene->boundary_box.OnChange = nullptr;
+		sprite_editor_scene->boundary_box->enable = false;
+		sprite_editor_scene->boundary_box->OnChange = nullptr;
 	}
 	TWorldObjectType NeedObjectSelect()
 	{
@@ -61,33 +61,33 @@ public:
 
 	void OnMouseDown(TMouseEventArgs e)
 	{
-		if (sprite_editor_scene->boundary_box.enable)
+		if (sprite_editor_scene->boundary_box->enable)
 		{
-			sprite_editor_scene->boundary_box.OnMouseDown(e, sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
+			sprite_editor_scene->boundary_box->OnMouseDown(e, sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
-		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 		{
 			//if (sprite_editor_scene->hightlighted_instance != nullptr)
 			//{
 			//	sprite_editor_scene->selected_instance = sprite_editor_scene->hightlighted_instance;
-			//	sprite_editor_scene->boundary_box.OnChange = this;
-			//	sprite_editor_scene->boundary_box.enable = true;
-			//	sprite_editor_scene->boundary_box.SetBoundary(sprite_editor_scene->selected_instance->GetOBB());
+			//	sprite_editor_scene->boundary_box->OnChange = this;
+			//	sprite_editor_scene->boundary_box->enable = true;
+			//	sprite_editor_scene->boundary_box->SetBoundary(sprite_editor_scene->selected_instance->GetOBB());
 			//}
 			//else
 			//{
-			//	sprite_editor_scene->boundary_box.enable = false;
+			//	sprite_editor_scene->boundary_box->enable = false;
 			//	sprite_editor_scene->selected_instance = nullptr;
 			//}
 		}
 	}
 	void OnMouseMove(TMouseEventArgs e)
 	{
-		if (sprite_editor_scene->boundary_box.enable)
+		if (sprite_editor_scene->boundary_box->enable)
 		{
-			sprite_editor_scene->boundary_box.OnMouseMove(e, sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
+			sprite_editor_scene->boundary_box->OnMouseMove(e, sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
-		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 		{
 			auto world_cursor_location = sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
 			//IBaluInstance* instance_collision(nullptr);
@@ -107,17 +107,17 @@ public:
 	}
 	void OnMouseUp(TMouseEventArgs e)
 	{
-		if (sprite_editor_scene->boundary_box.enable)
+		if (sprite_editor_scene->boundary_box->enable)
 		{
-			sprite_editor_scene->boundary_box.OnMouseUp(e, sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
+			sprite_editor_scene->boundary_box->OnMouseUp(e, sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
-		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 		{
 		}
 	}
 	void CancelOperation()
 	{
-		sprite_editor_scene->boundary_box.enable = false;
+		sprite_editor_scene->boundary_box->enable = false;
 	}
 };
 //
@@ -169,21 +169,21 @@ public:
 //
 //	void OnMouseDown(TMouseEventArgs e)
 //	{
-//		if (sprite_editor_scene->boundary_box.enable)
+//		if (sprite_editor_scene->boundary_box->enable)
 //		{
-//			sprite_editor_scene->boundary_box.OnMouseDown(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+//			sprite_editor_scene->boundary_box->OnMouseDown(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
 //		}
-//		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+//		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 //		{
 //		}
 //	}
 //	void OnMouseMove(TMouseEventArgs e)
 //	{
-//		if (sprite_editor_scene->boundary_box.enable)
+//		if (sprite_editor_scene->boundary_box->enable)
 //		{
-//			sprite_editor_scene->boundary_box.OnMouseMove(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+//			sprite_editor_scene->boundary_box->OnMouseMove(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
 //		}
-//		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+//		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 //		{
 //			auto world_cursor_location = sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
 //		}
@@ -191,11 +191,11 @@ public:
 //	}
 //	void OnMouseUp(TMouseEventArgs e)
 //	{
-//		if (sprite_editor_scene->boundary_box.enable)
+//		if (sprite_editor_scene->boundary_box->enable)
 //		{
-//			sprite_editor_scene->boundary_box.OnMouseUp(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+//			sprite_editor_scene->boundary_box->OnMouseUp(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
 //		}
-//		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+//		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 //		{
 //		}
 //	}
@@ -534,21 +534,21 @@ public:
 //
 //	void OnMouseDown(TMouseEventArgs e)
 //	{
-//		if (sprite_editor_scene->boundary_box.enable)
+//		if (sprite_editor_scene->boundary_box->enable)
 //		{
-//			sprite_editor_scene->boundary_box.OnMouseDown(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+//			sprite_editor_scene->boundary_box->OnMouseDown(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
 //		}
-//		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+//		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 //		{
 //		}
 //	}
 //	void OnMouseMove(TMouseEventArgs e)
 //	{
-//		if (sprite_editor_scene->boundary_box.enable)
+//		if (sprite_editor_scene->boundary_box->enable)
 //		{
-//			sprite_editor_scene->boundary_box.OnMouseMove(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+//			sprite_editor_scene->boundary_box->OnMouseMove(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
 //		}
-//		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+//		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 //		{
 //			auto world_cursor_location = sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
 //		}
@@ -556,11 +556,11 @@ public:
 //	}
 //	void OnMouseUp(TMouseEventArgs e)
 //	{
-//		if (sprite_editor_scene->boundary_box.enable)
+//		if (sprite_editor_scene->boundary_box->enable)
 //		{
-//			sprite_editor_scene->boundary_box.OnMouseUp(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
+//			sprite_editor_scene->boundary_box->OnMouseUp(e, sprite_editor_scene->drawing_helper->FromScreenPixelsToScene(e.location));
 //		}
-//		if (!sprite_editor_scene->boundary_box.IsCursorCaptured())
+//		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 //		{
 //		}
 //	}

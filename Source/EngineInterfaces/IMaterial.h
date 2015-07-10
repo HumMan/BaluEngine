@@ -40,6 +40,11 @@ namespace EngineInterface
 		{
 		}
 	};
+
+	class TGui : public EngineInterface::TSceneObject
+	{
+	public:
+	};
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES

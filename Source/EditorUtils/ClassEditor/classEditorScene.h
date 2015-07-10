@@ -9,18 +9,13 @@
 
 using namespace EngineInterface;
 
-#include "classEditorAdornments.h"
+#include "../../SpecialClasses/OBBGuiInstance.h"
+#include "../../SpecialClasses/BoxGuiInstance.h"
 
-#include "../BoundaryEditor.h"
-
-#include "../OBBContour.h"
+#include "../../EngineInterfaces/ISceneInstance.h"
 
 class TClassEditorScene
 {
-private:
-	std::unique_ptr<TClassSpriteAdornment> adornment_instance;
-
-
 public:
 	IBaluClass* source_class; //редактируемый класс
 
@@ -31,8 +26,9 @@ public:
 
 	TDrawingHelper* drawing_helper;
 
-	TBoundaryBoxAdornment boundary_box;
-	std::unique_ptr<TOBBContour> boundary_box_contour;
+	TBoundaryBoxAdornment* boundary_box;
+	TOBBContour* boundary_box_contour;
+
 	IBaluClassInstanceSpriteInstance* hightlighted_instance;
 public:
 	void Initialize(IBaluWorld* world, IBaluClass* source_class, IBaluSceneInstance* source_scene_instance, TDrawingHelper* drawing_helper);

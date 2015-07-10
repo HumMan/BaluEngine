@@ -48,8 +48,8 @@ public:
 
 			//записываем в экземл€р спрайта указатель на исходный экземпл€р спрайта в редактируемом классе - дл€ использовани€ в других инструментах (перемещение и т.д.)
 			class_instance_sprite_instance->SetTag(new_sprite_instance);
-
-			class_editor_scene->boundary_box.SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+			//TODO uncomment
+			//class_editor_scene->boundary_box->SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
 		}
 	}
 	void OnMouseMove(TMouseEventArgs e)
@@ -107,33 +107,33 @@ public:
 
 	void OnMouseDown(TMouseEventArgs e)
 	{
-		if (class_editor_scene->boundary_box.enable)
+		if (class_editor_scene->boundary_box->enable)
 		{
-			class_editor_scene->boundary_box.OnMouseDown(e, class_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
+			class_editor_scene->boundary_box->OnMouseDown(e, class_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
-		if (!class_editor_scene->boundary_box.IsCursorCaptured())
+		if (!class_editor_scene->boundary_box->IsCursorCaptured())
 		{
 			if (class_editor_scene->hightlighted_instance != nullptr)
 			{
 				class_editor_scene->selected_instance = class_editor_scene->hightlighted_instance;
-				class_editor_scene->boundary_box.OnChange = this;
-				class_editor_scene->boundary_box.enable = true;
-				class_editor_scene->boundary_box.SetBoundary(class_editor_scene->selected_instance->GetOBB());
+				class_editor_scene->boundary_box->OnChange = this;
+				class_editor_scene->boundary_box->enable = true;
+				class_editor_scene->boundary_box->SetBoundary(class_editor_scene->selected_instance->GetOBB());
 			}
 			else
 			{
-				class_editor_scene->boundary_box.enable = false;
+				class_editor_scene->boundary_box->enable = false;
 				class_editor_scene->selected_instance = nullptr;
 			}
 		}
 	}
 	void OnMouseMove(TMouseEventArgs e)
 	{
-		if (class_editor_scene->boundary_box.enable)
+		if (class_editor_scene->boundary_box->enable)
 		{
-			class_editor_scene->boundary_box.OnMouseMove(e, class_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
+			class_editor_scene->boundary_box->OnMouseMove(e, class_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
-		if (!class_editor_scene->boundary_box.IsCursorCaptured())
+		if (!class_editor_scene->boundary_box->IsCursorCaptured())
 		{
 			auto world_cursor_location = class_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
 			IBaluClassInstanceSpriteInstance* instance_collision(nullptr);
@@ -153,11 +153,11 @@ public:
 	}
 	void OnMouseUp(TMouseEventArgs e)
 	{
-		if (class_editor_scene->boundary_box.enable)
+		if (class_editor_scene->boundary_box->enable)
 		{
-			class_editor_scene->boundary_box.OnMouseUp(e, class_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
+			class_editor_scene->boundary_box->OnMouseUp(e, class_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
 		}
-		if (!class_editor_scene->boundary_box.IsCursorCaptured())
+		if (!class_editor_scene->boundary_box->IsCursorCaptured())
 		{
 		}
 	}

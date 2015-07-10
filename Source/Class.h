@@ -109,3 +109,23 @@ public:
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
+
+class TPolygoneGui : TGui
+{
+public:
+};
+
+class TBoxGui : TGui
+{
+public:
+};
+
+class TPointGui : TGui
+{
+public:
+};
+
+class TLineGui : TGui
+{
+public:
+};

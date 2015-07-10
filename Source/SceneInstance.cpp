@@ -148,7 +148,7 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygo
 	}
 }
 
-void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TGUIVisual>& gui)
+void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual>& gui)
 {
 	std::vector<TBaluSpritePolygonInstance*> polygons;
 	QueryAABB(frustum, polygons);

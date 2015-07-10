@@ -11,10 +11,6 @@ namespace EngineInterface
 	class TScreen;
 }
 
-class TPointAdornment;
-class TOBBAdornment;
-
-
 #include "../EngineInterfaces/IMaterial.h"
 
 using namespace EngineInterface;
@@ -33,7 +29,6 @@ public:
 
 	void RenderPointAdornment(TVec2 p, TBaluTransformWithScale trans = TBaluTransformWithScale());
 	void RenderPointHighlightAdornment(TVec2 p, TBaluTransformWithScale trans = TBaluTransformWithScale());
-	void Render(const TOBBAdornment*);
 
 	//
 	void RenderBoxCountour(TOBB2 box, float width);

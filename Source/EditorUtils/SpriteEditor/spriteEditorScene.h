@@ -12,9 +12,10 @@ using namespace EngineInterface;
 
 #include "spriteEditorAdornments.h"
 
-#include "../BoundaryEditor.h"
+#include "../../SpecialClasses/OBBGuiInstance.h"
+#include "../../SpecialClasses/BoxGuiInstance.h"
 
-#include "../OBBContour.h"
+#include "../../EngineInterfaces/ISceneInstance.h"
 
 class TSpriteEditorScene
 {
@@ -34,9 +35,9 @@ public:
 	std::unique_ptr<TSpriteAdornment> sprite_adornment; //отображение редактируемого спрайта
 
 	std::unique_ptr<TSpriteOBBAdornment> obb_adornment;//отображение OBB геометрии спрайта или физики
-	TBoundaryBoxAdornment boundary_box;//OBB геометрии спрайта или физики
+	TBoundaryBoxAdornment* boundary_box;//OBB геометрии спрайта или физики
 
-	//std::unique_ptr<TOBBContour> boundary_box_contour;
+	TOBBContour* boundary_box_contour;
 
 	IBaluWorld* world;
 

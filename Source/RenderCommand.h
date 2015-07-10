@@ -12,6 +12,7 @@
 #endif
 
 class TMaterialInstance;
+class TDrawingHelper;
 namespace EngineInterface
 {
 	class IBaluSpritePolygonInstance;
@@ -145,9 +146,9 @@ namespace EngineInterface
 	
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
-	class TGUIVisual
+	class IGUIVisual
 	{
-		virtual void Draw() = 0;
+		virtual void Render(TDrawingHelper* helper)const = 0;
 	};
 
 	//class TGUIDrawCommand
@@ -156,7 +157,7 @@ namespace EngineInterface
 	//	TScreen* screen;
 	//	TAABB2* viewport;
 	//	TView* view;
-	//	TGUIVisual* visual;
+	//	IGUIVisual* visual;
 	//};
 #endif
 }

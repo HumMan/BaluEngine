@@ -27,7 +27,7 @@ TRender::~TRender()
 	nanovg_deinit();
 }
 
-void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<TGUIVisual>& gui, EngineInterface::IViewport* viewport)
+void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual>& gui, EngineInterface::IViewport* viewport)
 {
 	//render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
 	render->Set.ModelView(TMatrix4::GetOrtho(viewport->GetTransform().position, viewport->GetSize(), -1, 1));

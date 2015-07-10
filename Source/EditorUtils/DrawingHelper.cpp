@@ -48,11 +48,6 @@ void TDrawingHelper::RenderPointHighlightAdornment(TVec2 p, TBaluTransformWithSc
 	nvgStroke(context);
 }
 
-void TDrawingHelper::Render(const TOBBAdornment* box)
-{
-	RenderBoxCountour(box->box, 4);
-}
-
 void TDrawingHelper::RenderBoxCountour(TOBB2 box, float width)
 {
 	std::vector<TVec2> vertices;

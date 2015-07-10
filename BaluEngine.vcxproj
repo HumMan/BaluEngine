@@ -176,6 +176,10 @@
     <ClInclude Include="Source\SkeletonAnimation.h" />
     <ClInclude Include="Source\SkeletonAnimationInstance.h" />
     <ClInclude Include="Source\SkeletonInstance.h" />
+    <ClInclude Include="Source\SpecialClasses\BoxGui.h" />
+    <ClInclude Include="Source\SpecialClasses\BoxGuiInstance.h" />
+    <ClInclude Include="Source\SpecialClasses\OBBGui.h" />
+    <ClInclude Include="Source\SpecialClasses\OBBGuiInstance.h" />
     <ClInclude Include="Source\Sprite.h" />
     <ClInclude Include="Source\SpriteInstance.h" />
     <ClInclude Include="Source\SpritePoly.h" />
@@ -275,6 +279,8 @@
     </ClCompile>
     <ClCompile Include="Source\SkeletonAnimationInstance.cpp" />
     <ClCompile Include="Source\SkeletonInstance.cpp" />
+    <ClCompile Include="Source\SpecialClasses\BoxGuiInstance.cpp" />
+    <ClCompile Include="Source\SpecialClasses\OBBGuiInstance.cpp" />
     <ClCompile Include="Source\Sprite.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>

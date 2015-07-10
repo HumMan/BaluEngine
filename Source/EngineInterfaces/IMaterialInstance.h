@@ -8,6 +8,15 @@ namespace EngineInterface
 {
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+	class TSceneObjectInstance
+	{
+	public:
+		virtual ~TSceneObjectInstance()
+		{
+		}
+	};
+
 	class IBaluMaterialInstance
 	{
 	public:

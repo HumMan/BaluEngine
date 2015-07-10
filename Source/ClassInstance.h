@@ -6,6 +6,7 @@
 #include "SkeletonAnimationInstance.h"
 
 #include "EngineInterfaces\IClassInstance.h"
+#include "EngineInterfaces\IMaterialInstance.h"
 
 class TBaluInstance;
 class TBaluWorldInstance;

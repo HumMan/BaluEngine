@@ -124,7 +124,7 @@ public:
 	void DestroyInstance(EngineInterface::TSceneObjectInstance*);
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
-	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TGUIVisual>& gui);
+	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual>& gui);
 
 	
 	void OnPrePhysStep();

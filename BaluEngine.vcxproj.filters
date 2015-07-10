@@ -41,6 +41,9 @@
     <Filter Include="EditorUtils\MaterialEditor">
       <UniqueIdentifier>{8ad19343-6578-4904-b3ac-e77607a3e838}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SpecialClasses">
+      <UniqueIdentifier>{63d5764a-3d3d-48ea-824e-d838ec658125}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utils\texture_polygon.h">
@@ -316,6 +319,18 @@
     <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorAdornments.h">
       <Filter>EditorUtils\MaterialEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\SpecialClasses\OBBGui.h">
+      <Filter>SpecialClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpecialClasses\OBBGuiInstance.h">
+      <Filter>SpecialClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpecialClasses\BoxGui.h">
+      <Filter>SpecialClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpecialClasses\BoxGuiInstance.h">
+      <Filter>SpecialClasses</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -503,6 +518,12 @@
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorScene.cpp">
       <Filter>EditorUtils\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpecialClasses\OBBGuiInstance.cpp">
+      <Filter>SpecialClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpecialClasses\BoxGuiInstance.cpp">
+      <Filter>SpecialClasses</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

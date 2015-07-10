@@ -10,6 +10,7 @@
 #include "../RenderCommand.h"
 #include "IScene.h"
 #include "IClassInstance.h"
+#include "IMaterialInstance.h"
 #endif
 
 namespace EngineInterface
@@ -30,7 +31,7 @@ namespace EngineInterface
 		virtual IBaluScene* GetSource()=0;
 		virtual IBaluWorldInstance* GetWorld()=0;
 		virtual IViewport* GetViewport(std::string name)=0;
-		virtual void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<TGUIVisual>& gui) = 0;
+		virtual void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual>& gui) = 0;
 		virtual TSceneObjectInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale) = 0;
 		virtual void DestroyInstance(EngineInterface::TSceneObjectInstance*) = 0;
 	};
