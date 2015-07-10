@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../abstractEditor.h"
-#include "../BoundaryEditor.h"
 
 #include "materialEditorScene.h"
 #include "materialEditorTools.h"

@@ -214,9 +214,6 @@
     <ClInclude Include="Source\EditorUtils\abstractEditor.h">
       <Filter>EditorUtils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EditorUtils\BoundaryEditor.h">
-      <Filter>EditorUtils</Filter>
-    </ClInclude>
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h">
       <Filter>EditorUtils</Filter>
     </ClInclude>
@@ -226,17 +223,11 @@
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditor.h">
       <Filter>EditorUtils\SceneEditor</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.h">
-      <Filter>EditorUtils\SceneEditor</Filter>
-    </ClInclude>
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorScene.h">
       <Filter>EditorUtils\SceneEditor</Filter>
     </ClInclude>
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorTools.h">
       <Filter>EditorUtils\SceneEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\EditorUtils\EditorControlsModel.h">
-      <Filter>EditorUtils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h">
       <Filter>Utils\ConvexDecomposition</Filter>
@@ -255,9 +246,6 @@
     </ClInclude>
     <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditorTools.h">
       <Filter>EditorUtils\SpriteEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\EditorUtils\OBBContour.h">
-      <Filter>EditorUtils</Filter>
     </ClInclude>
     <ClInclude Include="Source\EngineInterfacesIncludes.h">
       <Filter>Header Files</Filter>
@@ -293,9 +281,6 @@
       <Filter>EngineInterfaces</Filter>
     </ClInclude>
     <ClInclude Include="Source\EditorUtils\ClassEditor\classEditor.h">
-      <Filter>EditorUtils\ClassEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorAdornments.h">
       <Filter>EditorUtils\ClassEditor</Filter>
     </ClInclude>
     <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorScene.h">
@@ -435,16 +420,10 @@
     <ClCompile Include="Source\Resources.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\EditorUtils\BoundaryEditor.cpp">
-      <Filter>EditorUtils</Filter>
-    </ClCompile>
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp">
       <Filter>EditorUtils</Filter>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditor.cpp">
-      <Filter>EditorUtils\SceneEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorAdornments.cpp">
       <Filter>EditorUtils\SceneEditor</Filter>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorTools.cpp">
@@ -455,9 +434,6 @@
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorScene.cpp">
       <Filter>EditorUtils\SceneEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EditorUtils\EditorControlsModel.cpp">
-      <Filter>EditorUtils</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp">
       <Filter>Utils\ConvexDecomposition</Filter>
@@ -473,9 +449,6 @@
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorTools.cpp">
       <Filter>EditorUtils\SpriteEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EditorUtils\OBBContour.cpp">
-      <Filter>EditorUtils</Filter>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorScene.cpp">
       <Filter>EditorUtils\SpriteEditor</Filter>
@@ -496,9 +469,6 @@
       <Filter>Definitions_instances</Filter>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\ClassEditor\classEditor.cpp">
-      <Filter>EditorUtils\ClassEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorAdornments.cpp">
       <Filter>EditorUtils\ClassEditor</Filter>
     </ClCompile>
     <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorTools.cpp">

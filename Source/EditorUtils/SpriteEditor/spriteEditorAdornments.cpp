@@ -10,7 +10,6 @@
 
 using namespace EngineInterface;
 
-#include "../EditorControlsModel.h"
 #include "../DrawingHelper.h"
 
 class TSpritePolygonOBBAdornmentPrivate

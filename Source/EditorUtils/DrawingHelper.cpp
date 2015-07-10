@@ -6,8 +6,6 @@
 
 #include "../nanovg_support.h"
 
-#include "EditorControlsModel.h"
-
 using namespace EngineInterface;
 
 TDrawingHelper::TDrawingHelper(TDrawingHelperContext drawing_context)

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../BoundaryEditor.h"
-
 #include "../../EditorInterfaces.h"
 
 using namespace EngineInterface;

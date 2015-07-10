@@ -3,8 +3,6 @@
 
 #include "classEditorScene.h"
 
-#include "classEditorAdornments.h"
-
 #include "../DrawingHelper.h"
 
 class TCreateClassSpriteTool : public IEditorTool
