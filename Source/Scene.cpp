@@ -64,25 +64,25 @@ int TBaluScene::GetInstancesCount()
 {
 	return instances.size();
 }
-TBaluSceneClassInstance* TBaluScene::GetInstance(int index)
+TSceneObject* TBaluScene::GetInstance(int index)
 {
 	return instances[index].get();
 }
 
-TBaluSceneClassInstance* TBaluScene::CreateInstance(TBaluClass* balu_class)
+TSceneObject* TBaluScene::CreateInstance(TBaluClass* balu_class)
 {
 	instances.push_back(std::make_unique<TBaluSceneClassInstance>(balu_class));
 	return instances.back().get();
 }
 
-EngineInterface::IBaluSceneClassInstance* TBaluScene::CreateInstance(EngineInterface::IBaluClass* balu_class)
+TSceneObject* TBaluScene::CreateInstance(EngineInterface::IBaluClass* balu_class)
 {
 	return CreateInstance(dynamic_cast<TBaluClass*>(balu_class));
 }
 
-void TBaluScene::DestroyInstance(TBaluSceneClassInstance* instance)
+void TBaluScene::DestroyInstance(TSceneObject* instance)
 {
-	auto iter = std::find_if(instances.begin(), instances.end(), [&](std::unique_ptr<TBaluSceneClassInstance>& p){return p.get() == instance; });
+	auto iter = std::find_if(instances.begin(), instances.end(), [&](std::unique_ptr<TSceneObject>& p){return p.get() == instance; });
 	if (iter != instances.end())
 	{
 		instances.erase(iter);
@@ -91,9 +91,4 @@ void TBaluScene::DestroyInstance(TBaluSceneClassInstance* instance)
 	{
 		throw std::invalid_argument("Объект не находится на данной сцене");
 	}
-}
-
-void TBaluScene::DestroyInstance(EngineInterface::IBaluSceneClassInstance* instance)
-{
-	DestroyInstance(dynamic_cast<TBaluSceneClassInstance*>(instance));
 }

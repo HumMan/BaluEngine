@@ -27,7 +27,7 @@ namespace EngineInterface
 		virtual void SetScale(TVec2 scale) = 0;
 		virtual TBaluTransform GetTransform() = 0;
 		virtual TVec2 GetScale() = 0;
-		virtual TSceneObject* GetClass() = 0;
+		virtual IBaluClass* GetClass() = 0;
 	};
 #endif
 
@@ -50,10 +50,10 @@ namespace EngineInterface
 		virtual void SetName(std::string name) = 0;
 
 		virtual int GetInstancesCount() = 0;
-		virtual IBaluSceneClassInstance* GetInstance(int index) = 0;
+		virtual TSceneObject* GetInstance(int index) = 0;
 
-		virtual IBaluSceneClassInstance* CreateInstance(IBaluClass* balu_class) = 0;
-		virtual void DestroyInstance(IBaluSceneClassInstance* instance) = 0;
+		virtual TSceneObject* CreateInstance(IBaluClass* balu_class) = 0;
+		virtual void DestroyInstance(TSceneObject* instance) = 0;
 	};
 #endif
 

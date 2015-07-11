@@ -15,6 +15,13 @@
 #include "IProperties.h"
 #endif
 
+namespace pugi
+{
+	class xml_node;
+}
+
+class TBaluWorld;
+
 namespace EngineInterface
 {
 	class TScreen;
@@ -31,20 +38,9 @@ namespace EngineInterface
 	public:
 		virtual IProperties* GetProperties() = 0;
 		virtual std::string GetName() = 0;
-	};
+	};	
 
-	class TSceneObject
-	{
-	public:
-		virtual ~TSceneObject()
-		{
-		}
-	};
-
-	class TGui : public EngineInterface::TSceneObject
-	{
-	public:
-	};
+	
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -258,6 +254,40 @@ namespace EngineInterface
 		TVec2i FromSceneToScreenPixels(TVec2 scene_coordinates);
 	};
 #endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+	class TSceneObject
+	{
+	public:
+		virtual const char* GetFactoryName() = 0;
+		virtual void SetTransform(TBaluTransform transform) = 0;
+		virtual void SetScale(TVec2 scale) = 0;
+		virtual TBaluTransform GetTransform() = 0;
+		virtual TVec2 GetScale() = 0;
+		virtual TBaluTransformWithScale GetTransformWithScale();
+		virtual void Save(pugi::xml_node& parent_node, const int version) = 0;
+		virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world) = 0;
+		virtual ~TSceneObject()
+		{
+		}
+	};
+
+	typedef TSceneObject*(*SceneObjectClone)();
+	class SceneObjectFactory
+	{
+	public:
+		static bool Register(const char* name, SceneObjectClone clone);
+		static TSceneObject* Create(const char* name);
+	};
+
+	class TGui : public EngineInterface::TSceneObject
+	{
+	public:
+	};
+#endif
+
+#define REGISTER_FACTORY_CLASS(factory_name,class_name)\
+	static bool class_name##_registered = factory_name::Register(class_name::FactoryName(), class_name::Clone);
 
 }
 

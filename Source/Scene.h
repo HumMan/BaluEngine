@@ -36,11 +36,19 @@ public:
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 
-class TBaluSceneClassInstance : public EngineInterface::IBaluSceneClassInstance
+class TBaluSceneClassInstance : public EngineInterface::IBaluSceneClassInstance, public TSceneObject
 {
-	TSceneObject* balu_class;
+	TBaluClass* balu_class;
 	TBaluTransformWithScale transform;
 public:
+	static const char* FactoryName()
+	{
+		return "ClassInstance";
+	}
+	const char* GetFactoryName()
+	{
+		return FactoryName();
+	}
 	TBaluSceneClassInstance()
 	{
 		balu_class = nullptr;
@@ -65,18 +73,28 @@ public:
 	{
 		return transform.scale;
 	}
-	TSceneObject* GetClass()
+	TBaluTransformWithScale GetTransformWithScale()
+	{
+		return transform;
+	}
+	TBaluClass* GetClass()
 	{
 		return balu_class;
 	}
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	static TSceneObject* Clone()
+	{
+		return new TBaluSceneClassInstance();
+	}
 };
+REGISTER_FACTORY_CLASS(SceneObjectFactory,TBaluSceneClassInstance)
+//static bool TBaluSceneClassInstance_registered = SceneObjectFactory::Register(TBaluSceneClassInstance::FactoryName(), TBaluSceneClassInstance::Clone);
 
 class TBaluScene : public EngineInterface::IBaluScene, public EngineInterface::IBaluWorldObject
 {
 private:
-	std::vector<std::unique_ptr<TBaluSceneClassInstance>> instances;
+	std::vector<std::unique_ptr<TSceneObject>> instances;
 	std::string scene_name;
 
 	std::map<std::string, TViewport> viewports;
@@ -104,13 +122,12 @@ public:
 	void SetName(std::string name);
 
 	int GetInstancesCount();
-	TBaluSceneClassInstance* GetInstance(int index);
+	TSceneObject* GetInstance(int index);
 
-	TBaluSceneClassInstance* CreateInstance(TBaluClass* balu_class);
-	EngineInterface::IBaluSceneClassInstance* CreateInstance(EngineInterface::IBaluClass* balu_class);
+	TSceneObject* CreateInstance(TBaluClass* balu_class);
+	TSceneObject* CreateInstance(EngineInterface::IBaluClass* balu_class);
 
-	void DestroyInstance(TBaluSceneClassInstance*);
-	void DestroyInstance(EngineInterface::IBaluSceneClassInstance* instance);
+	void DestroyInstance(TSceneObject*);
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

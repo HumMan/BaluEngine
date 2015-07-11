@@ -17,6 +17,14 @@ namespace EngineInterface
 		}
 	};
 
+	typedef TSceneObjectInstance*(*SceneObjectInstanceClone)();
+	class SceneObjectInstanceFactory
+	{
+	public:
+		static bool Register(const char* name, SceneObjectInstanceClone clone);
+		static TSceneObjectInstance* Create(const char* name);
+	};
+
 	class IBaluMaterialInstance
 	{
 	public:

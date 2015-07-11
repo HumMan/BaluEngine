@@ -803,7 +803,7 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 			//TODO uncomment
 			//if (instances[i]->GetClass()->GetProperties()->HasProperty("editor_temp_object", type))
 			//	continue;
-			//instances[i]->Save(instances_node, version);
+			instances[i]->Save(instances_node, version);
 		}
 	}
 	xml_node viewports_node = new_node.append_child("Viewports");
