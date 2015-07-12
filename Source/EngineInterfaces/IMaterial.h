@@ -264,7 +264,7 @@ namespace EngineInterface
 		virtual void SetScale(TVec2 scale) = 0;
 		virtual TBaluTransform GetTransform() = 0;
 		virtual TVec2 GetScale() = 0;
-		virtual TBaluTransformWithScale GetTransformWithScale();
+		virtual TBaluTransformWithScale GetTransformWithScale()=0;
 		virtual void Save(pugi::xml_node& parent_node, const int version) = 0;
 		virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world) = 0;
 		virtual ~TSceneObject()

@@ -42,7 +42,8 @@ TMaterialInstanceAdornment::TMaterialInstanceAdornment(EngineInterface::IBaluWor
 	adornment_sprite->GetPolygon()->SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
 	adornment_class->AddSprite(adornment_sprite);
 
-	p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
+	//TODO uncomment
+	//p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
 }
 
 TMaterialInstanceAdornment::~TMaterialInstanceAdornment()

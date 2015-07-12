@@ -19,21 +19,40 @@ TOBB2 TBaluInstance::GetOBB()
 	return instance_transform.ToGlobal(aabb);
 }
 
-TBaluInstance::TBaluInstance(TBaluClassInstance* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources)
-	:skeleton(source->GetClass()->GetSkeleton(), this, resources), skeleton_animation(&skeleton, source->GetClass()->GetSkeletonAnimation())
+TBaluInstance::TBaluInstance(TBaluSceneClassInstance* source, TBaluSceneInstance* scene)
+	:skeleton(source->GetClass()->GetSkeleton(), this, scene->GetResources()), skeleton_animation(&skeleton, source->GetClass()->GetSkeletonAnimation())
 {
-	this->resources = resources;
+	this->instance_class = dynamic_cast<TBaluWorldInstance*>(scene->GetWorld())->GetClassInstance(source->GetClass());
+	instance_transform = source->GetTransformWithScale();
+	this->scene = scene;
 	skeleton_animation.Init();
-	instance_transform = TBaluTransformWithScale(transform, scale);
-	this->instance_class = source;
-	this->phys_world = phys_world;
 
 	for (int i = 0; i < source->GetClass()->GetSpritesCount(); i++)
 	{
-		sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source->GetClass()->GetSprite(i), this, resources));
+		sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source->GetClass()->GetSprite(i), this, scene->GetResources()));
 	}
 
-	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, source->GetClass()->GetPhysBody(), this);
+	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(scene->GetPhysWorld(), source->GetClass()->GetPhysBody(), this);
+
+	scene->AddInstance(this);
+}
+
+TBaluInstance::TBaluInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene)
+	: skeleton(source->GetSkeleton(), this, scene->GetResources()), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
+{
+	this->scene = scene;
+	skeleton_animation.Init();
+	instance_transform = TBaluTransformWithScale(transform, scale);
+	this->instance_class = dynamic_cast<TBaluWorldInstance*>(scene->GetWorld())->GetClassInstance(source);
+
+	for (int i = 0; i < source->GetSpritesCount(); i++)
+	{
+		sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source->GetSprite(i), this, scene->GetResources()));
+	}
+
+	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(scene->GetPhysWorld(), source->GetPhysBody(), this);
+
+	scene->AddInstance(this);
 }
 
 void TBaluInstance::SetTransform(TBaluTransform transform)
@@ -83,7 +102,7 @@ TBaluClassInstanceSpriteInstance* TBaluInstance::GetSprite(int index)
 TBaluClassInstanceSpriteInstance* TBaluInstance::AddSprite(IBaluClassSpriteInstance* _source)
 {
 	TBaluClassSpriteInstance* source = dynamic_cast<TBaluClassSpriteInstance*>(_source);
-	sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source, this, resources));
+	sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source, this, scene->GetResources()));
 	return sprites.back().get();
 }
 

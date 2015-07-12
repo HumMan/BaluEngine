@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Class.h"
+#include "Scene.h"
 #include "SpriteInstance.h"
 #include "SkeletonInstance.h"
 #include "SkeletonAnimationInstance.h"
@@ -95,7 +96,9 @@ private:
 	TBaluClassInstance* instance_class;
 	TBaluTransformWithScale instance_transform;
 
-	b2World* phys_world;
+	//b2World* phys_world;
+
+	TBaluSceneInstance* scene;
 
 	std::vector<std::unique_ptr<TBaluClassInstanceSpriteInstance>> sprites;
 	std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
@@ -104,9 +107,16 @@ private:
 
 	TProperties properties;
 
-	TResources* resources;
 	void* tag;
 public:
+	static const char* FactoryName()
+	{
+		return "ClassInstance";
+	}
+	const char* GetFactoryName()
+	{
+		return FactoryName();
+	}
 	TBaluClassInstance* GetClass();
 	void SetTag(void* tag)
 	{
@@ -116,8 +126,8 @@ public:
 	{
 		return tag;
 	}
-
-	TBaluInstance(TBaluClassInstance* source, b2World* phys_world, TBaluTransform transform, TVec2 scale, TResources* resources);
+	TBaluInstance(TBaluSceneClassInstance* source, TBaluSceneInstance* scene);
+	TBaluInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene);
 	void SetTransform(TBaluTransform transform);
 	TBaluTransform GetTransform();
 	TVec2 GetScale();
@@ -139,6 +149,10 @@ public:
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 
 	void UpdateTranform();
-
-
+	static TSceneObjectInstance* Clone(TSceneObject* source, TBaluSceneInstance* scene)
+	{
+		return new TBaluInstance(dynamic_cast<TBaluSceneClassInstance*>(source), scene);
+	}
 };
+
+REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TBaluInstance)

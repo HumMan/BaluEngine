@@ -71,4 +71,36 @@ namespace EngineInterface
 		auto screen_pixels = screen->ToScreenPixels2(screen_coord);
 		return screen_pixels;
 	}
+
+	std::vector < std::pair<const char*, SceneObjectClone>> scene_object_registry;
+
+	bool SceneObjectFactory::Register(const char* name, SceneObjectClone clone)
+	{
+		scene_object_registry.push_back(std::pair<const char*, SceneObjectClone>(name, clone));
+		return true;
+	}
+
+	TSceneObject* SceneObjectFactory::Create(const char* name)
+	{
+		for (int i = 0; i < scene_object_registry.size(); i++)
+			if (strcmp(scene_object_registry[i].first, name) == 0)
+				return scene_object_registry[i].second();
+		throw std::invalid_argument("Тип не зарегистрирован");
+	}
+
+	std::vector < std::pair<const char*, SceneObjectInstanceClone>> scene_object_instance_registry;
+
+	bool SceneObjectInstanceFactory::Register(const char* name, SceneObjectInstanceClone clone)
+	{
+		scene_object_instance_registry.push_back(std::pair<const char*, SceneObjectInstanceClone>(name, clone));
+		return true;
+	}
+
+	TSceneObjectInstance* SceneObjectInstanceFactory::Create(const char* name, TSceneObject* param, TBaluSceneInstance* scene)
+	{
+		for (int i = 0; i < scene_object_instance_registry.size(); i++)
+			if (strcmp(scene_object_instance_registry[i].first, name) == 0)
+				return scene_object_instance_registry[i].second(param,scene);
+		throw std::invalid_argument("Тип не зарегистрирован");
+	}
 }

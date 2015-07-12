@@ -1,5 +1,8 @@
 #include "classEditor.h"
 
+#include "../../ClassInstance.h"
+#include "../../SceneInstance.h"
+
 TClassEditor::TClassEditor() :tools_registry(&scene)
 {
 	active_tool = nullptr;
@@ -14,9 +17,7 @@ void TClassEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld*
 
 	int sprites_count = edited_class->GetSpritesCount();
 
-
-	editor_scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(edited_class), TBaluTransform(), TVec2(1,1));
-
+	scene.editor_scene_class_instance = new TBaluInstance(dynamic_cast<TBaluClass*>(edited_class), TBaluTransform(), TVec2(1, 1), dynamic_cast<TBaluSceneInstance*>(editor_scene_instance));
 }
 
 bool TClassEditor::CanSetSelectedAsWork()

@@ -44,7 +44,8 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 		new_source_scene_instance->SetTransform(transform);
 
 
-		auto new_class_instance = scene_editor_scene->editor_scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(active_tool_class), transform, TVec2(1, 1));
+		//TODO uncomment
+		//auto new_class_instance = scene_editor_scene->editor_scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(active_tool_class), transform, TVec2(1, 1));
 
 		//TODO uncomment
 		//scene_editor_scene->selected_instance_source = new_source_scene_instance;

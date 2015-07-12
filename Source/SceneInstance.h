@@ -107,7 +107,14 @@ private:
 
 	TContactsHolder contact_listener;
 public:
-
+	TResources* GetResources()
+	{
+		return resources;
+	}
+	b2World* GetPhysWorld()
+	{
+		return phys_world.get();
+	}
 	//bool PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result);
 
 	TBaluScene* GetSource();
@@ -119,8 +126,9 @@ public:
 	//TBaluSceneInstance(TBaluSceneInstance&& right);
 	~TBaluSceneInstance();
 
-	TSceneObjectInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
+	//TSceneObjectInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
 	//EngineInterface::IBaluInstance* CreateInstance(EngineInterface::TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
+	void AddInstance(EngineInterface::TSceneObjectInstance*);
 	void DestroyInstance(EngineInterface::TSceneObjectInstance*);
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);

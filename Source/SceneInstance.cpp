@@ -98,8 +98,11 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	for (int i = 0; i < source->GetInstancesCount(); i++)
 	{
 		auto source_instance = source->GetInstance(i);
-		SceneObjectInstanceFactory::Create(source_instance->GetFactoryName()
-		auto instance = CreateInstance(source_instance->GetClass(), source->GetInstance(i)->GetTransform(), source->GetInstance(i)->GetScale());
+		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, this);
+
+		//instances.push_back(std::unique_ptr<TSceneObjectInstance>(instance));
+
+		//auto instance = CreateInstance(source_instance->GetClass(), source->GetInstance(i)->GetTransform(), source->GetInstance(i)->GetScale());
 
 		//TODO исправить - должно выполняться в конструкторе TBaluInstance
 		//auto inst = dynamic_cast<TBaluInstance*>(instance);
@@ -116,21 +119,26 @@ TBaluSceneInstance::~TBaluSceneInstance()
 	phys_debug.Destroy();
 }
 
-TSceneObjectInstance* TBaluSceneInstance::CreateInstance(TSceneObject* use_scene_object, TBaluTransform transform, TVec2 scale)
-{
-	auto use_class = dynamic_cast<TBaluClass*>(use_scene_object);
-	if (use_class != nullptr)
-	{	
-		auto class_instance = world->GetClassInstance(use_class);
-		instances.push_back(std::make_unique<TBaluInstance>(class_instance, phys_world.get(), transform, scale, resources));
-		return instances.back().get();
-	}
-}
+//TSceneObjectInstance* TBaluSceneInstance::CreateInstance(TSceneObject* use_scene_object, TBaluTransform transform, TVec2 scale)
+//{
+//	auto use_class = dynamic_cast<TBaluClass*>(use_scene_object);
+//	if (use_class != nullptr)
+//	{	
+//		auto class_instance = world->GetClassInstance(use_class);
+//		instances.push_back(std::make_unique<TBaluInstance>(class_instance, phys_world.get(), transform, scale, resources));
+//		return instances.back().get();
+//	}
+//}
 
 //EngineInterface::IBaluInstance* TBaluSceneInstance::CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform, TVec2 scale)
 //{
 //	return dynamic_cast<EngineInterface::IBaluInstance*>(CreateInstance(dynamic_cast<TBaluClass*>(use_class), transform, scale));
 //}
+
+void TBaluSceneInstance::AddInstance(EngineInterface::TSceneObjectInstance* instance)
+{
+	instances.push_back(std::unique_ptr<TSceneObjectInstance>(instance));
+}
 
 void TBaluSceneInstance::DestroyInstance(EngineInterface::TSceneObjectInstance* instance)
 {

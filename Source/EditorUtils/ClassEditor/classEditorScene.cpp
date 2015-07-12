@@ -11,7 +11,8 @@ void TClassEditorScene::Initialize(IBaluWorld* world, IBaluClass* source_class, 
 	//TODO добавление объктов на сцену и удаление с неё
 	boundary_box_contour = new TOBBContour();
 
-	this->editor_scene_class_instance = dynamic_cast<IBaluInstance*>(editor_scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(source_class), TBaluTransform(), TVec2(1, 1)));
+	//TODO uncomment
+	//this->editor_scene_class_instance = dynamic_cast<IBaluInstance*>(editor_scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(source_class), TBaluTransform(), TVec2(1, 1)));
 
 	boundary_box->enable = false;
 }
