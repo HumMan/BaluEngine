@@ -22,8 +22,8 @@ public:
 	IBaluScene* source_scene;
 
 	IBaluSceneInstance* editor_scene_instance;
-	IBaluInstance* selected_instance;
-	IBaluSceneClassInstance* selected_instance_source;
+	TSceneObjectInstance* selected_instance;
+	//IBaluSceneClassInstance* selected_instance_source;
 	
 	TDrawingHelper* drawing_helper;
 
@@ -31,7 +31,7 @@ public:
 	TBoundaryBoxAdornment* boundary_box;
 	TOBBContour* boundary_box_contour;
 
-	IBaluInstance* hightlighted_instance;
+	TSceneObjectInstance* hightlighted_instance;
 
 	//std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
 	//std::vector<TBoundaryBoxAdornment*> selected_boundaries; //TODO

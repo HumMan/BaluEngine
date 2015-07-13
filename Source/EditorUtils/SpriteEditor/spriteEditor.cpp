@@ -8,7 +8,7 @@ TSpriteEditor::TSpriteEditor() :tools_registry(&scene)
 
 void TSpriteEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluSprite* edited_sprite, IBaluSceneInstance* editor_scene_instance)
 {
-	InitializeControls(world);
+	InitializeControls(editor_scene_instance->GetWorld());
 	//auto adornment_class = CreateEditorClasses(this, world);
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
 	scene.Initialize(world, edited_sprite, editor_scene_instance, drawing_helper.get());

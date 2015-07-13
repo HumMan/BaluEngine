@@ -44,6 +44,49 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+	enum class TMouseButton
+	{
+		Left,
+		Right,
+		Middle
+	};
+#endif
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	void TMouseButton_register(TClassRegistryParams& params)
+	{
+		auto scl = RegisterEnum(params,
+			"enum TMouseButton\n"
+			"{\n"
+			"	Left,\n"
+			"	Right,\n"
+			"	Middle,\n"
+			"}\n");
+	}
+	static bool TMouseButton_registered = TScriptClassesRegistry::RegisterEnum("TMouseButton", TMouseButton_register);
+#endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+	class TMouseEventArgs
+	{
+	public:
+		TMouseButton button;
+		TVec2i location;
+		TMouseEventArgs(){}
+		TMouseEventArgs(TMouseButton button, TVec2i location)
+		{
+			this->button = button;
+			this->location = location;
+		}
+	};
+#endif
+
+#ifdef BALU_ENGINE_SCRIPT_CLASSES
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, TMouseEventArgs, "TMouseEventArgs");
+	BALU_ENGINE_SCRIPT_END_CLASS;
+#endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	struct TRot
 	{
 		TRot() {}

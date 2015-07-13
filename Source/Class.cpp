@@ -114,10 +114,10 @@ TBaluClass::~TBaluClass()
 
 }
 
-void TBaluClass::OnMouseMove(TMouseMoveCallback)
-{
-	
-}
+//void TBaluClass::OnMouseMove(TMouseMoveCallback)
+//{
+//	
+//}
 
 TBaluClassPhysBody* TBaluClass::GetPhysBody()
 {

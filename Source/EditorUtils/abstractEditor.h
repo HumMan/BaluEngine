@@ -5,29 +5,31 @@
 #include "Tools.h"
 
 #include "..\EngineInterfaces\IProperties.h"
-#include "..\EngineInterfaces\IWorld.h"
+#include "..\EngineInterfaces\IWorldInstance.h"
 
 #include "..\EditorInterfaces.h"
 
+#include "..\WorldInstance.h"
+
 using namespace EngineInterface;
 
-class TAbstractEditor: public EngineInterface::IAbstractEditor
+class TAbstractEditor: public EngineInterface::IAbstractEditor, public TMouseEventListener
 {
-	friend void OnMouseMove(void* user_data, TMouseEventArgs* e);
-	friend void OnMouseDown(void* user_data, TMouseEventArgs* e);
-	friend void OnMouseUp(void* user_data, TMouseEventArgs* e);
 private:
-	IBaluWorld* world;
+	IBaluWorldInstance* world;
 protected:
 	std::vector<TAbstractEditor*> parent_editors;
 	TAbstractEditor* current_local_editor;
 	IEditorTool* active_tool;
 	TVec2 editor_global_pos;
 
-	void InitializeControls(IBaluWorld* world);
+	void InitializeControls(IBaluWorldInstance* world);
 	void DeinitializeControls();
 
 public:
+	void OnMouseMove(TMouseEventArgs e);
+	void OnMouseDown(TMouseEventArgs e);
+	void OnMouseUp(TMouseEventArgs e);
 
 	TAbstractEditor()
 	{

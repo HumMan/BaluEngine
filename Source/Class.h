@@ -10,7 +10,7 @@
 #include "EngineInterfaces\IClass.h"
 
 //TODO определиться в какой СК передавать координаты курсора мыши
-typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);
+//typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);
 
 class TBaluClassPhysBody: public EngineInterface::IBaluClassPhysBody
 {
@@ -85,7 +85,7 @@ public:
 
 	virtual ~TBaluClass();
 
-	void OnMouseMove(TMouseMoveCallback);
+	//void OnMouseMove(TMouseMoveCallback);
 
 	TBaluClassSpriteInstance* AddSprite(TBaluSprite* sprite);
 	EngineInterface::IBaluClassSpriteInstance* AddSprite(EngineInterface::IBaluSprite* sprite);

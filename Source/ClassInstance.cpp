@@ -144,7 +144,7 @@ void TBaluInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInst
 	skeleton.QueryAABB(frustum, results);
 }
 
-void TBaluInstance::UpdateTranform()
+void TBaluInstance::UpdateTransform()
 {
 	if (phys_body->IsEnable())
 	{

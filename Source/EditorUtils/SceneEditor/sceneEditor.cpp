@@ -10,7 +10,7 @@ TSceneEditor::TSceneEditor() :tools_registry(&scene)
 
 void TSceneEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluSceneInstance* editor_scene_instance)
 {
-	InitializeControls(world);
+	InitializeControls(editor_scene_instance->GetWorld());
 
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
 	scene.Initialize(world, edited_scene, editor_scene_instance, drawing_helper.get());

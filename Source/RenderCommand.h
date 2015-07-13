@@ -148,6 +148,7 @@ namespace EngineInterface
 
 	class IGUIVisual
 	{
+	public:
 		virtual void Render(TDrawingHelper* helper)const = 0;
 	};
 

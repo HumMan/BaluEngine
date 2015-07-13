@@ -26,7 +26,12 @@ private:
 		mouse_move_callbacks;
 	std::vector<TScriptInstance> on_start_world_callback;
 	std::vector<TScriptInstance> viewport_resize_callback;
+	std::vector<TMouseEventListener*> OnMouseEventListeners;
 public:
+	
+	void AddMouseEventListener(TMouseEventListener*);
+	void RemoveMouseEventListener(TMouseEventListener*);
+
 	TBaluClassInstance* GetClassInstance(TBaluClass* source)
 	{
 		for (auto& v : class_instances)

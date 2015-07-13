@@ -115,7 +115,7 @@ public:
 	{
 		return phys_world.get();
 	}
-	//bool PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result);
+	bool PointCollide(TVec2 scene_space_point, EngineInterface::TSceneObjectInstance* &result);
 
 	TBaluScene* GetSource();
 	EngineInterface::IBaluWorldInstance* GetWorld();
@@ -132,9 +132,8 @@ public:
 	void DestroyInstance(EngineInterface::TSceneObjectInstance*);
 
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
-	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual>& gui);
+	void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui);
 
-	
 	void OnPrePhysStep();
 	void PhysStep(float step);
 
@@ -142,6 +141,10 @@ public:
 	void OnStep(float step);
 
 	void OnKeyDown(TKey key);
+
+	void OnMouseUp(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location);
+	void OnMouseDown(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location);
+	void OnMouseMove(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location);
 
 	void UpdateTransform();
 

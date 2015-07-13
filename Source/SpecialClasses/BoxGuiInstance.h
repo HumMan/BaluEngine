@@ -16,10 +16,21 @@ class TOBBContour: public EngineInterface::TSceneObjectInstance, public TBoxGuiD
 {
 public:
 	bool enable;
-
+	TOBB2 GetOBB()
+	{
+		return boundary;
+	}
 	void SetBox(TOBB2 box);
 
 	void SetEnable(bool enable);
 
 	void Render(TDrawingHelper* helper)const;
+
+	TOBBContour(TBaluSceneInstance* scene);
+
+	bool PointCollide(TVec2 scene_space_point)
+	{
+		return false;
+		//return boundary.PointCollide(scene_space_point);
+	}
 };

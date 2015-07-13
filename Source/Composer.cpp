@@ -39,7 +39,7 @@ void TComposer::Render(EngineInterface::TRender* render)
 		auto main_viewport = v.viewport;
 
 		std::vector<TRenderCommand> render_commands;
-		std::vector<IGUIVisual> gui_draw;
+		std::vector<IGUIVisual*> gui_draw;
 		auto viewport_aabb = main_viewport->GetAABB();
 		v.scene_instance->QueryAABB(viewport_aabb, render_commands, gui_draw);
 

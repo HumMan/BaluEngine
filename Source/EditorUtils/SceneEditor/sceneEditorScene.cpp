@@ -1,6 +1,8 @@
 #include "sceneEditorScene.h"
 #include "../../SpecialClasses/OBBGuiInstance.h"
 
+#include "../../SceneInstance.h"
+
 void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper)
 {
 	this->source_scene = source_scene;
@@ -8,10 +10,10 @@ void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene, 
 	this->drawing_helper = drawing_helper;
 
 	//adornment_instance = std::make_unique<TClassInstanceAdornment>(editor_scene_instance, (IVisualAdornment*)&boundary_box, drawing_helper);
-	boundary_box_contour = new TOBBContour();
+	boundary_box_contour = new TOBBContour(dynamic_cast<TBaluSceneInstance*>(editor_scene_instance));
 	//auto t = source_scene->GetInstance(0)->GetTransform();
 
-	boundary_box = new TBoundaryBoxAdornment();
+	boundary_box = new TBoundaryBoxAdornment(dynamic_cast<TBaluSceneInstance*>(editor_scene_instance));
 
 	boundary_box->enable = false;
 

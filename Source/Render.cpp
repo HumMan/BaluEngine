@@ -14,6 +14,8 @@
 
 #include <nanovg.h>
 
+#include "EditorUtils\DrawingHelper.h"
+
 using namespace TBaluRenderEnums;
 
 TRender::TRender(TBaluRender* internal_render)
@@ -27,7 +29,7 @@ TRender::~TRender()
 	nanovg_deinit();
 }
 
-void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual>& gui, EngineInterface::IViewport* viewport)
+void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual*>& gui, EngineInterface::IViewport* viewport)
 {
 	//render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
 	render->Set.ModelView(TMatrix4::GetOrtho(viewport->GetTransform().position, viewport->GetSize(), -1, 1));
@@ -70,6 +72,21 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 	//render->Depth.Test(false);
 
 	begin_frame(render->ScreenSize());
+
+	TDrawingHelperContext drawing_context;
+
+	drawing_context.viewport = viewport;
+	auto screen = TScreen(this->GetInternalRender()->Get.Viewport());
+	drawing_context.screen = &screen;
+	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+	drawing_context.view = &main_viewport_view;
+
+	auto drawing_helper = TDrawingHelper(drawing_context);
+
+	for each (auto& v in gui)
+	{
+		v->Render(&drawing_helper);
+	}
 
 	//nvgBeginPath(vg_context);
 	//nvgRoundedRect(vg_context, 10, 10, 500, 500, 5);

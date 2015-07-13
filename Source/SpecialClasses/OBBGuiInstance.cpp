@@ -2,6 +2,8 @@
 
 #include "..\EditorUtils\DrawingHelper.h"
 
+#include "..\SceneInstance.h"
+
 void TPointAdornment::Render(TDrawingHelper* helper)const
 {
 	helper->RenderPointAdornment(this->pos);
@@ -194,7 +196,7 @@ std::vector<TPointAdornment> InitControlPointsByBoundary(TOBB<float, 2> boundary
 	return control_points;
 }
 
-TBoundaryBoxAdornment::TBoundaryBoxAdornment()
+TBoundaryBoxAdornment::TBoundaryBoxAdornment(TBaluSceneInstance* scene)
 {
 	control_under_cursor = -1;
 	state = TState::None;
@@ -205,6 +207,12 @@ TBoundaryBoxAdornment::TBoundaryBoxAdornment()
 	UpdatePointsPos();
 
 	enable = false;
+
+	scene->AddInstance(this);
+}
+TBoundaryBoxAdornment::TBoundaryBoxAdornment(TBaluSceneInstance* scene, TOBBGui* source)
+{
+
 }
 
 int TBoundaryBoxAdornment::GetNearestControl(TVec2 cursor_pos, float& distance)const
@@ -258,27 +266,6 @@ void TOBBAdornment::SetPosition(TVec2 position)
 TVec2 TOBBAdornment::GetPosition()const
 {
 	return box.pos;
-}
-
-TBoundaryBoxAdornment::TBoundaryBoxAdornment(TOBB<float, 2> boundary)
-{
-	control_under_cursor = -1;
-	state = TState::None;
-	this->boundary = boundary;
-
-	controls = InitControlPointsByBoundary(boundary);
-
-	UpdatePointsPos();
-}
-TBoundaryBoxAdornment::TBoundaryBoxAdornment(TVec2 pos)
-{
-	control_under_cursor = -1;
-	state = TState::None;
-	boundary = TOBB<float, 2>(pos, TMatrix2::GetIdentity(), TAABB<float, 2>(TVec2(0, 0), TVec2(4, 2)));
-
-	controls = InitControlPointsByBoundary(boundary);
-
-	UpdatePointsPos();
 }
 
 void TBoundaryBoxAdornment::SetBoundary(TOBB2 box)

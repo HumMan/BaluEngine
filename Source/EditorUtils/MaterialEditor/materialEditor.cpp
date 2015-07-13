@@ -8,7 +8,7 @@ TMaterialEditor::TMaterialEditor() :tools_registry(&scene)
 
 void TMaterialEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluMaterial* edited_material, IBaluSceneInstance* editor_scene_instance)
 {
-	InitializeControls(world);
+	InitializeControls(editor_scene_instance->GetWorld());
 
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
 	scene.Initialize(world, edited_material, editor_scene_instance, drawing_helper.get());

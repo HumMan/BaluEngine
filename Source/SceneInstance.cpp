@@ -2,23 +2,19 @@
 
 #include "WorldInstance.h"
 
-//bool TBaluSceneInstance::PointCollide(TVec2 scene_space_point, EngineInterface::IBaluInstance* &result)
-//{
-//	for (int i = 0; i < instances.size(); i++)
-//	{
-//		auto class_instance = dynamic_cast<TBaluInstance*>(instances[i].get());
-//		if (class_instance != nullptr)
-//		{
-//			bool collide = class_instance->PointCollide(scene_space_point);
-//			if (collide)
-//			{
-//				result = class_instance;
-//				return true;
-//			}
-//		}
-//	}
-//	return false;
-//}
+bool TBaluSceneInstance::PointCollide(TVec2 scene_space_point, EngineInterface::TSceneObjectInstance* &result)
+{
+	for (int i = 0; i < instances.size(); i++)
+	{
+		bool collide = instances[i]->PointCollide(scene_space_point);
+		if (collide)
+		{
+			result = instances[i].get();
+			return true;
+		}
+	}
+	return false;
+}
 
 TBaluScene* TBaluSceneInstance::GetSource()
 {
@@ -161,7 +157,7 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygo
 	}
 }
 
-void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual>& gui)
+void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui)
 {
 	std::vector<TBaluSpritePolygonInstance*> polygons;
 	QueryAABB(frustum, polygons);
@@ -170,6 +166,13 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& 
 	{
 		results.emplace_back();
 		polygons[i]->Render(results.back());
+	}
+
+	for (auto& v : instances)
+	{
+		auto visual = dynamic_cast<IGUIVisual*>(v.get());
+		if (visual != nullptr)
+			gui.push_back(visual);
 	}
 }
 
@@ -213,13 +216,33 @@ void TBaluSceneInstance::OnKeyDown(TKey key)
 	}
 }
 
+void TBaluSceneInstance::OnMouseUp(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
+{
+	for (int i = 0; i < instances.size(); i++)
+	{
+		instances[i]->OnMouseUp(e, scene_cursor_location);
+	}
+}
+void TBaluSceneInstance::OnMouseDown(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
+{
+	for (int i = 0; i < instances.size(); i++)
+	{
+		instances[i]->OnMouseDown(e, scene_cursor_location);
+	}
+}
+void TBaluSceneInstance::OnMouseMove(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
+{
+	for (int i = 0; i < instances.size(); i++)
+	{
+		instances[i]->OnMouseMove(e, scene_cursor_location);
+	}
+}
+
 void TBaluSceneInstance::UpdateTransform()
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
-		auto class_instance = dynamic_cast<TBaluInstance*>(instances[i].get());
-		if (class_instance !=nullptr)
-			class_instance->UpdateTranform();
+		instances[i]->UpdateTransform();
 	}
 }
 

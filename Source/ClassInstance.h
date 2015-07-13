@@ -148,7 +148,7 @@ public:
 	TAABB2 GetAABB();
 	void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 
-	void UpdateTranform();
+	void UpdateTransform();
 	static TSceneObjectInstance* Clone(TSceneObject* source, TBaluSceneInstance* scene)
 	{
 		return new TBaluInstance(dynamic_cast<TBaluSceneClassInstance*>(source), scene);

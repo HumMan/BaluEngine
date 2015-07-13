@@ -23,9 +23,21 @@ namespace EngineInterface
 {
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+	class TMouseEventListener
+	{
+	public:
+		virtual void OnMouseMove(TMouseEventArgs e){}
+		virtual void OnMouseDown(TMouseEventArgs e){}
+		virtual void OnMouseUp(TMouseEventArgs e){}
+	};
+
 	class IBaluWorldInstance
 	{
 	public:
+
+		virtual void AddMouseEventListener(TMouseEventListener*)=0;
+		virtual void RemoveMouseEventListener(TMouseEventListener*) = 0;
+
 		virtual IBaluWorld* GetSource()=0;
 		virtual IBaluSceneInstance* RunScene(IBaluScene* scene_source)=0;
 		virtual void StopScene(IBaluSceneInstance*)=0;

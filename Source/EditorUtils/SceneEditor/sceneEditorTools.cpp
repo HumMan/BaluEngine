@@ -138,19 +138,18 @@ public:
 		if (!scene_editor_scene->boundary_box->IsCursorCaptured())
 		{
 			auto world_cursor_location = scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
-			IBaluInstance* instance_collision(nullptr);
-			//TODO uncomment
-			//if (scene_editor_scene->editor_scene_instance->PointCollide(world_cursor_location, instance_collision))
-			//{
-			//	scene_editor_scene->boundary_box_contour->SetEnable(true);
-			//	scene_editor_scene->boundary_box_contour->SetBox(instance_collision->GetOBB());
-			//	scene_editor_scene->hightlighted_instance = instance_collision;
-			//}
-			//else
-			//{
-			//	scene_editor_scene->boundary_box_contour->SetEnable(false);
-			//	scene_editor_scene->hightlighted_instance = nullptr;
-			//}
+			TSceneObjectInstance* instance_collision(nullptr);
+			if (scene_editor_scene->editor_scene_instance->PointCollide(world_cursor_location, instance_collision))
+			{
+				scene_editor_scene->boundary_box_contour->SetEnable(true);
+				scene_editor_scene->boundary_box_contour->SetBox(instance_collision->GetOBB());
+				scene_editor_scene->hightlighted_instance = instance_collision;
+			}
+			else
+			{
+				scene_editor_scene->boundary_box_contour->SetEnable(false);
+				scene_editor_scene->hightlighted_instance = nullptr;
+			}
 		}
 
 	}

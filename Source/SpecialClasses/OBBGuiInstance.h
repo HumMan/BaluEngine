@@ -96,13 +96,21 @@ public:
 
 	TBoundaryBoxChangeListener* OnChange;
 
-	TBoundaryBoxAdornment();
-	TBoundaryBoxAdornment(TOBB<float, 2> boundary);
-	TBoundaryBoxAdornment(TVec2 pos);
-
+	TBoundaryBoxAdornment(TBaluSceneInstance* scene);
+	TBoundaryBoxAdornment(TBaluSceneInstance* scene, TOBBGui* source);
+	TOBB2 GetOBB()
+	{
+		return boundary;
+	}
 	void SetBoundary(TOBB2 box);
 	virtual void OnMouseDown(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location);
 	virtual void OnMouseMove(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location);
 	virtual void OnMouseUp(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location);
 	virtual bool IsCursorCaptured();
+
+	bool PointCollide(TVec2 scene_space_point)
+	{
+		return false;
+		//return boundary.PointCollide(scene_space_point);
+	}
 };

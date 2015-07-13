@@ -17,6 +17,22 @@ TBaluWorld* TBaluWorldInstance::GetSource()
 	return source;
 }
 
+void TBaluWorldInstance::AddMouseEventListener(TMouseEventListener* listener)
+{
+	auto it = std::find(OnMouseEventListeners.begin(), OnMouseEventListeners.end(), listener);
+	if (it != OnMouseEventListeners.end())
+		assert(false);
+	OnMouseEventListeners.push_back(listener);
+}
+
+void TBaluWorldInstance::RemoveMouseEventListener(TMouseEventListener* listener)
+{
+	auto it = std::find(OnMouseEventListeners.begin(), OnMouseEventListeners.end(), listener);
+	if (it == OnMouseEventListeners.end())
+		assert(false);
+	OnMouseEventListeners.erase(it);
+}
+
 TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources)
 	:script_engine(resources->GetAssetsDir())
 {
@@ -101,6 +117,8 @@ void TBaluWorldInstance::KeyUp(TKey key)
 
 void TBaluWorldInstance::MouseDown(TMouseEventArgs e)
 {
+	for (auto& v : OnMouseEventListeners)
+		v->OnMouseDown(e);
 	for (auto& v : mouse_down_callbacks)
 	{
 		script_engine.CallMouseEvent(v, &e);
@@ -109,6 +127,8 @@ void TBaluWorldInstance::MouseDown(TMouseEventArgs e)
 
 void TBaluWorldInstance::MouseMove(TMouseEventArgs e)
 {
+	for (auto& v : OnMouseEventListeners)
+		v->OnMouseMove(e);
 	for (auto& v : mouse_move_callbacks)
 	{
 		script_engine.CallMouseEvent(v, &e);
@@ -117,6 +137,8 @@ void TBaluWorldInstance::MouseMove(TMouseEventArgs e)
 
 void TBaluWorldInstance::MouseUp(TMouseEventArgs e)
 {
+	for (auto& v : OnMouseEventListeners)
+		v->OnMouseUp(e);
 	for (auto& v : mouse_up_callbacks)
 	{
 		script_engine.CallMouseEvent(v, &e);
