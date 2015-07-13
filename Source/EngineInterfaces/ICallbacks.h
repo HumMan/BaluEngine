@@ -8,6 +8,7 @@ class NVGcontext;
 
 namespace EngineInterface
 {
+	
 
 	enum class TEventType
 	{

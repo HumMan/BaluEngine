@@ -62,6 +62,7 @@ private:
 public:
 	TBaluWorld();
 	~TBaluWorld();
+	//TODO убрать отсюда, указывать при создании экземпл€ра мира
 	TScriptActiveType& GetCallbacksActiveType()
 	{
 		return callback_active_type;

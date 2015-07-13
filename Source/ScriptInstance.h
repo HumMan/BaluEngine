@@ -4,6 +4,9 @@
 #include <memory>
 #include <vector>
 
+
+#include "Callbacks.h"
+
 #include "EngineInterfaces\ICallbacks.h"
 
 #include "EngineInterfaces\IScriptInstance.h"
@@ -24,7 +27,7 @@ public:
 
 	bool HasErrors();
 	std::vector<std::string> GetErrors();
-	TBaluScriptInstance(std::string assets_dir);
+	TBaluScriptInstance(std::string assets_dir, EngineInterface::TScriptActiveType script_type_to_run);
 	~TBaluScriptInstance();
 	EngineInterface::TScriptInstance CompileMethod(EngineInterface::TScript* script, const char* code);
 	void CallViewportResize(EngineInterface::TScriptInstance &viewport_resize_callback, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size);

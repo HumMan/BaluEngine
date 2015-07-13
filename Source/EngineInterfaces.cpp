@@ -45,9 +45,9 @@ namespace EngineInterface
 		return TBaluWorldInstance::CheckScriptErrors(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TBaluScriptInstance*>(script_instance), errors_list);
 	}
 
-	IBaluScriptInstance* CreateScriptInstance(std::string assets_dir)
+	IBaluScriptInstance* CreateScriptInstance(std::string assets_dir, TScriptActiveType script_type_to_run)
 	{
-		return new TBaluScriptInstance(assets_dir);
+		return new TBaluScriptInstance(assets_dir, script_type_to_run);
 	}
 
 	void DestroyScriptInstance(IBaluScriptInstance* instance)

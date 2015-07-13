@@ -16,11 +16,14 @@ void TOBBAdornment::Render(TDrawingHelper* helper)const
 
 void TBoundaryBoxAdornment::Render(TDrawingHelper* helper)const
 {
-	TOBBAdornment obb;
-	obb.box = boundary;
-	obb.Render(helper);
-	for (auto& v : controls)
-		v.Render(helper);
+	if (enable)
+	{
+		TOBBAdornment obb;
+		obb.box = boundary;
+		obb.Render(helper);
+		for (auto& v : controls)
+			v.Render(helper);
+	}
 }
 
 void TBoundaryBoxAdornment::OnControlMove(int changed_control, TVec2 new_pos)

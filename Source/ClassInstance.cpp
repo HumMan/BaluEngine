@@ -22,6 +22,7 @@ TOBB2 TBaluInstance::GetOBB()
 TBaluInstance::TBaluInstance(TBaluSceneClassInstance* source, TBaluSceneInstance* scene)
 	:skeleton(source->GetClass()->GetSkeleton(), this, scene->GetResources()), skeleton_animation(&skeleton, source->GetClass()->GetSkeletonAnimation())
 {
+	tag = nullptr;
 	this->instance_class = dynamic_cast<TBaluWorldInstance*>(scene->GetWorld())->GetClassInstance(source->GetClass());
 	instance_transform = source->GetTransformWithScale();
 	this->scene = scene;
@@ -40,6 +41,7 @@ TBaluInstance::TBaluInstance(TBaluSceneClassInstance* source, TBaluSceneInstance
 TBaluInstance::TBaluInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene)
 	: skeleton(source->GetSkeleton(), this, scene->GetResources()), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
 {
+	tag = nullptr;
 	this->scene = scene;
 	skeleton_animation.Init();
 	instance_transform = TBaluTransformWithScale(transform, scale);

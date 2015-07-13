@@ -34,7 +34,7 @@ void TBaluWorldInstance::RemoveMouseEventListener(TMouseEventListener* listener)
 }
 
 TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources)
-	:script_engine(resources->GetAssetsDir())
+	:script_engine(resources->GetAssetsDir(), source->GetCallbacksActiveType())
 {
 	this->source = source;
 	this->resources = resources;

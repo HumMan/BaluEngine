@@ -86,7 +86,7 @@ namespace Editor
 	bool TEventsEditor::CompileScripts(array<String^>^% errors_list)
 	{
 		std::vector<std::string> errors;
-		auto script_engine = EngineInterface::CreateScriptInstance(p->assets_dir);
+		auto script_engine = EngineInterface::CreateScriptInstance(p->assets_dir, p->world->GetCallbacksActiveType());
 		bool result = EngineInterface::CompileScripts(p->world, script_engine, errors);
 		EngineInterface::DestroyScriptInstance(script_engine);
 		array<String^>::Resize(errors_list, errors.size());

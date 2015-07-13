@@ -187,7 +187,7 @@ TBaluSpritePolygon::TBaluSpritePolygon()
 {
 
 	enable = true;
-	draw_triangles_grid = true;
+	draw_triangles_grid = false;
 	material = nullptr;
 
 	size = TVec2(1,1);

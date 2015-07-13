@@ -24,7 +24,7 @@ void TSceneEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld*
 
 		//auto instance = editor_scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(source_instance), source_instance->GetTransform(), source_instance->GetScale());
 		//TODO uncomment
-		//instance->SetTag(source_instance);
+		instance->SetTag(source_instance);
 	}
 }
 

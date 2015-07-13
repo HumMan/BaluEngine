@@ -4,6 +4,8 @@
 #include <string>
 #include <assert.h>
 
+#include "EngineInterfaces\ICallbacks.h"
+
 class TSMethod;
 class TBaluScriptInstance;
 class NVGcontext;
@@ -68,6 +70,10 @@ namespace EngineInterface
 		TScript* source;
 		TSMethod* compiled_script;
 	public:
+		TScript* GetSource()
+		{
+			return source;
+		}
 		TScriptInstance()
 		{
 			source = nullptr;

@@ -90,21 +90,21 @@ public:
 		//auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
 		auto new_scale = scene_editor_scene->selected_instance->GetScale().ComponentMul(scale);
 		scene_editor_scene->selected_instance->SetScale(new_scale);
-		((IBaluSceneClassInstance*)(scene_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);
+		((TSceneObject*)(scene_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{
 		auto trans = scene_editor_scene->selected_instance->GetTransform();
 		trans.position = new_pos;
 		scene_editor_scene->selected_instance->SetTransform(trans);
-		((IBaluSceneClassInstance*)(scene_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
+		((TSceneObject*)(scene_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
 	}
 	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto trans = scene_editor_scene->selected_instance->GetTransform();
 		trans.angle = TRot(new_box);
 		scene_editor_scene->selected_instance->SetTransform(trans);
-		((IBaluSceneClassInstance*)(scene_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
+		((TSceneObject*)(scene_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
 	}
 
 	void OnMouseDown(TMouseEventArgs e)
