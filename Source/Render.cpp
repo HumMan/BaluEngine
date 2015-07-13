@@ -87,28 +87,6 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 	{
 		v->Render(&drawing_helper);
 	}
-
-	//nvgBeginPath(vg_context);
-	//nvgRoundedRect(vg_context, 10, 10, 500, 500, 5);
-	//nvgFillColor(vg_context, nvgRGBA(28, 30, 34, 192));
-	////	nvgFillColor(vg, nvgRGBA(0,0,0,128));
-	//nvgFill(vg_context);
-
-	//nvgFontSize(vg_context, 168.0f);
-	//nvgFontFace(vg_context, "sans-bold");
-	//nvgTextAlign(vg_context, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-
-	////nvgFontBlur(vg_context, 2);
-	//nvgFillColor(vg_context, nvgRGBA(220, 220, 220, 160));
-	//nvgText(vg_context, 200, 200, "TEST", NULL);
-
-	//
-	//for (int i = 0; i < custom_draw_commands.size(); i++)
-	{
-		//TODO uncomment
-		//custom_draw_commands[i].command.Execute(vg_context, &custom_draw_commands[i]);
-	}
-
 	end_frame();
 }
 

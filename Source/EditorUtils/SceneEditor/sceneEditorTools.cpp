@@ -5,6 +5,8 @@
 
 #include "../DrawingHelper.h"
 
+#include "../../SceneInstance.h"
+
 class TCreateClassInstanceTool : public IEditorTool
 {
 protected:
@@ -43,17 +45,17 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 		auto new_source_scene_instance = scene_editor_scene->source_scene->CreateInstance(active_tool_class);
 		new_source_scene_instance->SetTransform(transform);
 
+		auto new_class_instance = SceneObjectInstanceFactory::Create(
+			new_source_scene_instance->GetFactoryName(), 
+			new_source_scene_instance, 
+			dynamic_cast<TBaluSceneInstance*>(scene_editor_scene->editor_scene_instance));
 
-		//TODO uncomment
-		//auto new_class_instance = scene_editor_scene->editor_scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(active_tool_class), transform, TVec2(1, 1));
+		scene_editor_scene->selected_instance_source = new_source_scene_instance;
+		scene_editor_scene->selected_instance = new_class_instance;
 
-		//TODO uncomment
-		//scene_editor_scene->selected_instance_source = new_source_scene_instance;
-		//scene_editor_scene->selected_instance = new_class_instance;
+		new_class_instance->SetTag(new_source_scene_instance);
 
-		//new_class_instance->SetTag(new_source_scene_instance);
-
-		//scene_editor_scene->boundary_box->SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
+		scene_editor_scene->boundary_box->SetBoundary(new_class_instance->GetOBB());
 	}
 }
 
@@ -87,7 +89,6 @@ public:
 
 	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box, TVec2 scale)
 	{
-		//auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
 		auto new_scale = scene_editor_scene->selected_instance->GetScale().ComponentMul(scale);
 		scene_editor_scene->selected_instance->SetScale(new_scale);
 		((TSceneObject*)(scene_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);

@@ -23,7 +23,7 @@ public:
 
 	IBaluSceneInstance* editor_scene_instance;
 	TSceneObjectInstance* selected_instance;
-	//IBaluSceneClassInstance* selected_instance_source;
+	TSceneObject* selected_instance_source;
 	
 	TDrawingHelper* drawing_helper;
 

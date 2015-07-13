@@ -95,18 +95,6 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	{
 		auto source_instance = source->GetInstance(i);
 		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, this);
-
-		//instances.push_back(std::unique_ptr<TSceneObjectInstance>(instance));
-
-		//auto instance = CreateInstance(source_instance->GetClass(), source->GetInstance(i)->GetTransform(), source->GetInstance(i)->GetScale());
-
-		//TODO исправить - должно выполняться в конструкторе TBaluInstance
-		//auto inst = dynamic_cast<TBaluInstance*>(instance);
-		//if (inst != nullptr)
-		//{
-		//	inst->SetTransform(source_instance->GetTransform());
-		//	inst->UpdateTranform();
-		//}
 	}
 }
 
