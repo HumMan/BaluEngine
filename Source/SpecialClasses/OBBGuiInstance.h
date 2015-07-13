@@ -89,7 +89,7 @@ private:
 
 
 public:
-	void Render(TDrawingHelper* drawing_helper);
+	virtual void Render(TDrawingHelper* drawing_helper)const ;
 	bool enable;
 
 	//std::vector<TEditorControl*> Render();
