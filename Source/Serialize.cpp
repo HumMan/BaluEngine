@@ -761,17 +761,14 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 
 void TBaluSceneClassInstance::Save(pugi::xml_node& parent_node, const int version)
 {
-	xml_node new_node = parent_node.append_child("Instance");
-	//new_node.append_attribute("name").set_value(name.c_str());
+	xml_node new_node = parent_node.append_child("ClassInstance");
 
-	//TODO uncomment
-	//new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
+	new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
 	SaveTransformWithScale(new_node, "Transform", transform);
 }
 
 void TBaluSceneClassInstance::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
 {
-	//name = instance_node.attribute("name").as_string();
 	balu_class = world->GetClass(instance_node.attribute("class_name").as_string());
 	transform = LoadTransformWithScale(instance_node.child("Transform"));
 }
@@ -800,9 +797,6 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 		for (int i = 0; i < instances.size(); i++)
 		{
 			EngineInterface::PropertyType type;
-			//TODO uncomment
-			//if (instances[i]->GetClass()->GetProperties()->HasProperty("editor_temp_object", type))
-			//	continue;
 			instances[i]->Save(instances_node, version);
 		}
 	}
@@ -826,11 +820,9 @@ void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBalu
 		xml_node instances_node = scene_node.child("instances");
 		for (pugi::xml_node instance_node = instances_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
-			//TODO uncomment
-			//
-			/*TBaluScene::TClassInstance* new_instance = new TBaluScene::TClassInstance();
+			auto new_instance = SceneObjectFactory::Create(instance_node.name());
 			new_instance->Load(instance_node, version, world);
-			instances.push_back(std::unique_ptr<TBaluScene::TClassInstance>(new_instance));*/
+			instances.push_back(std::unique_ptr<TSceneObject>(new_instance));
 		}
 	}
 	{
@@ -934,7 +926,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 			materials[new_material->GetName()].reset(new_material);
 		}
 	}
-	//предварительно создаем классы, т.к. их имена используются в sprite OnCollide
+	//предварительно создаем классы, т.к. их имена используются в OnCollide
 	{
 		xml_node classes_node = world_node.child("Classes");
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
