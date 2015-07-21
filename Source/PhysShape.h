@@ -19,7 +19,7 @@ public:
 		is_sensor = false;
 	}
 	virtual ~TBaluPhysShape(){}
-	virtual b2Shape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform) = 0;
+	virtual b2Shape* GetShape(TBaluTransformWithScale class_transform) = 0;
 	void SetTransform(TBaluTransform local)
 	{
 		this->local.transform = local;
@@ -62,7 +62,7 @@ public:
 	{
 		return new TBaluPolygonShape();
 	}
-	b2PolygonShape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
+	b2PolygonShape* GetShape(TBaluTransformWithScale class_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
@@ -83,7 +83,7 @@ public:
 	}
 	TBaluCircleShape(float radius);
 	TBaluCircleShape(float radius, TVec2 pos);
-	b2CircleShape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
+	b2CircleShape* GetShape(TBaluTransformWithScale class_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
@@ -102,7 +102,7 @@ public:
 		return new TBaluBoxShape();
 	}
 	TBaluBoxShape(float width, float height);
-	b2PolygonShape* GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
+	b2PolygonShape* GetShape(TBaluTransformWithScale class_transform);
 	TBaluPhysShape* GetPhysShape();
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

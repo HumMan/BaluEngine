@@ -19,7 +19,7 @@ protected:
 	TBaluClassSpriteInstance* sprite_instance;
 public:
 	TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent_instance, TBaluClassSpriteInstance* sprite_instance);
-	void BuildFixture(b2Body* body, TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
+	void BuildFixture(b2Body* body, TBaluTransformWithScale class_transform);
 
 	//TODO попытаться сделать TBaluInstance
 	IBaluInstance* GetParent();

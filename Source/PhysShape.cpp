@@ -17,7 +17,7 @@ TBaluPhysShape* PhysShapeFactory::Create(const char* name)
 	throw std::invalid_argument("Тип не зарегистрирован");
 }
 
-b2PolygonShape* GetTransformedShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform, TBaluTransformWithScale local, b2PolygonShape& b2shape)
+b2PolygonShape* GetTransformedShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale local, b2PolygonShape& b2shape)
 {
 	b2PolygonShape* transformed_shape = new b2PolygonShape();
 	*(b2Shape*)transformed_shape = b2shape;
@@ -25,15 +25,15 @@ b2PolygonShape* GetTransformedShape(TBaluTransformWithScale class_transform, TBa
 	for (int i = 0; i < b2shape.m_count; i++)
 	{
 		auto vertex = *(TVec2*)&b2shape.m_vertices[i];
-		vertices[i] = *(b2Vec2*)& class_transform.ToGlobal(sprite_transform.ToGlobal(local.ToGlobal(vertex)));
+		vertices[i] = *(b2Vec2*)& class_transform.ToGlobal(local.ToGlobal(vertex));
 	}
 	transformed_shape->Set(&vertices[0], b2shape.m_count);
 	return transformed_shape;
 }
 
-b2PolygonShape* TBaluPolygonShape::GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform)
+b2PolygonShape* TBaluPolygonShape::GetShape(TBaluTransformWithScale class_transform)
 {
-	return GetTransformedShape(class_transform, sprite_transform, local, b2shape);
+	return GetTransformedShape(class_transform, local, b2shape);
 }
 
 TBaluPhysShape* TBaluPolygonShape::GetPhysShape()
@@ -49,17 +49,16 @@ TBaluCircleShape::TBaluCircleShape(float radius)
 TBaluCircleShape::TBaluCircleShape(float radius, TVec2 pos)
 {
 	b2shape.m_radius = radius;
-	b2shape.m_p = *(b2Vec2*)&pos;
 	local.transform.position = pos;
 }
 
-b2CircleShape* TBaluCircleShape::GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform)
+b2CircleShape* TBaluCircleShape::GetShape(TBaluTransformWithScale class_transform)
 {
 	b2CircleShape* transformed_shape = new b2CircleShape();
 	*(b2Shape*)transformed_shape = b2shape;
 
-	transformed_shape->m_p = *(b2Vec2*)& class_transform.ToGlobal(sprite_transform.ToGlobal(local.ToGlobal(*(TVec2*)&b2shape.m_p)));
-	transformed_shape->m_radius = b2shape.m_radius*fminf(local.scale[0], local.scale[1])*fminf(sprite_transform.scale[0], sprite_transform.scale[1])*fminf(class_transform.scale[0], class_transform.scale[1]);
+	transformed_shape->m_p = *(b2Vec2*)& class_transform.ToGlobal(local.ToGlobal(TVec2(0,0)));
+	transformed_shape->m_radius = b2shape.m_radius*fminf(local.scale[0], local.scale[1])*fminf(class_transform.scale[0], class_transform.scale[1]);
 	return transformed_shape;
 }
 
@@ -75,9 +74,9 @@ TBaluBoxShape::TBaluBoxShape(float width, float height)
 	b2shape.SetAsBox(width / 2, height / 2);
 }
 
-b2PolygonShape* TBaluBoxShape::GetShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform)
+b2PolygonShape* TBaluBoxShape::GetShape(TBaluTransformWithScale class_transform)
 {
-	return GetTransformedShape(class_transform, sprite_transform, local, b2shape);
+	return GetTransformedShape(class_transform, local, b2shape);
 }
 
 TBaluPhysShape* TBaluBoxShape::GetPhysShape()
