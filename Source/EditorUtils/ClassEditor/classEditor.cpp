@@ -15,9 +15,17 @@ void TClassEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld*
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
 	scene.Initialize(world, edited_class, editor_scene_instance, drawing_helper.get());
 
-	int sprites_count = edited_class->GetSpritesCount();
+	//int sprites_count = edited_class->GetSpritesCount();
 
 	scene.editor_scene_class_instance = new TBaluInstance(dynamic_cast<TBaluClass*>(edited_class), TBaluTransform(), TVec2(1, 1), dynamic_cast<TBaluSceneInstance*>(editor_scene_instance));
+
+	for (int i = 0; i < scene.editor_scene_class_instance->GetSpritesCount(); i++)
+	{
+		auto sprite_instance = scene.editor_scene_class_instance->GetSprite(i);
+		auto sprite_source = edited_class->GetSprite(i);
+
+		sprite_instance->SetTag(sprite_source);
+	}
 }
 
 bool TClassEditor::CanSetSelectedAsWork()

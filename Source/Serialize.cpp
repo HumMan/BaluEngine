@@ -238,7 +238,7 @@ void TBaluSpritePolygon::Save(pugi::xml_node& parent_node, const int version)
 
 	SaveCoord(new_node, "size", size);
 
-	SaveTransformWithScale(new_node, "Transform", local);
+	SaveTransformWithScale(new_node, "Transform", transform);
 
 	SaveCoord(new_node, "tex_coord_origin", tex_coord_origin);
 	SaveCoord(new_node, "tex_coord_scale", tex_coord_scale);
@@ -292,7 +292,7 @@ void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBa
 
 	size = LoadCoord(node.child("size"));
 
-	local = LoadTransformWithScale(node.child("Transform"));
+	transform = LoadTransformWithScale(node.child("Transform"));
 
 	tex_coord_origin = LoadCoord(node.child("tex_coord_origin"));
 	tex_coord_scale = LoadCoord(node.child("tex_coord_scale"));

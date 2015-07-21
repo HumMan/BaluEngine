@@ -62,7 +62,7 @@ void TComposer::Render(EngineInterface::TRender* render)
 		drawing_context.view = &main_viewport_view;
 		drawing_context.viewport = main_viewport;
 
-		//(dynamic_cast<TBaluSceneInstance*>(v.scene_instance))->DebugDraw(drawing_context);
+		(dynamic_cast<TBaluSceneInstance*>(v.scene_instance))->DebugDraw(drawing_context);
 		//render->EnableScissor(false);
 	}		
 }

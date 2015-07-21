@@ -15,10 +15,6 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 {
 	enable = source->enable;
 	this->source = source;
-
-	
-
-	//vertices = source->GetTriangulatedVertices();
 	tex_coords = source->GetTexCoords();
 
 	animation_time_from_start = 0;
@@ -28,11 +24,6 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 	active_desc_index = 0;
 	UpdateAnimation();
 }
-
-//void TBaluSpritePolygonInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results)
-//{
-//
-//}
 
 void TBaluSpritePolygonInstance::Render(TRenderCommand& command)
 {
@@ -51,16 +42,6 @@ void TBaluSpritePolygonInstance::Render(TRenderCommand& command)
 			command.vertices_count = 0;
 	}
 }
-
-//void TBaluSpritePolygonInstance::RenderCustom(std::vector<TCustomDrawCommand>& commands)
-//{
-	//for (auto& v : source->custom_draw_callbacks)
-	//{
-	//	commands.emplace_back();
-	//	commands.back().command = v;
-	//	commands.back().poly = dynamic_cast<IBaluSpritePolygonInstance*>(this);
-	//}
-//}
 
 void TBaluSpritePolygonInstance::NextFrame()
 {
@@ -119,6 +100,7 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransformWithScale parent,
 	{
 		//vertices[i] = parent.ToGlobal(class_transform.ToGlobal(sprite_transform.ToGlobal(polygon_transform.ToGlobal(vertices[i]))));
 		vertices[i] = class_transform.ToGlobal(sprite_transform.ToGlobal((parent.ToGlobal(polygon_transform)).ToGlobal(vertices[i])));
+		//vertices[i] = (parent.ToGlobal(polygon_transform)).ToGlobal(vertices[i]);
 	}
 }
 

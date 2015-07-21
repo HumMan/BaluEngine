@@ -66,7 +66,7 @@ EngineInterface::TAnimDesc* TBaluSpritePolygon::GetAnimDesc(int index)
 
 TAABB2 TBaluSpritePolygon::GetAABB(TBaluTransformWithScale sprite_in_class)
 {
-	auto global = sprite_in_class.ToGlobal(local);
+	auto global = sprite_in_class.ToGlobal(transform);
 
 	if (polygon_vertices.size() > 0)
 	{
@@ -81,12 +81,12 @@ TAABB2 TBaluSpritePolygon::GetAABB(TBaluTransformWithScale sprite_in_class)
 
 TOBB2 TBaluSpritePolygon::GetBoundingBox()
 {
-	return local.ToGlobal(GetVerticesBox());
+	return transform.ToGlobal(GetVerticesBox());
 }
 
 bool TBaluSpritePolygon::PointCollide(TVec2 sprite_space_point)
 {
-	TVec2 p = this->local.ToLocal(sprite_space_point);
+	TVec2 p = this->transform.ToLocal(sprite_space_point);
 	for (int i = 0; i < triangulated.size(); i += 3)
 	{
 		bool is_in = PointInTriangle(p, triangulated[i + 0], triangulated[i + 1], triangulated[i + 2]);
@@ -187,7 +187,7 @@ TBaluSpritePolygon::TBaluSpritePolygon()
 {
 
 	enable = true;
-	draw_triangles_grid = false;
+	draw_triangles_grid = true;
 	material = nullptr;
 
 	size = TVec2(1,1);
@@ -197,21 +197,21 @@ TBaluSpritePolygon::TBaluSpritePolygon()
 }
 TBaluTransformWithScale TBaluSpritePolygon::GetTransformWithScale()
 {
-	return local;
+	return transform;
 }
 TBaluTransform TBaluSpritePolygon::GetTransform()
 {
-	return local.transform;
+	return transform.transform;
 }
 
 void TBaluSpritePolygon::SetTransform(TBaluTransform t)
 {
-	local.transform = t;
+	transform.transform = t;
 }
 
 void TBaluSpritePolygon::SetScale(TVec2 scale)
 {
-	local.scale = scale;
+	transform.scale = scale;
 }
 
 void TBaluSpritePolygon::SetPolygonFromTexture(std::string assets_dir)
@@ -300,7 +300,7 @@ void TBaluSpritePolygon::TriangulateGeometry()
 void TBaluSpritePolygon::UpdatePolyVertices()
 {
 	for (int i = 0; i < polygon_vertices.size(); i++)
-		polygon_vertices[i] = local.ToGlobal(polygon_vertices[i]);
+		polygon_vertices[i] = transform.ToGlobal(polygon_vertices[i]);
 }
 
 TBaluMaterial* TBaluSpritePolygon::GetMaterial()

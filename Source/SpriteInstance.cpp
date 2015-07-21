@@ -20,15 +20,15 @@ TBaluClassInstanceSpriteInstance::TBaluClassInstanceSpriteInstance(TBaluClassSpr
 
 TOBB2 TBaluClassInstanceSpriteInstance::GetOBB()
 {
-	//source->GetPolygon()->GetAABB(local);
-	return TOBB2();
+	return this->local.ToGlobal(this->source->GetSprite()->GetPolygon()->GetBoundingBox());
 }
 
 void TBaluClassInstanceSpriteInstance::UpdateTranform(TBaluTransformWithScale parent_transform, TBaluTransformWithScale class_transform)
 {
-	global = parent_transform.ToGlobal(local);
+	auto global = parent_transform.ToGlobal(local);
 
 	polygon.UpdateTransform(global, class_transform, local);
+	//polygon.UpdateTransform(global, TBaluTransformWithScale(), TBaluTransformWithScale());
 }
 
 TBaluClassSpriteInstance* TBaluClassInstanceSpriteInstance::GetSource()

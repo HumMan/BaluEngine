@@ -18,14 +18,6 @@ private:
 	TMaterialInstance material;
 	TBaluSpritePolygon* source;
 	
-	//TBaluTransform local;
-	//TVec2 scale;
-
-	//TBaluTransform global;
-
-	//compiled geometry
-	bool is_dirty;
-	//std::vector<int> indices;
 	std::vector<TVec2> vertices; //in scene coordinates
 	std::vector<TVec2> tex_coords;
 	
@@ -42,10 +34,6 @@ private:
 
 	bool enable;
 public:
-	//TBaluTransform GetGlobalTransform()
-	//{
-	//	return global;
-	//}
 
 	bool IsEnable()
 	{
@@ -62,12 +50,10 @@ public:
 	//void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 
 	void Render(TRenderCommand& command);
-	//void RenderCustom(std::vector<TCustomDrawCommand>& commands);
 
 	void UpdateTransform(TBaluTransformWithScale parent, TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
 	void UpdateAnimation();
 
-	//void SetSpritePolygon(std::string name);
 	TBaluSpritePolygon* GetSpritePolygon();
 
 	void SetActiveAnimation(std::string);

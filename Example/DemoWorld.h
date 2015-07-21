@@ -250,7 +250,7 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 
 	auto player_phys_sprite = world->CreateSprite("player_phys");
 	player_class->AddSprite(player_phys_sprite);
-	player_phys_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -1.5))->GetPhysShape());
+	player_phys_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -3.5))->GetPhysShape());
 	player_phys_sprite->GetPhysShape()->SetIsSensor(true);
 
 #ifdef USE_CALLBACKS

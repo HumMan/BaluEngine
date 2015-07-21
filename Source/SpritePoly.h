@@ -31,7 +31,7 @@ private:
 	std::vector<TVec2> polygon_vertices;//вершины замкнутого контура спрайта
 
 	TVec2 size; //используется при генерации полигона по текстуре
-	TBaluTransformWithScale local; //положение полигона в спрайте
+	TBaluTransformWithScale transform; //положение полигона в спрайте
 
 	std::vector<TVec2> triangulated;
 
@@ -81,7 +81,7 @@ public:
 	TBaluTransformWithScale GetTransformWithScale();
 	TVec2 GetScale()
 	{
-		return local.scale;
+		return transform.scale;
 	}
 	void SetTransform(TBaluTransform);
 	void SetScale(TVec2 scale);

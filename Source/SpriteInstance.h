@@ -14,7 +14,7 @@ class TBaluClassInstanceSpriteInstance : public EngineInterface::IBaluClassInsta
 private:
 	TBaluClassSpriteInstance* source;
 	
-	TBaluTransformWithScale global;
+	//TBaluTransformWithScale global;
 	TBaluTransformWithScale local;
 
 	std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
