@@ -51,7 +51,7 @@ public:
 
 	void Render(TRenderCommand& command);
 
-	void UpdateTransform(TBaluTransformWithScale parent, TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform);
+	void UpdateTransform(TBaluTransformWithScale global);
 	void UpdateAnimation();
 
 	TBaluSpritePolygon* GetSpritePolygon();

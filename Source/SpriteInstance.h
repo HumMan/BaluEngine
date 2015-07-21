@@ -67,5 +67,5 @@ public:
 	void PauseAnimation(bool pause);
 	void StopAnimation();
 
-	void UpdateTranform(TBaluTransformWithScale parent, TBaluTransformWithScale class_transform);
+	void UpdateTranform(TBaluTransformWithScale global);
 };

@@ -87,7 +87,7 @@ void TBaluSpritePolygonInstance::UpdateAnimation()
 	}
 }
 
-void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransformWithScale parent, TBaluTransformWithScale class_transform, TBaluTransformWithScale sprite_transform)
+void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransformWithScale global)
 {
 	if (source->animation_lines.size()>0)
 		UpdateAnimation();
@@ -99,8 +99,10 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransformWithScale parent,
 	for (int i = 0; i < vertices.size(); i++)
 	{
 		//vertices[i] = parent.ToGlobal(class_transform.ToGlobal(sprite_transform.ToGlobal(polygon_transform.ToGlobal(vertices[i]))));
-		vertices[i] = class_transform.ToGlobal(sprite_transform.ToGlobal((parent.ToGlobal(polygon_transform)).ToGlobal(vertices[i])));
+		//vertices[i] = class_transform.ToGlobal(sprite_transform.ToGlobal((parent.ToGlobal(polygon_transform)).ToGlobal(vertices[i])));
 		//vertices[i] = (parent.ToGlobal(polygon_transform)).ToGlobal(vertices[i]);
+
+		vertices[i] = global.ToGlobal(polygon_transform).ToGlobal(vertices[i]);
 	}
 }
 

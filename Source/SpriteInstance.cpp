@@ -23,11 +23,9 @@ TOBB2 TBaluClassInstanceSpriteInstance::GetOBB()
 	return this->local.ToGlobal(this->source->GetSprite()->GetPolygon()->GetBoundingBox());
 }
 
-void TBaluClassInstanceSpriteInstance::UpdateTranform(TBaluTransformWithScale parent_transform, TBaluTransformWithScale class_transform)
+void TBaluClassInstanceSpriteInstance::UpdateTranform(TBaluTransformWithScale global)
 {
-	auto global = parent_transform.ToGlobal(local);
-
-	polygon.UpdateTransform(global, class_transform, local);
+	polygon.UpdateTransform(global.ToGlobal(local));
 	//polygon.UpdateTransform(global, TBaluTransformWithScale(), TBaluTransformWithScale());
 }
 

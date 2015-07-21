@@ -154,7 +154,7 @@ void TBaluInstance::UpdateTransform()
 	}
 	for (int i = 0; i < sprites.size(); i++)
 	{
-		sprites[i]->UpdateTranform(TBaluTransformWithScale(), instance_transform);
+		sprites[i]->UpdateTranform(instance_transform);
 	}
 	skeleton.UpdateTranform(instance_transform);
 }

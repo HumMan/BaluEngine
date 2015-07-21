@@ -354,12 +354,12 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 		auto root_bone = bones_player_skel->CreateBone(nullptr);
 
 		auto right_leg_bone = bones_player_skel->CreateBone(root_bone);
-		right_leg_bone->SetTransform(TBaluTransform(TVec2(-0.5, -0.5), TRot(0)));
+		right_leg_bone->SetTransform(TBaluTransform(TVec2(-0.5, -1.2), TRot(0)));
 		auto right_foot_bone = bones_player_skel->CreateBone(right_leg_bone);
 		right_foot_bone->SetTransform(TBaluTransform(TVec2(0, -1.0), TRot(0)));
 
 		auto left_leg_bone = bones_player_skel->CreateBone(root_bone);
-		left_leg_bone->SetTransform(TBaluTransform(TVec2(0.5, -0.5), TRot(0)));
+		left_leg_bone->SetTransform(TBaluTransform(TVec2(0.5, -1.2), TRot(0)));
 		auto left_foot_bone = bones_player_skel->CreateBone(left_leg_bone);
 		left_foot_bone->SetTransform(TBaluTransform(TVec2(0.0, -1.0), TRot(0)));
 
@@ -371,7 +371,7 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 
 		//create skin
 		auto skin = bones_player_skel->CreateSkin();
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_head, TBaluTransform(TVec2(-0.3, 1.2), TRot(0)));
+		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_head, TBaluTransform(TVec2(-0.3, 2.0), TRot(0)));
 
 		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_torso, TBaluTransform(TVec2(0, 0), TRot(0)));
 
