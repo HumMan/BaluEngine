@@ -31,14 +31,12 @@ public:
 	//IBaluInstance* selected_instance;
 	//IBaluClassSpriteInstance* selected_instance_source;
 
-	std::unique_ptr<TSpritePolygonAdornmentInstance> sprite_polygon_adornment; //отображение контрола редактирования геометрии срайта
-	std::unique_ptr<TSpriteAdornment> sprite_adornment; //отображение редактируемого спрайта
+	TSpritePolygonAdornmentInstance* sprite_polygon_adornment; //отображение контрола редактирования геометрии срайта
+	TSimpleSpriteInstance* sprite_adornment; //отображение редактируемого спрайта
 
 	TBoundaryBoxAdornment* boundary_box;//OBB геометрии спрайта или физики
 
 	TOBBContour* boundary_box_contour;
-
-	IBaluWorld* world;
 
 	void Initialize(IBaluWorld* world, IBaluSprite* source_sprite, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper);
 	void Deinitialize();

@@ -240,6 +240,7 @@ public:
 	}
 	void Activate()
 	{
+		sprite_editor_scene->sprite_polygon_adornment->SetVisual(sprite_editor_scene->source_sprite->GetPolygon());
 		sprite_editor_scene->sprite_polygon_adornment->SetVisible(true);
 	}
 	void Deactivate()

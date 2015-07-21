@@ -139,9 +139,7 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygo
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
-		auto class_instance = dynamic_cast<TBaluInstance*>(instances[i].get());
-		if (class_instance != nullptr)
-			class_instance->QueryAABB(frustum, results);
+		instances[i]->QueryAABB(frustum, results);
 	}
 }
 

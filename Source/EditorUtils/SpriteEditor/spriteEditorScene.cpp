@@ -1,20 +1,24 @@
 #include "spriteEditorScene.h"
 
+#include "../../SpecialClasses/OBBGuiInstance.h"
+#include "../../SpecialClasses/SpriteGuiInstance.h"
+
+#include "../../SceneInstance.h"
+
 void TSpriteEditorScene::Initialize(IBaluWorld* world, IBaluSprite* source_sprite, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper)
 {
 	this->source_sprite = source_sprite;
 	this->editor_scene_instance = editor_scene_instance;
 	this->drawing_helper = drawing_helper;
 
-	//TODO uncomment
-	//sprite_polygon_adornment = std::make_unique<TSpritePolygonAdornment>(editor_scene_instance, source_sprite, drawing_helper);
-	//sprite_adornment = std::make_unique<TSpriteAdornment>(editor_scene_instance, source_sprite, drawing_helper);
-//	obb_adornment = std::make_unique<TSpriteOBBAdornment>(editor_scene_instance, &boundary_box, drawing_helper);
-	//obb_adornment = std::make_unique<TSpriteOBBAdornment>(editor_scene_instance, (IVisualAdornment*)&boundary_box, drawing_helper);
-	//boundary_box_contour = std::make_unique<TOBBContour>(editor_scene_instance, drawing_helper);
-	//auto t = source_scene->GetInstance(0)->GetTransform();
-
+	boundary_box_contour = new TOBBContour(dynamic_cast<TBaluSceneInstance*>(editor_scene_instance));
+	boundary_box = new TBoundaryBoxAdornment(dynamic_cast<TBaluSceneInstance*>(editor_scene_instance));
 	boundary_box->enable = false;
+
+	sprite_adornment=(new TSimpleSpriteInstance(dynamic_cast<TBaluSceneInstance*>(editor_scene_instance), dynamic_cast<TBaluSprite*>(source_sprite)));
+
+	sprite_polygon_adornment = new TSpritePolygonAdornmentInstance(dynamic_cast<TBaluSceneInstance*>(editor_scene_instance));
+	sprite_polygon_adornment->SetVisible(false);
 }
 
 void TSpriteEditorScene::Deinitialize()

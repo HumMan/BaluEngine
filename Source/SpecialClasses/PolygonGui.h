@@ -3,7 +3,7 @@
 #include "..\EngineInterfaces\IMaterial.h"
 #include "..\EngineInterfaces\ISpritePolygon.h"
 
-class TSpritePolygonAdornment : public EngineInterface::TSceneObject
+class TSpritePolygonAdornment //: public EngineInterface::TSceneObject
 {
 	friend class TSpritePolygonAdornmentInstance;
 private:
@@ -20,9 +20,9 @@ private:
 	TOBB2 selection_box;
 	EngineInterface::IBaluSpritePolygon* visual;
 public:
-	TSpritePolygonAdornment(EngineInterface::IBaluSpritePolygon* visual);
-
-	~TSpritePolygonAdornment();
+	TSpritePolygonAdornment();
+	void SetVisual(EngineInterface::IBaluSpritePolygon* visual);
+	~TSpritePolygonAdornment(){}
 
 	void SetVisible(bool visible);
 	void ShowAddPointControl(bool show);

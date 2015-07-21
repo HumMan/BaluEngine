@@ -4,17 +4,17 @@
 #include "..\EngineInterfaces\ISprite.h"
 
 
-class TSpriteAdornmentDef
+class TSimpleSpriteDef
 {
-private:
+protected:
 	bool visible;
 	EngineInterface::IBaluSprite* visual;
 public: 
 	EngineInterface::IBaluSprite* GetSprite();
 };
 
-class TSpriteAdornment : public TSpriteAdornmentDef, public EngineInterface::TSceneObject
+class TSimpleSprite : public TSimpleSpriteDef, public EngineInterface::TSceneObject
 {
 public:
-
+	//TODO abstract methods
 };

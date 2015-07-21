@@ -10,6 +10,7 @@
 #endif
 
 class TBaluSceneInstance;
+class TBaluSpritePolygonInstance;
 
 #endif
 
@@ -21,6 +22,7 @@ namespace EngineInterface
 	class TSceneObjectInstance
 	{
 	public:
+		virtual void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results){}
 		virtual TOBB2 GetOBB() = 0;
 		virtual void SetTag(void* tag){}
 		virtual void* GetTag(){ return nullptr; }

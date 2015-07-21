@@ -11,5 +11,15 @@
 class TSpritePolygonAdornmentInstance : public TSpritePolygonAdornment, public EngineInterface::TSceneObjectInstance, public EngineInterface::IGUIVisual
 {
 public:
-	void Render(TDrawingHelper* drawing_helper);
+	virtual void Render(TDrawingHelper* drawing_helper)const;
+
+	TSpritePolygonAdornmentInstance(TBaluSceneInstance* scene);
+	TOBB2 GetOBB()
+	{
+		return TOBB2();
+	}
+	bool PointCollide(TVec2 scene_space_point)
+	{
+		return false;
+	}
 };
