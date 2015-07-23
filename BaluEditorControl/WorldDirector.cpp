@@ -163,6 +163,18 @@ namespace Editor
 		OnAfterWorldLoad();
 	}
 
+	void TWorldDirector::LoadNewWorld()
+	{
+		OnBeforeWorldLoad();
+		if (p->world != nullptr)
+		{
+			DestroyWorld(p->world);
+			p->world = nullptr;
+		}
+		p->world = CreateWorld();
+		OnAfterWorldLoad();
+	}
+
 	EngineInterface::IBaluWorld* TWorldDirector::GetWorld()
 	{
 		return p->world;

@@ -128,6 +128,7 @@ namespace Editor
 		void SaveWorldTo(String^ path);
 		void LoadWorldFrom(String^ path);
 		void LoadDemoWorld();
+		void LoadNewWorld();
 
 		static void DetectMemLeaks();
 	};

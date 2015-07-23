@@ -123,7 +123,7 @@ namespace BaluEditor
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-
+            director.LoadNewWorld();
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -131,6 +131,11 @@ namespace BaluEditor
             director.Destroy();
             director = null;
             e.Cancel = false;
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            director.LoadNewWorld();
         }
     }
 }
