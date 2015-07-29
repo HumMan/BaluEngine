@@ -62,7 +62,7 @@ namespace BaluEditor
             Open();
         }
 
-        private void SaveAs()
+        private bool SaveAs()
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "BaluWorld files (*.bew)|*.bew";
@@ -73,7 +73,11 @@ namespace BaluEditor
             {
                 director.SaveWorldTo(saveFileDialog1.FileName);
                 active_project = saveFileDialog1.FileName;
+                return true;
+
             }
+            else
+                return false;
         }
 
         private void Open()
@@ -115,14 +119,15 @@ namespace BaluEditor
         {
             if(active_project==null)
             {
-                SaveAs();
+                if (!SaveAs())
+                    return;
             }else
                 director.SaveWorldTo(active_project);
 
             Process myProcess = new Process();
             myProcess.StartInfo.UseShellExecute = false;
             myProcess.StartInfo.FileName = "launcher.exe";
-            myProcess.StartInfo.Arguments = System.IO.Path.GetFullPath(assets_dir) + " " + active_project;
+            myProcess.StartInfo.Arguments = "\"" + System.IO.Path.GetFullPath(assets_dir) + "\" \"" + active_project + "\"";
             myProcess.StartInfo.CreateNoWindow = true;
             myProcess.Start();
         }

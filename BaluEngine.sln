@@ -41,6 +41,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaluEditorControl", "BaluEd
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaluEditor", "BaluEditor\BaluEditor.csproj", "{1ACBF9CD-D8FA-4B4C-9827-F6823A4E3FD6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4253357-A5F9-49D0-878B-3AC684D86C49} = {A4253357-A5F9-49D0-878B-3AC684D86C49}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaluEngineWrapper", "BaluEngineWrapper\BaluEngineWrapper.vcxproj", "{56C5663D-7A3A-451F-B0AC-2AAB07ACC272}"
 	ProjectSection(ProjectDependencies) = postProject

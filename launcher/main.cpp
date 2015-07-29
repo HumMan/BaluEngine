@@ -13,6 +13,7 @@ EngineInterface::IDirector* director;
 
 std::string WideToMultiByte(std::wstring source)
 {
+	setlocale(LC_ALL, "Russian");
 	char buf[1000];
 	size_t num;
 	wcstombs_s(&num, buf, source.c_str(), 1000);
@@ -26,6 +27,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
+	
+	MessageBox(0, L"Launcher started", L"", MB_OK);
 	int num_args;
 	LPWSTR* args;
 	args = CommandLineToArgvW(GetCommandLine(), &num_args);
@@ -46,6 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 void Run(std::string assets_dir, std::string file_to_run)
 {
+	setlocale(LC_ALL, "C");
 	director = IDirector::CreateDirector(assets_dir, "launcher.log");
 
 	director->Initialize(true);

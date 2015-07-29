@@ -467,6 +467,7 @@ void TBaluWorld::RemoveOnViewportResize(int index)
 
 void TBaluWorld::SaveToXML(std::string path)
 {
+	setlocale(LC_ALL, "C");
 	xml_document doc;
 	auto doc_el = doc.append_child("BaluEditorWorldFile");
 	SaveToXML(doc_el, 1);
@@ -475,6 +476,7 @@ void TBaluWorld::SaveToXML(std::string path)
 
 void TBaluWorld::LoadFromXML(std::string path)
 {
+	setlocale(LC_ALL, "C");
 	xml_document doc;
 	doc.load_file(path.c_str());
 	LoadFromXML(doc.child("BaluEditorWorldFile"), 1);
