@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,19 +32,24 @@ namespace BaluEditor
         string assets_dir;
         public MainWindow(string assets_dir)
         {
+            File.Delete("editor.log");
+            File.AppendAllText("editor.log", "Editor init start\n");
             Editor.TWorldDirector.DetectMemLeaks();
-
+            File.AppendAllText("editor.log", "mem leaks on\n");
             this.assets_dir = assets_dir;
             InitializeComponent();
-
+            File.AppendAllText("editor.log", "form initialized\n");
             director = new Editor.TWorldDirector(assets_dir);
-
+            File.AppendAllText("editor.log", "director created\n");
             worldTreeEditor1.EditorInitialize(director);
-
+            File.AppendAllText("editor.log", "world tree editor initialized\n");
             events_editor = new EventsEditor();
-
+            File.AppendAllText("editor.log", "events editor created\n");
             worldObjectEditor1.EditorInitialize(director);
+            File.AppendAllText("editor.log", "object editor initialized\n");
             worldObjectsList1.EditorInitialize(director);
+            File.AppendAllText("editor.log", "world object selection list initialized\n");
+            File.AppendAllText("editor.log", "Editor init end\n");
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -85,7 +91,7 @@ namespace BaluEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // baluEditorControl1.SaveWorldTo(active_project);
+           director.SaveWorldTo(active_project);
         }
 
         private void loadDemoToolStripMenuItem_Click(object sender, EventArgs e)

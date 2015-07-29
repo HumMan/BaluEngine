@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaluEngine", "BaluEngine.vcxproj", "{FF7F8607-DB68-49AD-91C8-DC817C303D85}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -46,8 +46,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaluEngineWrapper", "BaluEn
 	ProjectSection(ProjectDependencies) = postProject
 		{FF7F8607-DB68-49AD-91C8-DC817C303D85} = {FF7F8607-DB68-49AD-91C8-DC817C303D85}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLControl", "OpenGLControl\OpenGLControl.vcxproj", "{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BindingMacroGenerator", "BindingMacroGenerator\BindingMacroGenerator.vcxproj", "{FABEE1FD-DB0B-44CB-8FCF-8DC9A5F66DE2}"
 EndProject
@@ -178,18 +176,6 @@ Global
 		{56C5663D-7A3A-451F-B0AC-2AAB07ACC272}.Release|Win32.ActiveCfg = Release|Win32
 		{56C5663D-7A3A-451F-B0AC-2AAB07ACC272}.Release|Win32.Build.0 = Release|Win32
 		{56C5663D-7A3A-451F-B0AC-2AAB07ACC272}.Release|x64.ActiveCfg = Release|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Debug|Win32.Build.0 = Debug|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Debug|x64.ActiveCfg = Debug|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Release|Any CPU.ActiveCfg = Release|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Release|Win32.ActiveCfg = Release|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Release|Win32.Build.0 = Release|Win32
-		{6E4A716A-CE53-4D0C-A1A1-0A6F1BA885CF}.Release|x64.ActiveCfg = Release|Win32
 		{FABEE1FD-DB0B-44CB-8FCF-8DC9A5F66DE2}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{FABEE1FD-DB0B-44CB-8FCF-8DC9A5F66DE2}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{FABEE1FD-DB0B-44CB-8FCF-8DC9A5F66DE2}.Debug|Mixed Platforms.Build.0 = Debug|Win32

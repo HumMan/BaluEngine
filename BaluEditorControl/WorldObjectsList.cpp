@@ -9,6 +9,9 @@
 
 #include "Converters.h"
 
+#include <iostream>
+#include <fstream>
+
 namespace Editor
 {
 
@@ -36,6 +39,11 @@ namespace Editor
 	}
 	TWorldObjectsList::TWorldObjectsList(TWorldDirector^ world_director)
 	{
+		std::ofstream myfile;
+		myfile.open("objectlist.log", std::ios::out | std::ios::trunc);
+		myfile << "Initializing TWorldTreeEditor\n";
+		myfile.close();
+
 		director = world_director;
 		world_director->RegisterEditor(this);
 		p = new TWorldObjectsListPrivate();

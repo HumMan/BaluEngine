@@ -15,7 +15,10 @@ namespace BaluEditor
         [STAThread]
         static void Main(string[] args)
         {
+            File.Delete("editorcs.log");
+            File.AppendAllText("editorcs.log", "Application start\n");
             string assets_dir = Path.Combine(Directory.GetCurrentDirectory(), "assets");
+            File.AppendAllText("editorcs.log", "Assets dir = " + assets_dir +"\n");
             if(args.Length>0)
             {
                 if(args.Length==2)
@@ -37,7 +40,9 @@ namespace BaluEditor
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                File.AppendAllText("editorcs.log", "Before app run\n");
                 Application.Run(new MainWindow(assets_dir));
+                File.AppendAllText("editorcs.log", "After app run\n");
             }
             else
                 Console.WriteLine("Assets directory not found!");           

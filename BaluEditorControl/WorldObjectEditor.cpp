@@ -9,6 +9,9 @@
 
 #include "Converters.h"
 
+#include <iostream>
+#include <fstream>
+
 namespace Editor
 {
 	TMouseEventArgs Convert(MouseEventArgs^ e)
@@ -84,6 +87,11 @@ namespace Editor
 
 	TWorldObjectEditor::TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ world_director)
 	{
+		std::ofstream myfile;
+		myfile.open("objecteditor.log", std::ios::out | std::ios::trunc);
+		myfile << "Initializing TWorldObjectEditor\n";
+		myfile.close();
+
 		this->director = world_director;
 		world_director->RegisterEditor(this);
 

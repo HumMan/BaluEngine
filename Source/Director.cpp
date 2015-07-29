@@ -10,6 +10,9 @@
 
 #include <baluRender.h>
 
+#include <iostream>
+#include <fstream>
+
 class TGameInternal
 {
 public:
@@ -183,6 +186,11 @@ TResources* TDirector::GetResources()
 
 void TDirector::Initialize(void* handle)
 {
+	std::ofstream myfile;
+	myfile.open(p->log_file_path+".director", std::ios::out| std::ios::trunc);
+	myfile << "Initializing director\n";
+	myfile.close();
+
 	p->base_path = SDL_GetBasePath();
 	p->physics_sym = true;
 	p->internal_render.reset(new TBaluRender((int)handle, TVec2i(512, 512), p->log_file_path));
