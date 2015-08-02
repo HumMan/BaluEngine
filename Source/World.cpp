@@ -471,14 +471,14 @@ void TBaluWorld::SaveToXML(std::string path)
 	xml_document doc;
 	auto doc_el = doc.append_child("BaluEditorWorldFile");
 	SaveToXML(doc_el, 1);
-	doc.save_file(path.c_str());
+	doc.save_file(pugi::as_wide(path.c_str()).c_str());
 }
 
 void TBaluWorld::LoadFromXML(std::string path)
 {
 	setlocale(LC_ALL, "C");
 	xml_document doc;
-	doc.load_file(path.c_str());
+	doc.load_file(pugi::as_wide(path.c_str()).c_str());
 	LoadFromXML(doc.child("BaluEditorWorldFile"), 1);
 }
 

@@ -10,16 +10,6 @@ EngineInterface::IDirector* director;
 
 #include <Windows.h>
 
-
-std::string WideToMultiByte(std::wstring source)
-{
-	setlocale(LC_ALL, "Russian");
-	char buf[1000];
-	size_t num;
-	wcstombs_s(&num, buf, source.c_str(), 1000);
-	return std::string(buf);
-}
-
 void Run(std::string assets_dir, std::string file_to_run);
 
 int WINAPI WinMain(HINSTANCE hInstance,
@@ -35,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	if (num_args == 3)
 	{
-		Run(WideToMultiByte(args[1]), WideToMultiByte(args[2]));
+		Run(EngineInterface::as_utf8(args[1]), EngineInterface::as_utf8(args[2]));
 	}
 	else
 	{

@@ -87,4 +87,13 @@ namespace EngineInterface
 	{
 		LOG(INFO) << message;
 	}
+
+	std::wstring as_wide(std::string utf_8_string)
+	{
+		return pugi::as_wide(utf_8_string);
+	}
+	std::string as_utf8(std::wstring wide_string)
+	{
+		return pugi::as_utf8(wide_string);
+	}
 }

@@ -96,5 +96,8 @@ namespace EngineInterface
 
 	BALUENGINEDLL_API void ConfigureLogging();
 	BALUENGINEDLL_API void WriteInfoToLog(char* message);
+
+	BALUENGINEDLL_API std::wstring as_wide(std::string utf_8_string);
+	BALUENGINEDLL_API std::string as_utf8(std::wstring wide_string);
 }
 

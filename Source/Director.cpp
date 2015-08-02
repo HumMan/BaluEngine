@@ -10,9 +10,6 @@
 
 #include <baluRender.h>
 
-#include <iostream>
-#include <fstream>
-
 #include <easylogging++.h>
 INITIALIZE_EASYLOGGINGPP
 
