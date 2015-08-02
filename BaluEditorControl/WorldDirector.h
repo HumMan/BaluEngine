@@ -131,6 +131,7 @@ namespace Editor
 		void LoadNewWorld();
 
 		static void DetectMemLeaks();
+		static void ConfigureLogging();
 	};
 
 

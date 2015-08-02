@@ -6,6 +6,10 @@
 #include "EditorUtils\SpriteEditor\spriteEditor.h"
 #include "EditorUtils\MaterialEditor\materialEditor.h"
 
+#include <easylogging++.h>
+
+#include <ctime>
+
 namespace EngineInterface
 {
 	EngineInterface::IAbstractEditor* CreateSceneEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* edited_scene, EngineInterface::IBaluSceneInstance* editor_scene_instance)
@@ -62,5 +66,25 @@ namespace EngineInterface
 		auto ed = dynamic_cast<TMaterialEditor*>(editor);
 		ed->Deinitialize();
 		delete ed;
+	}
+	void ConfigureLogging()
+	{
+		time_t now = time(0);
+
+		struct tm timeinfo;
+		localtime_s(&timeinfo, &now);
+
+		char dt[200];
+		ctime_s(dt, 200, &now);
+		
+		std::string s = std::string("logs/") + dt + ".log";
+		std::replace(s.begin(), s.end(), ':', '-');
+		std::replace(s.begin(), s.end(), '\n', ' ');
+
+		el::Loggers::reconfigureAllLoggers(el::ConfigurationType::Filename, s);
+	}
+	void WriteInfoToLog(char* message)
+	{
+		LOG(INFO) << message;
 	}
 }

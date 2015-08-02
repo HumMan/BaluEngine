@@ -20,9 +20,9 @@ namespace EngineInterface
 
 
 
-	EngineInterface::IDirector* IDirector::CreateDirector(std::string assets_dir, std::string log_file_path)
+	EngineInterface::IDirector* IDirector::CreateDirector(std::string assets_dir)
 	{
-		return new TDirector(assets_dir, log_file_path);
+		return new TDirector(assets_dir);
 	}
 
 	void IDirector::DestroyDirector(EngineInterface::IDirector* director)

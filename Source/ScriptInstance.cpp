@@ -7,6 +7,9 @@
 
 #include "ScriptClassesRegistry.h"
 
+#include <iostream>
+#include <fstream>
+
 using namespace EngineInterface;
 
 class TBaluScriptInstancePrivate
@@ -33,17 +36,24 @@ TBaluScriptInstance::TBaluScriptInstance(std::string assets_dir, TScriptActiveTy
 	p->script_type_to_run = script_type_to_run;
 	p->time.Start();
 
-	char* script_base_source;
+	std::string script_base_source;
 	{
-		TFileData file((assets_dir+"//"+"scripts/base_types.bscript").c_str(), "rb");
+		std::ifstream file;
+		file.open((assets_dir + "//" + "scripts/base_types.bscript").c_str());
 
-		script_base_source = file.ReadAll();
-		script_base_source[file.GetSize()] = '\0';
+		std::string str;
+
+		file.seekg(0, std::ios::end);
+		str.reserve(file.tellg());
+		file.seekg(0, std::ios::beg);
+
+		str.assign((std::istreambuf_iterator<char>(file)),
+			std::istreambuf_iterator<char>());
+
+		script_base_source = str;
 	}
 	p->syntax.reset(new TSyntaxAnalyzer());
-	p->syntax->Compile((char*)(("class Script{" + std::string(script_base_source) + "}").c_str()), p->time);
-
-	delete script_base_source;
+	p->syntax->Compile((char*)(("class Script{" + script_base_source + "}").c_str()), p->time);
 
 	TClassRegistryParams params;
 	params.smethods = &p->smethods;

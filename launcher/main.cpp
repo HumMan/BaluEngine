@@ -50,7 +50,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 void Run(std::string assets_dir, std::string file_to_run)
 {
 	setlocale(LC_ALL, "C");
-	director = IDirector::CreateDirector(assets_dir, "launcher.log");
+	director = IDirector::CreateDirector(assets_dir);
 
 	director->Initialize(true);
 

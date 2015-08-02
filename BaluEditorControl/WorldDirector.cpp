@@ -38,8 +38,6 @@ namespace Editor
 
 	TWorldDirector::TWorldDirector(String^ assets_dir)
 	{
-		
-
 		p = new TWorldDirectorPrivate();
 
 		p->assets_dir = Converters::FromClrString(assets_dir);
@@ -183,5 +181,10 @@ namespace Editor
 	void TWorldDirector::DetectMemLeaks()
 	{
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	}
+
+	void TWorldDirector::ConfigureLogging()
+	{
+		EngineInterface::ConfigureLogging();
 	}
 }

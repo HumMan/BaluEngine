@@ -13,6 +13,9 @@
 #include <iostream>
 #include <fstream>
 
+#include <easylogging++.h>
+INITIALIZE_EASYLOGGINGPP
+
 class TGameInternal
 {
 public:
@@ -32,7 +35,6 @@ public:
 	TBaluWorldInstance* world_instance;
 
 	std::string assets_dir;
-	std::string log_file_path;
 
 	bool physics_sym;
 };
@@ -141,7 +143,7 @@ int TDirector::Initialize(bool create_window)
 		//SDL_GL_SetSwapInterval(1);
 	}
 
-	p->internal_render.reset(new TBaluRender(TVec2i(512, 512), p->log_file_path));
+	p->internal_render.reset(new TBaluRender(TVec2i(512, 512)));
 
 	p->render.reset(new TRender(p->internal_render.get()));
 
@@ -186,19 +188,17 @@ TResources* TDirector::GetResources()
 
 void TDirector::Initialize(void* handle)
 {
-	std::ofstream myfile;
-	myfile.open(p->log_file_path+".director", std::ios::out| std::ios::trunc);
-	myfile << "Initializing director\n";
-	myfile.close();
+	LOG(INFO) << "Initializing director\n";
 
 	p->base_path = SDL_GetBasePath();
 	p->physics_sym = true;
-	p->internal_render.reset(new TBaluRender((int)handle, TVec2i(512, 512), p->log_file_path));
+	p->internal_render.reset(new TBaluRender((int)handle, TVec2i(512, 512)));
 
 	p->render.reset(new TRender(p->internal_render.get()));
 
 	p->resources.reset(new TResources(p->internal_render.get(), p->assets_dir));
 
+	LOG(INFO) << "Initializing director success\n";
 }
 void TDirector::BeginFrame()
 {
@@ -293,11 +293,10 @@ void TDirector::MainLoop()
 	SDL_Quit();
 }
 
-TDirector::TDirector(std::string assets_dir, std::string log_file_path)
+TDirector::TDirector(std::string assets_dir)
 {
 	p = std::make_unique<TGameInternal>();
 	p->assets_dir = assets_dir;
-	p->log_file_path = log_file_path;
 }
 
 TDirector::~TDirector()

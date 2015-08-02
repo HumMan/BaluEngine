@@ -46,7 +46,7 @@ namespace EngineInterface
 		virtual void EndFrame()=0;
 		//
 
-		BALUENGINEDLL_API static EngineInterface::IDirector* CreateDirector(std::string assets_dir, std::string log_file_path);
+		BALUENGINEDLL_API static EngineInterface::IDirector* CreateDirector(std::string assets_dir);
 		BALUENGINEDLL_API static void DestroyDirector(EngineInterface::IDirector* director);
 	};
 #endif

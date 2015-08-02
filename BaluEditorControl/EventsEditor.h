@@ -53,7 +53,7 @@ namespace Editor
 		String^ GetEventTypeName(int event_type);
 		int EventTypeFromName(String^ name);
 
-		void CreateEvent(int event_type);
+		//void CreateEvent(int event_type);
 		void DestroyEvent(int event_type, int event_id);
 		void MoveEvent(int event_type, int from_id, int to_id, bool before);
 	};

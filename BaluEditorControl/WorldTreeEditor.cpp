@@ -7,9 +7,6 @@
 
 #include "Converters.h"
 
-#include <iostream>
-#include <fstream>
-
 namespace Editor
 {
 	class TWorldTreeEditorPrivate
@@ -32,10 +29,7 @@ namespace Editor
 
 	TWorldTreeEditor::TWorldTreeEditor(TWorldDirector^ director)
 	{
-		std::ofstream myfile;
-		myfile.open("treeeditor.log", std::ios::out | std::ios::trunc);
-		myfile << "Initializing TWorldTreeEditor\n";
-		myfile.close();
+		WriteInfoToLog("Initializing TWorldTreeEditor");
 
 		this->director = director;
 		director->RegisterEditor(this);
@@ -43,6 +37,8 @@ namespace Editor
 		p = new TWorldTreeEditorPrivate();
 
 		p->world = director->GetWorld();
+
+		WriteInfoToLog("Initializing TWorldTreeEditor success");
 	}
 
 	void TWorldTreeEditor::Destroy()

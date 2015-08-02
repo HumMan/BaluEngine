@@ -223,10 +223,10 @@ namespace Editor
 		return (int)TEventTypeString::From(s.c_str());
 	}
 
-	void TEventsEditor::CreateEvent(int event_type)
-	{
+	//void TEventsEditor::CreateEvent(int event_type)
+	//{
 
-	}
+	//}
 	void TEventsEditor::DestroyEvent(int event_type, int event_id)
 	{
 

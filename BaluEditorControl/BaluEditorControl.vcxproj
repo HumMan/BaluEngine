@@ -53,14 +53,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\BaluLib\Include;$(ProjectDir)\..\Include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\BaluLib\Include;$(ProjectDir)\..\Include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)\..\..\BaluScript\source\memleaks.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PreprocessorDefinitions>ELPP_AS_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\Library\$(Configuration);$(ProjectDir)\..\Output\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>BaluEngine.lib;BaluLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>BaluEngine.dll</DelayLoadDLLs>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,7 +72,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\BaluLib\Include;$(ProjectDir)\..\Include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\BaluLib\Include;$(ProjectDir)\..\Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -78,7 +80,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\Library\$(Configuration);$(ProjectDir)\..\Output\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>BaluEngine.lib;BaluLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>BaluEngine.dll</DelayLoadDLLs>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

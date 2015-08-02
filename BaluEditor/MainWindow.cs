@@ -30,26 +30,27 @@ namespace BaluEditor
             }
         }
         string assets_dir;
-        public MainWindow(string assets_dir)
+        public MainWindow(string assets_dir, string log_file)
         {
-            File.Delete("editor.log");
-            File.AppendAllText("editor.log", "Editor init start\n");
+            Editor.TWorldDirector.ConfigureLogging();
+
+            File.AppendAllText(log_file, "Editor init begin\n");
             Editor.TWorldDirector.DetectMemLeaks();
-            File.AppendAllText("editor.log", "mem leaks on\n");
+            File.AppendAllText(log_file, "mem leaks on\n");
             this.assets_dir = assets_dir;
             InitializeComponent();
-            File.AppendAllText("editor.log", "form initialized\n");
+            File.AppendAllText(log_file, "form initialized\n");
             director = new Editor.TWorldDirector(assets_dir);
-            File.AppendAllText("editor.log", "director created\n");
+            File.AppendAllText(log_file, "director created\n");
             worldTreeEditor1.EditorInitialize(director);
-            File.AppendAllText("editor.log", "world tree editor initialized\n");
+            File.AppendAllText(log_file, "world tree editor initialized\n");
             events_editor = new EventsEditor();
-            File.AppendAllText("editor.log", "events editor created\n");
+            File.AppendAllText(log_file, "events editor created\n");
             worldObjectEditor1.EditorInitialize(director);
-            File.AppendAllText("editor.log", "object editor initialized\n");
+            File.AppendAllText(log_file, "object editor initialized\n");
             worldObjectsList1.EditorInitialize(director);
-            File.AppendAllText("editor.log", "world object selection list initialized\n");
-            File.AppendAllText("editor.log", "Editor init end\n");
+            File.AppendAllText(log_file, "world object selection list initialized\n");
+            File.AppendAllText(log_file, "Editor init end\n");
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)

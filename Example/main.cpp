@@ -36,7 +36,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	int num_args;
 	LPWSTR* args;
 	args = CommandLineToArgvW(GetCommandLine(), &num_args);
-
 	if (num_args == 2)
 	{
 		Run(WideToMultiByte(args[1]));
@@ -49,7 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 void Run(std::string assets_dir)
 {
-	director = IDirector::CreateDirector(assets_dir, "example.log");
+	director = IDirector::CreateDirector(assets_dir);
 
 	//auto base_path = director->GetBasePath();
 

@@ -9,9 +9,6 @@
 
 #include "Converters.h"
 
-#include <iostream>
-#include <fstream>
-
 namespace Editor
 {
 	TMouseEventArgs Convert(MouseEventArgs^ e)
@@ -87,17 +84,14 @@ namespace Editor
 
 	TWorldObjectEditor::TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ world_director)
 	{
-		std::ofstream myfile;
-		myfile.open("objecteditor.log", std::ios::out | std::ios::trunc);
-		myfile << "Initializing TWorldObjectEditor\n";
-		myfile.close();
+		WriteInfoToLog("Initializing TWorldObjectEditor");
 
 		this->director = world_director;
 		world_director->RegisterEditor(this);
 
 		auto assets_dir = Converters::FromClrString(world_director->GetAssetsDir());
 		p = new TWorldObjectEditorPrivate();
-		p->director = IDirector::CreateDirector(assets_dir, "object_editor.log");
+		p->director = IDirector::CreateDirector(assets_dir);
 		p->director->Initialize((void*)handle.ToPointer());
 		p->director->SetViewport(TVec2i(width, height));
 
@@ -106,6 +100,8 @@ namespace Editor
 		p->screen = new TScreen(TVec2i(width, height));
 		p->director->SetSymulatePhysics(false);
 		p->main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+
+		WriteInfoToLog("Initializing TWorldObjectEditor success");
 	}
 
 	void TWorldObjectEditor::Destroy()
