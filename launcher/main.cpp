@@ -39,6 +39,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 void Run(std::string assets_dir, std::string file_to_run)
 {
+	EngineInterface::ConfigureLogging();
+
 	setlocale(LC_ALL, "C");
 	director = IDirector::CreateDirector(assets_dir);
 
