@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 #include "WorldDirector.h"
 
@@ -32,8 +33,8 @@ namespace Editor
 	internal:
 		void OnBeforeWorldLoad()override;
 		void OnAfterWorldLoad()override;
-		void OnEditedObjectChange(TEditor^ sender, int type, int index)override;
-		void OnObjectListSelectionChange(TEditor^ sender, int type, int index)override;
+		void OnEditedObjectChange(TEditor^ sender, int type, std::string name)override;
+		void OnObjectListSelectionChange(TEditor^ sender, int type, std::string name)override;
 	private:
 
 		TWorldObjectEditorPrivate* p;

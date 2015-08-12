@@ -23,6 +23,54 @@ namespace pugi
 	class xml_node;
 }
 
+class TBaluWorldChangeListenerArray
+{
+	std::vector<TBaluWorldChangeListener*> listeners;
+public:
+	void OnObjectCreate(TWorldObjectType type, std::string name)
+	{
+		for (auto v : listeners)
+			v->OnObjectCreate(type, name);
+	}
+	void OnObjectDestroy(TWorldObjectType type, std::string name)
+	{
+		for (auto v : listeners)
+			v->OnObjectDestroy(type, name);
+	}
+	void OnObjectChange(TWorldObjectType type, std::string name)
+	{
+		for (auto v : listeners)
+			v->OnObjectChange(type, name);
+	}
+	void OnSubObjectCreate(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index)
+	{
+		for (auto v : listeners)
+			v->OnSubObjectCreate(obj_type, name, sub_obj_type, sub_obj_index);
+	}
+	void OnSubObjectDestroy(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index)
+	{
+		for (auto v : listeners)
+			v->OnSubObjectDestroy(obj_type, name, sub_obj_type, sub_obj_index);
+	}
+	void OnSubObjectChange(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index)
+	{
+		for (auto v : listeners)
+			v->OnSubObjectChange(obj_type, name, sub_obj_type, sub_obj_index);
+	}
+	void AddChangesListener(TBaluWorldChangeListener* listener)
+	{
+		auto it = std::find(listeners.begin(), listeners.end(), listener);
+		assert(it == listeners.end());
+		listeners.push_back(listener);
+	}
+	void RemoveChangesListener(TBaluWorldChangeListener* listener)
+	{
+		auto it = std::find(listeners.begin(), listeners.end(), listener);
+		assert(it != listeners.end());
+		listeners.erase(it);
+	}
+};
+
 class TBaluWorld : public EngineInterface::IBaluWorld
 {
 private:
@@ -59,7 +107,18 @@ private:
 	std::vector<TScript> on_start_world_callback;
 	std::vector<TScript> viewport_resize_callback;
 
+	TBaluWorldChangeListenerArray listeners;
 public:
+
+	virtual void AddChangesListener(TBaluWorldChangeListener* listener)
+	{
+		listeners.AddChangesListener(listener);
+	}
+	virtual void RemoveChangesListener(TBaluWorldChangeListener* listener)
+	{
+		listeners.RemoveChangesListener(listener);
+	}
+
 	TBaluWorld();
 	~TBaluWorld();
 	//TODO убрать отсюда, указывать при создании экземпл€ра мира
@@ -78,7 +137,8 @@ public:
 	TBaluClass* CreateClass(const char* class_name);
 	TBaluScene* CreateScene(const char* scene_name);
 
-	void DestroySprite(const char* class_name);
+	void DestroyMaterial(const char* material_name);
+	void DestroySprite(const char* sprite_name);
 	void DestroyClass(const char* class_name);
 	void DestroyScene(const char* scene_name);	
 

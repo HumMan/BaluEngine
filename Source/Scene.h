@@ -104,6 +104,10 @@ private:
 	TProperties properties;
 	TBaluWorld* world;
 public:
+	TLayersManager& GetLayers()
+	{
+		return layers;
+	}
 	TBaluScene(){}
 	TBaluScene(const char* name, TBaluWorld* world)
 	{

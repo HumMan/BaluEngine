@@ -10,6 +10,8 @@
 
 #include "EngineInterfaces\ISpritePolygonInstance.h"
 
+#include "Layers.h"
+
 using namespace EngineInterface;
 
 class TBaluSpritePolygonInstance: public EngineInterface::IBaluSpritePolygonInstance
@@ -33,6 +35,7 @@ private:
 	void UpdateGeometry();
 
 	bool enable;
+	int layer;
 public:
 
 	bool IsEnable()
@@ -49,7 +52,7 @@ public:
 
 	//void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 
-	void Render(TRenderCommand& command);
+	void Render(std::vector<TRenderCommand>& commands, TLayersManager& layers);
 
 	void UpdateTransform(TBaluTransformWithScale global);
 	void UpdateAnimation();

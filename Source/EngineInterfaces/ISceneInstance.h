@@ -3,7 +3,6 @@
 #pragma once
 #endif
 
-
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
@@ -11,6 +10,7 @@
 #include "IScene.h"
 #include "IClassInstance.h"
 #include "IMaterialInstance.h"
+
 #endif
 
 namespace EngineInterface

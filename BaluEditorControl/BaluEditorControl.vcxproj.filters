@@ -18,9 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaluEditorControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h">
       <Filter>Source Files\PropertiesRegistry</Filter>
     </ClInclude>
@@ -46,6 +43,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WorldObjectsList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LayersManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -75,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorldObjectsList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LayersManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

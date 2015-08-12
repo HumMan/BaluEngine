@@ -13,6 +13,7 @@ TBaluSpritePolygon* TBaluSpritePolygonInstance::GetSpritePolygon()
 TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResources* resources)
 	:material(source->GetMaterial(), resources)
 {
+	this->layer = source->layer;
 	enable = source->enable;
 	this->source = source;
 	tex_coords = source->GetTexCoords();
@@ -25,21 +26,21 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 	UpdateAnimation();
 }
 
-void TBaluSpritePolygonInstance::Render(TRenderCommand& command)
+void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, TLayersManager& layers)
 {
-	if (enable)
+	if (enable && vertices.size() > 0)
 	{
-		//TODO убрать резервирование места если здесь ничего не добавляется
-		if (vertices.size() > 0)
-		{
-			command.draw_triangles_grid = source->draw_triangles_grid;
-			command.material_id = &material;
-			command.vertices = &vertices[0];
-			command.vertices_count = vertices.size();
-			assert(tex_coords.size() != 0);
-			command.tex_coords = &tex_coords[0];
-		}else
-			command.vertices_count = 0;
+		commands.emplace_back();
+
+		auto& command = commands.back();
+
+		command.draw_triangles_grid = source->draw_triangles_grid;
+		command.material_id = &material;
+		command.vertices = &vertices[0];
+		command.vertices_count = vertices.size();
+		assert(tex_coords.size() != 0);
+		command.tex_coords = &tex_coords[0];
+		command.layer = layer;
 	}
 }
 

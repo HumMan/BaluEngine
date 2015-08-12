@@ -33,20 +33,17 @@ namespace EngineInterface
 		TVec2* vertices;
 		TVec2* tex_coords;
 		TVec4* colors;
-		//int indices_count;
-		//int* indices;
+		int layer;
 
 		TRenderCommand(){}
 
-		TRenderCommand(TMaterialInstance* material_id, int vertices_count, TVec2* vertices, TVec2* tex_coords, TVec4* colors)//, int indices_count, int* indices)
+		TRenderCommand(TMaterialInstance* material_id, int vertices_count, TVec2* vertices, TVec2* tex_coords, TVec4* colors)
 		{
 			this->material_id = material_id;
 			this->vertices_count = vertices_count;
 			this->vertices = vertices;
 			this->tex_coords = tex_coords;
 			this->colors = colors;
-			//this->indices_count = indices_count;
-			//this->indices = indices;
 		}
 	};
 #endif
@@ -152,13 +149,5 @@ namespace EngineInterface
 		virtual void Render(TDrawingHelper* helper)const = 0;
 	};
 
-	//class TGUIDrawCommand
-	//{
-	//public:
-	//	TScreen* screen;
-	//	TAABB2* viewport;
-	//	TView* view;
-	//	IGUIVisual* visual;
-	//};
 #endif
 }

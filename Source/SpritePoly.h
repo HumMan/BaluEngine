@@ -49,6 +49,8 @@ private:
 	void UpdatePolyVertices();
 	void TriangulateGeometry();
 
+	int layer;
+
 	TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
 public:
 

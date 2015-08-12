@@ -85,10 +85,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BaluEditorControl.h" />
     <ClInclude Include="Converters.h" />
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="EventsEditor.h" />
+    <ClInclude Include="LayersManager.h" />
     <ClInclude Include="PropertiesEditor.h" />
     <ClInclude Include="Source\PropertiesRegistry\propertiesRegistry.h" />
     <ClInclude Include="WorldDirector.h" />
@@ -102,6 +102,7 @@
     <ClCompile Include="EventsEditor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="LayersManager.cpp" />
     <ClCompile Include="PropertiesEditor.cpp" />
     <ClCompile Include="Source\PropertiesRegistry\propertiesRegistry.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

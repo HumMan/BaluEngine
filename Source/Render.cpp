@@ -38,10 +38,14 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 	render->Blend.Enable(true);
 	render->Blend.Func(TBlendEquation::BE_SRC_ALPHA, TBlendFunc::BF_ADD, TBlendEquation::BE_ONE_MINUS_SRC_ALPHA);
 	//render->Set.PolygonMode(TBaluRenderEnums::TPolygonMode::Line);
+	std::sort(render_commands.begin(), render_commands.end(),
+		[&](TRenderCommand& l, TRenderCommand& r){return l.layer > r.layer; });
+
+	//int current_layer = render_commands.front().layer;
 	for (int i = 0; i < render_commands.size(); i++)
 	{ 
 		auto& c = render_commands[i];
-		if (c.vertices_count > 0)
+		assert(c.vertices_count > 0);
 		{
 			auto tex = c.material_id->GetTexture();
 			render->Texture.Bind(*(TTextureId*)&tex);

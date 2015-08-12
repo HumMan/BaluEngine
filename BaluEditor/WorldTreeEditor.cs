@@ -32,28 +32,18 @@ namespace BaluEditor
             editor.ObjectDestroy += editor_ObjectRemove;
         }
 
-        void UpdateIndexOfNodes(TreeNodeCollection nodes)
-        {
-            int i = 0;
-            foreach(TreeNode n in nodes)
-            {
-                (n.Tag as TWorldObjectNode).index = i;
-                i++;
-            }
-        }
-
-        void editor_ObjectRemove(Editor.TEditor sender, int type, int index)
+        void editor_ObjectRemove(Editor.TEditor sender, int type, string name)
         {
             var nodes = treeView1.Nodes[0].Nodes[type].Nodes;
-            nodes.RemoveAt(index);
-            UpdateIndexOfNodes(nodes);
+           // nodes.RemoveAt(index);
+           /// UpdateIndexOfNodes(nodes);
         }
 
-        void editor_ObjectCreate(Editor.TEditor sender, int type, int index)
+        void editor_ObjectCreate(Editor.TEditor sender, int type, string name)
         {
             var nodes = treeView1.Nodes[0].Nodes[type].Nodes;
-            nodes.Insert(index, CreateTreeNode(type, index));
-            UpdateIndexOfNodes(nodes);
+            nodes.Insert(0, CreateTreeNode(type, name));
+            //UpdateIndexOfNodes(nodes);
         }
 
         class TCreateWorldObjectNode
@@ -97,12 +87,11 @@ namespace BaluEditor
         class TWorldObjectNode
         {
             public int type;
-            public int index;
+            //public int index;
             public string name;
-            public TWorldObjectNode(int type, int index, string name)
+            public TWorldObjectNode(int type, string name)
             {
                 this.type = type;
-                this.index = index;
                 this.name = name;
             }
         }
@@ -119,17 +108,16 @@ namespace BaluEditor
                 int obj_count = editor.GetObjectsCount(obj_type_id);
                 for (int i = 0; i < obj_count; i++)
                 {
-                    var obj_node = CreateTreeNode(obj_type_id, i);
+                    var obj_node = CreateTreeNode(obj_type_id, editor.GetObjectName(obj_type_id, i));
                     obj_type_node.Nodes.Add(obj_node);
                 }
             }
         }
 
-        private TreeNode CreateTreeNode(int obj_type_id, int i)
+        private TreeNode CreateTreeNode(int obj_type_id, string name)
         {
-            var obj_name = editor.GetObjectName(obj_type_id, i);
-            var obj_node = new TreeNode(obj_name);
-            obj_node.Tag = new TWorldObjectNode(obj_type_id, i, obj_name);
+            var obj_node = new TreeNode(name);
+            obj_node.Tag = new TWorldObjectNode(obj_type_id, name);
             return obj_node;
         }
 
@@ -142,8 +130,8 @@ namespace BaluEditor
                 if (new_name_dialog.GetName(editor, tag.type))
                 {
                     editor.CreateObject(tag.type, new_name_dialog.Result);
-                    int id = editor.GetObjectIndex(tag.type, new_name_dialog.Result);
-                    director.OnObjectCreate(editor, tag.type, id);
+                    //int id = editor.GetObjectIndex(tag.type, new_name_dialog.Result);
+                    //director.OnObjectCreate(editor, tag.type, id);
                 }
             }
         }
@@ -154,7 +142,7 @@ namespace BaluEditor
             {
                 var node =treeView1.SelectedNode.Tag as TWorldObjectNode;
                 editor.DestroyObject(node.type, node.name);
-                director.OnObjectDestroy(editor, node.type, node.index);
+                //director.OnObjectDestroy(editor, node.type, node.index);
             }
         }
 
@@ -176,7 +164,8 @@ namespace BaluEditor
             if (treeView1.SelectedNode!=null && treeView1.SelectedNode.Tag is TWorldObjectNode)
             {
                 var node = treeView1.SelectedNode.Tag as TWorldObjectNode;
-                director.OnEditedObjectChange(editor, node.type, node.index);
+                //director.OnEditedObjectChange(editor, node.type, node.index);
+                director.EditedObjectChange(editor, node.type, node.name);
             }
         }
     }

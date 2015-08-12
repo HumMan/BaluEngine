@@ -16,6 +16,7 @@ namespace BaluEditor
     {
         private Editor.TWorldDirector director;
         private EventsEditor events_editor;
+        private LayerManagerWindow layers;
         string _active_project;
         string active_project
         {
@@ -50,6 +51,10 @@ namespace BaluEditor
             File.AppendAllText(log_file, "object editor initialized\n");
             worldObjectsList1.EditorInitialize(director);
             File.AppendAllText(log_file, "world object selection list initialized\n");
+
+            layers = new LayerManagerWindow();
+            layers.GetLayersManager().EditorInitialize(director);
+
             File.AppendAllText(log_file, "Editor init end\n");
         }
 
@@ -148,6 +153,11 @@ namespace BaluEditor
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             director.LoadNewWorld();
+        }
+
+        private void layersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            layers.Show(this);
         }
     }
 }

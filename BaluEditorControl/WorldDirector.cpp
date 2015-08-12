@@ -62,17 +62,24 @@ namespace Editor
 		editors->Remove(editor);
 	}
 
-	void TWorldDirector::OnSelectWorldNode(TEditor^ sender, IBaluWorldObject* new_selection)
+	//void TWorldDirector::OnSelectWorldNode(TEditor^ sender, IBaluWorldObject* new_selection)
+	//{
+	//	if (p->selected_object != new_selection)
+	//	{
+	//		for each (auto ed in editors)
+	//		{
+	//			ed->OnSelectWorldNode(sender, p->selected_object, new_selection);
+	//		}
+	//		p->selected_object = new_selection;
+	//	}
+	//}
+	/*void TWorldDirector::OnClassInstanceSelectionChange(TEditor^ sender, TSceneObject* new_selection)
 	{
-		if (p->selected_object != new_selection)
+		for each (auto ed in editors)
 		{
-			for each (auto ed in editors)
-			{
-				ed->OnSelectWorldNode(sender, p->selected_object, new_selection);
-			}
-			p->selected_object = new_selection;
+			ed->OnClassInstanceSelectionChange(sender, new_selection);
 		}
-	}
+	}*/
 	void TWorldDirector::OnBeforeWorldLoad()
 	{
 		for each (auto ed in editors)
@@ -88,45 +95,45 @@ namespace Editor
 		}
 	}
 
-	void TWorldDirector::OnObjectCreate(TEditor^ sender, int type, int index)
+	//void TWorldDirector::OnObjectCreate(TEditor^ sender, int type, int index)
+	//{
+	//	for each (auto ed in editors)
+	//	{
+	//		ed->OnObjectCreate(sender, type, index);
+	//	}
+	//}
+
+	//void TWorldDirector::OnObjectDestroy(TEditor^ sender, int type, int index)
+	//{
+	//	for each (auto ed in editors)
+	//	{
+	//		ed->OnObjectDestroy(sender, type, index);
+	//	}
+	//}
+
+	void TWorldDirector::EditedObjectChange(TEditor^ sender, int type, String^ name)
 	{
 		for each (auto ed in editors)
 		{
-			ed->OnObjectCreate(sender, type, index);
+			ed->OnEditedObjectChange(sender, type, Converters::FromClrString(name));
 		}
 	}
 
-	void TWorldDirector::OnObjectDestroy(TEditor^ sender, int type, int index)
-	{
-		for each (auto ed in editors)
-		{
-			ed->OnObjectDestroy(sender, type, index);
-		}
-	}
+	//void TWorldDirector::OnSelectObjectsTypeChange(TEditor^ sender, int type)
+	//{
+	//	for each (auto ed in editors)
+	//	{
+	//		ed->OnSelectObjectsTypeChange(sender, type);
+	//	}
+	//}
 
-	void TWorldDirector::OnEditedObjectChange(TEditor^ sender, int type, int index)
-	{
-		for each (auto ed in editors)
-		{
-			ed->OnEditedObjectChange(sender, type, index);
-		}
-	}
-
-	void TWorldDirector::OnSelectObjectsTypeChange(TEditor^ sender, int type)
-	{
-		for each (auto ed in editors)
-		{
-			ed->OnSelectObjectsTypeChange(sender, type);
-		}
-	}
-
-	void TWorldDirector::OnObjectListSelectionChange(TEditor^ sender, int type, int index)
-	{
-		for each (auto ed in editors)
-		{
-			ed->OnObjectListSelectionChange(sender, type, index);
-		}
-	}
+	//void TWorldDirector::OnObjectListSelectionChange(TEditor^ sender, int type, int index)
+	//{
+	//	for each (auto ed in editors)
+	//	{
+	//		ed->OnObjectListSelectionChange(sender, type, index);
+	//	}
+	//}
 
 	String^ TWorldDirector::GetAssetsDir()
 	{

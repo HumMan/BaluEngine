@@ -34,8 +34,8 @@ enum class TWorldObjectType
 
 enum class TWorldObjectSubType
 {
-	SpritePolygon,
-	SpritePhysShape,
+	//SpritePolygon,
+	//SpritePhysShape,
 	ClassSpriteInstance,
 	SceneClassInstance
 };
@@ -62,9 +62,24 @@ namespace EngineInterface
 {
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+	class TBaluWorldChangeListener
+	{
+	public:
+		virtual void OnObjectCreate(TWorldObjectType type, std::string name) = 0;
+		virtual void OnObjectDestroy(TWorldObjectType type, std::string name){}
+		virtual void OnObjectChange(TWorldObjectType type, std::string name){}
+		virtual void OnSubObjectCreate(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
+		virtual void OnSubObjectDestroy(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
+		virtual void OnSubObjectChange(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
+	};
+
 	class IBaluWorld
 	{
 	public:
+
+		virtual void AddChangesListener(TBaluWorldChangeListener* listener) = 0;
+		virtual void RemoveChangesListener(TBaluWorldChangeListener* listener) = 0;
+
 		virtual TScriptActiveType& GetCallbacksActiveType() = 0;
 
 		virtual bool TryFind(const char* material_name, EngineInterface::IBaluMaterial*& result) = 0;

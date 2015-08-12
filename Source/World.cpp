@@ -105,95 +105,39 @@ bool TBaluWorld::TryFind(const char* class_name, EngineInterface::IBaluClass*& r
 
 TBaluMaterial* TBaluWorld::CreateMaterial(const char* mat_name)
 {
-	auto iter = materials.find(mat_name);
-	if (iter == materials.end())
-	{
-		materials.emplace(mat_name, std::make_unique<TBaluMaterial>(mat_name, this));
-		return materials[mat_name].get();
-	}
-	else
-	{
-		throw std::invalid_argument("Материал с данным имененем уже существует");
-	}
+	CreateObject(TWorldObjectType::Material, mat_name);
+	return materials[mat_name].get();
 }
-
 TBaluSprite* TBaluWorld::CreateSprite(const char* sprite_name)
 {
-	auto iter = sprites.find(sprite_name);
-	if (iter == sprites.end())
-	{
-		sprites.emplace(sprite_name, std::make_unique<TBaluSprite>(sprite_name, this));
-		return sprites[sprite_name].get();
-	}
-	else
-	{
-		throw std::invalid_argument("Спрайт с данным имененем уже существует");
-	}
+	CreateObject(TWorldObjectType::Sprite, sprite_name);
+	return sprites[sprite_name].get();
 }
 TBaluClass* TBaluWorld::CreateClass(const char* class_name)
 {
-	auto iter = classes.find(class_name);
-	if (iter == classes.end())
-	{
-		classes.emplace(class_name, std::make_unique<TBaluClass>(class_name, this));
-		return classes[class_name].get();
-	}
-	else
-	{
-		throw std::invalid_argument("Класс с данным имененем уже существует");
-	}
+	CreateObject(TWorldObjectType::Class, class_name);
+	return classes[class_name].get();
 }
 TBaluScene* TBaluWorld::CreateScene(const char* scene_name)
 {
-	auto iter = scenes.find(scene_name);
-	if (iter == scenes.end())
-	{
-		scenes.emplace(scene_name, std::make_unique<TBaluScene>(scene_name, this));
-		return scenes[scene_name].get();
-	}
-	else
-	{
-		throw std::invalid_argument("Сцена с данным имененем уже существует");
-	}
+	CreateObject(TWorldObjectType::Scene, scene_name);
+	return scenes[scene_name].get();
 }
-
+void TBaluWorld::DestroyMaterial(const char* material_name)
+{
+	DestroyObject(TWorldObjectType::Material, material_name);
+}
 void TBaluWorld::DestroySprite(const char* sprite_name)
 {
-	auto iter = sprites.find(sprite_name);
-	if (iter != sprites.end())
-	{
-		sprites.erase(iter);
-	}
-	else
-	{
-		throw std::invalid_argument("Спрайта с данным имененм не существует");
-	}
+	DestroyObject(TWorldObjectType::Sprite, sprite_name);
 }
-
 void TBaluWorld::DestroyClass(const char* class_name)
 {
-	auto iter = classes.find(class_name);
-	if (iter != classes.end())
-	{
-		classes.erase(iter);
-	}
-	else
-	{
-		throw std::invalid_argument("Класса с данным имененм не существует");
-	}
+	DestroyObject(TWorldObjectType::Class, class_name);
 }
-
 void TBaluWorld::DestroyScene(const char* scene_name)
 {
-	auto iter = scenes.find(scene_name);
-	if (iter != scenes.end())
-	{
-		scenes.erase(iter);
-	}
-	else
-	{
-		throw std::invalid_argument("Сцены с данным имененм не существует");
-	}
+	DestroyObject(TWorldObjectType::Scene, scene_name);
 }
 
 template<class T, class M>
@@ -308,6 +252,7 @@ void TBaluWorld::CreateObject(TWorldObjectType type, const char* name)
 		assert(false);
 		break;
 	}
+	listeners.OnObjectCreate(type, name);
 }
 
 void TBaluWorld::DestroyObject(TWorldObjectType type, const char* name)
@@ -333,6 +278,7 @@ void TBaluWorld::DestroyObject(TWorldObjectType type, const char* name)
 		assert(false);
 		break;
 	}
+	listeners.OnObjectDestroy(type, name);
 }
 
 TBaluMaterial* TBaluWorld::GetMaterial(const char* scene_name)

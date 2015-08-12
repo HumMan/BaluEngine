@@ -89,7 +89,7 @@ private:
 
 	std::map<std::string, TViewport> viewports;
 
-	TLayersManagerInstance layers;
+	TLayersManager layers;
 
 	//struct TCollisionInfo
 	//{

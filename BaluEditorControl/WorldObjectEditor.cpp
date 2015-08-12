@@ -107,7 +107,7 @@ namespace Editor
 	void TWorldObjectEditor::Destroy()
 	{
 		delete p->screen;
-		OnEditedObjectChange(this, (int)TWorldObjectType::None, -1);
+		OnEditedObjectChange(this, (int)TWorldObjectType::None, "");
 		IDirector::DestroyDirector(p->director);
 		p->director = nullptr;
 		p->world = nullptr;
@@ -125,25 +125,24 @@ namespace Editor
 		//p->world = director->GetWorld();
 		if (p->world != nullptr)
 		{
-			OnEditedObjectChange(this, (int)TWorldObjectType::None, -1);
+			OnEditedObjectChange(this, (int)TWorldObjectType::None, "");
 			p->director->SetWorldInstance(nullptr);
 		}
 	}
 	void TWorldObjectEditor::OnAfterWorldLoad()
 	{
 		p->world = director->GetWorld();
-		OnEditedObjectChange(this, (int)TWorldObjectType::None, -1);
+		OnEditedObjectChange(this, (int)TWorldObjectType::None, "");
 	}
 
-	void TWorldObjectEditor::OnEditedObjectChange(TEditor^ sender, int _type, int index)
+	void TWorldObjectEditor::OnEditedObjectChange(TEditor^ sender, int _type, std::string name)
 	{		
 		TWorldObjectType type = (TWorldObjectType)_type;
 		
 		IBaluWorldObject* new_edit_obj = nullptr;
 		if (type != TWorldObjectType::None)
 		{
-			auto objects = p->world->GetObjects(type);
-			new_edit_obj = objects[index];			
+			new_edit_obj = p->world->GetObjectByName(type, name.c_str());		
 		}
 		if (new_edit_obj != p->active_edited_object)
 		{
@@ -154,8 +153,7 @@ namespace Editor
 			}
 			if (type != TWorldObjectType::None)
 			{
-				auto objects = p->world->GetObjects(type);
-				new_edit_obj = objects[index];
+				new_edit_obj = p->world->GetObjectByName(type, name.c_str());
 			}
 			p->active_edited_object = new_edit_obj;
 			if (type != TWorldObjectType::None)
@@ -175,14 +173,13 @@ namespace Editor
 		}
 	}
 
-	void TWorldObjectEditor::OnObjectListSelectionChange(TEditor^ sender, int _type, int index)
+	void TWorldObjectEditor::OnObjectListSelectionChange(TEditor^ sender, int _type, std::string name)
 	{
 		TWorldObjectType type = (TWorldObjectType)_type;
 		IBaluWorldObject* new_edit_obj = nullptr;
 		if (type != TWorldObjectType::None)
 		{
-			auto objects = p->world->GetObjects(type);
-			new_edit_obj = objects[index];
+			new_edit_obj = p->world->GetObjectByName(type, name.c_str());
 		}
 
 		p->active_editor->GetActiveTool()->SetSelectedObject(new_edit_obj);
@@ -219,7 +216,7 @@ namespace Editor
 		auto& tools = p->active_editor->GetAvailableTools();
 		auto tool = tools[index].tool.get();
 		p->active_editor->SetActiveTool(tool);
-		director->OnSelectObjectsTypeChange(this,(int) tool->NeedObjectSelect());
+		//director->OnSelectObjectsTypeChange(this,(int) tool->NeedObjectSelect());
 	}
 	int TWorldObjectEditor::GetActiveTool()
 	{

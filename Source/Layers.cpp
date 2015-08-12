@@ -1,6 +1,6 @@
 #include "Layers.h"
-
-TLayersManagerInstance::TLayersManagerInstance()
-{
-
-}
+//
+//TLayersManager::TLayersManager()
+//{
+//
+//}
