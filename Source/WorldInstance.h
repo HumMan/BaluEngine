@@ -54,6 +54,8 @@ public:
 	void StopScene(TBaluSceneInstance*);
 
 	EngineInterface::IBaluSceneInstance* RunScene(EngineInterface::IBaluScene* scene_source);
+	TBaluSceneInstance* RunScene();
+
 	int GetSceneInstancesCount()
 	{
 		return scene_instances.size();

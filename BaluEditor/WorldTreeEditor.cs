@@ -35,15 +35,17 @@ namespace BaluEditor
         void editor_ObjectRemove(Editor.TEditor sender, int type, string name)
         {
             var nodes = treeView1.Nodes[0].Nodes[type].Nodes;
-           // nodes.RemoveAt(index);
-           /// UpdateIndexOfNodes(nodes);
+            for(int i=0;i<nodes.Count;i++)
+            {
+                if ((nodes[i].Tag as TWorldObjectNode).name == name)
+                    nodes.RemoveAt(i);
+            }
         }
 
         void editor_ObjectCreate(Editor.TEditor sender, int type, string name)
         {
             var nodes = treeView1.Nodes[0].Nodes[type].Nodes;
             nodes.Insert(0, CreateTreeNode(type, name));
-            //UpdateIndexOfNodes(nodes);
         }
 
         class TCreateWorldObjectNode

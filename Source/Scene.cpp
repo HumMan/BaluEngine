@@ -13,26 +13,6 @@ TVec2 EngineInterface::IBaluScene::FromSceneToViewport(EngineInterface::IViewpor
 	return ((scene_coord - viewport->GetAABB().GetPosition()) / viewport->GetAABB().GetSize())+TVec2(0.5,0.5);
 }
 
-void TViewport::SetTransform(TBaluTransform transform)
-{
-	this->transform = transform;
-}
-void TViewport::SetAspectRatio(float aspect)
-{
-	this->aspect = aspect;
-}
-void TViewport::SetWidth(float width)
-{
-	this->width = width;
-}
-TAABB2 TViewport::GetAABB()
-{
-	TAABB2 aabb(TVec2(0, 0), TVec2(width, width * aspect)*0.5);
-
-	return TOBB<float, 2>(transform.position, transform.GetOrientation(), aabb).GetAABB();
-}
-
-
 TViewport* TBaluScene::CreateViewport(std::string name)
 {
 	auto it = viewports.find(name);

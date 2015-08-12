@@ -99,6 +99,21 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	}
 }
 
+
+TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TResources* resources)
+{
+	this->source = nullptr;
+	this->world = world;
+	this->resources = resources;
+	//this->layers = source->GetLayers();
+	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));
+
+	phys_debug.Create();
+
+	phys_world->SetDebugDraw(&phys_debug);
+	phys_world->SetContactListener(&contact_listener);
+}
+
 TBaluSceneInstance::~TBaluSceneInstance()
 {
 	phys_debug.Destroy();

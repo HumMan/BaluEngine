@@ -39,7 +39,7 @@ namespace Editor
 		IBaluWorldInstance* world_instance;
 		IBaluSceneInstance* scene_instance;
 		TScreen* screen;
-		IViewport* main_viewport;
+		TViewport main_viewport;
 		TView main_viewport_view;
 		IAbstractEditor* active_editor;
 
@@ -59,7 +59,6 @@ namespace Editor
 			world_instance = nullptr;
 			scene_instance = nullptr;
 			screen = nullptr;
-			main_viewport = nullptr;
 			active_editor = nullptr;
 			active_edited_object = nullptr;
 
@@ -114,11 +113,23 @@ namespace Editor
 		director = nullptr;
 		delete p;
 	}
-
+	//char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
+	//	"	vec2 k = vec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
+	//	"	IViewport main_viewport = director.GetWorldInstance().GetSceneInstance(0).GetSource().FindViewport(\"main_viewport\");\n"
+	//	"	vec2 old_vieport_size = main_viewport.GetSize();\n"
+	//	"	vec2 new_vieport_size = old_vieport_size*k;\n"
+	//	"	main_viewport.SetSize(new_vieport_size);\n";
 	void TWorldObjectEditor::Resize(int width, int height)
 	{
+		if (p->world_instance != nullptr)
+		{
 			*p->screen = TVec2i(width, height);
-			p->director->SetScreenSize(p->screen->size);
+			auto old_size = p->director->GetScreenSize();
+			TVec2 k = TVec2(p->screen->size[0], p->screen->size[1]) / TVec2(old_size[0], old_size[1]);
+
+			p->main_viewport.SetSize(p->main_viewport.GetSize().ComponentMul(k));
+		}
+		p->director->SetScreenSize(p->screen->size);
 	}
 	void TWorldObjectEditor::OnBeforeWorldLoad()
 	{
@@ -161,7 +172,7 @@ namespace Editor
 				CreateEditorScene();
 				p->drawing_context.screen = p->screen;
 				p->drawing_context.view = &p->main_viewport_view;
-				p->drawing_context.viewport = p->main_viewport;
+				p->drawing_context.viewport = &p->main_viewport;
 				
 				auto objects = p->world->GetObjects(type);
 				p->active_editor = CreateEditorOfWorldObject(new_edit_obj);
@@ -287,54 +298,24 @@ namespace Editor
 	//	p->active_selection_list.clear();
 	//	return false;
 	//}
-	char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
-		"	vec2 k = vec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
-		"	IViewport main_viewport = director.GetWorldInstance().GetSceneInstance(0).GetSource().FindViewport(\"main_viewport\");\n"
-		"	vec2 old_vieport_size = main_viewport.GetSize();\n"
-		"	vec2 new_vieport_size = old_vieport_size*k;\n"
-		"	main_viewport.SetSize(new_vieport_size);\n";
+
 
 	void TWorldObjectEditor::CreateEditorScene()
 	{
-		auto editor_scene = p->world->CreateScene("EditorScene");
-		dynamic_cast<IBaluWorldObject*>(editor_scene)->GetProperties()->SetBool("editor_temp_object", true);
-
-		if (editor_scene->FindViewport("main_viewport") == nullptr)
-		{
-			p->main_viewport = editor_scene->CreateViewport("main_viewport");
-			p->main_viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
-			p->main_viewport->SetAspectRatio(((float)p->screen->size[1])/ p->screen->size[0]);
-			p->main_viewport->SetWidth(20);
-
-		}
-		p->world->GetCallbacksActiveType() = TScriptActiveType::EDITOR;
-
-		p->world->AddOnViewportResize(TScript(ViewportResize_source, TScriptActiveType::EDITOR));
+		p->main_viewport.SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
+		p->main_viewport.SetAspectRatio(((float)p->screen->size[1]) / p->screen->size[0]);
+		p->main_viewport.SetWidth(20);
 
 		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
-
-		p->scene_instance = p->world_instance->RunScene(editor_scene);
-
-		p->world_instance->GetComposer()->AddToRender(p->scene_instance, editor_scene->FindViewport("main_viewport"));
-
-		
-		
+		p->scene_instance = p->world_instance->RunScene();
+		p->world_instance->GetComposer()->AddToRender(p->scene_instance, &p->main_viewport);
 		p->director->SetWorldInstance(p->world_instance);
-
 	}
 
 	void TWorldObjectEditor::DestroyEditorScene()
-	{
-		
+	{	
 		DestroyWorldInstance(p->world_instance);
 		p->world_instance = nullptr;
-		IBaluScene* result;
-		if (p->world != nullptr)
-		{
-			p->world->RemoveOnViewportResize(p->world->GetOnViewportResize().size()-1);
-			if (p->world->TryFind("EditorScene", result))
-				p->world->DestroyScene("EditorScene");
-		}
 	}
 
 	void TWorldObjectEditor::MouseDown(MouseEventArgs^ e)
@@ -345,7 +326,7 @@ namespace Editor
 			{
 				p->viewport_drag_active = true;
 				p->viewport_drag_last_mouse_pos = Convert(e).location;
-				p->viewport_drag_last_pos = p->main_viewport->GetTransform().position;
+				p->viewport_drag_last_pos = p->main_viewport.GetTransform().position;
 			}
 
 			p->world_instance->MouseDown(Convert(e));
@@ -356,7 +337,7 @@ namespace Editor
 	{
 		auto screen_coords = p->screen->FromScreenPixels2(location);
 		auto view_coord = p->screen->FromScreenToView(p->main_viewport_view, screen_coords);
-		auto scene_coord = IBaluScene::FromViewportToScene(p->main_viewport, view_coord);
+		auto scene_coord = IBaluScene::FromViewportToScene(&p->main_viewport, view_coord);
 		return scene_coord;
 	}
 
@@ -366,14 +347,14 @@ namespace Editor
 		{
 			if (p->viewport_drag_active)
 			{
-				auto t = p->main_viewport->GetTransform();
+				auto t = p->main_viewport.GetTransform();
 				auto mouse_pos_diff = Convert(e).location - p->viewport_drag_last_mouse_pos;
 
 				auto old_scene_coord = ToSceneCoord(p, p->viewport_drag_last_mouse_pos);
 				auto new_scene_coord = ToSceneCoord(p, Convert(e).location);
 
 				t.position = p->viewport_drag_last_pos - (new_scene_coord - old_scene_coord);
-				p->main_viewport->SetTransform(t);
+				p->main_viewport.SetTransform(t);
 			}
 			p->world_instance->MouseMove(Convert(e));
 		}
@@ -396,10 +377,7 @@ namespace Editor
 		if (p->world_instance != nullptr)
 		{
 			p->world_instance->MouseVerticalWheel(e->Delta);
-			if (p->main_viewport != nullptr)
-			{
-				p->main_viewport->SetWidth(p->main_viewport->GetSize()[0] * (e->Delta>0 ? 1.1 : 0.9));
-			}
+			p->main_viewport.SetWidth(p->main_viewport.GetSize()[0] * (e->Delta>0 ? 1.1 : 0.9));
 		}
 	}
 

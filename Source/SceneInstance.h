@@ -123,6 +123,7 @@ public:
 	TViewport* GetViewport(std::string name);
 
 	TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* source, TResources* resources);
+	TBaluSceneInstance(TBaluWorldInstance* world, TResources* resources);
 	//TBaluSceneInstance(TBaluSceneInstance&& right);
 	~TBaluSceneInstance();
 

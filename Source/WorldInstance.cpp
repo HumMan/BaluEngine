@@ -57,6 +57,11 @@ TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 	scene_instances.push_back(std::make_unique<TBaluSceneInstance>(this, scene_source, resources));
 	return scene_instances.back().get();
 }
+TBaluSceneInstance* TBaluWorldInstance::RunScene()
+{
+	scene_instances.push_back(std::make_unique<TBaluSceneInstance>(this, resources));
+	return scene_instances.back().get();
+}
 void TBaluWorldInstance::StopScene(TBaluSceneInstance* scene)
 {
 	auto iter = std::find_if(scene_instances.begin(), scene_instances.end(), [&](std::unique_ptr<TBaluSceneInstance>& p){return p.get() == scene; });

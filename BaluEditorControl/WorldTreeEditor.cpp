@@ -25,7 +25,10 @@ namespace Editor
 		{
 			editor->OnObjectCreate(editor,(int) type, name);
 		}
-		void OnObjectDestroy(TWorldObjectType type, std::string name){}
+		void OnObjectDestroy(TWorldObjectType type, std::string name)
+		{
+			editor->OnObjectDestroy(editor, (int)type, name);
+		}
 		void OnObjectChange(TWorldObjectType type, std::string name){}
 		void OnSubObjectCreate(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
 		void OnSubObjectDestroy(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}

@@ -8,33 +8,6 @@
 
 #include "EngineInterfaces\IScene.h"
 
-class TViewport : public EngineInterface::IViewport
-{
-	TBaluTransform transform;
-	float aspect; //отношение высоты к ширине (0.5 широкий экран)
-	float width;
-public:
-	void SetTransform(TBaluTransform transform);
-	TBaluTransform GetTransform()
-	{
-		return transform;
-	}
-	void SetAspectRatio(float aspect);
-	void SetWidth(float width);
-	TAABB2 GetAABB();
-	TVec2 GetSize()
-	{
-		return TVec2(width, width * aspect);
-	}
-	void SetSize(TVec2 size)
-	{
-		width = size[0];
-		aspect = size[1] / size[0];
-	}
-
-	void Save(pugi::xml_node& parent_node, const int version);
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-};
 
 class TBaluSceneClassInstance : public EngineInterface::IBaluSceneClassInstance, public TSceneObject
 {

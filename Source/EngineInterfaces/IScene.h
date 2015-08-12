@@ -32,6 +32,50 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+	class TViewport : public EngineInterface::IViewport
+	{
+		TBaluTransform transform;
+		float aspect; //отношение высоты к ширине (0.5 широкий экран)
+		float width;
+	public:
+		TBaluTransform GetTransform()
+		{
+			return transform;
+		}
+
+		void SetTransform(TBaluTransform transform)
+		{
+			this->transform = transform;
+		}
+		void SetAspectRatio(float aspect)
+		{
+			this->aspect = aspect;
+		}
+		void SetWidth(float width)
+		{
+			this->width = width;
+		}
+		TAABB2 GetAABB()
+		{
+			TAABB2 aabb(TVec2(0, 0), TVec2(width, width * aspect)*0.5);
+
+			return TOBB<float, 2>(transform.position, transform.GetOrientation(), aabb).GetAABB();
+		}
+		TVec2 GetSize()
+		{
+			return TVec2(width, width * aspect);
+		}
+		void SetSize(TVec2 size)
+		{
+			width = size[0];
+			aspect = size[1] / size[0];
+		}
+
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	};
+
 	class IBaluScene
 	{
 	public:
