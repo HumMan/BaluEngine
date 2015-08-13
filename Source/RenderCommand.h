@@ -85,6 +85,7 @@ namespace EngineInterface
 		TVec2i size;
 		//std::vector<TView> views;
 	public:
+		TScreen(){}
 		TScreen(TVec2i size)
 		{
 			this->size = size;

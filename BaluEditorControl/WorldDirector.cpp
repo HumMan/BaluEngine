@@ -119,21 +119,21 @@ namespace Editor
 		}
 	}
 
-	//void TWorldDirector::OnSelectObjectsTypeChange(TEditor^ sender, int type)
-	//{
-	//	for each (auto ed in editors)
-	//	{
-	//		ed->OnSelectObjectsTypeChange(sender, type);
-	//	}
-	//}
+	void TWorldDirector::OnSelectObjectsTypeChange(TEditor^ sender, int type)
+	{
+		for each (auto ed in editors)
+		{
+			ed->OnSelectObjectsTypeChange(sender, type);
+		}
+	}
 
-	//void TWorldDirector::OnObjectListSelectionChange(TEditor^ sender, int type, int index)
-	//{
-	//	for each (auto ed in editors)
-	//	{
-	//		ed->OnObjectListSelectionChange(sender, type, index);
-	//	}
-	//}
+	void TWorldDirector::OnObjectListSelectionChange(TEditor^ sender, int type, String^ name)
+	{
+		for each (auto ed in editors)
+		{
+			ed->OnObjectListSelectionChange(sender, type, Converters::FromClrString(name));
+		}
+	}
 
 	String^ TWorldDirector::GetAssetsDir()
 	{

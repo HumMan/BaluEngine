@@ -62,6 +62,6 @@ namespace Editor
 	void TWorldObjectsList::SetSelectedObject(int index)
 	{
 		p->active_selection = index;
-		//director->OnObjectListSelectionChange(this, (int)p->active_type, p->active_selection);
+		director->OnObjectListSelectionChange(this, (int)p->active_type, GetObjectName(p->active_selection));
 	}
 }

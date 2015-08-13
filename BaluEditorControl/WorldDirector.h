@@ -139,10 +139,12 @@ namespace Editor
 		//void OnObjectCreate(TEditor^ sender, int type, int index);
 		//void OnObjectDestroy(TEditor^ sender, int type, int index);
 		
+		void LayersManagerSceneChange(TEditor^ sender, IBaluSceneInstance* scene_instance);
+		
 		//только для изменения редактируемого объекта в окне редактора
 		void EditedObjectChange(TEditor^ sender, int type, String^ name);
-		//void OnSelectObjectsTypeChange(TEditor^ sender, int type);
-		//void OnObjectListSelectionChange(TEditor^ sender, int type, int index);
+		void OnSelectObjectsTypeChange(TEditor^ sender, int type);
+		void OnObjectListSelectionChange(TEditor^ sender, int type, String^ name);
 
 		TWorldDirector(String^ assets_dir);
 		void Destroy();
