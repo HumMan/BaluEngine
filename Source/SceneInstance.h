@@ -89,7 +89,7 @@ private:
 
 	std::map<std::string, TViewport> viewports;
 
-	TLayersManager layers;
+	std::unique_ptr<TLayersManagerInstance> layers;
 
 	//struct TCollisionInfo
 	//{
@@ -107,6 +107,10 @@ private:
 
 	TContactsHolder contact_listener;
 public:
+	TLayersManagerInstance* GetLayers()
+	{
+		return layers.get();
+	}
 	TResources* GetResources()
 	{
 		return resources;
@@ -123,7 +127,7 @@ public:
 	TViewport* GetViewport(std::string name);
 
 	TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* source, TResources* resources);
-	TBaluSceneInstance(TBaluWorldInstance* world, TResources* resources);
+	TBaluSceneInstance(TBaluWorldInstance* world, TResources* resources, TLayersManager* layers=nullptr);
 	//TBaluSceneInstance(TBaluSceneInstance&& right);
 	~TBaluSceneInstance();
 

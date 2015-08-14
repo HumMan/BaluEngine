@@ -3,6 +3,8 @@
 #pragma once
 #endif
 
+#include "..\Layers.h"
+
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
@@ -26,7 +28,7 @@ namespace EngineInterface
 	class IBaluSceneInstance
 	{
 	public:
-
+		virtual TLayersManagerInstance* GetLayers() = 0;
 		virtual bool PointCollide(TVec2 scene_space_point, EngineInterface::TSceneObjectInstance* &result) = 0;
 		virtual IBaluScene* GetSource()=0;
 		virtual IBaluWorldInstance* GetWorld()=0;

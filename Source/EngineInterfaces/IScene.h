@@ -3,6 +3,7 @@
 #pragma once
 #endif
 
+#include "..\Layers.h"
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
@@ -86,6 +87,8 @@ namespace EngineInterface
 		{
 			return "scene";
 		}
+
+		virtual TLayersManager* GetLayers() = 0;
 
 		virtual IViewport* CreateViewport(std::string name)=0;
 		virtual IViewport* FindViewport(std::string name)=0;

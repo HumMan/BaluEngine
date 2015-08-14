@@ -3,6 +3,7 @@
 #pragma once
 #endif
 
+#include "..\Source\Layers.h"
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
@@ -41,6 +42,7 @@ namespace EngineInterface
 		virtual IBaluWorld* GetSource()=0;
 		virtual IBaluSceneInstance* RunScene(IBaluScene* scene_source)=0;
 		virtual IBaluSceneInstance* RunScene() = 0;
+		virtual IBaluSceneInstance* RunScene(TLayersManager* scene_layers) = 0;
 		virtual void StopScene(IBaluSceneInstance*)=0;
 
 		virtual int GetSceneInstancesCount()=0;

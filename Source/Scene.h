@@ -77,9 +77,9 @@ private:
 	TProperties properties;
 	TBaluWorld* world;
 public:
-	TLayersManager& GetLayers()
+	TLayersManager* GetLayers()
 	{
-		return layers;
+		return &layers;
 	}
 	TBaluScene(){}
 	TBaluScene(const char* name, TBaluWorld* world)

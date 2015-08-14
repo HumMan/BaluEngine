@@ -30,17 +30,20 @@ void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, T
 {
 	if (enable && vertices.size() > 0)
 	{
-		commands.emplace_back();
+		if (layers.GetLayersCount()>0 && layers.GetLayer(layer).IsVisible())
+		{
+			commands.emplace_back();
 
-		auto& command = commands.back();
+			auto& command = commands.back();
 
-		command.draw_triangles_grid = source->draw_triangles_grid;
-		command.material_id = &material;
-		command.vertices = &vertices[0];
-		command.vertices_count = vertices.size();
-		assert(tex_coords.size() != 0);
-		command.tex_coords = &tex_coords[0];
-		command.layer = layer;
+			command.draw_triangles_grid = source->draw_triangles_grid;
+			command.material_id = &material;
+			command.vertices = &vertices[0];
+			command.vertices_count = vertices.size();
+			assert(tex_coords.size() != 0);
+			command.tex_coords = &tex_coords[0];
+			command.layer = layer;
+		}
 	}
 }
 

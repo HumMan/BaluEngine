@@ -42,19 +42,32 @@ namespace Editor
 
 	class TLayersManagerPrivate;
 
-
+	public ref class TLayerDesc
+	{
+	public:
+		String^ name;
+		bool visible;
+		float alpha;
+		bool locked;
+		bool visible_in_editor;
+	};
 
 	public ref class TLayersManager : public TEditor
 	{
 	internal:
-		void OnBeforeWorldLoad()override;
-		void OnAfterWorldLoad()override;
-		void OnEditedObjectChange(TEditor^ sender, int type, int index)override;
+		void OnLayersManagerSceneChange(TEditor^ sender, IBaluSceneInstance* scene_instance)override;
+		IBaluSceneInstance* GetActiveScene();
 	private:
 		TLayersManagerPrivate* p;
 		TWorldDirector^ director;
 	public:
 		TLayersManager(TWorldDirector^ director);
+
+		void AddLayer();
+		void RemoveLayer(int id);
+		int GetLayersCount();
+		TLayerDesc^ GetLayer(int id);
+		void SetLayer(int id, TLayerDesc^ desc);
 
 		void Destroy() override;
 	};

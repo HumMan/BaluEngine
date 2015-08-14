@@ -9,8 +9,37 @@
 
 #include "Converters.h"
 
+#include <vcclr.h>
+#include <msclr\marshal_cppstd.h>
+
 namespace Editor
 {
+
+	class TLayersManagerEditorListener : public TLayersManagerChangeListener
+	{
+		gcroot<TLayersManager^> editor;
+	public:
+		TLayersManagerEditorListener(TLayersManager^ editor)
+		{
+			this->editor = editor;
+		}
+		virtual void LayerReordered(int layer_id, int after_id)
+		{
+			editor->OnLayersManagerSceneChange(editor, editor->GetActiveScene());
+		}
+		virtual void LayerAdded(int layer_id)
+		{
+			editor->OnLayersManagerSceneChange(editor, editor->GetActiveScene());
+		}
+		virtual void LayerRemoved(int layer_id)
+		{
+			editor->OnLayersManagerSceneChange(editor, editor->GetActiveScene());
+		}
+		virtual void LayerChanged(int layer_id)
+		{
+			editor->OnLayersManagerSceneChange(editor, editor->GetActiveScene());
+		}
+	};
 
 	class TLayersManagerPrivate
 	{
@@ -20,15 +49,16 @@ namespace Editor
 
 		//local objects
 		IDirector* director;
-		IBaluWorldInstance* world_instance;
+
 		IBaluSceneInstance* scene_instance;
+
+		std::unique_ptr<TLayersManagerEditorListener> layers_change_listener;
 		
 		TLayersManagerPrivate()
 		{
 			world = nullptr;
 
 			director = nullptr;
-			world_instance = nullptr;
 			scene_instance = nullptr;
 		}
 	};
@@ -43,38 +73,70 @@ namespace Editor
 		p = new TLayersManagerPrivate();
 		
 		p->world = world_director->GetWorld();
-
+		p->layers_change_listener.reset(new TLayersManagerEditorListener(this));
 		WriteInfoToLog("Initializing TLayersManager success");
 	}
 
 	void TLayersManager::Destroy()
 	{
-		//delete p->screen;
-		//OnEditedObjectChange(this, (int)TWorldObjectType::None, -1);
-		//IDirector::DestroyDirector(p->director);
-		//p->director = nullptr;
-		//p->world = nullptr;
-		//director = nullptr;
 		delete p;
 	}
-
-	void TLayersManager::OnBeforeWorldLoad()
+	IBaluSceneInstance* TLayersManager::GetActiveScene()
 	{
-		//p->world = director->GetWorld();
-		if (p->world != nullptr)
+		return p->scene_instance;
+	}
+	void TLayersManager::OnLayersManagerSceneChange(TEditor^ sender, IBaluSceneInstance* scene_instance)
+	{
+		if (p->scene_instance != scene_instance)
 		{
-			OnEditedObjectChange(this, (int)TWorldObjectType::None, -1);
-			p->director->SetWorldInstance(nullptr);
+			if (p->scene_instance != nullptr)
+			{
+				p->scene_instance->GetLayers()->GetSource()->RemoveListener(p->layers_change_listener.get());
+			}
+			p->scene_instance = scene_instance;
+			if (scene_instance != nullptr)
+			{
+				p->scene_instance->GetLayers()->GetSource()->AddListener(p->layers_change_listener.get());
+			}
 		}
+		TEditor::OnLayersManagerSceneChange(sender, scene_instance);
 	}
-	void TLayersManager::OnAfterWorldLoad()
+	void TLayersManager::AddLayer()
 	{
-		p->world = director->GetWorld();
-		OnEditedObjectChange(this, (int)TWorldObjectType::None, -1);
+		p->scene_instance->GetLayers()->GetSource()->AddLayer(TLayer(), -1);
 	}
+	void TLayersManager::RemoveLayer(int id)
+	{
+		p->scene_instance->GetLayers()->GetSource()->RemoveLayer(id);
+	}
+	int TLayersManager::GetLayersCount()
+	{
+		return p->scene_instance->GetLayers()->GetLayers().size();
+	}
+	TLayerDesc^ TLayersManager::GetLayer(int id)
+	{
+		auto v = p->scene_instance->GetLayers()->GetLayers()[id];
+		TLayerDesc^ desc = gcnew TLayerDesc();
+		desc->alpha = v.GetAlpha();
+		desc->locked = v.IsLocked();
+		desc->visible_in_editor = v.IsVisibleInEditor();
 
-	void TLayersManager::OnEditedObjectChange(TEditor^ sender, int _type, int index)
+		auto vs = p->scene_instance->GetLayers()->GetSource()->GetLayer(id);
+		desc->name = Converters::ToClrString(vs.GetName());
+		desc->visible = vs.IsVisible();
+
+		return desc;
+	}
+	void TLayersManager::SetLayer(int id, TLayerDesc^ desc)
 	{
-		
+		TLayer layer;
+		layer.SetIsVisible(desc->visible);
+		layer.SetName(Converters::FromClrString( desc->name));
+		p->scene_instance->GetLayers()->GetSource()->SetLayer(id, layer);
+		TLayerInstance layer_inst;
+		layer_inst.SetAlpha(desc->alpha);
+		layer_inst.SetIsLocked(desc->locked);
+		layer_inst.SetIsVisibleInEditor(desc->visible_in_editor);
+		p->scene_instance->GetLayers()->SetLayer(id, layer_inst);
 	}
 }

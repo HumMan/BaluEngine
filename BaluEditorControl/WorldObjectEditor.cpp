@@ -160,7 +160,16 @@ namespace Editor
 			p->active_edited_object = new_edit_obj;
 			if (type != TWorldObjectType::None)
 			{
-				CreateEditorScene();
+				if (type == TWorldObjectType::Scene)
+				{
+					CreateEditorScene(dynamic_cast<IBaluScene*>(new_edit_obj)->GetLayers());
+					director->LayersManagerSceneChange(this, p->scene_instance);
+				}
+				else
+				{
+					CreateEditorScene(nullptr);
+					director->LayersManagerSceneChange(this, nullptr);
+				}
 				p->drawing_context.screen = &p->screen;
 				p->drawing_context.view = &p->main_viewport_view;
 				p->drawing_context.viewport = &p->main_viewport;
@@ -257,14 +266,14 @@ namespace Editor
 		auto& tools = p->active_editor->GetAvailableTools();
 		return Converters::ToClrString(tools[tool_index].tool->GetAvailableStates()[tool_state_index]);
 	}
-	void TWorldObjectEditor::CreateEditorScene()
+	void TWorldObjectEditor::CreateEditorScene(TLayersManager* scene_layers)
 	{
 		p->main_viewport.SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
 		p->main_viewport.SetAspectRatio(((float)p->screen.size[1]) / p->screen.size[0]);
 		p->main_viewport.SetWidth(20);
 
 		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
-		p->scene_instance = p->world_instance->RunScene();
+		p->scene_instance = p->world_instance->RunScene(scene_layers);
 		p->world_instance->GetComposer()->AddToRender(p->scene_instance, &p->main_viewport);
 		p->director->SetWorldInstance(p->world_instance);
 	}

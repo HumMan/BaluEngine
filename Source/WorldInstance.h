@@ -55,6 +55,7 @@ public:
 
 	EngineInterface::IBaluSceneInstance* RunScene(EngineInterface::IBaluScene* scene_source);
 	TBaluSceneInstance* RunScene();
+	TBaluSceneInstance* RunScene(TLayersManager* scene_layers);
 
 	int GetSceneInstancesCount()
 	{

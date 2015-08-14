@@ -185,7 +185,7 @@ TAnimationFrames::TAnimationFrames(TAnimDesc* desc, int frame)
 
 TBaluSpritePolygon::TBaluSpritePolygon()
 {
-
+	layer = 0;
 	enable = true;
 	draw_triangles_grid = true;
 	material = nullptr;

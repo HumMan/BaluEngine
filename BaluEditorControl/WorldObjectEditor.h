@@ -6,6 +6,7 @@
 #include "WorldDirector.h"
 
 class TCallbackManagedBridge;
+class TLayersManager;
 
 namespace EngineInterface
 {
@@ -42,7 +43,7 @@ namespace Editor
 
 		IAbstractEditor* CreateEditorOfWorldObject(IBaluWorldObject* obj);
 		void DestroyEditorOfWorldObject(IBaluWorldObject* obj);
-		void CreateEditorScene();
+		void CreateEditorScene(TLayersManager* scene_layers);
 		void DestroyEditorScene();
 
 	public:

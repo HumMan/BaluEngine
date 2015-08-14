@@ -84,7 +84,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	this->source = source;
 	this->world = world;
 	this->resources = resources;
-	this->layers = source->GetLayers();
+	this->layers.reset(new TLayersManagerInstance(source->GetLayers()));
 	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));
 
 	phys_debug.Create();
@@ -100,8 +100,10 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 }
 
 
-TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TResources* resources)
+TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TResources* resources, TLayersManager* layers)
 {
+	if (layers != nullptr)
+		this->layers.reset(new TLayersManagerInstance(layers));
 	this->source = nullptr;
 	this->world = world;
 	this->resources = resources;
@@ -166,7 +168,7 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& 
 
 	for (int i = 0; i < polygons.size(); i++)
 	{
-		polygons[i]->Render(results, layers);
+		polygons[i]->Render(results, *layers->GetSource());
 	}
 
 	for (auto& v : instances)

@@ -11,6 +11,7 @@ namespace EngineInterface
 	class IBaluWorldObject;
 	class TSceneObject;
 	class IProperties;
+	class IBaluSceneInstance;
 }
 
 namespace Editor
@@ -23,6 +24,7 @@ namespace Editor
 	class TWorldDirectorPrivate;
 	ref class TEditor;
 
+	public delegate void OnLayersManagerSceneChangeDelegate (TEditor^ sender);
 	public delegate void OnPropertiesEditorTargetChangeDelegate(TEditor^ sender, EngineInterface::IProperties* target);
 	//public delegate void OnClassInstanceSelectionChangeDelegate(TEditor^ sender, TSceneObject* new_selection);
 
@@ -47,7 +49,10 @@ namespace Editor
 		virtual void Destroy() = 0;
 		//virtual void OnSelectWorldNode(TEditor^ sender, IBaluWorldObject* old_selection, IBaluWorldObject* new_selection){};
 
-
+		virtual void OnLayersManagerSceneChange(TEditor^ sender, IBaluSceneInstance* scene_instance)
+		{
+			LayersManagerSceneChange(sender);
+		}
 		virtual void OnPropertiesEditorTargetChange(TEditor^ sender, EngineInterface::IProperties* target)
 		{
 			PropertiesEditorTargetChange(sender, target);
@@ -101,6 +106,7 @@ namespace Editor
 			ObjectListSelectionChange(sender, type, Converters::ToClrString(name));
 		}
 	public:
+		event OnLayersManagerSceneChangeDelegate^ LayersManagerSceneChange;
 		event OnPropertiesEditorTargetChangeDelegate^ PropertiesEditorTargetChange;
 		//event OnClassInstanceSelectionChangeDelegate^ ClassInstanceSelectionChange;
 		event OnAfterWorldLoadDelegate^ AfterWorldLoad;

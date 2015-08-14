@@ -111,6 +111,14 @@ namespace Editor
 	//	}
 	//}
 
+	void TWorldDirector::LayersManagerSceneChange(TEditor^ sender, IBaluSceneInstance* scene_instance)
+	{
+		for each (auto ed in editors)
+		{
+			ed->OnLayersManagerSceneChange(sender, scene_instance);
+		}
+	}
+
 	void TWorldDirector::EditedObjectChange(TEditor^ sender, int type, String^ name)
 	{
 		for each (auto ed in editors)
