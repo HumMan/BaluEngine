@@ -83,6 +83,10 @@ TLayersManagerInstance::TLayersManagerInstance(TLayersManager* source)
 	}
 	source->AddListener(&this->source_changes_listener);
 }
+TLayersManagerInstance::~TLayersManagerInstance()
+{
+	source->RemoveListener(&this->source_changes_listener);
+}
 TLayersManager* TLayersManagerInstance::GetSource()
 {
 	return source;

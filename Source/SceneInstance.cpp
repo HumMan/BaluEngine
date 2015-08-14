@@ -166,9 +166,22 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& 
 	std::vector<TBaluSpritePolygonInstance*> polygons;
 	QueryAABB(frustum, polygons);
 
-	for (int i = 0; i < polygons.size(); i++)
+
+	if (layers)
 	{
-		polygons[i]->Render(results, *layers->GetSource());
+		for (int i = 0; i < polygons.size(); i++)
+		{
+			polygons[i]->Render(results, *layers->GetSource());
+		}
+	}
+	else
+	{
+		TLayersManager without_layers(nullptr);
+		without_layers.AddLayer(TLayer(), -1);
+		for (int i = 0; i < polygons.size(); i++)
+		{
+			polygons[i]->Render(results, without_layers);
+		}
 	}
 
 	for (auto& v : instances)

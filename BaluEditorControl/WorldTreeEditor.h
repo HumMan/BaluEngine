@@ -19,30 +19,15 @@ namespace Editor
 
 	using namespace EngineInterface;
 
-	//public ref class TWolrdTreeNodeTag
-	//{
-	//public:
-	//	IBaluWorldObject* world_object;
-	//	TNodeType NodeType;
-	//	bool IsSpecialNode;
-	//	TWolrdTreeNodeTag(TNodeType NodeType)
-	//	{
-	//		IsSpecialNode = true;
-	//		this->NodeType = NodeType;
-	//	}
-	//	TWolrdTreeNodeTag(TNodeType NodeType, IBaluWorldObject* world_object)
-	//	{
-	//		IsSpecialNode = false;
-	//		this->NodeType = NodeType;
-	//		this->world_object = world_object;
-	//	}
-	//};
-
 	ref class TWorldDirector;
 
 	class TWorldTreeEditorPrivate;
 
-	
+	public delegate void OnAfterWorldLoad();
+	public delegate void OnObjectCreateDelegate(TEditor^ sender, int type, String^ name);
+	public delegate void OnObjectChangeDelegate(TEditor^ sender, int type, String^ name);
+	public delegate void OnObjectDestroyDelegate(TEditor^ sender, int type, String^ name);
+	public delegate void TAfterWorldLoaded();
 
 	public ref class TWorldTreeEditor: public TEditor
 	{
@@ -52,8 +37,22 @@ namespace Editor
 
 		std::vector<std::string> GetObjectNames(int obj_type);
 
-		void OnAfterWorldLoad()override;
+		void AfterWorldLoadedHandler();
+		void ObjectCreatedHandler(TEditor^ sender, int type, String^ name)
+		{
+			ObjectCreate(sender, type, name);
+		}
+		void ObjectDestroyedHandler(TEditor^ sender, int type, String^ name)
+		{
+			ObjectDestroy(sender, type, name);
+		}
 	public:
+
+		event OnObjectCreateDelegate^ ObjectCreate;
+		event OnObjectChangeDelegate^ ObjectChange;
+		event OnObjectDestroyDelegate^ ObjectDestroy;
+		event TAfterWorldLoaded^ AfterWorldLoaded;
+
 		TWorldTreeEditor(TWorldDirector^ director);
 
 		void Destroy() override;

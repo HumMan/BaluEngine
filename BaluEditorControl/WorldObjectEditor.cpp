@@ -163,12 +163,12 @@ namespace Editor
 				if (type == TWorldObjectType::Scene)
 				{
 					CreateEditorScene(dynamic_cast<IBaluScene*>(new_edit_obj)->GetLayers());
-					director->LayersManagerSceneChange(this, p->scene_instance);
+					director->Perform_Notify_LayersManager_SceneChange(this, p->scene_instance);
 				}
 				else
 				{
 					CreateEditorScene(nullptr);
-					director->LayersManagerSceneChange(this, nullptr);
+					director->Perform_Notify_LayersManager_SceneChange(this, nullptr);
 				}
 				p->drawing_context.screen = &p->screen;
 				p->drawing_context.view = &p->main_viewport_view;
@@ -227,7 +227,7 @@ namespace Editor
 		auto& tools = p->active_editor->GetAvailableTools();
 		auto tool = tools[index].tool.get();
 		p->active_editor->SetActiveTool(tool);
-		director->OnSelectObjectsTypeChange(this, (int)tool->NeedObjectSelect());
+		director->Perform_Notify_ObjectList_TypeChange(this, (int)tool->NeedObjectSelect());
 	}
 	int TWorldObjectEditor::GetActiveTool()
 	{

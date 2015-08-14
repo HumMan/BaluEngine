@@ -26,13 +26,13 @@ namespace Editor
 		if (p->active_type != (TWorldObjectType)type)
 		{
 			p->active_type = (TWorldObjectType)type;
-			TEditor::OnSelectObjectsTypeChange(sender, type);
+			OnSelectObjectsTypeChange(sender, type);
 		}
 	}
 	void TWorldObjectsList::OnAfterWorldLoad()
 	{
 		p->world = director->GetWorld();
-		TEditor::OnAfterWorldLoad();
+		OnAfterWorldLoad();
 	}
 	TWorldObjectsList::TWorldObjectsList(TWorldDirector^ world_director)
 	{
@@ -62,6 +62,6 @@ namespace Editor
 	void TWorldObjectsList::SetSelectedObject(int index)
 	{
 		p->active_selection = index;
-		director->OnObjectListSelectionChange(this, (int)p->active_type, GetObjectName(p->active_selection));
+		director->Perform_Notify_ObjectEditor_ObjectListSelectionChange(this, (int)p->active_type, GetObjectName(p->active_selection));
 	}
 }

@@ -81,8 +81,8 @@ public:
 	{
 		return &layers;
 	}
-	TBaluScene(){}
-	TBaluScene(const char* name, TBaluWorld* world)
+	TBaluScene():layers(this){}
+	TBaluScene(const char* name, TBaluWorld* world) :layers(this)
 	{
 		this->world = world;
 		this->scene_name = name;

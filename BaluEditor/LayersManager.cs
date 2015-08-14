@@ -27,15 +27,21 @@ namespace BaluEditor
             //editor_LayersManagerSceneChange(null);
         }
 
-        void editor_LayersManagerSceneChange(Editor.TEditor sender)
+        void editor_LayersManagerSceneChange(Editor.TEditor sender, bool active)
         {
             listBox1.Items.Clear();
-            int count = editor.GetLayersCount();
-            for(int i=0;i<count;i++)
+            if (active)
             {
-                Editor.TLayerDesc l = editor.GetLayer(i);
-                listBox1.Items.Add(l.name);
+                listBox1.Enabled = true;
+                int count = editor.GetLayersCount();
+                for (int i = 0; i < count; i++)
+                {
+                    Editor.TLayerDesc l = editor.GetLayer(i);
+                    listBox1.Items.Add(l.name);
+                }
             }
+            else
+                listBox1.Enabled = false;
         }
         public void EditorDeinitialize()
         {
@@ -64,6 +70,7 @@ namespace BaluEditor
                 checkBox1.Checked = layer.visible;
                 checkBox2.Checked = layer.locked;
                 checkBox3.Checked = layer.visible_in_editor;
+                textBox1.Text = layer.name;
                 trackBar1.Value = (int)(layer.alpha*10);
                 enable_events = true;
             }

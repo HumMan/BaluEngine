@@ -79,21 +79,21 @@ namespace Editor
 		{
 			ed->OnClassInstanceSelectionChange(sender, new_selection);
 		}
-	}*/
-	void TWorldDirector::OnBeforeWorldLoad()
-	{
-		for each (auto ed in editors)
-		{
-			ed->OnBeforeWorldLoad();
-		}
-	}
-	void TWorldDirector::OnAfterWorldLoad()
-	{
-		for each (auto ed in editors)
-		{
-			ed->OnAfterWorldLoad();
-		}
-	}
+	//}*/
+	//void TWorldDirector::OnBeforeWorldLoad()
+	//{
+	//	for each (auto ed in editors)
+	//	{
+	//		ed->OnBeforeWorldLoad();
+	//	}
+	//}
+	//void TWorldDirector::OnAfterWorldLoad()
+	//{
+	//	for each (auto ed in editors)
+	//	{
+	//		ed->OnAfterWorldLoad();
+	//	}
+	//}
 
 	//void TWorldDirector::OnObjectCreate(TEditor^ sender, int type, int index)
 	//{
@@ -110,7 +110,7 @@ namespace Editor
 	//		ed->OnObjectDestroy(sender, type, index);
 	//	}
 	//}
-
+/*
 	void TWorldDirector::LayersManagerSceneChange(TEditor^ sender, IBaluSceneInstance* scene_instance)
 	{
 		for each (auto ed in editors)
@@ -142,7 +142,7 @@ namespace Editor
 			ed->OnObjectListSelectionChange(sender, type, Converters::FromClrString(name));
 		}
 	}
-
+*/
 	String^ TWorldDirector::GetAssetsDir()
 	{
 		return Converters::ToClrString(p->assets_dir);
@@ -154,7 +154,7 @@ namespace Editor
 	}
 	void TWorldDirector::LoadWorldFrom(String^ path)
 	{
-		OnBeforeWorldLoad();
+		Perform_Notify_All_BeforeWorldLoaded();
 		if (p->world != nullptr)
 		{
 			DestroyWorld(p->world);
@@ -163,11 +163,11 @@ namespace Editor
 		p->world = CreateWorld();
 		p->world->LoadFromXML(Converters::FromClrString(path));
 		p->world->GetCallbacksActiveType() = TScriptActiveType::EDITOR;
-		OnAfterWorldLoad();
+		Perform_Notify_All_AfterWorldLoaded();
 	}
 	void TWorldDirector::LoadDemoWorld()
 	{
-		OnBeforeWorldLoad();
+		Perform_Notify_All_BeforeWorldLoaded();
 		if (p->world != nullptr)
 		{
 			DestroyWorld(p->world);
@@ -175,12 +175,12 @@ namespace Editor
 		}
 		p->world = CreateDemoWorld(p->assets_dir);
 		p->world->GetCallbacksActiveType() = TScriptActiveType::EDITOR;
-		OnAfterWorldLoad();
+		Perform_Notify_All_AfterWorldLoaded();
 	}
 
 	void TWorldDirector::LoadNewWorld()
 	{
-		OnBeforeWorldLoad();
+		Perform_Notify_All_BeforeWorldLoaded();
 		if (p->world != nullptr)
 		{
 			DestroyWorld(p->world);
@@ -188,7 +188,7 @@ namespace Editor
 		}
 		p->world = CreateWorld();
 		p->world->GetCallbacksActiveType() = TScriptActiveType::EDITOR;
-		OnAfterWorldLoad();
+		Perform_Notify_All_AfterWorldLoaded();
 	}
 
 	EngineInterface::IBaluWorld* TWorldDirector::GetWorld()

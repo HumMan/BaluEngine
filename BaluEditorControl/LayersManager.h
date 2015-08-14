@@ -19,25 +19,6 @@ namespace Editor
 
 	using namespace EngineInterface;
 
-	//public ref class TWolrdTreeNodeTag
-	//{
-	//public:
-	//	IBaluWorldObject* world_object;
-	//	TNodeType NodeType;
-	//	bool IsSpecialNode;
-	//	TWolrdTreeNodeTag(TNodeType NodeType)
-	//	{
-	//		IsSpecialNode = true;
-	//		this->NodeType = NodeType;
-	//	}
-	//	TWolrdTreeNodeTag(TNodeType NodeType, IBaluWorldObject* world_object)
-	//	{
-	//		IsSpecialNode = false;
-	//		this->NodeType = NodeType;
-	//		this->world_object = world_object;
-	//	}
-	//};
-
 	ref class TWorldDirector;
 
 	class TLayersManagerPrivate;
@@ -52,15 +33,20 @@ namespace Editor
 		bool visible_in_editor;
 	};
 
+	public delegate void OnLayersManagerSceneChangeDelegate(TEditor^ sender, bool active);
+
 	public ref class TLayersManager : public TEditor
 	{
 	internal:
-		void OnLayersManagerSceneChange(TEditor^ sender, IBaluSceneInstance* scene_instance)override;
+		void OnLayersManagerSceneChange(TEditor^ sender, IBaluSceneInstance* scene_instance);
 		IBaluSceneInstance* GetActiveScene();
 	private:
 		TLayersManagerPrivate* p;
 		TWorldDirector^ director;
 	public:
+
+		event OnLayersManagerSceneChangeDelegate^ LayersManagerSceneChange;
+
 		TLayersManager(TWorldDirector^ director);
 
 		void AddLayer();

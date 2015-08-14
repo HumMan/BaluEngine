@@ -23,11 +23,11 @@ namespace Editor
 		}
 		void OnObjectCreate(TWorldObjectType type,std::string name)
 		{
-			editor->OnObjectCreate(editor,(int) type, name);
+			editor->ObjectCreatedHandler(editor, (int)type, Converters::ToClrString(name));
 		}
 		void OnObjectDestroy(TWorldObjectType type, std::string name)
 		{
-			editor->OnObjectDestroy(editor, (int)type, name);
+			editor->ObjectDestroyedHandler(editor, (int)type, Converters::ToClrString(name));
 		}
 		void OnObjectChange(TWorldObjectType type, std::string name){}
 		void OnSubObjectCreate(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
@@ -42,11 +42,11 @@ namespace Editor
 		std::unique_ptr<TWorldTreeChangesListener> world_change_listener;
 	};
 
-	void TWorldTreeEditor::OnAfterWorldLoad()
+	void TWorldTreeEditor::AfterWorldLoadedHandler()
 	{
 		p->world = director->GetWorld();
 		p->world->AddChangesListener(p->world_change_listener.get());
-		TEditor::AfterWorldLoad();
+		AfterWorldLoaded();
 	}
 
 	std::vector<std::string> TWorldTreeEditor::GetObjectNames(int obj_type)
@@ -60,6 +60,8 @@ namespace Editor
 
 		this->director = director;
 		director->RegisterEditor(this);
+
+		director->Notify_All_AfterWorldLoaded += AfterWorldLoadedHandler();
 
 		p = new TWorldTreeEditorPrivate();
 

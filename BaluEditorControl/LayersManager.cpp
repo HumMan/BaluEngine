@@ -51,6 +51,7 @@ namespace Editor
 		IDirector* director;
 
 		IBaluSceneInstance* scene_instance;
+		IBaluScene* source_scene;
 
 		std::unique_ptr<TLayersManagerEditorListener> layers_change_listener;
 		
@@ -60,6 +61,7 @@ namespace Editor
 
 			director = nullptr;
 			scene_instance = nullptr;
+			source_scene = nullptr;
 		}
 	};
 
@@ -89,17 +91,19 @@ namespace Editor
 	{
 		if (p->scene_instance != scene_instance)
 		{
+			
 			if (p->scene_instance != nullptr)
 			{
-				p->scene_instance->GetLayers()->GetSource()->RemoveListener(p->layers_change_listener.get());
+				p->source_scene->GetLayers()->RemoveListener(p->layers_change_listener.get());
 			}
 			p->scene_instance = scene_instance;
 			if (scene_instance != nullptr)
 			{
+				p->source_scene = (IBaluScene*)p->scene_instance->GetLayers()->GetSource()->GetScene();
 				p->scene_instance->GetLayers()->GetSource()->AddListener(p->layers_change_listener.get());
 			}
 		}
-		TEditor::OnLayersManagerSceneChange(sender, scene_instance);
+		LayersManagerSceneChange(sender, scene_instance!=nullptr);
 	}
 	void TLayersManager::AddLayer()
 	{

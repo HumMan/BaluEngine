@@ -44,6 +44,14 @@ private:
 
 	std::vector<TLayersManagerChangeListener*> listeners;
 public:
+	TLayersManager(TBaluScene* scene)
+	{
+		this->scene = scene;
+	}
+	TBaluScene* GetScene()
+	{
+		return scene;
+	}
 	void AddListener(TLayersManagerChangeListener* listener)
 	{
 		auto it = std::find(listeners.begin(), listeners.end(), listener);
@@ -113,6 +121,7 @@ private:
 	TInstanceLayersManagerChangeListener source_changes_listener;
 public:
 	TLayersManagerInstance(TLayersManager* source);
+	~TLayersManagerInstance();
 	TLayersManager* GetSource();
 	std::vector<TLayerInstance> GetLayers()
 	{
