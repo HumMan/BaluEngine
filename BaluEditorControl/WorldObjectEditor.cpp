@@ -93,6 +93,11 @@ namespace Editor
 		p->director->Initialize((void*)handle.ToPointer());
 		p->director->SetViewport(TVec2i(width, height));
 
+		director->Notify_All_AfterWorldLoaded += gcnew TNotify_All_AfterWorldLoaded(this, &TWorldObjectEditor::OnAfterWorldLoad);
+		director->Notify_All_BeforeWorldLoaded += gcnew TNotify_All_BeforeWorldLoaded(this, &TWorldObjectEditor::OnBeforeWorldLoad);
+		director->Notify_ObjectEditor_EditedObjectChange += gcnew TNotify_ObjectEditor_EditedObjectChange(this, &TWorldObjectEditor::OnEditedObjectChange);
+		director->Notify_ObjectEditor_ObjectListSelectionChange += gcnew TNotify_ObjectEditor_ObjectListSelectionChange(this, &TWorldObjectEditor::OnObjectListSelectionChange);
+
 		p->world = world_director->GetWorld();
 
 		p->screen = TScreen(TVec2i(width, height));
@@ -137,8 +142,9 @@ namespace Editor
 		OnEditedObjectChange(this, (int)TWorldObjectType::None, "");
 	}
 
-	void TWorldObjectEditor::OnEditedObjectChange(TEditor^ sender, int _type, std::string name)
+	void TWorldObjectEditor::OnEditedObjectChange(TEditor^ sender, int _type, String^ _name)
 	{		
+		std::string name = Converters::FromClrString(_name);
 		TWorldObjectType type = (TWorldObjectType)_type;
 		
 		IBaluWorldObject* new_edit_obj = nullptr;
@@ -179,18 +185,18 @@ namespace Editor
 
 				if (p->active_editor->GetAvailableTools().size()>0)
 					SetActiveTool(0);
-				OnToolsChange();
+				GUI_Notify_ToolsChanged();
 			}
 		}
 	}
 
-	void TWorldObjectEditor::OnObjectListSelectionChange(TEditor^ sender, int _type, std::string name)
+	void TWorldObjectEditor::OnObjectListSelectionChange(TEditor^ sender, int _type, String^ name)
 	{
 		TWorldObjectType type = (TWorldObjectType)_type;
 		IBaluWorldObject* new_edit_obj = nullptr;
 		if (type != TWorldObjectType::None)
 		{
-			new_edit_obj = p->world->GetObjectByName(type, name.c_str());
+			new_edit_obj = p->world->GetObjectByName(type, Converters::FromClrString(name).c_str());
 		}
 
 		p->active_editor->GetActiveTool()->SetSelectedObject(new_edit_obj);

@@ -45,7 +45,7 @@ namespace Editor
 		TWorldDirector^ director;
 	public:
 
-		event OnLayersManagerSceneChangeDelegate^ LayersManagerSceneChange;
+		event OnLayersManagerSceneChangeDelegate^ GUI_Notify_LayersManagerSceneChange;
 
 		TLayersManager(TWorldDirector^ director);
 

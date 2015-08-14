@@ -23,7 +23,6 @@ namespace Editor
 
 	class TWorldTreeEditorPrivate;
 
-	public delegate void OnAfterWorldLoad();
 	public delegate void OnObjectCreateDelegate(TEditor^ sender, int type, String^ name);
 	public delegate void OnObjectChangeDelegate(TEditor^ sender, int type, String^ name);
 	public delegate void OnObjectDestroyDelegate(TEditor^ sender, int type, String^ name);
@@ -40,18 +39,17 @@ namespace Editor
 		void AfterWorldLoadedHandler();
 		void ObjectCreatedHandler(TEditor^ sender, int type, String^ name)
 		{
-			ObjectCreate(sender, type, name);
+			GUI_Notify_ObjectCreate(sender, type, name);
 		}
 		void ObjectDestroyedHandler(TEditor^ sender, int type, String^ name)
 		{
-			ObjectDestroy(sender, type, name);
+			GUI_Notify_ObjectDestroy(sender, type, name);
 		}
 	public:
 
-		event OnObjectCreateDelegate^ ObjectCreate;
-		event OnObjectChangeDelegate^ ObjectChange;
-		event OnObjectDestroyDelegate^ ObjectDestroy;
-		event TAfterWorldLoaded^ AfterWorldLoaded;
+		event OnObjectCreateDelegate^ GUI_Notify_ObjectCreate;
+		event OnObjectDestroyDelegate^ GUI_Notify_ObjectDestroy;
+		event TAfterWorldLoaded^ GUI_Notify_AfterWorldLoaded;
 
 		TWorldTreeEditor(TWorldDirector^ director);
 
@@ -59,6 +57,8 @@ namespace Editor
 
 		static int GetWorldObjectTypesCount();
 		static String^ GetObjectTypeName(int obj_type);
+
+		void SetEditedObject(int type, String^ name);
 
 		int GetObjectsCount(int obj_type);
 		String^ GetObjectName(int obj_type, int obj_index);

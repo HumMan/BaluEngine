@@ -72,6 +72,8 @@ namespace Editor
 		this->director = world_director;
 		world_director->RegisterEditor(this);
 
+		director->Notify_LayersManager_SceneChange += gcnew Editor::TNotify_LayersManager_SceneChange(this, &Editor::TLayersManager::OnLayersManagerSceneChange);
+
 		p = new TLayersManagerPrivate();
 		
 		p->world = world_director->GetWorld();
@@ -103,7 +105,7 @@ namespace Editor
 				p->scene_instance->GetLayers()->GetSource()->AddListener(p->layers_change_listener.get());
 			}
 		}
-		LayersManagerSceneChange(sender, scene_instance!=nullptr);
+		GUI_Notify_LayersManagerSceneChange(sender, scene_instance != nullptr);
 	}
 	void TLayersManager::AddLayer()
 	{

@@ -23,7 +23,7 @@ namespace BaluEditor
         {
             this.director = director;
             editor = new Editor.TLayersManager(director);
-            editor.LayersManagerSceneChange += editor_LayersManagerSceneChange;
+            editor.GUI_Notify_LayersManagerSceneChange += editor_LayersManagerSceneChange;
             //editor_LayersManagerSceneChange(null);
         }
 
@@ -45,7 +45,7 @@ namespace BaluEditor
         }
         public void EditorDeinitialize()
         {
-            editor.LayersManagerSceneChange += editor_LayersManagerSceneChange;
+            editor.GUI_Notify_LayersManagerSceneChange += editor_LayersManagerSceneChange;
             editor.Destroy();
         }
 

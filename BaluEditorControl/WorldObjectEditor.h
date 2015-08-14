@@ -34,8 +34,8 @@ namespace Editor
 	internal:
 		void OnBeforeWorldLoad()override;
 		void OnAfterWorldLoad()override;
-		void OnEditedObjectChange(TEditor^ sender, int type, std::string name)override;
-		void OnObjectListSelectionChange(TEditor^ sender, int type, std::string name)override;
+		void OnEditedObjectChange(TEditor^ sender, int type, String^ name)override;
+		void OnObjectListSelectionChange(TEditor^ sender, int type, String^ name)override;
 	private:
 
 		TWorldObjectEditorPrivate* p;
@@ -47,9 +47,7 @@ namespace Editor
 		void DestroyEditorScene();
 
 	public:
-		
-		event OnToolsChangeDelegate^ OnToolsChange;
-		event OnSelectedObjectChangeDelegate^ OnSelectedObjectChange;
+		event OnToolsChangeDelegate^ GUI_Notify_ToolsChanged;
 
 		TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ world_director);
 		void Destroy() override;

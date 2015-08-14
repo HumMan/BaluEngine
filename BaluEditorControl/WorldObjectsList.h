@@ -29,19 +29,21 @@ namespace Editor
 	public ref class TWorldObjectsList : public TEditor
 	{
 	internal:
-		void OnSelectObjectsTypeChange(TEditor^ sender, int type)override;
-		//void OnObjectListSelectionChange(TEditor^ sender, int type, int index)override;
-		void OnAfterWorldLoad()override;
+		void OnSelectObjectsTypeChange(TEditor^ sender, int type);
+		void OnAfterWorldLoad();
 	private:
 
 		TWorldObjectsListPrivate* p;
 		TWorldDirector^ director;
 	public:
+		event TNotify_ObjectList_TypeChange^ GUI_Notify_TypeChange;
+
 		TWorldObjectsList(TWorldDirector^ world_director);
 		void Destroy() override;
 
 		int GetObjectsCount();
 		String^ GetObjectName(int index);
 		void SetSelectedObject(int index);
+		void OnNotify_All_AfterWorldLoaded();
 	};
 }

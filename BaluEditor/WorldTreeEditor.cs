@@ -27,9 +27,9 @@ namespace BaluEditor
             CreateContextItems();
             this.director = director;
             editor = new Editor.TWorldTreeEditor(director);
-            editor.AfterWorldLoad += editor_on_after_world_load;
-            editor.ObjectCreate += editor_ObjectCreate;
-            editor.ObjectDestroy += editor_ObjectRemove;
+            editor.GUI_Notify_AfterWorldLoaded += editor_on_after_world_load;
+            editor.GUI_Notify_ObjectCreate += editor_ObjectCreate;
+            editor.GUI_Notify_ObjectDestroy += editor_ObjectRemove;
         }
 
         void editor_ObjectRemove(Editor.TEditor sender, int type, string name)
@@ -74,9 +74,9 @@ namespace BaluEditor
 
         public void EditorDeinitialize()
         {
-            editor.AfterWorldLoad -= editor_on_after_world_load;
-            editor.ObjectCreate -= editor_ObjectCreate;
-            editor.ObjectDestroy -= editor_ObjectRemove;
+            editor.GUI_Notify_AfterWorldLoaded -= editor_on_after_world_load;
+            editor.GUI_Notify_ObjectCreate -= editor_ObjectCreate;
+            editor.GUI_Notify_ObjectDestroy -= editor_ObjectRemove;
 
             editor.Destroy();
         }
@@ -166,8 +166,7 @@ namespace BaluEditor
             if (treeView1.SelectedNode!=null && treeView1.SelectedNode.Tag is TWorldObjectNode)
             {
                 var node = treeView1.SelectedNode.Tag as TWorldObjectNode;
-                //director.OnEditedObjectChange(editor, node.type, node.index);
-                director.EditedObjectChange(editor, node.type, node.name);
+                editor.SetEditedObject(node.type, node.name);
             }
         }
     }

@@ -25,13 +25,13 @@ namespace BaluEditor
         {
             this.director = director;
             editor = new Editor.TWorldObjectEditor(panel2.Handle, panel2.Width, panel2.Height, director);
-            editor.OnToolsChange += OnToolsChange;
+            editor.GUI_Notify_ToolsChanged += OnToolsChange;
             timer1.Enabled = true;
         }
         public void EditorDeinitialize()
         {
             timer1.Enabled = false;
-            editor.OnToolsChange -= OnToolsChange;
+            editor.GUI_Notify_ToolsChanged -= OnToolsChange;
             editor.Destroy();
         }
 

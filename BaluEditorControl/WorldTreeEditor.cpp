@@ -46,7 +46,7 @@ namespace Editor
 	{
 		p->world = director->GetWorld();
 		p->world->AddChangesListener(p->world_change_listener.get());
-		AfterWorldLoaded();
+		GUI_Notify_AfterWorldLoaded();
 	}
 
 	std::vector<std::string> TWorldTreeEditor::GetObjectNames(int obj_type)
@@ -61,7 +61,7 @@ namespace Editor
 		this->director = director;
 		director->RegisterEditor(this);
 
-		director->Notify_All_AfterWorldLoaded += AfterWorldLoadedHandler();
+		director->Notify_All_AfterWorldLoaded += gcnew TNotify_All_AfterWorldLoaded(this, &TWorldTreeEditor::AfterWorldLoadedHandler);
 
 		p = new TWorldTreeEditorPrivate();
 
@@ -90,6 +90,11 @@ namespace Editor
 	String^ TWorldTreeEditor::GetObjectTypeName(int obj_type)
 	{
 		return gcnew String(TWorldObjectTypeString::Get((TWorldObjectType)obj_type));
+	}
+
+	void TWorldTreeEditor::SetEditedObject(int type, String^ name)
+	{
+		director->Perform_Notify_ObjectEditor_EditedObjectChange(this, type, name);
 	}
 
 	int TWorldTreeEditor::GetObjectsCount(int obj_type)

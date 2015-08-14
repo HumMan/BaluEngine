@@ -22,7 +22,7 @@ namespace BaluEditor
         {
             this.director = director;
             editor = new Editor.TWorldObjectsList(director);
-            editor.SelectObjectsTypeChange += SelectObjectsTypeChange;
+            editor.GUI_Notify_TypeChange += SelectObjectsTypeChange;
         }
         public void SelectObjectsTypeChange(Editor.TEditor sender, int type)
         {
@@ -35,7 +35,7 @@ namespace BaluEditor
         }
         public void EditorDeinitialize()
         {
-            editor.SelectObjectsTypeChange -= SelectObjectsTypeChange;
+            editor.GUI_Notify_TypeChange -= SelectObjectsTypeChange;
             editor.Destroy();
         }
 
