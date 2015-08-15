@@ -95,7 +95,7 @@ namespace BaluEditor
                 checkBox2.Checked = layer.locked;
                 checkBox3.Checked = layer.visible_in_editor;
                 textBox1.Text = layer.name;
-                trackBar1.Value = (int)(layer.alpha*10);
+                trackBar1.Value = (int)(layer.alpha * trackBar1.Maximum);
                 enable_events = true;
             }
         }

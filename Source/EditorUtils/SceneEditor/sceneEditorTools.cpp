@@ -38,6 +38,8 @@ TCreateClassInstanceTool::TCreateClassInstanceTool(TSceneEditorScene* scene_edit
 
 void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 {
+	if (e.button != TMouseButton::Left)
+		return;
 	if (active_tool_class != nullptr)
 	{
 		auto transform = TBaluTransform(scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location), TRot(0));
@@ -110,6 +112,8 @@ public:
 
 	void OnMouseDown(TMouseEventArgs e)
 	{
+		if (e.button != TMouseButton::Left)
+			return;
 		if (scene_editor_scene->boundary_box->enable)
 		{
 			scene_editor_scene->boundary_box->OnMouseDown(e, scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
@@ -156,6 +160,8 @@ public:
 	}
 	void OnMouseUp(TMouseEventArgs e)
 	{
+		if (e.button != TMouseButton::Left)
+			return;
 		if (scene_editor_scene->boundary_box->enable)
 		{
 			scene_editor_scene->boundary_box->OnMouseUp(e, scene_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(e.location));
