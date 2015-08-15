@@ -2,8 +2,13 @@
 
 TLayer::TLayer()
 {
-	name = "test text";
+	name = "Layer";
 	visible = true;
+}
+TLayer::TLayer(std::string name, bool visible)
+{
+	this->name = name;
+	this->visible = visible;
 }
 std::string TLayer::GetName()
 {

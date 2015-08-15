@@ -157,7 +157,10 @@ namespace BaluEditor
 
         private void layersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            layers.Show(this);
+            if (layers.Visible)
+                layers.Focus();        
+            else
+                layers.Show(this);
         }
     }
 }

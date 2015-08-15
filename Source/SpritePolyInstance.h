@@ -52,7 +52,7 @@ public:
 
 	//void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 
-	void Render(std::vector<TRenderCommand>& commands, TLayersManager& layers);
+	void Render(std::vector<TRenderCommand>& commands, TLayersManagerInstance& layers);
 
 	void UpdateTransform(TBaluTransformWithScale global);
 	void UpdateAnimation();

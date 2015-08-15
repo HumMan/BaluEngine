@@ -25,19 +25,19 @@ namespace Editor
 		}
 		virtual void LayerReordered(int layer_id, int after_id)
 		{
-			editor->OnLayersManagerSceneChange(editor, editor->GetActiveScene());
+			editor->Perform_GUI_Notify_LayersChange(TLayersChangeType::Reorder, layer_id, after_id);
 		}
 		virtual void LayerAdded(int layer_id)
 		{
-			editor->OnLayersManagerSceneChange(editor, editor->GetActiveScene());
+			editor->Perform_GUI_Notify_LayersChange(TLayersChangeType::Add, layer_id, -1);
 		}
 		virtual void LayerRemoved(int layer_id)
 		{
-			editor->OnLayersManagerSceneChange(editor, editor->GetActiveScene());
+			editor->Perform_GUI_Notify_LayersChange(TLayersChangeType::Remove, layer_id, -1);
 		}
 		virtual void LayerChanged(int layer_id)
 		{
-			editor->OnLayersManagerSceneChange(editor, editor->GetActiveScene());
+			editor->Perform_GUI_Notify_LayersChange(TLayersChangeType::Change, layer_id, -1);
 		}
 	};
 

@@ -40,13 +40,14 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 	//render->Set.PolygonMode(TBaluRenderEnums::TPolygonMode::Line);
 	std::sort(render_commands.begin(), render_commands.end(),
 		[&](TRenderCommand& l, TRenderCommand& r){return l.layer > r.layer; });
-
+	render->Set.Color(1, 1, 1, 1);
 	//int current_layer = render_commands.front().layer;
 	for (int i = 0; i < render_commands.size(); i++)
 	{ 
 		auto& c = render_commands[i];
 		assert(c.vertices_count > 0);
 		{
+			render->Set.Color(1, 1, 1, c.alpha);
 			auto tex = c.material_id->GetTexture();
 			render->Texture.Bind(*(TTextureId*)&tex);
 			TStreamsDesc streams;

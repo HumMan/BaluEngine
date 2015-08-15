@@ -24,7 +24,31 @@ namespace BaluEditor
             this.director = director;
             editor = new Editor.TLayersManager(director);
             editor.GUI_Notify_LayersManagerSceneChange += editor_LayersManagerSceneChange;
-            //editor_LayersManagerSceneChange(null);
+            editor.GUI_Notify_LayersChange += editor_GUI_Notify_LayersChange;
+        }
+
+        void editor_GUI_Notify_LayersChange(Editor.TLayersChangeType type, int layer_id, int after_id)
+        {
+            switch (type)
+            {
+                case Editor.TLayersChangeType.Add:
+                    listBox1.Items.Insert(layer_id, editor.GetLayer(layer_id).name);
+                    break;
+                case Editor.TLayersChangeType.Change:
+                    {
+                        var new_name = editor.GetLayer(layer_id).name;
+                        if ((string)listBox1.Items[layer_id] != new_name)
+                            listBox1.Items[layer_id] = new_name;
+                    }
+                    break;
+                case Editor.TLayersChangeType.Remove:
+                    listBox1.Items.RemoveAt(layer_id);
+                    break;
+                case Editor.TLayersChangeType.Reorder:
+                    break;
+                default:
+                    break;
+            }
         }
 
         void editor_LayersManagerSceneChange(Editor.TEditor sender, bool active)
@@ -84,6 +108,68 @@ namespace BaluEditor
                 {
                     var layer = editor.GetLayer(listBox1.SelectedIndex);
                     layer.visible = checkBox1.Checked;
+                    editor.SetLayer(listBox1.SelectedIndex, layer);
+                }
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (enable_events)
+            {
+                if (listBox1.SelectedIndex != -1)
+                {
+                    var layer = editor.GetLayer(listBox1.SelectedIndex);
+                    layer.name = textBox1.Text;
+                    editor.SetLayer(listBox1.SelectedIndex, layer);
+                }
+            }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            if (enable_events)
+            {
+                if (listBox1.SelectedIndex != -1)
+                {
+                    var layer = editor.GetLayer(listBox1.SelectedIndex);
+                    layer.alpha = trackBar1.Value/(float)trackBar1.Maximum;
+                    editor.SetLayer(listBox1.SelectedIndex, layer);
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (enable_events)
+            {
+                if (listBox1.SelectedIndex != -1)
+                {
+                    var layer = editor.GetLayer(listBox1.SelectedIndex);
+                    layer.locked = checkBox2.Checked;
+                    editor.SetLayer(listBox1.SelectedIndex, layer);
+                }
+            }
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (enable_events)
+            {
+                if (listBox1.SelectedIndex != -1)
+                {
+                    var layer = editor.GetLayer(listBox1.SelectedIndex);
+                    layer.visible_in_editor = checkBox3.Checked;
                     editor.SetLayer(listBox1.SelectedIndex, layer);
                 }
             }

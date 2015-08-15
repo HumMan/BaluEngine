@@ -38,14 +38,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.layersManager1.Location = new System.Drawing.Point(12, 12);
             this.layersManager1.Name = "layersManager1";
-            this.layersManager1.Size = new System.Drawing.Size(502, 444);
+            this.layersManager1.Size = new System.Drawing.Size(336, 444);
             this.layersManager1.TabIndex = 0;
             // 
             // LayerManagerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 468);
+            this.ClientSize = new System.Drawing.Size(360, 468);
             this.Controls.Add(this.layersManager1);
             this.Name = "LayerManagerWindow";
             this.Text = "LayerManagerWindow";

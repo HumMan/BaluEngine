@@ -19,6 +19,7 @@ private:
 	bool visible;
 public:
 	TLayer();
+	TLayer(std::string name, bool visible);
 	std::string GetName();
 	void SetName(std::string name);
 	bool IsVisible();
@@ -46,6 +47,7 @@ private:
 public:
 	TLayersManager(TBaluScene* scene)
 	{
+		layers.push_back(TLayer("Default", true));
 		this->scene = scene;
 	}
 	TBaluScene* GetScene()

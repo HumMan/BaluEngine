@@ -26,11 +26,15 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 	UpdateAnimation();
 }
 
-void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, TLayersManager& layers)
+void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, TLayersManagerInstance& layers)
 {
 	if (enable && vertices.size() > 0)
 	{
-		if (layers.GetLayersCount()>0 && layers.GetLayer(layer).IsVisible())
+		if (layers.GetSource()->GetLayersCount() > 0)
+		{
+			auto layer_desc = layers.GetSource()->GetLayer(layer);
+			auto layer_inst_desc = layers.GetLayers()[layer];
+			if (layer_desc.IsVisible())
 		{
 			commands.emplace_back();
 
@@ -43,6 +47,8 @@ void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, T
 			assert(tex_coords.size() != 0);
 			command.tex_coords = &tex_coords[0];
 			command.layer = layer;
+			command.alpha = layer_inst_desc.GetAlpha();
+		}
 		}
 	}
 }
