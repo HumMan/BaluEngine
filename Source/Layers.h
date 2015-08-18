@@ -17,6 +17,7 @@ private:
 
 	std::string name;
 	bool visible;
+	int order;
 public:
 	TLayer();
 	TLayer(std::string name, bool visible);
@@ -24,6 +25,8 @@ public:
 	void SetName(std::string name);
 	bool IsVisible();
 	void SetIsVisible(bool visible);
+	int GetOrder();
+	void SetOrder(int order);
 };
 
 class TBaluScene;
@@ -81,7 +84,7 @@ class BALUENGINEDLL_API TLayerInstance
 {
 private:
 	TLayersManagerInstance* manager;
-	//only in editor
+
 	float alpha;
 	bool locked;
 	bool editor_visible;
