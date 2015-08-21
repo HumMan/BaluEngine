@@ -33,7 +33,7 @@ namespace EngineInterface
 		TVec2* vertices;
 		TVec2* tex_coords;
 		TVec4* colors;
-		int layer;
+		int layer_order;
 		float alpha;
 
 		TRenderCommand(){}

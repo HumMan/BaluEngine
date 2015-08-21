@@ -46,7 +46,7 @@ void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, T
 			command.vertices_count = vertices.size();
 			assert(tex_coords.size() != 0);
 			command.tex_coords = &tex_coords[0];
-			command.layer = layer;
+			command.layer_order = layer_desc.GetOrder();
 			command.alpha = layer_inst_desc.GetAlpha();
 		}
 		}

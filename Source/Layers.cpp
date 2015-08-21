@@ -26,7 +26,14 @@ void TLayer::SetIsVisible(bool visible)
 {
 	this->visible = visible;
 }
-
+int TLayer::GetOrder()
+{
+	return order;
+}
+void TLayer::SetOrder(int order)
+{
+	this->order = order;
+}
 float TLayerInstance::GetAlpha()
 {
 	return alpha;
