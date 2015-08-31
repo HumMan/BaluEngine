@@ -34,7 +34,6 @@ class TBaluScene;
 class TLayersManagerChangeListener
 {
 public:
-	virtual void LayerReordered(int layer_id, int after_id) = 0;
 	virtual void LayerAdded(int layer_id) = 0;
 	virtual void LayerRemoved(int layer_id) = 0;
 	virtual void LayerChanged(int layer_id) = 0;
@@ -72,7 +71,6 @@ public:
 	TLayer GetLayer(int id);
 	int GetLayersCount();
 	void SetLayer(int id, TLayer layer);
-	void ReorderLayer(int layer_id, int after_id);
 	void AddLayer(TLayer layer, int after_id);
 	void RemoveLayer(int layer_id);
 	void MoveObjects(int from_layer_id, int to_layer_id);

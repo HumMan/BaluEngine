@@ -13,6 +13,12 @@
 
 using namespace EngineInterface;
 
+class ISelectionChangeListener
+{
+public:
+	virtual void OnSelectionChange(EngineInterface::IProperties* new_selection)=0;
+};
+
 class TAbstractEditor: public EngineInterface::IAbstractEditor, public TMouseEventListener
 {
 private:
@@ -26,10 +32,12 @@ protected:
 	void InitializeControls(IBaluWorldInstance* world);
 	void DeinitializeControls();
 
-public:
 	void OnMouseMove(TMouseEventArgs e);
 	void OnMouseDown(TMouseEventArgs e);
 	void OnMouseUp(TMouseEventArgs e);
+
+public:
+	
 
 	TAbstractEditor()
 	{
@@ -45,8 +53,6 @@ public:
 
 	virtual bool CanEndSelectedAsWork() = 0;
 	virtual bool EndSelectedAsWork() = 0;
-
-	//std::map<std::string, TAbstractEditorObject*> CanCreateObjects();
 
 	virtual const std::vector<TToolWithDescription>& GetAvailableTools()=0;
 	virtual void SetActiveTool(IEditorTool* tool);
