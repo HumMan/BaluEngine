@@ -23,6 +23,8 @@ class TAbstractEditor: public EngineInterface::IAbstractEditor, public TMouseEve
 {
 private:
 	IBaluWorldInstance* world;
+
+	std::vector<ISelectionChangeListener*> selection_listeners;
 protected:
 	std::vector<TAbstractEditor*> parent_editors;
 	TAbstractEditor* current_local_editor;
@@ -36,8 +38,12 @@ protected:
 	void OnMouseDown(TMouseEventArgs e);
 	void OnMouseUp(TMouseEventArgs e);
 
+	void EmitOnSelectionChange(EngineInterface::IProperties* new_selection);
+
 public:
 	
+	void AddSelectionChangeListener(ISelectionChangeListener* listener);
+	void RemoveSelectionChangeListener(ISelectionChangeListener* listener);
 
 	TAbstractEditor()
 	{
