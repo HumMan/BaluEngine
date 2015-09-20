@@ -12,18 +12,15 @@ using namespace EngineInterface;
 #include "../../SpecialClasses/OBBGuiInstance.h"
 #include "../../SpecialClasses/BoxGuiInstance.h"
 
+#include "../selectionListener.h"
+
 class TSceneEditorScene
 {
-private:
-	//std::unique_ptr<TClassInstanceAdornment> adornment_instance;
-	
-	
 public:
 	IBaluScene* source_scene;
 
 	IBaluSceneInstance* editor_scene_instance;
 	TSceneObjectInstance* selected_instance;
-	TSceneObject* selected_instance_source;
 	
 	TDrawingHelper* drawing_helper;
 
@@ -33,10 +30,8 @@ public:
 
 	TSceneObjectInstance* hightlighted_instance;
 
-	//std::vector<std::unique_ptr<TBoundaryBoxAdornment>> boundaries;
-	//std::vector<TBoundaryBoxAdornment*> selected_boundaries; //TODO
-	//TBoundaryBoxAdornment* boundary_under_cursor;
+	TSelectionChangeListeners* selection_listeners;
 public:
-	void Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance, TDrawingHelper* drawing_helper);
+	void Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance, TDrawingHelper* drawing_helper, TSelectionChangeListeners* selection_listeners);
 	void Deinitialize();
 };

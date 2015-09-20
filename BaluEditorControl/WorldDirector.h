@@ -2,7 +2,6 @@
 
 #include <vector>
 
-#include "Delegate.h"
 #include "Converters.h"
 
 namespace EngineInterface

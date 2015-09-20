@@ -39,9 +39,6 @@
     <ClInclude Include="PropertiesEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Delegate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WorldObjectsList.h">
       <Filter>Header Files</Filter>
     </ClInclude>

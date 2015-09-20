@@ -65,7 +65,7 @@ namespace EngineInterface
 	class IAbstractEditor
 	{
 	public:
-		IEditorSelectionChangedListener* OnSelectionChanged;
+		//IEditorSelectionChangedListener* OnSelectionChanged;
 
 		virtual bool CanSetSelectedAsWork() = 0;
 		virtual void SetSelectedAsWork() = 0;

@@ -5,6 +5,8 @@
 
 #include "WorldDirector.h"
 
+#include "Source\PropertiesRegistry\propertiesRegistry.h"
+
 class TCallbackManagedBridge;
 class TLayersManager;
 
@@ -27,15 +29,16 @@ namespace Editor
 	class TWorldObjectEditorPrivate;
 
 	public delegate void OnToolsChangeDelegate();
-	public delegate void OnSelectedObjectChangeDelegate(int type, int subtype, int index);
+	public delegate void OnSelectedObjectChangeDelegate(TPropertiesObject^ new_selection);
+	public delegate void OnLayersChangeDelegate(array<String^>^ names);
 
 	public ref class TWorldObjectEditor: public TEditor
 	{
 	internal:
-		void OnBeforeWorldLoad()override;
-		void OnAfterWorldLoad()override;
-		void OnEditedObjectChange(TEditor^ sender, int type, String^ name)override;
-		void OnObjectListSelectionChange(TEditor^ sender, int type, String^ name)override;
+		void OnBeforeWorldLoad();
+		void OnAfterWorldLoad();
+		void OnEditedObjectChange(TEditor^ sender, int type, String^ name);
+		void OnObjectListSelectionChange(TEditor^ sender, int type, String^ name);
 	private:
 
 		TWorldObjectEditorPrivate* p;
@@ -48,6 +51,9 @@ namespace Editor
 
 	public:
 		event OnToolsChangeDelegate^ GUI_Notify_ToolsChanged;
+		event OnLayersChangeDelegate^ GUI_Notify_LayersChange;
+		event OnSelectedObjectChangeDelegate^ GUI_Notify_SelectionChange;
+		bool NeedLayers();
 
 		TWorldObjectEditor(IntPtr handle, int width, int height, TWorldDirector^ world_director);
 		void Destroy() override;

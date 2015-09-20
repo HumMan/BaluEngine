@@ -52,7 +52,6 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 			new_source_scene_instance, 
 			dynamic_cast<TBaluSceneInstance*>(scene_editor_scene->editor_scene_instance));
 
-		scene_editor_scene->selected_instance_source = new_source_scene_instance;
 		scene_editor_scene->selected_instance = new_class_instance;
 
 		new_class_instance->SetTag(new_source_scene_instance);
@@ -126,11 +125,15 @@ public:
 				scene_editor_scene->boundary_box->OnChange = this;
 				scene_editor_scene->boundary_box->enable = true;
 				scene_editor_scene->boundary_box->SetBoundary(scene_editor_scene->selected_instance->GetOBB());
+
+				scene_editor_scene->selection_listeners->EmitOnSelectionChange(dynamic_cast<IProperties*>(scene_editor_scene->selected_instance));
 			}
 			else
 			{
 				scene_editor_scene->boundary_box->enable = false;
 				scene_editor_scene->selected_instance = nullptr;
+
+				scene_editor_scene->selection_listeners->EmitOnSelectionChange(dynamic_cast<IProperties*>(scene_editor_scene->selected_instance));
 			}
 		}
 	}

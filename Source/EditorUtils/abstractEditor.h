@@ -11,20 +11,19 @@
 
 #include "..\WorldInstance.h"
 
+#include "selectionListener.h"
+
 using namespace EngineInterface;
 
-class ISelectionChangeListener
-{
-public:
-	virtual void OnSelectionChange(EngineInterface::IProperties* new_selection)=0;
-};
 
-class TAbstractEditor: public EngineInterface::IAbstractEditor, public TMouseEventListener
+class TAbstractEditor : 
+	public EngineInterface::IAbstractEditor, 
+	public TMouseEventListener, 
+	public TSelectionChangeListeners
 {
 private:
 	IBaluWorldInstance* world;
 
-	std::vector<ISelectionChangeListener*> selection_listeners;
 protected:
 	std::vector<TAbstractEditor*> parent_editors;
 	TAbstractEditor* current_local_editor;
@@ -38,12 +37,7 @@ protected:
 	void OnMouseDown(TMouseEventArgs e);
 	void OnMouseUp(TMouseEventArgs e);
 
-	void EmitOnSelectionChange(EngineInterface::IProperties* new_selection);
-
 public:
-	
-	void AddSelectionChangeListener(ISelectionChangeListener* listener);
-	void RemoveSelectionChangeListener(ISelectionChangeListener* listener);
 
 	TAbstractEditor()
 	{

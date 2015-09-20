@@ -86,7 +86,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Converters.h" />
-    <ClInclude Include="Delegate.h" />
     <ClInclude Include="EventsEditor.h" />
     <ClInclude Include="LayersManager.h" />
     <ClInclude Include="PropertiesEditor.h" />

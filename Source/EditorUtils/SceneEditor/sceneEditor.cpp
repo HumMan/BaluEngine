@@ -13,7 +13,7 @@ void TSceneEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld*
 	InitializeControls(editor_scene_instance->GetWorld());
 
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
-	scene.Initialize(world, edited_scene, editor_scene_instance, drawing_helper.get());
+	scene.Initialize(world, edited_scene, editor_scene_instance, drawing_helper.get(), this);
 
 	for (int i = 0; i < edited_scene->GetInstancesCount(); i++)
 	{

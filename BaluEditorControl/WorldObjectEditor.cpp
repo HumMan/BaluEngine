@@ -9,6 +9,8 @@
 
 #include "Converters.h"
 
+#include "../Source/EditorUtils/selectionListener.h"
+
 namespace Editor
 {
 	TMouseEventArgs Convert(MouseEventArgs^ e)
@@ -27,6 +29,15 @@ namespace Editor
 		result.location[1] = e->Y;
 		return result;
 	}
+
+	class TSelectionChangeListener :public ISelectionChangeListener
+	{
+	public:
+		virtual void OnSelectionChange(EngineInterface::IProperties* new_selection)
+		{
+
+		}
+	};
 
 	class TWorldObjectEditorPrivate
 	{
@@ -50,6 +61,8 @@ namespace Editor
 		bool viewport_drag_active;
 		TVec2 viewport_drag_last_pos;
 		TVec2i viewport_drag_last_mouse_pos;
+
+		TSelectionChangeListener selection_change_listener;
 
 		TWorldObjectEditorPrivate()
 		{
@@ -183,6 +196,10 @@ namespace Editor
 				auto objects = p->world->GetObjects(type);
 				p->active_editor = CreateEditorOfWorldObject(new_edit_obj);
 
+				auto ed_selection_listeners = dynamic_cast<TSelectionChangeListeners*>(p->active_editor);
+
+				ed_selection_listeners->AddSelectionChangeListener(&p->selection_change_listener);
+
 				if (p->active_editor->GetAvailableTools().size()>0)
 					SetActiveTool(0);
 				GUI_Notify_ToolsChanged();
@@ -289,7 +306,11 @@ namespace Editor
 		DestroyWorldInstance(p->world_instance);
 		p->world_instance = nullptr;
 	}
-
+	bool TWorldObjectEditor::NeedLayers()
+	{
+		//return (p->active_editor);
+		return false;
+	}
 	void TWorldObjectEditor::MouseDown(MouseEventArgs^ e)
 	{
 		if (p->world_instance != nullptr)
@@ -377,6 +398,9 @@ namespace Editor
 	void TWorldObjectEditor::DestroyEditorOfWorldObject(IBaluWorldObject* obj)
 	{
 		p->active_edited_object = nullptr;
+
+		auto ed_selection_listeners = dynamic_cast<TSelectionChangeListeners*>(p->active_editor);
+		ed_selection_listeners->RemoveSelectionChangeListener(&p->selection_change_listener);
 
 		if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
 			return DestroyMaterialEditor(p->active_editor);

@@ -3,8 +3,9 @@
 
 #include "../../SceneInstance.h"
 
-void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper)
+void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper, TSelectionChangeListeners* selection_listeners)
 {
+	this->selection_listeners = selection_listeners;
 	this->source_scene = source_scene;
 	this->editor_scene_instance = editor_scene_instance;
 	this->drawing_helper = drawing_helper;

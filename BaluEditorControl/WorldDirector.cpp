@@ -11,8 +11,6 @@ using namespace EngineInterface;
 
 #include "Converters.h"
 
-#include "Delegate.h"
-
 namespace Editor
 {
 	class TWorldDirectorPrivate
@@ -22,7 +20,6 @@ namespace Editor
 		IBaluWorld* world;
 
 		IBaluWorldObject* selected_object;
-		CDelegate::Delegate<IBaluWorldObject*, IBaluWorldObject*> on_selection_change;
 
 		TWorldDirectorPrivate()
 		{

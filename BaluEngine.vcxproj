@@ -124,6 +124,7 @@
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditor.h" />
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorScene.h" />
     <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorTools.h" />
+    <ClInclude Include="Source\EditorUtils\selectionListener.h" />
     <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditor.h" />
     <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditorAdornments.h" />
     <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditorScene.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditor.cpp" />
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorScene.cpp" />
     <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorTools.cpp" />
+    <ClCompile Include="Source\EditorUtils\selectionListener.cpp" />
     <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>

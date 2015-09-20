@@ -328,6 +328,9 @@
     <ClInclude Include="Source\SpecialClasses\SpriteGuiInstance.h">
       <Filter>SpecialClasses</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EditorUtils\selectionListener.h">
+      <Filter>EditorUtils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">
@@ -512,6 +515,9 @@
     </ClCompile>
     <ClCompile Include="Source\SpecialClasses\SpriteGuiInstance.cpp">
       <Filter>SpecialClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EditorUtils\selectionListener.cpp">
+      <Filter>EditorUtils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
