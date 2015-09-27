@@ -1,7 +1,7 @@
 #include "Material.h"
-#include "World.h"
+#include "World/World.h"
 
-#include "EditorUtils\MaterialEditor\materialEditor.h"
+#include "MaterialEditor\materialEditor.h"
 
 TBaluMaterial::TBaluMaterial()
 {

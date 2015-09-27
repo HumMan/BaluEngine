@@ -3,17 +3,17 @@
 #pragma once
 #endif
 
-#include "..\Layers.h"
+#include <World\Layers.h>
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "IClass.h"
+#include "../Class/IClass.h"
 #endif
 
 #include "../../BaluLib/Source/BVolumes/AABB.h"
 
-#include "../exportMacro.h"
+#include <Interfaces\exportMacro.h>
 #endif
 
 namespace EngineInterface

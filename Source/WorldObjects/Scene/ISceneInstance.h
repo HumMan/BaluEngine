@@ -3,15 +3,15 @@
 #pragma once
 #endif
 
-#include "..\Layers.h"
+#include <World\Layers.h>
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "../RenderCommand.h"
+#include <World/RenderCommand.h>
 #include "IScene.h"
-#include "IClassInstance.h"
-#include "IMaterialInstance.h"
+#include "../Class/IClassInstance.h"
+#include "../Material/IMaterialInstance.h"
 
 #endif
 

@@ -5,9 +5,9 @@
 #include "../../BaluLib/Source/Math/vec.h"
 #include "../../BaluLib/Source/Math/matrix.h"
 
-#include "Sprite.h"
+#include "../Sprite/Sprite.h"
 
-#include "EngineInterfaces\IClass.h"
+#include "../Class/IClass.h"
 
 class TSkeleton;
 

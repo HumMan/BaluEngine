@@ -2,16 +2,10 @@
 
 #define _SCL_SECURE_NO_WARNINGS
 
-#include "Tools.h"
-
 #include "..\EngineInterfaces\IProperties.h"
 #include "..\EngineInterfaces\IWorldInstance.h"
 
-#include "..\EditorInterfaces.h"
-
-#include "..\WorldInstance.h"
-
-#include "selectionListener.h"
+#include <EditorUtils\IAbstractEditor.h>
 
 using namespace EngineInterface;
 
@@ -19,7 +13,7 @@ using namespace EngineInterface;
 class TAbstractEditor : 
 	public EngineInterface::IAbstractEditor, 
 	public TMouseEventListener, 
-	public TSelectionChangeListeners
+	public EngineInterface::TSelectionChangeListeners
 {
 private:
 	IBaluWorldInstance* world;

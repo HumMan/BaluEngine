@@ -51,7 +51,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\SDL2-2.0.3\include;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\include\;$(ProjectDir)/../nanovg\src\;$(ProjectDir)\..\easyloggingpp\src\;$(ProjectDir)\..\boost-nowide\boost\nowide\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\SDL2-2.0.3\include;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\include\;$(ProjectDir)/../nanovg\src\;$(ProjectDir)\..\easyloggingpp\src\;$(ProjectDir)\..\boost-nowide\boost\nowide\;$(ProjectDir)\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;BALUENGINE_DESIGN_TIME;ELPP_WINSOCK2;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>$(ProjectDir)\..\BaluScript\source\memleaks.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -81,7 +81,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\SDL2-2.0.3\include;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\include\;$(ProjectDir)/../nanovg\src\;$(ProjectDir)\..\easyloggingpp\src\;$(ProjectDir)\..\boost-nowide\boost\nowide\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\..\BaluLib\Include;$(ProjectDir)\..\BaluScript\Include;$(ProjectDir)\..\BaluRender\Include;$(ProjectDir)\..\box2d\box2d\box2d;$(ProjectDir)\..\box2d\box2d\;$(ProjectDir)\..\glew-1.11.0\Include;$(ProjectDir)\..\pugixml\src;$(ProjectDir)\..\SDL2-2.0.3\include;$(ProjectDir)/../DevIL-SDK-x86-1.7.8\include\;$(ProjectDir)/../nanovg\src\;$(ProjectDir)\..\easyloggingpp\src\;$(ProjectDir)\..\boost-nowide\boost\nowide\;$(ProjectDir)\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;BALUENGINE_DESIGN_TIME;ELPP_WINSOCK2;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
@@ -97,285 +97,22 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\poly2tri\poly2tri\common\shapes.h" />
-    <ClInclude Include="..\poly2tri\poly2tri\common\utils.h" />
-    <ClInclude Include="..\poly2tri\poly2tri\poly2tri.h" />
-    <ClInclude Include="..\poly2tri\poly2tri\sweep\advancing_front.h" />
-    <ClInclude Include="..\poly2tri\poly2tri\sweep\cdt.h" />
-    <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep.h" />
-    <ClInclude Include="..\poly2tri\poly2tri\sweep\sweep_context.h" />
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h" />
-    <ClInclude Include="Source\Callbacks.h" />
-    <ClInclude Include="Source\Class.h" />
-    <ClInclude Include="Source\ClassInstance.h" />
-    <ClInclude Include="Source\Composer.h" />
-    <ClInclude Include="Source\CppToBaluScriptBinding.h" />
-    <ClInclude Include="Source\Director.h" />
-    <ClInclude Include="Source\EditorInterfaces.h" />
-    <ClInclude Include="Source\EditorUtils\abstractEditor.h" />
-    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditor.h" />
-    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorScene.h" />
-    <ClInclude Include="Source\EditorUtils\ClassEditor\classEditorTools.h" />
-    <ClInclude Include="Source\EditorUtils\DrawingHelper.h" />
-    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditor.h" />
-    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorAdornments.h" />
-    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorScene.h" />
-    <ClInclude Include="Source\EditorUtils\MaterialEditor\materialEditorTools.h" />
-    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditor.h" />
-    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorScene.h" />
-    <ClInclude Include="Source\EditorUtils\SceneEditor\sceneEditorTools.h" />
-    <ClInclude Include="Source\EditorUtils\selectionListener.h" />
-    <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditor.h" />
-    <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditorAdornments.h" />
-    <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditorScene.h" />
-    <ClInclude Include="Source\EditorUtils\SpriteEditor\spriteEditorTools.h" />
-    <ClInclude Include="Source\EditorUtils\Tools.h" />
-    <ClInclude Include="Source\EngineInterfaces.h" />
-    <ClInclude Include="Source\EngineInterfacesIncludes.h" />
-    <ClInclude Include="Source\EngineInterfaces\Common.h" />
-    <ClInclude Include="Source\EngineInterfaces\IAnimationFrames.h" />
-    <ClInclude Include="Source\EngineInterfaces\ICallbacks.h" />
-    <ClInclude Include="Source\EngineInterfaces\IClass.h" />
-    <ClInclude Include="Source\EngineInterfaces\IClassInstance.h" />
-    <ClInclude Include="Source\EngineInterfaces\IComposer.h" />
-    <ClInclude Include="Source\EngineInterfaces\IDirector.h" />
-    <ClInclude Include="Source\EngineInterfaces\IMaterial.h" />
-    <ClInclude Include="Source\EngineInterfaces\IMaterialInstance.h" />
-    <ClInclude Include="Source\EngineInterfaces\IPhysShape.h" />
-    <ClInclude Include="Source\EngineInterfaces\IPhysShapeInstance.h" />
-    <ClInclude Include="Source\EngineInterfaces\IProperties.h" />
-    <ClInclude Include="Source\EngineInterfaces\IResources.h" />
-    <ClInclude Include="Source\EngineInterfaces\IScene.h" />
-    <ClInclude Include="Source\EngineInterfaces\ISceneInstance.h" />
-    <ClInclude Include="Source\EngineInterfaces\IScriptInstance.h" />
-    <ClInclude Include="Source\EngineInterfaces\ISprite.h" />
-    <ClInclude Include="Source\EngineInterfaces\ISpriteInstance.h" />
-    <ClInclude Include="Source\EngineInterfaces\ISpritePolygon.h" />
-    <ClInclude Include="Source\EngineInterfaces\ISpritePolygonInstance.h" />
-    <ClInclude Include="Source\EngineInterfaces\IWorld.h" />
-    <ClInclude Include="Source\EngineInterfaces\IWorldInstance.h" />
-    <ClInclude Include="Source\exportMacro.h" />
-    <ClInclude Include="Source\Layers.h" />
-    <ClInclude Include="Source\Material.h" />
-    <ClInclude Include="Source\MaterialInstance.h" />
-    <ClInclude Include="Source\nanovg_support.h" />
-    <ClInclude Include="Source\PhysShape.h" />
-    <ClInclude Include="Source\PhysShapeInstance.h" />
-    <ClInclude Include="Source\Properties.h" />
-    <ClInclude Include="Source\Render.h" />
-    <ClInclude Include="Source\RenderCommand.h" />
-    <ClInclude Include="Source\Resources.h" />
-    <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\SceneInstance.h" />
-    <ClInclude Include="Source\ScriptClassesRegistry.h" />
-    <ClInclude Include="Source\ScriptInstance.h" />
-    <ClInclude Include="Source\Skeleton.h" />
-    <ClInclude Include="Source\SkeletonAnimation.h" />
-    <ClInclude Include="Source\SkeletonAnimationInstance.h" />
-    <ClInclude Include="Source\SkeletonInstance.h" />
-    <ClInclude Include="Source\Sprite.h" />
-    <ClInclude Include="Source\SpriteInstance.h" />
-    <ClInclude Include="Source\SpritePoly.h" />
-    <ClInclude Include="Source\SpritePolyInstance.h" />
-    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h" />
-    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h" />
-    <ClInclude Include="Source\Utils\DebugDraw.h" />
-    <ClInclude Include="Source\Utils\polygon_decomp.h" />
-    <ClInclude Include="Source\Utils\polygon_vertices.h" />
-    <ClInclude Include="Source\Utils\texture_polygon.h" />
-    <ClInclude Include="Source\World.h" />
-    <ClInclude Include="Source\WorldInstance.h" />
-    <ClInclude Include="Source\WorldObjects\BoxContour\BoxGui.h" />
-    <ClInclude Include="Source\WorldObjects\BoxContour\BoxGuiInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Class\Class.h" />
-    <ClInclude Include="Source\WorldObjects\Class\ClassEditor\classEditor.h" />
-    <ClInclude Include="Source\WorldObjects\Class\ClassEditor\classEditorScene.h" />
-    <ClInclude Include="Source\WorldObjects\Class\ClassEditor\classEditorTools.h" />
-    <ClInclude Include="Source\WorldObjects\Class\ClassInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Class\IAnimationFrames.h" />
-    <ClInclude Include="Source\WorldObjects\Class\IClass.h" />
-    <ClInclude Include="Source\WorldObjects\Class\IClassInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Class\Skeleton.h" />
-    <ClInclude Include="Source\WorldObjects\Class\SkeletonAnimation.h" />
-    <ClInclude Include="Source\WorldObjects\Class\SkeletonAnimationInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Class\SkeletonInstance.h" />
-    <ClInclude Include="Source\WorldObjects\EditableBox\OBBGui.h" />
-    <ClInclude Include="Source\WorldObjects\EditableBox\OBBGuiInstance.h" />
     <ClInclude Include="Source\WorldObjects\Material\IMaterial.h" />
-    <ClInclude Include="Source\WorldObjects\Material\IMaterialCS.h" />
     <ClInclude Include="Source\WorldObjects\Material\IMaterialInstance.h" />
+    <ClInclude Include="Source\WorldObjects\Material\Interface.h" />
     <ClInclude Include="Source\WorldObjects\Material\Material.h" />
     <ClInclude Include="Source\WorldObjects\Material\MaterialEditor\materialEditor.h" />
-    <ClInclude Include="Source\WorldObjects\Material\MaterialEditor\materialEditorAdornments.h" />
     <ClInclude Include="Source\WorldObjects\Material\MaterialEditor\materialEditorScene.h" />
     <ClInclude Include="Source\WorldObjects\Material\MaterialEditor\materialEditorTools.h" />
     <ClInclude Include="Source\WorldObjects\Material\MaterialInstance.h" />
-    <ClInclude Include="Source\WorldObjects\PolygonLine\PolygonGui.h" />
-    <ClInclude Include="Source\WorldObjects\PolygonLine\PolygonGuiInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Scene\IScene.h" />
-    <ClInclude Include="Source\WorldObjects\Scene\ISceneInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Scene\Scene.h" />
-    <ClInclude Include="Source\WorldObjects\Scene\SceneEditor\sceneEditor.h" />
-    <ClInclude Include="Source\WorldObjects\Scene\SceneEditor\sceneEditorScene.h" />
-    <ClInclude Include="Source\WorldObjects\Scene\SceneEditor\sceneEditorTools.h" />
-    <ClInclude Include="Source\WorldObjects\Scene\SceneInstance.h" />
-    <ClInclude Include="Source\WorldObjects\SimpleSprite\SpriteGui.h" />
-    <ClInclude Include="Source\WorldObjects\SimpleSprite\SpriteGuiInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\IPhysShape.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\IPhysShapeInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\ISprite.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\ISpriteInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\ISpritePolygon.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\ISpritePolygonInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\PhysShape.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\PhysShapeInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\Sprite.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditor.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorAdornments.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorScene.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorTools.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\SpriteInstance.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\SpritePoly.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\SpritePolyInstance.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\poly2tri\poly2tri\common\shapes.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\advancing_front.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\cdt.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
-    <ClCompile Include="Source\Class.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\ClassInstance.cpp" />
-    <ClCompile Include="Source\Composer.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\Director.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\EditorInterfaces.cpp" />
-    <ClCompile Include="Source\EditorUtils\abstractEditor.cpp" />
-    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditor.cpp" />
-    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorScene.cpp" />
-    <ClCompile Include="Source\EditorUtils\ClassEditor\classEditorTools.cpp" />
-    <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditor.cpp" />
-    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorAdornments.cpp" />
-    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorScene.cpp" />
-    <ClCompile Include="Source\EditorUtils\MaterialEditor\materialEditorTools.cpp" />
-    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditor.cpp" />
-    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorScene.cpp" />
-    <ClCompile Include="Source\EditorUtils\SceneEditor\sceneEditorTools.cpp" />
-    <ClCompile Include="Source\EditorUtils\selectionListener.cpp" />
-    <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditor.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorAdornments.cpp" />
-    <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorScene.cpp" />
-    <ClCompile Include="Source\EditorUtils\SpriteEditor\spriteEditorTools.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\EngineInterfaces.cpp" />
-    <ClCompile Include="Source\GenerateCppToBaluScript.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\Layers.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\Material.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\MaterialInstance.cpp" />
-    <ClCompile Include="Source\nanovg_support.cpp" />
-    <ClCompile Include="Source\PhysShape.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\PhysShapeInstance.cpp" />
-    <ClCompile Include="Source\Render.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\Resources.cpp" />
-    <ClCompile Include="Source\Scene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\SceneInstance.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\ScriptClassesRegistry.cpp" />
-    <ClCompile Include="Source\ScriptInstance.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\Serialize.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\Skeleton.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\SkeletonAnimation.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\SkeletonAnimationInstance.cpp" />
-    <ClCompile Include="Source\SkeletonInstance.cpp" />
-    <ClCompile Include="Source\Sprite.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\SpriteInstance.cpp" />
-    <ClCompile Include="Source\SpritePoly.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\SpritePolyInstance.cpp" />
-    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
-    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
-    <ClCompile Include="Source\Utils\DebugDraw.cpp" />
-    <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
-    <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
-    <ClCompile Include="Source\Utils\texture_polygon.cpp" />
-    <ClCompile Include="Source\World.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\WorldInstance.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Source\WorldObjects\BoxContour\BoxGuiInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\Class.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\ClassEditor\classEditor.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\ClassEditor\classEditorScene.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\ClassEditor\classEditorTools.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\ClassInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\Skeleton.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\SkeletonAnimation.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\SkeletonAnimationInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\SkeletonInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\EditableBox\OBBGuiInstance.cpp" />
     <ClCompile Include="Source\WorldObjects\Material\Material.cpp" />
     <ClCompile Include="Source\WorldObjects\Material\MaterialEditor\materialEditor.cpp" />
-    <ClCompile Include="Source\WorldObjects\Material\MaterialEditor\materialEditorAdornments.cpp" />
     <ClCompile Include="Source\WorldObjects\Material\MaterialEditor\materialEditorScene.cpp" />
     <ClCompile Include="Source\WorldObjects\Material\MaterialEditor\materialEditorTools.cpp" />
     <ClCompile Include="Source\WorldObjects\Material\MaterialInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\PolygonLine\PolygonGuiInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Scene\Scene.cpp" />
-    <ClCompile Include="Source\WorldObjects\Scene\SceneEditor\sceneEditor.cpp" />
-    <ClCompile Include="Source\WorldObjects\Scene\SceneEditor\sceneEditorScene.cpp" />
-    <ClCompile Include="Source\WorldObjects\Scene\SceneEditor\sceneEditorTools.cpp" />
-    <ClCompile Include="Source\WorldObjects\Scene\SceneInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\SimpleSprite\SpriteGuiInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\PhysShape.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\PhysShapeInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\Sprite.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditor.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorAdornments.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorScene.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorTools.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\SpriteInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\SpritePoly.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\SpritePolyInstance.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

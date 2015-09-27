@@ -1,16 +1,18 @@
 #pragma once
 
-#include "Material.h"
+#include "../Material/Material.h"
 
 #include <map>
 
-#include "EngineInterfaces\IMaterial.h"
+#include <memory>
 
-#include "EngineInterfaces\IAnimationFrames.h"
+#include "../Material/IMaterial.h"
 
-#include "EngineInterfaces\ISpritePolygon.h"
+#include "../Class/IAnimationFrames.h"
 
-#include "EngineInterfaces\ICallbacks.h"
+#include "../Sprite/ISpritePolygon.h"
+
+#include "../../EngineInterfaces\ICallbacks.h"
 
 using namespace EngineInterface;
 

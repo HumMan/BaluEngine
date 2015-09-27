@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Material.h"
-#include "Sprite.h"
-#include "Class.h"
-#include "Scene.h"
+#include <WorldObjects/Material/Material.h>
+#include <WorldObjects/Sprite/Sprite.h>
+#include <WorldObjects/Class/Class.h>
+#include <WorldObjects/Scene/Scene.h>
 
 #include <map>
 

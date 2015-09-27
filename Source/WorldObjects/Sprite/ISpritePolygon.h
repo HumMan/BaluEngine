@@ -7,9 +7,9 @@
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "IMaterial.h"
-#include "IAnimationFrames.h"
-#include "../RenderCommand.h"
+#include "../Material/IMaterial.h"
+#include "../Class/IAnimationFrames.h"
+#include <World\RenderCommand.h>
 #endif
 
 #include "../../BaluLib/Source/Math/vec.h"

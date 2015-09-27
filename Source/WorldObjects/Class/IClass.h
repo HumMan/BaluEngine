@@ -9,9 +9,9 @@
 #include <map>
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "IProperties.h"
-#include "ISprite.h"
-#include "IPhysShape.h"
+#include "../../EngineInterfaces/IProperties.h"
+#include "../Sprite/ISprite.h"
+#include "../Sprite/IPhysShape.h"
 
 
 #endif

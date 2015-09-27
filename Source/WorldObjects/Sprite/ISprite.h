@@ -7,7 +7,7 @@
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "ICallbacks.h"
+#include "../../EngineInterfaces/ICallbacks.h"
 #include "IPhysShape.h"
 #include "ISpritePolygon.h"
 #endif

@@ -3,10 +3,10 @@
 #include "SpritePoly.h"
 #include "PhysShape.h"
 
-#include "EngineInterfaces\ISprite.h"
-#include "EngineInterfaces\ISpriteInstance.h"
+#include "ISprite.h"
+#include "ISpriteInstance.h"
 
-#include "Properties.h"
+#include <World\Properties.h>
 
 
 

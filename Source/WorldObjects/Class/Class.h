@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Sprite.h"
+#include "../Sprite/Sprite.h"
 
 #include "Skeleton.h"
 #include "SkeletonAnimation.h"
 
 #include <map>
 
-#include "EngineInterfaces\IClass.h"
+#include "../Class/IClass.h"
 
 //TODO определиться в какой СК передавать координаты курсора мыши
 //typedef void(*TMouseMoveCallback)(void* calle, TVec2 old_pos, TVec2 new_pos);

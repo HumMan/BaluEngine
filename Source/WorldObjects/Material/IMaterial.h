@@ -4,7 +4,7 @@
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "Common.h"
+#include <EngineInterfaces/Common.h>
 #endif
 #endif
 

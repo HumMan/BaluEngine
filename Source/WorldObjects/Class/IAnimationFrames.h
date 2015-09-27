@@ -7,7 +7,7 @@
 
 #include "../../BaluLib/Source/Math/vec.h"
 #include <vector>
-#include "../exportMacro.h"
+#include <Interfaces\exportMacro.h>
 
 namespace pugi
 {

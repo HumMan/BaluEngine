@@ -10,10 +10,7 @@
 
 #include "EngineInterfaces\IComposer.h"
 
-#include "WorldObjects\Material\Interface.h"
-#include "WorldObjects\Class\Interface.h"
-#include "WorldObjects\Sprite\Interface.h"
-#include "WorldObjects\Scene\Interface.h"
+#include "WorldObjects\Material\InterfacesIncludes.h"
 
 #include "EngineInterfaces\IProperties.h"
 #include "EngineInterfaces\IWorldInstance.h"

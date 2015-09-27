@@ -2,7 +2,7 @@
 
 #include "Material.h"
 
-#include "Resources.h"
+#include "World/Resources.h"
 
 class TBaluMaterial;
 

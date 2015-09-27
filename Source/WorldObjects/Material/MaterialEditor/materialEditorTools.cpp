@@ -2,8 +2,6 @@
 
 #include "materialEditor.h"
 
-#include "materialEditorAdornments.h"
-
 TMaterialEditorToolsRegistry::TMaterialEditorToolsRegistry(TMaterialEditorScene* material_editor_scene)
 {
 	this->scene = material_editor_scene;

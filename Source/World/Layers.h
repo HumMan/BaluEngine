@@ -6,7 +6,7 @@
 #include <vector>
 #include <assert.h>
 
-#include "exportMacro.h"
+#include <Interfaces\exportMacro.h>
 
 class TLayersManager;
 

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Class.h"
-#include "Layers.h"
+#include "../Class/Class.h"
+#include <World\Layers.h>
 
 #include "../../BaluLib/Source/BVolumes/AABB.h"
 #include "../../BaluLib/Source/BVolumes/OBB.h"
 
-#include "EngineInterfaces\IScene.h"
+#include "IScene.h"
 
 
 class TBaluSceneClassInstance : public EngineInterface::IBaluSceneClassInstance, public TSceneObject

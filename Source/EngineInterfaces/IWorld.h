@@ -8,10 +8,7 @@
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "ICallbacks.h"
-#include "IMaterial.h"
-#include "ISprite.h"
-#include "IClass.h"
-#include "IScene.h"
+#include "../WorldObjects/InterfacesIncludes.h"
 #endif
 
 namespace EngineInterface

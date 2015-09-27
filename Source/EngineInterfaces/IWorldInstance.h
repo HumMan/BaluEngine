@@ -3,13 +3,13 @@
 #pragma once
 #endif
 
-#include "..\Source\Layers.h"
+#include <World\Layers.h>
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "IScene.h"
-#include "ISceneInstance.h"
+#include <WorldObjects\Scene\IScene.h>
+#include <WorldObjects\Scene\ISceneInstance.h>
 #include "IWorld.h"
 #endif
 

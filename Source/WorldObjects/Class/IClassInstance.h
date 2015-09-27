@@ -8,7 +8,7 @@
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IClass.h"
-#include "ISpriteInstance.h"
+#include "../Sprite/ISpriteInstance.h"
 #endif
 
 #endif

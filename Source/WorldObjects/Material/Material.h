@@ -1,12 +1,8 @@
 #pragma once
 
-#include <vector>
-#include "../../BaluLib/Source/Math/vec.h"
-#include "../../BaluLib/Source/Math/matrix.h"
+#include "EngineInterfaces\Common.h"
 
-#include <box2D.h>
-
-#include "EngineInterfaces\IMaterial.h"
+#include "IMaterial.h"
 
 namespace pugi
 {
@@ -123,5 +119,5 @@ public:
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 
-	IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
+	EngineInterface::IAbstractEditor* CreateEditor(EngineInterface::TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance);
 };
