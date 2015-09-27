@@ -2,7 +2,8 @@
 
 #include <Interfaces\ExportMacro.h>
 
-#include "../../BaluLib/Source/Math/vec.h"
+#include <baluLib.h>
+using namespace BaluLib;
 
 class NVGcontext;
 

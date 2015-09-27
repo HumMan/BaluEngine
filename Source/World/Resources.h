@@ -12,7 +12,12 @@ public:
 };
 
 class TResourcesInternal;
-class TBaluRender;
+
+namespace BaluRender
+{
+	class TBaluRender;
+}
+using namespace BaluRender;
 
 class TResources: public EngineInterface::IResources
 {

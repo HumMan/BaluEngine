@@ -8,7 +8,11 @@
 
 #include <vector>
 
-class TBaluRender;
+namespace BaluRender
+{
+	class TBaluRender;
+}
+using namespace BaluRender;
 
 namespace EngineInterface
 {

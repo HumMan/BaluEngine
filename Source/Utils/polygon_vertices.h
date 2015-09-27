@@ -6,8 +6,9 @@
 * Copyright (c) 2012 Ian Qvist
 */
 
-#include "../../BaluLib/Source/Math/Vec.h"
-#include "../../BaluLib/Source/BVolumes/AABB.h"
+#include <baluLib.h>
+using namespace BaluLib;
+
 #include <vector>
 
 namespace FarseerPhysics_Common

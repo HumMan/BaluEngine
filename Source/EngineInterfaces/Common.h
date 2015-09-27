@@ -5,9 +5,8 @@
 
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-#include "../../../BaluLib/Source/Math/vec.h"
-#include "../../../BaluLib/Source/Math/matrix.h"
-#include "../../../BaluLib/Source/BVolumes/OBB.h"
+#include <baluLib.h>
+using namespace BaluLib;
 
 #include <string>
 

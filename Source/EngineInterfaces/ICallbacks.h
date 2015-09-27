@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../../BaluLib/Source/Math/vec.h"
+#include <baluLib.h>
+using namespace BaluLib;
 
 #include <World\Callbacks.h>
 

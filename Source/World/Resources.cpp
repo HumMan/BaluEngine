@@ -1,6 +1,7 @@
 #include "Resources.h"
 
 #include <baluRender.h>
+using namespace BaluRender;
 
 #include <map>
 
