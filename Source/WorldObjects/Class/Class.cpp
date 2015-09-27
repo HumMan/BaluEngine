@@ -2,6 +2,8 @@
 
 #include <World/World.h>
 
+#include "ClassEditor\classEditor.h"
+
 TBaluClassPhysBody::TBaluClassPhysBody()
 {
 	enable = false;
@@ -189,4 +191,11 @@ std::map<TKey, std::vector<TScript>>& TBaluClass::GetOnKeyUp()
 std::vector<TScript>& TBaluClass::GetOnBeforePhysicsStep()
 {
 	return before_physics_callbacks;
+}
+
+IAbstractEditor* TBaluClass::CreateEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance)
+{
+	auto result = new TClassEditor();
+	result->Initialize(drawing_context, world, this, editor_scene_instance);
+	return result;
 }

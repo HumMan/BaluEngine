@@ -95,21 +95,12 @@ namespace EngineInterface
 		virtual const std::vector<TToolWithDescription>& GetAvailableTools() = 0;
 		virtual void SetActiveTool(IEditorTool* tool)=0;
 		virtual IEditorTool* GetActiveTool() =0;
+		virtual void Deinitialize() = 0;
 		virtual ~IAbstractEditor() = 0;
 	};
 	inline IAbstractEditor::~IAbstractEditor() { }
 
-	BALUENGINEDLL_API IAbstractEditor* CreateSceneEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluScene* edited_scene, EngineInterface::IBaluSceneInstance* editor_scene_instance);
-	BALUENGINEDLL_API void DestroySceneEditor(EngineInterface::IAbstractEditor*);
-
-	BALUENGINEDLL_API IAbstractEditor* CreateClassEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluClass* edited_class, EngineInterface::IBaluSceneInstance* editor_scene_instance);
-	BALUENGINEDLL_API void DestroyClassEditor(EngineInterface::IAbstractEditor*);
-
-	BALUENGINEDLL_API IAbstractEditor* CreateSpriteEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluSprite* edited_sprite, EngineInterface::IBaluSceneInstance* editor_scene_instance);
-	BALUENGINEDLL_API void DestroySpriteEditor(EngineInterface::IAbstractEditor*);
-
-	BALUENGINEDLL_API IAbstractEditor* CreateMaterialEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluWorld* world, EngineInterface::IBaluMaterial* edited_material, EngineInterface::IBaluSceneInstance* editor_scene_instance);
-	BALUENGINEDLL_API void DestroyMaterialEditor(EngineInterface::IAbstractEditor*);
+	BALUENGINEDLL_API void DestroyEditor(EngineInterface::IAbstractEditor*);
 
 	BALUENGINEDLL_API void ConfigureLogging();
 	BALUENGINEDLL_API void WriteInfoToLog(char* message);

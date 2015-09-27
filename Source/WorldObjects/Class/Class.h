@@ -108,4 +108,6 @@ public:
 
 	void Save(pugi::xml_node& parent_node, const int version);
 	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+
+	EngineInterface::IAbstractEditor* CreateEditor(EngineInterface::TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance);
 };

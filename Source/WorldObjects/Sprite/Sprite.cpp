@@ -4,6 +4,8 @@
 
 #include <World\World.h>
 
+#include "SpriteEditor\spriteEditor.h"
+
 TBaluSprite::TBaluSprite()
 {
 	layer = 0;
@@ -44,4 +46,11 @@ void TBaluSprite::SetName(std::string name)
 {
 	assert(!world->ObjectNameExists(TWorldObjectType::Sprite, name.c_str()));
 	sprite_name = name;
+}
+
+IAbstractEditor* TBaluSprite::CreateEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance)
+{
+	auto result = new TSpriteEditor();
+	result->Initialize(drawing_context, world, this, editor_scene_instance);
+	return result;
 }

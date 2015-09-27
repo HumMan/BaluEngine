@@ -378,19 +378,7 @@ namespace Editor
 		
 		p->active_edited_object = obj;
 
-		if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
-			return CreateMaterialEditor(p->drawing_context, p->world, dynamic_cast<IBaluMaterial*>(obj), p->scene_instance);
-
-		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
-			return CreateSpriteEditor(p->drawing_context, p->world, dynamic_cast<IBaluSprite*>(obj), p->scene_instance);
-
-		if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
-			return CreateClassEditor(p->drawing_context, p->world, dynamic_cast<IBaluClass*>(obj), p->scene_instance);
-
-		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
-			return CreateSceneEditor(p->drawing_context, p->world, dynamic_cast<IBaluScene*>(obj), p->scene_instance);
-
-		return nullptr;
+		return obj->CreateEditor(p->drawing_context, p->scene_instance);
 	}
 
 	void TWorldObjectEditor::DestroyEditorOfWorldObject(IBaluWorldObject* obj)
@@ -400,17 +388,7 @@ namespace Editor
 		auto ed_selection_listeners = dynamic_cast<TSelectionChangeListeners*>(p->active_editor);
 		ed_selection_listeners->RemoveSelectionChangeListener(&p->selection_change_listener);
 
-		if ((dynamic_cast<IBaluMaterial*>(obj)) != nullptr)
-			return DestroyMaterialEditor(p->active_editor);
-
-		if ((dynamic_cast<IBaluSprite*>(obj)) != nullptr)
-			return DestroySpriteEditor(p->active_editor);
-
-		if ((dynamic_cast<IBaluClass*>(obj)) != nullptr)
-			return DestroyClassEditor(p->active_editor);
-
-		if ((dynamic_cast<IBaluScene*>(obj)) != nullptr)
-			DestroySceneEditor(p->active_editor);
+		DestroyEditor(p->active_editor);
 	}
 	
 }

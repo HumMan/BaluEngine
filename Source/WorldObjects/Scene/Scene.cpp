@@ -2,6 +2,8 @@
 
 #include <World\World.h>
 
+#include "SceneEditor\sceneEditor.h"
+
 TVec2 EngineInterface::IBaluScene::FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord)
 {
 	return ((viewport_coord - TVec2(0.5, 0.5))).ComponentMul(viewport->GetAABB().GetSize()) + viewport->GetAABB().GetPosition();
@@ -71,4 +73,11 @@ void TBaluScene::DestroyInstance(TSceneObject* instance)
 	{
 		throw std::invalid_argument("Объект не находится на данной сцене");
 	}
+}
+
+IAbstractEditor* TBaluScene::CreateEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance)
+{
+	auto result = new TSceneEditor();
+	result->Initialize(drawing_context, world, this, editor_scene_instance);
+	return result;
 }
