@@ -1,8 +1,8 @@
 #include "Sprite.h"
 
-#include "Class.h"
+#include "../Class/Class.h"
 
-#include "World.h"
+#include <World\World.h>
 
 TBaluSprite::TBaluSprite()
 {

@@ -1,8 +1,8 @@
 #include "classEditorScene.h"
 
-#include "../../SpecialClasses/OBBGuiInstance.h"
+#include "../../EditableBox/OBBGuiInstance.h"
 
-#include "../../SceneInstance.h"
+#include "../../Scene/SceneInstance.h"
 
 
 void TClassEditorScene::Initialize(IBaluWorld* world, IBaluClass* source_class, IBaluSceneInstance* source_scene_instance, TDrawingHelper* drawing_helper)

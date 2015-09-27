@@ -17,6 +17,7 @@ namespace EngineInterface
 {
 	class IResources;
 	class IComposer;
+	class IBaluWorld;
 }
 #endif
 

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Scene.h"
-#include "ClassInstance.h"
+#include "../Class/ClassInstance.h"
 
 #include "Utils/DebugDraw.h"
 
-#include "EngineInterfaces\ISceneInstance.h"
+#include "ISceneInstance.h"
 
 class TBaluWorldInstance;
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "..\EngineInterfaces\IMaterial.h"
-#include "..\EngineInterfaces\ISpritePolygon.h"
+#include "..\Material\IMaterial.h"
+#include "..\Sprite\ISpritePolygon.h"
 
 class TSpritePolygonAdornment //: public EngineInterface::TSceneObject
 {

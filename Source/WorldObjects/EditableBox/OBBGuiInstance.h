@@ -1,12 +1,12 @@
 #pragma once
 
 #include <baluLib.h>
-#include "../EngineInterfaces/IMaterialInstance.h"
+#include "../Material/IMaterialInstance.h"
 #include "OBBGui.h"
 
-#include "..\RenderCommand.h"
+#include <World\RenderCommand.h>
 
-#include "..\EngineInterfaces\IWorld.h"
+#include <EngineInterfaces\IWorld.h>
 
 class TBoundaryBoxChangeListener
 {

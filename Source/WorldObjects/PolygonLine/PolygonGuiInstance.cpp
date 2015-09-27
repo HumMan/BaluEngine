@@ -1,7 +1,7 @@
 #include "PolygonGuiInstance.h"
 
-#include "..\EditorUtils\DrawingHelper.h"
-#include "..\SceneInstance.h"
+#include <EditorUtils\DrawingHelper.h>
+#include "..\Scene\SceneInstance.h"
 
 TSpritePolygonAdornment::TSpritePolygonAdornment()
 {

@@ -1,3 +1,5 @@
+#include "../Class/IAnimationFrames.h"
+
 #include "IPhysShape.h"
 #include "IPhysShapeInstance.h"
 

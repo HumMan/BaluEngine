@@ -2,7 +2,7 @@
 
 #include "PhysShapeInstance.h"
 
-#include "ClassInstance.h"
+#include "../Class/ClassInstance.h"
 
 TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TBaluClassSpriteInstance* sprite_instance)
 {

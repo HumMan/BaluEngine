@@ -4,10 +4,10 @@
 
 #include "SpriteGui.h"
 
-#include "..\RenderCommand.h"
+#include <World\RenderCommand.h>
 
-#include "..\EngineInterfaces\IWorld.h"
-#include "../EngineInterfaces/IMaterialInstance.h"
+#include <EngineInterfaces\IWorld.h>
+#include "../Material/IMaterialInstance.h"
 
 #include <memory>
 

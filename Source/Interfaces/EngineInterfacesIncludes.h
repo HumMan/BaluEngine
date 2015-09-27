@@ -1,18 +1,19 @@
 //#pragma once
 
-#include "Callbacks.h"
+#include <World\Callbacks.h>
 
-#include "EngineInterfaces\ICallbacks.h"
+#include <EngineInterfaces\ICallbacks.h>
 
-#include "RenderCommand.h"
+#include <World/RenderCommand.h>
 
 #include "EngineInterfaces\Common.h"
 
 #include "EngineInterfaces\IComposer.h"
 
-#include "WorldObjects\Material\InterfacesIncludes.h"
+#include <WorldObjects\InterfacesIncludes.h>
 
 #include "EngineInterfaces\IProperties.h"
+#include "EngineInterfaces\IWorld.h"
 #include "EngineInterfaces\IWorldInstance.h"
 #include "EngineInterfaces\IScriptInstance.h"
 

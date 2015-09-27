@@ -2,15 +2,15 @@
 
 #include "SpritePoly.h"
 
-#include "RenderCommand.h"
+#include <World\RenderCommand.h>
 
 #include "../../BaluLib/Source/BVolumes/AABB.h"
 
-#include "MaterialInstance.h"
+#include "../Material/MaterialInstance.h"
 
-#include "EngineInterfaces\ISpritePolygonInstance.h"
+#include "ISpritePolygonInstance.h"
 
-#include "Layers.h"
+#include <World\Layers.h>
 
 using namespace EngineInterface;
 

@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-#include "World.h"
+#include <World\World.h>
 
 TVec2 EngineInterface::IBaluScene::FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord)
 {

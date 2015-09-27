@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../abstractEditor.h"
+#include <EditorUtils/abstractEditor.h>
 
 #include "sceneEditorScene.h"
 #include "sceneEditorTools.h"
 
-#include "../../EngineInterfaces/IScene.h"
-#include "../../EngineInterfaces/IWorld.h"
+#include "../IScene.h"
+#include <EngineInterfaces/IWorld.h>
 
 using namespace EngineInterface;
 
-#include "../DrawingHelper.h"
+#include <EditorUtils/DrawingHelper.h>
 
 class TSceneEditor :public TAbstractEditor
 {

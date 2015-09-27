@@ -2,7 +2,7 @@
 //
 //#include "../../EngineInterfaces/ISprite.h"
 //#include "../../EngineInterfaces/IScene.h"
-//#include "../../EngineInterfaces/IWorld.h"
+//#include <EngineInterfaces/IWorld.h>
 //
 //#include "../../EngineInterfaces/ISpriteInstance.h"
 //#include "../../EngineInterfaces/ISceneInstance.h"
@@ -10,7 +10,7 @@
 //
 //using namespace EngineInterface;
 //
-//#include "../DrawingHelper.h"
+//#include <EditorUtils/DrawingHelper.h>
 
 //class TSpritePolygonOBBAdornmentPrivate
 //{

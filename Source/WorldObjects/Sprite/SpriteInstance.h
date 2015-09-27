@@ -2,12 +2,12 @@
 
 #include "Sprite.h"
 
-#include "Class.h"
+#include "../Class/Class.h"
 
 #include "SpritePolyInstance.h"
 #include "PhysShapeInstance.h"
 
-#include "EngineInterfaces\ISpriteInstance.h"
+#include "ISpriteInstance.h"
 
 class TBaluClassInstanceSpriteInstance : public EngineInterface::IBaluClassInstanceSpriteInstance
 {

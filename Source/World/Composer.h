@@ -1,7 +1,7 @@
 #pragma once
 
-#include "EngineInterfaces\ISceneInstance.h"
-#include "EngineInterfaces\IComposer.h"
+#include <WorldObjects\Scene\ISceneInstance.h>
+#include <EngineInterfaces\IComposer.h>
 
 #include <memory>
 

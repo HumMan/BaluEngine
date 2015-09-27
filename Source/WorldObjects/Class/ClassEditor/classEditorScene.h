@@ -3,16 +3,16 @@
 #include <vector>
 #include <memory>
 
-#include "../../EngineInterfaces/IClass.h"
-#include "../../EngineInterfaces/IClassInstance.h"
-#include "../../EngineInterfaces/IWorld.h"
+#include "../IClass.h"
+#include "../IClassInstance.h"
+#include <EngineInterfaces/IWorld.h>
 
 using namespace EngineInterface;
 
-#include "../../SpecialClasses/OBBGuiInstance.h"
-#include "../../SpecialClasses/BoxGuiInstance.h"
+#include "../../EditableBox/OBBGuiInstance.h"
+#include "../../BoxContour/BoxGuiInstance.h"
 
-#include "../../EngineInterfaces/ISceneInstance.h"
+#include "../../Scene/ISceneInstance.h"
 
 class TClassEditorScene
 {

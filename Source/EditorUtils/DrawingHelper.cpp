@@ -2,9 +2,9 @@
 
 #include "nanovg.h"
 
-#include "../EngineInterfaces/IScene.h"
+#include <WorldObjects\Scene\IScene.h>
 
-#include "../nanovg_support.h"
+#include <Utils\nanovg_support.h>
 
 using namespace EngineInterface;
 

@@ -2,7 +2,7 @@
 
 #include "PhysShape.h"
 
-#include "EngineInterfaces\IPhysShapeInstance.h"
+#include "IPhysShapeInstance.h"
 
 class TBaluInstance;
 class TBaluClassSpriteInstance;

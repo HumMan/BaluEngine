@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpriteInstance.h"
+#include "../Sprite/SpriteInstance.h"
 #include "Skeleton.h"
 
 class TBaluInstance;

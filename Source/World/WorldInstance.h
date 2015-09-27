@@ -1,10 +1,10 @@
 #pragma once
 
 #include "World.h"
-#include "SceneInstance.h"
+#include <WorldObjects\Scene\SceneInstance.h>
 #include "Composer.h"
 
-#include "EngineInterfaces\IWorldInstance.h"
+#include <EngineInterfaces\IWorldInstance.h>
 
 #include "ScriptInstance.h"
 

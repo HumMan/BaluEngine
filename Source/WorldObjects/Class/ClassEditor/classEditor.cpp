@@ -1,7 +1,7 @@
 #include "classEditor.h"
 
-#include "../../ClassInstance.h"
-#include "../../SceneInstance.h"
+#include "../ClassInstance.h"
+#include "../../Scene/SceneInstance.h"
 
 TClassEditor::TClassEditor() :tools_registry(&scene)
 {

@@ -2,8 +2,8 @@
 
 #include <baluLib.h>
 
-#include "../Source/EngineInterfaces.h"
-#include "../Source/EditorInterfaces.h"
+#include <Interfaces\EngineInterfaces.h>
+#include <EditorUtils\abstractEditor.h>
 
 using namespace EngineInterface;
 

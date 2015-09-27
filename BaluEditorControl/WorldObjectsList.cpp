@@ -4,8 +4,8 @@
 #include <baluLib.h>
 #include <assert.h>
 
-#include "../Source/EngineInterfaces.h"
-#include "../Source/EditorInterfaces.h"
+#include <Interfaces\EngineInterfaces.h>
+#include <EditorUtils\abstractEditor.h>
 
 #include "Converters.h"
 

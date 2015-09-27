@@ -3,9 +3,9 @@
 
 #include "sceneEditorScene.h"
 
-#include "../DrawingHelper.h"
+#include <EditorUtils/DrawingHelper.h>
 
-#include "../../SceneInstance.h"
+#include "../SceneInstance.h"
 
 class TCreateClassInstanceTool : public IEditorTool
 {

@@ -5,7 +5,7 @@
 
 #include "spriteEditorAdornments.h"
 
-#include "../DrawingHelper.h"
+#include <EditorUtils/DrawingHelper.h>
 
 
 class TModifySpritePolygonOBB : public IEditorTool, public TBoundaryBoxChangeListener

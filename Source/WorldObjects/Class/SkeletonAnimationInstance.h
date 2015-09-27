@@ -3,7 +3,7 @@
 #include "SkeletonAnimation.h"
 #include "SkeletonInstance.h"
 
-#include "EngineInterfaces\IClassInstance.h"
+#include "IClassInstance.h"
 
 class TTrackInstance
 {

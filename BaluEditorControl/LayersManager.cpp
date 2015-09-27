@@ -4,8 +4,8 @@
 #include <baluLib.h>
 #include <assert.h>
 
-#include "../Source/EngineInterfaces.h"
-#include "../Source/EditorInterfaces.h"
+#include <Interfaces\EngineInterfaces.h>
+#include <EditorUtils\abstractEditor.h>
 
 #include "Converters.h"
 
@@ -67,7 +67,7 @@ namespace Editor
 
 	TLayersManager::TLayersManager(TWorldDirector^ world_director)
 	{
-		WriteInfoToLog("Initializing TLayersManager");
+		EngineInterface::WriteInfoToLog("Initializing TLayersManager");
 
 		this->director = world_director;
 		world_director->RegisterEditor(this);

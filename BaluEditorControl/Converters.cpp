@@ -3,7 +3,7 @@
 //#include <vcclr.h>
 #include <msclr\marshal_cppstd.h>
 
-#include "../Source/EditorInterfaces.h"
+#include "../Source/EditorUtils/IAbstractEditor.h"
 
 namespace Converters
 {

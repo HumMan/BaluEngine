@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Source/EngineInterfaces.h"
+#include <Interfaces\EngineInterfaces.h>
 
 using namespace EngineInterface;
 

@@ -312,7 +312,7 @@ namespace EngineInterface
 	public:
 		virtual IProperties* GetProperties() = 0;
 		virtual std::string GetName() = 0;
-		virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance) = 0;
+		//virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance) = 0;
 	};
 
 #endif

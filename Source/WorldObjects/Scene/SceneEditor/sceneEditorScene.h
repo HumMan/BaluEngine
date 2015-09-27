@@ -3,16 +3,16 @@
 #include <vector>
 #include <memory>
 
-#include "../../EngineInterfaces/IScene.h"
-#include "../../EngineInterfaces/ISceneInstance.h"
-#include "../../EngineInterfaces/IWorld.h"
+#include "../IScene.h"
+#include "../ISceneInstance.h"
+#include <EngineInterfaces/IWorld.h>
 
 using namespace EngineInterface;
 
-#include "../../SpecialClasses/OBBGuiInstance.h"
-#include "../../SpecialClasses/BoxGuiInstance.h"
+#include "../../EditableBox/OBBGuiInstance.h"
+#include "../../BoxContour/BoxGuiInstance.h"
 
-#include "../selectionListener.h"
+#include <EditorUtils\abstractEditor.h>
 
 class TSceneEditorScene
 {

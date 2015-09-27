@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\EngineInterfaces\IMaterial.h"
+#include "..\Material\IMaterial.h"
 
 class TBoxGuiDef
 {

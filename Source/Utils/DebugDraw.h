@@ -21,7 +21,7 @@
 
 #include <Box2D.h>
 
-#include "../EngineInterfaces/IMaterial.h"
+#include <EngineInterfaces\Common.h>
 
 struct b2AABB;
 struct GLRenderPoints;

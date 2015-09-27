@@ -1,6 +1,6 @@
 #include "SceneInstance.h"
 
-#include "WorldInstance.h"
+#include <World/WorldInstance.h>
 
 bool TBaluSceneInstance::PointCollide(TVec2 scene_space_point, EngineInterface::TSceneObjectInstance* &result)
 {

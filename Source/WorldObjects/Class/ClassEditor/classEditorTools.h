@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../EditorInterfaces.h"
+#include <EditorUtils\abstractEditor.h>
 
 using namespace EngineInterface;
 

@@ -1,9 +1,9 @@
 
 #include "BoxGuiInstance.h"
 
-#include "..\EditorUtils\DrawingHelper.h"
+#include <EditorUtils\DrawingHelper.h>
 
-#include "..\SceneInstance.h"
+#include "..\Scene\SceneInstance.h"
 
 void TOBBContour::SetBox(TOBB2 box)
 {

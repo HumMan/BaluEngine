@@ -1,6 +1,6 @@
 #include "sceneEditor.h"
 
-#include "../../SceneInstance.h"
+#include "../SceneInstance.h"
 
 TSceneEditor::TSceneEditor() :tools_registry(&scene)
 {

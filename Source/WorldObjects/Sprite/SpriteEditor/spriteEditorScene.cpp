@@ -1,9 +1,9 @@
 #include "spriteEditorScene.h"
 
-#include "../../SpecialClasses/OBBGuiInstance.h"
-#include "../../SpecialClasses/SpriteGuiInstance.h"
+#include "../../EditableBox/OBBGuiInstance.h"
+#include "../../SimpleSprite/SpriteGuiInstance.h"
 
-#include "../../SceneInstance.h"
+#include "../../Scene/SceneInstance.h"
 
 void TSpriteEditorScene::Initialize(IBaluWorld* world, IBaluSprite* source_sprite, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper)
 {

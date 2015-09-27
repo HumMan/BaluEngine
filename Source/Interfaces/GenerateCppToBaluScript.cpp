@@ -1,4 +1,4 @@
-#include "ScriptClassesRegistry.h"
+#include <World\ScriptClassesRegistry.h>
 #include "CppToBaluScriptBinding.h"
 
 namespace EngineInterface

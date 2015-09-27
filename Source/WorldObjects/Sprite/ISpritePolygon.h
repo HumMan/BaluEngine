@@ -7,8 +7,8 @@
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "../Material/IMaterial.h"
 #include "../Class/IAnimationFrames.h"
+#include "../Material/IMaterial.h"
 #include <World\RenderCommand.h>
 #endif
 

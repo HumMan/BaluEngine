@@ -1,14 +1,16 @@
 
-#include "EditorInterfaces.h"
+#include "abstractEditor.h"
 
-#include "EditorUtils\SceneEditor\sceneEditor.h"
-#include "EditorUtils\ClassEditor\classEditor.h"
-#include "EditorUtils\SpriteEditor\spriteEditor.h"
-#include "EditorUtils\MaterialEditor\materialEditor.h"
+#include <WorldObjects\Scene\SceneEditor\sceneEditor.h>
+#include <WorldObjects\Class\ClassEditor\classEditor.h>
+#include <WorldObjects\Sprite\SpriteEditor\spriteEditor.h>
+#include <WorldObjects\Material\MaterialEditor\materialEditor.h>
 
 #include <easylogging++.h>
 
 #include <ctime>
+
+#include <pugixml.hpp>
 
 namespace EngineInterface
 {

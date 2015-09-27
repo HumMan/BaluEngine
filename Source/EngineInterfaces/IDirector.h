@@ -9,7 +9,7 @@
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IResources.h"
 #include "IWorldInstance.h"
-#include "../Render.h"
+#include <World\Render.h>
 #endif
 
 namespace EngineInterface

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "exportMacro.h"
+#include <Interfaces\ExportMacro.h>
 
 #include "../../BaluLib/Source/Math/vec.h"
 

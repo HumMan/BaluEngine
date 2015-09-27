@@ -4,11 +4,11 @@
 
 #include "baluRender.h"
 
-#include "SceneInstance.h"
+#include <WorldObjects\Scene\SceneInstance.h>
 
 using namespace EngineInterface;
 
-#include "EngineInterfaces\IMaterial.h"
+#include <WorldObjects/Material/IMaterial.h>
 
 class TComposerPrivate
 {

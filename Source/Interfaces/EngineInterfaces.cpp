@@ -1,10 +1,10 @@
 #include "EngineInterfaces.h"
 
-#include "World.h"
+#include <World\World.h>
 
-#include "Director.h"
-#include "WorldInstance.h"
-#include "ScriptInstance.h"
+#include <World\Director.h>
+#include <World\WorldInstance.h>
+#include <World\ScriptInstance.h>
 
 namespace EngineInterface
 {

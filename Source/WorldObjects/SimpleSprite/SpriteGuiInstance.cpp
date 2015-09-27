@@ -1,8 +1,8 @@
 
 #include "SpriteGuiInstance.h"
 
-#include "..\SpriteInstance.h"
-#include "..\SceneInstance.h"
+#include "..\Sprite\SpriteInstance.h"
+#include "..\Scene\SceneInstance.h"
 
 
 TSimpleSpriteInstance::TSimpleSpriteInstance(TBaluSceneInstance* scene, TBaluSprite* source)

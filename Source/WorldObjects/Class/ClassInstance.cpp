@@ -1,6 +1,6 @@
 #include "ClassInstance.h"
 
-#include "WorldInstance.h"
+#include <World/WorldInstance.h>
 
 TBaluClassInstance* TBaluInstance::GetClass()
 {

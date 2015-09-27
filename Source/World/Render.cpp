@@ -6,15 +6,17 @@
 //#include <GL\glew.h>
 //#include <GL\wglew.h>
 
-#include "nanovg_support.h"
+#include <Utils\nanovg_support.h>
 
-#include "MaterialInstance.h"
+#include <WorldObjects/Material/MaterialInstance.h>
 
 #include "ScriptInstance.h"
 
 #include <nanovg.h>
 
-#include "EditorUtils\DrawingHelper.h"
+#include <EditorUtils\DrawingHelper.h>
+
+#include <algorithm>
 
 using namespace TBaluRenderEnums;
 

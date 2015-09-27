@@ -6,13 +6,11 @@
 
 #include <memory>
 
-#include "../Material/IMaterial.h"
-
 #include "../Class/IAnimationFrames.h"
 
-#include "../Sprite/ISpritePolygon.h"
+#include "ISpritePolygon.h"
 
-#include "../../EngineInterfaces\ICallbacks.h"
+#include <EngineInterfaces\ICallbacks.h>
 
 using namespace EngineInterface;
 

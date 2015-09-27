@@ -1,6 +1,6 @@
 #include "Class.h"
 
-#include "World.h"
+#include <World/World.h>
 
 TBaluClassPhysBody::TBaluClassPhysBody()
 {

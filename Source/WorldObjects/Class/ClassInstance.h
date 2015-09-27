@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Class.h"
-#include "Scene.h"
-#include "SpriteInstance.h"
+#include "../Scene/Scene.h"
+#include "../Sprite/SpriteInstance.h"
 #include "SkeletonInstance.h"
 #include "SkeletonAnimationInstance.h"
 
-#include "EngineInterfaces\IClassInstance.h"
-#include "EngineInterfaces\IMaterialInstance.h"
+#include "IClassInstance.h"
+#include "../Material\IMaterialInstance.h"
 
 class TBaluInstance;
 class TBaluWorldInstance;
