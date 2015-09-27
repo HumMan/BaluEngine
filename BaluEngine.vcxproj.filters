@@ -331,6 +331,9 @@
     <ClInclude Include="Source\EditorUtils\selectionListener.h">
       <Filter>EditorUtils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EngineInterfaces\Common.h">
+      <Filter>EngineInterfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\texture_polygon.cpp">

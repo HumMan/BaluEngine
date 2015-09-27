@@ -1,6 +1,8 @@
 #include "Material.h"
 #include "World.h"
 
+#include "EditorUtils\MaterialEditor\materialEditor.h"
+
 TBaluMaterial::TBaluMaterial()
 {
 	world = nullptr;
@@ -53,4 +55,11 @@ std::string TBaluMaterial::GetImagePath()
 void TBaluMaterial::SetColor(TVec4 color)
 {
 	this->color = color;
+}
+
+IAbstractEditor* TBaluMaterial::CreateEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance)
+{
+	auto result = new TMaterialEditor();
+	result->Initialize(drawing_context, world, this, editor_scene_instance);
+	return result;
 }

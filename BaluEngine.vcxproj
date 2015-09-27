@@ -132,6 +132,7 @@
     <ClInclude Include="Source\EditorUtils\Tools.h" />
     <ClInclude Include="Source\EngineInterfaces.h" />
     <ClInclude Include="Source\EngineInterfacesIncludes.h" />
+    <ClInclude Include="Source\EngineInterfaces\Common.h" />
     <ClInclude Include="Source\EngineInterfaces\IAnimationFrames.h" />
     <ClInclude Include="Source\EngineInterfaces\ICallbacks.h" />
     <ClInclude Include="Source\EngineInterfaces\IClass.h" />

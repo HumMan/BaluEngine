@@ -10,7 +10,7 @@ public:
 	virtual void OnSelectionChange(EngineInterface::IProperties* new_selection) = 0;
 };
 
-BALUENGINEDLL_API class TSelectionChangeListeners
+class BALUENGINEDLL_API TSelectionChangeListeners
 {
 private:
 	std::vector<ISelectionChangeListener*> selection_listeners;

@@ -6,6 +6,8 @@
 
 #include "RenderCommand.h"
 
+#include "EngineInterfaces\Common.h"
+
 #include "EngineInterfaces\IComposer.h"
 
 #include "EngineInterfaces\IAnimationFrames.h"
