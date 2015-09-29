@@ -11,7 +11,10 @@ namespace pugi
 
 class TBaluWorld;
 
-class TBaluMaterial: public EngineInterface::IBaluMaterial, public EngineInterface::IBaluWorldObject
+class TBaluMaterial: 
+	public EngineInterface::TBaluWorldObject,
+	public EngineInterface::IBaluMaterial, 
+	public TChangeListenerArray
 {
 public:
 	enum class TTransparentMode
@@ -90,13 +93,11 @@ private:
 	std::string image_path;
 	TVec4 color;
 
-#ifdef BALUENGINE_DESIGN_TIME
-
-	std::string material_name;
-	TBaluWorld* world;
-#endif
-
 public:
+	EngineInterface::IBaluWorld* GetWorld()
+	{
+		return world;
+	}
 	TBaluMaterial();
 
 #ifdef BALUENGINE_DESIGN_TIME

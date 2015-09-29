@@ -19,41 +19,6 @@ namespace EngineInterface
 }
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-enum class TWorldObjectType
-{
-	Material,
-	Sprite,
-	Class,
-	Scene,
-	None
-};
-
-enum class TWorldObjectSubType
-{
-	//SpritePolygon,
-	//SpritePhysShape,
-	ClassSpriteInstance,
-	SceneClassInstance
-};
-
-class TWorldObjectTypeString
-{
-public:
-	static inline const char* Get(TWorldObjectType index)
-	{
-		char* values[] =
-		{
-			"Material",
-			"Sprite",
-			"Class",
-			"Scene",
-			"None",
-		};
-		return values[(int)index];
-	}
-};
-#endif
 
 namespace EngineInterface
 {

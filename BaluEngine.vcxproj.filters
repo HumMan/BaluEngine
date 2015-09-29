@@ -157,12 +157,6 @@
     <ClInclude Include="Source\WorldObjects\Sprite\ISpritePolygonInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldObjects\Sprite\PhysShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldObjects\Sprite\PhysShapeInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldObjects\Sprite\Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -185,9 +179,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\World\Layers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\Properties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\World\Render.h">
@@ -253,31 +244,31 @@
     <ClInclude Include="Source\EditorUtils\IAbstractEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EngineInterfaces\Common.h">
+    <ClInclude Include="Source\World\IComposer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EngineInterfaces\ICallbacks.h">
+    <ClInclude Include="Source\World\IProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EngineInterfaces\IComposer.h">
+    <ClInclude Include="Source\World\IWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EngineInterfaces\IDirector.h">
+    <ClInclude Include="Source\World\IWorldInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EngineInterfaces\IProperties.h">
+    <ClInclude Include="Source\World\IScriptInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EngineInterfaces\IResources.h">
+    <ClInclude Include="Source\World\IResources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EngineInterfaces\IScriptInstance.h">
+    <ClInclude Include="Source\World\IDirector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EngineInterfaces\IWorld.h">
+    <ClInclude Include="Source\World\ICallbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EngineInterfaces\IWorldInstance.h">
+    <ClInclude Include="Source\World\ICommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -342,5 +333,8 @@
     <ClCompile Include="..\poly2tri\poly2tri\common\shapes.cc" />
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Source\Interfaces\GenerateCppToBaluScript.cpp" />
+    <ClCompile Include="Source\World\Properties.cpp" />
+    <ClCompile Include="Source\World\Common.cpp" />
+    <ClCompile Include="Source\World\Callbacks.cpp" />
   </ItemGroup>
 </Project>

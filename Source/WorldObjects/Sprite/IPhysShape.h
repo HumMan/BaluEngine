@@ -1,11 +1,10 @@
-
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
 #endif
 
-
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-#include "../../BaluLib/Source/Math/vec.h"
+#include <EngineInterfaces\Common.h>
+#include <Box2D.h>
 #endif
 
 namespace EngineInterface
@@ -19,6 +18,51 @@ namespace EngineInterface
 		virtual bool IsSensor()=0;
 		virtual ~IBaluPhysShape(){};
 	};
+
+#ifndef BALU_ENGINE_DLL_INTERFACES
+	class TBaluPhysShape: public EngineInterface::IBaluPhysShape
+	{
+	protected:
+		TBaluTransformWithScale local;
+		bool is_sensor;
+	public:
+		TBaluPhysShape()
+		{
+			is_sensor = false;
+		}
+		virtual ~TBaluPhysShape(){}
+		virtual b2Shape* GetShape(TBaluTransformWithScale class_transform) = 0;
+		void SetTransform(TBaluTransform local)
+		{
+			this->local.transform = local;
+		}
+		void SetScale(TVec2 scale)
+		{
+			this->local.scale = scale;
+		}
+		void SetIsSensor(bool value)
+		{
+			is_sensor = value;
+		}
+		bool IsSensor()
+		{
+			return is_sensor;
+		}
+		//virtual TBaluPhysShape* GetPhysShape() = 0;
+		virtual void Save(pugi::xml_node& parent_node, const int version) = 0;
+		virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world) = 0;
+	};
+
+
+	typedef TBaluPhysShape*(*PhysShapeClone)();
+	class PhysShapeFactory
+	{
+	public:
+		static bool Register(const char* name, PhysShapeClone clone);
+		static TBaluPhysShape* Create(const char* name);
+	};
+#endif
+
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
@@ -34,6 +78,28 @@ namespace EngineInterface
 	public:
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 	};
+
+#ifndef BALU_ENGINE_DLL_INTERFACES
+	class TBaluPolygonShape : public TBaluPhysShape, public EngineInterface::IBaluPolygonShape
+	{
+	protected:
+		b2PolygonShape b2shape;
+	public:
+		TBaluPolygonShape()
+		{
+		}
+		static TBaluPhysShape* Clone()
+		{
+			return new TBaluPolygonShape();
+		}
+		b2PolygonShape* GetShape(TBaluTransformWithScale class_transform);
+		TBaluPhysShape* GetPhysShape();
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	};
+	static bool TBaluPolygonShape_registered = PhysShapeFactory::Register("PolygonShape", TBaluPolygonShape::Clone);
+#endif
+
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -42,6 +108,30 @@ namespace EngineInterface
 	public:
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 	};
+
+#ifndef BALU_ENGINE_DLL_INTERFACES
+	class TBaluCircleShape : public TBaluPhysShape, public EngineInterface::IBaluCircleShape
+	{
+	private:
+		b2CircleShape b2shape;
+	public:
+		TBaluCircleShape()
+		{
+		}
+		static TBaluPhysShape* Clone()
+		{
+			return new TBaluCircleShape();
+		}
+		TBaluCircleShape(float radius);
+		TBaluCircleShape(float radius, TVec2 pos);
+		b2CircleShape* GetShape(TBaluTransformWithScale class_transform);
+		TBaluPhysShape* GetPhysShape();
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	};
+	static bool TBaluCircleShape_registered = PhysShapeFactory::Register("CircleShape", TBaluCircleShape::Clone);
+#endif
+
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -50,6 +140,28 @@ namespace EngineInterface
 	public:
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 	};
+
+#ifndef BALU_ENGINE_DLL_INTERFACES
+	class TBaluBoxShape : public TBaluPolygonShape, public EngineInterface::IBaluBoxShape
+	{
+		float width, height;
+	public:
+		TBaluBoxShape()
+		{
+		}
+		static TBaluPhysShape* Clone()
+		{
+			return new TBaluBoxShape();
+		}
+		TBaluBoxShape(float width, float height);
+		b2PolygonShape* GetShape(TBaluTransformWithScale class_transform);
+		TBaluPhysShape* GetPhysShape();
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	};
+	static bool TBaluBoxShape_registered = PhysShapeFactory::Register("BoxShape", TBaluBoxShape::Clone);
+#endif
+
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -61,6 +173,11 @@ namespace EngineInterface
 		virtual IBaluCircleShape* CreateCircleShape(float radius, TVec2 pos) = 0;
 		virtual IBaluBoxShape* CreateBoxShape(float width, float height) = 0;
 	};
+
+#ifndef BALU_ENGINE_DLL_INTERFACES
+
+#endif
+
 #endif
 
 }

@@ -5,16 +5,14 @@
 
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-
 #include <string>
-
+#include <map>
+#include <memory>
+#include <pugixml.hpp>
 namespace EngineInterface
 {
-	class IProperties;
-	class IBaluSceneClassInstance;
-	class IBaluClassSpriteInstance;
+	class TBaluWorld;
 }
-
 #endif
 
 namespace EngineInterface
@@ -45,8 +43,6 @@ namespace EngineInterface
 		PhysShapeType,
 		Layer,
 		Properties,
-		//SceneClassInstance,
-		//ClassSpriteInstance,
 	};
 #endif
 
@@ -64,7 +60,6 @@ namespace EngineInterface
 			"Int,\n"
 			"Float,\n"
 			"String,\n"
-			"SceneClassInstance,\n"
 			"}\n"
 			);
 	}
@@ -78,11 +73,60 @@ namespace EngineInterface
 		virtual bool HasProperty(const std::string& name, PropertyType& type) = 0;
 		virtual void SetBool(const std::string& name, bool value) = 0;
 		virtual bool GetBool(const std::string& name) = 0;
-		//virtual void SetSceneClassInstance(const std::string& name, IBaluSceneClassInstance* value) = 0;
-		//virtual IBaluSceneClassInstance* GetSceneClassInstance(const std::string& name) = 0;
-		//virtual void SetClassSpriteInstance(const std::string& name, IBaluClassSpriteInstance* value) = 0;
-		//virtual IBaluClassSpriteInstance* GetClassSpriteInstance(const std::string& name) = 0;
 	};
+
+#ifndef BALU_ENGINE_DLL_INTERFACE
+
+	class TProperty
+	{
+	public:
+		virtual const char* GetTypeString() = 0;
+		virtual EngineInterface::PropertyType GetType() = 0;
+		void Save(pugi::xml_node& parent_node, const int version);
+		virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+		virtual ~TProperty();
+	};
+
+	typedef TProperty*(*PropertyClone)();
+	class PropertiesFactory
+	{
+	public:
+		static bool Register(const char* name, PropertyClone clone);
+		static TProperty* Create(const char* name);
+	};
+
+	class TProperties : public EngineInterface::IProperties
+	{
+	public:
+
+		std::map<std::string, std::unique_ptr<TProperty>> properties;
+
+		template<class T>
+		void Get(const std::string& name, T*& value)
+		{
+			auto it = properties.find(name);
+			if (it == properties.end())
+			{
+				throw std::invalid_argument("Неправильное имя свойства");
+			}
+			auto ptr = dynamic_cast<TPropertyValue<T>*>(it->second.get());
+			if (ptr == nullptr)
+				throw std::invalid_argument("Неправильный тип свойства");
+			value = ptr->GetValue();
+		}
+		bool is_wrapper;
+	public:
+		TProperties();
+		TProperties(bool is_wrapper);
+		void AddProperty(const char* name, TProperty* prop);
+		bool HasProperty(const std::string& name, EngineInterface::PropertyType& type);
+		void SetBool(const std::string& name, bool value);
+		bool GetBool(const std::string& name);
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	};
+#endif
+
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	

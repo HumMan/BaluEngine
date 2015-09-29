@@ -1,5 +1,6 @@
-#include "PhysShape.h"
+#include "IPhysShape.h"
 
+using namespace EngineInterface;
 
 std::vector < std::pair<const char*, PhysShapeClone>> phys_shape_registry;
 

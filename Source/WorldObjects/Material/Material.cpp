@@ -8,13 +8,11 @@ TBaluMaterial::TBaluMaterial()
 	world = nullptr;
 }
 
-#ifdef BALUENGINE_DESIGN_TIME
 TBaluMaterial::TBaluMaterial(std::string material_name, TBaluWorld* world)
 {
 	this->material_name = material_name;
 	this->world = world;
 }
-#endif
 
 EngineInterface::IProperties* TBaluMaterial::GetProperties()
 {
@@ -29,17 +27,6 @@ void TBaluMaterial::SetBlendMode(TTransparentMode mode)
 void TBaluMaterial::SetAlphaTestValue(float alpha_test_value)
 {
 	this->alpha_test_value = alpha_test_value;
-}
-
-void TBaluMaterial::SetName(std::string name)
-{
-	assert(!world->ObjectNameExists(TWorldObjectType::Material, name.c_str()));
-	material_name = name;
-}
-
-std::string TBaluMaterial::GetName()
-{
-	return  material_name;
 }
 
 void TBaluMaterial::SetImagePath(std::string image_path)

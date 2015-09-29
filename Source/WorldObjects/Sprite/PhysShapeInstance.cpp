@@ -1,8 +1,8 @@
-#include "PhysShapeInstance.h"
-
-#include "PhysShapeInstance.h"
+#include "IPhysShapeInstance.h"
 
 #include "../Class/ClassInstance.h"
+
+using namespace EngineInterface;
 
 TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TBaluClassSpriteInstance* sprite_instance)
 {
