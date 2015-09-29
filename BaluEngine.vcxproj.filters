@@ -169,9 +169,6 @@
     <ClInclude Include="Source\WorldObjects\Sprite\SpritePolyInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\World\Director.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\World\Layers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -206,9 +203,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Interfaces\CppToBaluScriptBinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Interfaces\EngineInterfaces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Interfaces\EngineInterfacesIncludes.h">
@@ -305,7 +299,6 @@
     <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
     <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
     <ClCompile Include="Source\Utils\texture_polygon.cpp" />
-    <ClCompile Include="Source\Interfaces\EngineInterfaces.cpp" />
     <ClCompile Include="Source\EditorUtils\abstractEditor.cpp" />
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp" />
     <ClCompile Include="Source\EditorUtils\IAbstractEditor.cpp" />

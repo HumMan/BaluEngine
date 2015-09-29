@@ -255,7 +255,7 @@ namespace EngineInterface
 	{
 		TScreen* screen;
 		TView* view;
-		EngineInterface::IViewport* viewport;
+		IViewport* viewport;
 		TDrawingHelperContext()
 		{
 			screen = nullptr;
@@ -292,7 +292,7 @@ namespace EngineInterface
 		static TSceneObject* Create(const char* name);
 	};
 
-	class TGui : public EngineInterface::TSceneObject
+	class TGui : public TSceneObject
 	{
 	public:
 	};

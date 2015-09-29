@@ -1,22 +1,18 @@
 //#pragma once
 
-#include <World\Callbacks.h>
+#include "../World/ICallbacks.h"
+#include "../World/RenderCommand.h"
+#include "../World/ICommon.h"
 
-#include <EngineInterfaces\ICallbacks.h>
+#include "../World/IComposer.h"
 
-#include <World/RenderCommand.h>
+#include "../WorldObjects/InterfacesIncludes.h"
 
-#include "EngineInterfaces\Common.h"
+#include "../World/IProperties.h"
+#include "../World/IWorld.h"
+#include "../World/IWorldInstance.h"
+#include "../World/IScriptInstance.h"
 
-#include "EngineInterfaces\IComposer.h"
+#include "../World/IResources.h"
 
-#include <WorldObjects\InterfacesIncludes.h>
-
-#include "EngineInterfaces\IProperties.h"
-#include "EngineInterfaces\IWorld.h"
-#include "EngineInterfaces\IWorldInstance.h"
-#include "EngineInterfaces\IScriptInstance.h"
-
-#include "EngineInterfaces\IResources.h"
-
-#include "EngineInterfaces\IDirector.h"
+#include "../World/IDirector.h"

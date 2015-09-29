@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EngineInterfaces\Common.h"
+#include <World\ICommon.h>
 
 #include "IMaterial.h"
 
@@ -12,8 +12,8 @@ namespace pugi
 class TBaluWorld;
 
 class TBaluMaterial: 
-	public EngineInterface::TBaluWorldObject,
-	public EngineInterface::IBaluMaterial, 
+	public TBaluWorldObject,
+	public IBaluMaterial, 
 	public TChangeListenerArray
 {
 public:
@@ -94,7 +94,7 @@ private:
 	TVec4 color;
 
 public:
-	EngineInterface::IBaluWorld* GetWorld()
+	IBaluWorld* GetWorld()
 	{
 		return world;
 	}

@@ -2,8 +2,9 @@
 
 #include <Interfaces\ExportMacro.h>
 
-#include "EngineInterfaces\IWorld.h"
-#include "EngineInterfaces\IWorldInstance.h"
+#include <World\ICommon.h>
+#include <World\IWorld.h>
+#include <World\IWorldInstance.h>
 
 #include <memory>
 #include <vector>
@@ -11,12 +12,11 @@
 namespace EngineInterface
 {
 	
-
 	class IEditorTool
 	{
 	public:
 		virtual TWorldObjectType NeedObjectSelect() = 0;
-		virtual void SetSelectedObject(IBaluWorldObject* obj) = 0;
+		virtual void SetSelectedObject(TBaluWorldObject* obj) = 0;
 		virtual void OnMouseDown(TMouseEventArgs e) = 0;
 		virtual void OnMouseMove(TMouseEventArgs e) = 0;
 		virtual void OnMouseUp(TMouseEventArgs e) = 0;
@@ -57,7 +57,7 @@ namespace EngineInterface
 	class ISelectionChangeListener
 	{
 	public:
-		virtual void OnSelectionChange(EngineInterface::IProperties* new_selection) = 0;
+		virtual void OnSelectionChange(IProperties* new_selection) = 0;
 	};
 
 	class BALUENGINEDLL_API TSelectionChangeListeners
@@ -68,7 +68,7 @@ namespace EngineInterface
 		void AddSelectionChangeListener(ISelectionChangeListener* listener);
 		void RemoveSelectionChangeListener(ISelectionChangeListener* listener);
 
-		void EmitOnSelectionChange(EngineInterface::IProperties* new_selection);
+		void EmitOnSelectionChange(IProperties* new_selection);
 	};
 
 
@@ -100,7 +100,7 @@ namespace EngineInterface
 	};
 	inline IAbstractEditor::~IAbstractEditor() { }
 
-	BALUENGINEDLL_API void DestroyEditor(EngineInterface::IAbstractEditor*);
+	BALUENGINEDLL_API void DestroyEditor(IAbstractEditor*);
 
 	BALUENGINEDLL_API void ConfigureLogging();
 	BALUENGINEDLL_API void WriteInfoToLog(char* message);

@@ -24,14 +24,14 @@ namespace EngineInterface
 	};
 
 
-	class TComposerStage : public EngineInterface::IComposerStage
+	class TComposerStage : public IComposerStage
 	{
 		friend class TComposer;
 		TComposer* composer;
 
-		EngineInterface::IBaluSceneInstance* scene_instance;
-		EngineInterface::IViewport* viewport;
-		EngineInterface::TView view;
+		IBaluSceneInstance* scene_instance;
+		IViewport* viewport;
+		TView view;
 		//TODO effects, etc.
 	public:
 		void MoveFront();
@@ -52,22 +52,22 @@ namespace EngineInterface
 	class IComposer
 	{
 	public:
-		virtual IComposerStage* AddToRender(EngineInterface::IBaluSceneInstance* scene_instance, EngineInterface::IViewport* viewport) = 0;
+		virtual IComposerStage* AddToRender(IBaluSceneInstance* scene_instance, IViewport* viewport) = 0;
 		virtual void RemoveFromRender(IComposerStage* stage)=0;
 	};
 
 	class TComposerPrivate;
 
-	class TComposer: public EngineInterface::IComposer
+	class TComposer: public IComposer
 	{
 		std::unique_ptr<TComposerPrivate> p;
 	public:
 		TComposer();
-		//TComposer(EngineInterface::TRender* render);
-		TComposerStage* AddToRender(EngineInterface::IBaluSceneInstance* scene_instance, EngineInterface::IViewport* viewport);
-		void RemoveFromRender(EngineInterface::IComposerStage* stage);
+		//TComposer(TRender* render);
+		TComposerStage* AddToRender(IBaluSceneInstance* scene_instance, IViewport* viewport);
+		void RemoveFromRender(IComposerStage* stage);
 
-		void Render(EngineInterface::TRender* render);
+		void Render(TRender* render);
 		~TComposer();
 };
 #endif

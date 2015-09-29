@@ -63,7 +63,7 @@ namespace EngineInterface
 	};
 
 
-	class TBaluWorld : public EngineInterface::IBaluWorld
+	class TBaluWorld : public IBaluWorld
 	{
 	private:
 		friend class TBaluWorldInstance;
@@ -143,7 +143,7 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	BALUENGINEDLL_API EngineInterface::IBaluWorld* CreateWorld();
-	BALUENGINEDLL_API void DestroyWorld(EngineInterface::IBaluWorld* world);
+	BALUENGINEDLL_API IBaluWorld* CreateWorld();
+	BALUENGINEDLL_API void DestroyWorld(IBaluWorld* world);
 #endif
 }

@@ -21,7 +21,7 @@
 
 #include <Box2D.h>
 
-#include <EngineInterfaces\Common.h>
+#include <World\ICommon.h>
 
 struct b2AABB;
 struct GLRenderPoints;
@@ -39,7 +39,7 @@ struct Camera
 	//	m_width = 1280;
 	//	m_height = 800;
 	//}
-	EngineInterface::TDrawingHelperContext drawing_context;
+	TDrawingHelperContext drawing_context;
 	void Camera::BuildProjectionMatrix(float32* m, float32 zBias);
 	//b2Vec2 ConvertScreenToWorld(const b2Vec2& screenPoint);
 	//b2Vec2 ConvertWorldToScreen(const b2Vec2& worldPoint);

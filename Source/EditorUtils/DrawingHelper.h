@@ -11,7 +11,7 @@ namespace EngineInterface
 	class TScreen;
 }
 
-#include <EngineInterfaces\Common.h>
+#include <World\ICommon.h>
 
 using namespace EngineInterface;
 

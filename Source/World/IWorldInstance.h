@@ -1,4 +1,3 @@
-
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
 #endif
@@ -61,7 +60,7 @@ namespace EngineInterface
 	};
 
 
-	class TBaluWorldInstance : public EngineInterface::IBaluWorldInstance
+	class TBaluWorldInstance : public IBaluWorldInstance
 	{
 	private:
 		TBaluWorld* source;
@@ -104,7 +103,7 @@ namespace EngineInterface
 		TBaluSceneInstance* RunScene(TBaluScene* scene_source);
 		void StopScene(TBaluSceneInstance*);
 
-		EngineInterface::IBaluSceneInstance* RunScene(EngineInterface::IBaluScene* scene_source);
+		IBaluSceneInstance* RunScene(IBaluScene* scene_source);
 		TBaluSceneInstance* RunScene();
 		TBaluSceneInstance* RunScene(TLayersManager* scene_layers);
 
@@ -116,7 +115,7 @@ namespace EngineInterface
 		{
 			return scene_instances[index].get();
 		}
-		void StopScene(EngineInterface::IBaluSceneInstance*);
+		void StopScene(IBaluSceneInstance*);
 
 		void OnPrePhysStep();
 		void PhysStep(float step);
@@ -158,8 +157,8 @@ namespace EngineInterface
 
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	BALUENGINEDLL_API EngineInterface::IBaluWorldInstance* CreateWorldInstance(EngineInterface::IBaluWorld* source, EngineInterface::IResources* resources);
-	BALUENGINEDLL_API void DestroyWorldInstance(EngineInterface::IBaluWorldInstance* world);
+	BALUENGINEDLL_API IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources);
+	BALUENGINEDLL_API void DestroyWorldInstance(IBaluWorldInstance* world);
 #endif
 
 }

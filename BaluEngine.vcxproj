@@ -111,7 +111,6 @@
     <ClInclude Include="Source\World\IWorld.h" />
     <ClInclude Include="Source\World\IWorldInstance.h" />
     <ClInclude Include="Source\Interfaces\CppToBaluScriptBinding.h" />
-    <ClInclude Include="Source\Interfaces\EngineInterfaces.h" />
     <ClInclude Include="Source\Interfaces\EngineInterfacesIncludes.h" />
     <ClInclude Include="Source\Interfaces\exportMacro.h" />
     <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h" />
@@ -174,7 +173,6 @@
     <ClInclude Include="Source\WorldObjects\Sprite\SpriteInstance.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\SpritePoly.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\SpritePolyInstance.h" />
-    <ClInclude Include="Source\World\Director.h" />
     <ClInclude Include="Source\World\Layers.h" />
     <ClInclude Include="Source\World\Render.h" />
     <ClInclude Include="Source\World\RenderCommand.h" />
@@ -190,7 +188,6 @@
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp" />
     <ClCompile Include="Source\EditorUtils\IAbstractEditor.cpp" />
     <ClCompile Include="Source\World\Common.cpp" />
-    <ClCompile Include="Source\Interfaces\EngineInterfaces.cpp" />
     <ClCompile Include="Source\Interfaces\GenerateCppToBaluScript.cpp" />
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
