@@ -31,10 +31,71 @@ namespace EngineInterface
 		virtual void SetTransform(TBaluTransform local) = 0;
 		virtual TBaluTransform GetTransform() = 0;
 		virtual IBaluSpritePolygonInstance* GetPolygon() = 0;
-		virtual EngineInterface::IProperties* GetProperties() = 0;
+		virtual IProperties* GetProperties() = 0;
 		virtual void SetTag(void* tag)=0;
 		virtual void* GetTag()=0;
 	};
+
+
+	class TBaluClassInstanceSpriteInstance : public IBaluClassInstanceSpriteInstance
+	{
+	private:
+		TBaluClassSpriteInstance* source;
+
+		TBaluTransformWithScale local;
+
+		std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
+		TBaluSpritePolygonInstance polygon;
+
+		TProperties properties;
+		void* tag;
+	public:
+		void SetTag(void* tag)
+		{
+			this->tag = tag;
+		}
+		void* GetTag()
+		{
+			return tag;
+		}
+
+		IProperties* GetProperties()
+		{
+			return &properties;
+		}
+
+		TBaluClassInstanceSpriteInstance(TBaluClassSpriteInstance* source, TBaluInstance* parent, TResources* resources);
+
+		void SetTransform(TBaluTransform local)
+		{
+			this->local.transform = local;
+		}
+		TBaluTransform GetTransform()
+		{
+			return local.transform;
+		}
+		TVec2 GetScale()
+		{
+			return local.scale;
+		}
+		void SetScale(TVec2 scale)
+		{
+			local.scale = scale;
+		}
+		TBaluClassSpriteInstance* GetSource();
+
+		TOBB2 GetOBB();
+
+		TBaluPhysShapeInstance* GetPhysShape();
+
+		TBaluSpritePolygonInstance* GetPolygon();
+
+		void PlayAnimation(std::string animation_name, bool loop);
+		void PauseAnimation(bool pause);
+		void StopAnimation();
+
+		void UpdateTranform(TBaluTransformWithScale global);
+};
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

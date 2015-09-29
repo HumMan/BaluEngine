@@ -8,7 +8,7 @@
 #include "../../BaluLib/Source/BVolumes/AABB.h"
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "EngineInterfaces/ICallbacks.h"
+#include <World/ICallbacks.h>
 #endif
 
 class TMaterialInstance;

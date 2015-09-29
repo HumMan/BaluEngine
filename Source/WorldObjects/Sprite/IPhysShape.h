@@ -3,7 +3,7 @@
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-#include <EngineInterfaces\Common.h>
+#include <World\ICommon.h>
 #include <Box2D.h>
 #endif
 
@@ -20,7 +20,7 @@ namespace EngineInterface
 	};
 
 #ifndef BALU_ENGINE_DLL_INTERFACES
-	class TBaluPhysShape: public EngineInterface::IBaluPhysShape
+	class TBaluPhysShape: public IBaluPhysShape
 	{
 	protected:
 		TBaluTransformWithScale local;
@@ -80,7 +80,7 @@ namespace EngineInterface
 	};
 
 #ifndef BALU_ENGINE_DLL_INTERFACES
-	class TBaluPolygonShape : public TBaluPhysShape, public EngineInterface::IBaluPolygonShape
+	class TBaluPolygonShape : public TBaluPhysShape, public IBaluPolygonShape
 	{
 	protected:
 		b2PolygonShape b2shape;
@@ -110,7 +110,7 @@ namespace EngineInterface
 	};
 
 #ifndef BALU_ENGINE_DLL_INTERFACES
-	class TBaluCircleShape : public TBaluPhysShape, public EngineInterface::IBaluCircleShape
+	class TBaluCircleShape : public TBaluPhysShape, public IBaluCircleShape
 	{
 	private:
 		b2CircleShape b2shape;
@@ -142,7 +142,7 @@ namespace EngineInterface
 	};
 
 #ifndef BALU_ENGINE_DLL_INTERFACES
-	class TBaluBoxShape : public TBaluPolygonShape, public EngineInterface::IBaluBoxShape
+	class TBaluBoxShape : public TBaluPolygonShape, public IBaluBoxShape
 	{
 		float width, height;
 	public:
@@ -174,7 +174,7 @@ namespace EngineInterface
 		virtual IBaluBoxShape* CreateBoxShape(float width, float height) = 0;
 	};
 
-	class TBaluPhysShapeFactory : public EngineInterface::IBaluPhysShapeFactory
+	class TBaluPhysShapeFactory : public IBaluPhysShapeFactory
 	{
 	public:
 		TBaluPolygonShape* CreatePolygonShape();

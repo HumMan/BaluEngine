@@ -32,9 +32,9 @@ namespace EngineInterface
 		virtual void SetScale(TVec2 scale){}
 		virtual bool PointCollide(TVec2 scene_space_point) = 0;
 		virtual void UpdateTransform(){};
-		virtual void OnMouseUp(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location){};
-		virtual void OnMouseDown(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location){};
-		virtual void OnMouseMove(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location){};
+		virtual void OnMouseUp(TMouseEventArgs e, TVec2 scene_cursor_location){};
+		virtual void OnMouseDown(TMouseEventArgs e, TVec2 scene_cursor_location){};
+		virtual void OnMouseMove(TMouseEventArgs e, TVec2 scene_cursor_location){};
 		virtual ~TSceneObjectInstance(){}
 	};
 
@@ -49,6 +49,16 @@ namespace EngineInterface
 	class IBaluMaterialInstance
 	{
 	public:
+	};
+
+
+	class TMaterialInstance
+	{
+		TBaluTexture texture;
+		TBaluMaterial* source;
+	public:
+		TMaterialInstance(TBaluMaterial* source, TResources* resources);
+		TBaluTexture GetTexture();
 	};
 #endif
 

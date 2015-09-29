@@ -1,6 +1,6 @@
-#include "Class.h"
+#include "IClass.h"
 
-#include <World/World.h>
+#include <World/IWorld.h>
 
 #include "ClassEditor\classEditor.h"
 
@@ -60,7 +60,7 @@ TScript* TBaluClass::GetOnCollide(IBaluSprite* sprite, TBaluClass* obstancle_cla
 	return nullptr;
 }
 
-void TBaluClass::AddOnCollide(IBaluSprite* sprite, EngineInterface::IBaluClass* obstancle_class, TScript callback)
+void TBaluClass::AddOnCollide(IBaluSprite* sprite, IBaluClass* obstancle_class, TScript callback)
 {
 	on_collide_callbacks.push_back(TSpriteWithClassCollide(sprite, obstancle_class, callback));
 }
@@ -142,7 +142,7 @@ TBaluClassSpriteInstance* TBaluClass::AddSprite(TBaluSprite* sprite)
 	return sprites.back().get();
 }
 
-EngineInterface::IBaluClassSpriteInstance* TBaluClass::AddSprite(EngineInterface::IBaluSprite* sprite)
+IBaluClassSpriteInstance* TBaluClass::AddSprite(IBaluSprite* sprite)
 {
 	return AddSprite(dynamic_cast<TBaluSprite*>(sprite));
 }
@@ -193,7 +193,7 @@ std::vector<TScript>& TBaluClass::GetOnBeforePhysicsStep()
 	return before_physics_callbacks;
 }
 
-IAbstractEditor* TBaluClass::CreateEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance)
+IAbstractEditor* TBaluClass::CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance)
 {
 	auto result = new TClassEditor();
 	result->Initialize(drawing_context, world, this, editor_scene_instance);

@@ -15,7 +15,7 @@ public:
 	{
 		return TWorldObjectType::Sprite;
 	}
-	void SetSelectedObject(IBaluWorldObject* obj)
+	void SetSelectedObject(TBaluWorldObject* obj)
 	{
 		active_tool_sprite = dynamic_cast<IBaluSprite*>(obj);
 	}
@@ -71,7 +71,7 @@ public:
 	{
 		return TWorldObjectType::None;
 	}
-	void SetSelectedObject(IBaluWorldObject* obj)
+	void SetSelectedObject(TBaluWorldObject* obj)
 	{
 		active_tool_sprite = dynamic_cast<IBaluSprite*>(obj);
 	}
