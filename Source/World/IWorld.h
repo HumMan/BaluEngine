@@ -9,6 +9,7 @@
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "ICallbacks.h"
 #include "ICommon.h"
+#include "Interfaces\ExportMacro.h"
 #endif
 
 namespace EngineInterface
@@ -34,9 +35,9 @@ namespace EngineInterface
 
 		virtual TBaluWorldObject* GetObjectByName(const char* name) = 0;
 		virtual std::vector<TBaluWorldObject*> GetObjects(TWorldObjectType type) = 0;
-		virtual bool ObjectNameExists(TWorldObjectType type, const char* name)=0;
-		virtual void CreateObject(TWorldObjectType type, const char* name)=0;
-		virtual void DestroyObject(TWorldObjectType type, const char* name)=0;
+		virtual bool ObjectNameExists(TWorldObjectType type, const char* name) = 0;
+		virtual void CreateObject(TWorldObjectType type, const char* name) = 0;
+		virtual void DestroyObject(TWorldObjectType type, const char* name) = 0;
 
 		virtual void AddOnMouseDown(TScript) = 0;
 		virtual void AddOnMouseUp(TScript) = 0;
@@ -131,7 +132,7 @@ namespace EngineInterface
 
 		void SaveToXML(pugi::xml_node& parent_node, const int version);
 		void LoadFromXML(const pugi::xml_node& document_node, const int version);
-};
+	};
 
 
 #endif

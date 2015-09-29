@@ -158,6 +158,8 @@ namespace EngineInterface
 		}
 	};
 
+	class TBaluInstance;
+
 	class TBaluClassInstance :public IBaluClassInstance
 	{
 	private:

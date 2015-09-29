@@ -15,6 +15,7 @@ namespace EngineInterface
 	};
 
 	class TResourcesInternal;
+	class TBaluRender;
 	class TBaluTexture
 	{
 		int id;

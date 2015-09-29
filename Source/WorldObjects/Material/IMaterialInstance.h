@@ -7,6 +7,7 @@
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IMaterial.h"
+#include <World\IResources.h>
 #endif
 
 class TBaluSceneInstance;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Class/Class.h"
+#include "../Class/IClass.h"
 #include <World\Layers.h>
 
 #include "../../BaluLib/Source/BVolumes/AABB.h"
