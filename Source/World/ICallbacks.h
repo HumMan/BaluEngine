@@ -1,16 +1,20 @@
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 #pragma once
+#endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 #include <baluLib.h>
 using namespace BaluLib;
-
-#include <World\Callbacks.h>
-
 class NVGcontext;
+class TSMethod;
+namespace pugi
+{
+	class xml_node;
+}
+#endif
 
 namespace EngineInterface
 {
-	
-
 	enum class TEventType
 	{
 		OnWorldStart,
@@ -75,5 +79,40 @@ namespace EngineInterface
 
 			return EventSignatures[(int)index];
 		}
+	};
+
+	enum class TScriptActiveType
+	{
+		DEFAULT = 0,
+		EDITOR = 1
+	};
+
+	class TScript
+	{
+	private:
+		std::string script_source;
+		TScriptActiveType script_type;
+	public:
+		TScript();
+		TScript(std::string script_source);
+		TScript(std::string script_source, TScriptActiveType script_type);
+		TScriptActiveType GetScriptType();
+		void SetScriptType(TScriptActiveType type);
+		std::string GetScriptSource();
+		void SetScriptSource(const char* source);
+		void SaveToXML(pugi::xml_node& parent_node, const int version);
+		void LoadFromXML(const pugi::xml_node& document_node, const int version);
+	};
+
+	class TScriptInstance
+	{
+	private:
+		TScript* source;
+		TSMethod* compiled_script;
+	public:
+		TScript* GetSource();
+		TScriptInstance();
+		TScriptInstance(TScript* source, TSMethod* compiled_script);
+		TSMethod* GetCompiledScript();
 	};
 }

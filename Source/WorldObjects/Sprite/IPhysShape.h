@@ -174,6 +174,15 @@ namespace EngineInterface
 		virtual IBaluBoxShape* CreateBoxShape(float width, float height) = 0;
 	};
 
+	class TBaluPhysShapeFactory : public EngineInterface::IBaluPhysShapeFactory
+	{
+	public:
+		TBaluPolygonShape* CreatePolygonShape();
+		TBaluCircleShape* CreateCircleShape(float radius);
+		TBaluCircleShape* CreateCircleShape(float radius, TVec2 pos);
+		TBaluBoxShape* CreateBoxShape(float width, float height);
+	};
+
 #ifndef BALU_ENGINE_DLL_INTERFACES
 
 #endif

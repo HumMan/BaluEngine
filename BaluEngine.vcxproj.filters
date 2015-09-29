@@ -169,12 +169,6 @@
     <ClInclude Include="Source\WorldObjects\Sprite\SpritePolyInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\World\Callbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\Composer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\World\Director.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -187,19 +181,7 @@
     <ClInclude Include="Source\World\RenderCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\World\Resources.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\World\ScriptClassesRegistry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\ScriptInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\WorldInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h">

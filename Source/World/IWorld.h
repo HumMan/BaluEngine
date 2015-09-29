@@ -8,7 +8,7 @@
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "ICallbacks.h"
-#include "../WorldObjects/InterfacesIncludes.h"
+#include "ICommon.h"
 #endif
 
 namespace EngineInterface
@@ -24,72 +24,19 @@ namespace EngineInterface
 {
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	class TBaluWorldChangeListener
-	{
-	public:
-		virtual void OnObjectCreate(TWorldObjectType type, std::string name) = 0;
-		virtual void OnObjectDestroy(TWorldObjectType type, std::string name){}
-		virtual void OnObjectChange(TWorldObjectType type, std::string name){}
-		virtual void OnSubObjectCreate(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
-		virtual void OnSubObjectDestroy(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
-		virtual void OnSubObjectChange(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
-	};
 
 	class IBaluWorld
 	{
 	public:
-
-		virtual void AddChangesListener(TBaluWorldChangeListener* listener) = 0;
-		virtual void RemoveChangesListener(TBaluWorldChangeListener* listener) = 0;
-
 		virtual TScriptActiveType& GetCallbacksActiveType() = 0;
 
-		virtual bool TryFind(const char* material_name, EngineInterface::IBaluMaterial*& result) = 0;
-		virtual bool TryFind(const char* sprite_name, EngineInterface::IBaluSprite*& result) = 0;
-		virtual bool TryFind(const char* scene_name, EngineInterface::IBaluScene*& result) = 0;
-		virtual bool TryFind(const char* class_name, IBaluClass*& result) = 0;
+		virtual bool TryFind(const char* name, TBaluWorldObject*& result) = 0;
 
-		void Create(const char* name, IBaluMaterial*& item)
-		{
-			item = CreateMaterial(name);
-		}
-		void Create(const char* name, IBaluSprite*& item)
-		{
-			item = CreateSprite(name);
-		}
-		void Create(const char* name, IBaluClass*& item)
-		{
-			item = CreateClass(name);
-		}
-		void Create(const char* name, IBaluScene*& item)
-		{
-			item = CreateScene(name);
-		}
-
-		virtual IBaluMaterial* CreateMaterial(const char* mat_name) = 0;
-		virtual IBaluSprite* CreateSprite(const char* sprite_name) = 0;
-		virtual IBaluClass* CreateClass(const char* class_name) = 0;
-		virtual IBaluScene* CreateScene(const char* scene_name) = 0;
-
-		virtual void DestroySprite(const char* class_name) = 0;
-		virtual void DestroyClass(const char* class_name) = 0;
-		virtual void DestroyScene(const char* scene_name) = 0;
-
-		virtual IBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name)=0;
-		virtual std::vector<IBaluWorldObject*> GetObjects(TWorldObjectType type)=0;
+		virtual TBaluWorldObject* GetObjectByName(const char* name) = 0;
+		virtual std::vector<TBaluWorldObject*> GetObjects(TWorldObjectType type) = 0;
 		virtual bool ObjectNameExists(TWorldObjectType type, const char* name)=0;
 		virtual void CreateObject(TWorldObjectType type, const char* name)=0;
 		virtual void DestroyObject(TWorldObjectType type, const char* name)=0;
-
-		virtual std::vector<EngineInterface::IBaluMaterial*> GetMaterials() = 0;
-		virtual std::vector<EngineInterface::IBaluSprite*> GetSprites() = 0;
-		virtual std::vector<EngineInterface::IBaluClass*> GetClasses() = 0;
-		virtual std::vector<EngineInterface::IBaluScene*> GetScenes() = 0;
-
-		virtual IBaluScene* GetScene(const char* scene_name) = 0;
-		virtual IBaluScene* GetScene(int index) = 0;
-
-		virtual IBaluPhysShapeFactory* GetPhysShapeFactory() = 0;
 
 		virtual void AddOnMouseDown(TScript) = 0;
 		virtual void AddOnMouseUp(TScript) = 0;
@@ -113,10 +60,80 @@ namespace EngineInterface
 
 		virtual void SaveToXML(std::string path) = 0;
 		virtual void LoadFromXML(std::string path) = 0;
-
-		
-
 	};
+
+
+	class TBaluWorld : public EngineInterface::IBaluWorld
+	{
+	private:
+		friend class TBaluWorldInstance;
+
+		std::map<std::string, std::unique_ptr<TBaluWorldObject>> world_objects;
+
+		TScriptActiveType callback_active_type;
+
+		template<class T, class M>
+		std::vector<T*> GetVectorFromMap(M& map)
+		{
+			std::vector<T*> result;
+			result.reserve(map.size());
+			for (auto& v : map)
+			{
+				result.push_back(v.second.get());
+			}
+			return result;
+		}
+
+		std::vector<TScript>
+			mouse_down_callbacks,
+			mouse_up_callbacks,
+			mouse_move_callbacks;
+		std::vector<TScript> on_start_world_callback;
+		std::vector<TScript> viewport_resize_callback;
+	public:
+		TBaluWorld();
+		~TBaluWorld();
+		//TODO убрать отсюда, указывать при создании экземпл€ра мира
+		TScriptActiveType& GetCallbacksActiveType()
+		{
+			return callback_active_type;
+		}
+		bool TryFind(const char* name, TBaluWorldObject*& result);
+
+		TBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name);
+		std::vector<TBaluWorldObject*> GetObjects(TWorldObjectType type);
+		bool ObjectNameExists(TWorldObjectType type, const char* name);
+		void CreateObject(TWorldObjectType type, const char* name);
+		void DestroyObject(TWorldObjectType type, const char* name);
+
+		void AddOnMouseDown(TScript);
+		void AddOnMouseUp(TScript);
+		void AddOnMouseMove(TScript);
+
+		std::vector<TScript>& GetOnMouseDown();
+		std::vector<TScript>& GetOnMouseUp();
+		std::vector<TScript>& GetOnMouseMove();
+
+		void RemoveOnMouseDown(int index);
+		void RemoveOnMouseUp(int index);
+		void RemoveOnMouseMove(int index);
+
+		void AddOnWorldStart(TScript callback);
+		std::vector<TScript>& GetOnWorldStart();
+		void RemoveOnWorldStart(int index);
+
+		void AddOnViewportResize(TScript callback);
+		std::vector<TScript>& GetOnViewportResize();
+		void RemoveOnViewportResize(int index);
+
+		void SaveToXML(std::string path);
+		void LoadFromXML(std::string path);
+
+		void SaveToXML(pugi::xml_node& parent_node, const int version);
+		void LoadFromXML(const pugi::xml_node& document_node, const int version);
+};
+
+
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
