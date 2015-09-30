@@ -1,5 +1,6 @@
 #pragma once
 
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES) && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include <Interfaces\ExportMacro.h>
 
 #include <World\ICommon.h>
@@ -8,6 +9,7 @@
 
 #include <memory>
 #include <vector>
+#endif
 
 namespace EngineInterface
 {

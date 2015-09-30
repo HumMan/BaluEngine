@@ -3,14 +3,10 @@
 #pragma once
 #endif
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES) && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include <World\IResources.h>
 #include <baluLib.h>
 #include <World/ICommon.h>
-#endif
-
 #endif
 
 using namespace BaluLib;

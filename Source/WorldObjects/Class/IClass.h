@@ -6,7 +6,7 @@
 #include <map>
 #include <set>
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES) && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include <World/IProperties.h>
 #include <WorldObjects/Sprite/ISprite.h>
 #include <WorldObjects/Sprite/IPhysShape.h>

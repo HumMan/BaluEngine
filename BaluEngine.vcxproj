@@ -175,6 +175,7 @@
     <ClCompile Include="Source\EditorUtils\abstractEditor.cpp" />
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp" />
     <ClCompile Include="Source\EditorUtils\IAbstractEditor.cpp" />
+    <ClCompile Include="Source\Interfaces\GenerateCppToBaluScript.cpp" />
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
     <ClCompile Include="Source\Utils\DebugDraw.cpp" />

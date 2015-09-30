@@ -4,9 +4,7 @@
 #endif
 
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES) && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include "ICallbacks.h"
 #include "ICommon.h"
 #include "Interfaces\ExportMacro.h"
@@ -19,8 +17,6 @@ namespace EngineInterface
 	class TRender;
 	class IBaluWorldObject;
 }
-#endif
-
 
 namespace EngineInterface
 {

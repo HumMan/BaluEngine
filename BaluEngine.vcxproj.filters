@@ -279,5 +279,6 @@
     <ClCompile Include="Source\WorldObjects\Material\MaterialSerialize.cpp" />
     <ClCompile Include="Source\WorldObjects\Class\ClassSerialize.cpp" />
     <ClCompile Include="Source\World\SerializeCommon.cpp" />
+    <ClCompile Include="Source\Interfaces\GenerateCppToBaluScript.cpp" />
   </ItemGroup>
 </Project>

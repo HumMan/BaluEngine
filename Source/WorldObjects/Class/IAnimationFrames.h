@@ -3,22 +3,18 @@
 #pragma once
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-
 #include <baluLib.h>
-#include <vector>
-#include <Interfaces\exportMacro.h>
-
 using namespace BaluLib;
+#include <vector>
+
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES) && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
+#include <Interfaces\exportMacro.h>
+#endif
 
 namespace pugi
 {
 	class xml_node;
 }
-
-
-
-#endif
 
 namespace EngineInterface
 {
