@@ -8,6 +8,8 @@
 
 #include <World\IWorld.h>
 
+using namespace EngineInterface;
+
 class TBoundaryBoxChangeListener
 {
 public:

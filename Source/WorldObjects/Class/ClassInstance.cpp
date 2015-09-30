@@ -1,6 +1,9 @@
-#include "ClassInstance.h"
+#include "IClassInstance.h"
+#include "IClass.h"
 
-#include <World/WorldInstance.h>
+#include <World/IWorldInstance.h>
+
+using namespace EngineInterface;
 
 TBaluClassInstance* TBaluInstance::GetClass()
 {
@@ -97,22 +100,23 @@ int TBaluInstance::GetSpritesCount()
 	return sprites.size();
 }
 
-static TSceneObjectInstance* TBaluInstance::Clone(TSceneObject* source, TBaluSceneInstance* scene)
+TSceneObjectInstance* TBaluInstance::Clone(TSceneObject* source, TBaluSceneInstance* scene)
 {
 	return new TBaluInstance(dynamic_cast<TBaluSceneClassInstance*>(source), scene);
 }
 
-TBaluClassInstanceSpriteInstance* TBaluInstance::GetSprite(int index)
-{
-	return sprites[index].get();
-}
-
-TBaluClassInstanceSpriteInstance* TBaluInstance::AddSprite(IBaluClassSpriteInstance* _source)
-{
-	TBaluClassSpriteInstance* source = dynamic_cast<TBaluClassSpriteInstance*>(_source);
-	sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source, this, scene->GetResources()));
-	return sprites.back().get();
-}
+//TODO uncomment
+//TBaluClassInstanceSpriteInstance* TBaluInstance::GetSprite(int index)
+//{
+//	return sprites[index].get();
+//}
+//
+//TBaluClassInstanceSpriteInstance* TBaluInstance::AddSprite(IBaluClassSpriteInstance* _source)
+//{
+//	TBaluClassSpriteInstance* source = dynamic_cast<TBaluClassSpriteInstance*>(_source);
+//	sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source, this, scene->GetResources()));
+//	return sprites.back().get();
+//}
 
 TAABB2 TBaluInstance::GetAABB()
 {
@@ -176,7 +180,8 @@ void TBaluClassPhysBodyIntance::BuildAllFixtures()
 	{
 		auto sensor_source = parent->GetSprite(i);
 		
-		sensor_source->GetPhysShape()->BuildFixture(phys_body, TBaluTransformWithScale( sensor_source->GetTransform(), sensor_source->GetScale()));
+		//TODO uncomment
+		//sensor_source->GetPhysShape()->BuildFixture(phys_body, TBaluTransformWithScale( sensor_source->GetTransform(), sensor_source->GetScale()));
 	}
 }
 

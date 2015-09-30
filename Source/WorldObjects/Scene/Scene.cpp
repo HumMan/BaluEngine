@@ -1,6 +1,6 @@
-#include "Scene.h"
+#include "IScene.h"
 
-#include <World\World.h>
+#include <World\IWorld.h>
 
 #include "SceneEditor\sceneEditor.h"
 
@@ -23,12 +23,14 @@ TViewport* TBaluScene::CreateViewport(std::string name)
 	return &(viewports[name]);
 }
 
-TBaluScene::TBaluScene(const char* name, TBaluWorld* world) 
-	:layers(this)
-{
-	this->world = world;
-	this->scene_name = name;
-}
+//TODO uncomment
+//TBaluScene::TBaluScene(const char* name, TBaluWorld* world) 
+//	:layers(this)
+//{
+//	this->world = world;
+//	this->scene_name = name;
+//}
+
 IProperties* TBaluScene::GetProperties()
 {
 	return &properties;

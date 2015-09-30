@@ -7,11 +7,13 @@
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include <World\IResources.h>
+#include <baluLib.h>
+#include <World/ICommon.h>
 #endif
 
-
-
 #endif
+
+using namespace BaluLib;
 
 namespace EngineInterface
 {
@@ -52,7 +54,7 @@ namespace EngineInterface
 	public:
 	};
 
-
+	class TBaluMaterial;
 	class TMaterialInstance
 	{
 		TBaluTexture texture;

@@ -1,4 +1,6 @@
-#include "SpritePolyInstance.h"
+#include "ISpritePolygonInstance.h"
+
+using namespace EngineInterface;
 
 void TBaluSpritePolygonInstance::UpdateGeometry()
 {

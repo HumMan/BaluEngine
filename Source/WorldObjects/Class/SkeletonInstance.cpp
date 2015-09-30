@@ -1,4 +1,7 @@
-#include "SkeletonInstance.h"
+#include "IClass.h"
+#include "IClassInstance.h"
+
+using namespace EngineInterface;
 
 TBoneInstance::TBoneInstance(TBoneInstance* parent, TBone* source)
 {

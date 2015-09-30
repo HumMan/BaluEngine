@@ -5,9 +5,11 @@
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
-#include "../../BaluLib/Source/Math/vec.h"
+#include <baluLib.h>
 #include <vector>
 #include <Interfaces\exportMacro.h>
+
+using namespace BaluLib;
 
 namespace pugi
 {
@@ -15,12 +17,13 @@ namespace pugi
 }
 
 
-class TBaluSpritePolygon;
+
 #endif
 
 namespace EngineInterface
 {
 	class TBaluWorld;
+	class TBaluSpritePolygon;
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class BALUENGINEDLL_API TFrame

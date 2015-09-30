@@ -1,18 +1,20 @@
-#include "Material.h"
-#include "World/World.h"
+#include "IMaterial.h"
+#include <World/IWorld.h>
 
 #include "MaterialEditor\materialEditor.h"
 
-TBaluMaterial::TBaluMaterial()
-{
-	world = nullptr;
-}
+//TODO uncomment
+//TBaluMaterial::TBaluMaterial()
+//{
+//	world = nullptr;
+//}
 
-TBaluMaterial::TBaluMaterial(std::string material_name, TBaluWorld* world)
-{
-	this->material_name = material_name;
-	this->world = world;
-}
+//TODO uncomment
+//TBaluMaterial::TBaluMaterial(std::string material_name, TBaluWorld* world)
+//{
+//	this->material_name = material_name;
+//	this->world = world;
+//}
 
 EngineInterface::IProperties* TBaluMaterial::GetProperties()
 {

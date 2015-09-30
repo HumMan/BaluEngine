@@ -36,6 +36,8 @@ namespace EngineInterface
 		virtual void* GetTag()=0;
 	};
 
+	class TBaluPhysShapeInstance;
+	class TBaluInstance;
 
 	class TBaluClassInstanceSpriteInstance : public IBaluClassInstanceSpriteInstance
 	{
@@ -86,7 +88,7 @@ namespace EngineInterface
 
 		TOBB2 GetOBB();
 
-		TBaluPhysShapeInstance* GetPhysShape();
+		IBaluPhysShapeInstance* GetPhysShape();
 
 		TBaluSpritePolygonInstance* GetPolygon();
 

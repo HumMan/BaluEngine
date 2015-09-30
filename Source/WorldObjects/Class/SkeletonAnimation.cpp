@@ -1,4 +1,6 @@
-#include "SkeletonAnimation.h"
+#include "IClass.h"
+
+using namespace EngineInterface;
 
 TTrack::TTrack(TBone* bone)
 {

@@ -2,7 +2,7 @@
 
 #include <EditorUtils\DrawingHelper.h>
 
-#include "..\Scene\SceneInstance.h"
+#include "..\Scene\ISceneInstance.h"
 
 void TPointAdornment::Render(TDrawingHelper* helper)const
 {

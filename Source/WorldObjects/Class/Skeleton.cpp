@@ -1,6 +1,6 @@
-#include "Skeleton.h"
+#include "IClass.h"
 
-#include "Class.h"
+using namespace EngineInterface;
 
 TBone::TBone(TBone* parent)
 {

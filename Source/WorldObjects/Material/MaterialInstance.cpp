@@ -1,4 +1,7 @@
-#include "MaterialInstance.h"
+#include "IMaterialInstance.h"
+#include "IMaterial.h"
+
+using namespace EngineInterface;
 
 TMaterialInstance::TMaterialInstance(TBaluMaterial* source, TResources* resources)
 {

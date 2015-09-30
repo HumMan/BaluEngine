@@ -8,6 +8,8 @@
 
 #include <World\IWorld.h>
 
+using namespace EngineInterface;
+
 class TSpritePolygonAdornmentInstance : public TSpritePolygonAdornment, public EngineInterface::TSceneObjectInstance, public EngineInterface::IGUIVisual
 {
 public:

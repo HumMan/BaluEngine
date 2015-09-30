@@ -1,4 +1,6 @@
-#include "SkeletonAnimationInstance.h"
+#include "IClass.h"
+#include "IClassInstance.h"
+using namespace EngineInterface;
 
 TTrackInstance::TTrackInstance(TBoneInstance* bone, TTrack* source)
 {

@@ -9,6 +9,7 @@
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IClass.h"
 #include "../Sprite/ISpriteInstance.h"
+#include "../Material/IMaterialInstance.h"
 #endif
 
 #endif
@@ -23,6 +24,7 @@ namespace EngineInterface
 		virtual void SetLinearVelocity(TVec2 velocity) = 0;
 	};
 
+	class TBaluInstance;
 
 	class TBaluClassPhysBodyIntance : public IBaluClassPhysBodyIntance
 	{
@@ -164,6 +166,7 @@ namespace EngineInterface
 	class TBaluInstance;
 	class TBaluWorldInstance;
 	class TBaluScriptInstance;
+	class TBaluPhysShapeInstance;
 
 	class TBaluClassInstance :public IBaluClassInstance
 	{
@@ -195,7 +198,7 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-
+	class IBaluClassInstanceSpriteInstance;
 	class IBaluInstance
 	{
 	public:
@@ -244,6 +247,9 @@ namespace EngineInterface
 		void UpdateTranform(TBaluTransform parent);
 		TBaluTransform GetGlobalTransform();
 	};
+
+	class TBaluClassInstanceSpriteInstance;
+	class TResources;
 
 	class TSkinInstance
 	{
@@ -321,8 +327,8 @@ namespace EngineInterface
 		TBaluClassPhysBodyIntance* GetPhysBody();
 
 		int GetSpritesCount();
-		TBaluClassInstanceSpriteInstance* GetSprite(int index);
-		TBaluClassInstanceSpriteInstance* AddSprite(IBaluClassSpriteInstance* source);
+		IBaluClassInstanceSpriteInstance* GetSprite(int index);
+		IBaluClassInstanceSpriteInstance* AddSprite(IBaluClassSpriteInstance* source);
 
 		TSkeletonAnimationInstance* GetSkeletonAnimation();
 

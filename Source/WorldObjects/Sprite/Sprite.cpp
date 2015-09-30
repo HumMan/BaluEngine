@@ -20,12 +20,6 @@ IProperties* TBaluSprite::GetProperties()
 	return &properties;
 }
 
-TBaluSprite::TBaluSprite()
-{
-	layer = 0;
-	world = nullptr;
-}
-
 void TBaluSprite::SetPhysShape(TBaluPhysShape* shape)
 {
 	phys_shape.reset(shape);
@@ -68,3 +62,4 @@ IAbstractEditor* TBaluSprite::CreateEditor(TDrawingHelperContext drawing_context
 	result->Initialize(drawing_context, world, this, editor_scene_instance);
 	return result;
 }
+

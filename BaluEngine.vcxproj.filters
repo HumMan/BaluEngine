@@ -88,6 +88,87 @@
     <ClInclude Include="Source\World\ScriptClassesRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\World\SerializeCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\BoxContour\BoxGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\BoxContour\BoxGuiInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Class\IAnimationFrames.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Class\IClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Class\IClassInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Class\Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\EditableBox\OBBGuiInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\EditableBox\OBBGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Material\IMaterialInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Material\IMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Material\Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\PolygonLine\PolygonGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\PolygonLine\PolygonGuiInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Scene\Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Scene\IScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Scene\ISceneInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\SimpleSprite\SpriteGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\SimpleSprite\SpriteGuiInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Sprite\Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Sprite\IPhysShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Sprite\IPhysShapeInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Sprite\ISprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Sprite\ISpriteInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Sprite\ISpritePolygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Sprite\ISpritePolygonInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\InterfacesIncludes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
@@ -117,5 +198,29 @@
     <ClCompile Include="Source\World\ScriptInstance.cpp" />
     <ClCompile Include="Source\World\World.cpp" />
     <ClCompile Include="Source\World\WorldInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\BoxContour\BoxGuiInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Class\Serialize.cpp" />
+    <ClCompile Include="Source\WorldObjects\Material\Material.cpp" />
+    <ClCompile Include="Source\WorldObjects\Material\MaterialInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Material\Serialize.cpp" />
+    <ClCompile Include="Source\WorldObjects\PolygonLine\PolygonGuiInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\EditableBox\OBBGuiInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Class\Class.cpp" />
+    <ClCompile Include="Source\WorldObjects\Class\ClassInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Class\Skeleton.cpp" />
+    <ClCompile Include="Source\WorldObjects\Class\SkeletonAnimation.cpp" />
+    <ClCompile Include="Source\WorldObjects\Class\SkeletonAnimationInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Class\SkeletonInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Scene\Scene.cpp" />
+    <ClCompile Include="Source\WorldObjects\Scene\SceneInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Scene\Serialize.cpp" />
+    <ClCompile Include="Source\WorldObjects\SimpleSprite\SpriteGuiInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Sprite\PhysShape.cpp" />
+    <ClCompile Include="Source\WorldObjects\Sprite\PhysShapeInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Sprite\Serialize.cpp" />
+    <ClCompile Include="Source\WorldObjects\Sprite\Sprite.cpp" />
+    <ClCompile Include="Source\WorldObjects\Sprite\SpriteInstance.cpp" />
+    <ClCompile Include="Source\WorldObjects\Sprite\SpritePoly.cpp" />
+    <ClCompile Include="Source\WorldObjects\Sprite\SpritePolyInstance.cpp" />
   </ItemGroup>
 </Project>

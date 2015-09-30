@@ -1,6 +1,8 @@
-#include "SpriteInstance.h"
+#include "ISpriteInstance.h"
 
-TBaluPhysShapeInstance* TBaluClassInstanceSpriteInstance::GetPhysShape()
+using namespace EngineInterface;
+
+IBaluPhysShapeInstance* TBaluClassInstanceSpriteInstance::GetPhysShape()
 {
 	return phys_shape.get();
 }

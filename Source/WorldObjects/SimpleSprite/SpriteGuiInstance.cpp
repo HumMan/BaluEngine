@@ -1,9 +1,10 @@
 
 #include "SpriteGuiInstance.h"
 
-#include "..\Sprite\SpriteInstance.h"
-#include "..\Scene\SceneInstance.h"
+#include "..\Sprite\ISpriteInstance.h"
+#include "..\Scene\ISceneInstance.h"
 
+using namespace EngineInterface;
 
 TSimpleSpriteInstance::TSimpleSpriteInstance(TBaluSceneInstance* scene, TBaluSprite* source)
 {

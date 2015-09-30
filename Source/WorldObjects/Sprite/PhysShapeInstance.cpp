@@ -1,6 +1,6 @@
 #include "IPhysShapeInstance.h"
 
-#include "../Class/ClassInstance.h"
+#include "../Class/IClassInstance.h"
 
 using namespace EngineInterface;
 

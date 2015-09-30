@@ -1,6 +1,6 @@
 #define NOMINMAX
 
-#include "SpritePoly.h"
+#include "ISpritePolygon.h"
 
 #include "Utils/texture_polygon.h"
 
