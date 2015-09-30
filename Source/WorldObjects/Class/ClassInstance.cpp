@@ -105,18 +105,17 @@ TSceneObjectInstance* TBaluInstance::Clone(TSceneObject* source, TBaluSceneInsta
 	return new TBaluInstance(dynamic_cast<TBaluSceneClassInstance*>(source), scene);
 }
 
-//TODO uncomment
-//TBaluClassInstanceSpriteInstance* TBaluInstance::GetSprite(int index)
-//{
-//	return sprites[index].get();
-//}
-//
-//TBaluClassInstanceSpriteInstance* TBaluInstance::AddSprite(IBaluClassSpriteInstance* _source)
-//{
-//	TBaluClassSpriteInstance* source = dynamic_cast<TBaluClassSpriteInstance*>(_source);
-//	sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source, this, scene->GetResources()));
-//	return sprites.back().get();
-//}
+IBaluClassInstanceSpriteInstance* TBaluInstance::GetSprite(int index)
+{
+	return sprites[index].get();
+}
+
+IBaluClassInstanceSpriteInstance* TBaluInstance::AddSprite(IBaluClassSpriteInstance* _source)
+{
+	TBaluClassSpriteInstance* source = dynamic_cast<TBaluClassSpriteInstance*>(_source);
+	sprites.push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(source, this, scene->GetResources()));
+	return sprites.back().get();
+}
 
 TAABB2 TBaluInstance::GetAABB()
 {

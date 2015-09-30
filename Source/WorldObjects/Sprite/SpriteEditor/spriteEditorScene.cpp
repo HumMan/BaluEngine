@@ -3,7 +3,7 @@
 #include "../../EditableBox/OBBGuiInstance.h"
 #include "../../SimpleSprite/SpriteGuiInstance.h"
 
-#include "../../Scene/SceneInstance.h"
+#include "../../Scene/ISceneInstance.h"
 
 void TSpriteEditorScene::Initialize(IBaluWorld* world, IBaluSprite* source_sprite, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper)
 {

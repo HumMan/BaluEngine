@@ -1,7 +1,7 @@
 #include "sceneEditorScene.h"
 #include "../../EditableBox/OBBGuiInstance.h"
 
-#include "../SceneInstance.h"
+#include "../ISceneInstance.h"
 
 void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper, TSelectionChangeListeners* selection_listeners)
 {

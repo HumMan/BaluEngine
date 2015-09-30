@@ -51,6 +51,33 @@ std::vector<T*> GetObjectsFromMap(M& map)
 	return result;
 }
 
+bool TBaluWorld::TryFind(const char* name, TBaluWorldObject*& result)
+{
+	return false;
+}
+
+TBaluWorldObject* TBaluWorld::GetObjectByName(const char* name)
+{
+	return world_objects[name].get();
+}
+std::vector<TBaluWorldObject*> TBaluWorld::GetObjects(TWorldObjectType type)
+{
+	return GetObjectsFromMap<TBaluWorldObject>(this->world_objects);
+}
+
+bool TBaluWorld::ObjectNameExists(TWorldObjectType type, const char* name)
+{
+	return false;
+}
+void TBaluWorld::CreateObject(TWorldObjectType type, const char* name)
+{
+
+}
+void TBaluWorld::DestroyObject(TWorldObjectType type, const char* name)
+{
+
+}
+
 void TBaluWorld::AddOnMouseDown(TScript callback)
 {
 	mouse_down_callbacks.push_back(callback);

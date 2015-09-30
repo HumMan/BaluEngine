@@ -1,5 +1,7 @@
 #include "IProperties.h"
 
+#include <assert.h>
+
 using namespace EngineInterface;
 
 template<class T>
@@ -94,18 +96,52 @@ public:
 };
 static bool TStringProperty_registered = PropertiesFactory::Register("string", TStringProperty::Clone);
 
-class TProperty
+
+void TProperty::Save(pugi::xml_node& parent_node, const int version)
 {
-public:
-	virtual const char* GetTypeString() = 0;
-	virtual EngineInterface::PropertyType GetType() = 0;
-	void Save(pugi::xml_node& parent_node, const int version)
+	parent_node.append_attribute("type").set_value(GetTypeString());
+}
+void TProperty::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+{}
+TProperty::~TProperty()
+{
+}
+
+TProperties::TProperties()
+{
+	is_wrapper = false;
+}
+TProperties::TProperties(bool is_wrapper)
+{
+	this->is_wrapper = is_wrapper;
+}
+void TProperties::AddProperty(const char* name, TProperty* prop)
+{
+	EngineInterface::PropertyType type;
+	assert(!HasProperty(std::string(name), type));
+	properties[name].reset(prop);
+}
+bool TProperties::HasProperty(const std::string& name, EngineInterface::PropertyType& type)
+{
+	auto it = properties.find(name);
+	if (it != properties.end())
 	{
-		parent_node.append_attribute("type").set_value(GetTypeString());
+		type = it->second->GetType();
+		return true;
 	}
-	virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
-	{}
-	virtual ~TProperty()
-	{
-	}
-};
+	else
+		return false;
+}
+void TProperties::SetBool(const std::string& name, bool value)
+{
+	if (is_wrapper)
+		dynamic_cast<TBoolProperty*>(properties[name].get())->SetValue(value);
+	else
+		properties[name].reset(new TBoolProperty(value));
+}
+bool TProperties::GetBool(const std::string& name)
+{
+	bool* value = nullptr;
+	Get(name, value);
+	return *value;
+}

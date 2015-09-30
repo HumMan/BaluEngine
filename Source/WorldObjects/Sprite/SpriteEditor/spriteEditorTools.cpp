@@ -28,7 +28,7 @@ public:
 	{
 		return TWorldObjectType::None;
 	}
-	void SetSelectedObject(IBaluWorldObject* obj)
+	void SetSelectedObject(TBaluWorldObject* obj)
 	{
 		assert(false);
 	}
@@ -279,7 +279,7 @@ public:
 
 		}
 	}
-	void SetSelectedObject(IBaluWorldObject* obj)
+	void SetSelectedObject(TBaluWorldObject* obj)
 	{
 		assert(false);
 	}

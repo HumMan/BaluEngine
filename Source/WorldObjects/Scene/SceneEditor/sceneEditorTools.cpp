@@ -5,7 +5,7 @@
 
 #include <EditorUtils/DrawingHelper.h>
 
-#include "../SceneInstance.h"
+#include "../ISceneInstance.h"
 
 class TCreateClassInstanceTool : public IEditorTool
 {
@@ -17,7 +17,7 @@ public:
 	{
 		return TWorldObjectType::Class;
 	}
-	void SetSelectedObject(IBaluWorldObject* obj)
+	void SetSelectedObject(TBaluWorldObject* obj)
 	{
 		active_tool_class = dynamic_cast<IBaluClass*>(obj);
 	}
@@ -79,7 +79,7 @@ public:
 	{
 		return TWorldObjectType::None;
 	}
-	void SetSelectedObject(IBaluWorldObject* obj)
+	void SetSelectedObject(TBaluWorldObject* obj)
 	{
 		active_tool_class = dynamic_cast<IBaluClass*>(obj);
 	}

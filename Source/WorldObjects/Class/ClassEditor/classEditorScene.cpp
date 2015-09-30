@@ -2,7 +2,7 @@
 
 #include "../../EditableBox/OBBGuiInstance.h"
 
-#include "../../Scene/SceneInstance.h"
+#include "../../Scene/ISceneInstance.h"
 
 
 void TClassEditorScene::Initialize(IBaluWorld* world, IBaluClass* source_class, IBaluSceneInstance* source_scene_instance, TDrawingHelper* drawing_helper)
