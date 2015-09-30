@@ -5,14 +5,16 @@
 
 #include <World\Layers.h>
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES) && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 
 #include <World/RenderCommand.h>
 #include "IScene.h"
 #include "../Class/IClassInstance.h"
 #include "../Material/IMaterialInstance.h"
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 #include "Utils/DebugDraw.h"
+#endif
 #endif
 
 namespace EngineInterface

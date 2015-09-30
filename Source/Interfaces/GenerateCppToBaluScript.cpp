@@ -12,6 +12,7 @@ namespace EngineInterface
 }
 
 #define BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#define BALU_ENGINE_DLL_INTERFACES
 #include "EngineInterfacesIncludes.h"
 
 //generate script bindings

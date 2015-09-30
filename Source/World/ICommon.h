@@ -4,7 +4,7 @@
 #endif
 
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES) && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include <baluLib.h>
 #include <string>
 #include "IProperties.h"
@@ -377,7 +377,7 @@ namespace EngineInterface
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, TBaluWorldObject, "TBaluWorldObject");
+	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorldObject, "TBaluWorldObject");
 	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 

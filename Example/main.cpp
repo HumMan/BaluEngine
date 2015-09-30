@@ -1,7 +1,7 @@
 
 #include <baluLib.h>
 
-#include <Interfaces\EngineInterfaces.h>
+#include <Interfaces\BaluEngineInterface.h>
 #include <EditorUtils\abstractEditor.h>
 
 using namespace EngineInterface;
