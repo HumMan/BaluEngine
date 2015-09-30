@@ -3,21 +3,19 @@
 #pragma once
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 #include <memory>
 
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #include "RenderCommand.h"
+#endif
 
 namespace EngineInterface
 {
 	class IDirector;
 	class IBaluSceneInstance;
 	class IViewport;
-}
-#endif
-
-namespace EngineInterface
-{
+	class TComposerPrivate;
+	class TRender;
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IComposerStage
@@ -25,12 +23,11 @@ namespace EngineInterface
 	public:
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TComposerStage : public IComposerStage
 	{
 		friend class TComposer;
 		TComposer* composer;
-
 		IBaluSceneInstance* scene_instance;
 		IViewport* viewport;
 		TView view;
@@ -41,7 +38,7 @@ namespace EngineInterface
 		void MoveForward();
 		void MoveBackward();
 	};
-
+#endif
 #endif
 
 
@@ -58,8 +55,8 @@ namespace EngineInterface
 		virtual void RemoveFromRender(IComposerStage* stage)=0;
 	};
 
-	class TComposerPrivate;
-	class TRender;
+#ifndef BALU_ENGINE_DLL_INTERFACES
+	
 
 	class TComposer: public IComposer
 	{
@@ -73,6 +70,7 @@ namespace EngineInterface
 		void Render(TRender* render);
 		~TComposer();
 };
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

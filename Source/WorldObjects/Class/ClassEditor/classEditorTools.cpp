@@ -5,6 +5,9 @@
 
 #include <EditorUtils/DrawingHelper.h>
 
+#include "../../../World/ICommon.h"
+#include "../../Sprite/ISprite.h"
+
 class TCreateClassSpriteTool : public IEditorTool
 {
 protected:
@@ -15,7 +18,7 @@ public:
 	{
 		return TWorldObjectType::Sprite;
 	}
-	void SetSelectedObject(TBaluWorldObject* obj)
+	void SetSelectedObject(IBaluWorldObject* obj)
 	{
 		active_tool_sprite = dynamic_cast<IBaluSprite*>(obj);
 	}
@@ -71,7 +74,7 @@ public:
 	{
 		return TWorldObjectType::None;
 	}
-	void SetSelectedObject(TBaluWorldObject* obj)
+	void SetSelectedObject(IBaluWorldObject* obj)
 	{
 		active_tool_sprite = dynamic_cast<IBaluSprite*>(obj);
 	}

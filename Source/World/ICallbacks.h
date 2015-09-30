@@ -2,16 +2,21 @@
 #pragma once
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#include <Interfaces\ExportMacro.h>
 #include <baluLib.h>
 using namespace BaluLib;
+
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
+
+#endif
+
 class NVGcontext;
 class TSMethod;
+
 namespace pugi
 {
 	class xml_node;
 }
-#endif
 
 namespace EngineInterface
 {
@@ -28,6 +33,7 @@ namespace EngineInterface
 		OnSpriteCollide,
 		End
 	};
+
 
 	class TEventTypeString
 	{
@@ -87,7 +93,7 @@ namespace EngineInterface
 		EDITOR = 1
 	};
 
-	class TScript
+	class BALUENGINEDLL_API TScript
 	{
 	private:
 		std::string script_source;
@@ -104,7 +110,7 @@ namespace EngineInterface
 		void LoadFromXML(const pugi::xml_node& document_node, const int version);
 	};
 
-	class TScriptInstance
+	class BALUENGINEDLL_API TScriptInstance
 	{
 	private:
 		TScript* source;

@@ -17,6 +17,7 @@ namespace EngineInterface
 	class IDirector;
 	class IBaluWorldInstance;
 	class TRender;
+	class IBaluWorldObject;
 }
 #endif
 
@@ -31,10 +32,10 @@ namespace EngineInterface
 	public:
 		virtual TScriptActiveType& GetCallbacksActiveType() = 0;
 
-		virtual bool TryFind(const char* name, TBaluWorldObject*& result) = 0;
+		virtual bool TryFind(const char* name, IBaluWorldObject*& result) = 0;
 
-		virtual TBaluWorldObject* GetObjectByName(const char* name) = 0;
-		virtual std::vector<TBaluWorldObject*> GetObjects(TWorldObjectType type) = 0;
+		virtual IBaluWorldObject* GetObjectByName(const char* name) = 0;
+		virtual std::vector<IBaluWorldObject*> GetObjects(TWorldObjectType type) = 0;
 		virtual bool ObjectNameExists(TWorldObjectType type, const char* name) = 0;
 		virtual void CreateObject(TWorldObjectType type, const char* name) = 0;
 		virtual void DestroyObject(TWorldObjectType type, const char* name) = 0;
@@ -63,7 +64,7 @@ namespace EngineInterface
 		virtual void LoadFromXML(std::string path) = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluWorld : public IBaluWorld
 	{
 	private:
@@ -99,10 +100,10 @@ namespace EngineInterface
 		{
 			return callback_active_type;
 		}
-		bool TryFind(const char* name, TBaluWorldObject*& result);
+		bool TryFind(const char* name, IBaluWorldObject*& result);
 
-		TBaluWorldObject* GetObjectByName(const char* name);
-		std::vector<TBaluWorldObject*> GetObjects(TWorldObjectType type);
+		IBaluWorldObject* GetObjectByName(const char* name);
+		std::vector<IBaluWorldObject*> GetObjects(TWorldObjectType type);
 		bool ObjectNameExists(TWorldObjectType type, const char* name);
 		void CreateObject(TWorldObjectType type, const char* name);
 		void DestroyObject(TWorldObjectType type, const char* name);
@@ -133,8 +134,7 @@ namespace EngineInterface
 		void SaveToXML(pugi::xml_node& parent_node, const int version);
 		void LoadFromXML(const pugi::xml_node& document_node, const int version);
 	};
-
-
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

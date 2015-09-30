@@ -5,23 +5,22 @@
 
 #include <World\Layers.h>
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include <World/RenderCommand.h>
 #include "IScene.h"
 #include "../Class/IClassInstance.h"
 #include "../Material/IMaterialInstance.h"
 
 #include "Utils/DebugDraw.h"
-
 #endif
 
 namespace EngineInterface
 {
 	class IBaluWorldInstance;
+	class TSceneObjectInstance;
+	class IGUIVisual;
 }
-#endif
 
 namespace EngineInterface
 {
@@ -40,7 +39,7 @@ namespace EngineInterface
 		virtual void DestroyInstance(TSceneObjectInstance*) = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	struct TCollisionInfo
 	{
 		b2Fixture *A, *B;
@@ -187,7 +186,7 @@ namespace EngineInterface
 
 		void DebugDraw(TDrawingHelperContext drawing_context);
 };
-
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	

@@ -53,7 +53,7 @@ namespace Editor
 		IAbstractEditor* active_editor;
 		IBaluWorldObject* active_edited_object;
 
-		TDrawingHelperContext drawing_context;
+		EngineInterface::TDrawingHelperContext drawing_context;
 
 		bool viewport_drag_active;
 		TVec2 viewport_drag_last_pos;
@@ -156,7 +156,7 @@ namespace Editor
 	{		
 		std::string name = Converters::FromClrString(_name);
 		TWorldObjectType type = (TWorldObjectType)_type;
-		
+		/*
 		IBaluWorldObject* new_edit_obj = nullptr;
 		if (type != TWorldObjectType::None)
 		{
@@ -201,19 +201,19 @@ namespace Editor
 					SetActiveTool(0);
 				GUI_Notify_ToolsChanged();
 			}
-		}
+		}*/
 	}
 
 	void TWorldObjectEditor::OnObjectListSelectionChange(TEditor^ sender, int _type, String^ name)
 	{
-		TWorldObjectType type = (TWorldObjectType)_type;
-		IBaluWorldObject* new_edit_obj = nullptr;
-		if (type != TWorldObjectType::None)
-		{
-			new_edit_obj = p->world->GetObjectByName(type, Converters::FromClrString(name).c_str());
-		}
+		//TWorldObjectType type = (TWorldObjectType)_type;
+		//IBaluWorldObject* new_edit_obj = nullptr;
+		//if (type != TWorldObjectType::None)
+		//{
+		//	new_edit_obj = p->world->GetObjectByName(type, Converters::FromClrString(name).c_str());
+		//}
 
-		p->active_editor->GetActiveTool()->SetSelectedObject(new_edit_obj);
+		//p->active_editor->GetActiveTool()->SetSelectedObject(new_edit_obj);
 	}
 
 	bool TWorldObjectEditor::CanSetSelectedAsWork()

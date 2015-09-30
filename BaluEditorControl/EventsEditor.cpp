@@ -104,7 +104,7 @@ namespace Editor
 	}
 	void TEventsEditor::FindAllEvents()
 	{
-		for (auto& e : p->world->GetOnWorldStart())
+		/*for (auto& e : p->world->GetOnWorldStart())
 		{
 			p->event_types[(int)TEventType::OnWorldStart].events.push_back(TEventInfo(TEventType::OnWorldStart, std::vector<TEventParam>(), &e));
 		}
@@ -168,7 +168,7 @@ namespace Editor
 				params.push_back(TEventParam(TWorldObjectType::Sprite, e.sprite->GetName()));
 				p->event_types[(int)TEventType::OnSpriteCollide].events.push_back(TEventInfo(TEventType::OnSpriteCollide, params, &e.script));
 			}
-		}
+		}*/
 	}
 	void TEventsEditor::Destroy()
 	{

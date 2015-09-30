@@ -4,7 +4,7 @@
 #endif
 
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "ISprite.h"
@@ -36,6 +36,7 @@ namespace EngineInterface
 		virtual void* GetTag()=0;
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluPhysShapeInstance;
 	class TBaluInstance;
 
@@ -98,6 +99,7 @@ namespace EngineInterface
 
 		void UpdateTranform(TBaluTransformWithScale global);
 };
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

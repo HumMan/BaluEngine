@@ -3,8 +3,7 @@
 #pragma once
 #endif
 
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #include <string>
 #include <map>
 #include <memory>

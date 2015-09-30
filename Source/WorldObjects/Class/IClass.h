@@ -3,13 +3,10 @@
 #pragma once
 #endif
 
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-
 #include <map>
 #include <set>
 
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #include <World/IProperties.h>
 #include <WorldObjects/Sprite/ISprite.h>
 #include <WorldObjects/Sprite/IPhysShape.h>
@@ -18,9 +15,9 @@
 namespace EngineInterface
 {
 	class IBaluPhysShapeInstance;
+	class TSkeleton;
+	class IBaluClass;
 }
-
-#endif
 
 namespace EngineInterface
 {
@@ -68,7 +65,7 @@ namespace EngineInterface
 		virtual void SetTransform(TBaluTransform)=0;
 	};
 
-	class TSkeleton;
+	
 	class TBone : public IBone
 	{
 	private:
@@ -349,6 +346,8 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+	
 	struct TSpriteWithClassCollide
 	{
 		IBaluSprite* sprite;

@@ -8,13 +8,14 @@
 #include "Source\PropertiesRegistry\propertiesRegistry.h"
 
 class TCallbackManagedBridge;
-class TLayersManager;
+
 
 namespace EngineInterface
 {
 	class IBaluWorldObject;
 	class IBaluWorld;
 	class IAbstractEditor;
+	class TLayersManager;
 }
 
 namespace Editor

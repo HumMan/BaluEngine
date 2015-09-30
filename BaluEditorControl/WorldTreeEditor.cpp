@@ -12,7 +12,8 @@
 namespace Editor
 {
 
-	class TWorldTreeChangesListener : public TBaluWorldChangeListener
+	//TODO uncomment
+	class TWorldTreeChangesListener //: public TBaluWorldChangeListener
 	{
 		gcroot<TWorldTreeEditor^> editor;
 	public:
@@ -44,7 +45,7 @@ namespace Editor
 	void TWorldTreeEditor::AfterWorldLoadedHandler()
 	{
 		p->world = director->GetWorld();
-		p->world->AddChangesListener(p->world_change_listener.get());
+		//p->world->AddChangesListener(p->world_change_listener.get());
 		GUI_Notify_AfterWorldLoaded();
 	}
 
@@ -68,7 +69,7 @@ namespace Editor
 		p->world_change_listener.reset(new TWorldTreeChangesListener(this));
 		if (p->world != nullptr)
 		{
-			p->world->AddChangesListener(p->world_change_listener.get());
+			//p->world->AddChangesListener(p->world_change_listener.get());
 		}
 		WriteInfoToLog("Initializing TWorldTreeEditor success");
 	}
@@ -77,7 +78,7 @@ namespace Editor
 	{
 		if (p->world != nullptr)
 		{
-			p->world->RemoveChangesListener(p->world_change_listener.get());
+			//p->world->RemoveChangesListener(p->world_change_listener.get());
 		}
 		delete p;
 	}

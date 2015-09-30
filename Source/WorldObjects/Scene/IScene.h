@@ -5,7 +5,7 @@
 
 #include <World\Layers.h>
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "../Class/IClass.h"
@@ -31,7 +31,7 @@ namespace EngineInterface
 		virtual IBaluClass* GetClass() = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluSceneClassInstance : public IBaluSceneClassInstance, public TSceneObject
 	{
 		TBaluClass* balu_class;
@@ -87,6 +87,7 @@ namespace EngineInterface
 	REGISTER_FACTORY_CLASS(SceneObjectFactory, TBaluSceneClassInstance)
 		//static bool TBaluSceneClassInstance_registered = SceneObjectFactory::Register(TBaluSceneClassInstance::FactoryName(), TBaluSceneClassInstance::Clone);
 
+#endif
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -160,7 +161,7 @@ namespace EngineInterface
 		virtual void DestroyInstance(TSceneObject* instance) = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluScene : public IBaluScene, public TBaluWorldObject
 	{
 	private:
@@ -200,7 +201,7 @@ namespace EngineInterface
 
 		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
 };
-
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	

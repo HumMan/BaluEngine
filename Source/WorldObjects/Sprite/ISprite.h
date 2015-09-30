@@ -4,7 +4,7 @@
 #endif
 
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "../../World/ICallbacks.h"

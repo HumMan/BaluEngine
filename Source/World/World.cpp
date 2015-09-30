@@ -51,18 +51,18 @@ std::vector<T*> GetObjectsFromMap(M& map)
 	return result;
 }
 
-bool TBaluWorld::TryFind(const char* name, TBaluWorldObject*& result)
+bool TBaluWorld::TryFind(const char* name, IBaluWorldObject*& result)
 {
 	return false;
 }
 
-TBaluWorldObject* TBaluWorld::GetObjectByName(const char* name)
+IBaluWorldObject* TBaluWorld::GetObjectByName(const char* name)
 {
 	return world_objects[name].get();
 }
-std::vector<TBaluWorldObject*> TBaluWorld::GetObjects(TWorldObjectType type)
+std::vector<IBaluWorldObject*> TBaluWorld::GetObjects(TWorldObjectType type)
 {
-	return GetObjectsFromMap<TBaluWorldObject>(this->world_objects);
+	return GetObjectsFromMap<IBaluWorldObject>(this->world_objects);
 }
 
 bool TBaluWorld::ObjectNameExists(TWorldObjectType type, const char* name)

@@ -4,7 +4,7 @@
 #endif
 
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "IClass.h"
@@ -24,6 +24,7 @@ namespace EngineInterface
 		virtual void SetLinearVelocity(TVec2 velocity) = 0;
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluInstance;
 
 	class TBaluClassPhysBodyIntance : public IBaluClassPhysBodyIntance
@@ -57,6 +58,7 @@ namespace EngineInterface
 		void SetTransform(TBaluTransform transform);
 };
 #endif
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluClassPhysBodyIntance, "IClassPhysBodyInstance");
@@ -75,6 +77,7 @@ namespace EngineInterface
 		virtual void StopAnimation(std::string name) = 0;
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBoneInstance;
 
 	class TTrackInstance
@@ -129,6 +132,7 @@ namespace EngineInterface
 		void StopAnimation(std::string name);
 };
 #endif
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, ISkeletonAnimationInstance, "ISkeletonAnimationInstance");
@@ -144,7 +148,7 @@ namespace EngineInterface
 		virtual IBaluClass* GetClass() = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	struct TSpriteWithClassCollideInstance
 	{
 		IBaluSprite* sprite;
@@ -196,6 +200,7 @@ namespace EngineInterface
 		//void DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 	};
 #endif
+#endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassInstanceSpriteInstance;
@@ -220,7 +225,7 @@ namespace EngineInterface
 		virtual void* GetTag() = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBoneInstance
 	{
 	private:
@@ -343,6 +348,7 @@ namespace EngineInterface
 };
 
 	REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TBaluInstance)
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

@@ -17,7 +17,7 @@ public:
 	{
 		return TWorldObjectType::Class;
 	}
-	void SetSelectedObject(TBaluWorldObject* obj)
+	void SetSelectedObject(IBaluWorldObject* obj)
 	{
 		active_tool_class = dynamic_cast<IBaluClass*>(obj);
 	}
@@ -79,7 +79,7 @@ public:
 	{
 		return TWorldObjectType::None;
 	}
-	void SetSelectedObject(TBaluWorldObject* obj)
+	void SetSelectedObject(IBaluWorldObject* obj)
 	{
 		active_tool_class = dynamic_cast<IBaluClass*>(obj);
 	}

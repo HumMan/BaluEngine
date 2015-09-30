@@ -173,10 +173,10 @@ namespace Editor
 			void set(String^ value)
 			{
 				auto mat_name = msclr::interop::marshal_as<std::string>(value);
-				IBaluMaterial* result;
+				IBaluWorldObject* result;
 				auto mat_found = world->TryFind(mat_name.c_str(), result);
 				if (mat_found)
-					obj_def->SetMaterial(result);
+					obj_def->SetMaterial(dynamic_cast<IBaluMaterial*>(result));
 			}
 		};
 		//property TBaluSpriteDef::TPolygonMode PolygonMode {TBaluSpriteDef::TPolygonMode get() { return obj_def->polygone_mode; } };

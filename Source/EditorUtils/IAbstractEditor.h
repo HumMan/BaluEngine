@@ -16,7 +16,7 @@ namespace EngineInterface
 	{
 	public:
 		virtual TWorldObjectType NeedObjectSelect() = 0;
-		virtual void SetSelectedObject(TBaluWorldObject* obj) = 0;
+		virtual void SetSelectedObject(IBaluWorldObject* obj) = 0;
 		virtual void OnMouseDown(TMouseEventArgs e) = 0;
 		virtual void OnMouseMove(TMouseEventArgs e) = 0;
 		virtual void OnMouseUp(TMouseEventArgs e) = 0;

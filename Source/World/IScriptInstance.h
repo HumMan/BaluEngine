@@ -3,14 +3,10 @@
 #pragma once
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #include "IWorld.h"
 #include "ICommon.h"
 #include "ICallbacks.h"
-#endif
-
 #endif
 
 namespace EngineInterface

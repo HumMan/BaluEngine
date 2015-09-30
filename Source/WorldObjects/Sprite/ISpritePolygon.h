@@ -4,7 +4,7 @@
 #endif
 
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "../Class/IAnimationFrames.h"
@@ -56,7 +56,7 @@ namespace EngineInterface
 		virtual void SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top) = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluSpritePolygon: public IBaluSpritePolygon
 	{
 	private:
@@ -150,7 +150,7 @@ namespace EngineInterface
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
-
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

@@ -4,9 +4,7 @@
 #endif
 
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #include "IResources.h"
 #include "IWorldInstance.h"
 #include <World\Render.h>
@@ -15,8 +13,8 @@
 namespace EngineInterface
 {
 	class IDirector;
+	class IResources;
 }
-#endif
 
 namespace EngineInterface
 {
@@ -50,6 +48,7 @@ namespace EngineInterface
 		BALUENGINEDLL_API static void DestroyDirector(IDirector* director);
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TGameInternal;
 	class TBaluWorldInstance;
 
@@ -92,6 +91,7 @@ namespace EngineInterface
 		void Render();
 		void SetViewport(TVec2i use_size);
 };
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

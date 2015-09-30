@@ -4,7 +4,7 @@
 #endif
 
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #include <baluLib.h>
 #include <string>
 #include "IProperties.h"
@@ -267,6 +267,7 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+	class TBaluWorld;
 	class TSceneObject
 	{
 	public:
@@ -283,6 +284,7 @@ namespace EngineInterface
 		}
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	typedef TSceneObject*(*SceneObjectClone)();
 	class SceneObjectFactory
 	{
@@ -295,6 +297,7 @@ namespace EngineInterface
 	{
 	public:
 	};
+#endif
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -334,27 +337,43 @@ namespace EngineInterface
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
+	
+	class IBaluWorld;
 	class IProperties;
 	class IAbstractEditor;
 	class IBaluSceneInstance;
 	class IBaluWorld;
-	class TBaluWorldObject
+	class IBaluWorldObject
+	{
+	public:
+		virtual IProperties* GetProperties()=0;
+		virtual std::string GetName()=0;
+		virtual void SetName(std::string name)=0;
+		virtual IBaluWorld* GetWorld()=0;
+		virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance) = 0;
+	};
+
+#ifndef BALU_ENGINE_DLL_INTERFACES
+
+	class IProperties;
+	class IAbstractEditor;
+	class IBaluSceneInstance;
+	class IBaluWorld;
+	class TBaluWorldObject: public IBaluWorldObject
 	{
 	protected:
 		IBaluWorld* world;
 		TProperties properties;
-#ifdef BALUENGINE_DESIGN_TIME
 		std::string name;
-#endif
 	public:
 		TBaluWorldObject(IBaluWorld* world, std::string name);
-		TProperties& GetProperties();
+		IProperties* GetProperties();
 		std::string GetName();
 		void SetName(std::string name);
 		IBaluWorld* GetWorld();
-		virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance) = 0;
 	};
 
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
@@ -371,6 +390,8 @@ namespace EngineInterface
 		virtual void ElementRemoved(TWorldObjectSubType type) = 0;
 		virtual void BeforeDelete() = 0;
 	};
+
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TChangeListenerArray
 	{
 	private:
@@ -393,6 +414,7 @@ namespace EngineInterface
 			listeners.erase(it);
 		}
 	};
+#endif
 #endif
 
 #define REGISTER_FACTORY_CLASS(factory_name,class_name)\

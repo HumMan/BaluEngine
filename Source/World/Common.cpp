@@ -28,9 +28,9 @@ TBaluWorldObject::TBaluWorldObject(IBaluWorld* world, std::string name)
 	this->name = name;
 }
 
-TProperties& TBaluWorldObject::GetProperties()
+IProperties* TBaluWorldObject::GetProperties()
 {
-	return properties;
+	return &properties;
 }
 
 IBaluWorld* TBaluWorldObject::GetWorld()

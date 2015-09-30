@@ -59,7 +59,7 @@ namespace EngineInterface
 		virtual IComposer* GetComposer() = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluWorldInstance : public IBaluWorldInstance
 	{
 	private:
@@ -144,6 +144,7 @@ namespace EngineInterface
 			return &composer;
 		}
 };
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

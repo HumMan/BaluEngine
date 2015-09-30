@@ -2,7 +2,7 @@
 #pragma once
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include <World/ICommon.h>
 #endif
@@ -25,7 +25,7 @@ namespace EngineInterface
 		virtual void SetColor(TVec4 color) = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluMaterial :
 		public TBaluWorldObject,
 		public IBaluMaterial,
@@ -137,6 +137,7 @@ namespace EngineInterface
 
 		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
 	};
+#endif
 #endif
 
 }

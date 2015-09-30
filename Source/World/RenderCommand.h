@@ -2,13 +2,14 @@
 #pragma once
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#include <baluLib.h>
+using namespace BaluLib;
 
-#include "../../BaluLib/Source/Math/vec.h"
-#include "../../BaluLib/Source/BVolumes/AABB.h"
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include <World/ICallbacks.h>
+#endif
 #endif
 
 namespace EngineInterface
@@ -17,7 +18,6 @@ namespace EngineInterface
 	class TMaterialInstance;
 	class TDrawingHelper;
 }
-#endif
 
 namespace EngineInterface
 {
@@ -144,12 +144,12 @@ namespace EngineInterface
 
 	
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class IGUIVisual
 	{
 	public:
 		virtual void Render(TDrawingHelper* helper)const = 0;
 	};
-
+#endif
 #endif
 }

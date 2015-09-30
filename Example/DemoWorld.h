@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Interfaces\EngineInterfaces.h>
+#include <Interfaces\BaluEngineInterface.h>
 
 using namespace EngineInterface;
 
@@ -189,257 +189,258 @@ char* WorldStart_source = //(IWorldInstance world_instance, IComposer composer)
 IBaluWorld* CreateDemoWorld(std::string assets_dir)
 {
 	auto world = CreateWorld();
-
-	world->AddOnWorldStart(TScript(WorldStart_source));
-	world->AddOnViewportResize(TScript(ViewportResize_source));
-
-	auto brick_mat = world->CreateMaterial("brick");
-
-	brick_mat->SetImagePath("\\textures\\brick.png");
-	brick_mat->SetColor(TVec4(1, 1, 1, 1));
-
-	auto box_sprite = world->CreateSprite("box0");
-	box_sprite->GetPolygon()->SetMaterial(brick_mat);
-	//box_sprite->GetPolygon()->SetAsBox(1, 1);
-	box_sprite->GetPolygon()->SetPolygonFromTexture(assets_dir);
-	box_sprite->GetPolygon()->SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
-	box_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateBoxShape(1, 1)->GetPhysShape());
-
-	auto box_class = world->CreateClass("box");
-	auto box_class_instance = box_class->AddSprite(box_sprite);
-	box_class->GetPhysBody()->Enable(true);
-	box_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Static);
-
-	auto box_class_dyn = world->CreateClass("box_dyn");
-	auto box_class_instance_dyn = box_class_dyn->AddSprite(box_sprite);
-	box_class_dyn->GetPhysBody()->Enable(true);
-	box_class_dyn->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
-
-	auto player_mat = world->CreateMaterial("player_skin");
-	player_mat->SetImagePath("\\textures\\player.png");
-	auto player_sprite = world->CreateSprite("player");
-
-	player_sprite->GetPolygon()->SetMaterial(player_mat);
-	//player_sprite->GetPolygon()->SetAsBox(20.0/8, 20.0/8);
-	player_sprite->GetPolygon()->SetAsBox(6, 6);
-	//player_sprite->GetPolygon()->SetPolygonFromTexture();
-	//player_sprite->GetPolygon()->SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
-	player_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(2.5)->GetPhysShape());
-	//player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));
-
-	TGridFrames* grid_frames = new TGridFrames(TVec2(0, 0), TVec2(1, 1), 8, 4);
-
-	player_sprite->GetPolygon()->AddAnimDesc(grid_frames);
-
-	player_sprite->GetPolygon()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
-	player_sprite->GetPolygon()->CreateAnimationLine("jump_up_right", grid_frames, TFramesRange(9, 9).ToFramesArray());
-	player_sprite->GetPolygon()->CreateAnimationLine("jump_down_right", grid_frames, TFramesRange(10, 10).ToFramesArray());
-	player_sprite->GetPolygon()->CreateAnimationLine("stay_right", grid_frames, TFramesRange(11, 11).ToFramesArray());
-	player_sprite->GetPolygon()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
-	player_sprite->GetPolygon()->CreateAnimationLine("run_left", grid_frames, TFramesRange(16, 16 + 7).ToFramesArray());
-	player_sprite->GetPolygon()->CreateAnimationLine("jump_up_left", grid_frames, TFramesRange(16 + 7 + 2, 16 + 7 + 2).ToFramesArray());
-	player_sprite->GetPolygon()->CreateAnimationLine("jump_down_left", grid_frames, TFramesRange(16 + 7 + 3, 16 + 7 + 3).ToFramesArray());
-	player_sprite->GetPolygon()->CreateAnimationLine("stay_left", grid_frames, TFramesRange(16 + 7 + 4, 16 + 7 + 4).ToFramesArray());
-
-	auto player_class = world->CreateClass("player");
-	auto player_class_instance = player_class->AddSprite(player_sprite);
-	//player_class_instance->tag = "character_sprite";
-	player_class->GetPhysBody()->Enable(true);
-	player_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
-	player_class->GetPhysBody()->SetFixedRotation(true);
-
-	auto player_phys_sprite = world->CreateSprite("player_phys");
-	player_class->AddSprite(player_phys_sprite);
-	player_phys_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -3.5))->GetPhysShape());
-	player_phys_sprite->GetPhysShape()->SetIsSensor(true);
-
-#ifdef USE_CALLBACKS
-	player_class->OnKeyDown(TKey::Up, TSpecialCallback<KeyUpDownCallback>(PlayerJump, &world->GetCallbacksActiveType()));
-	player_class->OnKeyDown(TKey::Left, TSpecialCallback<KeyUpDownCallback>(PlayerLeft, &world->GetCallbacksActiveType()));
-	player_class->OnKeyDown(TKey::Right, TSpecialCallback<KeyUpDownCallback>(PlayerRight, &world->GetCallbacksActiveType()));
-
-	player_class->OnBeforePhysicsStep(TSpecialCallback<BeforePhysicsCallback>(PlayerPrePhysStep, &world->GetCallbacksActiveType()));
-	player_phys_sprite->OnCollide(box_class, TSpecialCallback<CollideCallback>(PlayerJumpSensorCollide, &world->GetCallbacksActiveType()));
-#else
-	player_class->OnKeyDown(TKey::Up, TScript(PlayerJump_source));
-	player_class->OnKeyDown(TKey::Left, TScript(PlayerLeft_source));
-	player_class->OnKeyDown(TKey::Right, TScript(PlayerRight_source));
-
-	player_class->OnBeforePhysicsStep(TScript(PlayerPrePhysStep_source));
-	player_class->AddOnCollide(player_phys_sprite, box_class, TScript(PlayerJumpSensorCollide_source));
-	//player_phys_sprite->AddOnCollide(box_class, TScript(PlayerJumpSensorCollide_source, &world->GetCallbacksActiveType()));
-#endif
-
-	auto bones_player = world->CreateClass("bones");
-#ifdef USE_CALLBACKS
-	bones_player->OnKeyDown(TKey::Left, TSpecialCallback<KeyUpDownCallback>(BonesPlayerLeft, &world->GetCallbacksActiveType()));
-	bones_player->OnBeforePhysicsStep(TSpecialCallback<KeyUpDownCallback>(BonesPlayerPrePhysStep, &world->GetCallbacksActiveType()));
-#else
-	bones_player->OnBeforePhysicsStep(TScript(BonesPlayerPrePhysStep_source));
-#endif
-	{
-		auto bones_mat = world->CreateMaterial("zombie");
-
-		bones_mat->SetImagePath("\\textures\\zombie.png");
-		bones_mat->SetColor(TVec4(1, 1, 1, 1));
-
-		//special phys sprite
-		auto bones_phys_sprite = world->CreateSprite("bones_phys_sprite");
-		bones_phys_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(1.0, TVec2(0, -1.5))->GetPhysShape());
-		bones_phys_sprite->GetPolygon()->SetEnable(false);
-
-		auto bones_player_class_instance = bones_player->AddSprite(bones_phys_sprite);
-		bones_player->GetPhysBody()->Enable(true);
-		bones_player->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
-		bones_player->GetPhysBody()->SetFixedRotation(true);
-
-		//sprites
-		auto bones_head = world->CreateSprite("bones_head");
-		bones_head->GetPolygon()->SetMaterial(bones_mat);
-		bones_head->GetPolygon()->SetAsBox(2, 2);
-		bones_head->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 256) / 256, TVec2(73, 256 - 192) / 256);
-
-		auto bones_torso = world->CreateSprite("bones_torso");
-		bones_torso->GetPolygon()->SetMaterial(bones_mat);
-		bones_torso->GetPolygon()->SetAsBox(1.6, 2.5);
-		bones_torso->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 189) / 256, TVec2(53, 256 - 112) / 256);
-
-		//hands
-
-		auto bones_left_shoulder = world->CreateSprite("bones_left_shoulder");
-		bones_left_shoulder->GetPolygon()->SetMaterial(bones_mat);
-		bones_left_shoulder->GetPolygon()->SetAsBox(1, 1);
-		bones_left_shoulder->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(113, 256 - 190) / 256, TVec2(152, 256 - 142) / 256);
-
-		auto bones_left_hand = world->CreateSprite("bones_left_hand");
-		bones_left_hand->GetPolygon()->SetMaterial(bones_mat);
-		bones_left_hand->GetPolygon()->SetAsBox(1, 1);
-		bones_left_hand->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(75, 256 - 256) / 256, TVec2(138, 256 - 193) / 256);
-
-		auto bones_right_shoulder = world->CreateSprite("bones_right_shoulder");
-		bones_right_shoulder->GetPolygon()->SetMaterial(bones_mat);
-		bones_right_shoulder->GetPolygon()->SetAsBox(1, 1);
-		bones_right_shoulder->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(152, 256 - 192) / 256, TVec2(183, 256 - 143) / 256);
-
-		auto bones_right_hand = world->CreateSprite("bones_right_hand");
-		bones_right_hand->GetPolygon()->SetMaterial(bones_mat);
-		bones_right_hand->GetPolygon()->SetAsBox(1, 1);
-		bones_right_hand->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(58, 256 - 190) / 256, TVec2(113, 256 - 129) / 256);
-
-		//legs
-
-		auto bones_left_leg = world->CreateSprite("bones_left_leg");
-		bones_left_leg->GetPolygon()->SetMaterial(bones_mat);
-		bones_left_leg->GetPolygon()->SetAsBox(1, 1);
-		bones_left_leg->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(55, 256 - 72) / 256, TVec2(94, 256 - 14) / 256);
-
-		auto bones_left_foot = world->CreateSprite("bones_left_foot");
-		bones_left_foot->GetPolygon()->SetMaterial(bones_mat);
-		bones_left_foot->GetPolygon()->SetAsBox(1, 1);
-		bones_left_foot->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(54, 256 - 131) / 256, TVec2(94, 256 - 75) / 256);
-
-		auto bones_right_leg = world->CreateSprite("bones_right_leg");
-		bones_right_leg->GetPolygon()->SetMaterial(bones_mat);
-		bones_right_leg->GetPolygon()->SetAsBox(1, 1);
-		bones_right_leg->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 55) / 256, TVec2(44, 256 - 7) / 256);
-
-		auto bones_right_foot = world->CreateSprite("bones_right_foot");
-		bones_right_foot->GetPolygon()->SetMaterial(bones_mat);
-		bones_right_foot->GetPolygon()->SetAsBox(1, 1);
-		bones_right_foot->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(9, 256 - 112) / 256, TVec2(39, 256 - 56) / 256);
-
-		auto bones_player_skel = bones_player->GetSkeleton();
-
-		//bones
-		auto root_bone = bones_player_skel->CreateBone(nullptr);
-
-		auto right_leg_bone = bones_player_skel->CreateBone(root_bone);
-		right_leg_bone->SetTransform(TBaluTransform(TVec2(-0.5, -1.2), TRot(0)));
-		auto right_foot_bone = bones_player_skel->CreateBone(right_leg_bone);
-		right_foot_bone->SetTransform(TBaluTransform(TVec2(0, -1.0), TRot(0)));
-
-		auto left_leg_bone = bones_player_skel->CreateBone(root_bone);
-		left_leg_bone->SetTransform(TBaluTransform(TVec2(0.5, -1.2), TRot(0)));
-		auto left_foot_bone = bones_player_skel->CreateBone(left_leg_bone);
-		left_foot_bone->SetTransform(TBaluTransform(TVec2(0.0, -1.0), TRot(0)));
-
-		auto right_shoulder_bone = bones_player_skel->CreateBone(root_bone);
-		auto right_hand_bone = bones_player_skel->CreateBone(right_shoulder_bone);
-
-		auto left_shoulder_bone = bones_player_skel->CreateBone(root_bone);
-		auto left_hand_bone = bones_player_skel->CreateBone(left_shoulder_bone);
-
-		//create skin
-		auto skin = bones_player_skel->CreateSkin();
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_head, TBaluTransform(TVec2(-0.3, 2.0), TRot(0)));
-
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_torso, TBaluTransform(TVec2(0, 0), TRot(0)));
-
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_leg_bone), bones_right_leg, TBaluTransform(TVec2(0, -0.5), TRot(0)));
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_foot_bone), bones_right_foot, TBaluTransform(TVec2(0, -0.5), TRot(0)));
-
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(left_leg_bone), bones_left_leg, TBaluTransform(TVec2(0, -0.5), TRot(0)));
-		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(left_foot_bone), bones_left_foot, TBaluTransform(TVec2(0, -0.5), TRot(0)));
-
-		//walk animation
-		auto skel_anim = bones_player->GetSkeletonAnimation();
-
-		auto walk_anim = skel_anim->CreateAnimation("walk");
-		float timeline_size = 0.5;
-		walk_anim->SetTimelineSize(timeline_size);
-		auto left_leg_bone_track = walk_anim->CreateTrack(left_leg_bone);
-
-		left_leg_bone_track->CreateFrame(0, 0);
-		left_leg_bone_track->CreateFrame(0.25* timeline_size, DegToRad(40.0));
-		left_leg_bone_track->CreateFrame(0.75* timeline_size, DegToRad(-40.0));
-
-		auto left_foot_bone_track = walk_anim->CreateTrack(left_foot_bone);
-
-		left_foot_bone_track->CreateFrame(0, 0);
-		left_foot_bone_track->CreateFrame(0.25* timeline_size, DegToRad(40.0));
-		left_foot_bone_track->CreateFrame(0.75* timeline_size, DegToRad(-40.0));
-
-		auto right_leg_bone_track = walk_anim->CreateTrack(right_leg_bone);
-
-		right_leg_bone_track->CreateFrame(0, 0);
-		right_leg_bone_track->CreateFrame(0.25* timeline_size, DegToRad(-40.0));
-		right_leg_bone_track->CreateFrame(0.75* timeline_size, DegToRad(40.0));
-
-		auto right_foot_bone_track = walk_anim->CreateTrack(right_foot_bone);
-
-		right_foot_bone_track->CreateFrame(0, 0);
-		right_foot_bone_track->CreateFrame(0.25* timeline_size, DegToRad(-40.0));
-		right_foot_bone_track->CreateFrame(0.75* timeline_size, DegToRad(40.0));
-	}
-
-	auto scene0 = world->CreateScene("scene0");
-
-	for (int i = 0; i < 1; i++)
-	{
-		auto inst0 = scene0->CreateInstance(player_class);
-		inst0->SetTransform(TBaluTransform(TVec2(0, 0 + i), TRot(0)));
-
-		auto inst1 = scene0->CreateInstance(bones_player);
-		inst1->SetTransform(TBaluTransform(TVec2(3, 0 + i), TRot(0)));
-	}
-
-	for (int i = -10; i < 40; i++)
-	{
-		auto inst0 = scene0->CreateInstance(box_class);
-		inst0->SetTransform(TBaluTransform(TVec2(-5 + i*0.9 + 0.3, -7 + sinf(i*0.3) * 1), TRot(i)));
-	}
-
-	for (int i = -0; i < 10; i++)
-	{
-		auto inst0 = scene0->CreateInstance(box_class_dyn);
-		inst0->SetTransform(TBaluTransform(TVec2(-5 + i*0.9 + 0.3, 7 + sinf(i*0.3) * 1), TRot(i)));
-	}
-
-	auto main_viewport = scene0->CreateViewport("main_viewport");
-	main_viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
-	main_viewport->SetAspectRatio(1);
-	main_viewport->SetWidth(20);
-
+	//TODO uncomment
+//
+//	world->AddOnWorldStart(TScript(WorldStart_source));
+//	world->AddOnViewportResize(TScript(ViewportResize_source));
+//
+//	auto brick_mat = world->CreateMaterial("brick");
+//
+//	brick_mat->SetImagePath("\\textures\\brick.png");
+//	brick_mat->SetColor(TVec4(1, 1, 1, 1));
+//
+//	auto box_sprite = world->CreateSprite("box0");
+//	box_sprite->GetPolygon()->SetMaterial(brick_mat);
+//	//box_sprite->GetPolygon()->SetAsBox(1, 1);
+//	box_sprite->GetPolygon()->SetPolygonFromTexture(assets_dir);
+//	box_sprite->GetPolygon()->SetTexCoordsFromVertices(TVec2(-0.5, -0.5), TVec2(1, 1));
+//	box_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateBoxShape(1, 1)->GetPhysShape());
+//
+//	auto box_class = world->CreateClass("box");
+//	auto box_class_instance = box_class->AddSprite(box_sprite);
+//	box_class->GetPhysBody()->Enable(true);
+//	box_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Static);
+//
+//	auto box_class_dyn = world->CreateClass("box_dyn");
+//	auto box_class_instance_dyn = box_class_dyn->AddSprite(box_sprite);
+//	box_class_dyn->GetPhysBody()->Enable(true);
+//	box_class_dyn->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
+//
+//	auto player_mat = world->CreateMaterial("player_skin");
+//	player_mat->SetImagePath("\\textures\\player.png");
+//	auto player_sprite = world->CreateSprite("player");
+//
+//	player_sprite->GetPolygon()->SetMaterial(player_mat);
+//	//player_sprite->GetPolygon()->SetAsBox(20.0/8, 20.0/8);
+//	player_sprite->GetPolygon()->SetAsBox(6, 6);
+//	//player_sprite->GetPolygon()->SetPolygonFromTexture();
+//	//player_sprite->GetPolygon()->SetTexCoordsFromVertices(TVec2(0, 0), TVec2(1, 1));
+//	player_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(2.5)->GetPhysShape());
+//	//player_sprite->SetPhysShape(new TBaluBoxShape(0.5,2));
+//
+//	TGridFrames* grid_frames = new TGridFrames(TVec2(0, 0), TVec2(1, 1), 8, 4);
+//
+//	player_sprite->GetPolygon()->AddAnimDesc(grid_frames);
+//
+//	player_sprite->GetPolygon()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
+//	player_sprite->GetPolygon()->CreateAnimationLine("jump_up_right", grid_frames, TFramesRange(9, 9).ToFramesArray());
+//	player_sprite->GetPolygon()->CreateAnimationLine("jump_down_right", grid_frames, TFramesRange(10, 10).ToFramesArray());
+//	player_sprite->GetPolygon()->CreateAnimationLine("stay_right", grid_frames, TFramesRange(11, 11).ToFramesArray());
+//	player_sprite->GetPolygon()->CreateAnimationLine("run_right", grid_frames, TFramesRange(0, 7).ToFramesArray());
+//	player_sprite->GetPolygon()->CreateAnimationLine("run_left", grid_frames, TFramesRange(16, 16 + 7).ToFramesArray());
+//	player_sprite->GetPolygon()->CreateAnimationLine("jump_up_left", grid_frames, TFramesRange(16 + 7 + 2, 16 + 7 + 2).ToFramesArray());
+//	player_sprite->GetPolygon()->CreateAnimationLine("jump_down_left", grid_frames, TFramesRange(16 + 7 + 3, 16 + 7 + 3).ToFramesArray());
+//	player_sprite->GetPolygon()->CreateAnimationLine("stay_left", grid_frames, TFramesRange(16 + 7 + 4, 16 + 7 + 4).ToFramesArray());
+//
+//	auto player_class = world->CreateClass("player");
+//	auto player_class_instance = player_class->AddSprite(player_sprite);
+//	//player_class_instance->tag = "character_sprite";
+//	player_class->GetPhysBody()->Enable(true);
+//	player_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
+//	player_class->GetPhysBody()->SetFixedRotation(true);
+//
+//	auto player_phys_sprite = world->CreateSprite("player_phys");
+//	player_class->AddSprite(player_phys_sprite);
+//	player_phys_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -3.5))->GetPhysShape());
+//	player_phys_sprite->GetPhysShape()->SetIsSensor(true);
+//
+//#ifdef USE_CALLBACKS
+//	player_class->OnKeyDown(TKey::Up, TSpecialCallback<KeyUpDownCallback>(PlayerJump, &world->GetCallbacksActiveType()));
+//	player_class->OnKeyDown(TKey::Left, TSpecialCallback<KeyUpDownCallback>(PlayerLeft, &world->GetCallbacksActiveType()));
+//	player_class->OnKeyDown(TKey::Right, TSpecialCallback<KeyUpDownCallback>(PlayerRight, &world->GetCallbacksActiveType()));
+//
+//	player_class->OnBeforePhysicsStep(TSpecialCallback<BeforePhysicsCallback>(PlayerPrePhysStep, &world->GetCallbacksActiveType()));
+//	player_phys_sprite->OnCollide(box_class, TSpecialCallback<CollideCallback>(PlayerJumpSensorCollide, &world->GetCallbacksActiveType()));
+//#else
+//	player_class->OnKeyDown(TKey::Up, TScript(PlayerJump_source));
+//	player_class->OnKeyDown(TKey::Left, TScript(PlayerLeft_source));
+//	player_class->OnKeyDown(TKey::Right, TScript(PlayerRight_source));
+//
+//	player_class->OnBeforePhysicsStep(TScript(PlayerPrePhysStep_source));
+//	player_class->AddOnCollide(player_phys_sprite, box_class, TScript(PlayerJumpSensorCollide_source));
+//	//player_phys_sprite->AddOnCollide(box_class, TScript(PlayerJumpSensorCollide_source, &world->GetCallbacksActiveType()));
+//#endif
+//
+//	auto bones_player = world->CreateClass("bones");
+//#ifdef USE_CALLBACKS
+//	bones_player->OnKeyDown(TKey::Left, TSpecialCallback<KeyUpDownCallback>(BonesPlayerLeft, &world->GetCallbacksActiveType()));
+//	bones_player->OnBeforePhysicsStep(TSpecialCallback<KeyUpDownCallback>(BonesPlayerPrePhysStep, &world->GetCallbacksActiveType()));
+//#else
+//	bones_player->OnBeforePhysicsStep(TScript(BonesPlayerPrePhysStep_source));
+//#endif
+//	{
+//		auto bones_mat = world->CreateMaterial("zombie");
+//
+//		bones_mat->SetImagePath("\\textures\\zombie.png");
+//		bones_mat->SetColor(TVec4(1, 1, 1, 1));
+//
+//		//special phys sprite
+//		auto bones_phys_sprite = world->CreateSprite("bones_phys_sprite");
+//		bones_phys_sprite->SetPhysShape(world->GetPhysShapeFactory()->CreateCircleShape(1.0, TVec2(0, -1.5))->GetPhysShape());
+//		bones_phys_sprite->GetPolygon()->SetEnable(false);
+//
+//		auto bones_player_class_instance = bones_player->AddSprite(bones_phys_sprite);
+//		bones_player->GetPhysBody()->Enable(true);
+//		bones_player->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
+//		bones_player->GetPhysBody()->SetFixedRotation(true);
+//
+//		//sprites
+//		auto bones_head = world->CreateSprite("bones_head");
+//		bones_head->GetPolygon()->SetMaterial(bones_mat);
+//		bones_head->GetPolygon()->SetAsBox(2, 2);
+//		bones_head->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 256) / 256, TVec2(73, 256 - 192) / 256);
+//
+//		auto bones_torso = world->CreateSprite("bones_torso");
+//		bones_torso->GetPolygon()->SetMaterial(bones_mat);
+//		bones_torso->GetPolygon()->SetAsBox(1.6, 2.5);
+//		bones_torso->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 189) / 256, TVec2(53, 256 - 112) / 256);
+//
+//		//hands
+//
+//		auto bones_left_shoulder = world->CreateSprite("bones_left_shoulder");
+//		bones_left_shoulder->GetPolygon()->SetMaterial(bones_mat);
+//		bones_left_shoulder->GetPolygon()->SetAsBox(1, 1);
+//		bones_left_shoulder->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(113, 256 - 190) / 256, TVec2(152, 256 - 142) / 256);
+//
+//		auto bones_left_hand = world->CreateSprite("bones_left_hand");
+//		bones_left_hand->GetPolygon()->SetMaterial(bones_mat);
+//		bones_left_hand->GetPolygon()->SetAsBox(1, 1);
+//		bones_left_hand->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(75, 256 - 256) / 256, TVec2(138, 256 - 193) / 256);
+//
+//		auto bones_right_shoulder = world->CreateSprite("bones_right_shoulder");
+//		bones_right_shoulder->GetPolygon()->SetMaterial(bones_mat);
+//		bones_right_shoulder->GetPolygon()->SetAsBox(1, 1);
+//		bones_right_shoulder->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(152, 256 - 192) / 256, TVec2(183, 256 - 143) / 256);
+//
+//		auto bones_right_hand = world->CreateSprite("bones_right_hand");
+//		bones_right_hand->GetPolygon()->SetMaterial(bones_mat);
+//		bones_right_hand->GetPolygon()->SetAsBox(1, 1);
+//		bones_right_hand->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(58, 256 - 190) / 256, TVec2(113, 256 - 129) / 256);
+//
+//		//legs
+//
+//		auto bones_left_leg = world->CreateSprite("bones_left_leg");
+//		bones_left_leg->GetPolygon()->SetMaterial(bones_mat);
+//		bones_left_leg->GetPolygon()->SetAsBox(1, 1);
+//		bones_left_leg->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(55, 256 - 72) / 256, TVec2(94, 256 - 14) / 256);
+//
+//		auto bones_left_foot = world->CreateSprite("bones_left_foot");
+//		bones_left_foot->GetPolygon()->SetMaterial(bones_mat);
+//		bones_left_foot->GetPolygon()->SetAsBox(1, 1);
+//		bones_left_foot->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(54, 256 - 131) / 256, TVec2(94, 256 - 75) / 256);
+//
+//		auto bones_right_leg = world->CreateSprite("bones_right_leg");
+//		bones_right_leg->GetPolygon()->SetMaterial(bones_mat);
+//		bones_right_leg->GetPolygon()->SetAsBox(1, 1);
+//		bones_right_leg->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(0, 256 - 55) / 256, TVec2(44, 256 - 7) / 256);
+//
+//		auto bones_right_foot = world->CreateSprite("bones_right_foot");
+//		bones_right_foot->GetPolygon()->SetMaterial(bones_mat);
+//		bones_right_foot->GetPolygon()->SetAsBox(1, 1);
+//		bones_right_foot->GetPolygon()->SetTexCoordsFromVerticesByRegion(TVec2(9, 256 - 112) / 256, TVec2(39, 256 - 56) / 256);
+//
+//		auto bones_player_skel = bones_player->GetSkeleton();
+//
+//		//bones
+//		auto root_bone = bones_player_skel->CreateBone(nullptr);
+//
+//		auto right_leg_bone = bones_player_skel->CreateBone(root_bone);
+//		right_leg_bone->SetTransform(TBaluTransform(TVec2(-0.5, -1.2), TRot(0)));
+//		auto right_foot_bone = bones_player_skel->CreateBone(right_leg_bone);
+//		right_foot_bone->SetTransform(TBaluTransform(TVec2(0, -1.0), TRot(0)));
+//
+//		auto left_leg_bone = bones_player_skel->CreateBone(root_bone);
+//		left_leg_bone->SetTransform(TBaluTransform(TVec2(0.5, -1.2), TRot(0)));
+//		auto left_foot_bone = bones_player_skel->CreateBone(left_leg_bone);
+//		left_foot_bone->SetTransform(TBaluTransform(TVec2(0.0, -1.0), TRot(0)));
+//
+//		auto right_shoulder_bone = bones_player_skel->CreateBone(root_bone);
+//		auto right_hand_bone = bones_player_skel->CreateBone(right_shoulder_bone);
+//
+//		auto left_shoulder_bone = bones_player_skel->CreateBone(root_bone);
+//		auto left_hand_bone = bones_player_skel->CreateBone(left_shoulder_bone);
+//
+//		//create skin
+//		auto skin = bones_player_skel->CreateSkin();
+//		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_head, TBaluTransform(TVec2(-0.3, 2.0), TRot(0)));
+//
+//		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(root_bone), bones_torso, TBaluTransform(TVec2(0, 0), TRot(0)));
+//
+//		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_leg_bone), bones_right_leg, TBaluTransform(TVec2(0, -0.5), TRot(0)));
+//		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(right_foot_bone), bones_right_foot, TBaluTransform(TVec2(0, -0.5), TRot(0)));
+//
+//		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(left_leg_bone), bones_left_leg, TBaluTransform(TVec2(0, -0.5), TRot(0)));
+//		skin->SetBoneSprite(bones_player_skel->GetBoneIndex(left_foot_bone), bones_left_foot, TBaluTransform(TVec2(0, -0.5), TRot(0)));
+//
+//		//walk animation
+//		auto skel_anim = bones_player->GetSkeletonAnimation();
+//
+//		auto walk_anim = skel_anim->CreateAnimation("walk");
+//		float timeline_size = 0.5;
+//		walk_anim->SetTimelineSize(timeline_size);
+//		auto left_leg_bone_track = walk_anim->CreateTrack(left_leg_bone);
+//
+//		left_leg_bone_track->CreateFrame(0, 0);
+//		left_leg_bone_track->CreateFrame(0.25* timeline_size, DegToRad(40.0));
+//		left_leg_bone_track->CreateFrame(0.75* timeline_size, DegToRad(-40.0));
+//
+//		auto left_foot_bone_track = walk_anim->CreateTrack(left_foot_bone);
+//
+//		left_foot_bone_track->CreateFrame(0, 0);
+//		left_foot_bone_track->CreateFrame(0.25* timeline_size, DegToRad(40.0));
+//		left_foot_bone_track->CreateFrame(0.75* timeline_size, DegToRad(-40.0));
+//
+//		auto right_leg_bone_track = walk_anim->CreateTrack(right_leg_bone);
+//
+//		right_leg_bone_track->CreateFrame(0, 0);
+//		right_leg_bone_track->CreateFrame(0.25* timeline_size, DegToRad(-40.0));
+//		right_leg_bone_track->CreateFrame(0.75* timeline_size, DegToRad(40.0));
+//
+//		auto right_foot_bone_track = walk_anim->CreateTrack(right_foot_bone);
+//
+//		right_foot_bone_track->CreateFrame(0, 0);
+//		right_foot_bone_track->CreateFrame(0.25* timeline_size, DegToRad(-40.0));
+//		right_foot_bone_track->CreateFrame(0.75* timeline_size, DegToRad(40.0));
+//	}
+//
+//	auto scene0 = world->CreateScene("scene0");
+//
+//	for (int i = 0; i < 1; i++)
+//	{
+//		auto inst0 = scene0->CreateInstance(player_class);
+//		inst0->SetTransform(TBaluTransform(TVec2(0, 0 + i), TRot(0)));
+//
+//		auto inst1 = scene0->CreateInstance(bones_player);
+//		inst1->SetTransform(TBaluTransform(TVec2(3, 0 + i), TRot(0)));
+//	}
+//
+//	for (int i = -10; i < 40; i++)
+//	{
+//		auto inst0 = scene0->CreateInstance(box_class);
+//		inst0->SetTransform(TBaluTransform(TVec2(-5 + i*0.9 + 0.3, -7 + sinf(i*0.3) * 1), TRot(i)));
+//	}
+//
+//	for (int i = -0; i < 10; i++)
+//	{
+//		auto inst0 = scene0->CreateInstance(box_class_dyn);
+//		inst0->SetTransform(TBaluTransform(TVec2(-5 + i*0.9 + 0.3, 7 + sinf(i*0.3) * 1), TRot(i)));
+//	}
+//
+//	auto main_viewport = scene0->CreateViewport("main_viewport");
+//	main_viewport->SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
+//	main_viewport->SetAspectRatio(1);
+//	main_viewport->SetWidth(20);
+//
 	return world;
 }
 
