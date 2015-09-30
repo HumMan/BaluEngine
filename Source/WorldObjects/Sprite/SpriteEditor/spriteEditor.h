@@ -6,7 +6,7 @@
 #include "spriteEditorTools.h"
 
 #include "../../Scene/IScene.h"
-#include <EngineInterfaces/IWorld.h>
+#include <World\IWorld.h>
 
 using namespace EngineInterface;
 

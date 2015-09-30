@@ -8,9 +8,9 @@
 
 #include <Utils\nanovg_support.h>
 
-#include <WorldObjects/Material/MaterialInstance.h>
+#include <WorldObjects/Material/IMaterialInstance.h>
 
-#include "ScriptInstance.h"
+#include "IScriptInstance.h"
 
 #include <nanovg.h>
 
@@ -19,6 +19,8 @@
 #include <algorithm>
 
 using namespace TBaluRenderEnums;
+
+using namespace EngineInterface;
 
 TRender::TRender(TBaluRender* internal_render)
 {

@@ -6,7 +6,7 @@
 
 #include <World\RenderCommand.h>
 
-#include <EngineInterfaces\IWorld.h>
+#include <World\IWorld.h>
 
 class TSpritePolygonAdornmentInstance : public TSpritePolygonAdornment, public EngineInterface::TSceneObjectInstance, public EngineInterface::IGUIVisual
 {

@@ -23,6 +23,8 @@
 
 #include <World\ICommon.h>
 
+using namespace EngineInterface;
+
 struct b2AABB;
 struct GLRenderPoints;
 struct GLRenderLines;

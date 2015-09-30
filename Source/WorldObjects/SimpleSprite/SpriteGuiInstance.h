@@ -6,15 +6,16 @@
 
 #include <World\RenderCommand.h>
 
-#include <EngineInterfaces\IWorld.h>
+#include <World\IWorld.h>
 #include "../Material/IMaterialInstance.h"
 
 #include <memory>
-
-class TBaluClassInstanceSpriteInstance;
-class TBaluClassSpriteInstance;
-class TBaluSprite;
-
+namespace EngineInterface
+{
+	class TBaluClassInstanceSpriteInstance;
+	class TBaluClassSpriteInstance;
+	class TBaluSprite;
+}
 using namespace EngineInterface;
 
 class TSimpleSpriteInstance : public EngineInterface::TSceneObjectInstance

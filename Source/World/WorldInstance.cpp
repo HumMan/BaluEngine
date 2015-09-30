@@ -42,17 +42,18 @@ namespace EngineInterface
 		this->source = source;
 		this->resources = resources;
 
-		for (auto& k : source->classes)
-		{
-			auto new_class_instance = new TBaluClassInstance(this, k.second.get());
-			class_instances.emplace_back(new_class_instance);
-		}
+		//TODO uncomment
+		//for (auto& k : source->classes)
+		//{
+		//	auto new_class_instance = new TBaluClassInstance(this, k.second.get());
+		//	class_instances.emplace_back(new_class_instance);
+		//}
 
-		std::vector<std::string> errors_list;
-		CompileScripts();
+		//std::vector<std::string> errors_list;
+		//CompileScripts();
 
-		for (auto& v : on_start_world_callback)
-			script_engine.CallWorldStart(v, this, &composer);
+		//for (auto& v : on_start_world_callback)
+		//	script_engine.CallWorldStart(v, this, &composer);
 	}
 
 	TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
@@ -254,10 +255,11 @@ namespace EngineInterface
 				std::string method = std::string("") + method_body + "";
 				script_engine->CompileMethod(&v, method.c_str());
 			}
-			for (auto& k : source->classes)
-			{
-				TBaluClassInstance::CheckScriptErrors(k.second.get(), script_engine, errors_list);
-			}
+			//TODO uncomment
+			//for (auto& k : source->classes)
+			//{
+			//	TBaluClassInstance::CheckScriptErrors(k.second.get(), script_engine, errors_list);
+			//}
 		}
 		catch (std::string ex)
 		{

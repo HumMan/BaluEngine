@@ -11,11 +11,11 @@
 #include <World/ICallbacks.h>
 #endif
 
-class TMaterialInstance;
-class TDrawingHelper;
 namespace EngineInterface
 {
 	class IBaluSpritePolygonInstance;
+	class TMaterialInstance;
+	class TDrawingHelper;
 }
 #endif
 

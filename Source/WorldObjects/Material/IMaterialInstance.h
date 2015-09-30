@@ -6,17 +6,17 @@
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#include "IMaterial.h"
 #include <World\IResources.h>
 #endif
 
-class TBaluSceneInstance;
-class TBaluSpritePolygonInstance;
+
 
 #endif
 
 namespace EngineInterface
 {
+	class TBaluSceneInstance;
+	class TBaluSpritePolygonInstance;
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 

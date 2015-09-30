@@ -9,7 +9,6 @@
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include <WorldObjects\Scene\IScene.h>
 #include <WorldObjects\Scene\ISceneInstance.h>
-#include <WorldObjects\Scene\SceneInstance.h>
 #include "IWorld.h"
 #include "IComposer.h"
 #include "IDirector.h"
@@ -21,6 +20,7 @@ namespace EngineInterface
 	class IResources;
 	class IComposer;
 	class IBaluWorld;
+	class TDirector;
 }
 #endif
 

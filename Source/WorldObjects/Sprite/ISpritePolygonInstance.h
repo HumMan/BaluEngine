@@ -8,6 +8,8 @@
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "ISpritePolygon.h"
+#include "../Material/IMaterialInstance.h"
+#include <World\Layers.h>
 #endif
 
 #endif
@@ -27,7 +29,7 @@ namespace EngineInterface
 	};
 
 
-	class TBaluSpritePolygonInstance: public EngineInterface::IBaluSpritePolygonInstance
+	class TBaluSpritePolygonInstance: public IBaluSpritePolygonInstance
 	{
 	private:
 		TMaterialInstance material;

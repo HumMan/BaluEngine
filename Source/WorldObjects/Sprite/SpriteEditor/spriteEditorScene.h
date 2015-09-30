@@ -6,7 +6,7 @@
 
 #include "../ISprite.h"
 #include "../../Scene/ISceneInstance.h"
-#include <EngineInterfaces/IWorld.h>
+#include <World/IWorld.h>
 
 using namespace EngineInterface;
 

@@ -23,6 +23,17 @@ TViewport* TBaluScene::CreateViewport(std::string name)
 	return &(viewports[name]);
 }
 
+TBaluScene::TBaluScene(const char* name, TBaluWorld* world) 
+	:layers(this)
+{
+	this->world = world;
+	this->scene_name = name;
+}
+IProperties* TBaluScene::GetProperties()
+{
+	return &properties;
+}
+
 TViewport* TBaluScene::FindViewport(std::string name)
 {
 	auto it = viewports.find(name);

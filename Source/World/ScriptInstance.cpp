@@ -1,9 +1,9 @@
-#include "ScriptInstance.h"
+#include "IScriptInstance.h"
 
 #include "baluScript.h"
 
-#include <WorldObjects\Class\ClassInstance.h>
-#include "EngineInterfaces\IWorld.h"
+#include <WorldObjects\Class\IClassInstance.h>
+#include "World\IWorld.h"
 
 #include "ScriptClassesRegistry.h"
 
@@ -12,18 +12,21 @@
 
 using namespace EngineInterface;
 
-class TBaluScriptInstancePrivate
+namespace EngineInterface
 {
-public:
-	std::unique_ptr<TSyntaxAnalyzer> syntax;
-	std::vector<TStaticValue> static_objects;
-	std::vector < std::unique_ptr<TSMethod>> smethods;
-	std::vector<std::string> errors;
+	class TBaluScriptInstancePrivate
+	{
+	public:
+		std::unique_ptr<TSyntaxAnalyzer> syntax;
+		std::vector<TStaticValue> static_objects;
+		std::vector < std::unique_ptr<TSMethod>> smethods;
+		std::vector<std::string> errors;
 
-	TScriptActiveType script_type_to_run;
+		TScriptActiveType script_type_to_run;
 
-	TTime time;
-};
+		TTime time;
+	};
+}
 
 TBaluScriptInstance::~TBaluScriptInstance()
 {

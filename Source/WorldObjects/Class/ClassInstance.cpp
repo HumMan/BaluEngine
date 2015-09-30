@@ -96,6 +96,12 @@ int TBaluInstance::GetSpritesCount()
 {
 	return sprites.size();
 }
+
+static TSceneObjectInstance* TBaluInstance::Clone(TSceneObject* source, TBaluSceneInstance* scene)
+{
+	return new TBaluInstance(dynamic_cast<TBaluSceneClassInstance*>(source), scene);
+}
+
 TBaluClassInstanceSpriteInstance* TBaluInstance::GetSprite(int index)
 {
 	return sprites[index].get();

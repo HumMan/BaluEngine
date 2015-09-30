@@ -30,11 +30,68 @@ namespace EngineInterface
 		virtual TVec2 GetScale() = 0;
 		virtual IBaluClass* GetClass() = 0;
 	};
+
+
+	class TBaluSceneClassInstance : public IBaluSceneClassInstance, public TSceneObject
+	{
+		TBaluClass* balu_class;
+		TBaluTransformWithScale transform;
+	public:
+		static const char* FactoryName()
+		{
+			return "ClassInstance";
+		}
+		const char* GetFactoryName()
+		{
+			return FactoryName();
+		}
+		TBaluSceneClassInstance()
+		{
+			balu_class = nullptr;
+		}
+		TBaluSceneClassInstance(TBaluClass* balu_class)
+		{
+			this->balu_class = balu_class;
+		}
+		void SetTransform(TBaluTransform transform)
+		{
+			this->transform.transform = transform;
+		}
+		void SetScale(TVec2 scale)
+		{
+			this->transform.scale = scale;
+		}
+		TBaluTransform GetTransform()
+		{
+			return transform.transform;
+		}
+		TVec2 GetScale()
+		{
+			return transform.scale;
+		}
+		TBaluTransformWithScale GetTransformWithScale()
+		{
+			return transform;
+		}
+		TBaluClass* GetClass()
+		{
+			return balu_class;
+		}
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+		static TSceneObject* Clone()
+		{
+			return new TBaluSceneClassInstance();
+		}
+	};
+	REGISTER_FACTORY_CLASS(SceneObjectFactory, TBaluSceneClassInstance)
+		//static bool TBaluSceneClassInstance_registered = SceneObjectFactory::Register(TBaluSceneClassInstance::FactoryName(), TBaluSceneClassInstance::Clone);
+
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
-	class TViewport : public EngineInterface::IViewport
+	class TViewport : public IViewport
 	{
 		TBaluTransform transform;
 		float aspect; //отношение высоты к ширине (0.5 широкий экран)
@@ -80,8 +137,8 @@ namespace EngineInterface
 	class IBaluScene
 	{
 	public:
-		BALUENGINEDLL_API static TVec2 FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord);
-		BALUENGINEDLL_API static TVec2 FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord);
+		BALUENGINEDLL_API static TVec2 FromViewportToScene(IViewport* viewport, TVec2 viewport_coord);
+		BALUENGINEDLL_API static TVec2 FromSceneToViewport(IViewport* viewport, TVec2 scene_coord);
 
 		static std::string GetDefaultName()
 		{
@@ -102,6 +159,48 @@ namespace EngineInterface
 		virtual TSceneObject* CreateInstance(IBaluClass* balu_class) = 0;
 		virtual void DestroyInstance(TSceneObject* instance) = 0;
 	};
+
+
+	class TBaluScene : public IBaluScene, public TBaluWorldObject
+	{
+	private:
+		std::vector<std::unique_ptr<TSceneObject>> instances;
+		std::string scene_name;
+
+		std::map<std::string, TViewport> viewports;
+
+		TLayersManager layers;
+
+		TProperties properties;
+		TBaluWorld* world;
+	public:
+		TLayersManager* GetLayers()
+		{
+			return &layers;
+		}
+		TBaluScene(const char* name, TBaluWorld* world);
+		IProperties* GetProperties();
+
+		TViewport* CreateViewport(std::string name);
+		TViewport* FindViewport(std::string name);
+
+		std::string GetName();
+		void SetName(std::string name);
+
+		int GetInstancesCount();
+		TSceneObject* GetInstance(int index);
+
+		TSceneObject* CreateInstance(TBaluClass* balu_class);
+		TSceneObject* CreateInstance(IBaluClass* balu_class);
+
+		void DestroyInstance(TSceneObject*);
+
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+
+		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
+};
+
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES	

@@ -1,20 +1,23 @@
-#include "Composer.h"
+#include "IComposer.h"
 
 #include "Render.h"
 
 #include "baluRender.h"
 
-#include <WorldObjects\Scene\SceneInstance.h>
+#include <WorldObjects\Scene\ISceneInstance.h>
 
 using namespace EngineInterface;
 
 #include <WorldObjects/Material/IMaterial.h>
 
-class TComposerPrivate
+namespace EngineInterface
 {
-public:
-	std::vector<TComposerStage> stages;
-};
+	class TComposerPrivate
+	{
+	public:
+		std::vector<TComposerStage> stages;
+	};
+}
 
 TComposerStage* TComposer::AddToRender(EngineInterface::IBaluSceneInstance* scene_instance, EngineInterface::IViewport* viewport)
 {

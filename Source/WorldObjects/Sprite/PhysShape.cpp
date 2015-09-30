@@ -84,3 +84,24 @@ TBaluPhysShape* TBaluBoxShape::GetPhysShape()
 {
 	return this;
 }
+
+
+TBaluPolygonShape* TBaluPhysShapeFactory::CreatePolygonShape()
+{
+	return new TBaluPolygonShape();
+}
+
+TBaluCircleShape* TBaluPhysShapeFactory::CreateCircleShape(float radius)
+{
+	return new TBaluCircleShape(radius);
+}
+
+TBaluCircleShape* TBaluPhysShapeFactory::CreateCircleShape(float radius, TVec2 pos)
+{
+	return new TBaluCircleShape(radius, pos);
+}
+
+TBaluBoxShape* TBaluPhysShapeFactory::CreateBoxShape(float width, float height)
+{
+	return new TBaluBoxShape(width, height);
+}

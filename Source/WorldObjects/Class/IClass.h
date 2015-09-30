@@ -7,18 +7,19 @@
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 #include <map>
+#include <set>
 
 #ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include <World/IProperties.h>
 #include <WorldObjects/Sprite/ISprite.h>
 #include <WorldObjects/Sprite/IPhysShape.h>
-
 #endif
 
 namespace EngineInterface
 {
 	class IBaluPhysShapeInstance;
 }
+
 #endif
 
 namespace EngineInterface
@@ -69,6 +70,7 @@ namespace EngineInterface
 		virtual void SetTransform(TBaluTransform)=0;
 	};
 
+	class TSkeleton;
 	class TBone : public IBone
 	{
 	private:
@@ -181,15 +183,6 @@ namespace EngineInterface
 	public:
 	};
 
-	class TFrameComparer
-	{
-	public:
-		bool operator() (const TTrackFrame& lhs, const TTrackFrame& rhs) const
-		{
-			//return lhs.index < rhs.index;
-			return lhs.time < rhs.time;
-		}
-	};
 	class TInterpolateCurve
 	{
 		enum Type
@@ -200,8 +193,6 @@ namespace EngineInterface
 		};
 		//std::vector<TCurveSegment> segments;
 	};
-
-
 
 	class TTrackFrame : public ITrackFrame
 	{
@@ -221,6 +212,16 @@ namespace EngineInterface
 		}
 		void Save(pugi::xml_node& parent_node, const int version) const;
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+	};
+
+	class TFrameComparer
+	{
+	public:
+		bool operator() (const TTrackFrame& lhs, const TTrackFrame& rhs) const
+		{
+			//return lhs.index < rhs.index;
+			return lhs.time < rhs.time;
+		}
 	};
 #endif
 
@@ -331,12 +332,6 @@ namespace EngineInterface
 		bool enable;
 	public:
 		TBaluClassPhysBody();
-		//TBaluClassPhysBody(TBaluClassPhysBody&& right)
-		//	:body_def(std::move(right.body_def))
-		//	, enable(std::move(right.enable))
-		//{
-
-		//}
 		int GetSensorsCount();
 		void SetFixedRotation(bool fixed);
 		void SetPhysBodyType(TPhysBodyType type);
@@ -428,17 +423,9 @@ namespace EngineInterface
 		TScript* GetOnCollide(IBaluSprite* sprite, TBaluClass* obstancle_class);
 		void RemoveOnCollide(int index);
 
-		TBaluClass(const char* name, TBaluWorld* world)
-		{
-			Initialize();
-			this->class_name = name;
-			this->world = world;
-		}
+		TBaluClass(const char* name, TBaluWorld* world);
 
-		IProperties* GetProperties()
-		{
-			return &properties;
-		}
+		IProperties* GetProperties();
 		bool PointCollide(TVec2 class_space_point);
 		TAABB2 GetAABB();
 

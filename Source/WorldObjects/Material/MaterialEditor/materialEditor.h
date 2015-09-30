@@ -6,7 +6,7 @@
 #include "materialEditorTools.h"
 
 #include <WorldObjects/Scene/IScene.h>
-#include  <EngineInterfaces/IWorld.h>
+#include <World\IWorld.h>
 
 using namespace EngineInterface;
 

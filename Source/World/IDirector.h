@@ -55,10 +55,7 @@ namespace EngineInterface
 
 	using namespace EngineInterface;
 
-	namespace EngineInterface
-	{
-		class TRender;
-	}
+	class TRender;
 
 	class TDirector: public IDirector
 	{

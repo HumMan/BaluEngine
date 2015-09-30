@@ -3,9 +3,19 @@
 #pragma once
 #endif
 
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
+#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
+#include "../Class/IClassInstance.h"
+#include "../Sprite/ISpriteInstance.h"
+#endif
+
+#endif
+
 namespace EngineInterface
 {
 	class IBaluInstance;
+	class TBaluInstance;
 	class IBaluClassSpriteInstance;
 }
 
@@ -21,7 +31,7 @@ namespace EngineInterface
 	};
 
 #ifndef BALU_ENGINE_DLL_INTERFACES
-	class TBaluPhysShapeInstance : public EngineInterface::IBaluPhysShapeInstance
+	class TBaluPhysShapeInstance : public IBaluPhysShapeInstance
 	{
 	protected:
 		TBaluPhysShape* source;

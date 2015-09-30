@@ -1,8 +1,11 @@
-#include "World.h"
+#include "IWorld.h"
 
 #include <pugixml.hpp>
 
 using namespace pugi;
+
+using namespace EngineInterface;
+using namespace BaluLib;
 
 void SaveColor(pugi::xml_node& parent, TVec4 color)
 {

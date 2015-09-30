@@ -46,6 +46,17 @@ b2BodyDef TBaluClassPhysBody::GetBodyDef()
 	return body_def;
 }
 
+TBaluClass::TBaluClass(const char* name, TBaluWorld* world)
+{
+	Initialize();
+	this->class_name = name;
+	this->world = world;
+}
+
+IProperties* TBaluClass::GetProperties()
+{
+	return &properties;
+}
 
 std::vector<TSpriteWithClassCollide>& TBaluClass::GetOnCollide()
 {

@@ -1,8 +1,8 @@
-#include "Director.h"
+#include "IDirector.h"
 
 #include <SDL.h>
 
-#include "WorldInstance.h"
+#include "IWorldInstance.h"
 
 #include "Render.h"
 
@@ -13,34 +13,39 @@
 #include <easylogging++.h>
 INITIALIZE_EASYLOGGINGPP
 
-class TGameInternal
+using namespace EngineInterface;
+
+namespace EngineInterface
 {
-public:
+	class TGameInternal
+	{
+	public:
 
-	bool create_window;
+		bool create_window;
 
-	std::unique_ptr<TBaluRender> internal_render;
-	std::unique_ptr<TRender> render;
-	std::unique_ptr<TResources> resources;
+		std::unique_ptr<TBaluRender> internal_render;
+		std::unique_ptr<TRender> render;
+		std::unique_ptr<TResources> resources;
 
-	std::string base_path;
+		std::string base_path;
 
-	SDL_Window *mainwindow; /* Our window handle */
+		SDL_Window *mainwindow; /* Our window handle */
 
-	SDL_GLContext maincontext; /* Our opengl context handle */
+		SDL_GLContext maincontext; /* Our opengl context handle */
 
-	TBaluWorldInstance* world_instance;
+		TBaluWorldInstance* world_instance;
 
-	std::string assets_dir;
+		std::string assets_dir;
 
-	bool physics_sym;
-};
+		bool physics_sym;
+	};
 
-class TBaluEngineInternal
-{
-public:
-	std::unique_ptr<TBaluRender> render;
-};
+	class TBaluEngineInternal
+	{
+	public:
+		std::unique_ptr<TBaluRender> render;
+	};
+}
 
 void TDirector::Render()
 {

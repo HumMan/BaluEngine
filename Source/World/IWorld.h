@@ -101,7 +101,7 @@ namespace EngineInterface
 		}
 		bool TryFind(const char* name, TBaluWorldObject*& result);
 
-		TBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name);
+		TBaluWorldObject* GetObjectByName(const char* name);
 		std::vector<TBaluWorldObject*> GetObjects(TWorldObjectType type);
 		bool ObjectNameExists(TWorldObjectType type, const char* name);
 		void CreateObject(TWorldObjectType type, const char* name);

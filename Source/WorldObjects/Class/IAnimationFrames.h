@@ -14,12 +14,13 @@ namespace pugi
 	class xml_node;
 }
 
-class TBaluWorld;
+
 class TBaluSpritePolygon;
 #endif
 
 namespace EngineInterface
 {
+	class TBaluWorld;
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class BALUENGINEDLL_API TFrame

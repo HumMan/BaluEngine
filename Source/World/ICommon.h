@@ -15,12 +15,11 @@ namespace pugi
 	class xml_node;
 }
 
-class TBaluWorld;
-
 namespace EngineInterface
 {
 	class TScreen;
 	class TView;
+	class TBaluWorld;
 }
 #endif
 

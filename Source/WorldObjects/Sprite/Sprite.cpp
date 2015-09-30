@@ -1,10 +1,24 @@
-#include "Sprite.h"
+#include "ISprite.h"
 
-#include "../Class/Class.h"
+#include "../Class/IClass.h"
 
-#include <World\World.h>
+#include <World\IWorld.h>
 
 #include "SpriteEditor\spriteEditor.h"
+
+using namespace EngineInterface;
+
+TBaluSprite::TBaluSprite(const char* name, TBaluWorld* world)
+	:TBaluWorldObject(world, name)
+{
+	this->world = world;
+	this->sprite_name = name;
+}
+
+IProperties* TBaluSprite::GetProperties()
+{
+	return &properties;
+}
 
 TBaluSprite::TBaluSprite()
 {

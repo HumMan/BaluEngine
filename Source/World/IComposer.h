@@ -6,6 +6,8 @@
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 #include <memory>
 
+#include "RenderCommand.h"
+
 namespace EngineInterface
 {
 	class IDirector;
@@ -57,6 +59,7 @@ namespace EngineInterface
 	};
 
 	class TComposerPrivate;
+	class TRender;
 
 	class TComposer: public IComposer
 	{

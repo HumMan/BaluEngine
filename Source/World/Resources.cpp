@@ -1,17 +1,20 @@
-#include "Resources.h"
+#include "IResources.h"
 
 #include <baluRender.h>
 using namespace BaluRender;
-
+using namespace EngineInterface;
 #include <map>
 
-class TResourcesInternal
+namespace EngineInterface
 {
-public:
-	std::map<std::string, TTextureId> textures;
-	TBaluRender* render;
-	std::string assets_dir;
-};
+	class TResourcesInternal
+	{
+	public:
+		std::map<std::string, TTextureId> textures;
+		TBaluRender* render;
+		std::string assets_dir;
+	};
+}
 
 TBaluTexture TResources::CreateTextureFromFile(std::string path)
 {

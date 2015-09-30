@@ -73,6 +73,7 @@ namespace EngineInterface
 		virtual void StopAnimation(std::string name) = 0;
 	};
 
+	class TBoneInstance;
 
 	class TTrackInstance
 	{
@@ -84,6 +85,8 @@ namespace EngineInterface
 		TTrackInstance(TBoneInstance* bone, TTrack* source);
 		void Update(float time, float timeline_size);
 	};
+
+	class TSkeletonInstance;
 
 	class TTimeLineInstance
 	{
@@ -159,6 +162,8 @@ namespace EngineInterface
 	};
 
 	class TBaluInstance;
+	class TBaluWorldInstance;
+	class TBaluScriptInstance;
 
 	class TBaluClassInstance :public IBaluClassInstance
 	{
@@ -266,6 +271,8 @@ namespace EngineInterface
 		TBoneInstance* GetBone(int index);
 	};
 
+	class TBaluSceneClassInstance;
+
 	class TBaluInstance : public IBaluInstance, public TSceneObjectInstance
 	{
 	private:
@@ -326,10 +333,7 @@ namespace EngineInterface
 		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 
 		void UpdateTransform();
-		static TSceneObjectInstance* Clone(TSceneObject* source, TBaluSceneInstance* scene)
-		{
-			return new TBaluInstance(dynamic_cast<TBaluSceneClassInstance*>(source), scene);
-		}
+		static TSceneObjectInstance* Clone(TSceneObject* source, TBaluSceneInstance* scene);
 };
 
 	REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TBaluInstance)

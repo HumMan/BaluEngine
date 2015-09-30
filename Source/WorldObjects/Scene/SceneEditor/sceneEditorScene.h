@@ -5,7 +5,7 @@
 
 #include "../IScene.h"
 #include "../ISceneInstance.h"
-#include <EngineInterfaces/IWorld.h>
+#include <World/IWorld.h>
 
 using namespace EngineInterface;
 

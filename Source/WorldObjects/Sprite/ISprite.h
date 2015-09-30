@@ -55,16 +55,9 @@ namespace EngineInterface
 
 
 	public:
-		TBaluSprite(const char* name, TBaluWorld* world)
-		{
-			this->world = world;
-			this->sprite_name = name;
-		}
+		TBaluSprite(const char* name, TBaluWorld* world);
 
-		IProperties* GetProperties()
-		{
-			return &properties;
-		}
+		IProperties* GetProperties();
 		TBaluSprite();
 
 		std::string GetName();

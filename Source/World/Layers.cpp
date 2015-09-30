@@ -1,5 +1,7 @@
 #include "Layers.h"
 
+using namespace EngineInterface;
+
 TLayer::TLayer()
 {
 	name = "Layer";

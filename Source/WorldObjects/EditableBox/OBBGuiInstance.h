@@ -6,7 +6,7 @@
 
 #include <World\RenderCommand.h>
 
-#include <EngineInterfaces\IWorld.h>
+#include <World\IWorld.h>
 
 class TBoundaryBoxChangeListener
 {
@@ -24,7 +24,10 @@ enum class TPointAdornmentType
 	Rotate
 };
 
-class TDrawingHelper;
+namespace EngineInterface
+{
+	class TDrawingHelper;
+}
 
 class TPointAdornment : public EngineInterface::IGUIVisual
 {
@@ -44,7 +47,7 @@ public:
 	float GetDistance(TVec2 pos)const;
 	void SetPosition(TVec2 position);
 	TVec2 GetPosition()const;
-	void Render(TDrawingHelper* helper)const;
+	void Render(EngineInterface::TDrawingHelper* helper)const;
 };
 
 class TOBBAdornment : public EngineInterface::IGUIVisual
@@ -55,7 +58,7 @@ public:
 	float GetDistance(TVec2 pos)const;
 	void SetPosition(TVec2 position);
 	TVec2 GetPosition()const;
-	void Render(TDrawingHelper* helper)const;
+	void Render(EngineInterface::TDrawingHelper* helper)const;
 };
 
 class TBoundaryBoxAdornment : public EngineInterface::TSceneObjectInstance, public TOBBGuiDef, public EngineInterface::IGUIVisual
@@ -89,7 +92,7 @@ private:
 
 
 public:
-	virtual void Render(TDrawingHelper* drawing_helper)const ;
+	virtual void Render(EngineInterface::TDrawingHelper* drawing_helper)const;
 	bool enable;
 
 	//std::vector<TEditorControl*> Render();

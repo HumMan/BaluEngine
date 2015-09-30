@@ -27,14 +27,12 @@ TBaluWorldObject::TBaluWorldObject(IBaluWorld* world, std::string name)
 	this->world = world;
 	this->name = name;
 }
+
 TProperties& TBaluWorldObject::GetProperties()
 {
 	return properties;
 }
-std::string TBaluWorldObject::GetName()
-{
-	return name;
-}
+
 IBaluWorld* TBaluWorldObject::GetWorld()
 {
 	return world;

@@ -24,6 +24,10 @@ namespace EngineInterface
 	};
 
 	class TBaluScriptInstancePrivate;
+	class IComposer;
+	class IBaluInstance;
+	class IBaluPhysShapeInstance;
+
 	class TBaluScriptInstance : public IBaluScriptInstance
 	{
 	private:
