@@ -101,6 +101,7 @@
     <ClInclude Include="Source\EditorUtils\abstractEditor.h" />
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h" />
     <ClInclude Include="Source\EditorUtils\IAbstractEditor.h" />
+    <ClInclude Include="Source\Interfaces\BaluEngineInterface.h" />
     <ClInclude Include="Source\Interfaces\CppToBaluScriptBinding.h" />
     <ClInclude Include="Source\Interfaces\EngineInterfacesIncludes.h" />
     <ClInclude Include="Source\Interfaces\exportMacro.h" />
@@ -187,7 +188,7 @@
     <ClCompile Include="Source\WorldObjects\Class\ClassEditor\classEditorScene.cpp" />
     <ClCompile Include="Source\WorldObjects\Class\ClassEditor\classEditorTools.cpp" />
     <ClCompile Include="Source\WorldObjects\Class\ClassInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Class\Serialize.cpp" />
+    <ClCompile Include="Source\WorldObjects\Class\ClassSerialize.cpp" />
     <ClCompile Include="Source\WorldObjects\Class\Skeleton.cpp" />
     <ClCompile Include="Source\WorldObjects\Class\SkeletonAnimation.cpp" />
     <ClCompile Include="Source\WorldObjects\Class\SkeletonAnimationInstance.cpp" />
@@ -198,18 +199,18 @@
     <ClCompile Include="Source\WorldObjects\Material\MaterialEditor\materialEditorScene.cpp" />
     <ClCompile Include="Source\WorldObjects\Material\MaterialEditor\materialEditorTools.cpp" />
     <ClCompile Include="Source\WorldObjects\Material\MaterialInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Material\Serialize.cpp" />
+    <ClCompile Include="Source\WorldObjects\Material\MaterialSerialize.cpp" />
     <ClCompile Include="Source\WorldObjects\PolygonLine\PolygonGuiInstance.cpp" />
     <ClCompile Include="Source\WorldObjects\Scene\Scene.cpp" />
     <ClCompile Include="Source\WorldObjects\Scene\SceneEditor\sceneEditor.cpp" />
     <ClCompile Include="Source\WorldObjects\Scene\SceneEditor\sceneEditorScene.cpp" />
     <ClCompile Include="Source\WorldObjects\Scene\SceneEditor\sceneEditorTools.cpp" />
     <ClCompile Include="Source\WorldObjects\Scene\SceneInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Scene\Serialize.cpp" />
+    <ClCompile Include="Source\WorldObjects\Scene\SceneSerialize.cpp" />
     <ClCompile Include="Source\WorldObjects\SimpleSprite\SpriteGuiInstance.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\PhysShape.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\PhysShapeInstance.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\Serialize.cpp" />
+    <ClCompile Include="Source\WorldObjects\Sprite\SpriteSerialize.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\Sprite.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditor.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorAdornments.cpp" />
@@ -229,6 +230,7 @@
     <ClCompile Include="Source\World\ScriptClassesRegistry.cpp" />
     <ClCompile Include="Source\World\ScriptInstance.cpp" />
     <ClCompile Include="Source\World\Serialize.cpp" />
+    <ClCompile Include="Source\World\SerializeCommon.cpp" />
     <ClCompile Include="Source\World\World.cpp" />
     <ClCompile Include="Source\World\WorldInstance.cpp" />
   </ItemGroup>

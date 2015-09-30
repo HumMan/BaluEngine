@@ -8,7 +8,12 @@
 #include <string>
 #include <map>
 #include <memory>
-#include <pugixml.hpp>
+
+namespace pugi
+{
+	class xml_node;
+}
+
 namespace EngineInterface
 {
 	class TBaluWorld;

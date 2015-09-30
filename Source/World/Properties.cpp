@@ -2,6 +2,8 @@
 
 #include <assert.h>
 
+#include <pugixml.hpp>
+
 using namespace EngineInterface;
 
 template<class T>

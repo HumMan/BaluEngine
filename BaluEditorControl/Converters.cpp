@@ -3,7 +3,7 @@
 //#include <vcclr.h>
 #include <msclr\marshal_cppstd.h>
 
-#include "../Source/EditorUtils/IAbstractEditor.h"
+#include <Interfaces\BaluEngineInterface.h>
 
 namespace Converters
 {

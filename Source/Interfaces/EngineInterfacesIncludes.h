@@ -16,3 +16,4 @@
 #include "../World/IResources.h"
 
 #include "../World/IDirector.h"
+#include "../Source/EditorUtils/IAbstractEditor.h"

@@ -40,7 +40,7 @@ namespace EngineInterface
 		virtual IBaluSpritePolygon* GetPolygon() = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluSprite :public IBaluSprite, public TBaluWorldObject
 	{
 	private:
@@ -77,6 +77,7 @@ namespace EngineInterface
 		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
 };
 #endif
+#endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES
 	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSprite, "ISprite");
@@ -97,7 +98,7 @@ namespace EngineInterface
 		virtual TVec2 GetScale() = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluClassSpriteInstance : public IBaluClassSpriteInstance
 	{
 		TBaluSprite* sprite;
@@ -144,6 +145,7 @@ namespace EngineInterface
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
+#endif
 #endif
 
 #ifdef BALU_ENGINE_SCRIPT_CLASSES

@@ -61,8 +61,6 @@ namespace EngineInterface
 	};
 #endif
 
-
-
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBone
 	{
@@ -97,7 +95,6 @@ namespace EngineInterface
 
 #endif
 
-
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ISkin
 	{
@@ -105,7 +102,7 @@ namespace EngineInterface
 		virtual void SetBoneSprite(int bone_index, IBaluSprite* sprite, TBaluTransform global)=0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TSkin : public ISkin
 	{
 	private:
@@ -125,7 +122,7 @@ namespace EngineInterface
 	};
 
 #endif
-
+#endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ISkeleton
@@ -142,6 +139,7 @@ namespace EngineInterface
 		//virtual std::vector<IBone*> GetAllBones() = 0;
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TSkeleton : public ISkeleton
 	{
 	private:
@@ -176,6 +174,7 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 #endif
+#endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ITrackFrame
@@ -194,6 +193,7 @@ namespace EngineInterface
 		//std::vector<TCurveSegment> segments;
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TTrackFrame : public ITrackFrame
 	{
 	public:
@@ -224,7 +224,7 @@ namespace EngineInterface
 		}
 	};
 #endif
-
+#endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ITrack
@@ -233,6 +233,7 @@ namespace EngineInterface
 		virtual ITrackFrame* CreateFrame(float time, float rotation)=0;
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TTrack : public ITrack
 	{
 	private:
@@ -252,7 +253,7 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
 	};
 #endif
-
+#endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ITimeLine
@@ -263,6 +264,7 @@ namespace EngineInterface
 		virtual void SetTimelineSize(float size) = 0;
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TTimeLine : public ITimeLine
 	{
 	private:
@@ -287,7 +289,7 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
 	};
 #endif
-
+#endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ISkeletonAnimation
@@ -295,7 +297,7 @@ namespace EngineInterface
 	public:
 		virtual ITimeLine* CreateAnimation(std::string name)=0;
 	};
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TSkeletonAnimation : public ISkeletonAnimation
 	{
 	private:
@@ -313,7 +315,7 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 #endif
-
+#endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassPhysBody
@@ -325,6 +327,7 @@ namespace EngineInterface
 		virtual bool IsEnable() = 0;
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluClassPhysBody : public IBaluClassPhysBody
 	{
 	private:
@@ -342,6 +345,7 @@ namespace EngineInterface
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
+#endif
 #endif
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
@@ -393,7 +397,7 @@ namespace EngineInterface
 		virtual void RemoveOnCollide(int index) = 0;
 	};
 
-
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluClass : public IBaluClass, public TBaluWorldObject
 	{
 	private:
@@ -460,5 +464,6 @@ namespace EngineInterface
 
 		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
 	};
+#endif
 #endif
 }

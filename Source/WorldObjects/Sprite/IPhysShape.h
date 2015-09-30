@@ -2,8 +2,9 @@
 #pragma once
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #include <World\ICommon.h>
+
 #include <Box2D.h>
 #endif
 
@@ -174,6 +175,7 @@ namespace EngineInterface
 		virtual IBaluBoxShape* CreateBoxShape(float width, float height) = 0;
 	};
 
+#ifndef BALU_ENGINE_DLL_INTERFACES
 	class TBaluPhysShapeFactory : public IBaluPhysShapeFactory
 	{
 	public:
@@ -182,6 +184,7 @@ namespace EngineInterface
 		TBaluCircleShape* CreateCircleShape(float radius, TVec2 pos);
 		TBaluBoxShape* CreateBoxShape(float width, float height);
 	};
+#endif
 
 #ifndef BALU_ENGINE_DLL_INTERFACES
 
