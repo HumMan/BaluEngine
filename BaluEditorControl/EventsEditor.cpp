@@ -104,7 +104,7 @@ namespace Editor
 	}
 	void TEventsEditor::FindAllEvents()
 	{
-		/*for (auto& e : p->world->GetOnWorldStart())
+		for (auto& e : p->world->GetOnWorldStart())
 		{
 			p->event_types[(int)TEventType::OnWorldStart].events.push_back(TEventInfo(TEventType::OnWorldStart, std::vector<TEventParam>(), &e));
 		}
@@ -124,8 +124,9 @@ namespace Editor
 		{
 			p->event_types[(int)TEventType::OnGlobalMouseMove].events.push_back(TEventInfo(TEventType::OnGlobalMouseMove, std::vector<TEventParam>(),  &e));
 		}
-		for (auto& some_class : p->world->GetClasses())
+		for (auto& world_object : p->world->GetObjects(TWorldObjectType::Class))
 		{
+			auto some_class = dynamic_cast<IBaluClass*>(world_object);
 			for (auto& e : some_class->GetOnBeforePhysicsStep())
 			{
 				std::vector<TEventParam> params;
@@ -133,8 +134,9 @@ namespace Editor
 				p->event_types[(int)TEventType::OnClassBeforePhys].events.push_back(TEventInfo(TEventType::OnClassBeforePhys, params, &e));
 			}
 		}
-		for (auto& some_class : p->world->GetClasses())
+		for (auto& world_object : p->world->GetObjects(TWorldObjectType::Class))
 		{
+			auto some_class = dynamic_cast<IBaluClass*>(world_object);
 			for (auto& e : some_class->GetOnKeyDown())
 			{
 				std::vector<TEventParam> params;
@@ -146,8 +148,9 @@ namespace Editor
 				}
 			}
 		}
-		for (auto& some_class : p->world->GetClasses())
+		for (auto& world_object : p->world->GetObjects(TWorldObjectType::Class))
 		{
+			auto some_class = dynamic_cast<IBaluClass*>(world_object);
 			for (auto& e : some_class->GetOnKeyUp())
 			{
 				std::vector<TEventParam> params;
@@ -159,8 +162,9 @@ namespace Editor
 				}
 			}
 		}
-		for (auto& some_class : p->world->GetClasses())
+		for (auto& world_object : p->world->GetObjects(TWorldObjectType::Class))
 		{
+			auto some_class = dynamic_cast<IBaluClass*>(world_object);
 			for (auto& e : some_class->GetOnCollide())
 			{
 				std::vector<TEventParam> params;
@@ -168,7 +172,7 @@ namespace Editor
 				params.push_back(TEventParam(TWorldObjectType::Sprite, e.sprite->GetName()));
 				p->event_types[(int)TEventType::OnSpriteCollide].events.push_back(TEventInfo(TEventType::OnSpriteCollide, params, &e.script));
 			}
-		}*/
+		}
 	}
 	void TEventsEditor::Destroy()
 	{

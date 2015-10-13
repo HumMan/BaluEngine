@@ -106,7 +106,9 @@ TBaluBoxShape* TBaluPhysShapeFactory::CreateBoxShape(float width, float height)
 	return new TBaluBoxShape(width, height);
 }
 
+static TBaluPhysShapeFactory TBaluPhysShapeFactory_local;
+
 EngineInterface::IBaluPhysShapeFactory* EngineInterface::GetPhysShapeFactory()
 {
-	return new TBaluPhysShapeFactory();
+	return &TBaluPhysShapeFactory_local;
 }

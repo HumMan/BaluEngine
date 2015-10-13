@@ -19,10 +19,19 @@ namespace EngineInterface
 
 namespace EngineInterface
 {
+	class TBaluWorldChangeListener
+	{
+	public:
+		virtual void OnObjectCreate(TWorldObjectType type, std::string name) = 0;
+		virtual void OnObjectDestroy(TWorldObjectType type, std::string name){}
+	};
 
 	class IBaluWorld
 	{
 	public:
+		virtual void AddChangesListener(TBaluWorldChangeListener* listener) = 0;
+		virtual void RemoveChangesListener(TBaluWorldChangeListener* listener) = 0;
+
 		virtual TScriptActiveType& GetCallbacksActiveType() = 0;
 
 		virtual bool TryFind(const char* name, IBaluWorldObject*& result) = 0;
@@ -65,6 +74,34 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
+	class TBaluWorldChangeListenerArray
+	{
+		std::vector<TBaluWorldChangeListener*> listeners;
+	public:
+		void OnObjectCreate(TWorldObjectType type, std::string name)
+		{
+			for (auto v : listeners)
+				v->OnObjectCreate(type, name);
+		}
+		void OnObjectDestroy(TWorldObjectType type, std::string name)
+		{
+			for (auto v : listeners)
+				v->OnObjectDestroy(type, name);
+		}
+		void AddChangesListener(TBaluWorldChangeListener* listener)
+		{
+			auto it = std::find(listeners.begin(), listeners.end(), listener);
+			assert(it == listeners.end());
+			listeners.push_back(listener);
+		}
+		void RemoveChangesListener(TBaluWorldChangeListener* listener)
+		{
+			auto it = std::find(listeners.begin(), listeners.end(), listener);
+			assert(it != listeners.end());
+			listeners.erase(it);
+		}
+	};
+
 	class TBaluWorld : public IBaluWorld
 	{
 	private:
@@ -92,7 +129,18 @@ namespace EngineInterface
 			mouse_move_callbacks;
 		std::vector<TScript> on_start_world_callback;
 		std::vector<TScript> viewport_resize_callback;
+
+		TBaluWorldChangeListenerArray listeners;
 	public:
+		virtual void AddChangesListener(TBaluWorldChangeListener* listener)
+		{
+			listeners.AddChangesListener(listener);
+		}
+		virtual void RemoveChangesListener(TBaluWorldChangeListener* listener)
+		{
+			listeners.RemoveChangesListener(listener);
+		}
+
 		TBaluWorld();
 		~TBaluWorld();
 		//TODO убрать отсюда, указывать при создании экземпл€ра мира
