@@ -16,6 +16,11 @@ namespace EngineInterface
 	class IBaluWorldInstance;
 	class TRender;
 	class IBaluWorldObject;
+
+	class IBaluMaterial;
+	class IBaluSprite;
+	class IBaluClass;
+	class IBaluScene;
 }
 
 namespace EngineInterface
@@ -30,10 +35,10 @@ namespace EngineInterface
 
 		virtual bool TryFind(const char* name, IBaluWorldObject*& result) = 0;
 
-		virtual IBaluWorldObject* GetObjectByName(const char* name) = 0;
+		virtual IBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name) = 0;
 		virtual std::vector<IBaluWorldObject*> GetObjects(TWorldObjectType type) = 0;
 		virtual bool ObjectNameExists(TWorldObjectType type, const char* name) = 0;
-		virtual void CreateObject(TWorldObjectType type, const char* name) = 0;
+		virtual IBaluWorldObject* CreateObject(TWorldObjectType type, const char* name) = 0;
 		virtual void DestroyObject(TWorldObjectType type, const char* name) = 0;
 
 		virtual void AddOnMouseDown(TScript) = 0;
@@ -47,6 +52,11 @@ namespace EngineInterface
 		virtual void AddOnWorldStart(TScript callback) = 0;
 		virtual std::vector<TScript>& GetOnWorldStart() = 0;
 		virtual void RemoveOnWorldStart(int index) = 0;
+
+		virtual IBaluMaterial* CreateMaterial(const char* name) = 0;
+		virtual IBaluSprite* CreateSprite(const char* name) = 0;
+		virtual IBaluClass* CreateClass(const char* name) = 0;
+		virtual IBaluScene* CreateScene(const char* name)=0;
 
 		virtual void AddOnViewportResize(TScript callback) = 0;
 		virtual std::vector<TScript>& GetOnViewportResize() = 0;
@@ -66,7 +76,7 @@ namespace EngineInterface
 	private:
 		friend class TBaluWorldInstance;
 
-		std::map<std::string, std::unique_ptr<TBaluWorldObject>> world_objects;
+		std::map<std::string, std::unique_ptr<TBaluWorldObject>> world_objects[(int)TWorldObjectType::None];
 
 		TScriptActiveType callback_active_type;
 
@@ -98,10 +108,10 @@ namespace EngineInterface
 		}
 		bool TryFind(const char* name, IBaluWorldObject*& result);
 
-		IBaluWorldObject* GetObjectByName(const char* name);
+		IBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name);
 		std::vector<IBaluWorldObject*> GetObjects(TWorldObjectType type);
 		bool ObjectNameExists(TWorldObjectType type, const char* name);
-		void CreateObject(TWorldObjectType type, const char* name);
+		TBaluWorldObject* CreateObject(TWorldObjectType type, const char* name);
 		void DestroyObject(TWorldObjectType type, const char* name);
 
 		void AddOnMouseDown(TScript);
@@ -115,6 +125,11 @@ namespace EngineInterface
 		void RemoveOnMouseDown(int index);
 		void RemoveOnMouseUp(int index);
 		void RemoveOnMouseMove(int index);
+
+		IBaluMaterial* CreateMaterial(const char* name);
+		IBaluSprite* CreateSprite(const char* name);
+		IBaluClass* CreateClass(const char* name);
+		IBaluScene* CreateScene(const char* name);
 
 		void AddOnWorldStart(TScript callback);
 		std::vector<TScript>& GetOnWorldStart();

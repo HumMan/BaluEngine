@@ -75,7 +75,7 @@ void Run(std::string assets_dir)
 
 	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources());
 
-	auto demo_scene = demo_world->GetScene("scene0");
+	auto demo_scene = dynamic_cast<IBaluScene*>(demo_world->GetObjectByName(TWorldObjectType::Scene, "scene0"));
 
 	main_viewport = demo_scene->FindViewport("main_viewport");
 

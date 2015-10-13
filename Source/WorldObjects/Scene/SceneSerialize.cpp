@@ -32,7 +32,6 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 
 void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBaluWorld* world)
 {
-	this->world = world;
 	scene_name = scene_node.attribute("name").as_string();
 	{
 		xml_node instances_node = scene_node.child("instances");
@@ -66,8 +65,7 @@ void TBaluSceneClassInstance::Save(pugi::xml_node& parent_node, const int versio
 
 void TBaluSceneClassInstance::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
 {
-	//TODO uncomment
-	//balu_class = world->GetClass(instance_node.attribute("class_name").as_string());
+	balu_class = dynamic_cast<TBaluClass*>(world->GetObjectByName(TWorldObjectType::Class, instance_node.attribute("class_name").as_string()));
 	transform = LoadTransformWithScale(instance_node.child("Transform"));
 }
 

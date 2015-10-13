@@ -178,9 +178,8 @@ void TBaluClassPhysBodyIntance::BuildAllFixtures()
 	for (int i = 0; i < parent->GetSpritesCount(); i++)
 	{
 		auto sensor_source = parent->GetSprite(i);
-		
-		//TODO uncomment
-		//sensor_source->GetPhysShape()->BuildFixture(phys_body, TBaluTransformWithScale( sensor_source->GetTransform(), sensor_source->GetScale()));
+
+		dynamic_cast<TBaluPhysShapeInstance*>(sensor_source->GetPhysShape())->BuildFixture(phys_body, TBaluTransformWithScale( sensor_source->GetTransform(), sensor_source->GetScale()));
 	}
 }
 

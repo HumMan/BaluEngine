@@ -4,6 +4,13 @@
 
 #include "ClassEditor\classEditor.h"
 
+TBaluClass::TBaluClass(std::string name, TBaluWorld* world)
+	:TBaluWorldObject(world, name)
+{
+	skeleton.reset(new TSkeleton());
+	this->skeleton_animation.reset(new TSkeletonAnimation(skeleton.get()));
+}
+
 TBaluClassPhysBody::TBaluClassPhysBody()
 {
 	enable = false;
@@ -107,16 +114,6 @@ TAABB2 TBaluClass::GetAABB()
 		return TAABB2(TVec2(0), TVec2(0));
 }
 
-std::string TBaluClass::GetName()
-{
-	return class_name;
-}
-
-void TBaluClass::SetName(std::string name)
-{
-	assert(!world->ObjectNameExists(TWorldObjectType::Class, name.c_str()));
-	class_name = name;
-}
 void TBaluClass::Initialize()
 {
 	skeleton = std::make_unique<TSkeleton>();

@@ -25,15 +25,13 @@ namespace EngineInterface
 {
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	class IBaluSprite
+	class IBaluSprite: public virtual IBaluWorldObject
 	{
 	public:
 		static std::string GetDefaultName()
 		{
 			return "sprite";
 		}
-		virtual std::string GetName() = 0;
-		virtual void SetName(std::string name) = 0;
 		virtual void SetPhysShape(IBaluPhysShape* shape) = 0;
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 		virtual void SetPhysShapeFromGeometry() = 0;
@@ -58,10 +56,6 @@ namespace EngineInterface
 		TBaluSprite(const char* name, TBaluWorld* world);
 
 		IProperties* GetProperties();
-		TBaluSprite();
-
-		std::string GetName();
-		void SetName(std::string name);
 
 		void SetPhysShape(TBaluPhysShape* shape);
 		void SetPhysShape(IBaluPhysShape* shape);

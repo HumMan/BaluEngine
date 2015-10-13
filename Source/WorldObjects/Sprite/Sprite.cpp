@@ -45,17 +45,6 @@ TBaluSpritePolygon* TBaluSprite::GetPolygon()
 	return &sprite_polygon;
 }
 
-std::string TBaluSprite::GetName()
-{
-	return sprite_name;
-}
-
-void TBaluSprite::SetName(std::string name)
-{
-	assert(!world->ObjectNameExists(TWorldObjectType::Sprite, name.c_str()));
-	sprite_name = name;
-}
-
 IAbstractEditor* TBaluSprite::CreateEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance)
 {
 	auto result = new TSpriteEditor();

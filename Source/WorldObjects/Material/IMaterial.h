@@ -10,14 +10,13 @@ namespace EngineInterface
 {
 
 #ifndef BALU_ENGINE_SCRIPT_CLASSES
-	class IBaluMaterial
+	class IBaluMaterial: public virtual IBaluWorldObject
 	{
 	public:
 		static std::string GetDefaultName()
 		{
 			return "material";
 		}
-		virtual std::string GetName() = 0;
 		virtual void SetImagePath(std::string image_path) = 0;
 		virtual std::string GetImagePath() = 0;
 		virtual void SetColor(TVec4 color) = 0;
@@ -111,7 +110,6 @@ namespace EngineInterface
 		{
 			return world;
 		}
-		TBaluMaterial();
 
 #ifdef BALUENGINE_DESIGN_TIME
 		TBaluMaterial(std::string material_name, TBaluWorld* world);
@@ -119,9 +117,6 @@ namespace EngineInterface
 
 		void SetBlendMode(TTransparentMode mode);
 		void SetAlphaTestValue(float alpha_test_value);
-
-		void SetName(std::string name);
-		std::string GetName();
 
 		void SetImagePath(std::string image_path);
 		std::string GetImagePath();

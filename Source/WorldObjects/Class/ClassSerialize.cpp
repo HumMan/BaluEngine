@@ -2,6 +2,8 @@
 
 #include <World\SerializeCommon.h>
 
+#include "../../World/IWorld.h"
+
 using namespace EngineInterface;
 
 void TBaluClassPhysBody::Save(pugi::xml_node& parent_node, const int version)
@@ -226,8 +228,7 @@ void TBaluClassSpriteInstance::Save(pugi::xml_node& parent_node, const int versi
 
 void TBaluClassSpriteInstance::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
-	//TODO uncomment
-	//sprite = world->GetSprite(node.attribute("sprite_name").as_string());
+	sprite = dynamic_cast<TBaluSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, node.attribute("sprite_name").as_string()));
 	local = LoadTransformWithScale(node.child("Transform"));
 }
 
@@ -355,13 +356,11 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 
 				auto class_name = collide_collback_node.attribute("class").as_string();
 				auto sprite_name = collide_collback_node.attribute("sprite").as_string();
-				//TODO uncomment
-				//
-				//auto collide_with_class = world->GetClass(class_name);
-				//auto collide_sprite = world->GetSprite(sprite_name);
 
-				//TODO uncomment
-				//on_collide_callbacks.push_back(TSpriteWithClassCollide(collide_sprite, collide_with_class, new_callback));
+				auto collide_with_class = dynamic_cast<TBaluClass*>(world->GetObjectByName(TWorldObjectType::Class, class_name));
+				auto collide_sprite = dynamic_cast<TBaluSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, sprite_name));
+
+				on_collide_callbacks.push_back(TSpriteWithClassCollide(collide_sprite, collide_with_class, new_callback));
 			}
 		}
 	}

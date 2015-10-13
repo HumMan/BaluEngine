@@ -3,18 +3,10 @@
 
 #include "MaterialEditor\materialEditor.h"
 
-//TODO uncomment
-//TBaluMaterial::TBaluMaterial()
-//{
-//	world = nullptr;
-//}
-
-//TODO uncomment
-//TBaluMaterial::TBaluMaterial(std::string material_name, TBaluWorld* world)
-//{
-//	this->material_name = material_name;
-//	this->world = world;
-//}
+TBaluMaterial::TBaluMaterial(std::string material_name, TBaluWorld* world)
+	:TBaluWorldObject(world, material_name)
+{
+}
 
 EngineInterface::IProperties* TBaluMaterial::GetProperties()
 {

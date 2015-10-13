@@ -366,10 +366,9 @@ namespace EngineInterface
 		}
 	};
 
-	class IBaluClass
+	class IBaluClass: public virtual IBaluWorldObject
 	{
 	public:
-		virtual std::string GetName()=0;
 		static std::string GetDefaultName()
 		{
 			return "class";
@@ -426,14 +425,11 @@ namespace EngineInterface
 		TScript* GetOnCollide(IBaluSprite* sprite, TBaluClass* obstancle_class);
 		void RemoveOnCollide(int index);
 
-		TBaluClass(const char* name, TBaluWorld* world);
+		TBaluClass(std::string name, TBaluWorld* world);
 
 		IProperties* GetProperties();
 		bool PointCollide(TVec2 class_space_point);
 		TAABB2 GetAABB();
-
-		std::string GetName();
-		void SetName(std::string name);
 
 		virtual ~TBaluClass();
 

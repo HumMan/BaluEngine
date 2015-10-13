@@ -105,3 +105,8 @@ TBaluBoxShape* TBaluPhysShapeFactory::CreateBoxShape(float width, float height)
 {
 	return new TBaluBoxShape(width, height);
 }
+
+EngineInterface::IBaluPhysShapeFactory* EngineInterface::GetPhysShapeFactory()
+{
+	return new TBaluPhysShapeFactory();
+}

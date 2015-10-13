@@ -42,18 +42,18 @@ namespace EngineInterface
 		this->source = source;
 		this->resources = resources;
 
-		//TODO uncomment
-		//for (auto& k : source->classes)
-		//{
-		//	auto new_class_instance = new TBaluClassInstance(this, k.second.get());
-		//	class_instances.emplace_back(new_class_instance);
-		//}
+		for (auto& k : source->GetObjects(TWorldObjectType::Class))
+		{
+			auto curr_class = dynamic_cast<TBaluClass*>(&(*k));
+			auto new_class_instance = new TBaluClassInstance(this, curr_class);
+			class_instances.emplace_back(new_class_instance);
+		}
 
-		//std::vector<std::string> errors_list;
-		//CompileScripts();
+		std::vector<std::string> errors_list;
+		CompileScripts();
 
-		//for (auto& v : on_start_world_callback)
-		//	script_engine.CallWorldStart(v, this, &composer);
+		for (auto& v : on_start_world_callback)
+			script_engine.CallWorldStart(v, this, &composer);
 	}
 
 	TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)

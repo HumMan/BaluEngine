@@ -10,6 +10,8 @@
 #endif
 #endif
 
+#include "../../Interfaces/ExportMacro.h"
+
 namespace EngineInterface
 {
 
@@ -186,6 +188,10 @@ namespace EngineInterface
 		TBaluCircleShape* CreateCircleShape(float radius, TVec2 pos);
 		TBaluBoxShape* CreateBoxShape(float width, float height);
 	};
+#endif
+
+#ifndef BALU_ENGINE_SCRIPT_CLASSES
+	BALUENGINEDLL_API IBaluPhysShapeFactory* GetPhysShapeFactory();
 #endif
 
 #ifndef BALU_ENGINE_DLL_INTERFACES

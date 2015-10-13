@@ -351,6 +351,9 @@ namespace EngineInterface
 		virtual void SetName(std::string name)=0;
 		virtual IBaluWorld* GetWorld()=0;
 		virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance) = 0;
+		virtual void Save(pugi::xml_node& parent_node, const int version)=0;
+		virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world) = 0;
+
 	};
 
 #ifndef BALU_ENGINE_DLL_INTERFACES
@@ -359,7 +362,7 @@ namespace EngineInterface
 	class IAbstractEditor;
 	class IBaluSceneInstance;
 	class IBaluWorld;
-	class TBaluWorldObject: public IBaluWorldObject
+	class TBaluWorldObject: public virtual IBaluWorldObject
 	{
 	protected:
 		IBaluWorld* world;

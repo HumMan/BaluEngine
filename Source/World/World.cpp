@@ -7,6 +7,11 @@ using namespace EngineInterface;
 //needed for polygon from image contruction
 #include <IL/ilut.h>
 
+#include "../Source/WorldObjects/Material/IMaterial.h"
+#include "../Source/WorldObjects/Sprite/ISprite.h"
+#include "../Source/WorldObjects/Class/IClass.h"
+#include "../Source/WorldObjects/Scene/IScene.h"
+
 TBaluWorld::TBaluWorld()
 {
 	callback_active_type = TScriptActiveType::DEFAULT;
@@ -56,26 +61,48 @@ bool TBaluWorld::TryFind(const char* name, IBaluWorldObject*& result)
 	return false;
 }
 
-IBaluWorldObject* TBaluWorld::GetObjectByName(const char* name)
+IBaluWorldObject* TBaluWorld::GetObjectByName(TWorldObjectType type,const char* name)
 {
-	return world_objects[name].get();
+	return world_objects[(int)type][name].get();
 }
 std::vector<IBaluWorldObject*> TBaluWorld::GetObjects(TWorldObjectType type)
 {
-	return GetObjectsFromMap<IBaluWorldObject>(this->world_objects);
+	return GetObjectsFromMap<IBaluWorldObject>(this->world_objects[(int)type]);
 }
 
 bool TBaluWorld::ObjectNameExists(TWorldObjectType type, const char* name)
 {
 	return false;
 }
-void TBaluWorld::CreateObject(TWorldObjectType type, const char* name)
+TBaluWorldObject* TBaluWorld::CreateObject(TWorldObjectType type, const char* name)
 {
-
+	TBaluWorldObject* resutl = nullptr;
+	//TODO заменить фабрикой
+	switch (type)
+	{
+	case EngineInterface::TWorldObjectType::Material:
+		resutl = new TBaluMaterial(name, this);
+		break;
+	case EngineInterface::TWorldObjectType::Sprite:
+		resutl = new TBaluSprite(name, this);
+		break;
+	case EngineInterface::TWorldObjectType::Class:
+		resutl = new TBaluClass(name, this);
+		break;
+	case EngineInterface::TWorldObjectType::Scene:
+		resutl = new TBaluScene(name, this);
+		break;
+	case EngineInterface::TWorldObjectType::None:
+		break;
+	default:
+		break;
+	}
+	world_objects[(int)type][name].reset(resutl);
+	return resutl;
 }
 void TBaluWorld::DestroyObject(TWorldObjectType type, const char* name)
 {
-
+	//world_objects[(int)type].erase(world_objects[(int)type].at(name));
 }
 
 void TBaluWorld::AddOnMouseDown(TScript callback)
@@ -119,6 +146,26 @@ void TBaluWorld::RemoveOnMouseUp(int index)
 void TBaluWorld::RemoveOnMouseMove(int index)
 {
 	mouse_move_callbacks.erase(mouse_move_callbacks.begin() + index);
+}
+
+IBaluMaterial* TBaluWorld::CreateMaterial(const char* name)
+{
+	return dynamic_cast<IBaluMaterial*>(CreateObject(TWorldObjectType::Material, name));
+}
+
+IBaluSprite* TBaluWorld::CreateSprite(const char* name)
+{
+	return dynamic_cast<IBaluSprite*>(CreateObject(TWorldObjectType::Sprite, name));
+}
+
+IBaluClass* TBaluWorld::CreateClass(const char* name)
+{
+	return dynamic_cast<IBaluClass*>(CreateObject(TWorldObjectType::Class, name));
+}
+
+IBaluScene* TBaluWorld::CreateScene(const char* name)
+{
+	return dynamic_cast<IBaluScene*>(CreateObject(TWorldObjectType::Scene, name));
 }
 
 void TBaluWorld::AddOnWorldStart(TScript callback)

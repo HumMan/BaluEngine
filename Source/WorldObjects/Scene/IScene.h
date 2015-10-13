@@ -132,7 +132,7 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 
-	class IBaluScene
+	class IBaluScene: public virtual IBaluWorldObject
 	{
 	public:
 		BALUENGINEDLL_API static TVec2 FromViewportToScene(IViewport* viewport, TVec2 viewport_coord);
@@ -147,9 +147,6 @@ namespace EngineInterface
 
 		virtual IViewport* CreateViewport(std::string name)=0;
 		virtual IViewport* FindViewport(std::string name)=0;
-
-		virtual std::string GetName() = 0;
-		virtual void SetName(std::string name) = 0;
 
 		virtual int GetInstancesCount() = 0;
 		virtual TSceneObject* GetInstance(int index) = 0;
@@ -181,9 +178,6 @@ namespace EngineInterface
 
 		TViewport* CreateViewport(std::string name);
 		TViewport* FindViewport(std::string name);
-
-		std::string GetName();
-		void SetName(std::string name);
 
 		int GetInstancesCount();
 		TSceneObject* GetInstance(int index);

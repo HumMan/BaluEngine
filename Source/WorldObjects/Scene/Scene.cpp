@@ -23,13 +23,10 @@ TViewport* TBaluScene::CreateViewport(std::string name)
 	return &(viewports[name]);
 }
 
-//TODO uncomment
-//TBaluScene::TBaluScene(const char* name, TBaluWorld* world) 
-//	:layers(this)
-//{
-//	this->world = world;
-//	this->scene_name = name;
-//}
+TBaluScene::TBaluScene(const char* name, TBaluWorld* world) 
+	:layers(this), TBaluWorldObject(world, name)
+{
+}
 
 IProperties* TBaluScene::GetProperties()
 {
@@ -42,17 +39,6 @@ TViewport* TBaluScene::FindViewport(std::string name)
 	if (it == viewports.end())
 		return nullptr;
 	return &it->second;
-}
-
-std::string TBaluScene::GetName()
-{
-	return scene_name;
-}
-
-void TBaluScene::SetName(std::string name)
-{
-	assert(!world->ObjectNameExists(TWorldObjectType::Scene, name.c_str()));
-	scene_name = name;
 }
 
 int TBaluScene::GetInstancesCount()
