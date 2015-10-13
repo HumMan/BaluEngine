@@ -13,7 +13,7 @@ namespace EngineInterface
 		//virtual void SetSpritePolygon(std::string name) = 0;
 		virtual IBaluSpritePolygon* GetSpritePolygon() = 0;
 
-		virtual void SetActiveAnimation(std::string) = 0;
+		virtual void SetActiveAnimation(const std::string&) = 0;
 		//virtual TBaluTransform GetGlobalTransform() = 0;
 	};
 
@@ -63,7 +63,7 @@ namespace EngineInterface
 
 		TBaluSpritePolygon* GetSpritePolygon();
 
-		void SetActiveAnimation(std::string);
+		void SetActiveAnimation(const std::string&);
 	};
 #endif
 

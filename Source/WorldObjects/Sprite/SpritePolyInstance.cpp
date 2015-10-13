@@ -118,7 +118,7 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransformWithScale global)
 	}
 }
 
-void TBaluSpritePolygonInstance::SetActiveAnimation(std::string name)
+void TBaluSpritePolygonInstance::SetActiveAnimation(const std::string& name)
 {
 	if (active_animation_line != name)
 	{

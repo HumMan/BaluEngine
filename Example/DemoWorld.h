@@ -180,7 +180,7 @@ char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_s
 "	main_viewport.SetSize(new_vieport_size);\n";
 
 char* WorldStart_source = //(IWorldInstance world_instance, IComposer composer)
-"	IScene scene = world_instance.GetSource().GetScene(1);\n"
+"	IScene scene = world_instance.GetSource().GetScene(\"scene0\");\n"
 "	ISceneInstance scene_instance = world_instance.RunScene(scene);\n"
 "	composer.AddToRender(scene_instance, scene.FindViewport(\"main_viewport\"));\n";
 

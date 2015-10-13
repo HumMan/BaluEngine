@@ -2,6 +2,8 @@
 
 #include "Interface.h"
 
+#include <World\IWorld.h>
+
 using namespace EngineInterface;
 
 void TBaluSprite::Save(pugi::xml_node& parent_node, const int version)
@@ -102,9 +104,8 @@ void TBaluSpritePolygon::Load(const pugi::xml_node& node, const int version, TBa
 	if (node.attribute("material_name"))
 		mat_name = node.attribute("material_name").as_string();
 
-	//TODO uncomment
-	/*if (mat_name != "")
-		material = world->GetMaterial(mat_name.c_str());*/
+	if (mat_name != "")
+		material = dynamic_cast<TBaluMaterial*>(world->GetMaterial(mat_name.c_str()));
 
 	size = LoadCoord(node.child("size"));
 

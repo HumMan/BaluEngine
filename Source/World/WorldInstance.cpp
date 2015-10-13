@@ -255,11 +255,10 @@ namespace EngineInterface
 				std::string method = std::string("") + method_body + "";
 				script_engine->CompileMethod(&v, method.c_str());
 			}
-			//TODO uncomment
-			//for (auto& k : source->classes)
-			//{
-			//	TBaluClassInstance::CheckScriptErrors(k.second.get(), script_engine, errors_list);
-			//}
+			for (auto& k : source->world_objects[(int)TWorldObjectType::Class])
+			{
+				TBaluClassInstance::CheckScriptErrors(dynamic_cast<TBaluClass*>(k.second.get()), script_engine, errors_list);
+			}
 		}
 		catch (std::string ex)
 		{

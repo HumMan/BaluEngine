@@ -9,7 +9,7 @@ using namespace EngineInterface;
 void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Scene");
-	new_node.append_attribute("name").set_value(scene_name.c_str());
+	new_node.append_attribute("name").set_value(name.c_str());
 	{
 		xml_node instances_node = new_node.append_child("instances");
 		for (int i = 0; i < instances.size(); i++)
@@ -32,7 +32,7 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 
 void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBaluWorld* world)
 {
-	scene_name = scene_node.attribute("name").as_string();
+	name = scene_node.attribute("name").as_string();
 	{
 		xml_node instances_node = scene_node.child("instances");
 		for (pugi::xml_node instance_node = instances_node.first_child(); instance_node; instance_node = instance_node.next_sibling())

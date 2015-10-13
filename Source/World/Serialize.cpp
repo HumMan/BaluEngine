@@ -106,7 +106,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node materials_node = world_node.child("Materials");
 		for (pugi::xml_node material = materials_node.first_child(); material; material = material.next_sibling())
 		{
-			std::string material_name = materials_node.attribute("material_name").as_string();
+			std::string material_name = materials_node.attribute("name").as_string();
 			TBaluMaterial* new_material = new TBaluMaterial(material_name, this);
 			new_material->Load(material, version, this);
 			world_objects[(int)TWorldObjectType::Material][new_material->GetName()].reset(new_material);
@@ -117,18 +117,18 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node classes_node = world_node.child("Classes");
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
 		{
-			std::string class_name = class_node.attribute("class_name").as_string();
-			world_objects[(int)TWorldObjectType::Material].emplace(class_name, std::make_unique<TBaluClass>(class_name.c_str(), this));
+			std::string class_name = class_node.attribute("name").as_string();
+			world_objects[(int)TWorldObjectType::Class].emplace(class_name, std::make_unique<TBaluClass>(class_name.c_str(), this));
 		}
 	}
 	{
 		xml_node sprites_node = world_node.child("Sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
-			std::string sprite_name = sprites_node.attribute("sprite_name").as_string();
+			std::string sprite_name = sprite_node.attribute("name").as_string();
 			TBaluSprite* sprite = new TBaluSprite(sprite_name.c_str(), this);
 			sprite->Load(sprite_node, version, this);
-			world_objects[(int)TWorldObjectType::Sprite][sprite->GetName()].reset(sprite);
+			world_objects[(int)TWorldObjectType::Sprite][sprite_name].reset(sprite);
 		}
 	}
 	//загружаем классы полностью
@@ -145,7 +145,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		xml_node scenes_node = world_node.child("Scenes");
 		for (pugi::xml_node scene_node = scenes_node.first_child(); scene_node; scene_node = scene_node.next_sibling())
 		{
-			std::string scene_name = scenes_node.attribute("scene_name").as_string();
+			std::string scene_name = scenes_node.attribute("name").as_string();
 			TBaluScene* scene = new TBaluScene(scene_name.c_str(), this);
 			scene->Load(scene_node, version, this);
 			world_objects[(int)TWorldObjectType::Scene][scene->GetName()].reset(scene);

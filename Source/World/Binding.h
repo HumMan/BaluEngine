@@ -16,9 +16,9 @@ void PropertyType_register(TClassRegistryParams& params)
 static bool PropertyType_registered = TScriptClassesRegistry::RegisterEnum("PropertyType", PropertyType_register);
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IProperties, "IProperties");
-MUnpackRA2(WrapValue<bool>, WrapInterface<IProperties>, HasProperty, TStringWrapper<std::string _COMMA const std::string&>, WrapValue<PropertyType _COMMA PropertyType&>);
-MUnpackRA1(WrapValue<bool>, WrapInterface<IProperties>, GetBool, TStringWrapper<std::string _COMMA const std::string&>);
-MUnpackA2(WrapInterface<IProperties>, SetBool, TStringWrapper<std::string _COMMA const std::string&>, WrapValue<bool>);
+MUnpackRA2(WrapValue<bool>, WrapInterface<IProperties>, HasProperty, WrapString, WrapValue<PropertyType _COMMA PropertyType&>);
+MUnpackRA1(WrapValue<bool>, WrapInterface<IProperties>, GetBool, WrapString);
+MUnpackA2(WrapInterface<IProperties>, SetBool, WrapString, WrapValue<bool>);
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 void TMouseButton_register(TClassRegistryParams& params)
@@ -62,15 +62,15 @@ MUnpackRA2(WrapInterface<IComposerStage>, WrapInterface<IComposer>, AddToRender,
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IDirector, "IDirector");
-MUnpackRA0(WrapPointer<IBaluWorldInstance>, WrapInterface<IDirector>, GetWorldInstance);
+MUnpackRA0(WrapInterface<IBaluWorldInstance>, WrapInterface<IDirector>, GetWorldInstance);
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorld, "IBaluWorld");
-MUnpackRA1(WrapPointer<IBaluScene>, WrapInterface<IBaluWorld>, GetScene, WrapValue<string>);
+MUnpackRA1(WrapInterface<IBaluScene>, WrapInterface<IBaluWorld>, GetScene, WrapString);
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorldInstance, "IWorldInstance");
-MUnpackRA1(WrapPointer<IBaluSceneInstance>, WrapInterface<IBaluWorldInstance>, GetSceneInstance, WrapValue<int>);
-MUnpackRA1(WrapPointer<IBaluSceneInstance>, WrapInterface<IBaluWorldInstance>, RunScene, WrapInterface<IBaluScene>);
-MUnpackRA0(WrapPointer<IBaluWorld>, WrapInterface<IBaluWorldInstance>, GetSource);
+MUnpackRA1(WrapInterface<IBaluSceneInstance>, WrapInterface<IBaluWorldInstance>, GetSceneInstance, WrapValue<int>);
+MUnpackRA1(WrapInterface<IBaluSceneInstance>, WrapInterface<IBaluWorldInstance>, RunScene, WrapInterface<IBaluScene>);
+MUnpackRA0(WrapInterface<IBaluWorld>, WrapInterface<IBaluWorldInstance>, GetSource);
 BALU_ENGINE_SCRIPT_END_CLASS;

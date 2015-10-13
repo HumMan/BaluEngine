@@ -144,7 +144,7 @@ void TSkeletonAnimationInstance::Update(float step)
 	}
 }
 
-void TSkeletonAnimationInstance::PlayAnimation(std::string name, float alpha)
+void TSkeletonAnimationInstance::PlayAnimation(const std::string& name, float alpha)
 {
 	for (int i = 0; i < animations.size(); i++)
 	{
@@ -158,7 +158,7 @@ void TSkeletonAnimationInstance::PlayAnimation(std::string name, float alpha)
 	}
 }
 
-void TSkeletonAnimationInstance::StopAnimation(std::string name)
+void TSkeletonAnimationInstance::StopAnimation(const std::string& name)
 {
 	for (int i = 0; i < animations.size(); i++)
 	{

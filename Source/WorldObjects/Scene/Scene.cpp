@@ -15,7 +15,7 @@ TVec2 EngineInterface::IBaluScene::FromSceneToViewport(EngineInterface::IViewpor
 	return ((scene_coord - viewport->GetAABB().GetPosition()) / viewport->GetAABB().GetSize())+TVec2(0.5,0.5);
 }
 
-TViewport* TBaluScene::CreateViewport(std::string name)
+TViewport* TBaluScene::CreateViewport(const std::string& name)
 {
 	auto it = viewports.find(name);
 	if(it != viewports.end())
@@ -33,7 +33,7 @@ IProperties* TBaluScene::GetProperties()
 	return &properties;
 }
 
-TViewport* TBaluScene::FindViewport(std::string name)
+TViewport* TBaluScene::FindViewport(const std::string& name)
 {
 	auto it = viewports.find(name);
 	if (it == viewports.end())

@@ -168,11 +168,22 @@ IBaluScene* TBaluWorld::CreateScene(const char* name)
 	return dynamic_cast<IBaluScene*>(CreateObject(TWorldObjectType::Scene, name));
 }
 
-IBaluScene* TBaluWorld::GetScene(std::string name)
+IBaluScene* TBaluWorld::GetScene(const std::string& name)
 {
 	return dynamic_cast<IBaluScene*>(GetObjectByName(TWorldObjectType::Scene, name.c_str()));
 }
-
+IBaluMaterial* TBaluWorld::GetMaterial(const std::string& name)
+{
+	return dynamic_cast<IBaluMaterial*>(GetObjectByName(TWorldObjectType::Material, name.c_str()));
+}
+IBaluSprite* TBaluWorld::GetSprite(const std::string& name)
+{
+	return dynamic_cast<IBaluSprite*>(GetObjectByName(TWorldObjectType::Sprite, name.c_str()));
+}
+IBaluClass* TBaluWorld::GetClass(const std::string& name)
+{
+	return dynamic_cast<IBaluClass*>(GetObjectByName(TWorldObjectType::Class, name.c_str()));
+}
 void TBaluWorld::AddOnWorldStart(TScript callback)
 {
 	on_start_world_callback.push_back(callback);
@@ -203,7 +214,7 @@ void TBaluWorld::RemoveOnViewportResize(int index)
 	viewport_resize_callback.erase(viewport_resize_callback.begin() + index);
 }
 
-void TBaluWorld::SaveToXML(std::string path)
+void TBaluWorld::SaveToXML(const std::string& path)
 {
 	setlocale(LC_ALL, "C");
 	xml_document doc;
@@ -212,7 +223,7 @@ void TBaluWorld::SaveToXML(std::string path)
 	doc.save_file(pugi::as_wide(path.c_str()).c_str());
 }
 
-void TBaluWorld::LoadFromXML(std::string path)
+void TBaluWorld::LoadFromXML(const std::string& path)
 {
 	setlocale(LC_ALL, "C");
 	xml_document doc;

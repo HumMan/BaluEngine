@@ -20,18 +20,14 @@ namespace Editor
 		{
 			this->editor = editor;
 		}
-		void OnObjectCreate(TWorldObjectType type,std::string name)
+		void OnObjectCreate(TWorldObjectType type, const std::string& name)
 		{
 			editor->ObjectCreatedHandler(editor, (int)type, Converters::ToClrString(name));
 		}
-		void OnObjectDestroy(TWorldObjectType type, std::string name)
+		void OnObjectDestroy(TWorldObjectType type, const std::string& name)
 		{
 			editor->ObjectDestroyedHandler(editor, (int)type, Converters::ToClrString(name));
 		}
-		void OnObjectChange(TWorldObjectType type, std::string name){}
-		void OnSubObjectCreate(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
-		void OnSubObjectDestroy(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
-		void OnSubObjectChange(TWorldObjectType obj_type, std::string name, TWorldObjectSubType sub_obj_type, int sub_obj_index){}
 	};
 
 	class TWorldTreeEditorPrivate

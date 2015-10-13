@@ -114,7 +114,7 @@ std::string GenerateUnpackConstructorMacro(int params_count)
 	for (int i = 0; i < params_count; i++)
 	{
 		std::string param_wrapper = "param" + IntToStr(i) + "_wrapper";
-		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::PassInMethodAs\\\n";
+		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::CppType\\\n";
 	}
 	result += ">));\n";
 
@@ -153,7 +153,7 @@ std::string GenerateUnpackMacro(int params_count, bool have_result, bool const_m
 
 	if (have_result)
 	{	
-		result += "<ret_wrapper, ret_wrapper::PassInMethodAs, interface_wrapper\\\n";
+		result += "<ret_wrapper, ret_wrapper::CppType, interface_wrapper\\\n";
 	}
 	else
 	{
@@ -163,7 +163,7 @@ std::string GenerateUnpackMacro(int params_count, bool have_result, bool const_m
 	for (int i = 0; i < params_count; i++)
 	{
 		std::string param_wrapper = "param" + IntToStr(i) + "_wrapper";
-		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::PassInMethodAs\\\n";
+		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::CppType\\\n";
 	}
 	result += ", &interface_wrapper::InterfaceType::method_name>));\n";
 
@@ -342,7 +342,7 @@ std::string GenerateTemplateConstructorClass(int params_count)
 
 	for (int i = 0; i < params_count; i++)
 	{
-		result += "			(*run_context.formal_params)[" + IntToStr(i) + "].get_as<Ta" + IntToStr(i) + ">().GetCppValue()"
+		result += "			(*run_context.formal_params)[" + IntToStr(i) + "].get_as<Ta" + IntToStr(i) + ">().ToCppValue()"
 			+ ((i < params_count - 1) ? ", \n" : "\n");;
 	}
 	result +=
@@ -407,7 +407,7 @@ std::string GenerateTemplateClass(int params_count, bool have_return, bool const
 	if (have_return)
 	{
 		result +=
-			"		run_context.result->get_as<Tresult_type>() = Tresult_type(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)\n"
+			"		run_context.result->get_as<Tresult_type>().FromCppValue(((run_context.object->get_as<Tobject_type>().GetInterface()).*CppMethod)\n"
 			"		(\n";
 	}
 	else
@@ -418,7 +418,7 @@ std::string GenerateTemplateClass(int params_count, bool have_return, bool const
 	}
 	for (int i = 0; i < params_count; i++)
 	{
-		result += "			(*run_context.formal_params)[" + IntToStr(i) + "].get_as<Ta" + IntToStr(i) + ">().GetCppValue()"
+		result += "			(*run_context.formal_params)[" + IntToStr(i) + "].get_as<Ta" + IntToStr(i) + ">().ToCppValue()"
 			+ ((i < params_count - 1) ? ", \n" : "\n");;
 	}
 	result +=

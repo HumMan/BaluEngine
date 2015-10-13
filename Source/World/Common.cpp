@@ -11,7 +11,7 @@
 
 using namespace EngineInterface;
 
-void TBaluWorldObject::SetName(std::string name)
+void TBaluWorldObject::SetName(const std::string& name)
 {
 	assert(!world->ObjectNameExists(TWorldObjectType::Material, name.c_str()));
 	this->name = name;

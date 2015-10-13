@@ -134,8 +134,8 @@ namespace EngineInterface
 
 		virtual TLayersManager* GetLayers() = 0;
 
-		virtual IViewport* CreateViewport(std::string name)=0;
-		virtual IViewport* FindViewport(std::string name)=0;
+		virtual IViewport* CreateViewport(const std::string& name) = 0;
+		virtual IViewport* FindViewport(const std::string& name) = 0;
 
 		virtual int GetInstancesCount() = 0;
 		virtual TSceneObject* GetInstance(int index) = 0;
@@ -149,7 +149,6 @@ namespace EngineInterface
 	{
 	private:
 		std::vector<std::unique_ptr<TSceneObject>> instances;
-		std::string scene_name;
 
 		std::map<std::string, TViewport> viewports;
 
@@ -165,8 +164,8 @@ namespace EngineInterface
 		TBaluScene(const char* name, TBaluWorld* world);
 		IProperties* GetProperties();
 
-		TViewport* CreateViewport(std::string name);
-		TViewport* FindViewport(std::string name);
+		TViewport* CreateViewport(const std::string& name);
+		TViewport* FindViewport(const std::string& name);
 
 		int GetInstancesCount();
 		TSceneObject* GetInstance(int index);

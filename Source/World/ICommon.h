@@ -283,7 +283,7 @@ namespace EngineInterface
 	public:
 		virtual IProperties* GetProperties()=0;
 		virtual std::string GetName()=0;
-		virtual void SetName(std::string name)=0;
+		virtual void SetName(const std::string& name) = 0;
 		virtual IBaluWorld* GetWorld()=0;
 		virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance) = 0;
 		virtual void Save(pugi::xml_node& parent_node, const int version)=0;
@@ -307,7 +307,7 @@ namespace EngineInterface
 		TBaluWorldObject(IBaluWorld* world, std::string name);
 		IProperties* GetProperties();
 		std::string GetName();
-		void SetName(std::string name);
+		void SetName(const std::string& name);
 		IBaluWorld* GetWorld();
 	};
 

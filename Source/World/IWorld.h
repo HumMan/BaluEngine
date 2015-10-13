@@ -22,8 +22,8 @@ namespace EngineInterface
 	class TBaluWorldChangeListener
 	{
 	public:
-		virtual void OnObjectCreate(TWorldObjectType type, std::string name) = 0;
-		virtual void OnObjectDestroy(TWorldObjectType type, std::string name){}
+		virtual void OnObjectCreate(TWorldObjectType type, const std::string& name) = 0;
+		virtual void OnObjectDestroy(TWorldObjectType type, const std::string& name){}
 	};
 
 	class IBaluWorld
@@ -59,7 +59,10 @@ namespace EngineInterface
 		virtual IBaluClass* CreateClass(const char* name) = 0;
 		virtual IBaluScene* CreateScene(const char* name)=0;
 
-		virtual IBaluScene* GetScene(std::string name) = 0;
+		virtual IBaluScene* GetScene(const std::string& name) = 0;
+		virtual IBaluMaterial* GetMaterial(const std::string& name) = 0;
+		virtual IBaluSprite* GetSprite(const std::string& name) = 0;
+		virtual IBaluClass* GetClass(const std::string& name) = 0;
 
 		virtual void AddOnViewportResize(TScript callback) = 0;
 		virtual std::vector<TScript>& GetOnViewportResize() = 0;
@@ -69,8 +72,8 @@ namespace EngineInterface
 		virtual void RemoveOnMouseUp(int index) = 0;
 		virtual void RemoveOnMouseMove(int index) = 0;
 
-		virtual void SaveToXML(std::string path) = 0;
-		virtual void LoadFromXML(std::string path) = 0;
+		virtual void SaveToXML(const std::string& path) = 0;
+		virtual void LoadFromXML(const std::string& path) = 0;
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
@@ -78,12 +81,12 @@ namespace EngineInterface
 	{
 		std::vector<TBaluWorldChangeListener*> listeners;
 	public:
-		void OnObjectCreate(TWorldObjectType type, std::string name)
+		void OnObjectCreate(TWorldObjectType type, const std::string& name)
 		{
 			for (auto v : listeners)
 				v->OnObjectCreate(type, name);
 		}
-		void OnObjectDestroy(TWorldObjectType type, std::string name)
+		void OnObjectDestroy(TWorldObjectType type, const std::string& name)
 		{
 			for (auto v : listeners)
 				v->OnObjectDestroy(type, name);
@@ -173,7 +176,10 @@ namespace EngineInterface
 		IBaluClass* CreateClass(const char* name);
 		IBaluScene* CreateScene(const char* name);
 
-		IBaluScene* GetScene(std::string name);
+		IBaluScene* GetScene(const std::string& name);
+		IBaluMaterial* GetMaterial(const std::string& name);
+		IBaluSprite* GetSprite(const std::string& name);
+		IBaluClass* GetClass(const std::string& name);
 
 		void AddOnWorldStart(TScript callback);
 		std::vector<TScript>& GetOnWorldStart();
@@ -183,8 +189,8 @@ namespace EngineInterface
 		std::vector<TScript>& GetOnViewportResize();
 		void RemoveOnViewportResize(int index);
 
-		void SaveToXML(std::string path);
-		void LoadFromXML(std::string path);
+		void SaveToXML(const std::string& path);
+		void LoadFromXML(const std::string& path);
 
 		void SaveToXML(pugi::xml_node& parent_node, const int version);
 		void LoadFromXML(const pugi::xml_node& document_node, const int version);

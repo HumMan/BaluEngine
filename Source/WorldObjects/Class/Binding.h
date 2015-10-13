@@ -23,14 +23,14 @@ MUnpackA1(TYPE, SetLinearVelocity, WrapValue<TVec2>);
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, ISkeletonAnimationInstance, "ISkeletonAnimationInstance");
-MUnpackA2(TYPE, PlayAnimation, TStringWrapper<std::string>, WrapValue<float>);
-MUnpackA1(TYPE, StopAnimation, TStringWrapper<std::string>);
+MUnpackA2(TYPE, PlayAnimation, WrapString, WrapValue<float>);
+MUnpackA1(TYPE, StopAnimation, WrapString);
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluInstance, "IInstance");
 MUnpackA1(TYPE, SetScale, WrapValue<TVec2>);
-MUnpackRA0(WrapPointer<IProperties>, TYPE, GetProperties);
-MUnpackRA0(WrapPointer<IBaluClassPhysBodyIntance>, TYPE, GetPhysBody);
-MUnpackRA1(WrapPointer<IBaluClassInstanceSpriteInstance>, TYPE, GetSprite, WrapValue<int>);
-MUnpackRA0(WrapPointer<ISkeletonAnimationInstance>, TYPE, GetSkeletonAnimation);
+MUnpackRA0(WrapInterface<IProperties>, TYPE, GetProperties);
+MUnpackRA0(WrapInterface<IBaluClassPhysBodyIntance>, TYPE, GetPhysBody);
+MUnpackRA1(WrapInterface<IBaluClassInstanceSpriteInstance>, TYPE, GetSprite, WrapValue<int>);
+MUnpackRA0(WrapInterface<ISkeletonAnimationInstance>, TYPE, GetSkeletonAnimation);
 BALU_ENGINE_SCRIPT_END_CLASS;

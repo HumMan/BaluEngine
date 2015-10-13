@@ -53,8 +53,8 @@ namespace EngineInterface
 	{
 	public:
 		virtual void Update(float step) = 0;
-		virtual void PlayAnimation(std::string name, float alpha) = 0;
-		virtual void StopAnimation(std::string name) = 0;
+		virtual void PlayAnimation(const std::string& name, float alpha) = 0;
+		virtual void StopAnimation(const std::string& name) = 0;
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
@@ -108,8 +108,8 @@ namespace EngineInterface
 		TSkeletonAnimationInstance(TSkeletonInstance* skeleton, TSkeletonAnimation* source);
 		void Init();
 		void Update(float step);
-		void PlayAnimation(std::string name, float alpha);
-		void StopAnimation(std::string name);
+		void PlayAnimation(const std::string& name, float alpha);
+		void StopAnimation(const std::string& name);
 };
 #endif
 
