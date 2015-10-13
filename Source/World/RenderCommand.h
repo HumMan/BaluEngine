@@ -1,13 +1,9 @@
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
 #include <baluLib.h>
 using namespace BaluLib;
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #include <World/ICallbacks.h>
-#endif
 
 namespace EngineInterface
 {
@@ -19,7 +15,6 @@ namespace EngineInterface
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	struct TRenderCommand
 	{
 	public:
@@ -44,9 +39,7 @@ namespace EngineInterface
 			this->colors = colors;
 		}
 	};
-#endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TView
 	{
 		//TODO заменить на матрицу ориентации и масштабирование
@@ -74,9 +67,7 @@ namespace EngineInterface
 			return size;
 		}
 	};
-#endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TScreen
 	{
 	public:
@@ -135,18 +126,12 @@ namespace EngineInterface
 				);
 		}
 	};
-#endif
 
 	//TODO в дальнейшем вся информация для рендера должна находиться полностью здесь, для возможности параллельной отрисовки
 
-	
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-#ifndef BALU_ENGINE_DLL_INTERFACES
 	class IGUIVisual
 	{
 	public:
 		virtual void Render(TDrawingHelper* helper)const = 0;
 	};
-#endif
-#endif
 }

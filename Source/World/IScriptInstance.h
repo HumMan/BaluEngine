@@ -1,18 +1,13 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES) && !defined(BALU_ENGINE_DLL_INTERFACES)
 #include "IWorld.h"
 #include "ICommon.h"
 #include "ICallbacks.h"
-#endif
 
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
 	class IBaluScriptInstance
 	{
 	public:
@@ -24,6 +19,7 @@ namespace EngineInterface
 	class IBaluInstance;
 	class IBaluPhysShapeInstance;
 
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluScriptInstance : public IBaluScriptInstance
 	{
 	private:
@@ -54,11 +50,9 @@ namespace EngineInterface
 	};
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	BALUENGINEDLL_API bool CompileScripts(IBaluWorld* source, IBaluScriptInstance* script_instance, std::vector<std::string>& errors_list);
 	BALUENGINEDLL_API IBaluScriptInstance* CreateScriptInstance(std::string assets_dir, TScriptActiveType script_type_to_run);
 	BALUENGINEDLL_API void DestroyScriptInstance(IBaluScriptInstance* instance);
-#endif
 
 }
 

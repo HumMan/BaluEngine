@@ -1,14 +1,8 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include "IResources.h"
 #include "IWorldInstance.h"
 #include <World\Render.h>
-#endif
 
 namespace EngineInterface
 {
@@ -20,7 +14,6 @@ namespace EngineInterface
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IDirector
 	{
 	public:
@@ -49,7 +42,7 @@ namespace EngineInterface
 		BALUENGINEDLL_API static void DestroyDirector(IDirector* director);
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TGameInternal;
 	class TBaluWorldInstance;
 
@@ -92,13 +85,6 @@ namespace EngineInterface
 		void Render();
 		void SetViewport(TVec2i use_size);
 };
-#endif
-#endif
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IDirector, "IDirector");
-	MUnpackRA0(WrapPointer<IBaluWorldInstance>, WrapInterface<IDirector>, GetWorldInstance);
-	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 }

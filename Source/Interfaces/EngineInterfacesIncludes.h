@@ -10,7 +10,8 @@
 #include "../World/IDirector.h"
 
 #include "../World/IWorld.h"
-#include "../WorldObjects/InterfacesIncludes.h"
+
+#include "../WorldObjects/InterfaceIncludes.h"
 
 #include "../World/IWorldInstance.h"
 #include "../World/IScriptInstance.h"

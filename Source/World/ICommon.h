@@ -1,14 +1,12 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include <baluLib.h>
 #include <string>
 #include "IProperties.h"
 using namespace BaluLib;
+
+#define REGISTER_FACTORY_CLASS(factory_name,class_name)\
+	static bool class_name##_registered = factory_name::Register(class_name::FactoryName(), class_name::Clone);
 
 namespace pugi
 {
@@ -21,35 +19,17 @@ namespace EngineInterface
 	class TView;
 	class TBaluWorld;
 }
-#endif
 
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	enum class TMouseButton
 	{
 		Left,
 		Right,
 		Middle
 	};
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	void TMouseButton_register(TClassRegistryParams& params)
-	{
-		auto scl = RegisterEnum(params,
-			"enum TMouseButton\n"
-			"{\n"
-			"	Left,\n"
-			"	Right,\n"
-			"	Middle,\n"
-			"}\n");
-	}
-	static bool TMouseButton_registered = TScriptClassesRegistry::RegisterEnum("TMouseButton", TMouseButton_register);
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TMouseEventArgs
 	{
 	public:
@@ -62,14 +42,7 @@ namespace EngineInterface
 			this->location = location;
 		}
 	};
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, TMouseEventArgs, "TMouseEventArgs");
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	struct TRot
 	{
 		TRot() {}
@@ -111,18 +84,7 @@ namespace EngineInterface
 		}
 		float s, c;
 	};
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES	
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapValue, TRot, "TRot");
-	MUnpackA1(TYPE, Set, WrapValue<float>);
-	MUnpackA0(TYPE, SetIdentity);
-	MUnpackCRA0(WrapValue<float>, TYPE, GetAngle);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TBaluTransform
 	{
 	public:
@@ -171,15 +133,7 @@ namespace EngineInterface
 			return this->ToGlobal((vertex).ComponentMul(scale));
 		}
 	};
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES	
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapValue, TBaluTransform, "TTransform");
-	MUnpackRA2(WrapValue<TVec2>, TYPE, Transform, WrapValue<TVec2>, WrapValue<TVec2>);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TBaluTransformWithScale
 	{
 	public:
@@ -226,9 +180,7 @@ namespace EngineInterface
 			return transform.ToGlobal(box);
 		}
 	};
-#endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IViewport
 	{
 	public:
@@ -240,16 +192,7 @@ namespace EngineInterface
 		virtual void SetSize(TVec2 size) = 0;
 		virtual TVec2 GetSize() = 0;
 	};
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES	
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IViewport, "IViewport");
-	MUnpackA1(TYPE, SetSize, WrapValue<TVec2>);
-	MUnpackRA0(WrapValue<TVec2>, TYPE, GetSize);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	struct TDrawingHelperContext
 	{
 		TScreen* screen;
@@ -264,9 +207,7 @@ namespace EngineInterface
 		TVec2 FromScreenPixelsToScene(TVec2i screen_pixels);
 		TVec2i FromSceneToScreenPixels(TVec2 scene_coordinates);
 	};
-#endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TBaluWorld;
 	class TSceneObject
 	{
@@ -284,7 +225,7 @@ namespace EngineInterface
 		}
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	typedef TSceneObject*(*SceneObjectClone)();
 	class SceneObjectFactory
 	{
@@ -298,9 +239,7 @@ namespace EngineInterface
 	public:
 	};
 #endif
-#endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	enum class TWorldObjectType
 	{
 		Material,
@@ -334,9 +273,6 @@ namespace EngineInterface
 			return values[(int)index];
 		}
 	};
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	
 	class IBaluWorld;
 	class IProperties;
@@ -356,7 +292,7 @@ namespace EngineInterface
 
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 
 	class IProperties;
 	class IAbstractEditor;
@@ -377,14 +313,7 @@ namespace EngineInterface
 	};
 
 #endif
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorldObject, "TBaluWorldObject");
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IChangeListener
 	{
 	public:
@@ -394,7 +323,7 @@ namespace EngineInterface
 		virtual void BeforeDelete() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TChangeListenerArray
 	{
 	private:
@@ -418,10 +347,6 @@ namespace EngineInterface
 		}
 	};
 #endif
-#endif
-
-#define REGISTER_FACTORY_CLASS(factory_name,class_name)\
-	static bool class_name##_registered = factory_name::Register(class_name::FactoryName(), class_name::Clone);
 
 }
 

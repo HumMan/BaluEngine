@@ -1,22 +1,14 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
 #include <World\Layers.h>
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include "../Class/IClass.h"
-
 #include "../../BaluLib/Source/BVolumes/AABB.h"
-
 #include <Interfaces\exportMacro.h>
-#endif
 
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSceneClassInstance
 	{
 	public:
@@ -28,7 +20,7 @@ namespace EngineInterface
 		virtual IBaluClass* GetClass() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluSceneClassInstance : public IBaluSceneClassInstance, public TSceneObject
 	{
 		TBaluClass* balu_class;
@@ -85,9 +77,6 @@ namespace EngineInterface
 		//static bool TBaluSceneClassInstance_registered = SceneObjectFactory::Register(TBaluSceneClassInstance::FactoryName(), TBaluSceneClassInstance::Clone);
 
 #endif
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 	class TViewport : public IViewport
 	{
@@ -155,7 +144,7 @@ namespace EngineInterface
 		virtual void DestroyInstance(TSceneObject* instance) = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluScene : public IBaluScene, public TBaluWorldObject
 	{
 	private:
@@ -192,13 +181,6 @@ namespace EngineInterface
 
 		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
 };
-#endif
-#endif
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES	
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluScene, "IScene");
-	MUnpackRA1(WrapPointer<IViewport>, TYPE, FindViewport, TString);
-	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 }

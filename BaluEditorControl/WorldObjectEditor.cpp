@@ -77,16 +77,12 @@ namespace Editor
 
 	void TWorldObjectEditor::Render()
 	{
-		try
+		if (p != nullptr)
 		{
 			p->director->Step(0.01);
 			p->director->BeginFrame();
 			p->director->Render();
 			p->director->EndFrame();
-		}
-		catch (std::exception)
-		{
-
 		}
 	}
 
@@ -125,6 +121,7 @@ namespace Editor
 		p->world = nullptr;
 		director = nullptr;
 		delete p;
+		p = nullptr;
 	}
 	void TWorldObjectEditor::Resize(int width, int height)
 	{

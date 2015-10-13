@@ -1,20 +1,14 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
 #include <World\Layers.h>
-
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 
 #include <World/RenderCommand.h>
 #include "IScene.h"
 #include "../Class/IClassInstance.h"
 #include "../Material/IMaterialInstance.h"
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 #include "Utils/DebugDraw.h"
-#endif
 #endif
 
 namespace EngineInterface
@@ -27,7 +21,6 @@ namespace EngineInterface
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSceneInstance
 	{
 	public:
@@ -41,7 +34,7 @@ namespace EngineInterface
 		virtual void DestroyInstance(TSceneObjectInstance*) = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	struct TCollisionInfo
 	{
 		b2Fixture *A, *B;
@@ -188,13 +181,6 @@ namespace EngineInterface
 
 		void DebugDraw(TDrawingHelperContext drawing_context);
 };
-#endif
-#endif
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES	
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSceneInstance, "ISceneInstance");
-	MUnpackRA0(WrapPointer<IBaluScene>, TYPE, GetSource);
-	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 }

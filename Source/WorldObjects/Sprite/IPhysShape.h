@@ -1,13 +1,9 @@
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include <World\ICommon.h>
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 #include <Box2D.h>
-#endif
 #endif
 
 #include "../../Interfaces/ExportMacro.h"
@@ -15,7 +11,6 @@
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluPhysShape
 	{
 	public:
@@ -24,7 +19,7 @@ namespace EngineInterface
 		virtual ~IBaluPhysShape(){};
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluPhysShape: public IBaluPhysShape
 	{
 	protected:
@@ -68,23 +63,13 @@ namespace EngineInterface
 	};
 #endif
 
-#endif
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluPhysShape, "IPhysShape");
-	MUnpackA1(TYPE, SetIsSensor, WrapValue<bool>);
-	MUnpackRA0(WrapValue<bool>, TYPE, IsSensor);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluPolygonShape
 	{
 	public:
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluPolygonShape : public TBaluPhysShape, public IBaluPolygonShape
 	{
 	protected:
@@ -105,16 +90,13 @@ namespace EngineInterface
 	static bool TBaluPolygonShape_registered = PhysShapeFactory::Register("PolygonShape", TBaluPolygonShape::Clone);
 #endif
 
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluCircleShape
 	{
 	public:
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluCircleShape : public TBaluPhysShape, public IBaluCircleShape
 	{
 	private:
@@ -137,16 +119,13 @@ namespace EngineInterface
 	static bool TBaluCircleShape_registered = PhysShapeFactory::Register("CircleShape", TBaluCircleShape::Clone);
 #endif
 
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluBoxShape
 	{
 	public:
 		virtual IBaluPhysShape* GetPhysShape() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluBoxShape : public TBaluPolygonShape, public IBaluBoxShape
 	{
 		float width, height;
@@ -167,9 +146,6 @@ namespace EngineInterface
 	static bool TBaluBoxShape_registered = PhysShapeFactory::Register("BoxShape", TBaluBoxShape::Clone);
 #endif
 
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluPhysShapeFactory
 	{
 	public:
@@ -179,7 +155,7 @@ namespace EngineInterface
 		virtual IBaluBoxShape* CreateBoxShape(float width, float height) = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluPhysShapeFactory : public IBaluPhysShapeFactory
 	{
 	public:
@@ -190,14 +166,6 @@ namespace EngineInterface
 	};
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	BALUENGINEDLL_API IBaluPhysShapeFactory* GetPhysShapeFactory();
-#endif
-
-#ifndef BALU_ENGINE_DLL_INTERFACES
-
-#endif
-
-#endif
 
 }

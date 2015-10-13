@@ -1,15 +1,10 @@
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include <World/ICommon.h>
-#endif
 
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluMaterial: public virtual IBaluWorldObject
 	{
 	public:
@@ -22,7 +17,7 @@ namespace EngineInterface
 		virtual void SetColor(TVec4 color) = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluMaterial :
 		public TBaluWorldObject,
 		public IBaluMaterial,
@@ -111,10 +106,7 @@ namespace EngineInterface
 			return world;
 		}
 
-#ifdef BALUENGINE_DESIGN_TIME
 		TBaluMaterial(std::string material_name, TBaluWorld* world);
-#endif
-
 		void SetBlendMode(TTransparentMode mode);
 		void SetAlphaTestValue(float alpha_test_value);
 
@@ -130,7 +122,6 @@ namespace EngineInterface
 
 		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
 	};
-#endif
 #endif
 
 }

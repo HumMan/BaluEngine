@@ -1,13 +1,8 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
 #include <memory>
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include "RenderCommand.h"
-#endif
 
 namespace EngineInterface
 {
@@ -17,13 +12,12 @@ namespace EngineInterface
 	class TComposerPrivate;
 	class TRender;
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IComposerStage
 	{
 	public:
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TComposerStage : public IComposerStage
 	{
 		friend class TComposer;
@@ -39,15 +33,7 @@ namespace EngineInterface
 		void MoveBackward();
 	};
 #endif
-#endif
 
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IComposerStage, "IComposerStage");
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IComposer
 	{
 	public:
@@ -55,7 +41,7 @@ namespace EngineInterface
 		virtual void RemoveFromRender(IComposerStage* stage)=0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	
 
 	class TComposer: public IComposer
@@ -70,13 +56,6 @@ namespace EngineInterface
 		void Render(TRender* render);
 		~TComposer();
 };
-#endif
-#endif
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IComposer, "IComposer");
-	MUnpackRA2(WrapInterface<IComposerStage>, WrapInterface<IComposer>, AddToRender, WrapInterface<IBaluSceneInstance>, WrapInterface<IViewport>);
-	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 }
 

@@ -1,13 +1,8 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include <World\IResources.h>
 #include <baluLib.h>
 #include <World/ICommon.h>
-#endif
 
 using namespace BaluLib;
 
@@ -16,8 +11,7 @@ namespace EngineInterface
 	class TBaluSceneInstance;
 	class TBaluSpritePolygonInstance;
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TSceneObjectInstance
 	{
 	public:
@@ -45,11 +39,13 @@ namespace EngineInterface
 		static TSceneObjectInstance* Create(const char* name, TSceneObject* param, TBaluSceneInstance* scene);
 	};
 #endif
+
 	class IBaluMaterialInstance
 	{
 	public:
 	};
-#ifndef BALU_ENGINE_DLL_INTERFACES
+
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluMaterial;
 	class TMaterialInstance
 	{
@@ -59,7 +55,6 @@ namespace EngineInterface
 		TMaterialInstance(TBaluMaterial* source, TResources* resources);
 		TBaluTexture GetTexture();
 	};
-#endif
 #endif
 
 }

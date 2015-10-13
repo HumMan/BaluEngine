@@ -1,14 +1,8 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include "ICallbacks.h"
 #include "ICommon.h"
 #include "Interfaces\ExportMacro.h"
-#endif
 
 namespace EngineInterface
 {
@@ -25,8 +19,6 @@ namespace EngineInterface
 
 namespace EngineInterface
 {
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 
 	class IBaluWorld
 	{
@@ -70,7 +62,7 @@ namespace EngineInterface
 		virtual void LoadFromXML(std::string path) = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluWorld : public IBaluWorld
 	{
 	private:
@@ -146,16 +138,8 @@ namespace EngineInterface
 		void LoadFromXML(const pugi::xml_node& document_node, const int version);
 	};
 #endif
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorld, "IBaluWorld");
-	//MUnpackRA1(WrapPointer<IBaluScene>, WrapInterface<IBaluWorld>, GetScene, WrapValue<int>);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	BALUENGINEDLL_API IBaluWorld* CreateWorld();
 	BALUENGINEDLL_API void DestroyWorld(IBaluWorld* world);
-#endif
+
 }

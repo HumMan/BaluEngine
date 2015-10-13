@@ -1,25 +1,15 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "../Class/IAnimationFrames.h"
 #include "../Material/IMaterial.h"
 #include <World\RenderCommand.h>
-#endif
 
 #include "../../BaluLib/Source/Math/vec.h"
 #include <vector>
-#endif
 
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSpritePolygon
 	{
 	public:
@@ -56,7 +46,7 @@ namespace EngineInterface
 		virtual void SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top) = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluSpritePolygon: public IBaluSpritePolygon
 	{
 	private:
@@ -151,11 +141,5 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 };
 #endif
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSpritePolygon, "ISpritePolygon");
-	MUnpackA1(TYPE, SetScale, WrapValue<TVec2>);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
 }

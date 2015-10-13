@@ -1,7 +1,4 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
 #include <memory>
 #include <string>
@@ -14,7 +11,6 @@ namespace BaluRender
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IResources
 	{
 	public:
@@ -39,6 +35,5 @@ namespace EngineInterface
 		std::string GetAssetsDir();
 		~TResources();
 	};
-#endif
 
 }

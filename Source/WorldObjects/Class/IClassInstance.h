@@ -1,18 +1,12 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include "IClass.h"
 #include "../Sprite/ISpriteInstance.h"
 #include "../Material/IMaterialInstance.h"
-#endif
 
 namespace EngineInterface
 {
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
+
 	class IBaluClassPhysBodyIntance
 	{
 	public:
@@ -20,7 +14,7 @@ namespace EngineInterface
 		virtual void SetLinearVelocity(TVec2 velocity) = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluInstance;
 
 	class TBaluClassPhysBodyIntance : public IBaluClassPhysBodyIntance
@@ -54,17 +48,7 @@ namespace EngineInterface
 		void SetTransform(TBaluTransform transform);
 };
 #endif
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES	
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluClassPhysBodyIntance, "IClassPhysBodyInstance");
-	MUnpackRA0(WrapValue<TVec2>, TYPE, GetLinearVelocity);
-	MUnpackA1(TYPE, SetLinearVelocity, WrapValue<TVec2>);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class ISkeletonAnimationInstance
 	{
 	public:
@@ -73,7 +57,7 @@ namespace EngineInterface
 		virtual void StopAnimation(std::string name) = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBoneInstance;
 
 	class TTrackInstance
@@ -128,23 +112,14 @@ namespace EngineInterface
 		void StopAnimation(std::string name);
 };
 #endif
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES	
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, ISkeletonAnimationInstance, "ISkeletonAnimationInstance");
-	MUnpackA2(TYPE, PlayAnimation, TStringWrapper<std::string>, WrapValue<float>);
-	MUnpackA1(TYPE, StopAnimation, TStringWrapper<std::string>);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassInstance
 	{
 	public:
 		virtual IBaluClass* GetClass() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	struct TSpriteWithClassCollideInstance
 	{
 		IBaluSprite* sprite;
@@ -196,9 +171,7 @@ namespace EngineInterface
 		//void DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 	};
 #endif
-#endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassInstanceSpriteInstance;
 	class IBaluInstance
 	{
@@ -221,7 +194,7 @@ namespace EngineInterface
 		virtual void* GetTag() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBoneInstance
 	{
 	private:
@@ -343,17 +316,7 @@ namespace EngineInterface
 		static TSceneObjectInstance* Clone(TSceneObject* source, TBaluSceneInstance* scene);
 };
 
-	REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TBaluInstance)
-#endif
+	REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TBaluInstance);
 #endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluInstance, "IInstance");
-	MUnpackA1(TYPE, SetScale, WrapValue<TVec2>);
-	MUnpackRA0(WrapPointer<IProperties>, TYPE, GetProperties);
-	MUnpackRA0(WrapPointer<IBaluClassPhysBodyIntance>, TYPE, GetPhysBody);
-	MUnpackRA1(WrapPointer<IBaluClassInstanceSpriteInstance>, TYPE, GetSprite, WrapValue<int>);
-	MUnpackRA0(WrapPointer<ISkeletonAnimationInstance>, TYPE, GetSkeletonAnimation);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
 }

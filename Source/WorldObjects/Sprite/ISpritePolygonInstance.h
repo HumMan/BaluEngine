@@ -1,23 +1,12 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "ISpritePolygon.h"
 #include "../Material/IMaterialInstance.h"
 #include <World\Layers.h>
-#endif
-
-#endif
 
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluSpritePolygonInstance
 	{
 	public:
@@ -28,7 +17,7 @@ namespace EngineInterface
 		//virtual TBaluTransform GetGlobalTransform() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluSpritePolygonInstance: public IBaluSpritePolygonInstance
 	{
 	private:
@@ -75,13 +64,7 @@ namespace EngineInterface
 		TBaluSpritePolygon* GetSpritePolygon();
 
 		void SetActiveAnimation(std::string);
-};
-#endif
+	};
 #endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSpritePolygonInstance, "ISpritePolygonInstance");
-	MUnpackA1(TYPE, SetActiveAnimation, TString);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
 }

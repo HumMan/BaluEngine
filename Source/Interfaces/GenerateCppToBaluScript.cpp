@@ -11,10 +11,8 @@ namespace EngineInterface
 	DECL_SCRIPT_TYPE(string, "string");
 }
 
-#define BALU_ENGINE_DISABLE_PRAGMA_ONCE
-#define BALU_ENGINE_DLL_INTERFACES
 #include "EngineInterfacesIncludes.h"
-
-//generate script bindings
-#define BALU_ENGINE_SCRIPT_CLASSES
-#include "EngineInterfacesIncludes.h"
+namespace EngineInterface
+{
+#include "../WorldObjects/BindingIncludes.h"
+}

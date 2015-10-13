@@ -1,14 +1,8 @@
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 #pragma once
-#endif
 
 #include <Interfaces\ExportMacro.h>
 #include <baluLib.h>
 using namespace BaluLib;
-
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
-
-#endif
 
 class NVGcontext;
 class TSMethod;

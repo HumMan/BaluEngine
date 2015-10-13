@@ -1,18 +1,12 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
 #include "ISprite.h"
 #include "IPhysShapeInstance.h"
 #include "ISpritePolygonInstance.h"
-#endif
 
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassInstanceSpriteInstance
 	{
 	public:
@@ -31,7 +25,7 @@ namespace EngineInterface
 		virtual void* GetTag()=0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluPhysShapeInstance;
 	class TBaluInstance;
 
@@ -94,16 +88,6 @@ namespace EngineInterface
 
 		void UpdateTranform(TBaluTransformWithScale global);
 };
-#endif
-#endif
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluClassInstanceSpriteInstance, "IClassInstanceSpriteInstance");
-	MUnpackRA0(WrapPointer<IBaluClassSpriteInstance>,	TYPE, GetSource);
-	MUnpackRA0(WrapPointer<IBaluPhysShapeInstance>,		TYPE, GetPhysShape);
-	MUnpackRA0(WrapValue<TVec2>,						TYPE, GetScale);
-	MUnpackRA0(WrapPointer<IBaluSpritePolygonInstance>,	TYPE, GetPolygon);
-	BALU_ENGINE_SCRIPT_END_CLASS;
 #endif
 
 }

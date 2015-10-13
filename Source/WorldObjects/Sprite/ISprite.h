@@ -1,16 +1,8 @@
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
-
-#if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include "../../World/ICallbacks.h"
 #include "IPhysShape.h"
 #include "ISpritePolygon.h"
-#endif
 
 namespace EngineInterface
 {
@@ -19,13 +11,10 @@ namespace EngineInterface
 }
 
 #include <string>
-#endif
 
 namespace EngineInterface
 {
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-	class IBaluSprite: public virtual IBaluWorldObject
+	class IBaluSprite : public virtual IBaluWorldObject
 	{
 	public:
 		static std::string GetDefaultName()
@@ -38,7 +27,7 @@ namespace EngineInterface
 		virtual IBaluSpritePolygon* GetPolygon() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluSprite :public IBaluSprite, public TBaluWorldObject
 	{
 	private:
@@ -69,19 +58,9 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 
 		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
-};
-#endif
-#endif
-
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSprite, "ISprite");
-	MUnpackA1(TYPE, SetPhysShape, WrapInterface<IBaluPhysShape>);
-	MUnpackRA0(WrapPointer<IBaluPhysShape>, TYPE, GetPhysShape);
-	MUnpackRA0(WrapPointer<IBaluSpritePolygon>, TYPE, GetPolygon);
-	BALU_ENGINE_SCRIPT_END_CLASS;
+	};
 #endif
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class IBaluClassSpriteInstance
 	{
 	public:
@@ -92,7 +71,7 @@ namespace EngineInterface
 		virtual TVec2 GetScale() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluClassSpriteInstance : public IBaluClassSpriteInstance
 	{
 		TBaluSprite* sprite;
@@ -138,13 +117,7 @@ namespace EngineInterface
 		}
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-};
-#endif
+	};
 #endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluClassSpriteInstance, "IClassSpriteInstance");
-	MUnpackRA0(WrapPointer<IBaluSprite>, TYPE, GetSprite);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
 }

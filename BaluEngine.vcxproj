@@ -112,8 +112,10 @@
     <ClInclude Include="Source\Utils\polygon_decomp.h" />
     <ClInclude Include="Source\Utils\polygon_vertices.h" />
     <ClInclude Include="Source\Utils\texture_polygon.h" />
+    <ClInclude Include="Source\WorldObjects\BindingIncludes.h" />
     <ClInclude Include="Source\WorldObjects\BoxContour\BoxGui.h" />
     <ClInclude Include="Source\WorldObjects\BoxContour\BoxGuiInstance.h" />
+    <ClInclude Include="Source\WorldObjects\Class\Binding.h" />
     <ClInclude Include="Source\WorldObjects\Class\ClassEditor\classEditor.h" />
     <ClInclude Include="Source\WorldObjects\Class\ClassEditor\classEditorScene.h" />
     <ClInclude Include="Source\WorldObjects\Class\ClassEditor\classEditorTools.h" />
@@ -123,7 +125,9 @@
     <ClInclude Include="Source\WorldObjects\Class\Interface.h" />
     <ClInclude Include="Source\WorldObjects\EditableBox\OBBGui.h" />
     <ClInclude Include="Source\WorldObjects\EditableBox\OBBGuiInstance.h" />
+    <ClInclude Include="Source\WorldObjects\InterfaceIncludes.h" />
     <ClInclude Include="Source\WorldObjects\InterfacesIncludes.h" />
+    <ClInclude Include="Source\WorldObjects\Material\Binding.h" />
     <ClInclude Include="Source\WorldObjects\Material\IMaterial.h" />
     <ClInclude Include="Source\WorldObjects\Material\IMaterialInstance.h" />
     <ClInclude Include="Source\WorldObjects\Material\Interface.h" />
@@ -132,6 +136,7 @@
     <ClInclude Include="Source\WorldObjects\Material\MaterialEditor\materialEditorTools.h" />
     <ClInclude Include="Source\WorldObjects\PolygonLine\PolygonGui.h" />
     <ClInclude Include="Source\WorldObjects\PolygonLine\PolygonGuiInstance.h" />
+    <ClInclude Include="Source\WorldObjects\Scene\Binding.h" />
     <ClInclude Include="Source\WorldObjects\Scene\Interface.h" />
     <ClInclude Include="Source\WorldObjects\Scene\IScene.h" />
     <ClInclude Include="Source\WorldObjects\Scene\ISceneInstance.h" />
@@ -140,6 +145,7 @@
     <ClInclude Include="Source\WorldObjects\Scene\SceneEditor\sceneEditorTools.h" />
     <ClInclude Include="Source\WorldObjects\SimpleSprite\SpriteGui.h" />
     <ClInclude Include="Source\WorldObjects\SimpleSprite\SpriteGuiInstance.h" />
+    <ClInclude Include="Source\WorldObjects\Sprite\Binding.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\Interface.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\IPhysShape.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\IPhysShapeInstance.h" />
@@ -151,6 +157,7 @@
     <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorAdornments.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorScene.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorTools.h" />
+    <ClInclude Include="Source\World\Binding.h" />
     <ClInclude Include="Source\World\ICallbacks.h" />
     <ClInclude Include="Source\World\ICommon.h" />
     <ClInclude Include="Source\World\IComposer.h" />

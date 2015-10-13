@@ -1,19 +1,13 @@
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #pragma once
-#endif
 
 #include <World\Layers.h>
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
-
-#ifndef BALU_ENGINE_DISABLE_PRAGMA_ONCE
 #include <WorldObjects\Scene\IScene.h>
 #include <WorldObjects\Scene\ISceneInstance.h>
 #include "IWorld.h"
 #include "IComposer.h"
 #include "IDirector.h"
 #include "IScriptInstance.h"
-#endif
 
 namespace EngineInterface
 {
@@ -22,12 +16,10 @@ namespace EngineInterface
 	class IBaluWorld;
 	class TDirector;
 }
-#endif
 
 namespace EngineInterface
 {
 
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	class TMouseEventListener
 	{
 	public:
@@ -59,7 +51,7 @@ namespace EngineInterface
 		virtual IComposer* GetComposer() = 0;
 	};
 
-#ifndef BALU_ENGINE_DLL_INTERFACES
+#ifdef BALUENGINEDLL_EXPORTS
 	class TBaluWorldInstance : public IBaluWorldInstance
 	{
 	private:
@@ -145,22 +137,10 @@ namespace EngineInterface
 		}
 };
 #endif
-#endif
 
-#ifdef BALU_ENGINE_SCRIPT_CLASSES
-	BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorldInstance, "IWorldInstance");
-	MUnpackRA1(WrapPointer<IBaluSceneInstance>, WrapInterface<IBaluWorldInstance>, GetSceneInstance, WrapValue<int>);
-	MUnpackRA1(WrapPointer<IBaluSceneInstance>, WrapInterface<IBaluWorldInstance>, RunScene, WrapInterface<IBaluScene>);
-	MUnpackRA0(WrapPointer<IBaluWorld>, WrapInterface<IBaluWorldInstance>, GetSource);
-	BALU_ENGINE_SCRIPT_END_CLASS;
-#endif
-
-
-
-#ifndef BALU_ENGINE_SCRIPT_CLASSES
 	BALUENGINEDLL_API IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources);
 	BALUENGINEDLL_API void DestroyWorldInstance(IBaluWorldInstance* world);
-#endif
+
 
 }
 
