@@ -353,7 +353,6 @@ namespace EngineInterface
 	class TBaluClass : public IBaluClass, public TBaluWorldObject
 	{
 	private:
-		std::string class_name;
 
 		int layer_id;
 
@@ -371,7 +370,6 @@ namespace EngineInterface
 
 		void Initialize();
 
-		TBaluWorld* world;
 	public:
 
 		void AddOnCollide(IBaluSprite* sprite, IBaluClass* obstancle_class, TScript callback);
@@ -411,7 +409,7 @@ namespace EngineInterface
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 
-		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance);
+		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance);
 	};
 #endif
 

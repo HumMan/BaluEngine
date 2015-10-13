@@ -2,27 +2,35 @@
 
 #include "../ISceneInstance.h"
 
-TSceneEditor::TSceneEditor() :tools_registry(&scene)
+TSceneEditor::TSceneEditor(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluWorldInstance* world_instance)
+	:TAbstractEditor(world_instance), tools_registry(&scene)
 {
-	active_tool = nullptr;
-	current_local_editor = nullptr;
-}
 
-void TSceneEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluSceneInstance* editor_scene_instance)
-{
-	InitializeControls(editor_scene_instance->GetWorld());
+	auto scene_instance = world_instance->RunScene(edited_scene->GetLayers());
+	world_instance->GetComposer()->AddToRender(scene_instance, drawing_context.viewport);
 
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
-	scene.Initialize(world, edited_scene, editor_scene_instance, drawing_helper.get(), this);
+	scene.Initialize(world, edited_scene, scene_instance, drawing_helper.get(), this);
 
 	for (int i = 0; i < edited_scene->GetInstancesCount(); i++)
 	{
 		auto source_instance = edited_scene->GetInstance(i);
 
-		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, dynamic_cast<TBaluSceneInstance*>(editor_scene_instance));
+		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, dynamic_cast<TBaluSceneInstance*>(scene_instance));
 
 		instance->SetTag(source_instance);
 	}
+}
+
+IBaluSceneInstance* TSceneEditor::GetEditorSceneInstance()
+{
+	return scene.editor_scene_instance;
+}
+
+TSceneEditor::~TSceneEditor()
+{
+	scene.Deinitialize();
+	drawing_helper.reset();
 }
 
 bool TSceneEditor::CanSetSelectedAsWork()

@@ -19,20 +19,14 @@ class TSceneEditor :public TAbstractEditor
 	TSceneEditorToolsRegistry tools_registry;
 	std::unique_ptr<TDrawingHelper> drawing_helper;
 public:
-	TSceneEditor();
+	TSceneEditor(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluWorldInstance* world_instance);
+	~TSceneEditor();
 
-	void Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluSceneInstance* editor_scene_instance);
-	void Deinitialize()
-	{
-		scene.Deinitialize();
-		drawing_helper.reset();
-		DeinitializeControls();
-	}
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
 
 	bool CanEndSelectedAsWork();
 	bool EndSelectedAsWork();
-
+	IBaluSceneInstance* GetEditorSceneInstance();
 	const std::vector<TToolWithDescription>& GetAvailableTools();
 };

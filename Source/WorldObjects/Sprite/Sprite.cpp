@@ -45,10 +45,9 @@ TBaluSpritePolygon* TBaluSprite::GetPolygon()
 	return &sprite_polygon;
 }
 
-IAbstractEditor* TBaluSprite::CreateEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance)
+IAbstractEditor* TBaluSprite::CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance)
 {
-	auto result = new TSpriteEditor();
-	result->Initialize(drawing_context, world, this, editor_scene_instance);
+	auto result = new TSpriteEditor(drawing_context, world, this, world_instance);
 	return result;
 }
 

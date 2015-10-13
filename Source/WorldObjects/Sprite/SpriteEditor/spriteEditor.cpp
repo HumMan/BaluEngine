@@ -1,17 +1,14 @@
 
 #include "spriteEditor.h"
 
-TSpriteEditor::TSpriteEditor() :tools_registry(&scene)
+TSpriteEditor::TSpriteEditor(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluSprite* edited_sprite, IBaluWorldInstance* world_instance) 
+	:TAbstractEditor(world_instance), tools_registry(&scene)
 {
-	active_tool = nullptr;
-}
+	auto scene_instance = world_instance->RunScene();
+	world_instance->GetComposer()->AddToRender(scene_instance, drawing_context.viewport);
 
-void TSpriteEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluSprite* edited_sprite, IBaluSceneInstance* editor_scene_instance)
-{
-	InitializeControls(editor_scene_instance->GetWorld());
-	//auto adornment_class = CreateEditorClasses(this, world);
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
-	scene.Initialize(world, edited_sprite, editor_scene_instance, drawing_helper.get());
+	scene.Initialize(world, edited_sprite, scene_instance, drawing_helper.get());
 	//for (int i = 0; i < obj->GetInstancesCount();i++)
 	//{
 	//auto v = obj->GetInstance(i);
@@ -20,11 +17,16 @@ void TSpriteEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld
 	//}
 }
 
-//void TSpriteEditor::Initialize(IBaluWorld* world, IBaluScene* obj, TVec2 editor_global_pos)
-//{
-//	this->editor_global_pos = editor_global_pos;
-//	Initialize(world, obj);
-//}
+IBaluSceneInstance* TSpriteEditor::GetEditorSceneInstance()
+{
+	return scene.editor_scene_instance;
+}
+
+TSpriteEditor::~TSpriteEditor()
+{
+	scene.Deinitialize();
+	drawing_helper.reset();
+}
 
 bool TSpriteEditor::CanSetSelectedAsWork()
 {

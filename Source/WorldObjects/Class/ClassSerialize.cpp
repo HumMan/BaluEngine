@@ -222,21 +222,21 @@ void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version, TBa
 void TBaluClassSpriteInstance::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node sprite_node = parent_node.append_child("sprite");
-	sprite_node.append_attribute("sprite_name").set_value(sprite->GetName().c_str());
+	sprite_node.append_attribute("name").set_value(sprite->GetName().c_str());
 	SaveTransformWithScale(sprite_node, "Transform", local);
 }
 
 void TBaluClassSpriteInstance::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
-	sprite = dynamic_cast<TBaluSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, node.attribute("sprite_name").as_string()));
+	sprite = dynamic_cast<TBaluSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, node.attribute("name").as_string()));
 	local = LoadTransformWithScale(node.child("Transform"));
 }
 
 void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Class");
-	new_node.append_attribute("class_name").set_value(class_name.c_str());
-	//new_node.append_attribute("layer_name").set_value(layer_name.c_str());
+	new_node.append_attribute("name").set_value(name.c_str());
+	//new_node.append_attribute("name").set_value(layer_name.c_str());
 	{
 		xml_node sprites_node = new_node.append_child("sprites");
 		for (int i = 0; i < sprites.size(); i++)
@@ -292,8 +292,8 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 
 void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
-	class_name = node.attribute("class_name").as_string();
-	//layer_name = node.attribute("layer_name").as_string();
+	name = node.attribute("name").as_string();
+	//layer_name = node.attribute("name").as_string();
 	{
 		xml_node sprites_node = node.child("sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())

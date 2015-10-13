@@ -49,7 +49,7 @@ namespace Editor
 
 		IDirector* director;
 		IBaluWorldInstance* world_instance;
-		IBaluSceneInstance* scene_instance;	
+
 		IAbstractEditor* active_editor;
 		IBaluWorldObject* active_edited_object;
 
@@ -67,7 +67,6 @@ namespace Editor
 
 			director = nullptr;
 			world_instance = nullptr;
-			scene_instance = nullptr;
 			active_editor = nullptr;
 			active_edited_object = nullptr;
 
@@ -111,6 +110,10 @@ namespace Editor
 		p->main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
 
 		WriteInfoToLog("Initializing TWorldObjectEditor success");
+
+		p->drawing_context.screen = &p->screen;
+		p->drawing_context.view = &p->main_viewport_view;
+		p->drawing_context.viewport = &p->main_viewport;
 	}
 
 	void TWorldObjectEditor::Destroy()
@@ -153,7 +156,7 @@ namespace Editor
 	{		
 		std::string name = Converters::FromClrString(_name);
 		TWorldObjectType type = (TWorldObjectType)_type;
-		/*
+		
 		IBaluWorldObject* new_edit_obj = nullptr;
 		if (type != TWorldObjectType::None)
 		{
@@ -164,7 +167,6 @@ namespace Editor
 			if (p->active_edited_object != nullptr)
 			{
 				DestroyEditorOfWorldObject(p->active_edited_object);
-				DestroyEditorScene();
 			}
 			if (type != TWorldObjectType::None)
 			{
@@ -173,44 +175,42 @@ namespace Editor
 			p->active_edited_object = new_edit_obj;
 			if (type != TWorldObjectType::None)
 			{
-				if (type == TWorldObjectType::Scene)
-				{
-					CreateEditorScene(dynamic_cast<IBaluScene*>(new_edit_obj)->GetLayers());
-					director->Perform_Notify_LayersManager_SceneChange(this, p->scene_instance);
-				}
-				else
-				{
-					CreateEditorScene(nullptr);
-					director->Perform_Notify_LayersManager_SceneChange(this, nullptr);
-				}
-				p->drawing_context.screen = &p->screen;
-				p->drawing_context.view = &p->main_viewport_view;
-				p->drawing_context.viewport = &p->main_viewport;
-				
+
 				auto objects = p->world->GetObjects(type);
 				p->active_editor = CreateEditorOfWorldObject(new_edit_obj);
 
+				auto editor_scene = p->active_editor->GetEditorSceneInstance();
+
+				//оповещаем редактор слоёв и смене сцены
+				if (type == TWorldObjectType::Scene)
+					director->Perform_Notify_LayersManager_SceneChange(this, editor_scene);
+				else
+					director->Perform_Notify_LayersManager_SceneChange(this, nullptr);
+
+				//подключаем отслеживание изменения выделенных объектов
 				auto ed_selection_listeners = dynamic_cast<TSelectionChangeListeners*>(p->active_editor);
 
 				ed_selection_listeners->AddSelectionChangeListener(&p->selection_change_listener);
 
+				//по умолчанию выбран первый инструмент
 				if (p->active_editor->GetAvailableTools().size()>0)
 					SetActiveTool(0);
+
 				GUI_Notify_ToolsChanged();
 			}
-		}*/
+		}
 	}
 
 	void TWorldObjectEditor::OnObjectListSelectionChange(TEditor^ sender, int _type, String^ name)
 	{
-		//TWorldObjectType type = (TWorldObjectType)_type;
-		//IBaluWorldObject* new_edit_obj = nullptr;
-		//if (type != TWorldObjectType::None)
-		//{
-		//	new_edit_obj = p->world->GetObjectByName(type, Converters::FromClrString(name).c_str());
-		//}
+		TWorldObjectType type = (TWorldObjectType)_type;
+		IBaluWorldObject* new_edit_obj = nullptr;
+		if (type != TWorldObjectType::None)
+		{
+			new_edit_obj = p->world->GetObjectByName(type, Converters::FromClrString(name).c_str());
+		}
 
-		//p->active_editor->GetActiveTool()->SetSelectedObject(new_edit_obj);
+		p->active_editor->GetActiveTool()->SetSelectedObject(new_edit_obj);
 	}
 
 	bool TWorldObjectEditor::CanSetSelectedAsWork()
@@ -283,23 +283,16 @@ namespace Editor
 		auto& tools = p->active_editor->GetAvailableTools();
 		return Converters::ToClrString(tools[tool_index].tool->GetAvailableStates()[tool_state_index]);
 	}
-	void TWorldObjectEditor::CreateEditorScene(TLayersManager* scene_layers)
-	{
-		p->main_viewport.SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
-		p->main_viewport.SetAspectRatio(((float)p->screen.size[1]) / p->screen.size[0]);
-		p->main_viewport.SetWidth(20);
+	//void TWorldObjectEditor::CreateEditorScene(TLayersManager* scene_layers)
+	//{
+	//	p->main_viewport.SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
+	//	p->main_viewport.SetAspectRatio(((float)p->screen.size[1]) / p->screen.size[0]);
+	//	p->main_viewport.SetWidth(20);
 
-		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
-		p->scene_instance = p->world_instance->RunScene(scene_layers);
-		p->world_instance->GetComposer()->AddToRender(p->scene_instance, &p->main_viewport);
-		p->director->SetWorldInstance(p->world_instance);
-	}
+	//	p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
+	//	p->director->SetWorldInstance(p->world_instance);
+	//}
 
-	void TWorldObjectEditor::DestroyEditorScene()
-	{	
-		DestroyWorldInstance(p->world_instance);
-		p->world_instance = nullptr;
-	}
 	bool TWorldObjectEditor::NeedLayers()
 	{
 		//return (p->active_editor);
@@ -370,11 +363,16 @@ namespace Editor
 
 
 	IAbstractEditor* TWorldObjectEditor::CreateEditorOfWorldObject(IBaluWorldObject* obj)
-	{
-		
-		p->active_edited_object = obj;
+	{	
+		p->main_viewport.SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
+		p->main_viewport.SetAspectRatio(((float)p->screen.size[1]) / p->screen.size[0]);
+		p->main_viewport.SetWidth(20);
 
-		return obj->CreateEditor(p->drawing_context, p->scene_instance);
+		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
+		p->director->SetWorldInstance(p->world_instance);
+
+		p->active_edited_object = obj;
+		return obj->CreateEditor(p->drawing_context, p->world_instance);
 	}
 
 	void TWorldObjectEditor::DestroyEditorOfWorldObject(IBaluWorldObject* obj)
@@ -385,6 +383,8 @@ namespace Editor
 		ed_selection_listeners->RemoveSelectionChangeListener(&p->selection_change_listener);
 
 		DestroyEditor(p->active_editor);
+
+		DestroyWorldInstance(p->world_instance);
 	}
 	
 }

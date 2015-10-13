@@ -50,6 +50,8 @@ namespace EngineInterface
 		virtual IBaluClass* CreateClass(const char* name) = 0;
 		virtual IBaluScene* CreateScene(const char* name)=0;
 
+		virtual IBaluScene* GetScene(std::string name) = 0;
+
 		virtual void AddOnViewportResize(TScript callback) = 0;
 		virtual std::vector<TScript>& GetOnViewportResize() = 0;
 		virtual void RemoveOnViewportResize(int index) = 0;
@@ -122,6 +124,8 @@ namespace EngineInterface
 		IBaluSprite* CreateSprite(const char* name);
 		IBaluClass* CreateClass(const char* name);
 		IBaluScene* CreateScene(const char* name);
+
+		IBaluScene* GetScene(std::string name);
 
 		void AddOnWorldStart(TScript callback);
 		std::vector<TScript>& GetOnWorldStart();

@@ -16,7 +16,6 @@ namespace EngineInterface
 {
 	void DestroyEditor(EngineInterface::IAbstractEditor* editor)
 	{
-		editor->Deinitialize();
 		delete editor;
 	}
 

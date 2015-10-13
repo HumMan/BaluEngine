@@ -1,17 +1,14 @@
 #include "materialEditor.h"
 
 
-TMaterialEditor::TMaterialEditor() :tools_registry(&scene)
+TMaterialEditor::TMaterialEditor(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluMaterial* edited_material, IBaluWorldInstance* world_instance) 
+	: TAbstractEditor(world_instance), tools_registry(&scene)
 {
-	active_tool = nullptr;
-}
-
-void TMaterialEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluMaterial* edited_material, IBaluSceneInstance* editor_scene_instance)
-{
-	InitializeControls(editor_scene_instance->GetWorld());
+	auto scene_instance = world_instance->RunScene();
+	world_instance->GetComposer()->AddToRender(scene_instance, drawing_context.viewport);
 
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
-	scene.Initialize(world, edited_material, editor_scene_instance, drawing_helper.get());
+	scene.Initialize(world, edited_material, scene_instance, drawing_helper.get());
 
 	//for (int i = 0; i < edited_scene->GetInstancesCount(); i++)
 	//{
@@ -19,6 +16,17 @@ void TMaterialEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWor
 	//	auto instance = editor_scene_instance->CreateInstance(source_instance->GetClass(), source_instance->GetTransform(), source_instance->GetScale());
 	//	//instance->GetProperties()->SetSceneClassInstance("editor_source_instance", source_instance);
 	//}
+}
+
+IBaluSceneInstance* TMaterialEditor::GetEditorSceneInstance()
+{
+	return scene.editor_scene_instance;
+}
+
+TMaterialEditor::~TMaterialEditor()
+{
+	scene.Deinitialize();
+	drawing_helper.reset();
 }
 
 void TMaterialEditor::UnsetAcitveTool()

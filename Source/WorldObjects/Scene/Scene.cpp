@@ -74,9 +74,8 @@ void TBaluScene::DestroyInstance(TSceneObject* instance)
 	}
 }
 
-IAbstractEditor* TBaluScene::CreateEditor(TDrawingHelperContext drawing_context, EngineInterface::IBaluSceneInstance* editor_scene_instance)
+IAbstractEditor* TBaluScene::CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance)
 {
-	auto result = new TSceneEditor();
-	result->Initialize(drawing_context, world, this, editor_scene_instance);
+	auto result = new TSceneEditor(drawing_context, world, this, world_instance);
 	return result;
 }

@@ -66,7 +66,7 @@ MUnpackRA0(WrapPointer<IBaluWorldInstance>, WrapInterface<IDirector>, GetWorldIn
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorld, "IBaluWorld");
-//MUnpackRA1(WrapPointer<IBaluScene>, WrapInterface<IBaluWorld>, GetScene, WrapValue<int>);
+MUnpackRA1(WrapPointer<IBaluScene>, WrapInterface<IBaluWorld>, GetScene, WrapValue<string>);
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluWorldInstance, "IWorldInstance");

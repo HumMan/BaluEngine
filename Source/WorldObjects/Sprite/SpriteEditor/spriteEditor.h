@@ -19,23 +19,15 @@ class TSpriteEditor :public TAbstractEditor
 	TSpriteEditorToolsRegistry tools_registry;
 	std::unique_ptr<TDrawingHelper> drawing_helper;
 public:
-	TSpriteEditor();
-	//void StartEdit(TBaluSpriteDef* use_sprite);
-	//void EndEdit();
+	TSpriteEditor(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluSprite* edited_sprite, IBaluWorldInstance* world_instance);;
+	~TSpriteEditor();
 
-	void Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluSprite* edited_sprite, IBaluSceneInstance* editor_scene_instance);
-	void Deinitialize()
-	{
-		scene.Deinitialize();
-		drawing_helper.reset();
-		DeinitializeControls();
-	}
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
 
 	bool CanEndSelectedAsWork();
 	bool EndSelectedAsWork();
-
+	IBaluSceneInstance* GetEditorSceneInstance();
 	const std::vector<TToolWithDescription>& GetAvailableTools();
 	//void SetActiveTool(TEditorTool* tool);
 };

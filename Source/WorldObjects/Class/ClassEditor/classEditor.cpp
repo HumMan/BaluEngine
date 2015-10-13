@@ -3,21 +3,16 @@
 #include "../IClassInstance.h"
 #include "../../Scene/ISceneInstance.h"
 
-TClassEditor::TClassEditor() :tools_registry(&scene)
+TClassEditor::TClassEditor(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluClass* edited_class, IBaluWorldInstance* world_instance)
+	: TAbstractEditor(world_instance), tools_registry(&scene)
 {
-	active_tool = nullptr;
-}
-
-void TClassEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluClass* edited_class, IBaluSceneInstance* editor_scene_instance)
-{
-	InitializeControls(editor_scene_instance->GetWorld());
+	auto scene_instance = world_instance->RunScene();
+	world_instance->GetComposer()->AddToRender(scene_instance, drawing_context.viewport);
 
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
-	scene.Initialize(world, edited_class, editor_scene_instance, drawing_helper.get());
+	scene.Initialize(world, edited_class, scene_instance, drawing_helper.get());
 
-	//int sprites_count = edited_class->GetSpritesCount();
-
-	scene.editor_scene_class_instance = new TBaluInstance(dynamic_cast<TBaluClass*>(edited_class), TBaluTransform(), TVec2(1, 1), dynamic_cast<TBaluSceneInstance*>(editor_scene_instance));
+	scene.editor_scene_class_instance = new TBaluInstance(dynamic_cast<TBaluClass*>(edited_class), TBaluTransform(), TVec2(1, 1), dynamic_cast<TBaluSceneInstance*>(scene_instance));
 
 	for (int i = 0; i < scene.editor_scene_class_instance->GetSpritesCount(); i++)
 	{
@@ -26,6 +21,17 @@ void TClassEditor::Initialize(TDrawingHelperContext drawing_context, IBaluWorld*
 
 		sprite_instance->SetTag(sprite_source);
 	}
+}
+
+IBaluSceneInstance* TClassEditor::GetEditorSceneInstance()
+{
+	return scene.editor_scene_instance;
+}
+
+TClassEditor::~TClassEditor()
+{
+	scene.Deinitialize();
+	drawing_helper.reset();
 }
 
 bool TClassEditor::CanSetSelectedAsWork()

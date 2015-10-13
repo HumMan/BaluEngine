@@ -15,7 +15,7 @@ class TAbstractEditor :
 	public TSelectionChangeListeners
 {
 private:
-	IBaluWorldInstance* world;
+	IBaluWorldInstance* world_instance;
 
 protected:
 	std::vector<TAbstractEditor*> parent_editors;
@@ -23,38 +23,20 @@ protected:
 	IEditorTool* active_tool;
 	TVec2 editor_global_pos;
 
-	void InitializeControls(IBaluWorldInstance* world);
-	void DeinitializeControls();
-
 	void OnMouseMove(TMouseEventArgs e);
 	void OnMouseDown(TMouseEventArgs e);
 	void OnMouseUp(TMouseEventArgs e);
 
 public:
 
-	TAbstractEditor()
-	{
-		editor_global_pos = TVec2(0, 0);
-		current_local_editor = nullptr;
-		world = nullptr;
-		active_tool = nullptr;
-		editor_global_pos = TVec2(0, 0);
-	}
+	TAbstractEditor(IBaluWorldInstance* world_instance);
+	virtual ~TAbstractEditor();
 
-	virtual bool CanSetSelectedAsWork() = 0;
-	virtual void SetSelectedAsWork() = 0;
-
-	virtual bool CanEndSelectedAsWork() = 0;
-	virtual bool EndSelectedAsWork() = 0;
-
-	virtual const std::vector<TToolWithDescription>& GetAvailableTools()=0;
 	virtual void SetActiveTool(IEditorTool* tool);
 	IEditorTool* GetActiveTool()
 	{
 		return active_tool;
 	}
-	~TAbstractEditor()
-	{}
 };
 
 

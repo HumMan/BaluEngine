@@ -38,6 +38,8 @@ namespace EngineInterface
 		virtual IBaluWorld* GetSource()=0;
 		virtual IBaluSceneInstance* RunScene(IBaluScene* scene_source)=0;
 		virtual IBaluSceneInstance* RunScene() = 0;
+
+		//создание пустой сцены используется в редакторе
 		virtual IBaluSceneInstance* RunScene(TLayersManager* scene_layers) = 0;
 		virtual void StopScene(IBaluSceneInstance*)=0;
 

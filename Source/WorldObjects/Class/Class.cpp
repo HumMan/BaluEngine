@@ -202,9 +202,8 @@ std::vector<TScript>& TBaluClass::GetOnBeforePhysicsStep()
 	return before_physics_callbacks;
 }
 
-IAbstractEditor* TBaluClass::CreateEditor(TDrawingHelperContext drawing_context, IBaluSceneInstance* editor_scene_instance)
+IAbstractEditor* TBaluClass::CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance)
 {
-	auto result = new TClassEditor();
-	result->Initialize(drawing_context, world, this, editor_scene_instance);
+	auto result = new TClassEditor(drawing_context, world, this, world_instance);
 	return result;
 }

@@ -91,13 +91,12 @@ namespace EngineInterface
 
 		virtual bool CanEndSelectedAsWork() = 0;
 		virtual bool EndSelectedAsWork() = 0;
-
+		virtual IBaluSceneInstance* GetEditorSceneInstance() = 0;
 		//std::map<std::string, TAbstractEditorObject*> CanCreateObjects();
 
 		virtual const std::vector<TToolWithDescription>& GetAvailableTools() = 0;
 		virtual void SetActiveTool(IEditorTool* tool)=0;
 		virtual IEditorTool* GetActiveTool() =0;
-		virtual void Deinitialize() = 0;
 		virtual ~IAbstractEditor() = 0;
 	};
 	inline IAbstractEditor::~IAbstractEditor() { }

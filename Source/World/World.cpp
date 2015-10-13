@@ -168,6 +168,11 @@ IBaluScene* TBaluWorld::CreateScene(const char* name)
 	return dynamic_cast<IBaluScene*>(CreateObject(TWorldObjectType::Scene, name));
 }
 
+IBaluScene* TBaluWorld::GetScene(std::string name)
+{
+	return dynamic_cast<IBaluScene*>(GetObjectByName(TWorldObjectType::Scene, name.c_str()));
+}
+
 void TBaluWorld::AddOnWorldStart(TScript callback)
 {
 	on_start_world_callback.push_back(callback);

@@ -47,8 +47,6 @@ namespace Editor
 
 		IAbstractEditor* CreateEditorOfWorldObject(IBaluWorldObject* obj);
 		void DestroyEditorOfWorldObject(IBaluWorldObject* obj);
-		void CreateEditorScene(TLayersManager* scene_layers);
-		void DestroyEditorScene();
 
 	public:
 		event OnToolsChangeDelegate^ GUI_Notify_ToolsChanged;

@@ -20,22 +20,15 @@ public:
 	TMaterialEditorToolsRegistry tools_registry;
 	std::unique_ptr<TDrawingHelper> drawing_helper;
 public:
-	TMaterialEditor();
+	TMaterialEditor(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluMaterial* edited_material, IBaluWorldInstance* world_instance);
+	~TMaterialEditor();
 	void UnsetAcitveTool();
-
-	void Initialize(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluMaterial* edited_material, IBaluSceneInstance* editor_scene_instance);
-	void Deinitialize()
-	{
-		scene.Deinitialize();
-		drawing_helper.reset();
-		DeinitializeControls();
-	}
 
 	bool CanSetSelectedAsWork();
 	void SetSelectedAsWork();
 
 	bool CanEndSelectedAsWork();
 	bool EndSelectedAsWork();
-
+	IBaluSceneInstance* GetEditorSceneInstance();
 	const std::vector<TToolWithDescription>& GetAvailableTools();
 };
