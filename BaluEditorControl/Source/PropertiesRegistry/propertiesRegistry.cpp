@@ -243,9 +243,9 @@ namespace Editor
 
 	ref class TBaluSpriteInstanceProperties : public TPropertiesObject
 	{
-		IBaluClassSpriteInstance* obj_def;
+		IBaluTransformedSpriteInstance* obj_def;
 	public:
-		TBaluSpriteInstanceProperties(IBaluClassSpriteInstance* obj_def)
+		TBaluSpriteInstanceProperties(IBaluTransformedSpriteInstance* obj_def)
 		{
 			this->obj_def = obj_def;
 		}
@@ -293,8 +293,8 @@ namespace Editor
 		//if ((dynamic_cast<TBaluBodyInstanceDef*>(obj_def)) != nullptr)
 		//	return gcnew TBaluBodyInstanceProperties(dynamic_cast<TBaluBodyInstanceDef*>(obj_def));
 
-		if ((dynamic_cast<IBaluClassSpriteInstance*>(obj_def)) != nullptr)
-			return gcnew TBaluSpriteInstanceProperties(dynamic_cast<IBaluClassSpriteInstance*>(obj_def));
+		if ((dynamic_cast<IBaluTransformedSpriteInstance*>(obj_def)) != nullptr)
+			return gcnew TBaluSpriteInstanceProperties(dynamic_cast<IBaluTransformedSpriteInstance*>(obj_def));
 
 		if ((dynamic_cast<IBaluClass*>(obj_def)) != nullptr)
 			return gcnew TBaluClassProperties(dynamic_cast<IBaluClass*>(obj_def));

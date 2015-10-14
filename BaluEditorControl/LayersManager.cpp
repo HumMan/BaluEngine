@@ -92,7 +92,6 @@ namespace Editor
 	{
 		if (p->scene_instance != scene_instance)
 		{
-			
 			if (p->scene_instance != nullptr)
 			{
 				p->source_scene->GetLayers()->RemoveListener(p->layers_change_listener.get());

@@ -61,7 +61,7 @@ namespace EngineInterface
 	};
 #endif
 
-	class IBaluClassSpriteInstance
+	class IBaluTransformedSprite
 	{
 	public:
 		virtual IBaluSprite* GetSprite() = 0;
@@ -72,7 +72,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluClassSpriteInstance : public IBaluClassSpriteInstance
+	class TBaluTransformedSprite : public IBaluTransformedSprite
 	{
 		TBaluSprite* sprite;
 		TBaluTransformWithScale local;
@@ -81,11 +81,11 @@ namespace EngineInterface
 		{
 			return sprite;
 		}
-		TBaluClassSpriteInstance()
+		TBaluTransformedSprite()
 		{
 			sprite = nullptr;
 		}
-		TBaluClassSpriteInstance(TBaluSprite* sprite)
+		TBaluTransformedSprite(TBaluSprite* sprite)
 		{
 			this->sprite = sprite;
 		}

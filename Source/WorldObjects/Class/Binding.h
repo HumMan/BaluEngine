@@ -31,6 +31,6 @@ BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluInstance, "IInstance");
 MUnpackA1(TYPE, SetScale, WrapValue<TVec2>);
 MUnpackRA0(WrapInterface<IProperties>, TYPE, GetProperties);
 MUnpackRA0(WrapInterface<IBaluClassPhysBodyIntance>, TYPE, GetPhysBody);
-MUnpackRA1(WrapInterface<IBaluClassInstanceSpriteInstance>, TYPE, GetSprite, WrapValue<int>);
+MUnpackRA1(WrapInterface<IBaluTransformedSpriteInstance>, TYPE, GetSprite, WrapValue<int>);
 MUnpackRA0(WrapInterface<ISkeletonAnimationInstance>, TYPE, GetSkeletonAnimation);
 BALU_ENGINE_SCRIPT_END_CLASS;

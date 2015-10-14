@@ -2,11 +2,9 @@
 
 #include <World\Layers.h>
 
-#include <WorldObjects\Scene\IScene.h>
 #include <WorldObjects\Scene\ISceneInstance.h>
 #include "IWorld.h"
 #include "IComposer.h"
-#include "IDirector.h"
 #include "IScriptInstance.h"
 
 namespace EngineInterface
@@ -59,7 +57,7 @@ namespace EngineInterface
 	private:
 		TBaluWorld* source;
 		std::vector<std::unique_ptr<TBaluSceneInstance>> scene_instances;
-		std::vector<std::unique_ptr<TBaluClassInstance>> class_instances;
+		std::vector<std::unique_ptr<TBaluClassCompiledScripts>> class_compiled_instances;
 		TResources* resources;
 		TBaluScriptInstance script_engine;
 		TComposer composer;
@@ -76,9 +74,9 @@ namespace EngineInterface
 		void AddMouseEventListener(TMouseEventListener*);
 		void RemoveMouseEventListener(TMouseEventListener*);
 
-		TBaluClassInstance* GetClassInstance(TBaluClass* source)
+		TBaluClassCompiledScripts* GetClassCompiled(TBaluClass* source)
 		{
-			for (auto& v : class_instances)
+			for (auto& v : class_compiled_instances)
 				if (v->GetClass() == source)
 					return v.get();
 			return nullptr;

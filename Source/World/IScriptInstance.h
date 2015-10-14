@@ -1,23 +1,21 @@
 #pragma once
 
-#include "IWorld.h"
 #include "ICommon.h"
 #include "ICallbacks.h"
 
 namespace EngineInterface
 {
-
+	class TBaluScriptInstancePrivate;
+	class IComposer;
+	class IBaluInstance;
+	class IBaluPhysShapeInstance;
+	class IDirector;
 
 	class IBaluScriptInstance
 	{
 	public:
 		virtual bool HasErrors() = 0;
 	};
-
-	class TBaluScriptInstancePrivate;
-	class IComposer;
-	class IBaluInstance;
-	class IBaluPhysShapeInstance;
 
 #ifdef BALUENGINEDLL_EXPORTS
 	class TBaluScriptInstance : public IBaluScriptInstance

@@ -97,16 +97,10 @@
     <ClInclude Include="Source\WorldObjects\BoxContour\BoxGuiInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldObjects\Class\IAnimationFrames.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldObjects\Class\IClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldObjects\Class\IClassInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldObjects\Class\Interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldObjects\EditableBox\OBBGuiInstance.h">
@@ -121,16 +115,10 @@
     <ClInclude Include="Source\WorldObjects\Material\IMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldObjects\Material\Interface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldObjects\PolygonLine\PolygonGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldObjects\PolygonLine\PolygonGuiInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldObjects\Scene\Interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldObjects\Scene\IScene.h">
@@ -143,9 +131,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldObjects\SimpleSprite\SpriteGuiInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldObjects\Sprite\Interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldObjects\Sprite\IPhysShape.h">
@@ -230,6 +215,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\World\Binding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Class\ISkeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Class\ISkeletonAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Class\ISkeletonAnimationInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Class\ISkeletonInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Sprite\IAnimationFrames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

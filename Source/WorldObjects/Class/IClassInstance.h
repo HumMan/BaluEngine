@@ -2,7 +2,8 @@
 
 #include "IClass.h"
 #include "../Sprite/ISpriteInstance.h"
-#include "../Material/IMaterialInstance.h"
+
+#include "ISkeletonAnimationInstance.h"
 
 namespace EngineInterface
 {
@@ -49,69 +50,6 @@ namespace EngineInterface
 };
 #endif
 
-	class ISkeletonAnimationInstance
-	{
-	public:
-		virtual void Update(float step) = 0;
-		virtual void PlayAnimation(const std::string& name, float alpha) = 0;
-		virtual void StopAnimation(const std::string& name) = 0;
-	};
-
-#ifdef BALUENGINEDLL_EXPORTS
-	class TBoneInstance;
-
-	class TTrackInstance
-	{
-	private:
-		TBoneInstance* bone;
-		TTrack* source;
-		//std::set<TTrackFrame, TFrameComparer> frames;
-	public:
-		TTrackInstance(TBoneInstance* bone, TTrack* source);
-		void Update(float time, float timeline_size);
-	};
-
-	class TSkeletonInstance;
-
-	class TTimeLineInstance
-	{
-	private:
-		TTimeLine* source;
-
-		std::vector<std::unique_ptr<TTrackInstance>> tracks;
-		float current_time;
-		//float alpha;
-		float active_alpha;
-		//bool smooth_stop_active;
-		bool loop;
-		bool is_active;
-	public:
-		TTimeLineInstance(TSkeletonInstance* skeleton, TTimeLine* source);
-		void SetAlpha();
-		bool IsActive();
-		void PlayOnce();
-		void PlayLoop();
-		void Stop();
-		//void SmoothStop();
-		void Step(float step);
-		TTimeLine* GetSource();
-	};
-
-	class TSkeletonAnimationInstance: public ISkeletonAnimationInstance
-	{
-	private:
-		TSkeletonAnimation* source;
-		TSkeletonInstance* skeleton;
-
-		std::vector<std::unique_ptr<TTimeLineInstance>> animations;
-	public:
-		TSkeletonAnimationInstance(TSkeletonInstance* skeleton, TSkeletonAnimation* source);
-		void Init();
-		void Update(float step);
-		void PlayAnimation(const std::string& name, float alpha);
-		void StopAnimation(const std::string& name);
-};
-#endif
 
 	class IBaluClassInstance
 	{
@@ -143,7 +81,7 @@ namespace EngineInterface
 	class TBaluScriptInstance;
 	class TBaluPhysShapeInstance;
 
-	class TBaluClassInstance :public IBaluClassInstance
+	class TBaluClassCompiledScripts :public IBaluClassInstance
 	{
 	private:
 		TBaluWorldInstance* world_instance;
@@ -154,7 +92,7 @@ namespace EngineInterface
 		std::vector<TScriptInstance> before_physics_callbacks;
 		std::vector<TSpriteWithClassCollideInstance> on_collide_callbacks;
 	public:
-		TBaluClassInstance(TBaluWorldInstance* world_instance, TBaluClass* source);
+		TBaluClassCompiledScripts(TBaluWorldInstance* world_instance, TBaluClass* source);
 		TBaluClass* GetClass()
 		{
 			return source;
@@ -172,7 +110,24 @@ namespace EngineInterface
 	};
 #endif
 
-	class IBaluClassInstanceSpriteInstance;
+#ifdef BALUENGINEDLL_EXPORTS
+
+	class IScriptsCache
+	{
+	public:
+		virtual TBaluClassCompiledScripts* GetClassCompiled(TBaluClass* source) = 0;
+	};
+
+	class TBaluClassInstance
+	{
+		TBaluClass* source;
+		TBaluClassCompiledScripts* scripts_cache;
+	public:
+		TBaluClassInstance(TBaluClass* source, IScriptsCache* cache);
+	};
+
+#endif
+
 	class IBaluInstance
 	{
 	public:
@@ -184,87 +139,28 @@ namespace EngineInterface
 		virtual TVec2 GetScale() = 0;
 		virtual void SetScale(TVec2 scale) = 0;
 		virtual int GetSpritesCount() = 0;
-		virtual IBaluClassInstanceSpriteInstance* GetSprite(int index) = 0;
-		virtual IBaluClassInstanceSpriteInstance* AddSprite(IBaluClassSpriteInstance* source) = 0;
+		virtual IBaluTransformedSpriteInstance* GetSprite(int index) = 0;
+		virtual IBaluTransformedSpriteInstance* AddSprite(IBaluTransformedSprite* source) = 0;
 		virtual IProperties* GetProperties() = 0;
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
 		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
-		virtual bool PointCollide(TVec2 class_space_point, IBaluClassInstanceSpriteInstance* &result) = 0;
+		virtual bool PointCollide(TVec2 class_space_point, IBaluTransformedSpriteInstance* &result) = 0;
 		virtual void SetTag(void* tag) = 0;
 		virtual void* GetTag() = 0;
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBoneInstance
-	{
-	private:
-		TBoneInstance* parent;
-		std::vector<std::unique_ptr<TBoneInstance>> children;
 
-		TBone* source;
-
-		//float rotation_amount;
-
-		//TVec2 current_position;
-		float current_rotation;
-
-		TBaluTransform global;
-	public:
-		TBoneInstance(TBoneInstance* parent, TBone* source);
-		int GetChildrenCount();
-		TBoneInstance* GetChild(int index);
-
-		void SetRotationAmount(float amount);
-
-		TBone* GetSourceBone();
-
-		void UpdateTranform(TBaluTransform parent);
-		TBaluTransform GetGlobalTransform();
-	};
-
-	class TBaluClassInstanceSpriteInstance;
-	class TResources;
-
-	class TSkinInstance
-	{
-	private:
-		std::vector<std::vector<std::unique_ptr<TBaluClassInstanceSpriteInstance>>> sprites_of_bones;
-	public:
-		TSkinInstance(TSkin* source, TBaluInstance* parent, TResources* resources);
-		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
-		void UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TBaluTransformWithScale class_transform);
-	};
-
-	class TSkeletonInstance
-	{
-	private:
-		std::unique_ptr<TBoneInstance> root;
-		std::vector<TBoneInstance*> bones;
-		std::vector<std::unique_ptr<TSkinInstance>> skins;
-
-		TSkeleton* source;
-	public:
-		TSkeletonInstance(TSkeleton* source, TBaluInstance* parent, TResources* resources);
-		void UpdateTranform(TBaluTransformWithScale class_transform);
-		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
-		TSkeleton* GetSource();
-		TBoneInstance* GetBone(int index);
-	};
-
-	class TBaluSceneClassInstance;
+	class TBaluTransformedClass;
 
 	class TBaluInstance : public IBaluInstance, public TSceneObjectInstance
 	{
 	private:
 		int uid;
-		TBaluClassInstance* instance_class;
+		TBaluClassCompiledScripts* instance_class;
 		TBaluTransformWithScale instance_transform;
 
-		//b2World* phys_world;
-
-		TBaluSceneInstance* scene;
-
-		std::vector<std::unique_ptr<TBaluClassInstanceSpriteInstance>> sprites;
+		std::vector<std::unique_ptr<TBaluTransformedSpriteInstance>> sprites;
 		std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
 		TSkeletonInstance skeleton;
 		TSkeletonAnimationInstance skeleton_animation;
@@ -281,7 +177,7 @@ namespace EngineInterface
 		{
 			return FactoryName();
 		}
-		TBaluClassInstance* GetClass();
+		TBaluClassCompiledScripts* GetClass();
 		void SetTag(void* tag)
 		{
 			this->tag = tag;
@@ -290,7 +186,7 @@ namespace EngineInterface
 		{
 			return tag;
 		}
-		TBaluInstance(TBaluSceneClassInstance* source, TBaluSceneInstance* scene);
+		TBaluInstance(TBaluTransformedClass* source, TBaluSceneInstance* scene);
 		TBaluInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene);
 		void SetTransform(TBaluTransform transform);
 		TBaluTransform GetTransform();
@@ -301,12 +197,12 @@ namespace EngineInterface
 		TBaluClassPhysBodyIntance* GetPhysBody();
 
 		int GetSpritesCount();
-		IBaluClassInstanceSpriteInstance* GetSprite(int index);
-		IBaluClassInstanceSpriteInstance* AddSprite(IBaluClassSpriteInstance* source);
+		IBaluTransformedSpriteInstance* GetSprite(int index);
+		IBaluTransformedSpriteInstance* AddSprite(IBaluTransformedSprite* source);
 
 		TSkeletonAnimationInstance* GetSkeletonAnimation();
 
-		bool PointCollide(TVec2 class_space_point, IBaluClassInstanceSpriteInstance* &result);
+		bool PointCollide(TVec2 class_space_point, IBaluTransformedSpriteInstance* &result);
 		bool PointCollide(TVec2 scene_space_point);
 		TOBB2 GetOBB();
 		TAABB2 GetAABB();

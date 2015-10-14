@@ -137,13 +137,13 @@ TSkeleton* TBaluClass::GetSkeleton()
 	return skeleton.get();
 }
 
-TBaluClassSpriteInstance* TBaluClass::AddSprite(TBaluSprite* sprite)
+TBaluTransformedSprite* TBaluClass::AddSprite(TBaluSprite* sprite)
 {
-	sprites.push_back(std::make_unique<TBaluClassSpriteInstance>(sprite));
+	sprites.push_back(std::make_unique<TBaluTransformedSprite>(sprite));
 	return sprites.back().get();
 }
 
-IBaluClassSpriteInstance* TBaluClass::AddSprite(IBaluSprite* sprite)
+IBaluTransformedSprite* TBaluClass::AddSprite(IBaluSprite* sprite)
 {
 	return AddSprite(dynamic_cast<TBaluSprite*>(sprite));
 }
@@ -158,7 +158,7 @@ int TBaluClass::GetSpritesCount()
 	return sprites.size();
 }
 
-TBaluClassSpriteInstance* TBaluClass::GetSprite(int index)
+TBaluTransformedSprite* TBaluClass::GetSprite(int index)
 {
 	return sprites[index].get();
 }

@@ -1,4 +1,4 @@
-#include "Interface.h"
+#include "IMaterial.h"
 
 #include <World\SerializeCommon.h>
 

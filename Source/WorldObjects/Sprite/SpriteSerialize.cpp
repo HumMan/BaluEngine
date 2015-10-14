@@ -1,6 +1,6 @@
 #include <World\SerializeCommon.h>
 
-#include "Interface.h"
+#include "ISprite.h"
 
 #include <World\IWorld.h>
 

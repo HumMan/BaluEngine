@@ -14,6 +14,8 @@ namespace EngineInterface
 #ifdef BALUENGINEDLL_EXPORTS
 	class TSceneObjectInstance
 	{
+	protected:
+		TBaluSceneInstance* scene;
 	public:
 		virtual void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results){}
 		virtual TOBB2 GetOBB() = 0;
@@ -47,12 +49,16 @@ namespace EngineInterface
 
 #ifdef BALUENGINEDLL_EXPORTS
 	class TBaluMaterial;
-	class TMaterialInstance
+	class TMaterialInstance: public IChangeListener
 	{
 		TBaluTexture texture;
 		TBaluMaterial* source;
+		TResources* resources;
+
+		virtual void SourceChanged();
 	public:
 		TMaterialInstance(TBaluMaterial* source, TResources* resources);
+		~TMaterialInstance();
 		TBaluTexture GetTexture();
 	};
 #endif

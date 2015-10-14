@@ -29,7 +29,7 @@ public:
 	TDrawingHelper* drawing_helper;
 
 	//IBaluInstance* selected_instance;
-	//IBaluClassSpriteInstance* selected_instance_source;
+	//IBaluTransformedSprite* selected_instance_source;
 
 	TSpritePolygonAdornmentInstance* sprite_polygon_adornment; //отображение контрола редактирования геометрии срайта
 	TSimpleSpriteInstance* sprite_adornment; //отображение редактируемого спрайта

@@ -7,10 +7,11 @@
 #include <WorldObjects/Sprite/ISprite.h>
 #include <WorldObjects/Sprite/IPhysShape.h>
 
+#include "ISkeletonAnimation.h"
+
 namespace EngineInterface
 {
 	class IBaluPhysShapeInstance;
-	class TSkeleton;
 	class IBaluClass;
 }
 
@@ -32,246 +33,7 @@ namespace EngineInterface
 		Kinematic
 	};
 
-	class IBone
-	{
-	public:
-		virtual void SetTransform(TBaluTransform)=0;
-	};
 
-	
-	class TBone : public IBone
-	{
-	private:
-		TBone* parent;
-		std::vector<TBone*> children;
-
-		TBaluTransform local;
-	public:
-		TBone()
-		{
-		}
-		TBone(TBone* parent);
-
-		void SetTransform(TBaluTransform);
-		TBaluTransform GetTransform();
-
-		void AddChild(TBone* bone);
-		int GetChildrenCount();
-		TBone* GetChild(int index);
-
-		void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
-	};
-
-	class ISkin
-	{
-	public:
-		virtual void SetBoneSprite(int bone_index, IBaluSprite* sprite, TBaluTransform global)=0;
-	};
-
-#ifdef BALUENGINEDLL_EXPORTS
-	class TSkin : public ISkin
-	{
-	private:
-		std::vector<std::vector<TBaluClassSpriteInstance>> sprites_of_bones;
-	public:
-		TSkin()
-		{
-		}
-		TSkin(int bones_count);
-		void SetBoneSprite(int bone_index, TBaluSprite* sprite, TBaluTransform global);
-		void SetBoneSprite(int bone_index, IBaluSprite* sprite, TBaluTransform global);
-		int GetBonesCount();
-		std::vector<TBaluClassSpriteInstance>& GetSpritesOfBone(int bone_index);
-
-		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-	};
-
-#endif
-
-	class ISkeleton
-	{
-	public:
-		virtual ISkin* CreateSkin() = 0;
-		virtual void DestroySkin(ISkin* skin) = 0;
-		virtual int GetSkinsCount() = 0;
-		virtual ISkin* GetSkin(int index) = 0;
-		virtual IBone* CreateBone(IBone* parent) = 0;
-		virtual void DestroyBone(IBone* bone) = 0;
-		virtual int GetBoneIndex(IBone* bone) = 0;
-		virtual IBone* GetRoot() = 0;
-		//virtual std::vector<IBone*> GetAllBones() = 0;
-	};
-
-#ifdef BALUENGINEDLL_EXPORTS
-	class TSkeleton : public ISkeleton
-	{
-	private:
-		int root;
-		std::vector<std::unique_ptr<TBone>> bones;
-		std::vector<std::unique_ptr<TSkin>> skins;
-	public:
-		TSkeleton()
-		{
-			root = -1;
-		}
-		//TSkeleton(TSkeleton&& right);
-		TSkin* CreateSkin();
-		void DestroySkin(TSkin* skin);
-		void DestroySkin(ISkin* skin);
-		int GetSkinsCount();
-		TSkin* GetSkin(int index);
-		TBone* CreateBone(TBone* parent);
-		IBone* CreateBone(IBone* parent);
-		void DestroyBone(TBone* bone);
-		void DestroyBone(IBone* bone);
-		int GetBoneIndex(TBone* bone);
-		int GetBoneIndex(IBone* bone);
-		TBone* GetBone(int index)
-		{
-			return bones[index].get();
-		}
-		TBone* GetRoot();
-		std::vector<TBone*> GetAllBones();
-
-		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-	};
-#endif
-
-	class ITrackFrame
-	{
-	public:
-	};
-
-	class TInterpolateCurve
-	{
-		enum Type
-		{
-			Linear,
-			Stepped,
-			Curve
-		};
-		//std::vector<TCurveSegment> segments;
-	};
-
-#ifdef BALUENGINEDLL_EXPORTS
-	class TTrackFrame : public ITrackFrame
-	{
-	public:
-		//int index;
-		float time;
-		float rotation;
-		TTrackFrame()
-		{
-			time = 0;
-			rotation = 0;
-		}
-		TTrackFrame(float time)
-		{
-			this->time = time;
-			this->rotation = 0;
-		}
-		void Save(pugi::xml_node& parent_node, const int version) const;
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-	};
-
-	class TFrameComparer
-	{
-	public:
-		bool operator() (const TTrackFrame& lhs, const TTrackFrame& rhs) const
-		{
-			//return lhs.index < rhs.index;
-			return lhs.time < rhs.time;
-		}
-	};
-#endif
-
-	class ITrack
-	{
-	public:
-		virtual ITrackFrame* CreateFrame(float time, float rotation)=0;
-	};
-
-#ifdef BALUENGINEDLL_EXPORTS
-	class TTrack : public ITrack
-	{
-	private:
-		TBone* bone;
-		std::set<TTrackFrame, TFrameComparer> frames;
-	public:
-		TTrack()
-		{
-			bone = nullptr;
-		}
-		TTrack(TBone* bone);
-		TTrackFrame* CreateFrame(float time, float rotation);
-		void DestroyFrame(TTrackFrame* frame);
-		TBone* GetBone();
-		std::set<TTrackFrame, TFrameComparer>& GetFrames();
-		void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
-	};
-#endif
-
-	class ITimeLine
-	{
-	public:
-		virtual ITrack* CreateTrack(IBone* bone)=0;
-		virtual void DestroyTrack(ITrack* track) = 0;
-		virtual void SetTimelineSize(float size) = 0;
-	};
-
-#ifdef BALUENGINEDLL_EXPORTS
-	class TTimeLine : public ITimeLine
-	{
-	private:
-		std::vector<std::unique_ptr<TTrack>> tracks;
-		std::string name;
-		float timeline_size;
-	public:
-		TTimeLine()
-		{
-		}
-		TTimeLine(std::string name);
-		TTrack* CreateTrack(TBone* bone);
-		ITrack* CreateTrack(IBone* bone);
-		void DestroyTrack(TTrack* track);
-		void DestroyTrack(ITrack* track);
-		void SetTimelineSize(float size);
-		float GetTimelineSize();
-		std::string GetName();
-		int GetTracksCount();
-		TTrack* GetTrack(int index);
-		void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world, TSkeleton* skeleton);
-	};
-#endif
-
-	class ISkeletonAnimation
-	{
-	public:
-		virtual ITimeLine* CreateAnimation(std::string name)=0;
-	};
-#ifdef BALUENGINEDLL_EXPORTS
-	class TSkeletonAnimation : public ISkeletonAnimation
-	{
-	private:
-		std::vector<std::unique_ptr<TTimeLine>> animations;
-		TSkeleton* skeleton;
-	public:
-		TSkeletonAnimation();
-		TSkeletonAnimation(TSkeleton* skeleton);
-		TTimeLine* CreateAnimation(std::string name);
-		void DestroyAnimation(TTimeLine* animation);
-		int GetAnimationsCount();
-		TTimeLine* GetAnimation(int index);
-
-		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-	};
-#endif
 
 	class IBaluClassPhysBody
 	{
@@ -296,7 +58,6 @@ namespace EngineInterface
 		void Enable(bool enable);
 		bool IsEnable();
 		b2BodyDef GetBodyDef();
-
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
@@ -328,10 +89,10 @@ namespace EngineInterface
 			return "class";
 		}
 		virtual TAABB2 GetAABB()=0;
-		virtual IBaluClassSpriteInstance* AddSprite(IBaluSprite* sprite) = 0;
+		virtual IBaluTransformedSprite* AddSprite(IBaluSprite* sprite) = 0;
 
 		virtual int GetSpritesCount() = 0;
-		virtual IBaluClassSpriteInstance* GetSprite(int index) = 0;
+		virtual IBaluTransformedSprite* GetSprite(int index) = 0;
 		virtual ISkeletonAnimation* GetSkeletonAnimation() = 0;
 		virtual IBaluClassPhysBody* GetPhysBody()=0;
 		virtual ISkeleton* GetSkeleton()=0;
@@ -356,7 +117,7 @@ namespace EngineInterface
 
 		int layer_id;
 
-		std::vector<std::unique_ptr<TBaluClassSpriteInstance>> sprites;
+		std::vector<std::unique_ptr<TBaluTransformedSprite>> sprites;
 		TBaluClassPhysBody phys_body;
 		std::unique_ptr<TSkeleton> skeleton;
 		std::unique_ptr<TSkeletonAnimation> skeleton_animation;
@@ -387,11 +148,11 @@ namespace EngineInterface
 
 		//void OnMouseMove(TMouseMoveCallback);
 
-		TBaluClassSpriteInstance* AddSprite(TBaluSprite* sprite);
-		IBaluClassSpriteInstance* AddSprite(IBaluSprite* sprite);
+		TBaluTransformedSprite* AddSprite(TBaluSprite* sprite);
+		IBaluTransformedSprite* AddSprite(IBaluSprite* sprite);
 		void RemoveSprite(TBaluSprite* sprite);
 		int GetSpritesCount();
-		TBaluClassSpriteInstance* GetSprite(int index);
+		TBaluTransformedSprite* GetSprite(int index);
 
 		TBaluClassPhysBody* GetPhysBody();
 
@@ -411,6 +172,73 @@ namespace EngineInterface
 
 		IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance);
 	};
+#endif
+
+	class IBaluTransformedClass
+	{
+	public:
+		virtual ~IBaluTransformedClass(){}
+		virtual void SetTransform(TBaluTransform transform) = 0;
+		virtual void SetScale(TVec2 scale) = 0;
+		virtual TBaluTransform GetTransform() = 0;
+		virtual TVec2 GetScale() = 0;
+		virtual IBaluClass* GetClass() = 0;
+	};
+
+#ifdef BALUENGINEDLL_EXPORTS
+	class TBaluTransformedClass : public IBaluTransformedClass, public TSceneObject
+	{
+		TBaluClass* balu_class;
+		TBaluTransformWithScale transform;
+	public:
+		static const char* FactoryName()
+		{
+			return "ClassInstance";
+		}
+		const char* GetFactoryName()
+		{
+			return FactoryName();
+		}
+		TBaluTransformedClass()
+		{
+			balu_class = nullptr;
+		}
+		TBaluTransformedClass(TBaluClass* balu_class)
+		{
+			this->balu_class = balu_class;
+		}
+		void SetTransform(TBaluTransform transform)
+		{
+			this->transform.transform = transform;
+		}
+		void SetScale(TVec2 scale)
+		{
+			this->transform.scale = scale;
+		}
+		TBaluTransform GetTransform()
+		{
+			return transform.transform;
+		}
+		TVec2 GetScale()
+		{
+			return transform.scale;
+		}
+		TBaluTransformWithScale GetTransformWithScale()
+		{
+			return transform;
+		}
+		TBaluClass* GetClass()
+		{
+			return balu_class;
+		}
+		void Save(pugi::xml_node& parent_node, const int version);
+		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
+		static TSceneObject* Clone()
+		{
+			return new TBaluTransformedClass();
+		}
+	};
+	REGISTER_FACTORY_CLASS(SceneObjectFactory, TBaluTransformedClass)
 #endif
 
 }

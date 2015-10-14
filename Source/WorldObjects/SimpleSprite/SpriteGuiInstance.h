@@ -12,16 +12,16 @@
 #include <memory>
 namespace EngineInterface
 {
-	class TBaluClassInstanceSpriteInstance;
-	class TBaluClassSpriteInstance;
+	class TBaluTransformedSpriteInstance;
+	class TBaluTransformedSprite;
 	class TBaluSprite;
 }
 using namespace EngineInterface;
 
 class TSimpleSpriteInstance : public EngineInterface::TSceneObjectInstance
 {
-	std::unique_ptr<TBaluClassSpriteInstance> sprite_instance_source;
-	std::unique_ptr<TBaluClassInstanceSpriteInstance> sprite_instance;
+	std::unique_ptr<TBaluTransformedSprite> sprite_instance_source;
+	std::unique_ptr<TBaluTransformedSpriteInstance> sprite_instance;
 	TBaluTransformWithScale instance_transform;
 
 	TBaluSceneInstance* scene;

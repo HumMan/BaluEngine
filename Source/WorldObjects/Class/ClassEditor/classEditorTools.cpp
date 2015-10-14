@@ -88,21 +88,21 @@ public:
 		//auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
 		auto new_scale = class_editor_scene->selected_instance->GetScale().ComponentMul(scale);
 		class_editor_scene->selected_instance->SetScale(new_scale);
-		((IBaluClassSpriteInstance*)(class_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);
+		((IBaluTransformedSprite*)(class_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{
 		auto trans = class_editor_scene->selected_instance->GetTransform();
 		trans.position = new_pos;
 		class_editor_scene->selected_instance->SetTransform(trans);
-		((IBaluClassSpriteInstance*)(class_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
+		((IBaluTransformedSprite*)(class_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
 	}
 	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto trans = class_editor_scene->selected_instance->GetTransform();
 		trans.angle = TRot(new_box);
 		class_editor_scene->selected_instance->SetTransform(trans);
-		((IBaluClassSpriteInstance*)(class_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
+		((IBaluTransformedSprite*)(class_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
 	}
 
 	void OnMouseDown(TMouseEventArgs e)
@@ -136,7 +136,7 @@ public:
 		if (!class_editor_scene->boundary_box->IsCursorCaptured())
 		{
 			auto world_cursor_location = class_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
-			IBaluClassInstanceSpriteInstance* instance_collision(nullptr);
+			IBaluTransformedSpriteInstance* instance_collision(nullptr);
 			if (class_editor_scene->editor_scene_class_instance->PointCollide(world_cursor_location, instance_collision))
 			{
 				class_editor_scene->boundary_box_contour->SetEnable(true);

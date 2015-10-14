@@ -1,5 +1,5 @@
 
-#include "WorldObjects\Material\Interface.h"
-#include "WorldObjects\Sprite\Interface.h"
-#include "WorldObjects\Class\Interface.h"
-#include "WorldObjects\Scene\Interface.h"
+#include "WorldObjects\Material\IMaterialInstance.h"
+#include "WorldObjects\Sprite\ISpriteInstance.h"
+#include "WorldObjects\Class\IClassInstance.h"
+#include "WorldObjects\Scene\ISceneInstance.h"

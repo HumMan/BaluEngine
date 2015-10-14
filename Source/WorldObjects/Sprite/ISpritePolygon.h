@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../Class/IAnimationFrames.h"
 #include "../Material/IMaterial.h"
 #include <World\RenderCommand.h>
+
+#include "IAnimationFrames.h"
 
 #include "../../BaluLib/Source/Math/vec.h"
 #include <vector>

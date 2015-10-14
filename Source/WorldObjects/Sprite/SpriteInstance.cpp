@@ -2,36 +2,37 @@
 
 using namespace EngineInterface;
 
-IBaluPhysShapeInstance* TBaluClassInstanceSpriteInstance::GetPhysShape()
+IBaluPhysShapeInstance* TBaluTransformedSpriteInstance::GetPhysShape()
 {
 	return phys_shape.get();
 }
 
-TBaluSpritePolygonInstance* TBaluClassInstanceSpriteInstance::GetPolygon()
+TBaluSpritePolygonInstance* TBaluTransformedSpriteInstance::GetPolygon()
 {
 	return &polygon;
 }
 
-TBaluClassInstanceSpriteInstance::TBaluClassInstanceSpriteInstance(TBaluClassSpriteInstance* source,TBaluInstance* parent, TResources* resources) :polygon(source->GetSprite()->GetPolygon(), resources)
+TBaluTransformedSpriteInstance::TBaluTransformedSpriteInstance(TBaluTransformedSprite* source,TBaluInstance* parent, TResources* resources) :polygon(source->GetSprite()->GetPolygon(), resources)
 {
 	tag = nullptr;
 	this->source = source;
 	this->local = source->GetTransformWithScale();
-	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetSprite()->GetPhysShape(), parent, this->GetSource());
+	//TODO uncomment
+	//phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetSprite()->GetPhysShape(), parent, this->GetSource());
 }
 
-TOBB2 TBaluClassInstanceSpriteInstance::GetOBB()
+TOBB2 TBaluTransformedSpriteInstance::GetOBB()
 {
 	return this->local.ToGlobal(this->source->GetSprite()->GetPolygon()->GetBoundingBox());
 }
 
-void TBaluClassInstanceSpriteInstance::UpdateTranform(TBaluTransformWithScale global)
+void TBaluTransformedSpriteInstance::UpdateTranform(TBaluTransformWithScale global)
 {
 	polygon.UpdateTransform(global.ToGlobal(local));
 	//polygon.UpdateTransform(global, TBaluTransformWithScale(), TBaluTransformWithScale());
 }
 
-TBaluClassSpriteInstance* TBaluClassInstanceSpriteInstance::GetSource()
+TBaluTransformedSprite* TBaluTransformedSpriteInstance::GetSource()
 {
 	return source;
 }

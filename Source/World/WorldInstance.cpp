@@ -45,8 +45,8 @@ namespace EngineInterface
 		for (auto& k : source->GetObjects(TWorldObjectType::Class))
 		{
 			auto curr_class = dynamic_cast<TBaluClass*>(&(*k));
-			auto new_class_instance = new TBaluClassInstance(this, curr_class);
-			class_instances.emplace_back(new_class_instance);
+			auto new_class_instance = new TBaluClassCompiledScripts(this, curr_class);
+			class_compiled_instances.emplace_back(new_class_instance);
 		}
 
 		std::vector<std::string> errors_list;
@@ -208,7 +208,7 @@ namespace EngineInterface
 				std::string method = std::string("") + method_body + "";
 				this->mouse_move_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
 			}
-			for (auto& k : this->class_instances)
+			for (auto& k : this->class_compiled_instances)
 			{
 				k->CompileScripts();
 			}
@@ -257,7 +257,7 @@ namespace EngineInterface
 			}
 			for (auto& k : source->world_objects[(int)TWorldObjectType::Class])
 			{
-				TBaluClassInstance::CheckScriptErrors(dynamic_cast<TBaluClass*>(k.second.get()), script_engine, errors_list);
+				TBaluClassCompiledScripts::CheckScriptErrors(dynamic_cast<TBaluClass*>(k.second.get()), script_engine, errors_list);
 			}
 		}
 		catch (std::string ex)

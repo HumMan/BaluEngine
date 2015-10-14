@@ -37,7 +37,7 @@ TSkin::TSkin(int bones_count)
 
 void TSkin::SetBoneSprite(int bone_index, TBaluSprite* sprite, TBaluTransform global)
 {
-	sprites_of_bones[bone_index].push_back(TBaluClassSpriteInstance(sprite));
+	sprites_of_bones[bone_index].push_back(TBaluTransformedSprite(sprite));
 	sprites_of_bones[bone_index].back().SetTransform(global);
 }
 
@@ -51,7 +51,7 @@ int TSkin::GetBonesCount()
 	return sprites_of_bones.size();
 }
 
-std::vector<TBaluClassSpriteInstance>& TSkin::GetSpritesOfBone(int bone_index)
+std::vector<TBaluTransformedSprite>& TSkin::GetSpritesOfBone(int bone_index)
 {
 	return sprites_of_bones[bone_index];
 }

@@ -76,7 +76,7 @@ TSkinInstance::TSkinInstance(TSkin* source, TBaluInstance* parent, TResources* r
 		auto& source_sprite_of_bones = source->GetSpritesOfBone(i);
 		for (int k = 0; k < source_sprite_of_bones.size(); k++)
 		{
-			sprites_of_bones[i].push_back(std::make_unique<TBaluClassInstanceSpriteInstance>(&source_sprite_of_bones[k], parent, resources));
+			sprites_of_bones[i].push_back(std::make_unique<TBaluTransformedSpriteInstance>(&source_sprite_of_bones[k], parent, resources));
 		}
 	}
 }

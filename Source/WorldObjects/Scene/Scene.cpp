@@ -52,7 +52,7 @@ TSceneObject* TBaluScene::GetInstance(int index)
 
 TSceneObject* TBaluScene::CreateInstance(TBaluClass* balu_class)
 {
-	instances.push_back(std::make_unique<TBaluSceneClassInstance>(balu_class));
+	instances.push_back(std::make_unique<TBaluTransformedClass>(balu_class));
 	return instances.back().get();
 }
 

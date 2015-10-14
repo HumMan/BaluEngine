@@ -7,12 +7,12 @@
 namespace EngineInterface
 {
 
-	class IBaluClassInstanceSpriteInstance
+	class IBaluTransformedSpriteInstance
 	{
 	public:
 		//virtual void SetTransform(TBaluTransform local)=0;
 		//virtual TBaluTransform GetTransform() = 0;
-		virtual IBaluClassSpriteInstance* GetSource()=0;
+		virtual IBaluTransformedSprite* GetSource()=0;
 		virtual IBaluPhysShapeInstance* GetPhysShape() = 0;
 		virtual TVec2 GetScale() = 0;
 		virtual TOBB2 GetOBB() = 0;
@@ -29,10 +29,10 @@ namespace EngineInterface
 	class TBaluPhysShapeInstance;
 	class TBaluInstance;
 
-	class TBaluClassInstanceSpriteInstance : public IBaluClassInstanceSpriteInstance
+	class TBaluTransformedSpriteInstance : public IBaluTransformedSpriteInstance
 	{
 	private:
-		TBaluClassSpriteInstance* source;
+		TBaluTransformedSprite* source;
 
 		TBaluTransformWithScale local;
 
@@ -41,6 +41,8 @@ namespace EngineInterface
 
 		TProperties properties;
 		void* tag;
+
+		//virtual void SourceChanged();
 	public:
 		void SetTag(void* tag)
 		{
@@ -56,7 +58,7 @@ namespace EngineInterface
 			return &properties;
 		}
 
-		TBaluClassInstanceSpriteInstance(TBaluClassSpriteInstance* source, TBaluInstance* parent, TResources* resources);
+		TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TBaluInstance* parent, TResources* resources);
 
 		void SetTransform(TBaluTransform local)
 		{
@@ -74,7 +76,7 @@ namespace EngineInterface
 		{
 			local.scale = scale;
 		}
-		TBaluClassSpriteInstance* GetSource();
+		TBaluTransformedSprite* GetSource();
 
 		TOBB2 GetOBB();
 

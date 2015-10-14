@@ -1,4 +1,4 @@
-#include "Interface.h"
+#include "IClass.h"
 
 #include <World\SerializeCommon.h>
 
@@ -219,14 +219,14 @@ void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version, TBa
 }
 
 
-void TBaluClassSpriteInstance::Save(pugi::xml_node& parent_node, const int version)
+void TBaluTransformedSprite::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node sprite_node = parent_node.append_child("sprite");
 	sprite_node.append_attribute("name").set_value(sprite->GetName().c_str());
 	SaveTransformWithScale(sprite_node, "Transform", local);
 }
 
-void TBaluClassSpriteInstance::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluTransformedSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
 {
 	sprite = dynamic_cast<TBaluSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, node.attribute("name").as_string()));
 	local = LoadTransformWithScale(node.child("Transform"));
@@ -298,9 +298,9 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 		xml_node sprites_node = node.child("sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
-			TBaluClassSpriteInstance* new_sprite_instance = new TBaluClassSpriteInstance();
+			TBaluTransformedSprite* new_sprite_instance = new TBaluTransformedSprite();
 			new_sprite_instance->Load(sprite_node, version, world);
-			sprites.push_back(std::unique_ptr<TBaluClassSpriteInstance>(new_sprite_instance));
+			sprites.push_back(std::unique_ptr<TBaluTransformedSprite>(new_sprite_instance));
 		}
 	}
 	xml_node phys_body_node = node.child("PhysBody");

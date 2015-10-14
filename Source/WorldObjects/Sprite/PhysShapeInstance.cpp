@@ -4,13 +4,11 @@
 
 using namespace EngineInterface;
 
-TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluInstance* parent, TBaluClassSpriteInstance* sprite_instance)
+TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source)
 {
 	this->fixture = nullptr;
 	this->body = nullptr;
-	this->parent = parent;
 	this->source = source;
-	this->sprite_instance = sprite_instance;
 }
 
 void TBaluPhysShapeInstance::BuildFixture(b2Body* body, TBaluTransformWithScale class_transform)
@@ -31,14 +29,4 @@ void TBaluPhysShapeInstance::BuildFixture(b2Body* body, TBaluTransformWithScale 
 	fixture_def.userData = this;
 	fixture = body->CreateFixture(&fixture_def);
 	delete fixture_def.shape;
-}
-
-IBaluInstance* TBaluPhysShapeInstance::GetParent()
-{
-	return parent;
-}
-
-IBaluClassSpriteInstance* TBaluPhysShapeInstance::GetSpriteInstance()
-{
-	return sprite_instance;
 }

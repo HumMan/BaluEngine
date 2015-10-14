@@ -16,6 +16,7 @@ namespace EngineInterface
 	};
 }
 
+//TODO настройка ссылок кто использует текстуру - очистка неиспользуемых текстур
 TBaluTexture TResources::CreateTextureFromFile(std::string path)
 {
 	TBaluTexture tex;

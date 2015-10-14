@@ -1,6 +1,6 @@
 #include <World\SerializeCommon.h>
 
-#include "Interface.h"
+#include "IScene.h"
 
 #include <World\IWorld.h>
 
@@ -55,7 +55,7 @@ void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBalu
 	properties.Load(scene_node, version, world);
 }
 
-void TBaluSceneClassInstance::Save(pugi::xml_node& parent_node, const int version)
+void TBaluTransformedClass::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("ClassInstance");
 
@@ -63,7 +63,7 @@ void TBaluSceneClassInstance::Save(pugi::xml_node& parent_node, const int versio
 	SaveTransformWithScale(new_node, "Transform", transform);
 }
 
-void TBaluSceneClassInstance::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void TBaluTransformedClass::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
 {
 	balu_class = dynamic_cast<TBaluClass*>(world->GetObjectByName(TWorldObjectType::Class, instance_node.attribute("class_name").as_string()));
 	transform = LoadTransformWithScale(instance_node.child("Transform"));

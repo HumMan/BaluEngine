@@ -291,39 +291,28 @@ namespace EngineInterface
 		virtual ~IBaluWorldObject() {}
 	};
 
-#ifdef BALUENGINEDLL_EXPORTS
-
-	class IProperties;
-	class IAbstractEditor;
-	class IBaluSceneInstance;
-	class IBaluWorld;
-	class TBaluWorldObject: public virtual IBaluWorldObject
-	{
-	protected:
-		IBaluWorld* world;
-		TProperties properties;
-		std::string name;
-	public:
-		TBaluWorldObject(IBaluWorld* world, std::string name);
-		IProperties* GetProperties();
-		std::string GetName();
-		void SetName(const std::string& name);
-		IBaluWorld* GetWorld();
-	};
-
-#endif
-
 	class IChangeListener
 	{
 	public:
-		virtual void Changed()=0;
-		virtual void ElementAdded(TWorldObjectSubType type) = 0;
-		virtual void ElementRemoved(TWorldObjectSubType type) = 0;
-		virtual void BeforeDelete() = 0;
+		virtual void SourceChanged() {}
+		virtual void ElementToSourceAdded(TWorldObjectSubType type) {}
+		virtual void ElementFromSourceRemoved(TWorldObjectSubType type) {}
+		virtual void BeforeDeleteSource(){}
+	};
+
+	class IChangeListenerArray
+	{
+	public:
+		virtual void AddChangesListener(IChangeListener* listener)=0;
+		virtual void RemoveChangesListener(IChangeListener* listener)=0;
+		virtual void OnChanged() = 0; 
+		virtual void OnElementAdded(TWorldObjectSubType type) = 0;
+		virtual void OnElementRemoved(TWorldObjectSubType type) = 0;
+		virtual void OnBeforeDelete() = 0;
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TChangeListenerArray
+	class TChangeListenerArray : public virtual IChangeListenerArray
 	{
 	private:
 		std::vector<IChangeListener*> listeners;
@@ -344,8 +333,49 @@ namespace EngineInterface
 			assert(it != listeners.end());
 			listeners.erase(it);
 		}
+		void OnChanged()
+		{
+			for (auto& l : listeners)
+				l->SourceChanged();
+		}
+		void OnElementAdded(TWorldObjectSubType type)
+		{
+			for (auto& l : listeners)
+				l->ElementToSourceAdded(type);
+		}
+		void OnElementRemoved(TWorldObjectSubType type)
+		{
+			for (auto& l : listeners)
+				l->ElementFromSourceRemoved(type);
+		}
+		void OnBeforeDelete()
+		{
+			for (auto& l : listeners)
+				l->BeforeDeleteSource();
+		}
 	};
+
+	class IProperties;
+	class IAbstractEditor;
+	class IBaluSceneInstance;
+	class IBaluWorld;
+	class TBaluWorldObject : public virtual IBaluWorldObject, public TChangeListenerArray
+	{
+	protected:
+		IBaluWorld* world;
+		TProperties properties;
+		std::string name;
+	public:
+		TBaluWorldObject(IBaluWorld* world, std::string name);
+		IProperties* GetProperties();
+		std::string GetName();
+		void SetName(const std::string& name);
+		IBaluWorld* GetWorld();
+	};
+
 #endif
+
+
 
 }
 
