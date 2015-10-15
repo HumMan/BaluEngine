@@ -3,6 +3,8 @@
 
 #include <World/IWorldInstance.h>
 
+#include "../Sprite/ISpriteInstance.h"
+
 using namespace EngineInterface;
 
 TBaluClassCompiledScripts* TBaluTransformedClassInstance::GetClass()
@@ -38,8 +40,6 @@ TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluTransformedCla
 	}
 
 	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(scene->GetPhysWorld(), source->GetClass()->GetPhysBody(), this);
-
-	scene->AddInstance(this);
 }
 
 TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene)
@@ -58,8 +58,6 @@ TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluClass* source,
 	}
 
 	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(scene->GetPhysWorld(), source->GetPhysBody(), this);
-
-	scene->AddInstance(this);
 }
 
 void TBaluTransformedClassInstance::SetTransform(TBaluTransform transform)
@@ -181,8 +179,8 @@ void TBaluClassPhysBodyIntance::BuildAllFixtures()
 	{
 		auto sensor_source = parent->GetSprite(i);
 
-		//auto phys_shape = dynamic_cast<TBaluPhysShapeInstance*>(sensor_source->GetPhysShape());
-		//phys_shape->BuildFixture(phys_body, TBaluTransformWithScale(sensor_source->GetTransform(), sensor_source->GetScale()));
+		auto phys_shape = dynamic_cast<TBaluPhysShapeInstance*>(sensor_source->GetPhysShape());
+		phys_shape->BuildFixture(phys_body, TBaluTransformWithScale(sensor_source->GetTransform(), sensor_source->GetScale()));
 	}
 }
 
@@ -290,9 +288,8 @@ void TBaluClassCompiledScripts::DoCollide(TBaluPhysShapeInstance* obj_a, TBaluTr
 {
 	for (auto& i : on_collide_callbacks)
 	{
-		//TODO uncomment
-		//if (i.sprite == obj_a->GetSpriteInstance()->GetSprite() && i.with_class == obstancle->GetClass()->GetClass())
-		//	world_instance->GetScriptEngine()->CallCollide(i.script, obj_a, obstancle);
+		if (i.sprite == obj_a->GetSpriteInstance()->GetSource()->GetSprite() && i.with_class == obstancle->GetClass()->GetClass())
+			world_instance->GetScriptEngine()->CallCollide(i.script, obj_a, obstancle);
 	}
 }
 

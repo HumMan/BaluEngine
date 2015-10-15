@@ -17,14 +17,8 @@ namespace EngineInterface
 	private:
 		TBaluSceneInstance* scene;
 	public:
-		TBaluSceneInstance* GetScene()
-		{
-			return scene;
-		}
-		TSceneObjectInstance(TBaluSceneInstance* scene)
-		{
-			this->scene = scene;
-		}
+		TBaluSceneInstance* GetScene();
+		TSceneObjectInstance(TBaluSceneInstance* scene);
 		virtual void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results){}
 		virtual TOBB2 GetOBB() = 0;
 		virtual void SetTag(void* tag){}

@@ -31,3 +31,15 @@ TBaluTexture TMaterialInstance::GetTexture()
 {
 	return texture;
 }
+
+#include "../Scene/ISceneInstance.h"
+
+TBaluSceneInstance* TSceneObjectInstance::GetScene()
+{
+	return scene;
+}
+TSceneObjectInstance::TSceneObjectInstance(TBaluSceneInstance* scene)
+{
+	this->scene = scene;
+	scene->AddInstance(this);
+}
