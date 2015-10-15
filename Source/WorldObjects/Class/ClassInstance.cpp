@@ -7,65 +7,92 @@
 
 using namespace EngineInterface;
 
-TBaluClassCompiledScripts* TBaluTransformedClassInstance::GetClass()
+TBaluClassInstance* TBaluTransformedClassInstance::GetClass()
 {
-	return instance_class;
+	return &instance_class;
 }
 
 bool TBaluTransformedClassInstance::PointCollide(TVec2 scene_space_point)
 {
 	TVec2 p = instance_transform.ToLocal(scene_space_point);
-	return instance_class->GetClass()->PointCollide(p);
+	IBaluTransformedSpriteInstance* sprite = nullptr;
+	return instance_class.PointCollide(p, sprite);
 }
 
 TOBB2 TBaluTransformedClassInstance::GetOBB()
 {
-	auto aabb = GetClass()->GetClass()->GetAABB();
+	auto aabb = instance_class.GetSource()->GetAABB();
 	return instance_transform.ToGlobal(aabb);
+}
+
+TBaluClassInstance::TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, IBaluScriptsCache* scripts_cache, TBaluTransformedClassInstance* parent)
+	:skeleton(source->GetSkeleton(), resources), skeleton_animation(&skeleton, source->GetSkeletonAnimation())
+{
+	this->source = source;
+	this->parent = parent;
+	this->resources = resources;
+	compiled_scripts = scripts_cache->GetClassCompiled(source);
+	skeleton_animation.Init();
+
+	for (int i = 0; i < source->GetSpritesCount(); i++)
+	{
+		sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source->GetSprite(i), parent, resources));
+	}
+
+	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, source->GetPhysBody(), parent, parent_transform);
+}
+
+TSkeletonAnimationInstance* TBaluClassInstance::GetSkeletonAnimation()
+{
+	return &skeleton_animation;
+}
+TBaluClassPhysBodyIntance* TBaluClassInstance::GetPhysBody()
+{
+	return phys_body.get();
+}
+
+IBaluTransformedSpriteInstance* TBaluClassInstance::AddSprite(IBaluTransformedSprite* _source)
+{
+	TBaluTransformedSprite* source = dynamic_cast<TBaluTransformedSprite*>(_source);
+	sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source, parent, resources));
+	return sprites.back().get();
+}
+
+TBaluClass* TBaluClassInstance::GetSource()
+{
+	return source;
+}
+int TBaluClassInstance::GetSpritesCount()
+{
+	return sprites.size();
+}
+IBaluTransformedSpriteInstance* TBaluClassInstance::GetSprite(int index)
+{
+	return sprites[index].get();
 }
 
 TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluTransformedClass* source, TBaluSceneInstance* scene)
 	:TSceneObjectInstance(scene)
-	,skeleton(source->GetClass()->GetSkeleton(), scene->GetResources()),
-	skeleton_animation(&skeleton, source->GetClass()->GetSkeletonAnimation())
+	, instance_class(source->GetClass(), scene->GetPhysWorld(), source->GetTransformWithScale().transform, scene->GetResources(), scene->GetWorld(), this)
 {
 	tag = nullptr;
-	this->instance_class = dynamic_cast<TBaluWorldInstance*>(scene->GetWorld())->GetClassCompiled(source->GetClass());
 	instance_transform = source->GetTransformWithScale();
-	skeleton_animation.Init();
-
-	for (int i = 0; i < source->GetClass()->GetSpritesCount(); i++)
-	{
-		sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source->GetClass()->GetSprite(i), this, scene->GetResources()));
-	}
-
-	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(scene->GetPhysWorld(), source->GetClass()->GetPhysBody(), this);
 }
 
 TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene)
 	: TSceneObjectInstance(scene)
-	, skeleton(source->GetSkeleton(), scene->GetResources())
-	, skeleton_animation(&skeleton, source->GetSkeletonAnimation())
+	, instance_class(source, scene->GetPhysWorld(), transform, scene->GetResources(), scene->GetWorld(), this)
 {
 	tag = nullptr;
-	skeleton_animation.Init();
 	instance_transform = TBaluTransformWithScale(transform, scale);
-	this->instance_class = dynamic_cast<TBaluWorldInstance*>(scene->GetWorld())->GetClassCompiled(source);
-
-	for (int i = 0; i < source->GetSpritesCount(); i++)
-	{
-		sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source->GetSprite(i), this, scene->GetResources()));
-	}
-
-	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(scene->GetPhysWorld(), source->GetPhysBody(), this);
 }
 
 void TBaluTransformedClassInstance::SetTransform(TBaluTransform transform)
 {
 	this->instance_transform.transform = transform;
-	if (phys_body->IsEnable())
+	if (instance_class.GetPhysBody()->IsEnable())
 	{
-		phys_body->SetTransform(transform);
+		instance_class.GetPhysBody()->SetTransform(transform);
 	}
 }
 
@@ -80,9 +107,9 @@ TVec2 TBaluTransformedClassInstance::GetScale()
 void TBaluTransformedClassInstance::SetScale(TVec2 scale)
 {
 	this->instance_transform.scale = scale;
-	if (phys_body->IsEnable())
+	if (instance_class.GetPhysBody()->IsEnable())
 	{
-		phys_body->BuildAllFixtures();
+		instance_class.GetPhysBody()->BuildAllFixtures();
 	}
 }
 TProperties* TBaluTransformedClassInstance::GetProperties()
@@ -92,12 +119,12 @@ TProperties* TBaluTransformedClassInstance::GetProperties()
 
 TBaluClassPhysBodyIntance* TBaluTransformedClassInstance::GetPhysBody()
 {
-	return phys_body.get();
+	return instance_class.GetPhysBody();
 }
 
 int TBaluTransformedClassInstance::GetSpritesCount()
 {
-	return sprites.size();
+	return instance_class.GetSpritesCount();
 }
 
 TSceneObjectInstance* TBaluTransformedClassInstance::Clone(TSceneObject* source, TBaluSceneInstance* scene)
@@ -107,14 +134,12 @@ TSceneObjectInstance* TBaluTransformedClassInstance::Clone(TSceneObject* source,
 
 IBaluTransformedSpriteInstance* TBaluTransformedClassInstance::GetSprite(int index)
 {
-	return sprites[index].get();
+	return instance_class.GetSprite(index);
 }
 
 IBaluTransformedSpriteInstance* TBaluTransformedClassInstance::AddSprite(IBaluTransformedSprite* _source)
 {
-	TBaluTransformedSprite* source = dynamic_cast<TBaluTransformedSprite*>(_source);
-	sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source, this, GetScene()->GetResources()));
-	return sprites.back().get();
+	return instance_class.AddSprite(_source);
 }
 
 TAABB2 TBaluTransformedClassInstance::GetAABB()
@@ -125,10 +150,14 @@ TAABB2 TBaluTransformedClassInstance::GetAABB()
 
 TSkeletonAnimationInstance* TBaluTransformedClassInstance::GetSkeletonAnimation()
 {
-	return &skeleton_animation;
+	return instance_class.GetSkeletonAnimation();
 }
 
 bool TBaluTransformedClassInstance::PointCollide(TVec2 class_space_point, EngineInterface::IBaluTransformedSpriteInstance* &result)
+{
+	return instance_class.PointCollide(class_space_point, result);
+}
+bool TBaluClassInstance::PointCollide(TVec2 class_space_point, EngineInterface::IBaluTransformedSpriteInstance* &result)
 {
 	for (int i = 0; i < sprites.size(); i++)
 	{
@@ -144,6 +173,11 @@ bool TBaluTransformedClassInstance::PointCollide(TVec2 class_space_point, Engine
 
 void TBaluTransformedClassInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results)
 {
+	instance_class.QueryAABB(frustum, results);
+}
+
+void TBaluClassInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results)
+{
 	for (int i = 0; i < sprites.size(); i++)
 	{
 		if (sprites[i]->GetPolygon()->IsEnable())
@@ -157,15 +191,20 @@ void TBaluTransformedClassInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluS
 
 void TBaluTransformedClassInstance::UpdateTransform()
 {
-	if (phys_body->IsEnable())
+	if (instance_class.GetPhysBody()->IsEnable())
 	{
-		instance_transform.transform = phys_body->GetTransform();
+		instance_transform.transform = instance_class.GetPhysBody()->GetTransform();
 	}
+	instance_class.UpdateTransform(instance_transform);
+}
+
+void TBaluClassInstance::UpdateTransform(TBaluTransformWithScale transform)
+{
 	for (int i = 0; i < sprites.size(); i++)
 	{
-		sprites[i]->UpdateTranform(instance_transform);
+		sprites[i]->UpdateTranform(transform);
 	}
-	skeleton.UpdateTranform(instance_transform);
+	skeleton.UpdateTranform(transform);
 }
 
 bool TBaluClassPhysBodyIntance::IsEnable()
@@ -184,7 +223,7 @@ void TBaluClassPhysBodyIntance::BuildAllFixtures()
 	}
 }
 
-TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluTransformedClassInstance* parent)
+TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluTransformedClassInstance* parent, TBaluTransform parent_transform)
 {
 	is_enable = source->IsEnable();
 	if (source->IsEnable())
@@ -193,7 +232,7 @@ TBaluClassPhysBodyIntance::TBaluClassPhysBodyIntance(b2World* phys_world, TBaluC
 		this->phys_world = phys_world;
 
 		auto body_def = source->GetBodyDef();
-		auto instance_transform = parent->GetTransform();
+		auto instance_transform = parent_transform;
 		this->parent = parent;
 		body_def.position = *(b2Vec2*)&instance_transform.position;
 		body_def.angle = instance_transform.angle.GetAngle();
@@ -288,7 +327,7 @@ void TBaluClassCompiledScripts::DoCollide(TBaluPhysShapeInstance* obj_a, TBaluTr
 {
 	for (auto& i : on_collide_callbacks)
 	{
-		if (i.sprite == obj_a->GetSpriteInstance()->GetSource()->GetSprite() && i.with_class == obstancle->GetClass()->GetClass())
+		if (i.sprite == obj_a->GetSpriteInstance()->GetSource()->GetSprite() && i.with_class == obstancle->GetClass()->GetSource())
 			world_instance->GetScriptEngine()->CallCollide(i.script, obj_a, obstancle);
 	}
 }

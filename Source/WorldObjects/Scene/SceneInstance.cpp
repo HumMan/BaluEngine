@@ -51,8 +51,8 @@ void TContactsHolder::OnProcessCollisions()
 		auto instance_a = shape_a->GetParent();
 		auto instance_b = shape_b->GetParent();
 
-		auto class_a = dynamic_cast<TBaluClassCompiledScripts*>(instance_a->GetClass());
-		auto class_b = dynamic_cast<TBaluClassCompiledScripts*>(instance_b->GetClass());
+		auto class_a = dynamic_cast<TBaluClassCompiledScripts*>(instance_a->GetClass()->GetScripts());
+		auto class_b = dynamic_cast<TBaluClassCompiledScripts*>(instance_b->GetClass()->GetScripts());
 
 
 		auto sprite_a = shape_a->GetSpriteInstance();
@@ -202,7 +202,7 @@ void TBaluSceneInstance::OnPrePhysStep()
 	{
 		auto class_instance = dynamic_cast<TBaluTransformedClassInstance*>(instances[i].get());
 		if (class_instance != nullptr)
-			class_instance->GetClass()->DoBeforePhysicsStep(class_instance);
+			class_instance->GetClass()->GetScripts()->DoBeforePhysicsStep(class_instance);
 	}
 }
 void TBaluSceneInstance::PhysStep(float step)
@@ -232,7 +232,7 @@ void TBaluSceneInstance::OnKeyDown(TKey key)
 	{
 		auto class_instance = dynamic_cast<TBaluTransformedClassInstance*>(instances[i].get());
 		if (class_instance != nullptr)
-			class_instance->GetClass()->DoKeyDown(key, class_instance);
+			class_instance->GetClass()->GetScripts()->DoKeyDown(key, class_instance);
 	}
 }
 

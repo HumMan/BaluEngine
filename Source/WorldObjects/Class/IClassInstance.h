@@ -31,7 +31,7 @@ namespace EngineInterface
 		bool is_enable;
 
 	public:
-		TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluTransformedClassInstance* parent);
+		TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluTransformedClassInstance* parent, TBaluTransform parent_transform);
 
 		void BuildAllFixtures();
 
@@ -49,13 +49,6 @@ namespace EngineInterface
 		void SetTransform(TBaluTransform transform);
 };
 #endif
-
-
-	class IBaluClassInstance
-	{
-	public:
-		virtual IBaluClass* GetClass() = 0;
-	};
 
 #ifdef BALUENGINEDLL_EXPORTS
 	struct TSpriteWithClassCollideInstance
@@ -84,7 +77,7 @@ namespace EngineInterface
 
 
 
-	class TBaluClassCompiledScripts :public IBaluClassInstance
+	class TBaluClassCompiledScripts
 	{
 	private:
 		TBaluWorldInstance* world_instance;
@@ -121,14 +114,60 @@ namespace EngineInterface
 		virtual TBaluClassCompiledScripts* GetClassCompiled(TBaluClass* source) = 0;
 	};
 
-	class TBaluClassInstance
+#endif
+	class TBaluClass;
+	class TBaluClassCompiledScripts;
+	class IBaluClassInstance
 	{
-		TBaluClass* source;
-		TBaluClassCompiledScripts* scripts_cache;
 	public:
-		TBaluClassInstance(TBaluClass* source, IScriptsCache* cache);
+		virtual TBaluClass* GetSource() = 0;
+		virtual int GetSpritesCount() = 0;
+		virtual IBaluTransformedSpriteInstance* GetSprite(int index) = 0;
+		//virtual IBaluTransformedSpriteInstance* AddSprite(IBaluTransformedSprite* source) = 0;
+		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
+		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
+		virtual bool PointCollide(TVec2 class_space_point, IBaluTransformedSpriteInstance* &result) = 0;
+		virtual TBaluClassCompiledScripts* GetScripts() = 0;
 	};
 
+	class IBaluScriptsCache;
+
+#ifdef BALUENGINEDLL_EXPORTS
+	class TBaluClassInstance :public IBaluClassInstance
+	{
+	private:
+		TBaluClass* source;
+
+		TBaluTransformedClassInstance* parent;
+
+		TResources* resources;
+
+		TBaluClassCompiledScripts* compiled_scripts;
+
+		std::vector<std::unique_ptr<TBaluTransformedSpriteInstance>> sprites;
+		std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
+		TSkeletonInstance skeleton;
+		TSkeletonAnimationInstance skeleton_animation;
+
+		TProperties properties;
+		void BuildAllFixtures();
+	public:
+		TBaluClassCompiledScripts* GetScripts()
+		{
+			return compiled_scripts;
+		}
+		TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, IBaluScriptsCache* scripts_cache, TBaluTransformedClassInstance* parent);
+		TBaluClass* GetSource();
+		int GetSpritesCount();
+		IBaluTransformedSpriteInstance* GetSprite(int index);
+		IBaluTransformedSpriteInstance* AddSprite(IBaluTransformedSprite* source);
+		TSkeletonAnimationInstance* GetSkeletonAnimation();
+		TBaluClassPhysBodyIntance* GetPhysBody();
+		bool PointCollide(TVec2 class_space_point, IBaluTransformedSpriteInstance* &result);
+		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
+
+		void UpdateTransform(TBaluTransformWithScale transform);
+	};
 #endif
 
 	class IBaluTransformedClassInstance
@@ -160,13 +199,8 @@ namespace EngineInterface
 	{
 	private:
 		int uid;
-		TBaluClassCompiledScripts* instance_class;
+		TBaluClassInstance instance_class;
 		TBaluTransformWithScale instance_transform;
-
-		std::vector<std::unique_ptr<TBaluTransformedSpriteInstance>> sprites;
-		std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
-		TSkeletonInstance skeleton;
-		TSkeletonAnimationInstance skeleton_animation;
 
 		TProperties properties;
 
@@ -180,7 +214,7 @@ namespace EngineInterface
 		{
 			return FactoryName();
 		}
-		TBaluClassCompiledScripts* GetClass();
+		TBaluClassInstance* GetClass();
 		void SetTag(void* tag)
 		{
 			this->tag = tag;
