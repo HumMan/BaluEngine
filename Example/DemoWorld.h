@@ -135,7 +135,7 @@ char* PlayerRight_source = //(void* user_data, IBaluTransformedClassInstance* ob
 "	object.GetPhysBody().SetLinearVelocity(speed);\n";
 
 char* PlayerJumpSensorCollide_source = //(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluTransformedClassInstance* obstacle)
-"	source.GetParent().GetProperties().SetBool(\"can_jump\", true);\n";
+"	//source.GetParent().GetProperties().SetBool(\"can_jump\", true);\n";
 
 char* PlayerPrePhysStep_source = //(void* user_data, IBaluTransformedClassInstance* object)
 "	PropertyType type;\n"

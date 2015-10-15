@@ -1,7 +1,5 @@
 #include "ISpriteInstance.h"
 
-#include "../Class/IClassInstance.h"
-
 using namespace EngineInterface;
 
 IBaluPhysShapeInstance* TBaluTransformedSpriteInstance::GetPhysShape()
@@ -14,13 +12,13 @@ TBaluSpritePolygonInstance* TBaluTransformedSpriteInstance::GetPolygon()
 	return &polygon;
 }
 
-TBaluTransformedSpriteInstance::TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TBaluTransformedClassInstance* parent, TResources* resources)
+TBaluTransformedSpriteInstance::TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources)
 	:polygon(source->GetSprite()->GetPolygon(), resources)
 {
 	tag = nullptr;
 	this->source = source;
 	this->local = source->GetTransformWithScale();
-	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetSprite()->GetPhysShape(), parent, this);
+	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetSprite()->GetPhysShape());
 }
 
 TOBB2 TBaluTransformedSpriteInstance::GetOBB()

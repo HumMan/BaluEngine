@@ -1,16 +1,14 @@
 #include "IPhysShapeInstance.h"
 
-#include "../Class/IClassInstance.h"
-
 using namespace EngineInterface;
 
-TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TBaluTransformedClassInstance* parent, TBaluTransformedSpriteInstance* sprite_instance)
+TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source)
 {
 	this->fixture = nullptr;
 	this->body = nullptr;
-	this->parent = parent;
+	//this->parent = parent;
 	this->source = source;
-	this->sprite_instance = sprite_instance;
+	//this->sprite_instance = sprite_instance;
 }
 
 void TBaluPhysShapeInstance::BuildFixture(b2Body* body, TBaluTransformWithScale class_transform)
@@ -33,12 +31,12 @@ void TBaluPhysShapeInstance::BuildFixture(b2Body* body, TBaluTransformWithScale 
 	delete fixture_def.shape;
 }
 
-IBaluTransformedClassInstance* TBaluPhysShapeInstance::GetParent()
-{
-	return parent;
-}
-
-IBaluTransformedSpriteInstance* TBaluPhysShapeInstance::GetSpriteInstance()
-{
-	return sprite_instance;
-}
+//IBaluTransformedClassInstance* TBaluPhysShapeInstance::GetParent()
+//{
+//	return parent;
+//}
+//
+//IBaluTransformedSpriteInstance* TBaluPhysShapeInstance::GetSpriteInstance()
+//{
+//	return sprite_instance;
+//}

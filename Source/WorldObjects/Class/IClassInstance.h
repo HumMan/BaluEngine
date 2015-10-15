@@ -7,6 +7,12 @@
 
 namespace EngineInterface
 {
+	class ISpritesArray
+	{
+	public:
+		virtual int GetSpritesCount() = 0;
+		virtual IBaluTransformedSpriteInstance* GetSprite(int index) = 0;
+	};
 
 	class IBaluClassPhysBodyIntance
 	{
@@ -16,7 +22,6 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluTransformedClassInstance;
 
 	class TBaluClassPhysBodyIntance : public IBaluClassPhysBodyIntance
 	{
@@ -24,14 +29,14 @@ namespace EngineInterface
 		b2Body* phys_body;
 		TBaluClassPhysBody* source;
 		b2World* phys_world;
-		TBaluTransformedClassInstance* parent;
+		ISpritesArray* sprites;
 
 		TBaluTransform local;
 
 		bool is_enable;
 
 	public:
-		TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluTransformedClassInstance* parent, TBaluTransform parent_transform);
+		TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, ISpritesArray* sprites, TBaluTransform parent_transform);
 
 		void BuildAllFixtures();
 
@@ -117,7 +122,7 @@ namespace EngineInterface
 #endif
 	class TBaluClass;
 	class TBaluClassCompiledScripts;
-	class IBaluClassInstance
+	class IBaluClassInstance: public ISpritesArray
 	{
 	public:
 		virtual TBaluClass* GetSource() = 0;
@@ -138,8 +143,6 @@ namespace EngineInterface
 	private:
 		TBaluClass* source;
 
-		TBaluTransformedClassInstance* parent;
-
 		TResources* resources;
 
 		TBaluClassCompiledScripts* compiled_scripts;
@@ -156,7 +159,7 @@ namespace EngineInterface
 		{
 			return compiled_scripts;
 		}
-		TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, IBaluScriptsCache* scripts_cache, TBaluTransformedClassInstance* parent);
+		TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, IBaluScriptsCache* scripts_cache);
 		TBaluClass* GetSource();
 		int GetSpritesCount();
 		IBaluTransformedSpriteInstance* GetSprite(int index);
@@ -170,7 +173,7 @@ namespace EngineInterface
 	};
 #endif
 
-	class IBaluTransformedClassInstance
+	class IBaluTransformedClassInstance : public ISpritesArray
 	{
 	public:
 		virtual void UpdateTransform() = 0;
@@ -235,6 +238,7 @@ namespace EngineInterface
 
 		int GetSpritesCount();
 		IBaluTransformedSpriteInstance* GetSprite(int index);
+
 		IBaluTransformedSpriteInstance* AddSprite(IBaluTransformedSprite* source);
 
 		TSkeletonAnimationInstance* GetSkeletonAnimation();

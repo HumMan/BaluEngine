@@ -4,8 +4,6 @@
 
 namespace EngineInterface
 {
-	class TBaluTransformedClassInstance;
-
 
 #ifdef BALUENGINEDLL_EXPORTS
 	class TBoneInstance
@@ -34,9 +32,6 @@ namespace EngineInterface
 		void UpdateTranform(TBaluTransform parent);
 		TBaluTransform GetGlobalTransform();
 	};
-
-	class TBaluTransformedSpriteInstance;
-	class TResources;
 
 	class TSkinInstance
 	{

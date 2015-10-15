@@ -122,7 +122,7 @@ TSkeletonAnimationInstance::TSkeletonAnimationInstance(TSkeletonInstance* skelet
 	this->skeleton = skeleton;
 	this->source = source;
 
-	
+	Init();
 }
 
 void TSkeletonAnimationInstance::Init()

@@ -2,7 +2,6 @@
 
 #include "IClass.h"
 #include "../Sprite/ISpriteInstance.h"
-#include "../Material/IMaterialInstance.h"
 
 #include "ISkeletonInstance.h"
 
@@ -18,7 +17,6 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBoneInstance;
 
 	class TTrackInstance
 	{
@@ -30,8 +28,6 @@ namespace EngineInterface
 		TTrackInstance(TBoneInstance* bone, TTrack* source);
 		void Update(float time, float timeline_size);
 	};
-
-	class TSkeletonInstance;
 
 	class TTimeLineInstance
 	{
@@ -64,9 +60,11 @@ namespace EngineInterface
 		TSkeletonInstance* skeleton;
 
 		std::vector<std::unique_ptr<TTimeLineInstance>> animations;
+
+		void Init();
 	public:
 		TSkeletonAnimationInstance(TSkeletonInstance* skeleton, TSkeletonAnimation* source);
-		void Init();
+		
 		void Update(float step);
 		void PlayAnimation(const std::string& name, float alpha);
 		void StopAnimation(const std::string& name);
