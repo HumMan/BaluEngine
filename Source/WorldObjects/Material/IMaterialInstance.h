@@ -14,9 +14,17 @@ namespace EngineInterface
 #ifdef BALUENGINEDLL_EXPORTS
 	class TSceneObjectInstance
 	{
-	protected:
+	private:
 		TBaluSceneInstance* scene;
 	public:
+		TBaluSceneInstance* GetScene()
+		{
+			return scene;
+		}
+		TSceneObjectInstance(TBaluSceneInstance* scene)
+		{
+			this->scene = scene;
+		}
 		virtual void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results){}
 		virtual TOBB2 GetOBB() = 0;
 		virtual void SetTag(void* tag){}

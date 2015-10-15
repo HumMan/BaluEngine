@@ -25,11 +25,18 @@ namespace EngineInterface
 		virtual void OnMouseDown(TMouseEventArgs e){}
 		virtual void OnMouseUp(TMouseEventArgs e){}
 	};
-
-	class IBaluWorldInstance
+	class TBaluClassCompiledScripts;
+	class TBaluClass;
+	class IBaluScriptsCache
 	{
 	public:
+		virtual TBaluClassCompiledScripts* GetClassCompiled(TBaluClass* source) = 0;
+	};
 
+	class IBaluWorldInstance : public IBaluScriptsCache
+	{
+	public:
+		virtual TResources* GetResources() = 0;
 		virtual void AddMouseEventListener(TMouseEventListener*)=0;
 		virtual void RemoveMouseEventListener(TMouseEventListener*) = 0;
 
@@ -70,7 +77,10 @@ namespace EngineInterface
 		std::vector<TScriptInstance> viewport_resize_callback;
 		std::vector<TMouseEventListener*> OnMouseEventListeners;
 	public:
-
+		TResources* GetResources()
+		{
+			return resources;
+		}
 		void AddMouseEventListener(TMouseEventListener*);
 		void RemoveMouseEventListener(TMouseEventListener*);
 

@@ -68,7 +68,7 @@ TBaluTransform TBoneInstance::GetGlobalTransform()
 	return global;
 }
 
-TSkinInstance::TSkinInstance(TSkin* source, TBaluInstance* parent, TResources* resources)
+TSkinInstance::TSkinInstance(TSkin* source, TResources* resources)
 {
 	sprites_of_bones.resize(source->GetBonesCount());
 	for (int i = 0; i < sprites_of_bones.size(); i++)
@@ -76,7 +76,7 @@ TSkinInstance::TSkinInstance(TSkin* source, TBaluInstance* parent, TResources* r
 		auto& source_sprite_of_bones = source->GetSpritesOfBone(i);
 		for (int k = 0; k < source_sprite_of_bones.size(); k++)
 		{
-			sprites_of_bones[i].push_back(std::make_unique<TBaluTransformedSpriteInstance>(&source_sprite_of_bones[k], parent, resources));
+			sprites_of_bones[i].push_back(std::make_unique<TBaluTransformedSpriteInstance>(&source_sprite_of_bones[k], nullptr, resources));
 		}
 	}
 }
@@ -115,7 +115,7 @@ void GatherBones(TBoneInstance* bone, std::vector<TBoneInstance*> &result)
 	}
 }
 
-TSkeletonInstance::TSkeletonInstance(TSkeleton* source,TBaluInstance* parent, TResources* resources)
+TSkeletonInstance::TSkeletonInstance(TSkeleton* source, TResources* resources)
 {
 	this->source = source;
 
@@ -154,7 +154,7 @@ TSkeletonInstance::TSkeletonInstance(TSkeleton* source,TBaluInstance* parent, TR
 
 	for (int i = 0; i < source->GetSkinsCount(); i++)
 	{
-		skins.push_back(std::make_unique<TSkinInstance>(source->GetSkin(i), parent, resources));
+		skins.push_back(std::make_unique<TSkinInstance>(source->GetSkin(i), resources));
 	}
 }
 

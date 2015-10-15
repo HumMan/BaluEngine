@@ -1,10 +1,6 @@
 
 #include <baluLib.h>
 
-#include <Interfaces\BaluEngineInterface.h>
-
-using namespace EngineInterface;
-
 //#define USE_CALLBACKS
 #include "DemoWorld.h"
 

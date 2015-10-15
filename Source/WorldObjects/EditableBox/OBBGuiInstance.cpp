@@ -200,6 +200,7 @@ std::vector<TPointAdornment> InitControlPointsByBoundary(TOBB<float, 2> boundary
 }
 
 TBoundaryBoxAdornment::TBoundaryBoxAdornment(TBaluSceneInstance* scene)
+	:TSceneObjectInstance(scene)
 {
 	control_under_cursor = -1;
 	state = TState::None;
@@ -211,9 +212,10 @@ TBoundaryBoxAdornment::TBoundaryBoxAdornment(TBaluSceneInstance* scene)
 
 	enable = false;
 
-	scene->AddInstance(this);
+	
 }
 TBoundaryBoxAdornment::TBoundaryBoxAdornment(TBaluSceneInstance* scene, TOBBGui* source)
+	:TSceneObjectInstance(scene)
 {
 
 }

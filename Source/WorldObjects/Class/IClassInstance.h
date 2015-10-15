@@ -16,7 +16,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluInstance;
+	class TBaluTransformedClassInstance;
 
 	class TBaluClassPhysBodyIntance : public IBaluClassPhysBodyIntance
 	{
@@ -24,14 +24,14 @@ namespace EngineInterface
 		b2Body* phys_body;
 		TBaluClassPhysBody* source;
 		b2World* phys_world;
-		TBaluInstance* parent;
+		TBaluTransformedClassInstance* parent;
 
 		TBaluTransform local;
 
 		bool is_enable;
 
 	public:
-		TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluInstance* parent);
+		TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, TBaluTransformedClassInstance* parent);
 
 		void BuildAllFixtures();
 
@@ -76,10 +76,13 @@ namespace EngineInterface
 		}
 	};
 
-	class TBaluInstance;
+	class TBaluTransformedClassInstance;
 	class TBaluWorldInstance;
 	class TBaluScriptInstance;
 	class TBaluPhysShapeInstance;
+	class TBaluClassCompiledScripts;
+
+
 
 	class TBaluClassCompiledScripts :public IBaluClassInstance
 	{
@@ -100,13 +103,13 @@ namespace EngineInterface
 		void CompileScripts();
 		static void CheckScriptErrors(TBaluClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
 
-		void DoKeyDown(TKey key, TBaluInstance* instance);
-		void DoKeyUp(TKey key, TBaluInstance* instance);
-		void DoBeforePhysicsStep(TBaluInstance* instance);
-		void DoCollide(TBaluPhysShapeInstance* obj_a, TBaluInstance* obstancle);
-		//void DoSensorCollide(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
-		//void DoBeginContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
-		//void DoEndContact(TSensorInstance* sensor, TBaluInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
+		void DoKeyDown(TKey key, TBaluTransformedClassInstance* instance);
+		void DoKeyUp(TKey key, TBaluTransformedClassInstance* instance);
+		void DoBeforePhysicsStep(TBaluTransformedClassInstance* instance);
+		void DoCollide(TBaluPhysShapeInstance* obj_a, TBaluTransformedClassInstance* obstancle);
+		//void DoSensorCollide(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
+		//void DoBeginContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
+		//void DoEndContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 	};
 #endif
 
@@ -128,7 +131,7 @@ namespace EngineInterface
 
 #endif
 
-	class IBaluInstance
+	class IBaluTransformedClassInstance
 	{
 	public:
 		virtual void UpdateTransform() = 0;
@@ -153,7 +156,7 @@ namespace EngineInterface
 
 	class TBaluTransformedClass;
 
-	class TBaluInstance : public IBaluInstance, public TSceneObjectInstance
+	class TBaluTransformedClassInstance : public IBaluTransformedClassInstance, public TSceneObjectInstance
 	{
 	private:
 		int uid;
@@ -186,8 +189,8 @@ namespace EngineInterface
 		{
 			return tag;
 		}
-		TBaluInstance(TBaluTransformedClass* source, TBaluSceneInstance* scene);
-		TBaluInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene);
+		TBaluTransformedClassInstance(TBaluTransformedClass* source, TBaluSceneInstance* scene);
+		TBaluTransformedClassInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene);
 		void SetTransform(TBaluTransform transform);
 		TBaluTransform GetTransform();
 		TVec2 GetScale();
@@ -212,7 +215,7 @@ namespace EngineInterface
 		static TSceneObjectInstance* Clone(TSceneObject* source, TBaluSceneInstance* scene);
 };
 
-	REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TBaluInstance);
+	REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TBaluTransformedClassInstance);
 #endif
 
 }

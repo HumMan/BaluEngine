@@ -139,13 +139,13 @@ void TBaluScriptInstance::CallWorldStart(TScriptInstance &start_world_callback, 
 	TStackValue result, object;
 	start_world_callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
-void TBaluScriptInstance::CallInstanceEvent(TScriptInstance &callback, IBaluInstance* obj)
+void TBaluScriptInstance::CallInstanceEvent(TScriptInstance &callback, IBaluTransformedClassInstance* obj)
 {
 	if (callback.GetSource()->GetScriptType() != this->p->script_type_to_run)
 		return;
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IInstance"))));
-	*(EngineInterface::IBaluInstance**)params[0].get() = obj;
+	*(EngineInterface::IBaluTransformedClassInstance**)params[0].get() = obj;
 
 	TStackValue result, object;
 	callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
@@ -163,7 +163,7 @@ void TBaluScriptInstance::CallMouseEvent(TScriptInstance &callback, EngineInterf
 	callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
 }
 
-void TBaluScriptInstance::CallCollide(EngineInterface::TScriptInstance &callback, EngineInterface::IBaluPhysShapeInstance* obj_a, EngineInterface::IBaluInstance* obj_b)
+void TBaluScriptInstance::CallCollide(EngineInterface::TScriptInstance &callback, EngineInterface::IBaluPhysShapeInstance* obj_a, EngineInterface::IBaluTransformedClassInstance* obj_b)
 {
 	if (callback.GetSource()->GetScriptType() != this->p->script_type_to_run)
 		return;
@@ -171,7 +171,7 @@ void TBaluScriptInstance::CallCollide(EngineInterface::TScriptInstance &callback
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IPhysShapeInstance"))));
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IInstance"))));
 	params[0].get_as<IBaluPhysShapeInstance*>() = obj_a;
-	params[1].get_as<IBaluInstance*>() = obj_b;
+	params[1].get_as<IBaluTransformedClassInstance*>() = obj_b;
 
 	TStackValue result, object;
 	callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));

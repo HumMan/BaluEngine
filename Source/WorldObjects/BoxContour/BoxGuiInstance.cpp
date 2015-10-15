@@ -24,7 +24,7 @@ void TOBBContour::Render(TDrawingHelper* helper)const
 }
 
 TOBBContour::TOBBContour(TBaluSceneInstance* scene)
+	:TSceneObjectInstance(scene)
 {
 	enable = false;
-	scene->AddInstance(this);
 }

@@ -254,9 +254,9 @@ namespace Editor
 
 	ref class TBaluInstanceDefProperties : public TPropertiesObject
 	{
-		IBaluInstance* obj_def;
+		IBaluTransformedClassInstance* obj_def;
 	public:
-		TBaluInstanceDefProperties(IBaluInstance* obj_def)
+		TBaluInstanceDefProperties(IBaluTransformedClassInstance* obj_def)
 		{
 			this->obj_def = obj_def;
 		}
@@ -299,8 +299,8 @@ namespace Editor
 		if ((dynamic_cast<IBaluClass*>(obj_def)) != nullptr)
 			return gcnew TBaluClassProperties(dynamic_cast<IBaluClass*>(obj_def));
 
-		if ((dynamic_cast<IBaluInstance*>(obj_def)) != nullptr)
-			return gcnew TBaluInstanceDefProperties(dynamic_cast<IBaluInstance*>(obj_def));
+		if ((dynamic_cast<IBaluTransformedClassInstance*>(obj_def)) != nullptr)
+			return gcnew TBaluInstanceDefProperties(dynamic_cast<IBaluTransformedClassInstance*>(obj_def));
 
 		if ((dynamic_cast<IBaluScene*>(obj_def)) != nullptr)
 			return gcnew TBaluSceneProperties(dynamic_cast<IBaluScene*>(obj_def));

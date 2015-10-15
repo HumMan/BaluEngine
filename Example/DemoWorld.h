@@ -1,10 +1,12 @@
 #pragma once
 
+#include <Interfaces\BaluEngineInterface.h>
+
 using namespace EngineInterface;
 
 #ifdef USE_CALLBACKS
 
-void PlayerJump(void* user_data, IBaluInstance* object)
+void PlayerJump(void* user_data, IBaluTransformedClassInstance* object)
 {
 
 	if (object->GetProperties()->GetBool("can_jump"))
@@ -15,7 +17,7 @@ void PlayerJump(void* user_data, IBaluInstance* object)
 	}
 }
 
-void PlayerLeft(void* user_data, IBaluInstance* object)
+void PlayerLeft(void* user_data, IBaluTransformedClassInstance* object)
 {
 	float mult = (object->GetProperties()->GetBool("can_jump")) ? 1 : 0.8;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
@@ -23,7 +25,7 @@ void PlayerLeft(void* user_data, IBaluInstance* object)
 	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 
-void PlayerRight(void* user_data, IBaluInstance* object)
+void PlayerRight(void* user_data, IBaluTransformedClassInstance* object)
 {
 	float mult = (object->GetProperties()->GetBool("can_jump")) ? 1 : 0.8;
 	auto speed = object->GetPhysBody()->GetLinearVelocity();
@@ -31,17 +33,17 @@ void PlayerRight(void* user_data, IBaluInstance* object)
 	object->GetPhysBody()->SetLinearVelocity(speed);
 }
 
-void BonesPlayerLeft(void* user_data, IBaluInstance* object)
+void BonesPlayerLeft(void* user_data, IBaluTransformedClassInstance* object)
 {
 	object->GetSkeletonAnimation()->PlayAnimation("walk", 1);
 }
 
-void PlayerJumpSensorCollide(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluInstance* obstacle)
+void PlayerJumpSensorCollide(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluTransformedClassInstance* obstacle)
 {
 	source->GetParent()->GetProperties()->SetBool("can_jump", true);
 }
 
-void PlayerPrePhysStep(void* user_data, IBaluInstance* object)
+void PlayerPrePhysStep(void* user_data, IBaluTransformedClassInstance* object)
 {
 	PropertyType type;
 	if (!object->GetProperties()->HasProperty("can_jump", type))
@@ -74,7 +76,7 @@ void PlayerPrePhysStep(void* user_data, IBaluInstance* object)
 	object->GetProperties()->SetBool("can_jump", false);
 }
 
-void BonesPlayerPrePhysStep(void* user_data, IBaluInstance* object)
+void BonesPlayerPrePhysStep(void* user_data, IBaluTransformedClassInstance* object)
 {
 	PropertyType type;
 	if (!object->GetProperties()->HasProperty("can_jump", type))
@@ -110,7 +112,7 @@ void WorldStart(void* user_data, IBaluWorldInstance* world_instance, IComposer* 
 #else
 
 
-char* PlayerJump_source = //(IBaluInstance object)
+char* PlayerJump_source = //(IBaluTransformedClassInstance object)
 "	if (object.GetProperties().GetBool(\"can_jump\"))\n"
 "	{\n"
 "		vec2 speed = object.GetPhysBody().GetLinearVelocity();\n"
@@ -118,24 +120,24 @@ char* PlayerJump_source = //(IBaluInstance object)
 "		object.GetPhysBody().SetLinearVelocity(speed);\n"
 "	}\n";
 
-char* PlayerLeft_source = //(void* user_data, IBaluInstance* object)
+char* PlayerLeft_source = //(void* user_data, IBaluTransformedClassInstance* object)
 "	float mult = 0.8;\n"
 "	if(object.GetProperties().GetBool(\"can_jump\")) mult = 1;\n"
 "	vec2 speed = object.GetPhysBody().GetLinearVelocity();\n"
 "	speed.x = -1.4*mult;\n"
 "	object.GetPhysBody().SetLinearVelocity(speed);\n";
 
-char* PlayerRight_source = //(void* user_data, IBaluInstance* object)
+char* PlayerRight_source = //(void* user_data, IBaluTransformedClassInstance* object)
 "	float mult = 0.8;\n"
 "	if(object.GetProperties().GetBool(\"can_jump\")) mult = 1;\n"
 "	vec2 speed = object.GetPhysBody().GetLinearVelocity();\n"
 "	speed.x = 1.4*mult;\n"
 "	object.GetPhysBody().SetLinearVelocity(speed);\n";
 
-char* PlayerJumpSensorCollide_source = //(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluInstance* obstacle)
-"	source.GetParent().GetProperties().SetBool(\"can_jump\", true);\n";
+char* PlayerJumpSensorCollide_source = //(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluTransformedClassInstance* obstacle)
+"	//source.GetParent().GetProperties().SetBool(\"can_jump\", true);\n";
 
-char* PlayerPrePhysStep_source = //(void* user_data, IBaluInstance* object)
+char* PlayerPrePhysStep_source = //(void* user_data, IBaluTransformedClassInstance* object)
 "	PropertyType type;\n"
 "	if (!object.GetProperties().HasProperty(\"can_jump\", type))\n"
 "		object.GetProperties().SetBool(\"can_jump\", false);\n"
@@ -163,7 +165,7 @@ char* PlayerPrePhysStep_source = //(void* user_data, IBaluInstance* object)
 "	object.GetSprite(0).GetPolygon().SetActiveAnimation(v_anim + hor_anim);\n"
 "	object.GetProperties().SetBool(\"can_jump\", false);\n";
 
-char* BonesPlayerPrePhysStep_source = //(void* user_data, IBaluInstance* object)
+char* BonesPlayerPrePhysStep_source = //(void* user_data, IBaluTransformedClassInstance* object)
 "	vec2 speed = object.GetPhysBody().GetLinearVelocity();\n"
 "	if (Abs(speed[0]) > 0)\n"
 "		object.GetSkeletonAnimation().PlayAnimation(\"walk\", 1);\n"

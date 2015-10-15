@@ -59,8 +59,8 @@ void TContactsHolder::OnProcessCollisions()
 	//	auto sprite_a = shape_a->GetSpriteInstance();
 	//	auto sprite_b = shape_b->GetSpriteInstance();
 
-	//	class_a->DoCollide(shape_a, dynamic_cast<TBaluInstance*>(instance_b));
-	//	class_b->DoCollide(shape_b, dynamic_cast<TBaluInstance*>(instance_a));
+	//	class_a->DoCollide(shape_a, dynamic_cast<TBaluTransformedClassInstance*>(instance_b));
+	//	class_b->DoCollide(shape_b, dynamic_cast<TBaluTransformedClassInstance*>(instance_a));
 	}
 }
 
@@ -128,14 +128,14 @@ TBaluSceneInstance::~TBaluSceneInstance()
 //	if (use_class != nullptr)
 //	{	
 //		auto class_instance = world->GetClassInstance(use_class);
-//		instances.push_back(std::make_unique<TBaluInstance>(class_instance, phys_world.get(), transform, scale, resources));
+//		instances.push_back(std::make_unique<TBaluTransformedClassInstance>(class_instance, phys_world.get(), transform, scale, resources));
 //		return instances.back().get();
 //	}
 //}
 
-//EngineInterface::IBaluInstance* TBaluSceneInstance::CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform, TVec2 scale)
+//EngineInterface::IBaluTransformedClassInstance* TBaluSceneInstance::CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform, TVec2 scale)
 //{
-//	return dynamic_cast<EngineInterface::IBaluInstance*>(CreateInstance(dynamic_cast<TBaluClass*>(use_class), transform, scale));
+//	return dynamic_cast<EngineInterface::IBaluTransformedClassInstance*>(CreateInstance(dynamic_cast<TBaluClass*>(use_class), transform, scale));
 //}
 
 void TBaluSceneInstance::AddInstance(EngineInterface::TSceneObjectInstance* instance)
@@ -201,7 +201,7 @@ void TBaluSceneInstance::OnPrePhysStep()
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
-		auto class_instance = dynamic_cast<TBaluInstance*>(instances[i].get());
+		auto class_instance = dynamic_cast<TBaluTransformedClassInstance*>(instances[i].get());
 		if (class_instance != nullptr)
 			class_instance->GetClass()->DoBeforePhysicsStep(class_instance);
 	}
@@ -221,7 +221,7 @@ void TBaluSceneInstance::OnStep(float step)
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
-		auto class_instance = dynamic_cast<TBaluInstance*>(instances[i].get());
+		auto class_instance = dynamic_cast<TBaluTransformedClassInstance*>(instances[i].get());
 		if (class_instance != nullptr)
 			class_instance->GetSkeletonAnimation()->Update(step);
 	}
@@ -231,7 +231,7 @@ void TBaluSceneInstance::OnKeyDown(TKey key)
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
-		auto class_instance = dynamic_cast<TBaluInstance*>(instances[i].get());
+		auto class_instance = dynamic_cast<TBaluTransformedClassInstance*>(instances[i].get());
 		if (class_instance != nullptr)
 			class_instance->GetClass()->DoKeyDown(key, class_instance);
 	}

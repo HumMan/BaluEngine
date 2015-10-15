@@ -17,7 +17,7 @@
 //	friend class TSpriteOBBAdornment;
 //	//friend void SpritePolygonOBBAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 //private:
-//	IBaluInstance* class_instance;
+//	IBaluTransformedClassInstance* class_instance;
 //	bool visible;
 //	IVisualAdornment* visual;
 //	TDrawingHelper* drawing_helper;
@@ -75,7 +75,7 @@
 //	}
 //	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 //
-//	p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
+//	p->class_instance = dynamic_cast<IBaluTransformedClassInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
 //}
 //
 //class TSpritePolygonAdornmentPrivate
@@ -83,7 +83,7 @@
 //	friend class TSpritePolygonAdornment;
 //	//friend void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 //private:
-//	IBaluInstance* class_instance;
+//	IBaluTransformedClassInstance* class_instance;
 //	bool visible;
 //	IBaluSprite* visual;
 //	TDrawingHelper* drawing_helper;
@@ -208,7 +208,7 @@
 //		assert(false);
 //	}
 //	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
-//	p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
+//	p->class_instance = dynamic_cast<IBaluTransformedClassInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
 //}
 
 //
@@ -217,7 +217,7 @@
 //	friend class TSpriteAdornment;
 //	//friend void SpritePolygonAdornmentCustomDraw(void* user_data, NVGcontext* vg, TCustomDrawCommand* params);
 //private:
-//	IBaluInstance* class_instance;
+//	IBaluTransformedClassInstance* class_instance;
 //	bool visible;
 //	IBaluSprite* visual;
 //	TDrawingHelper* drawing_helper;
@@ -258,11 +258,11 @@
 //
 //	adornment_class = CreateClass(world, scene_instance->GetSource(), p.get());
 //
-//	p->class_instance = dynamic_cast<IBaluInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
+//	p->class_instance = dynamic_cast<IBaluTransformedClassInstance*>(scene_instance->CreateInstance(dynamic_cast<TSceneObject*>(adornment_class), TBaluTransform(TVec2(0, 0), TRot(0)), TVec2(1, 1)));
 //	p->class_instance->UpdateTranform();
 //}
 //
-//IBaluInstance* TSpriteAdornment::GetInstance()
+//IBaluTransformedClassInstance* TSpriteAdornment::GetInstance()
 //{
 //	return p->class_instance;
 //}

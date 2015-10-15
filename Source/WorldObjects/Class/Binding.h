@@ -27,7 +27,7 @@ MUnpackA2(TYPE, PlayAnimation, WrapString, WrapValue<float>);
 MUnpackA1(TYPE, StopAnimation, WrapString);
 BALU_ENGINE_SCRIPT_END_CLASS;
 
-BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluInstance, "IInstance");
+BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluTransformedClassInstance, "IInstance");
 MUnpackA1(TYPE, SetScale, WrapValue<TVec2>);
 MUnpackRA0(WrapInterface<IProperties>, TYPE, GetProperties);
 MUnpackRA0(WrapInterface<IBaluClassPhysBodyIntance>, TYPE, GetPhysBody);

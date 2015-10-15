@@ -226,6 +226,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
+	class TBaluClass;
 	typedef TSceneObject*(*SceneObjectClone)();
 	class SceneObjectFactory
 	{

@@ -13,14 +13,18 @@ TMaterialInstance::TMaterialInstance(TBaluMaterial* source, TResources* resource
 	this->source = source;
 	this->resources = resources;
 
-	source->AddChangesListener(this);
-	if (source!=nullptr)
+	
+	if (source != nullptr)
+	{
+		source->AddChangesListener(this);
 		texture = resources->CreateTextureFromFile(source->GetImagePath());
+	}
 }
 
 TMaterialInstance::~TMaterialInstance()
 {
-	source->RemoveChangesListener(this);
+	if (source!=nullptr)
+		source->RemoveChangesListener(this);
 }
 
 TBaluTexture TMaterialInstance::GetTexture()

@@ -4,7 +4,7 @@
 
 namespace EngineInterface
 {
-	class TBaluInstance;
+	class TBaluTransformedClassInstance;
 
 
 #ifdef BALUENGINEDLL_EXPORTS
@@ -43,7 +43,7 @@ namespace EngineInterface
 	private:
 		std::vector<std::vector<std::unique_ptr<TBaluTransformedSpriteInstance>>> sprites_of_bones;
 	public:
-		TSkinInstance(TSkin* source, TBaluInstance* parent, TResources* resources);
+		TSkinInstance(TSkin* source, TResources* resources);
 		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 		void UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TBaluTransformWithScale class_transform);
 	};
@@ -57,7 +57,7 @@ namespace EngineInterface
 
 		TSkeleton* source;
 	public:
-		TSkeletonInstance(TSkeleton* source, TBaluInstance* parent, TResources* resources);
+		TSkeletonInstance(TSkeleton* source, TResources* resources);
 		void UpdateTranform(TBaluTransformWithScale class_transform);
 		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 		TSkeleton* GetSource();

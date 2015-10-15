@@ -55,8 +55,8 @@ void TSpritePolygonAdornment::SetSelectionBox(TOBB2 box)
 }
 
 TSpritePolygonAdornmentInstance::TSpritePolygonAdornmentInstance(TBaluSceneInstance* scene)
+	:TSceneObjectInstance(scene)
 {
-	scene->AddInstance(this);
 }
 
 void TSpritePolygonAdornmentInstance::Render(TDrawingHelper* drawing_helper)const

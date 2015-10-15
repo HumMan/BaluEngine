@@ -201,7 +201,7 @@ namespace EngineInterface
 		}
 		TBaluTransformedClass()
 		{
-			balu_class = nullptr;
+			this->balu_class = nullptr;
 		}
 		TBaluTransformedClass(TBaluClass* balu_class)
 		{

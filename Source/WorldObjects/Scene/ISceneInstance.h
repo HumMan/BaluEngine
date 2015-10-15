@@ -158,7 +158,7 @@ namespace EngineInterface
 		~TBaluSceneInstance();
 
 		//TSceneObjectInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
-		//IBaluInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
+		//IBaluTransformedClassInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
 		void AddInstance(TSceneObjectInstance*);
 		void DestroyInstance(TSceneObjectInstance*);
 

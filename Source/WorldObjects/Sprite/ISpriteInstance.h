@@ -27,7 +27,7 @@ namespace EngineInterface
 
 #ifdef BALUENGINEDLL_EXPORTS
 	class TBaluPhysShapeInstance;
-	class TBaluInstance;
+	class TBaluTransformedClassInstance;
 
 	class TBaluTransformedSpriteInstance : public IBaluTransformedSpriteInstance
 	{
@@ -58,7 +58,7 @@ namespace EngineInterface
 			return &properties;
 		}
 
-		TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TBaluInstance* parent, TResources* resources);
+		TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TBaluTransformedClassInstance* parent, TResources* resources);
 
 		void SetTransform(TBaluTransform local)
 		{

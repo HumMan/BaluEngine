@@ -7,7 +7,7 @@ namespace EngineInterface
 {
 	class TBaluScriptInstancePrivate;
 	class IComposer;
-	class IBaluInstance;
+	class IBaluTransformedClassInstance;
 	class IBaluPhysShapeInstance;
 	class IDirector;
 
@@ -32,9 +32,9 @@ namespace EngineInterface
 		void CallViewportResize(TScriptInstance &viewport_resize_callback, IDirector* director, TVec2i old_size, TVec2i new_size);
 		void CallWorldStart(TScriptInstance &script_instance, IBaluWorldInstance* world_instance, IComposer* composer);
 		//KeyUp KeyDown BeforePhysicsStep
-		void CallInstanceEvent(TScriptInstance& script_instance, IBaluInstance* obj);
+		void CallInstanceEvent(TScriptInstance& script_instance, IBaluTransformedClassInstance* obj);
 		void CallMouseEvent(TScriptInstance &callback, TMouseEventArgs* e);
-		void CallCollide(TScriptInstance &callback, IBaluPhysShapeInstance* obj_a, IBaluInstance* obj_b);
+		void CallCollide(TScriptInstance &callback, IBaluPhysShapeInstance* obj_a, IBaluTransformedClassInstance* obj_b);
 
 		//std::string GetEventSignature(EngineInterface::TEventType event_type);
 

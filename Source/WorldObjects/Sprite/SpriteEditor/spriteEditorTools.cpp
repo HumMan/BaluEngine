@@ -89,7 +89,7 @@ public:
 		if (!sprite_editor_scene->boundary_box->IsCursorCaptured())
 		{
 			auto world_cursor_location = sprite_editor_scene->drawing_helper->GetContext().FromScreenPixelsToScene(TVec2i(e.location[0], e.location[1]));
-			//IBaluInstance* instance_collision(nullptr);
+			//IBaluTransformedClassInstance* instance_collision(nullptr);
 			//if (sprite_editor_scene->source_sprite->PointCollide(world_cursor_location, instance_collision))
 			//{
 			//	sprite_editor_scene->boundary_box_contour->SetEnable(true);

@@ -23,7 +23,7 @@ namespace EngineInterface
 		IBaluMaterial* source_material;
 		IBaluSceneInstance* editor_scene_instance;
 
-		IBaluInstance* editor_scene_class_instance; //экземпляр редактируемого материала на сцене редактора
+		IBaluTransformedClassInstance* editor_scene_class_instance; //экземпляр редактируемого материала на сцене редактора
 
 	public:
 		void Initialize(IBaluWorld* world, IBaluMaterial* source_material, IBaluSceneInstance* source_scene_instance, TDrawingHelper* drawing_helper);

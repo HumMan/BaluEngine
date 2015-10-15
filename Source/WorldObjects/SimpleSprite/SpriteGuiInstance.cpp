@@ -7,8 +7,9 @@
 using namespace EngineInterface;
 
 TSimpleSpriteInstance::TSimpleSpriteInstance(TBaluSceneInstance* scene, TBaluSprite* source)
+	:TSceneObjectInstance(scene)
 {
-	scene->AddInstance(this);
+	
 	this->scene = scene;
 	this->source = source;
 	sprite_instance_source.reset(new TBaluTransformedSprite(source));
