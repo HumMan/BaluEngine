@@ -13,7 +13,7 @@ TSimpleSpriteInstance::TSimpleSpriteInstance(TBaluSceneInstance* scene, TBaluSpr
 	this->scene = scene;
 	this->source = source;
 	sprite_instance_source.reset(new TBaluTransformedSprite(source));
-	sprite_instance.reset(new TBaluTransformedSpriteInstance(sprite_instance_source.get(), scene->GetResources()));
+	sprite_instance.reset(new TBaluTransformedSpriteInstance(sprite_instance_source.get(), scene->GetResources(), this));
 }
 TOBB2 TSimpleSpriteInstance::GetOBB()
 {

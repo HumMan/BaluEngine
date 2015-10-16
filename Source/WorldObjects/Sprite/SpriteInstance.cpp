@@ -12,13 +12,13 @@ TBaluSpritePolygonInstance* TBaluTransformedSpriteInstance::GetPolygon()
 	return &polygon;
 }
 
-TBaluTransformedSpriteInstance::TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources)
+TBaluTransformedSpriteInstance::TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources, TSceneObjectInstance* scene_object)
 	:polygon(source->GetSprite()->GetPolygon(), resources)
 {
 	tag = nullptr;
 	this->source = source;
 	this->local = source->GetTransformWithScale();
-	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetSprite()->GetPhysShape());
+	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetSprite()->GetPhysShape(), TPhysShapeUserData(scene_object, this));
 }
 
 TOBB2 TBaluTransformedSpriteInstance::GetOBB()

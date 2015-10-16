@@ -6,6 +6,7 @@
 
 namespace EngineInterface
 {
+	class TSceneObjectInstance;
 
 	class IBaluTransformedSpriteInstance
 	{
@@ -55,7 +56,7 @@ namespace EngineInterface
 			return &properties;
 		}
 
-		TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources);
+		TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources, TSceneObjectInstance* scene_object);
 
 		void SetTransform(TBaluTransform local)
 		{

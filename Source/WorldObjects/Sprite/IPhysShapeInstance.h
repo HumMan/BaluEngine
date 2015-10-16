@@ -4,38 +4,56 @@
 
 namespace EngineInterface
 {
-	class IBaluTransformedSpriteInstance;
+	class TBaluTransformedSpriteInstance;
+	class TSceneObjectInstance;
+	class IBaluTransformedClassInstance;
 }
 
 class b2Body;
 
 namespace EngineInterface
 {
+	class TPhysShapeUserData
+	{
+		TSceneObjectInstance* scene_object;
+		TBaluTransformedSpriteInstance* sprite;
+	public:
+		TSceneObjectInstance* GetSceneObject()
+		{
+			return scene_object;
+		}
+		TBaluTransformedSpriteInstance* GetSprite()
+		{
+			return sprite;
+		}
+		TPhysShapeUserData(TSceneObjectInstance* scene_object, TBaluTransformedSpriteInstance* sprite)
+		{
+			this->scene_object = scene_object;
+			this->sprite = sprite;
+		}
+	};
+
 	class IBaluPhysShapeInstance
 	{
 	public:
-		//virtual IBaluTransformedClassInstance* GetParent() = 0;
-		//virtual IBaluTransformedSpriteInstance* GetSpriteInstance() = 0;
-		virtual void BuildFixture(b2Body* body, TBaluTransformWithScale class_transform)=0;
+		virtual TPhysShapeUserData* GetUserData()=0;
 	};
-	
+
 #ifdef BALUENGINEDLL_EXPORTS
 	class TBaluPhysShapeInstance : public IBaluPhysShapeInstance
 	{
 	protected:
 		TBaluPhysShape* source;
-		//TBaluTransform global;
 		b2Fixture* fixture;
 		b2Body* body;
-		//TBaluTransformedClassInstance* parent;
-		//TBaluTransformedSpriteInstance* sprite_instance;
+		TPhysShapeUserData user_data;
 	public:
-		TBaluPhysShapeInstance(TBaluPhysShape* source);
+		TBaluPhysShapeInstance(TBaluPhysShape* source, TPhysShapeUserData user_data);
 		void BuildFixture(b2Body* body, TBaluTransformWithScale class_transform);
-
-		//TODO попытаться сделать TBaluTransformedClassInstance
-		//IBaluTransformedClassInstance* GetParent();
-		//IBaluTransformedSpriteInstance* GetSpriteInstance();
+		TPhysShapeUserData* GetUserData()
+		{
+			return &user_data;
+		}
 	};
 #endif
 }

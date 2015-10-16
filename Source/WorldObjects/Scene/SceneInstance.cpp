@@ -45,22 +45,24 @@ void TContactsHolder::OnProcessCollisions()
 {
 	for (auto& v : contacts)
 	{
-		//TODO uncomment
-		//auto shape_a = (TBaluPhysShapeInstance*)v.A->GetUserData();
-		//auto shape_b = (TBaluPhysShapeInstance*) v.B->GetUserData();
+		auto user_data_a = (TPhysShapeUserData*)v.A->GetUserData();
+		auto user_data_b = (TPhysShapeUserData*)v.B->GetUserData();
 
-		//auto instance_a = shape_a->GetParent();
-		//auto instance_b = shape_b->GetParent();
+		auto sprite_a = user_data_a->GetSprite();
+		auto sprite_b = user_data_b->GetSprite();
 
-		//auto class_a = dynamic_cast<TBaluClassCompiledScripts*>(instance_a->GetClass()->GetScripts());
-		//auto class_b = dynamic_cast<TBaluClassCompiledScripts*>(instance_b->GetClass()->GetScripts());
+		auto instance_a = dynamic_cast<TBaluTransformedClassInstance*>(user_data_a->GetSceneObject());
+		auto instance_b = dynamic_cast<TBaluTransformedClassInstance*>(user_data_b->GetSceneObject());
 
+		auto class_a = instance_a!=nullptr?dynamic_cast<TBaluClassCompiledScripts*>(instance_a->GetClass()->GetScripts()):nullptr;
+		auto class_b = instance_b!=nullptr?dynamic_cast<TBaluClassCompiledScripts*>(instance_b->GetClass()->GetScripts()):nullptr;
 
-		//auto sprite_a = shape_a->GetSpriteInstance();
-		//auto sprite_b = shape_b->GetSpriteInstance();
-
-		//class_a->DoCollide(shape_a, dynamic_cast<TBaluTransformedClassInstance*>(instance_b));
-		//class_b->DoCollide(shape_b, dynamic_cast<TBaluTransformedClassInstance*>(instance_a));
+		if (class_a != nullptr && class_b != nullptr)
+		{
+			//TODO взаимодействие не только с TBaluTransformedClassInstance
+			class_a->DoCollide(instance_a, sprite_a, dynamic_cast<TBaluTransformedClassInstance*>(instance_b));
+			class_b->DoCollide(instance_b, sprite_b, dynamic_cast<TBaluTransformedClassInstance*>(instance_a));
+		}
 	}
 }
 

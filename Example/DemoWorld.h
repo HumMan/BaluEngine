@@ -4,114 +4,6 @@
 
 using namespace EngineInterface;
 
-#ifdef USE_CALLBACKS
-
-void PlayerJump(void* user_data, IBaluTransformedClassInstance* object)
-{
-
-	if (object->GetProperties()->GetBool("can_jump"))
-	{
-		auto speed = object->GetPhysBody()->GetLinearVelocity();
-		speed[1] = 4;
-		object->GetPhysBody()->SetLinearVelocity(speed);
-	}
-}
-
-void PlayerLeft(void* user_data, IBaluTransformedClassInstance* object)
-{
-	float mult = (object->GetProperties()->GetBool("can_jump")) ? 1 : 0.8;
-	auto speed = object->GetPhysBody()->GetLinearVelocity();
-	speed[0] = -1.4*mult;
-	object->GetPhysBody()->SetLinearVelocity(speed);
-}
-
-void PlayerRight(void* user_data, IBaluTransformedClassInstance* object)
-{
-	float mult = (object->GetProperties()->GetBool("can_jump")) ? 1 : 0.8;
-	auto speed = object->GetPhysBody()->GetLinearVelocity();
-	speed[0] = 1.4*mult;
-	object->GetPhysBody()->SetLinearVelocity(speed);
-}
-
-void BonesPlayerLeft(void* user_data, IBaluTransformedClassInstance* object)
-{
-	object->GetSkeletonAnimation()->PlayAnimation("walk", 1);
-}
-
-void PlayerJumpSensorCollide(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluTransformedClassInstance* obstacle)
-{
-	source->GetParent()->GetProperties()->SetBool("can_jump", true);
-}
-
-void PlayerPrePhysStep(void* user_data, IBaluTransformedClassInstance* object)
-{
-	PropertyType type;
-	if (!object->GetProperties()->HasProperty("can_jump", type))
-		object->GetProperties()->SetBool("can_jump", false);
-	auto can_jump = object->GetProperties()->GetBool("can_jump");
-
-	auto speed = object->GetPhysBody()->GetLinearVelocity();
-	std::string hor_anim, v_anim;
-	if (speed[0] > 0)
-		hor_anim = "_right";
-	//
-	else
-		hor_anim = "_left";
-	if (can_jump)
-	{
-		if (abs(speed[0]) > 0.5)
-			v_anim = "run";
-		else
-			v_anim = "stay";
-	}
-	else
-	{
-		if (speed[1] > 0)
-			v_anim = "jump_up";
-		else
-			v_anim = "jump_down";
-	}
-	object->GetSprite(0)->GetPolygon()->SetActiveAnimation((v_anim + hor_anim).c_str());
-
-	object->GetProperties()->SetBool("can_jump", false);
-}
-
-void BonesPlayerPrePhysStep(void* user_data, IBaluTransformedClassInstance* object)
-{
-	PropertyType type;
-	if (!object->GetProperties()->HasProperty("can_jump", type))
-		object->GetProperties()->SetBool("can_jump", false);
-	auto can_jump = object->GetProperties()->GetBool("can_jump");
-
-	auto speed = object->GetPhysBody()->GetLinearVelocity();
-	std::string hor_anim, v_anim;
-	if (abs(speed[0]) > 0)
-		object->GetSkeletonAnimation()->PlayAnimation("walk", 1);
-	else
-		object->GetSkeletonAnimation()->StopAnimation("walk");
-}
-
-
-void ViewportResize(void* user_data, IDirector* director, TVec2i old_size, TVec2i new_size)
-{
-	//main_viewport на весь экран
-	TVec2 k = TVec2((float)new_size[0], (float)new_size[1]) / TVec2((float)old_size[0], (float)old_size[1]);
-	auto main_viewport = director->GetWorldInstance()->GetSceneInstance(0)->GetSource()->FindViewport("main_viewport");
-	auto old_vieport_size = main_viewport->GetSize();
-	auto new_vieport_size = old_vieport_size.ComponentMul(k);
-	main_viewport->SetSize(new_vieport_size);
-}
-
-void WorldStart(void* user_data, IBaluWorldInstance* world_instance, IComposer* composer)
-{
-	auto scene = world_instance->GetSource()->GetScenes()[0].second;
-	auto scene_instance = world_instance->RunScene(scene);
-	composer->AddToRender(scene_instance, scene->FindViewport("main_viewport"));
-}
-
-#else
-
-
 char* PlayerJump_source = //(IBaluTransformedClassInstance object)
 "	if (object.GetProperties().GetBool(\"can_jump\"))\n"
 "	{\n"
@@ -135,7 +27,7 @@ char* PlayerRight_source = //(void* user_data, IBaluTransformedClassInstance* ob
 "	object.GetPhysBody().SetLinearVelocity(speed);\n";
 
 char* PlayerJumpSensorCollide_source = //(TCallbackData* callback, EngineInterface::IBaluPhysShapeInstance* source, EngineInterface::IBaluTransformedClassInstance* obstacle)
-"	//source.GetParent().GetProperties().SetBool(\"can_jump\", true);\n";
+"	object.GetProperties().SetBool(\"can_jump\", true);\n";
 
 char* PlayerPrePhysStep_source = //(void* user_data, IBaluTransformedClassInstance* object)
 "	PropertyType type;\n"
@@ -183,8 +75,6 @@ char* WorldStart_source = //(IWorldInstance world_instance, IComposer composer)
 "	IScene scene = world_instance.GetSource().GetScene(\"scene0\");\n"
 "	ISceneInstance scene_instance = world_instance.RunScene(scene);\n"
 "	composer.AddToRender(scene_instance, scene.FindViewport(\"main_viewport\"));\n";
-
-#endif
 
 IBaluWorld* CreateDemoWorld(std::string assets_dir)
 {
@@ -243,7 +133,6 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 
 	auto player_class = world->CreateClass("player");
 	auto player_class_instance = player_class->AddSprite(player_sprite);
-	//player_class_instance->tag = "character_sprite";
 	player_class->GetPhysBody()->Enable(true);
 	player_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
 	player_class->GetPhysBody()->SetFixedRotation(true);
@@ -253,30 +142,17 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	player_phys_sprite->SetPhysShape(GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -3.5))->GetPhysShape());
 	player_phys_sprite->GetPhysShape()->SetIsSensor(true);
 
-#ifdef USE_CALLBACKS
-	player_class->OnKeyDown(TKey::Up, TSpecialCallback<KeyUpDownCallback>(PlayerJump, &world->GetCallbacksActiveType()));
-	player_class->OnKeyDown(TKey::Left, TSpecialCallback<KeyUpDownCallback>(PlayerLeft, &world->GetCallbacksActiveType()));
-	player_class->OnKeyDown(TKey::Right, TSpecialCallback<KeyUpDownCallback>(PlayerRight, &world->GetCallbacksActiveType()));
-
-	player_class->OnBeforePhysicsStep(TSpecialCallback<BeforePhysicsCallback>(PlayerPrePhysStep, &world->GetCallbacksActiveType()));
-	player_phys_sprite->OnCollide(box_class, TSpecialCallback<CollideCallback>(PlayerJumpSensorCollide, &world->GetCallbacksActiveType()));
-#else
 	player_class->OnKeyDown(TKey::Up, TScript(PlayerJump_source));
 	player_class->OnKeyDown(TKey::Left, TScript(PlayerLeft_source));
 	player_class->OnKeyDown(TKey::Right, TScript(PlayerRight_source));
 
 	player_class->OnBeforePhysicsStep(TScript(PlayerPrePhysStep_source));
 	player_class->AddOnCollide(player_phys_sprite, box_class, TScript(PlayerJumpSensorCollide_source));
-	//player_phys_sprite->AddOnCollide(box_class, TScript(PlayerJumpSensorCollide_source, &world->GetCallbacksActiveType()));
-#endif
 
 	auto bones_player = world->CreateClass("bones");
-#ifdef USE_CALLBACKS
-	bones_player->OnKeyDown(TKey::Left, TSpecialCallback<KeyUpDownCallback>(BonesPlayerLeft, &world->GetCallbacksActiveType()));
-	bones_player->OnBeforePhysicsStep(TSpecialCallback<KeyUpDownCallback>(BonesPlayerPrePhysStep, &world->GetCallbacksActiveType()));
-#else
+
 	bones_player->OnBeforePhysicsStep(TScript(BonesPlayerPrePhysStep_source));
-#endif
+
 	{
 		auto bones_mat = world->CreateMaterial("zombie");
 

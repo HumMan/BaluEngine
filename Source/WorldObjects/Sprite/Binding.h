@@ -4,8 +4,6 @@ MUnpackRA0(WrapValue<bool>, TYPE, IsSensor);
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluPhysShapeInstance, "IPhysShapeInstance");
-//TODO uncomment
-//MUnpackRA0(WrapInterface<IBaluTransformedClassInstance>, TYPE, GetParent);
 BALU_ENGINE_SCRIPT_END_CLASS;
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IBaluSprite, "ISprite");

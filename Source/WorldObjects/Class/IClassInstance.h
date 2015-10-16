@@ -7,6 +7,14 @@
 
 namespace EngineInterface
 {
+	class TBaluTransformedClassInstance;
+	class TBaluWorldInstance;
+	class TBaluScriptInstance;
+	class TBaluPhysShapeInstance;
+	class TBaluClassCompiledScripts;
+	class IBaluScriptsCache;
+	class TBaluTransformedClass;
+
 	class ISpritesArray
 	{
 	public:
@@ -74,14 +82,6 @@ namespace EngineInterface
 		}
 	};
 
-	class TBaluTransformedClassInstance;
-	class TBaluWorldInstance;
-	class TBaluScriptInstance;
-	class TBaluPhysShapeInstance;
-	class TBaluClassCompiledScripts;
-
-
-
 	class TBaluClassCompiledScripts
 	{
 	private:
@@ -104,7 +104,7 @@ namespace EngineInterface
 		void DoKeyDown(TKey key, TBaluTransformedClassInstance* instance);
 		void DoKeyUp(TKey key, TBaluTransformedClassInstance* instance);
 		void DoBeforePhysicsStep(TBaluTransformedClassInstance* instance);
-		void DoCollide(TBaluPhysShapeInstance* obj_a, TBaluTransformedClassInstance* obstancle);
+		void DoCollide(TBaluTransformedClassInstance* source_object, TBaluTransformedSpriteInstance* obj_a, TBaluTransformedClassInstance* obstancle);
 		//void DoSensorCollide(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 		//void DoBeginContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 		//void DoEndContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
@@ -135,14 +135,14 @@ namespace EngineInterface
 		virtual TBaluClassCompiledScripts* GetScripts() = 0;
 	};
 
-	class IBaluScriptsCache;
+	
 
 #ifdef BALUENGINEDLL_EXPORTS
 	class TBaluClassInstance :public IBaluClassInstance
 	{
 	private:
 		TBaluClass* source;
-
+		TSceneObjectInstance* scene_object;
 		TResources* resources;
 
 		TBaluClassCompiledScripts* compiled_scripts;
@@ -159,7 +159,7 @@ namespace EngineInterface
 		{
 			return compiled_scripts;
 		}
-		TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, IBaluScriptsCache* scripts_cache);
+		TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, IBaluScriptsCache* scripts_cache, TSceneObjectInstance* scene_object);
 		TBaluClass* GetSource();
 		int GetSpritesCount();
 		IBaluTransformedSpriteInstance* GetSprite(int index);
@@ -196,7 +196,7 @@ namespace EngineInterface
 
 #ifdef BALUENGINEDLL_EXPORTS
 
-	class TBaluTransformedClass;
+	
 
 	class TBaluTransformedClassInstance : public IBaluTransformedClassInstance, public TSceneObjectInstance
 	{

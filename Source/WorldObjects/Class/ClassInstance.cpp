@@ -26,17 +26,18 @@ TOBB2 TBaluTransformedClassInstance::GetOBB()
 }
 
 TBaluClassInstance::TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, 
-	TResources* resources, IBaluScriptsCache* scripts_cache)
-	:skeleton(source->GetSkeleton(), resources)
+	TResources* resources, IBaluScriptsCache* scripts_cache, TSceneObjectInstance* scene_object)
+	:skeleton(source->GetSkeleton(), resources, scene_object)
 	, skeleton_animation(&skeleton, source->GetSkeletonAnimation())
 {
+	this->scene_object = scene_object;
 	this->source = source;
 	this->resources = resources;
 	compiled_scripts = scripts_cache->GetClassCompiled(source);
 
 	for (int i = 0; i < source->GetSpritesCount(); i++)
 	{
-		sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source->GetSprite(i), resources));
+		sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source->GetSprite(i), resources, scene_object));
 	}
 
 	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, source->GetPhysBody(),this, parent_transform);
@@ -54,7 +55,7 @@ TBaluClassPhysBodyIntance* TBaluClassInstance::GetPhysBody()
 IBaluTransformedSpriteInstance* TBaluClassInstance::AddSprite(IBaluTransformedSprite* _source)
 {
 	TBaluTransformedSprite* source = dynamic_cast<TBaluTransformedSprite*>(_source);
-	sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source, resources));
+	sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source, resources, scene_object));
 	return sprites.back().get();
 }
 
@@ -73,7 +74,7 @@ IBaluTransformedSpriteInstance* TBaluClassInstance::GetSprite(int index)
 
 TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluTransformedClass* source, TBaluSceneInstance* scene)
 	:TSceneObjectInstance(scene)
-	, instance_class(source->GetClass(), scene->GetPhysWorld(), source->GetTransformWithScale().transform, scene->GetResources(), scene->GetWorld())
+	, instance_class(source->GetClass(), scene->GetPhysWorld(), source->GetTransformWithScale().transform, scene->GetResources(), scene->GetWorld(), this)
 {
 	tag = nullptr;
 	instance_transform = source->GetTransformWithScale();
@@ -81,7 +82,7 @@ TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluTransformedCla
 
 TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene)
 	: TSceneObjectInstance(scene)
-	, instance_class(source, scene->GetPhysWorld(), transform, scene->GetResources(), scene->GetWorld())
+	, instance_class(source, scene->GetPhysWorld(), transform, scene->GetResources(), scene->GetWorld(), this)
 {
 	tag = nullptr;
 	instance_transform = TBaluTransformWithScale(transform, scale);
@@ -323,13 +324,12 @@ void TBaluClassCompiledScripts::DoBeforePhysicsStep(TBaluTransformedClassInstanc
 	}
 }
 
-void TBaluClassCompiledScripts::DoCollide(TBaluPhysShapeInstance* obj_a, TBaluTransformedClassInstance* obstancle)
+void TBaluClassCompiledScripts::DoCollide(TBaluTransformedClassInstance* source_object, TBaluTransformedSpriteInstance* obj_a, TBaluTransformedClassInstance* obstancle)
 {
 	for (auto& i : on_collide_callbacks)
 	{
-		//TODO uncomment
-		//if (i.sprite == obj_a->GetSpriteInstance()->GetSource()->GetSprite() && i.with_class == obstancle->GetClass()->GetSource())
-		//	world_instance->GetScriptEngine()->CallCollide(i.script, obj_a, obstancle);
+		if (i.sprite == obj_a->GetSource()->GetSprite() && i.with_class == obstancle->GetClass()->GetSource())
+			world_instance->GetScriptEngine()->CallCollide(i.script, source_object, obj_a, obstancle);
 	}
 }
 
@@ -369,7 +369,7 @@ void TBaluClassCompiledScripts::CompileScripts()
 	for (auto& v : source->GetOnCollide())
 	{
 		auto method_body = v.script.GetScriptSource();
-		std::string method = std::string("func static Collide(IPhysShapeInstance source, IInstance obstancle)\n{\n") + method_body + "\n}\n";
+		std::string method = std::string("func static Collide(IInstance object, IClassInstanceSpriteInstance sprite, IInstance obstancle)\n{\n") + method_body + "\n}\n";
 		on_collide_callbacks.push_back(TSpriteWithClassCollideInstance(v.sprite, v.with_class, script_engine.CompileMethod(&v.script, method.c_str())));
 	}
 }
