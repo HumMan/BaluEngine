@@ -26,7 +26,7 @@ bool TSimpleSpriteInstance::PointCollide(TVec2 scene_space_point)
 
 void TSimpleSpriteInstance::UpdateTransform()
 {
-	sprite_instance->UpdateTranform(this->instance_transform);
+	sprite_instance->UpdateTransform(this->instance_transform);
 }
 TSimpleSpriteInstance::~TSimpleSpriteInstance()
 {

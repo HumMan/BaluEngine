@@ -2,33 +2,65 @@
 
 using namespace EngineInterface;
 
-IBaluPhysShapeInstance* TBaluTransformedSpriteInstance::GetPhysShape()
+IBaluPhysShapeInstance* TBaluSpriteInstance::GetPhysShape()
 {
 	return phys_shape.get();
 }
 
-TBaluSpritePolygonInstance* TBaluTransformedSpriteInstance::GetPolygon()
+TBaluSpritePolygonInstance* TBaluSpriteInstance::GetPolygon()
 {
 	return &polygon;
 }
 
+TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TResources* resources, 
+	TSceneObjectInstance* scene_object, TBaluTransformedSpriteInstance* parent)
+	:polygon(source->GetPolygon(), resources)
+{
+	this->source = source;
+	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetPhysShape(), TPhysShapeUserData(scene_object, parent));
+}
+
+TOBB2 TBaluSpriteInstance::GetOBB()
+{
+	return source->GetPolygon()->GetBoundingBox();
+}
+
+void TBaluSpriteInstance::UpdateTransform(TBaluTransformWithScale global)
+{
+	polygon.UpdateTransform(global);
+}
+
+TBaluSprite* TBaluSpriteInstance::GetSource()
+{
+	return source;
+}
+
+IBaluPhysShapeInstance* TBaluTransformedSpriteInstance::GetPhysShape()
+{
+	return sprite_instance.GetPhysShape();
+}
+
+TBaluSpritePolygonInstance* TBaluTransformedSpriteInstance::GetPolygon()
+{
+	return sprite_instance.GetPolygon();
+}
+
 TBaluTransformedSpriteInstance::TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources, TSceneObjectInstance* scene_object)
-	:polygon(source->GetSprite()->GetPolygon(), resources)
+	:sprite_instance(source->GetSprite(), resources, scene_object, this)
 {
 	tag = nullptr;
 	this->source = source;
-	this->local = source->GetTransformWithScale();
-	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetSprite()->GetPhysShape(), TPhysShapeUserData(scene_object, this));
+	this->transform = source->GetTransformWithScale();
 }
 
 TOBB2 TBaluTransformedSpriteInstance::GetOBB()
 {
-	return this->local.ToGlobal(this->source->GetSprite()->GetPolygon()->GetBoundingBox());
+	return this->transform.ToGlobal(this->source->GetSprite()->GetPolygon()->GetBoundingBox());
 }
 
-void TBaluTransformedSpriteInstance::UpdateTranform(TBaluTransformWithScale global)
+void TBaluTransformedSpriteInstance::UpdateTransform(TBaluTransformWithScale global)
 {
-	polygon.UpdateTransform(global.ToGlobal(local));
+	sprite_instance.UpdateTransform(global.ToGlobal(transform));
 	//polygon.UpdateTransform(global, TBaluTransformWithScale(), TBaluTransformWithScale());
 }
 

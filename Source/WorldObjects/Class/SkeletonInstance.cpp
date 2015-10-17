@@ -101,7 +101,7 @@ void TSkinInstance::UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TB
 	{
 		for (int k = 0; k < sprites_of_bones[i].size(); k++)
 		{
-			sprites_of_bones[i][k]->UpdateTranform(class_transform.ToGlobal(TBaluTransformWithScale(bones[i]->GetGlobalTransform(), TVec2(1, 1))));
+			sprites_of_bones[i][k]->UpdateTransform(class_transform.ToGlobal(TBaluTransformWithScale(bones[i]->GetGlobalTransform(), TVec2(1, 1))));
 		}
 	}
 }

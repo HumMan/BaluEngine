@@ -6,7 +6,42 @@
 
 namespace EngineInterface
 {
-	class TSceneObjectInstance;
+	class TBaluTransformedSpriteInstance;
+
+	class IBaluSpriteInstance
+	{
+	public:
+	};
+
+#ifdef BALUENGINEDLL_EXPORTS
+	class TBaluSpriteInstance
+	{
+	private:
+		TBaluSprite* source;
+		std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
+		TBaluSpritePolygonInstance polygon;
+
+		TProperties properties;
+	public:
+		TBaluSprite* GetSource();
+		TBaluSpriteInstance(TBaluSprite* source, TResources* resources, TSceneObjectInstance* scene_object, TBaluTransformedSpriteInstance* parent);
+		TOBB2 GetOBB();
+
+		IBaluPhysShapeInstance* GetPhysShape();
+
+		TBaluSpritePolygonInstance* GetPolygon();
+
+		void PlayAnimation(std::string animation_name, bool loop);
+		void PauseAnimation(bool pause);
+		void StopAnimation();
+
+		void UpdateTransform(TBaluTransformWithScale global);
+		TProperties* GetProperties()
+		{
+			return &properties;
+		}
+	};
+#endif
 
 	class IBaluTransformedSpriteInstance
 	{
@@ -33,15 +68,17 @@ namespace EngineInterface
 	private:
 		TBaluTransformedSprite* source;
 
-		TBaluTransformWithScale local;
+		TBaluTransformWithScale transform;
 
-		std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
-		TBaluSpritePolygonInstance polygon;
+		TBaluSpriteInstance sprite_instance;
 
-		TProperties properties;
 		void* tag;
 
 	public:
+		IProperties* GetProperties()
+		{
+			return sprite_instance.GetProperties();
+		}
 		void SetTag(void* tag)
 		{
 			this->tag = tag;
@@ -50,29 +87,24 @@ namespace EngineInterface
 		{
 			return tag;
 		}
-
-		IProperties* GetProperties()
-		{
-			return &properties;
-		}
-
+		TBaluSpriteInstance* GetSprite();
 		TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources, TSceneObjectInstance* scene_object);
 
 		void SetTransform(TBaluTransform local)
 		{
-			this->local.transform = local;
+			this->transform.transform = local;
 		}
 		TBaluTransform GetTransform()
 		{
-			return local.transform;
+			return transform.transform;
 		}
 		TVec2 GetScale()
 		{
-			return local.scale;
+			return transform.scale;
 		}
 		void SetScale(TVec2 scale)
 		{
-			local.scale = scale;
+			transform.scale = scale;
 		}
 		TBaluTransformedSprite* GetSource();
 
@@ -86,7 +118,7 @@ namespace EngineInterface
 		void PauseAnimation(bool pause);
 		void StopAnimation();
 
-		void UpdateTranform(TBaluTransformWithScale global);
+		void UpdateTransform(TBaluTransformWithScale global);
 };
 #endif
 

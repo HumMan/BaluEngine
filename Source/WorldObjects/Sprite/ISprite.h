@@ -72,7 +72,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluTransformedSprite : public IBaluTransformedSprite
+	class TBaluTransformedSprite : public IBaluTransformedSprite, public TChangeListenerArray
 	{
 		TBaluSprite* sprite;
 		TBaluTransformWithScale local;
