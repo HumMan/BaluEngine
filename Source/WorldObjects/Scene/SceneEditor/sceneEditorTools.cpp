@@ -98,15 +98,13 @@ public:
 	{
 		auto trans = scene_editor_scene->selected_instance->GetTransform();
 		trans.position = new_pos;
-		scene_editor_scene->selected_instance->SetTransform(trans);
-		((TSceneObject*)(scene_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
+		scene_editor_scene->selected_instance->GetSource()->SetTransform(trans);
 	}
 	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto trans = scene_editor_scene->selected_instance->GetTransform();
 		trans.angle = TRot(new_box);
-		scene_editor_scene->selected_instance->SetTransform(trans);
-		((TSceneObject*)(scene_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
+		scene_editor_scene->selected_instance->GetSource()->SetTransform(trans);
 	}
 
 	void OnMouseDown(TMouseEventArgs e)

@@ -6,20 +6,20 @@ TSceneEditor::TSceneEditor(TDrawingHelperContext drawing_context, IBaluWorld* wo
 	:TAbstractEditor(world_instance), tools_registry(&scene)
 {
 
-	auto scene_instance = world_instance->RunScene(edited_scene->GetLayers());
+	auto scene_instance = world_instance->RunScene(edited_scene);
 	world_instance->GetComposer()->AddToRender(scene_instance, drawing_context.viewport);
 
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
 	scene.Initialize(world, edited_scene, scene_instance, drawing_helper.get(), this);
 
-	for (int i = 0; i < edited_scene->GetInstancesCount(); i++)
-	{
-		auto source_instance = edited_scene->GetInstance(i);
+	//for (int i = 0; i < edited_scene->GetInstancesCount(); i++)
+	//{
+	//	auto source_instance = edited_scene->GetInstance(i);
 
-		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, dynamic_cast<TBaluSceneInstance*>(scene_instance));
+	//	auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, dynamic_cast<TBaluSceneInstance*>(scene_instance));
 
-		instance->SetTag(source_instance);
-	}
+	//	instance->SetTag(source_instance);
+	//}
 }
 
 IBaluSceneInstance* TSceneEditor::GetEditorSceneInstance()

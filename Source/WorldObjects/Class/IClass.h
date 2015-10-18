@@ -186,7 +186,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluTransformedClass : public IBaluTransformedClass, public TSceneObject
+	class TBaluTransformedClass : public IBaluTransformedClass, public TSceneObject, public TChangeListenerArray
 	{
 		TBaluClass* balu_class;
 		TBaluTransformWithScale transform;
@@ -210,10 +210,12 @@ namespace EngineInterface
 		void SetTransform(TBaluTransform transform)
 		{
 			this->transform.transform = transform;
+			OnChanged();
 		}
 		void SetScale(TVec2 scale)
 		{
 			this->transform.scale = scale;
+			OnChanged();
 		}
 		TBaluTransform GetTransform()
 		{

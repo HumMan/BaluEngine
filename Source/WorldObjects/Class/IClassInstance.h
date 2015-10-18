@@ -198,7 +198,7 @@ namespace EngineInterface
 
 	
 
-	class TBaluTransformedClassInstance : public IBaluTransformedClassInstance, public TSceneObjectInstance
+	class TBaluTransformedClassInstance : public IBaluTransformedClassInstance, public TSceneObjectInstance, public IChangeListener
 	{
 	private:
 		int uid;
@@ -208,7 +208,12 @@ namespace EngineInterface
 		TProperties properties;
 
 		void* tag;
+		TBaluTransformedClass* source;
 	public:
+
+		void SourceChanged();
+		void BeforeDeleteSource();
+
 		static const char* FactoryName()
 		{
 			return "ClassInstance";
@@ -226,8 +231,13 @@ namespace EngineInterface
 		{
 			return tag;
 		}
+		TSceneObject* GetSource()
+		{
+			return source;
+		}
 		TBaluTransformedClassInstance(TBaluTransformedClass* source, TBaluSceneInstance* scene);
 		TBaluTransformedClassInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene);
+		~TBaluTransformedClassInstance();
 		void SetTransform(TBaluTransform transform);
 		TBaluTransform GetTransform();
 		TVec2 GetScale();
