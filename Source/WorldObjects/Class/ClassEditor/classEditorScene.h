@@ -20,6 +20,7 @@ public:
 	IBaluClass* source_class; //редактируемый класс
 
 	IBaluSceneInstance* editor_scene_instance; //сцена редактора
+	std::unique_ptr<TBaluTransformedClass> transformed_class;
 	IBaluTransformedClassInstance* editor_scene_class_instance; //экземпл€р редактируемого класса на сцене редактора
 	IBaluTransformedSprite* selected_instance_source;
 	IBaluTransformedSpriteInstance* selected_instance;

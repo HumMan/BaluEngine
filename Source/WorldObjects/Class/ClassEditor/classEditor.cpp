@@ -12,15 +12,11 @@ TClassEditor::TClassEditor(TDrawingHelperContext drawing_context, IBaluWorld* wo
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
 	scene.Initialize(world, edited_class, scene_instance, drawing_helper.get());
 
-	scene.editor_scene_class_instance = new TBaluTransformedClassInstance(dynamic_cast<TBaluClass*>(edited_class), TBaluTransform(), TVec2(1, 1), dynamic_cast<TBaluSceneInstance*>(scene_instance));
+	scene.transformed_class.reset(new TBaluTransformedClass(dynamic_cast<TBaluClass*>(edited_class)));
+	scene.transformed_class->SetTransform(TBaluTransform());
+	scene.transformed_class->SetScale(TVec2(1, 1));
 
-	for (int i = 0; i < scene.editor_scene_class_instance->GetSpritesCount(); i++)
-	{
-		auto sprite_instance = scene.editor_scene_class_instance->GetSprite(i);
-		auto sprite_source = edited_class->GetSprite(i);
-
-		sprite_instance->SetTag(sprite_source);
-	}
+	scene.editor_scene_class_instance = new TBaluTransformedClassInstance(scene.transformed_class.get(), dynamic_cast<TBaluSceneInstance*>(scene_instance));
 }
 
 IBaluSceneInstance* TClassEditor::GetEditorSceneInstance()

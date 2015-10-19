@@ -128,7 +128,6 @@ namespace EngineInterface
 		virtual TBaluClass* GetSource() = 0;
 		virtual int GetSpritesCount() = 0;
 		virtual IBaluTransformedSpriteInstance* GetSprite(int index) = 0;
-		//virtual IBaluTransformedSpriteInstance* AddSprite(IBaluTransformedSprite* source) = 0;
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
 		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
 		virtual bool PointCollide(TVec2 class_space_point, IBaluTransformedSpriteInstance* &result) = 0;
@@ -163,7 +162,6 @@ namespace EngineInterface
 		TBaluClass* GetSource();
 		int GetSpritesCount();
 		IBaluTransformedSpriteInstance* GetSprite(int index);
-		IBaluTransformedSpriteInstance* AddSprite(IBaluTransformedSprite* source);
 		TSkeletonAnimationInstance* GetSkeletonAnimation();
 		TBaluClassPhysBodyIntance* GetPhysBody();
 		bool PointCollide(TVec2 class_space_point, IBaluTransformedSpriteInstance* &result);
@@ -185,13 +183,10 @@ namespace EngineInterface
 		virtual void SetScale(TVec2 scale) = 0;
 		virtual int GetSpritesCount() = 0;
 		virtual IBaluTransformedSpriteInstance* GetSprite(int index) = 0;
-		virtual IBaluTransformedSpriteInstance* AddSprite(IBaluTransformedSprite* source) = 0;
 		virtual IProperties* GetProperties() = 0;
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
 		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
 		virtual bool PointCollide(TVec2 class_space_point, IBaluTransformedSpriteInstance* &result) = 0;
-		virtual void SetTag(void* tag) = 0;
-		virtual void* GetTag() = 0;
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
@@ -207,7 +202,6 @@ namespace EngineInterface
 
 		TProperties properties;
 
-		void* tag;
 		TBaluTransformedClass* source;
 	public:
 
@@ -223,20 +217,11 @@ namespace EngineInterface
 			return FactoryName();
 		}
 		TBaluClassInstance* GetClass();
-		void SetTag(void* tag)
-		{
-			this->tag = tag;
-		}
-		void* GetTag()
-		{
-			return tag;
-		}
 		TSceneObject* GetSource()
 		{
 			return source;
 		}
 		TBaluTransformedClassInstance(TBaluTransformedClass* source, TBaluSceneInstance* scene);
-		TBaluTransformedClassInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene);
 		~TBaluTransformedClassInstance();
 		void SetTransform(TBaluTransform transform);
 		TBaluTransform GetTransform();
@@ -248,8 +233,6 @@ namespace EngineInterface
 
 		int GetSpritesCount();
 		IBaluTransformedSpriteInstance* GetSprite(int index);
-
-		IBaluTransformedSpriteInstance* AddSprite(IBaluTransformedSprite* source);
 
 		TSkeletonAnimationInstance* GetSkeletonAnimation();
 

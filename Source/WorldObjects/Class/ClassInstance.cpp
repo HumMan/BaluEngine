@@ -52,13 +52,6 @@ TBaluClassPhysBodyIntance* TBaluClassInstance::GetPhysBody()
 	return phys_body.get();
 }
 
-IBaluTransformedSpriteInstance* TBaluClassInstance::AddSprite(IBaluTransformedSprite* _source)
-{
-	TBaluTransformedSprite* source = dynamic_cast<TBaluTransformedSprite*>(_source);
-	sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source, resources, scene_object));
-	return sprites.back().get();
-}
-
 TBaluClass* TBaluClassInstance::GetSource()
 {
 	return source;
@@ -90,17 +83,7 @@ TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluTransformedCla
 	, instance_class(source->GetClass(), scene->GetPhysWorld(), source->GetTransformWithScale().transform, scene->GetResources(), scene->GetWorld(), this)
 {
 	this->source = source;
-	tag = nullptr;
 	instance_transform = source->GetTransformWithScale();
-	source->AddChangesListener(this);
-}
-
-TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluClass* source, TBaluTransform transform, TVec2 scale, TBaluSceneInstance* scene)
-	: TSceneObjectInstance(scene)
-	, instance_class(source, scene->GetPhysWorld(), transform, scene->GetResources(), scene->GetWorld(), this)
-{
-	tag = nullptr;
-	instance_transform = TBaluTransformWithScale(transform, scale);
 	source->AddChangesListener(this);
 }
 
@@ -157,11 +140,6 @@ TSceneObjectInstance* TBaluTransformedClassInstance::Clone(TSceneObject* source,
 IBaluTransformedSpriteInstance* TBaluTransformedClassInstance::GetSprite(int index)
 {
 	return instance_class.GetSprite(index);
-}
-
-IBaluTransformedSpriteInstance* TBaluTransformedClassInstance::AddSprite(IBaluTransformedSprite* _source)
-{
-	return instance_class.AddSprite(_source);
 }
 
 TAABB2 TBaluTransformedClassInstance::GetAABB()

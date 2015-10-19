@@ -40,15 +40,14 @@ public:
 
 			////создаем в сцене редактора класса новый инстанс отвечающий за новый спрайт
 			//auto new_class_instance = class_editor_scene->editor_scene_instance->CreateInstance(active_tool_class, transform, TVec2(1, 1));
-			auto class_sprite_instance = class_editor_scene->source_class->AddSprite(active_tool_sprite);
-			class_sprite_instance->SetTransform(transform);
-			auto class_instance_sprite_instance = class_editor_scene->editor_scene_class_instance->AddSprite(class_sprite_instance);
+			auto transformed_sprite = class_editor_scene->source_class->AddSprite(active_tool_sprite);
+			transformed_sprite->SetTransform(transform);
+
+			auto class_instance_sprite_instance = class_editor_scene->editor_scene_class_instance->GetSprite(class_editor_scene->editor_scene_class_instance->GetSpritesCount() - 1);
 
 			class_editor_scene->selected_instance_source = new_sprite_instance;
 			class_editor_scene->selected_instance = class_instance_sprite_instance;
 
-			//записываем в экземл€р спрайта указатель на исходный экземпл€р спрайта в редактируемом классе - дл€ использовани€ в других инструментах (перемещение и т.д.)
-			class_instance_sprite_instance->SetTag(new_sprite_instance);
 			class_editor_scene->boundary_box->SetBoundary(TOBB2(transform.position, transform.GetOrientation(), TAABB2(TVec2(0, 0), TVec2(1, 1))));
 		}
 	}
@@ -87,22 +86,19 @@ public:
 	{
 		//auto scale = new_box.GetLocalAABB().GetSize() / old_box.GetLocalAABB().GetSize();
 		auto new_scale = class_editor_scene->selected_instance->GetScale().ComponentMul(scale);
-		class_editor_scene->selected_instance->SetScale(new_scale);
-		((IBaluTransformedSprite*)(class_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);
+		class_editor_scene->selected_instance->GetSource()->SetScale(new_scale);
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{
 		auto trans = class_editor_scene->selected_instance->GetTransform();
 		trans.position = new_pos;
-		class_editor_scene->selected_instance->SetTransform(trans);
-		((IBaluTransformedSprite*)(class_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
+		class_editor_scene->selected_instance->GetSource()->SetTransform(trans);
 	}
 	void BoxRotate(TOBB<float, 2> old_box, TOBB<float, 2> new_box)
 	{
 		auto trans = class_editor_scene->selected_instance->GetTransform();
 		trans.angle = TRot(new_box);
-		class_editor_scene->selected_instance->SetTransform(trans);
-		((IBaluTransformedSprite*)(class_editor_scene->selected_instance->GetTag()))->SetTransform(trans);
+		class_editor_scene->selected_instance->GetSource()->SetTransform(trans);
 	}
 
 	void OnMouseDown(TMouseEventArgs e)

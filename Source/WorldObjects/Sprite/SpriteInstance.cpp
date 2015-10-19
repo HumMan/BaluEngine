@@ -48,7 +48,6 @@ TBaluSpritePolygonInstance* TBaluTransformedSpriteInstance::GetPolygon()
 TBaluTransformedSpriteInstance::TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources, TSceneObjectInstance* scene_object)
 	:sprite_instance(source->GetSprite(), resources, scene_object, this)
 {
-	tag = nullptr;
 	this->source = source;
 	this->transform = source->GetTransformWithScale();
 }

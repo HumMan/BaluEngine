@@ -57,8 +57,6 @@ namespace EngineInterface
 		virtual TBaluTransform GetTransform() = 0;
 		virtual IBaluSpritePolygonInstance* GetPolygon() = 0;
 		virtual IProperties* GetProperties() = 0;
-		virtual void SetTag(void* tag)=0;
-		virtual void* GetTag()=0;
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
@@ -71,21 +69,10 @@ namespace EngineInterface
 		TBaluTransformWithScale transform;
 
 		TBaluSpriteInstance sprite_instance;
-
-		void* tag;
-
 	public:
 		IProperties* GetProperties()
 		{
 			return sprite_instance.GetProperties();
-		}
-		void SetTag(void* tag)
-		{
-			this->tag = tag;
-		}
-		void* GetTag()
-		{
-			return tag;
 		}
 		TBaluSpriteInstance* GetSprite();
 		TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources, TSceneObjectInstance* scene_object);
