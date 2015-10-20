@@ -54,8 +54,6 @@ void TCreateClassInstanceTool::OnMouseDown(TMouseEventArgs e)
 
 		scene_editor_scene->selected_instance = new_class_instance;
 
-		new_class_instance->SetTag(new_source_scene_instance);
-
 		scene_editor_scene->boundary_box->SetBoundary(new_class_instance->GetOBB());
 	}
 }
@@ -91,8 +89,7 @@ public:
 	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box, TVec2 scale)
 	{
 		auto new_scale = scene_editor_scene->selected_instance->GetScale().ComponentMul(scale);
-		scene_editor_scene->selected_instance->SetScale(new_scale);
-		((TSceneObject*)(scene_editor_scene->selected_instance->GetTag()))->SetScale(new_scale);
+		scene_editor_scene->selected_instance->GetSource()->SetScale(new_scale);
 	}
 	void BoxMove(TVec2 old_pos, TVec2 new_pos)
 	{

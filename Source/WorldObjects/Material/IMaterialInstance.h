@@ -21,8 +21,6 @@ namespace EngineInterface
 		TSceneObjectInstance(TBaluSceneInstance* scene);
 		virtual void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results){}
 		virtual TOBB2 GetOBB() = 0;
-		virtual void SetTag(void* tag){}
-		virtual void* GetTag(){ return nullptr; }
 		virtual void SetTransform(TBaluTransform transform){}
 		virtual TSceneObject* GetSource(){ return nullptr; };
 		virtual TBaluTransform GetTransform(){ return TBaluTransform(); }

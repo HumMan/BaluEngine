@@ -18,6 +18,7 @@ void TClassEditorScene::Initialize(IBaluWorld* world, IBaluClass* source_class, 
 
 void TClassEditorScene::Deinitialize()
 {
+	this->editor_scene_instance->DestroyInstance(dynamic_cast<TSceneObjectInstance*>(this->editor_scene_class_instance));
 	source_class = nullptr;
 	drawing_helper = nullptr;
 	boundary_box_contour = nullptr;
