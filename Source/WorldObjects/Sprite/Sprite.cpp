@@ -13,6 +13,7 @@ TBaluSprite::TBaluSprite(const char* name, TBaluWorld* world)
 {
 	this->world = world;
 	this->sprite_name = name;
+	phys_shape.reset(new TBaluBoxShape(0.1, 0.1));
 }
 
 IProperties* TBaluSprite::GetProperties()

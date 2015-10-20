@@ -157,9 +157,6 @@
     <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorAdornments.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -283,7 +280,6 @@
     <ClCompile Include="Source\WorldObjects\Sprite\SpritePolyInstance.cpp" />
     <ClCompile Include="Source\World\Serialize.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditor.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorAdornments.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorScene.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorTools.cpp" />
     <ClCompile Include="Source\WorldObjects\Scene\SceneEditor\sceneEditor.cpp" />

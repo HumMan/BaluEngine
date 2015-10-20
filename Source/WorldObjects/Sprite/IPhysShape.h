@@ -20,7 +20,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluPhysShape: public IBaluPhysShape
+	class TBaluPhysShape: public IBaluPhysShape, public TChangeListenerArray
 	{
 	protected:
 		TBaluTransformWithScale local;

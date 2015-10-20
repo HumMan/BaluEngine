@@ -25,5 +25,4 @@ void TSpriteEditorScene::Deinitialize()
 {
 	source_sprite = nullptr;
 	drawing_helper = nullptr;
-	//sprite_adornment.reset();
 }

@@ -118,7 +118,7 @@ void GatherBones(TBoneInstance* bone, std::vector<TBoneInstance*> &result)
 TSkeletonInstance::TSkeletonInstance(TSkeleton* source, TResources* resources, TSceneObjectInstance* scene_object)
 {
 	this->source = source;
-
+	source->AddChangesListener(this);
 	if (source->GetRoot() == nullptr)
 		return;
 
@@ -156,6 +156,11 @@ TSkeletonInstance::TSkeletonInstance(TSkeleton* source, TResources* resources, T
 	{
 		skins.push_back(std::make_unique<TSkinInstance>(source->GetSkin(i), resources,scene_object));
 	}
+}
+
+TSkeletonInstance::~TSkeletonInstance()
+{
+	source->RemoveChangesListener(this);
 }
 
 void TSkeletonInstance::UpdateTranform(TBaluTransformWithScale class_transform)

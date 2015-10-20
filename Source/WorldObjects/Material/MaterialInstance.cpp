@@ -12,7 +12,6 @@ TMaterialInstance::TMaterialInstance(TBaluMaterial* source, TResources* resource
 {
 	this->source = source;
 	this->resources = resources;
-
 	
 	if (source != nullptr)
 	{

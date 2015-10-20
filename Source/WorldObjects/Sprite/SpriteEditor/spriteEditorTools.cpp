@@ -3,8 +3,6 @@
 
 #include "spriteEditorScene.h"
 
-#include "spriteEditorAdornments.h"
-
 #include <EditorUtils/DrawingHelper.h>
 
 

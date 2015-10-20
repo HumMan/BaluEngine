@@ -121,8 +121,15 @@ TSkeletonAnimationInstance::TSkeletonAnimationInstance(TSkeletonInstance* skelet
 {
 	this->skeleton = skeleton;
 	this->source = source;
+	
+	source->AddChangesListener(this);
 
 	Init();
+}
+
+TSkeletonAnimationInstance::~TSkeletonAnimationInstance()
+{
+	source->RemoveChangesListener(this);
 }
 
 void TSkeletonAnimationInstance::Init()

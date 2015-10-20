@@ -9,13 +9,6 @@ TMaterialEditor::TMaterialEditor(TDrawingHelperContext drawing_context, IBaluWor
 
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
 	scene.Initialize(world, edited_material, scene_instance, drawing_helper.get());
-
-	//for (int i = 0; i < edited_scene->GetInstancesCount(); i++)
-	//{
-	//	auto source_instance = edited_scene->GetInstance(i);
-	//	auto instance = editor_scene_instance->CreateInstance(source_instance->GetClass(), source_instance->GetTransform(), source_instance->GetScale());
-	//	//instance->GetProperties()->SetSceneClassInstance("editor_source_instance", source_instance);
-	//}
 }
 
 IBaluSceneInstance* TMaterialEditor::GetEditorSceneInstance()

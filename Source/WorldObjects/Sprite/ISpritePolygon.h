@@ -48,7 +48,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluSpritePolygon: public IBaluSpritePolygon
+	class TBaluSpritePolygon : public IBaluSpritePolygon, public TChangeListenerArray
 	{
 	private:
 		friend class TBaluSpritePolygonInstance;

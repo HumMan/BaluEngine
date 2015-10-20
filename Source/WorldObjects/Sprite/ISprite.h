@@ -28,7 +28,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluSprite :public IBaluSprite, public TBaluWorldObject
+	class TBaluSprite :public IBaluSprite, public TBaluWorldObject, public TChangeListenerArray
 	{
 	private:
 		TBaluWorld* world;

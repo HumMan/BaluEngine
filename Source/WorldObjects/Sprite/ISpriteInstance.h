@@ -14,7 +14,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluSpriteInstance
+	class TBaluSpriteInstance: public IChangeListener
 	{
 	private:
 		TBaluSprite* source;
@@ -25,6 +25,7 @@ namespace EngineInterface
 	public:
 		TBaluSprite* GetSource();
 		TBaluSpriteInstance(TBaluSprite* source, TResources* resources, TSceneObjectInstance* scene_object, TBaluTransformedSpriteInstance* parent);
+		~TBaluSpriteInstance();
 		TOBB2 GetOBB();
 
 		IBaluPhysShapeInstance* GetPhysShape();
@@ -61,7 +62,7 @@ namespace EngineInterface
 
 #ifdef BALUENGINEDLL_EXPORTS
 
-	class TBaluTransformedSpriteInstance : public IBaluTransformedSpriteInstance
+	class TBaluTransformedSpriteInstance : public IBaluTransformedSpriteInstance, public IChangeListener
 	{
 	private:
 		TBaluTransformedSprite* source;

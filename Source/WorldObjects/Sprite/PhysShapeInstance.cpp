@@ -8,6 +8,12 @@ TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TPhysShap
 	this->fixture = nullptr;
 	this->body = nullptr;
 	this->source = source;
+	source->AddChangesListener(this);
+}
+
+TBaluPhysShapeInstance::~TBaluPhysShapeInstance()
+{
+	source->RemoveChangesListener(this);
 }
 
 void TBaluPhysShapeInstance::BuildFixture(b2Body* body, TBaluTransformWithScale class_transform)

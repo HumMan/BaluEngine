@@ -126,7 +126,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TSkeletonAnimation : public ISkeletonAnimation
+	class TSkeletonAnimation : public ISkeletonAnimation, public TChangeListenerArray
 	{
 	private:
 		std::vector<std::unique_ptr<TTimeLine>> animations;

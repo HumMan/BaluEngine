@@ -2,10 +2,6 @@
 
 #include "baluRender.h"
 
-
-//#include <GL\glew.h>
-//#include <GL\wglew.h>
-
 #include <Utils\nanovg_support.h>
 
 #include <WorldObjects/Material/IMaterialInstance.h>
@@ -46,6 +42,12 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 		[&](TRenderCommand& l, TRenderCommand& r){return l.layer_order > r.layer_order; });
 	render->Set.Color(1, 1, 1, 1);
 	//int current_layer = render_commands.front().layer;
+
+	int draw_calls = 0;
+	int vertex_array_setups = 0;
+	int texture_binds = 0;
+	int vertex_count = 0;
+
 	for (int i = 0; i < render_commands.size(); i++)
 	{ 
 		auto& c = render_commands[i];
@@ -59,6 +61,11 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 			streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);
 			//streams.AddStream(TStream::Color, TDataType::Float, 4, c.colors);
 			render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
+			vertex_count += c.vertices_count;
+			draw_calls++;
+			vertex_array_setups++;
+			texture_binds++;
+
 			if (c.draw_triangles_grid)
 			{
 				render->Texture.Enable(false);
@@ -66,6 +73,11 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 				render->Draw(streams, TPrimitive::Triangles, c.vertices_count);
 				render->Set.PolygonMode(TPolygonMode::Fill);
 				render->Texture.Enable(true);
+
+				vertex_count += c.vertices_count;
+				draw_calls++;
+				vertex_array_setups++;
+				texture_binds++;
 			}
 		}
 	}
@@ -96,6 +108,23 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 	{
 		v->Render(&drawing_helper);
 	}
+	char buf[100];
+	nvgFontSize(vg_context, 20.2f);
+	nvgFontFace(vg_context, "sans");
+	nvgFillColor(vg_context, nvgRGBA(255, 255, 255, 255));
+	nvgTextAlign(vg_context, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
+	
+	sprintf_s(buf, "draw_calls %i", draw_calls);
+	nvgText(vg_context, 10,10, buf, NULL);
+	sprintf_s(buf, "vertex_array_setups %i", vertex_array_setups);
+	nvgText(vg_context, 10, 30, buf, NULL);
+	sprintf_s(buf, "texture_binds %i", texture_binds);
+	nvgText(vg_context, 10, 50, buf, NULL);
+	sprintf_s(buf, "vertices %i", vertex_count);
+	nvgText(vg_context, 10, 70, buf, NULL);
+	sprintf_s(buf, "guis %i", gui.size());
+	nvgText(vg_context, 10, 90, buf, NULL);
+
 	end_frame();
 }
 

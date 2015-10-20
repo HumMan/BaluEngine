@@ -40,7 +40,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluPhysShapeInstance : public IBaluPhysShapeInstance
+	class TBaluPhysShapeInstance : public IBaluPhysShapeInstance, public IChangeListener
 	{
 	protected:
 		TBaluPhysShape* source;
@@ -49,6 +49,7 @@ namespace EngineInterface
 		TPhysShapeUserData user_data;
 	public:
 		TBaluPhysShapeInstance(TBaluPhysShape* source, TPhysShapeUserData user_data);
+		~TBaluPhysShapeInstance();
 		void BuildFixture(b2Body* body, TBaluTransformWithScale class_transform);
 		TPhysShapeUserData* GetUserData()
 		{

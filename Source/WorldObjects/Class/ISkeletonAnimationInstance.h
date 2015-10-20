@@ -53,7 +53,7 @@ namespace EngineInterface
 		TTimeLine* GetSource();
 	};
 
-	class TSkeletonAnimationInstance : public ISkeletonAnimationInstance
+	class TSkeletonAnimationInstance : public ISkeletonAnimationInstance, public IChangeListener
 	{
 	private:
 		TSkeletonAnimation* source;
@@ -64,6 +64,7 @@ namespace EngineInterface
 		void Init();
 	public:
 		TSkeletonAnimationInstance(TSkeletonInstance* skeleton, TSkeletonAnimation* source);
+		~TSkeletonAnimationInstance();
 		
 		void Update(float step);
 		void PlayAnimation(const std::string& name, float alpha);

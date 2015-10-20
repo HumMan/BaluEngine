@@ -154,7 +154,6 @@
     <ClInclude Include="Source\WorldObjects\Sprite\ISpritePolygon.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\ISpritePolygonInstance.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditor.h" />
-    <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorAdornments.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorScene.h" />
     <ClInclude Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorTools.h" />
     <ClInclude Include="Source\World\Binding.h" />
@@ -221,7 +220,6 @@
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteSerialize.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\Sprite.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditor.cpp" />
-    <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorAdornments.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorScene.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteEditor\spriteEditorTools.cpp" />
     <ClCompile Include="Source\WorldObjects\Sprite\SpriteInstance.cpp" />

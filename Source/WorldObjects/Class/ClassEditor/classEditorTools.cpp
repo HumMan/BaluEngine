@@ -43,7 +43,8 @@ public:
 			auto transformed_sprite = class_editor_scene->source_class->AddSprite(active_tool_sprite);
 			transformed_sprite->SetTransform(transform);
 
-			auto class_instance_sprite_instance = class_editor_scene->editor_scene_class_instance->GetSprite(class_editor_scene->editor_scene_class_instance->GetSpritesCount() - 1);
+			auto class_instance_sprite_instance = class_editor_scene->editor_scene_class_instance->GetSprite(
+				class_editor_scene->editor_scene_class_instance->GetSpritesCount() - 1);
 
 			class_editor_scene->selected_instance_source = new_sprite_instance;
 			class_editor_scene->selected_instance = class_instance_sprite_instance;

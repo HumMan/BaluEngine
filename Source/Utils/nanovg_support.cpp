@@ -26,9 +26,9 @@ void nanovg_init()
 
 	//nvgDeleteGL2(vg);
 
-	//int r = nvgCreateFont(vg, "icons", "../fonts/entypo.ttf");
+	int r = nvgCreateFont(vg, "icons", "assets/fonts/entypo.ttf");
 
-	//r = nvgCreateFont(vg, "sans", "../fonts/Roboto-Regular.ttf");
+	r = nvgCreateFont(vg, "sans", "assets/fonts/Roboto-Regular.ttf");
 
 	//r = nvgCreateFont(vg, "sans-bold", "../fonts/Roboto-Bold.ttf");
 

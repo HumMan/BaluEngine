@@ -18,9 +18,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluMaterial :
-		public TBaluWorldObject,
-		public IBaluMaterial
+	class TBaluMaterial : public TBaluWorldObject, public IBaluMaterial, public TChangeListenerArray
 	{
 	public:
 		enum class TTransparentMode

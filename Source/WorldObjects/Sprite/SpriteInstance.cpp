@@ -17,7 +17,13 @@ TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TResources* resour
 	:polygon(source->GetPolygon(), resources)
 {
 	this->source = source;
+	source->AddChangesListener(this);
 	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetPhysShape(), TPhysShapeUserData(scene_object, parent));
+}
+
+TBaluSpriteInstance::~TBaluSpriteInstance()
+{
+	source->RemoveChangesListener(this);
 }
 
 TOBB2 TBaluSpriteInstance::GetOBB()

@@ -9,12 +9,6 @@ TSpriteEditor::TSpriteEditor(TDrawingHelperContext drawing_context, IBaluWorld* 
 
 	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
 	scene.Initialize(world, edited_sprite, scene_instance, drawing_helper.get());
-	//for (int i = 0; i < obj->GetInstancesCount();i++)
-	//{
-	//auto v = obj->GetInstance(i);
-	//auto new_box = new TClassInstanceAdornment(v);
-	//scene.boundaries.emplace_back(std::unique_ptr<TClassInstanceAdornment>(new_box));
-	//}
 }
 
 IBaluSceneInstance* TSpriteEditor::GetEditorSceneInstance()

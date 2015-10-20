@@ -43,7 +43,7 @@ namespace EngineInterface
 		void UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TBaluTransformWithScale class_transform);
 	};
 
-	class TSkeletonInstance
+	class TSkeletonInstance: public IChangeListener
 	{
 	private:
 		std::unique_ptr<TBoneInstance> root;
@@ -53,6 +53,7 @@ namespace EngineInterface
 		TSkeleton* source;
 	public:
 		TSkeletonInstance(TSkeleton* source, TResources* resources, TSceneObjectInstance* scene_object);
+		~TSkeletonInstance();
 		void UpdateTranform(TBaluTransformWithScale class_transform);
 		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 		TSkeleton* GetSource();

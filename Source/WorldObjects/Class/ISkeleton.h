@@ -85,7 +85,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TSkeleton : public ISkeleton
+	class TSkeleton : public ISkeleton, public TChangeListenerArray
 	{
 	private:
 		int root;

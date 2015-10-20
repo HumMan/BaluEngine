@@ -18,7 +18,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluSpritePolygonInstance: public IBaluSpritePolygonInstance
+	class TBaluSpritePolygonInstance: public IBaluSpritePolygonInstance, public IChangeListener
 	{
 	private:
 		TMaterialInstance material;
@@ -53,6 +53,7 @@ namespace EngineInterface
 		}
 
 		TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResources* resources);
+		~TBaluSpritePolygonInstance();
 
 		//void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
 

@@ -101,7 +101,7 @@ namespace EngineInterface
 		void OnProcessCollisions();
 	};
 
-	class TBaluSceneInstance : public IBaluSceneInstance
+	class TBaluSceneInstance : public IBaluSceneInstance, public IChangeListener
 	{
 	private:
 		TResources* resources;

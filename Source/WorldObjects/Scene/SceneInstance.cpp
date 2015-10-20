@@ -100,6 +100,8 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 		auto source_instance = source->GetInstance(i);
 		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, this);
 	}
+
+	source->AddChangesListener(this);
 }
 
 
@@ -110,7 +112,6 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TResources* re
 	this->source = nullptr;
 	this->world = world;
 	this->resources = resources;
-	//this->layers = source->GetLayers();
 	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));
 
 	phys_debug.Create();
@@ -122,23 +123,9 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TResources* re
 TBaluSceneInstance::~TBaluSceneInstance()
 {
 	phys_debug.Destroy();
+	if (source != nullptr)
+		source->RemoveChangesListener(this);
 }
-
-//TSceneObjectInstance* TBaluSceneInstance::CreateInstance(TSceneObject* use_scene_object, TBaluTransform transform, TVec2 scale)
-//{
-//	auto use_class = dynamic_cast<TBaluClass*>(use_scene_object);
-//	if (use_class != nullptr)
-//	{	
-//		auto class_instance = world->GetClassInstance(use_class);
-//		instances.push_back(std::make_unique<TBaluTransformedClassInstance>(class_instance, phys_world.get(), transform, scale, resources));
-//		return instances.back().get();
-//	}
-//}
-
-//EngineInterface::IBaluTransformedClassInstance* TBaluSceneInstance::CreateInstance(EngineInterface::IBaluClass* use_class, TBaluTransform transform, TVec2 scale)
-//{
-//	return dynamic_cast<EngineInterface::IBaluTransformedClassInstance*>(CreateInstance(dynamic_cast<TBaluClass*>(use_class), transform, scale));
-//}
 
 void TBaluSceneInstance::AddInstance(EngineInterface::TSceneObjectInstance* instance)
 {

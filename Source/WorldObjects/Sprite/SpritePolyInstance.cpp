@@ -18,6 +18,7 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 	this->layer = source->layer;
 	enable = source->enable;
 	this->source = source;
+	source->AddChangesListener(this);
 	tex_coords = source->GetTexCoords();
 
 	animation_time_from_start = 0;
@@ -26,6 +27,11 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 	active_frame_index = 0;
 	active_desc_index = 0;
 	UpdateAnimation();
+}
+
+TBaluSpritePolygonInstance::~TBaluSpritePolygonInstance()
+{
+	source->RemoveChangesListener(this);
 }
 
 void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, TLayersManagerInstance& layers)

@@ -360,7 +360,7 @@ namespace EngineInterface
 	class IAbstractEditor;
 	class IBaluSceneInstance;
 	class IBaluWorld;
-	class TBaluWorldObject : public virtual IBaluWorldObject, public TChangeListenerArray
+	class TBaluWorldObject : public virtual IBaluWorldObject
 	{
 	protected:
 		IBaluWorld* world;

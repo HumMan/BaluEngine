@@ -76,7 +76,7 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluScene : public IBaluScene, public TBaluWorldObject
+	class TBaluScene : public IBaluScene, public TBaluWorldObject, public TChangeListenerArray
 	{
 	private:
 		std::vector<std::unique_ptr<TSceneObject>> instances;
