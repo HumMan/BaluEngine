@@ -4,25 +4,10 @@ using namespace EngineInterface;
 
 TScript::TScript()
 {
-	script_type = TScriptActiveType::DEFAULT;
 }
 TScript::TScript(std::string script_source)
 {
-	script_type = TScriptActiveType::DEFAULT;
 	this->script_source = script_source;
-}
-TScript::TScript(std::string script_source, TScriptActiveType script_type)
-{
-	this->script_type = script_type;
-	this->script_source = script_source;
-}
-TScriptActiveType TScript::GetScriptType()
-{
-	return script_type;
-}
-void TScript::SetScriptType(TScriptActiveType type)
-{
-	this->script_type = type;
 }
 std::string TScript::GetScriptSource()
 {

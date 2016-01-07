@@ -77,7 +77,6 @@ namespace Editor
 		}
 		p->world = CreateWorld();
 		p->world->LoadFromXML(Converters::FromClrString(path));
-		p->world->GetCallbacksActiveType() = TScriptActiveType::EDITOR;
 		Perform_Notify_All_AfterWorldLoaded();
 	}
 	void TWorldDirector::LoadDemoWorld()
@@ -89,7 +88,6 @@ namespace Editor
 			p->world = nullptr;
 		}
 		p->world = CreateDemoWorld(p->assets_dir);
-		p->world->GetCallbacksActiveType() = TScriptActiveType::EDITOR;
 		Perform_Notify_All_AfterWorldLoaded();
 	}
 
@@ -102,7 +100,6 @@ namespace Editor
 			p->world = nullptr;
 		}
 		p->world = CreateWorld();
-		p->world->GetCallbacksActiveType() = TScriptActiveType::EDITOR;
 		Perform_Notify_All_AfterWorldLoaded();
 	}
 

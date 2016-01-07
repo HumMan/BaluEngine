@@ -32,8 +32,6 @@ namespace EngineInterface
 		virtual void AddChangesListener(TBaluWorldChangeListener* listener) = 0;
 		virtual void RemoveChangesListener(TBaluWorldChangeListener* listener) = 0;
 
-		virtual TScriptActiveType& GetCallbacksActiveType() = 0;
-
 		virtual bool TryFind(const char* name, IBaluWorldObject*& result) = 0;
 
 		virtual IBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name) = 0;
@@ -112,8 +110,6 @@ namespace EngineInterface
 
 		std::map<std::string, std::unique_ptr<TBaluWorldObject>> world_objects[(int)TWorldObjectType::None];
 
-		TScriptActiveType callback_active_type;
-
 		template<class T, class M>
 		std::vector<T*> GetVectorFromMap(M& map)
 		{
@@ -146,11 +142,7 @@ namespace EngineInterface
 
 		TBaluWorld();
 		~TBaluWorld();
-		//TODO убрать отсюда, указывать при создании экземпл€ра мира
-		TScriptActiveType& GetCallbacksActiveType()
-		{
-			return callback_active_type;
-		}
+
 		bool TryFind(const char* name, IBaluWorldObject*& result);
 
 		IBaluWorldObject* GetObjectByName(TWorldObjectType type, const char* name);

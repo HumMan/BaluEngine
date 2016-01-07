@@ -50,8 +50,6 @@ void Run(std::string assets_dir, std::string file_to_run)
 
 	world->LoadFromXML(file_to_run.c_str());
 
-	world->GetCallbacksActiveType() = TScriptActiveType::DEFAULT;
-
 	auto world_instance = CreateWorldInstance(world, director->GetResources());
 
 	director->SetWorldInstance(world_instance);

@@ -26,7 +26,7 @@ namespace EngineInterface
 
 		bool HasErrors();
 		std::vector<std::string> GetErrors();
-		TBaluScriptInstance(std::string assets_dir, TScriptActiveType script_type_to_run);
+		TBaluScriptInstance(std::string assets_dir);
 		~TBaluScriptInstance();
 		TScriptInstance CompileMethod(TScript* script, const char* code);
 		void CallViewportResize(TScriptInstance &viewport_resize_callback, IDirector* director, TVec2i old_size, TVec2i new_size);
@@ -49,7 +49,7 @@ namespace EngineInterface
 #endif
 
 	BALUENGINEDLL_API bool CompileScripts(IBaluWorld* source, IBaluScriptInstance* script_instance, std::vector<std::string>& errors_list);
-	BALUENGINEDLL_API IBaluScriptInstance* CreateScriptInstance(std::string assets_dir, TScriptActiveType script_type_to_run);
+	BALUENGINEDLL_API IBaluScriptInstance* CreateScriptInstance(std::string assets_dir);
 	BALUENGINEDLL_API void DestroyScriptInstance(IBaluScriptInstance* instance);
 
 }

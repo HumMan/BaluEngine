@@ -37,7 +37,7 @@ namespace EngineInterface
 	}
 
 	TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources)
-		:script_engine(resources->GetAssetsDir(), source->GetCallbacksActiveType())
+		:script_engine(resources->GetAssetsDir())
 	{
 		this->source = source;
 		this->resources = resources;

@@ -81,23 +81,13 @@ namespace EngineInterface
 		}
 	};
 
-	enum class TScriptActiveType
-	{
-		DEFAULT = 0,
-		EDITOR = 1
-	};
-
 	class BALUENGINEDLL_API TScript
 	{
 	private:
 		std::string script_source;
-		TScriptActiveType script_type;
 	public:
 		TScript();
 		TScript(std::string script_source);
-		TScript(std::string script_source, TScriptActiveType script_type);
-		TScriptActiveType GetScriptType();
-		void SetScriptType(TScriptActiveType type);
 		std::string GetScriptSource();
 		void SetScriptSource(const char* source);
 		void SaveToXML(pugi::xml_node& parent_node, const int version);

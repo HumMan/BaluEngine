@@ -202,7 +202,6 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 void TScript::SaveToXML(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Script");
-	new_node.append_attribute("script_type").set_value((int)script_type);
 
 	xml_node ndAvatarData = new_node.append_child(pugi::node_pcdata);
 	ndAvatarData.set_value(script_source.c_str());
@@ -210,6 +209,5 @@ void TScript::SaveToXML(pugi::xml_node& parent_node, const int version)
 
 void TScript::LoadFromXML(const pugi::xml_node& document_node, const int version)
 {
-	script_type = (TScriptActiveType)document_node.attribute("script_type").as_int();
 	script_source = document_node.child_value();
 }

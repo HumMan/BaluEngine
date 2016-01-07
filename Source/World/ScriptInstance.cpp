@@ -22,8 +22,6 @@ namespace EngineInterface
 		std::vector < std::unique_ptr<TSMethod>> smethods;
 		std::vector<std::string> errors;
 
-		TScriptActiveType script_type_to_run;
-
 		TTime time;
 	};
 }
@@ -32,11 +30,10 @@ TBaluScriptInstance::~TBaluScriptInstance()
 {
 }
 
-TBaluScriptInstance::TBaluScriptInstance(std::string assets_dir, TScriptActiveType script_type_to_run)
+TBaluScriptInstance::TBaluScriptInstance(std::string assets_dir)
 {
 	p = std::make_unique<TBaluScriptInstancePrivate>();
 
-	p->script_type_to_run = script_type_to_run;
 	p->time.Start();
 
 	std::string script_base_source;
@@ -114,8 +111,6 @@ std::vector<std::string> TBaluScriptInstance::GetErrors()
 
 void TBaluScriptInstance::CallViewportResize(TScriptInstance &viewport_resize_callback, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size)
 {
-	if (viewport_resize_callback.GetSource()->GetScriptType() != this->p->script_type_to_run)
-		return;
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IDirector"))));
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("vec2i"))));
@@ -128,8 +123,6 @@ void TBaluScriptInstance::CallViewportResize(TScriptInstance &viewport_resize_ca
 }
 void TBaluScriptInstance::CallWorldStart(TScriptInstance &start_world_callback, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer)
 {
-	if (start_world_callback.GetSource()->GetScriptType() != this->p->script_type_to_run)
-		return;
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IWorldInstance"))));
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IComposer"))));
@@ -141,8 +134,6 @@ void TBaluScriptInstance::CallWorldStart(TScriptInstance &start_world_callback, 
 }
 void TBaluScriptInstance::CallInstanceEvent(TScriptInstance &callback, IBaluTransformedClassInstance* obj)
 {
-	if (callback.GetSource()->GetScriptType() != this->p->script_type_to_run)
-		return;
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IInstance"))));
 	*(EngineInterface::IBaluTransformedClassInstance**)params[0].get() = obj;
@@ -153,8 +144,6 @@ void TBaluScriptInstance::CallInstanceEvent(TScriptInstance &callback, IBaluTran
 
 void TBaluScriptInstance::CallMouseEvent(TScriptInstance &callback, TMouseEventArgs* e)
 {
-	if (callback.GetSource()->GetScriptType() != this->p->script_type_to_run)
-		return;
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("TMouseEventArgs"))));
 	params[0].get_as<EngineInterface::TMouseEventArgs>() = *e;
@@ -166,8 +155,6 @@ void TBaluScriptInstance::CallMouseEvent(TScriptInstance &callback, TMouseEventA
 void TBaluScriptInstance::CallCollide(EngineInterface::TScriptInstance &callback, IBaluTransformedClassInstance* source_object, IBaluTransformedSpriteInstance* obj_a, IBaluTransformedClassInstance* obj_b)
 {
 	//TODO присвоение параметров с использованием wrapper классов
-	if (callback.GetSource()->GetScriptType() != this->p->script_type_to_run)
-		return;
 	std::vector<TStackValue> params;
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IInstance"))));
 	params.push_back(TStackValue(false, p->syntax->sem_base_class->GetClass(p->syntax->lexer.GetIdFromName("IClassInstanceSpriteInstance"))));

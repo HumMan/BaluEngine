@@ -14,7 +14,6 @@ using namespace EngineInterface;
 
 TBaluWorld::TBaluWorld()
 {
-	callback_active_type = TScriptActiveType::DEFAULT;
 	ilInit();
 }
 
