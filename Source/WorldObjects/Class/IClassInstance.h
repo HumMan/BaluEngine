@@ -121,7 +121,7 @@ namespace EngineInterface
 
 #endif
 	class TBaluClass;
-	class TBaluClassCompiledScripts;
+	//class TBaluClassCompiledScripts;
 	class IBaluClassInstance: public ISpritesArray
 	{
 	public:
@@ -131,7 +131,6 @@ namespace EngineInterface
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
 		virtual ISkeletonAnimationInstance* GetSkeletonAnimation() = 0;
 		virtual bool PointCollide(TVec2 class_space_point, IBaluTransformedSpriteInstance* &result) = 0;
-		virtual TBaluClassCompiledScripts* GetScripts() = 0;
 	};
 
 	
@@ -144,7 +143,7 @@ namespace EngineInterface
 		TSceneObjectInstance* scene_object;
 		TResources* resources;
 
-		TBaluClassCompiledScripts* compiled_scripts;
+		//TBaluClassCompiledScripts* compiled_scripts;
 
 		std::vector<std::unique_ptr<TBaluTransformedSpriteInstance>> sprites;
 		std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
@@ -154,11 +153,7 @@ namespace EngineInterface
 		TProperties properties;
 		void BuildAllFixtures();
 	public:
-		TBaluClassCompiledScripts* GetScripts()
-		{
-			return compiled_scripts;
-		}
-		TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, IBaluScriptsCache* scripts_cache, TSceneObjectInstance* scene_object);
+		TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, TSceneObjectInstance* scene_object);
 		TBaluClass* GetSource();
 		int GetSpritesCount();
 		IBaluTransformedSpriteInstance* GetSprite(int index);

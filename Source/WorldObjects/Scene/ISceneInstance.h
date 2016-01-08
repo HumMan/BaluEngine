@@ -165,18 +165,12 @@ namespace EngineInterface
 		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
 		void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui);
 
-		void OnPrePhysStep();
+		
 		void PhysStep(float step);
 
 		void OnProcessCollisions();
 		void OnStep(float step);
-
-		void OnKeyDown(TKey key);
-
-		void OnMouseUp(TMouseEventArgs e, TVec2 scene_cursor_location);
-		void OnMouseDown(TMouseEventArgs e, TVec2 scene_cursor_location);
-		void OnMouseMove(TMouseEventArgs e, TVec2 scene_cursor_location);
-
+		
 		void UpdateTransform();
 
 		void DebugDraw(TDrawingHelperContext drawing_context);

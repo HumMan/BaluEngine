@@ -101,6 +101,7 @@
     <ClInclude Include="Source\EditorUtils\abstractEditor.h" />
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h" />
     <ClInclude Include="Source\EditorUtils\IAbstractEditor.h" />
+    <ClInclude Include="Source\World\IEventsEditor.h" />
     <ClInclude Include="Source\Interfaces\BaluEngineInterface.h" />
     <ClInclude Include="Source\Interfaces\CppToBaluScriptBinding.h" />
     <ClInclude Include="Source\Interfaces\EngineInterfacesIncludes.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="Source\World\Common.cpp" />
     <ClCompile Include="Source\World\Composer.cpp" />
     <ClCompile Include="Source\World\Director.cpp" />
+    <ClCompile Include="Source\World\EventsEditor.cpp" />
     <ClCompile Include="Source\World\Layers.cpp" />
     <ClCompile Include="Source\World\Properties.cpp" />
     <ClCompile Include="Source\World\Render.cpp" />

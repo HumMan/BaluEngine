@@ -7,12 +7,12 @@ TAbstractEditor::TAbstractEditor(IBaluWorldInstance* world_instance)
 	this->world_instance = world_instance;
 	active_tool = nullptr;
 	editor_global_pos = TVec2(0, 0);
-	world_instance->AddMouseEventListener(this);
+	//world_instance->AddMouseEventListener(this);
 }
 
 TAbstractEditor::~TAbstractEditor()
 {
-	world_instance->RemoveMouseEventListener(this);
+	//world_instance->RemoveMouseEventListener(this);
 }
 
 void TAbstractEditor::OnMouseMove(TMouseEventArgs e)

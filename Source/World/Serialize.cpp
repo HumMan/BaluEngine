@@ -64,7 +64,7 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 		}
 	}
 
-	{
+	/*{
 		xml_node callbacks_node = new_node.append_child("MouseDownScripts");
 		for (auto& v : mouse_down_callbacks)
 		{
@@ -96,7 +96,7 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 		{
 			v.SaveToXML(callbacks_node, version);
 		}
-	}
+	}*/
 }
 
 void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int version)
@@ -152,7 +152,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		}
 	}
 
-	{
+	/*{
 		xml_node callbacks_node = world_node.child("MouseDownScripts");
 		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
 		{
@@ -196,7 +196,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 			new_callback.LoadFromXML(callback_node, version);
 			viewport_resize_callback.push_back(new_callback);
 		}
-	}
+	}*/
 }
 
 void TScript::SaveToXML(pugi::xml_node& parent_node, const int version)

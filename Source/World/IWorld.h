@@ -4,6 +4,8 @@
 #include "ICommon.h"
 #include "Interfaces\ExportMacro.h"
 
+#include "IEventsEditor.h"
+
 namespace EngineInterface
 {
 	class IDirector;
@@ -40,18 +42,6 @@ namespace EngineInterface
 		virtual IBaluWorldObject* CreateObject(TWorldObjectType type, const char* name) = 0;
 		virtual void DestroyObject(TWorldObjectType type, const char* name) = 0;
 
-		virtual void AddOnMouseDown(TScript) = 0;
-		virtual void AddOnMouseUp(TScript) = 0;
-		virtual void AddOnMouseMove(TScript) = 0;
-
-		virtual std::vector<TScript>& GetOnMouseDown() = 0;
-		virtual std::vector<TScript>& GetOnMouseUp() = 0;
-		virtual std::vector<TScript>& GetOnMouseMove() = 0;
-
-		virtual void AddOnWorldStart(TScript callback) = 0;
-		virtual std::vector<TScript>& GetOnWorldStart() = 0;
-		virtual void RemoveOnWorldStart(int index) = 0;
-
 		virtual IBaluMaterial* CreateMaterial(const char* name) = 0;
 		virtual IBaluSprite* CreateSprite(const char* name) = 0;
 		virtual IBaluClass* CreateClass(const char* name) = 0;
@@ -62,16 +52,10 @@ namespace EngineInterface
 		virtual IBaluSprite* GetSprite(const std::string& name) = 0;
 		virtual IBaluClass* GetClass(const std::string& name) = 0;
 
-		virtual void AddOnViewportResize(TScript callback) = 0;
-		virtual std::vector<TScript>& GetOnViewportResize() = 0;
-		virtual void RemoveOnViewportResize(int index) = 0;
-
-		virtual void RemoveOnMouseDown(int index) = 0;
-		virtual void RemoveOnMouseUp(int index) = 0;
-		virtual void RemoveOnMouseMove(int index) = 0;
-
 		virtual void SaveToXML(const std::string& path) = 0;
 		virtual void LoadFromXML(const std::string& path) = 0;
+
+		virtual IEventsEditor* GetEventsEditor() = 0;
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
@@ -122,15 +106,16 @@ namespace EngineInterface
 			return result;
 		}
 
-		std::vector<TScript>
-			mouse_down_callbacks,
-			mouse_up_callbacks,
-			mouse_move_callbacks;
-		std::vector<TScript> on_start_world_callback;
-		std::vector<TScript> viewport_resize_callback;
+		std::unique_ptr<TEventsEditor> events_editor;
 
 		TBaluWorldChangeListenerArray listeners;
 	public:
+
+		virtual IEventsEditor* GetEventsEditor()
+		{
+			return events_editor.get();
+		}
+
 		virtual void AddChangesListener(TBaluWorldChangeListener* listener)
 		{
 			listeners.AddChangesListener(listener);
@@ -151,18 +136,6 @@ namespace EngineInterface
 		TBaluWorldObject* CreateObject(TWorldObjectType type, const char* name);
 		void DestroyObject(TWorldObjectType type, const char* name);
 
-		void AddOnMouseDown(TScript);
-		void AddOnMouseUp(TScript);
-		void AddOnMouseMove(TScript);
-
-		std::vector<TScript>& GetOnMouseDown();
-		std::vector<TScript>& GetOnMouseUp();
-		std::vector<TScript>& GetOnMouseMove();
-
-		void RemoveOnMouseDown(int index);
-		void RemoveOnMouseUp(int index);
-		void RemoveOnMouseMove(int index);
-
 		IBaluMaterial* CreateMaterial(const char* name);
 		IBaluSprite* CreateSprite(const char* name);
 		IBaluClass* CreateClass(const char* name);
@@ -172,14 +145,6 @@ namespace EngineInterface
 		IBaluMaterial* GetMaterial(const std::string& name);
 		IBaluSprite* GetSprite(const std::string& name);
 		IBaluClass* GetClass(const std::string& name);
-
-		void AddOnWorldStart(TScript callback);
-		std::vector<TScript>& GetOnWorldStart();
-		void RemoveOnWorldStart(int index);
-
-		void AddOnViewportResize(TScript callback);
-		std::vector<TScript>& GetOnViewportResize();
-		void RemoveOnViewportResize(int index);
 
 		void SaveToXML(const std::string& path);
 		void LoadFromXML(const std::string& path);

@@ -54,15 +54,15 @@ void TContactsHolder::OnProcessCollisions()
 		auto instance_a = dynamic_cast<TBaluTransformedClassInstance*>(user_data_a->GetSceneObject());
 		auto instance_b = dynamic_cast<TBaluTransformedClassInstance*>(user_data_b->GetSceneObject());
 
-		auto class_a = instance_a!=nullptr?dynamic_cast<TBaluClassCompiledScripts*>(instance_a->GetClass()->GetScripts()):nullptr;
-		auto class_b = instance_b!=nullptr?dynamic_cast<TBaluClassCompiledScripts*>(instance_b->GetClass()->GetScripts()):nullptr;
+		//auto class_a = instance_a!=nullptr?dynamic_cast<TBaluClassCompiledScripts*>(instance_a->GetClass()->GetScripts()):nullptr;
+		//auto class_b = instance_b!=nullptr?dynamic_cast<TBaluClassCompiledScripts*>(instance_b->GetClass()->GetScripts()):nullptr;
 
-		if (class_a != nullptr && class_b != nullptr)
-		{
-			//TODO взаимодействие не только с TBaluTransformedClassInstance
-			class_a->DoCollide(instance_a, sprite_a, dynamic_cast<TBaluTransformedClassInstance*>(instance_b));
-			class_b->DoCollide(instance_b, sprite_b, dynamic_cast<TBaluTransformedClassInstance*>(instance_a));
-		}
+		//if (class_a != nullptr && class_b != nullptr)
+		//{
+		//	//TODO взаимодействие не только с TBaluTransformedClassInstance
+		//	class_a->DoCollide(instance_a, sprite_a, dynamic_cast<TBaluTransformedClassInstance*>(instance_b));
+		//	class_b->DoCollide(instance_b, sprite_b, dynamic_cast<TBaluTransformedClassInstance*>(instance_a));
+		//}
 	}
 }
 
@@ -186,15 +186,7 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& 
 	}
 }
 
-void TBaluSceneInstance::OnPrePhysStep()
-{
-	for (int i = 0; i < instances.size(); i++)
-	{
-		auto class_instance = dynamic_cast<TBaluTransformedClassInstance*>(instances[i].get());
-		if (class_instance != nullptr)
-			class_instance->GetClass()->GetScripts()->DoBeforePhysicsStep(class_instance);
-	}
-}
+
 void TBaluSceneInstance::PhysStep(float step)
 {
 	contact_listener.BeforePhysStep();
@@ -216,37 +208,6 @@ void TBaluSceneInstance::OnStep(float step)
 	}
 }
 
-void TBaluSceneInstance::OnKeyDown(TKey key)
-{
-	for (int i = 0; i < instances.size(); i++)
-	{
-		auto class_instance = dynamic_cast<TBaluTransformedClassInstance*>(instances[i].get());
-		if (class_instance != nullptr)
-			class_instance->GetClass()->GetScripts()->DoKeyDown(key, class_instance);
-	}
-}
-
-void TBaluSceneInstance::OnMouseUp(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
-{
-	for (int i = 0; i < instances.size(); i++)
-	{
-		instances[i]->OnMouseUp(e, scene_cursor_location);
-	}
-}
-void TBaluSceneInstance::OnMouseDown(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
-{
-	for (int i = 0; i < instances.size(); i++)
-	{
-		instances[i]->OnMouseDown(e, scene_cursor_location);
-	}
-}
-void TBaluSceneInstance::OnMouseMove(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
-{
-	for (int i = 0; i < instances.size(); i++)
-	{
-		instances[i]->OnMouseMove(e, scene_cursor_location);
-	}
-}
 
 void TBaluSceneInstance::UpdateTransform()
 {

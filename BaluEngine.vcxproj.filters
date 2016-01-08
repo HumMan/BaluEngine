@@ -229,6 +229,9 @@
     <ClInclude Include="Source\WorldObjects\Sprite\IAnimationFrames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\World\IEventsEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
@@ -297,5 +300,6 @@
     <ClCompile Include="Source\WorldObjects\Class\ClassSerialize.cpp" />
     <ClCompile Include="Source\World\SerializeCommon.cpp" />
     <ClCompile Include="Source\Interfaces\GenerateCppToBaluScript.cpp" />
+    <ClCompile Include="Source\World\EventsEditor.cpp" />
   </ItemGroup>
 </Project>

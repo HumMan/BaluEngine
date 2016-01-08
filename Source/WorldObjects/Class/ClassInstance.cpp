@@ -26,14 +26,13 @@ TOBB2 TBaluTransformedClassInstance::GetOBB()
 }
 
 TBaluClassInstance::TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, 
-	TResources* resources, IBaluScriptsCache* scripts_cache, TSceneObjectInstance* scene_object)
+	TResources* resources, TSceneObjectInstance* scene_object)
 	:skeleton(source->GetSkeleton(), resources, scene_object)
 	, skeleton_animation(&skeleton, source->GetSkeletonAnimation())
 {
 	this->scene_object = scene_object;
 	this->source = source;
 	this->resources = resources;
-	compiled_scripts = scripts_cache->GetClassCompiled(source);
 
 	for (int i = 0; i < source->GetSpritesCount(); i++)
 	{
@@ -80,7 +79,7 @@ void TBaluTransformedClassInstance::BeforeDeleteSource()
 
 TBaluTransformedClassInstance::TBaluTransformedClassInstance(TBaluTransformedClass* source, TBaluSceneInstance* scene)
 	:TSceneObjectInstance(scene)
-	, instance_class(source->GetClass(), scene->GetPhysWorld(), source->GetTransformWithScale().transform, scene->GetResources(), scene->GetWorld(), this)
+	, instance_class(source->GetClass(), scene->GetPhysWorld(), source->GetTransformWithScale().transform, scene->GetResources(), this)
 {
 	this->source = source;
 	instance_transform = source->GetTransformWithScale();
@@ -291,119 +290,4 @@ TBaluTransform TBaluClassPhysBodyIntance::GetTransform()
 void TBaluClassPhysBodyIntance::SetTransform(TBaluTransform transform)
 {
 	phys_body->SetTransform(*(b2Vec2*)&transform.position, transform.angle.GetAngle());
-}
-
-void TBaluClassCompiledScripts::DoKeyDown(TKey key, TBaluTransformedClassInstance* instance)
-{
-	for (auto& v : on_key_down_callbacks)
-	{
-		if (v.first == key)
-		{
-			world_instance->GetScriptEngine()->CallInstanceEvent(v.second, instance);
-		}
-	}
-}
-
-void TBaluClassCompiledScripts::DoKeyUp(TKey key, TBaluTransformedClassInstance* instance)
-{
-	for (auto& v : on_key_up_callbacks)
-	{
-		if (v.first == key)
-		{
-			world_instance->GetScriptEngine()->CallInstanceEvent(v.second, instance);
-		}
-	}
-}
-
-void TBaluClassCompiledScripts::DoBeforePhysicsStep(TBaluTransformedClassInstance* instance)
-{
-	for (auto& i : before_physics_callbacks)
-	{
-		world_instance->GetScriptEngine()->CallInstanceEvent(i, instance);
-	}
-}
-
-void TBaluClassCompiledScripts::DoCollide(TBaluTransformedClassInstance* source_object, TBaluTransformedSpriteInstance* obj_a, TBaluTransformedClassInstance* obstancle)
-{
-	for (auto& i : on_collide_callbacks)
-	{
-		if (i.sprite == obj_a->GetSource()->GetSprite() && i.with_class == obstancle->GetClass()->GetSource())
-			world_instance->GetScriptEngine()->CallCollide(i.script, source_object, obj_a, obstancle);
-	}
-}
-
-TBaluClassCompiledScripts::TBaluClassCompiledScripts(TBaluWorldInstance* world_instance, TBaluClass* source)
-{
-	this->world_instance = world_instance;
-	this->source = source;
-}
-
-void TBaluClassCompiledScripts::CompileScripts()
-{
-	TBaluScriptInstance& script_engine = *world_instance->GetScriptEngine();
-	for (auto& v : source->GetOnBeforePhysicsStep())
-	{
-		auto method_body = v.GetScriptSource();
-		std::string method = std::string("func static BeforePhys(IInstance object)\n{\n") + method_body + "\n}\n";
-		before_physics_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
-	}
-	for (auto& s : source->GetOnKeyDown())
-	{
-		for (auto& v : s.second)
-		{
-			auto method_body = v.GetScriptSource();
-			std::string method = std::string("func static KeyDown(IInstance object)\n{\n") + method_body + "\n}\n";
-			on_key_down_callbacks.push_back(std::pair<TKey, TScriptInstance>(s.first, script_engine.CompileMethod(&v, method.c_str())));
-		}
-	}
-	for (auto& s : source->GetOnKeyUp())
-	{
-		for (auto& v : s.second)
-		{
-			auto method_body = v.GetScriptSource();
-			std::string method = std::string("func static KeyUp(IInstance object)\n{\n") + method_body + "\n}\n";
-			on_key_up_callbacks.push_back(std::pair<TKey, TScriptInstance>(s.first, script_engine.CompileMethod(&v, method.c_str())));
-		}
-	}
-	for (auto& v : source->GetOnCollide())
-	{
-		auto method_body = v.script.GetScriptSource();
-		std::string method = std::string("func static Collide(IInstance object, IClassInstanceSpriteInstance sprite, IInstance obstancle)\n{\n") + method_body + "\n}\n";
-		on_collide_callbacks.push_back(TSpriteWithClassCollideInstance(v.sprite, v.with_class, script_engine.CompileMethod(&v.script, method.c_str())));
-	}
-}
-
-
-void TBaluClassCompiledScripts::CheckScriptErrors(TBaluClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list)
-{
-	for (auto& v : source->GetOnBeforePhysicsStep())
-	{
-		auto method_body = v.GetScriptSource();
-		std::string method = std::string("func static BeforePhys(IInstance object)\n{\n") + method_body + "\n}\n";
-		script_engine->CompileMethod(&v, method.c_str());
-	}
-	for (auto& s : source->GetOnKeyDown())
-	{
-		for (auto& v : s.second)
-		{
-			auto method_body = v.GetScriptSource();
-			std::string method = std::string("func static KeyDown(IInstance object)\n{\n") + method_body + "\n}\n";
-			script_engine->CompileMethod(&v, method.c_str());
-		}
-	}
-	for (auto& s : source->GetOnKeyUp())
-	{
-		for (auto& v : s.second)
-		{
-			auto method_body = v.GetScriptSource();
-			std::string method = std::string("func static KeyUp(IInstance object)\n{\n") + method_body + "\n}\n";
-			script_engine->CompileMethod(&v, method.c_str());
-		}
-	}
-	for (auto& v : source->GetOnCollide())
-	{
-		auto method_body = v.script.GetScriptSource();
-		std::string method = std::string("func static Collide(IPhysShapeInstance source, IInstance obstancle)\n{\n") + method_body + "\n}\n";
-		script_engine->CompileMethod(&v.script, method.c_str());
-	}
 }

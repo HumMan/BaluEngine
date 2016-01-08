@@ -80,8 +80,8 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 {
 	auto world = CreateWorld();
 
-	world->AddOnWorldStart(TScript(WorldStart_source));
-	world->AddOnViewportResize(TScript(ViewportResize_source));
+	world->GetEventsEditor()->AddOnWorldStart(TScript(WorldStart_source));
+	world->GetEventsEditor()->AddOnViewportResize(TScript(ViewportResize_source));
 
 	auto brick_mat = dynamic_cast<IBaluMaterial*>(world->CreateObject(TWorldObjectType::Material, "brick"));
 

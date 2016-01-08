@@ -104,23 +104,23 @@ namespace Editor
 	}
 	void TEventsEditor::FindAllEvents()
 	{
-		for (auto& e : p->world->GetOnWorldStart())
+		for (auto& e : p->world->GetEventsEditor()->GetOnWorldStart())
 		{
 			p->event_types[(int)TEventType::OnWorldStart].events.push_back(TEventInfo(TEventType::OnWorldStart, std::vector<TEventParam>(), &e));
 		}
-		for (auto& e : p->world->GetOnViewportResize())
+		for (auto& e : p->world->GetEventsEditor()->GetOnViewportResize())
 		{
 			p->event_types[(int)TEventType::OnViewportResize].events.push_back(TEventInfo(TEventType::OnViewportResize, std::vector<TEventParam>(),  &e));
 		}
-		for (auto& e : p->world->GetOnMouseDown())
+		for (auto& e : p->world->GetEventsEditor()->GetOnMouseDown())
 		{
 			p->event_types[(int)TEventType::OnGlobalMouseDown].events.push_back(TEventInfo(TEventType::OnGlobalMouseDown, std::vector<TEventParam>(),  &e));
 		}
-		for (auto& e : p->world->GetOnMouseUp())
+		for (auto& e : p->world->GetEventsEditor()->GetOnMouseUp())
 		{
 			p->event_types[(int)TEventType::OnGlobalMouseUp].events.push_back(TEventInfo(TEventType::OnGlobalMouseUp, std::vector<TEventParam>(), &e));
 		}
-		for (auto& e : p->world->GetOnMouseMove())
+		for (auto& e : p->world->GetEventsEditor()->GetOnMouseMove())
 		{
 			p->event_types[(int)TEventType::OnGlobalMouseMove].events.push_back(TEventInfo(TEventType::OnGlobalMouseMove, std::vector<TEventParam>(),  &e));
 		}

@@ -309,7 +309,7 @@ namespace Editor
 				p->viewport_drag_last_pos = p->main_viewport.GetTransform().position;
 			}
 
-			p->world_instance->MouseDown(Convert(e));
+			//p->world_instance->MouseDown(Convert(e));
 		}
 	}
 
@@ -336,7 +336,7 @@ namespace Editor
 				t.position = p->viewport_drag_last_pos - (new_scene_coord - old_scene_coord);
 				p->main_viewport.SetTransform(t);
 			}
-			p->world_instance->MouseMove(Convert(e));
+			 //p->world_instance->MouseMove(Convert(e));
 		}
 	}
 
@@ -348,7 +348,7 @@ namespace Editor
 			{
 				p->viewport_drag_active = false;
 			}
-			p->world_instance->MouseUp(Convert(e));
+			//p->world_instance->MouseUp(Convert(e));
 		}
 	}
 
@@ -356,7 +356,7 @@ namespace Editor
 	{
 		if (p->world_instance != nullptr)
 		{
-			p->world_instance->MouseVerticalWheel(e->Delta);
+			//p->world_instance->MouseVerticalWheel(e->Delta);
 			p->main_viewport.SetWidth(p->main_viewport.GetSize()[0] * (e->Delta>0 ? 1.1 : 0.9));
 		}
 	}

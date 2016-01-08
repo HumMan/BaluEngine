@@ -104,48 +104,6 @@ void TBaluWorld::DestroyObject(TWorldObjectType type, const char* name)
 	//world_objects[(int)type].erase(world_objects[(int)type].at(name));
 }
 
-void TBaluWorld::AddOnMouseDown(TScript callback)
-{
-	mouse_down_callbacks.push_back(callback);
-}
-
-void TBaluWorld::AddOnMouseUp(TScript callback)
-{
-	mouse_up_callbacks.push_back(callback);
-}
-
-void TBaluWorld::AddOnMouseMove(TScript callback)
-{
-	mouse_move_callbacks.push_back(callback);
-}
-
-std::vector<TScript>& TBaluWorld::GetOnMouseDown()
-{
-	return mouse_down_callbacks;
-}
-std::vector<TScript>& TBaluWorld::GetOnMouseUp()
-{
-	return mouse_up_callbacks;
-}
-std::vector<TScript>& TBaluWorld::GetOnMouseMove()
-{
-	return mouse_move_callbacks;
-}
-
-void TBaluWorld::RemoveOnMouseDown(int index)
-{
-	mouse_down_callbacks.erase(mouse_down_callbacks.begin() + index);
-}
-
-void TBaluWorld::RemoveOnMouseUp(int index)
-{
-	mouse_up_callbacks.erase(mouse_up_callbacks.begin() + index);
-}
-
-void TBaluWorld::RemoveOnMouseMove(int index)
-{
-	mouse_move_callbacks.erase(mouse_move_callbacks.begin() + index);
-}
 
 IBaluMaterial* TBaluWorld::CreateMaterial(const char* name)
 {
@@ -182,35 +140,6 @@ IBaluSprite* TBaluWorld::GetSprite(const std::string& name)
 IBaluClass* TBaluWorld::GetClass(const std::string& name)
 {
 	return dynamic_cast<IBaluClass*>(GetObjectByName(TWorldObjectType::Class, name.c_str()));
-}
-void TBaluWorld::AddOnWorldStart(TScript callback)
-{
-	on_start_world_callback.push_back(callback);
-}
-
-std::vector<TScript>& TBaluWorld::GetOnWorldStart()
-{
-	return on_start_world_callback;
-}
-
-void TBaluWorld::RemoveOnWorldStart(int index)
-{
-	on_start_world_callback.erase(on_start_world_callback.begin() + index);
-}
-
-void TBaluWorld::AddOnViewportResize(TScript callback)
-{
-	viewport_resize_callback.push_back(callback);
-}
-
-std::vector<TScript>& TBaluWorld::GetOnViewportResize()
-{
-	return viewport_resize_callback;
-}
-
-void TBaluWorld::RemoveOnViewportResize(int index)
-{
-	viewport_resize_callback.erase(viewport_resize_callback.begin() + index);
 }
 
 void TBaluWorld::SaveToXML(const std::string& path)
