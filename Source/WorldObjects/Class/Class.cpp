@@ -58,29 +58,6 @@ IProperties* TBaluClass::GetProperties()
 	return &properties;
 }
 
-std::vector<TSpriteWithClassCollide>& TBaluClass::GetOnCollide()
-{
-	return on_collide_callbacks;
-}
-
-TScript* TBaluClass::GetOnCollide(IBaluSprite* sprite, TBaluClass* obstancle_class)
-{
-	for (auto& v : on_collide_callbacks)
-		if (v.with_class == obstancle_class && v.sprite == sprite)
-			return &v.script;
-	return nullptr;
-}
-
-void TBaluClass::AddOnCollide(IBaluSprite* sprite, IBaluClass* obstancle_class, TScript callback)
-{
-	on_collide_callbacks.push_back(TSpriteWithClassCollide(sprite, obstancle_class, callback));
-}
-
-void TBaluClass::RemoveOnCollide(int index)
-{
-	on_collide_callbacks.erase(on_collide_callbacks.begin() + index);
-}
-
 
 bool TBaluClass::PointCollide(TVec2 class_space_point)
 {
@@ -116,11 +93,6 @@ TBaluClass::~TBaluClass()
 {
 
 }
-
-//void TBaluClass::OnMouseMove(TMouseMoveCallback)
-//{
-//	
-//}
 
 TBaluClassPhysBody* TBaluClass::GetPhysBody()
 {
@@ -163,36 +135,6 @@ TBaluTransformedSprite* TBaluClass::GetSprite(int index)
 	return sprites[index].get();
 }
 
-void TBaluClass::OnKeyDown(TKey key, TScript callback)
-{
-	on_key_down_callbacks[key].push_back(callback);
-}
-
-void TBaluClass::OnKeyUp(TKey key, TScript callback)
-{
-	on_key_up_callbacks[key].push_back(callback);
-}
-
-
-void TBaluClass::OnBeforePhysicsStep(TScript callback)
-{
-	before_physics_callbacks.push_back(callback);
-}
-
-std::map<TKey, std::vector<TScript>>& TBaluClass::GetOnKeyDown()
-{
-	return on_key_down_callbacks;
-}
-
-std::map<TKey, std::vector<TScript>>& TBaluClass::GetOnKeyUp()
-{
-	return on_key_up_callbacks;
-}
-
-std::vector<TScript>& TBaluClass::GetOnBeforePhysicsStep()
-{
-	return before_physics_callbacks;
-}
 
 IAbstractEditor* TBaluClass::CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance)
 {

@@ -162,6 +162,7 @@
     <ClInclude Include="Source\World\ICommon.h" />
     <ClInclude Include="Source\World\IComposer.h" />
     <ClInclude Include="Source\World\IDirector.h" />
+    <ClInclude Include="Source\World\IEventsEditorInstance.h" />
     <ClInclude Include="Source\World\IProperties.h" />
     <ClInclude Include="Source\World\IResources.h" />
     <ClInclude Include="Source\World\IScriptInstance.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="Source\World\Composer.cpp" />
     <ClCompile Include="Source\World\Director.cpp" />
     <ClCompile Include="Source\World\EventsEditor.cpp" />
+    <ClCompile Include="Source\World\EventsEditorInstance.cpp" />
     <ClCompile Include="Source\World\Layers.cpp" />
     <ClCompile Include="Source\World\Properties.cpp" />
     <ClCompile Include="Source\World\Render.cpp" />

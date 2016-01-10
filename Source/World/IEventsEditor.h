@@ -15,10 +15,38 @@ namespace EngineInterface
 	class IBaluSprite;
 	class IBaluClass;
 	class IBaluScene;
+	class IBaluTransformedSprite;
 }
 
 namespace EngineInterface
 {
+
+	struct TSpriteWithClassCollide
+	{
+		IBaluSprite* sprite;
+		IBaluClass* with_class;
+		TScript script;
+		TSpriteWithClassCollide()
+		{
+			sprite = nullptr;
+			with_class = nullptr;
+		}
+		TSpriteWithClassCollide(IBaluSprite* sprite, IBaluClass* with_class, TScript script)
+		{
+			this->sprite = sprite;
+			this->with_class = with_class;
+			this->script = script;
+		}
+	};
+
+	enum TKey :int
+	{
+		Left,
+		Right,
+		Up,
+		Down
+	};
+
 	class IEventsEditor
 	{
 	public:
@@ -41,6 +69,22 @@ namespace EngineInterface
 		virtual void AddOnViewportResize(TScript callback) = 0;
 		virtual std::vector<TScript>& GetOnViewportResize() = 0;
 		virtual void RemoveOnViewportResize(int index) = 0;
+
+		//class
+		virtual void OnKeyDown(TKey key, TScript callback) = 0;
+		virtual void OnKeyDown(TKey key, TScript callback, IBaluClass* use_class) = 0;
+		virtual void OnKeyUp(TKey key, TScript callback) = 0;
+		virtual void OnKeyUp(TKey key, TScript callback, IBaluClass* use_class) = 0;
+		virtual void OnBeforePhysicsStep(TScript callback) = 0;
+		virtual void OnBeforePhysicsStep(TScript callback, IBaluClass* use_class) = 0;
+
+		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyDown() = 0;
+		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyUp() = 0;
+		virtual std::vector<TScript>& GetOnBeforePhysicsStep() = 0;
+
+		virtual void AddOnCollide(IBaluTransformedSprite* sprite, IBaluClass* obstancle_class, TScript script) = 0;
+		virtual std::vector<TSpriteWithClassCollide>& GetOnCollide() = 0;
+		virtual void RemoveOnCollide(int index) = 0;
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
@@ -54,6 +98,15 @@ namespace EngineInterface
 			mouse_move_callbacks;
 		std::vector<TScript> on_start_world_callback;
 		std::vector<TScript> viewport_resize_callback;
+
+		//class
+
+		std::map<TKey, std::vector<TScript>> on_key_down_callbacks;
+		std::map<TKey, std::vector<TScript>> on_key_up_callbacks;
+		std::vector<TScript> before_physics_callbacks;
+
+		std::vector<TSpriteWithClassCollide> on_collide_callbacks;
+
 	public:
 
 		void AddOnMouseDown(TScript);
@@ -75,87 +128,23 @@ namespace EngineInterface
 		void AddOnViewportResize(TScript callback);
 		std::vector<TScript>& GetOnViewportResize();
 		void RemoveOnViewportResize(int index);
+
+		//class
+
+		void AddOnCollide(IBaluSprite* sprite, IBaluClass* obstancle_class, TScript callback);
+		std::vector<TSpriteWithClassCollide>& GetOnCollide();
+		TScript* GetOnCollide(IBaluSprite* sprite, TBaluClass* obstancle_class);
+		void RemoveOnCollide(int index);
+
+		void OnKeyDown(TKey key, TScript callback);
+		void OnKeyUp(TKey key, TScript callback);
+		void OnBeforePhysicsStep(TScript callback);
+
+		std::map<TKey, std::vector<TScript>>& GetOnKeyDown();
+		std::map<TKey, std::vector<TScript>>& GetOnKeyUp();
+		std::vector<TScript>& GetOnBeforePhysicsStep();
+
 	};
 #endif
 
-	class TMouseEventListener
-	{
-	public:
-		virtual void OnMouseMove(TMouseEventArgs e){}
-		virtual void OnMouseDown(TMouseEventArgs e){}
-		virtual void OnMouseUp(TMouseEventArgs e){}
-	};
-
-	class IEventsEditorInstance
-	{
-	public:
-		virtual void MouseDown(TMouseEventArgs e) = 0;
-		virtual void MouseMove(TMouseEventArgs e) = 0;
-		virtual void MouseUp(TMouseEventArgs e) = 0;
-		virtual void MouseVerticalWheel(int amount) = 0;
-
-		virtual void AddMouseEventListener(TMouseEventListener*) = 0;
-		virtual void RemoveMouseEventListener(TMouseEventListener*) = 0;
-	};
-
-
-#ifdef BALUENGINEDLL_EXPORTS
-
-	/*class TEventsEditor
-	{
-	private:
-
-		std::vector<TScriptInstance>
-			mouse_down_callbacks,
-			mouse_up_callbacks,
-			mouse_move_callbacks;
-		std::vector<TScriptInstance> on_start_world_callback;
-		std::vector<TScriptInstance> viewport_resize_callback;
-		std::vector<TMouseEventListener*> OnMouseEventListeners;
-
-		std::vector<std::unique_ptr<TBaluClassCompiledScripts>> class_compiled_instances;
-
-		TBaluScriptInstance script_engine;
-	public:
-
-		TBaluClassCompiledScripts* GetClassCompiled(TBaluClass* source)
-		{
-			for (auto& v : class_compiled_instances)
-				if (v->GetClass() == source)
-					return v.get();
-			return nullptr;
-		}
-		TBaluScriptInstance* GetScriptEngine()
-		{
-			return &script_engine;
-		}
-		//world
-		void AddMouseEventListener(TMouseEventListener*);
-		void RemoveMouseEventListener(TMouseEventListener*);
-		void OnPrePhysStep();
-		void OnProcessCollisions();
-
-
-		void KeyDown(TKey key);
-		void KeyUp(TKey key);
-
-		void MouseDown(TMouseEventArgs e);
-		void MouseMove(TMouseEventArgs e);
-		void MouseUp(TMouseEventArgs e);
-		void MouseVerticalWheel(int amount);
-
-		void ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size);
-
-		bool CompileScripts();
-		static bool CheckScriptErrors(TBaluWorld* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
-
-		//scene
-		void OnPrePhysStep();
-		void OnKeyDown(TKey key);
-
-		void OnMouseUp(TMouseEventArgs e, TVec2 scene_cursor_location);
-		void OnMouseDown(TMouseEventArgs e, TVec2 scene_cursor_location);
-		void OnMouseMove(TMouseEventArgs e, TVec2 scene_cursor_location);
-	};*/
-#endif
 }

@@ -251,42 +251,42 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 	properties.Save(new_node, version);
 
 	{
-		xml_node callbacks_node = new_node.append_child("KeyDownScripts");
-		for (auto i = on_key_down_callbacks.begin(); i != on_key_down_callbacks.end(); i++)
-		{
-			xml_node key_callbacks = callbacks_node.append_child("Key");
-			key_callbacks.append_attribute("key").set_value(i->first);
-			for (auto& v : i->second)
-			{
-				v.SaveToXML(key_callbacks, version);
-			}
-		}
+		//xml_node callbacks_node = new_node.append_child("KeyDownScripts");
+		//for (auto i = on_key_down_callbacks.begin(); i != on_key_down_callbacks.end(); i++)
+		//{
+		//	xml_node key_callbacks = callbacks_node.append_child("Key");
+		//	key_callbacks.append_attribute("key").set_value(i->first);
+		//	for (auto& v : i->second)
+		//	{
+		//		v.SaveToXML(key_callbacks, version);
+		//	}
+		//}
 
-		callbacks_node = new_node.append_child("KeyUpScripts");
-		for (auto i = on_key_up_callbacks.begin(); i != on_key_up_callbacks.end(); i++)
-		{
-			xml_node key_callbacks = callbacks_node.append_child("Key");
-			key_callbacks.append_attribute("key").set_value(i->first);
-			for (auto& v : i->second)
-			{
-				v.SaveToXML(key_callbacks, version);
-			}
-		}
+		//callbacks_node = new_node.append_child("KeyUpScripts");
+		//for (auto i = on_key_up_callbacks.begin(); i != on_key_up_callbacks.end(); i++)
+		//{
+		//	xml_node key_callbacks = callbacks_node.append_child("Key");
+		//	key_callbacks.append_attribute("key").set_value(i->first);
+		//	for (auto& v : i->second)
+		//	{
+		//		v.SaveToXML(key_callbacks, version);
+		//	}
+		//}
 
-		callbacks_node = new_node.append_child("BeforePhysicsScripts");
-		for (auto i = before_physics_callbacks.begin(); i != before_physics_callbacks.end(); i++)
-		{
-			i->SaveToXML(callbacks_node, version);
-		}
+		//callbacks_node = new_node.append_child("BeforePhysicsScripts");
+		//for (auto i = before_physics_callbacks.begin(); i != before_physics_callbacks.end(); i++)
+		//{
+		//	i->SaveToXML(callbacks_node, version);
+		//}
 
-		callbacks_node = new_node.append_child("CollideScripts");
-		for (auto& v : on_collide_callbacks)
-		{
-			xml_node collide_with = callbacks_node.append_child("CollideWith");
-			collide_with.append_attribute("class").set_value(v.with_class->GetName().c_str());
-			collide_with.append_attribute("sprite").set_value(v.sprite->GetName().c_str());
-			v.script.SaveToXML(collide_with, version);
-		}
+		//callbacks_node = new_node.append_child("CollideScripts");
+		//for (auto& v : on_collide_callbacks)
+		//{
+		//	xml_node collide_with = callbacks_node.append_child("CollideWith");
+		//	collide_with.append_attribute("class").set_value(v.with_class->GetName().c_str());
+		//	collide_with.append_attribute("sprite").set_value(v.sprite->GetName().c_str());
+		//	v.script.SaveToXML(collide_with, version);
+		//}
 	}
 }
 
@@ -315,7 +315,7 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 	properties.Load(node, version, world);
 
 	{
-		xml_node child_node = node.child("KeyDownScripts");
+		/*xml_node child_node = node.child("KeyDownScripts");
 		for (pugi::xml_node instance_node = child_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
 			auto key = (TKey)(instance_node.attribute("key").as_int());
@@ -362,6 +362,6 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 
 				on_collide_callbacks.push_back(TSpriteWithClassCollide(collide_sprite, collide_with_class, new_callback));
 			}
-		}
+		}*/
 	}
 }

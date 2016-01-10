@@ -63,53 +63,6 @@ namespace EngineInterface
 };
 #endif
 
-#ifdef BALUENGINEDLL_EXPORTS
-	struct TSpriteWithClassCollideInstance
-	{
-		IBaluSprite* sprite;
-		IBaluClass* with_class;
-		TScriptInstance script;
-		TSpriteWithClassCollideInstance()
-		{
-			sprite = nullptr;
-			with_class = nullptr;
-		}
-		TSpriteWithClassCollideInstance(IBaluSprite* sprite, IBaluClass* with_class, TScriptInstance script)
-		{
-			this->sprite = sprite;
-			this->with_class = with_class;
-			this->script = script;
-		}
-	};
-
-	class TBaluClassCompiledScripts
-	{
-	private:
-		TBaluWorldInstance* world_instance;
-		TBaluClass* source;
-
-		std::vector<std::pair<TKey, TScriptInstance>> on_key_down_callbacks;
-		std::vector<std::pair<TKey, TScriptInstance>> on_key_up_callbacks;
-		std::vector<TScriptInstance> before_physics_callbacks;
-		std::vector<TSpriteWithClassCollideInstance> on_collide_callbacks;
-	public:
-		TBaluClassCompiledScripts(TBaluWorldInstance* world_instance, TBaluClass* source);
-		TBaluClass* GetClass()
-		{
-			return source;
-		}
-		void CompileScripts();
-		static void CheckScriptErrors(TBaluClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
-
-		void DoKeyDown(TKey key, TBaluTransformedClassInstance* instance);
-		void DoKeyUp(TKey key, TBaluTransformedClassInstance* instance);
-		void DoBeforePhysicsStep(TBaluTransformedClassInstance* instance);
-		void DoCollide(TBaluTransformedClassInstance* source_object, TBaluTransformedSpriteInstance* obj_a, TBaluTransformedClassInstance* obstancle);
-		//void DoSensorCollide(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
-		//void DoBeginContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
-		//void DoEndContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
-	};
-#endif
 
 #ifdef BALUENGINEDLL_EXPORTS
 
@@ -121,7 +74,6 @@ namespace EngineInterface
 
 #endif
 	class TBaluClass;
-	//class TBaluClassCompiledScripts;
 	class IBaluClassInstance: public ISpritesArray
 	{
 	public:
@@ -142,8 +94,6 @@ namespace EngineInterface
 		TBaluClass* source;
 		TSceneObjectInstance* scene_object;
 		TResources* resources;
-
-		//TBaluClassCompiledScripts* compiled_scripts;
 
 		std::vector<std::unique_ptr<TBaluTransformedSpriteInstance>> sprites;
 		std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
@@ -185,9 +135,6 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-
-	
-
 	class TBaluTransformedClassInstance : public IBaluTransformedClassInstance, public TSceneObjectInstance, public IChangeListener
 	{
 	private:

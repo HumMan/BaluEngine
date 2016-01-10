@@ -18,22 +18,12 @@ namespace EngineInterface
 namespace EngineInterface
 {
 
-	enum TKey :int
-	{
-		Left,
-		Right,
-		Up,
-		Down
-	};
-
 	enum TPhysBodyType
 	{
 		Static,
 		Dynamic,
 		Kinematic
 	};
-
-
 
 	class IBaluClassPhysBody
 	{
@@ -62,24 +52,6 @@ namespace EngineInterface
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
 	};
 #endif
-	
-	struct TSpriteWithClassCollide
-	{
-		IBaluSprite* sprite;
-		IBaluClass* with_class;
-		TScript script;
-		TSpriteWithClassCollide()
-		{
-			sprite = nullptr;
-			with_class = nullptr;
-		}
-		TSpriteWithClassCollide(IBaluSprite* sprite, IBaluClass* with_class, TScript script)
-		{
-			this->sprite = sprite;
-			this->with_class = with_class;
-			this->script = script;
-		}
-	};
 
 	class IBaluClass: public virtual IBaluWorldObject
 	{
@@ -96,18 +68,6 @@ namespace EngineInterface
 		virtual ISkeletonAnimation* GetSkeletonAnimation() = 0;
 		virtual IBaluClassPhysBody* GetPhysBody()=0;
 		virtual ISkeleton* GetSkeleton()=0;
-
-		virtual void OnKeyDown(TKey key, TScript callback) = 0;
-		virtual void OnKeyUp(TKey key, TScript callback) = 0;
-		virtual void OnBeforePhysicsStep(TScript callback) = 0;
-
-		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyDown() = 0;
-		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyUp() = 0;
-		virtual std::vector<TScript>& GetOnBeforePhysicsStep() = 0;
-
-		virtual void AddOnCollide(IBaluSprite* sprite, IBaluClass* obstancle_class, TScript script) = 0;
-		virtual std::vector<TSpriteWithClassCollide>& GetOnCollide() = 0;
-		virtual void RemoveOnCollide(int index) = 0;
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
@@ -123,20 +83,9 @@ namespace EngineInterface
 		std::unique_ptr<TSkeletonAnimation> skeleton_animation;
 		TProperties properties;
 
-		std::map<TKey, std::vector<TScript>> on_key_down_callbacks;
-		std::map<TKey, std::vector<TScript>> on_key_up_callbacks;
-		std::vector<TScript> before_physics_callbacks;
-
-		std::vector<TSpriteWithClassCollide> on_collide_callbacks;
-
 		void Initialize();
 
 	public:
-
-		void AddOnCollide(IBaluSprite* sprite, IBaluClass* obstancle_class, TScript callback);
-		std::vector<TSpriteWithClassCollide>& GetOnCollide();
-		TScript* GetOnCollide(IBaluSprite* sprite, TBaluClass* obstancle_class);
-		void RemoveOnCollide(int index);
 
 		TBaluClass(std::string name, TBaluWorld* world);
 
@@ -158,14 +107,6 @@ namespace EngineInterface
 
 		TSkeletonAnimation* GetSkeletonAnimation();
 		TSkeleton* GetSkeleton();
-
-		void OnKeyDown(TKey key, TScript callback);
-		void OnKeyUp(TKey key, TScript callback);
-		void OnBeforePhysicsStep(TScript callback);
-
-		std::map<TKey, std::vector<TScript>>& GetOnKeyDown();
-		std::map<TKey, std::vector<TScript>>& GetOnKeyUp();
-		std::vector<TScript>& GetOnBeforePhysicsStep();
 
 		void Save(pugi::xml_node& parent_node, const int version);
 		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);

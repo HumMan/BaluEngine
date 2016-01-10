@@ -138,20 +138,21 @@ IBaluWorld* CreateDemoWorld(std::string assets_dir)
 	player_class->GetPhysBody()->SetFixedRotation(true);
 
 	auto player_phys_sprite = world->CreateSprite("player_phys");
-	player_class->AddSprite(player_phys_sprite);
+	auto player_phys_sprite_instance = player_class->AddSprite(player_phys_sprite);
 	player_phys_sprite->SetPhysShape(GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -3.5))->GetPhysShape());
 	player_phys_sprite->GetPhysShape()->SetIsSensor(true);
 
-	player_class->OnKeyDown(TKey::Up, TScript(PlayerJump_source));
-	player_class->OnKeyDown(TKey::Left, TScript(PlayerLeft_source));
-	player_class->OnKeyDown(TKey::Right, TScript(PlayerRight_source));
 
-	player_class->OnBeforePhysicsStep(TScript(PlayerPrePhysStep_source));
-	player_class->AddOnCollide(player_phys_sprite, box_class, TScript(PlayerJumpSensorCollide_source));
+	world->GetEventsEditor()->OnKeyDown(TKey::Up, TScript(PlayerJump_source), player_class);
+	world->GetEventsEditor()->OnKeyDown(TKey::Left, TScript(PlayerLeft_source), player_class);
+	world->GetEventsEditor()->OnKeyDown(TKey::Right, TScript(PlayerRight_source), player_class);
+
+	world->GetEventsEditor()->OnBeforePhysicsStep(TScript(PlayerPrePhysStep_source), player_class);
+	world->GetEventsEditor()->AddOnCollide(player_phys_sprite_instance, box_class, TScript(PlayerJumpSensorCollide_source));
 
 	auto bones_player = world->CreateClass("bones");
 
-	bones_player->OnBeforePhysicsStep(TScript(BonesPlayerPrePhysStep_source));
+	world->GetEventsEditor()->OnBeforePhysicsStep(TScript(BonesPlayerPrePhysStep_source), bones_player);
 
 	{
 		auto bones_mat = world->CreateMaterial("zombie");

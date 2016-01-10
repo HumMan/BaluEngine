@@ -4,7 +4,7 @@
 
 #include <World\IProperties.h>
 #include <World\IWorldInstance.h>
-#include <World\IEventsEditor.h>
+#include <World\IEventsEditorInstance.h>
 
 #include <EditorUtils\IAbstractEditor.h>
 
