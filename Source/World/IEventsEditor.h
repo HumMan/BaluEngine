@@ -23,7 +23,7 @@ namespace EngineInterface
 
 	struct TSpriteWithClassCollide
 	{
-		IBaluSprite* sprite;
+		IBaluTransformedSprite* sprite;
 		IBaluClass* with_class;
 		TScript script;
 		TSpriteWithClassCollide()
@@ -31,7 +31,7 @@ namespace EngineInterface
 			sprite = nullptr;
 			with_class = nullptr;
 		}
-		TSpriteWithClassCollide(IBaluSprite* sprite, IBaluClass* with_class, TScript script)
+		TSpriteWithClassCollide(IBaluTransformedSprite* sprite, IBaluClass* with_class, TScript script)
 		{
 			this->sprite = sprite;
 			this->with_class = with_class;
@@ -71,16 +71,19 @@ namespace EngineInterface
 		virtual void RemoveOnViewportResize(int index) = 0;
 
 		//class
-		virtual void OnKeyDown(TKey key, TScript callback) = 0;
+		virtual void OnKeyDownGlobal (TKey key, TScript callback) = 0;
 		virtual void OnKeyDown(TKey key, TScript callback, IBaluClass* use_class) = 0;
-		virtual void OnKeyUp(TKey key, TScript callback) = 0;
+		virtual void OnKeyUpGlobal(TKey key, TScript callback) = 0;
 		virtual void OnKeyUp(TKey key, TScript callback, IBaluClass* use_class) = 0;
-		virtual void OnBeforePhysicsStep(TScript callback) = 0;
+		virtual void OnBeforePhysicsStepGlobal(TScript callback) = 0;
 		virtual void OnBeforePhysicsStep(TScript callback, IBaluClass* use_class) = 0;
 
-		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyDown() = 0;
-		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyUp() = 0;
-		virtual std::vector<TScript>& GetOnBeforePhysicsStep() = 0;
+		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyDownGlobal() = 0;
+		virtual std::map<TKey, std::vector<TScript>>& GetOnKeyUpGlobal() = 0;
+		virtual std::vector<TScript>& GetOnBeforePhysicsStepGlobal() = 0;
+		virtual std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& GetOnKeyDown() = 0;
+		virtual std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& GetOnKeyUp() = 0;
+		virtual std::vector<std::tuple<TScript, IBaluClass*>>& GetOnBeforePhysicsStep() = 0;
 
 		virtual void AddOnCollide(IBaluTransformedSprite* sprite, IBaluClass* obstancle_class, TScript script) = 0;
 		virtual std::vector<TSpriteWithClassCollide>& GetOnCollide() = 0;
@@ -91,7 +94,11 @@ namespace EngineInterface
 	
 	class TEventsEditor : public IEventsEditor
 	{
+		friend class TEventsEditorInstance;
 	private:
+
+		//global
+
 		std::vector<TScript>
 			mouse_down_callbacks,
 			mouse_up_callbacks,
@@ -99,11 +106,15 @@ namespace EngineInterface
 		std::vector<TScript> on_start_world_callback;
 		std::vector<TScript> viewport_resize_callback;
 
+		std::map<TKey, std::vector<TScript>> global_on_key_down_callbacks;
+		std::map<TKey, std::vector<TScript>> global_on_key_up_callbacks;
+		std::vector<TScript> global_before_physics_callbacks;
+
 		//class
 
-		std::map<TKey, std::vector<TScript>> on_key_down_callbacks;
-		std::map<TKey, std::vector<TScript>> on_key_up_callbacks;
-		std::vector<TScript> before_physics_callbacks;
+		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>> on_key_down_callbacks;
+		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>> on_key_up_callbacks;
+		std::vector<std::tuple<TScript, IBaluClass*>> before_physics_callbacks;
 
 		std::vector<TSpriteWithClassCollide> on_collide_callbacks;
 
@@ -113,13 +124,13 @@ namespace EngineInterface
 		void AddOnMouseUp(TScript);
 		void AddOnMouseMove(TScript);
 
-		std::vector<TScript>& GetOnMouseDown();
-		std::vector<TScript>& GetOnMouseUp();
-		std::vector<TScript>& GetOnMouseMove();
-
 		void RemoveOnMouseDown(int index);
 		void RemoveOnMouseUp(int index);
 		void RemoveOnMouseMove(int index);
+
+		std::vector<TScript>& GetOnMouseDown();
+		std::vector<TScript>& GetOnMouseUp();
+		std::vector<TScript>& GetOnMouseMove();
 
 		void AddOnWorldStart(TScript callback);
 		std::vector<TScript>& GetOnWorldStart();
@@ -131,19 +142,24 @@ namespace EngineInterface
 
 		//class
 
-		void AddOnCollide(IBaluSprite* sprite, IBaluClass* obstancle_class, TScript callback);
+		void AddOnCollide(IBaluTransformedSprite* sprite, IBaluClass* obstancle_class, TScript callback);
 		std::vector<TSpriteWithClassCollide>& GetOnCollide();
-		TScript* GetOnCollide(IBaluSprite* sprite, TBaluClass* obstancle_class);
+		TScript* GetOnCollide(IBaluTransformedSprite* sprite, IBaluClass* obstancle_class);
 		void RemoveOnCollide(int index);
 
-		void OnKeyDown(TKey key, TScript callback);
-		void OnKeyUp(TKey key, TScript callback);
-		void OnBeforePhysicsStep(TScript callback);
+		void OnKeyDownGlobal(TKey key, TScript callback);
+		void OnKeyDown(TKey key, TScript callback, IBaluClass* use_class);
+		void OnKeyUpGlobal(TKey key, TScript callback);
+		void OnKeyUp(TKey key, TScript callback, IBaluClass* use_class);
+		void OnBeforePhysicsStepGlobal(TScript callback);
+		void OnBeforePhysicsStep(TScript callback, IBaluClass* use_class);
 
-		std::map<TKey, std::vector<TScript>>& GetOnKeyDown();
-		std::map<TKey, std::vector<TScript>>& GetOnKeyUp();
-		std::vector<TScript>& GetOnBeforePhysicsStep();
-
+		std::map<TKey, std::vector<TScript>>& GetOnKeyDownGlobal();
+		std::map<TKey, std::vector<TScript>>& GetOnKeyUpGlobal();
+		std::vector<TScript>& GetOnBeforePhysicsStepGlobal();
+		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& GetOnKeyDown();
+		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& GetOnKeyUp();
+		std::vector<std::tuple<TScript, IBaluClass*>>& GetOnBeforePhysicsStep();
 	};
 #endif
 

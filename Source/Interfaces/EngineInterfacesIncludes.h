@@ -11,3 +11,5 @@
 #include "../World/IDirector.h"
 
 #include "../Source/EditorUtils/IAbstractEditor.h"
+
+#include "../World/IEventsEditorInstance.h"

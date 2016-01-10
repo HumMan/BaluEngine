@@ -6,7 +6,6 @@
 
 #include <World\IDirector.h>
 #include <World\IWorldInstance.h>
-#include <World\IScriptInstance.h>
 
 
 using namespace EngineInterface;
@@ -77,17 +76,6 @@ namespace EngineInterface
 	//{
 	//	return TBaluWorldInstance::CheckScriptErrors(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TBaluScriptInstance*>(script_instance), errors_list);
 	//}
-
-	IBaluScriptInstance* CreateScriptInstance(std::string assets_dir)
-	{
-		return new TBaluScriptInstance(assets_dir);
-	}
-
-	void DestroyScriptInstance(IBaluScriptInstance* instance)
-	{
-		auto ed = dynamic_cast<TBaluScriptInstance*>(instance);
-		delete ed;
-	}
 
 	TVec2 TDrawingHelperContext::FromScreenPixelsToScene(TVec2i screen_pixels)
 	{

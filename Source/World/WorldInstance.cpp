@@ -12,6 +12,8 @@
 
 #include "IDirector.h"
 
+#include "IEventsEditorInstance.h"
+
 namespace EngineInterface
 {
 
@@ -27,6 +29,10 @@ namespace EngineInterface
 		this->source = source;
 		this->resources = resources;
 
+		this->events_editor.reset(new TEventsEditorInstance(dynamic_cast<TEventsEditor*>(source->GetEventsEditor())));
+
+
+
 		//for (auto& k : source->GetObjects(TWorldObjectType::Class))
 		//{
 		//	auto curr_class = dynamic_cast<TBaluClass*>(&(*k));
@@ -34,8 +40,8 @@ namespace EngineInterface
 		//	class_compiled_instances.emplace_back(new_class_instance);
 		//}
 
-		//std::vector<std::string> errors_list;
-		//CompileScripts();
+		std::vector<std::string> errors_list;
+		this->events_editor->CompileScripts();
 
 		//for (auto& v : on_start_world_callback)
 		//	script_engine.CallWorldStart(v, this, &composer);
@@ -99,4 +105,7 @@ namespace EngineInterface
 			scene_instances[i]->UpdateTransform();
 	}
 
+	TBaluWorldInstance::~TBaluWorldInstance()
+	{
+	}
 }

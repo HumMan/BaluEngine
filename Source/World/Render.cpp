@@ -6,7 +6,7 @@
 
 #include <WorldObjects/Material/IMaterialInstance.h>
 
-#include "IScriptInstance.h"
+
 
 #include <nanovg.h>
 

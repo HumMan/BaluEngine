@@ -5,7 +5,6 @@
 #include <WorldObjects\Scene\ISceneInstance.h>
 #include "IWorld.h"
 #include "IComposer.h"
-#include "IScriptInstance.h"
 
 namespace EngineInterface
 {
@@ -13,6 +12,8 @@ namespace EngineInterface
 	class IComposer;
 	class IBaluWorld;
 	class TDirector;
+	class TEventsEditorInstance;
+	class IEventsEditorInstance;
 }
 
 namespace EngineInterface
@@ -38,6 +39,7 @@ namespace EngineInterface
 		virtual int GetSceneInstancesCount()=0;
 		virtual IBaluSceneInstance* GetSceneInstance(int index)=0;
 
+		virtual IEventsEditorInstance* GetEventsEditor();
 		
 		virtual IComposer* GetComposer() = 0;
 	};
@@ -53,7 +55,12 @@ namespace EngineInterface
 		
 		TComposer composer;
 
+		std::unique_ptr<TEventsEditorInstance> events_editor;
+
 	public:
+		~TBaluWorldInstance();
+		IEventsEditorInstance* GetEventsEditor();
+
 		TResources* GetResources()
 		{
 			return resources;
@@ -62,9 +69,6 @@ namespace EngineInterface
 		TBaluWorld* GetSource();
 
 		TBaluWorldInstance(TBaluWorld* source, TResources* resources);
-		~TBaluWorldInstance()
-		{
-		}
 
 		TBaluSceneInstance* RunScene(TBaluScene* scene_source);
 		void StopScene(TBaluSceneInstance*);

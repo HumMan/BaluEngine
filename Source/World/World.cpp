@@ -12,9 +12,12 @@ using namespace EngineInterface;
 #include "../Source/WorldObjects/Class/IClass.h"
 #include "../Source/WorldObjects/Scene/IScene.h"
 
+#include "IEventsEditor.h"
+
 TBaluWorld::TBaluWorld()
 {
 	ilInit();
+	events_editor.reset(new TEventsEditor());
 }
 
 TBaluWorld::~TBaluWorld()
@@ -173,4 +176,18 @@ TProperty* PropertiesFactory::Create(const char* name)
 		if (strcmp(properties_registry[i].first, name) == 0)
 			return properties_registry[i].second();
 	throw std::invalid_argument("Тип не зарегистрирован");
+}
+
+IEventsEditor* TBaluWorld::GetEventsEditor()
+{
+	return events_editor.get();
+}
+
+void TBaluWorld::AddChangesListener(TBaluWorldChangeListener* listener)
+{
+	listeners.AddChangesListener(listener);
+}
+void TBaluWorld::RemoveChangesListener(TBaluWorldChangeListener* listener)
+{
+	listeners.RemoveChangesListener(listener);
 }

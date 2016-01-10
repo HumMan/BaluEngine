@@ -12,7 +12,6 @@ namespace EngineInterface
 	class TBaluScriptInstance;
 	class TBaluPhysShapeInstance;
 	class TBaluClassCompiledScripts;
-	class IBaluScriptsCache;
 	class TBaluTransformedClass;
 
 	class ISpritesArray

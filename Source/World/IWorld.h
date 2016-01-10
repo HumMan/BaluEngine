@@ -4,14 +4,14 @@
 #include "ICommon.h"
 #include "Interfaces\ExportMacro.h"
 
-#include "IEventsEditor.h"
-
 namespace EngineInterface
 {
 	class IDirector;
 	class IBaluWorldInstance;
 	class TRender;
 	class IBaluWorldObject;
+	class TEventsEditor;
+	class IEventsEditor;
 
 	class IBaluMaterial;
 	class IBaluSprite;
@@ -111,19 +111,10 @@ namespace EngineInterface
 		TBaluWorldChangeListenerArray listeners;
 	public:
 
-		virtual IEventsEditor* GetEventsEditor()
-		{
-			return events_editor.get();
-		}
+		IEventsEditor* GetEventsEditor();
 
-		virtual void AddChangesListener(TBaluWorldChangeListener* listener)
-		{
-			listeners.AddChangesListener(listener);
-		}
-		virtual void RemoveChangesListener(TBaluWorldChangeListener* listener)
-		{
-			listeners.RemoveChangesListener(listener);
-		}
+		void AddChangesListener(TBaluWorldChangeListener* listener);
+		void RemoveChangesListener(TBaluWorldChangeListener* listener);
 
 		TBaluWorld();
 		~TBaluWorld();

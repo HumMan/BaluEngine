@@ -10,9 +10,11 @@ namespace EngineInterface
 	class TBaluWorldInstance;
 	class TRender;
 	class IBaluWorldObject;
+	class TBaluScriptInstance;
 
 	class IBaluMaterial;
 	class IBaluSprite;
+	class IBaluTransformedSprite;
 	class IBaluClass;
 	class IBaluScene;
 }
@@ -44,7 +46,7 @@ namespace EngineInterface
 #ifdef BALUENGINEDLL_EXPORTS
 	struct TSpriteWithClassCollideInstance
 	{
-		IBaluSprite* sprite;
+		IBaluTransformedSprite* sprite;
 		IBaluClass* with_class;
 		TScriptInstance script;
 		TSpriteWithClassCollideInstance()
@@ -52,40 +54,12 @@ namespace EngineInterface
 			sprite = nullptr;
 			with_class = nullptr;
 		}
-		TSpriteWithClassCollideInstance(IBaluSprite* sprite, IBaluClass* with_class, TScriptInstance script)
+		TSpriteWithClassCollideInstance(IBaluTransformedSprite* sprite, IBaluClass* with_class, TScriptInstance script)
 		{
 			this->sprite = sprite;
 			this->with_class = with_class;
 			this->script = script;
 		}
-	};
-
-	class TBaluClassCompiledScripts
-	{
-	private:
-		TBaluWorldInstance* world_instance;
-		TBaluClass* source;
-
-		std::vector<std::pair<TKey, TScriptInstance>> on_key_down_callbacks;
-		std::vector<std::pair<TKey, TScriptInstance>> on_key_up_callbacks;
-		std::vector<TScriptInstance> before_physics_callbacks;
-		std::vector<TSpriteWithClassCollideInstance> on_collide_callbacks;
-	public:
-		TBaluClassCompiledScripts(TBaluWorldInstance* world_instance, TBaluClass* source);
-		TBaluClass* GetClass()
-		{
-			return source;
-		}
-		/*void CompileScripts();
-		static void CheckScriptErrors(TBaluClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
-
-		void DoKeyDown(TKey key, TBaluTransformedClassInstance* instance);
-		void DoKeyUp(TKey key, TBaluTransformedClassInstance* instance);
-		void DoBeforePhysicsStep(TBaluTransformedClassInstance* instance);
-		void DoCollide(TBaluTransformedClassInstance* source_object, TBaluTransformedSpriteInstance* obj_a, TBaluTransformedClassInstance* obstancle);*/
-		//void DoSensorCollide(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
-		//void DoBeginContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
-		//void DoEndContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 	};
 #endif
 
@@ -95,30 +69,36 @@ namespace EngineInterface
 	{
 	private:
 
+		std::unique_ptr<TBaluScriptInstance> script_engine;
+
+		std::vector<TMouseEventListener*> OnMouseEventListeners;
+
+		//global
+
 		std::vector<TScriptInstance>
 			mouse_down_callbacks,
 			mouse_up_callbacks,
 			mouse_move_callbacks;
 		std::vector<TScriptInstance> on_start_world_callback;
 		std::vector<TScriptInstance> viewport_resize_callback;
-		std::vector<TMouseEventListener*> OnMouseEventListeners;
 
-		std::vector<std::unique_ptr<TBaluClassCompiledScripts>> class_compiled_instances;
+		
+		std::map<TKey, std::vector<TScriptInstance>> global_on_key_down_callbacks;
+		std::map<TKey, std::vector<TScriptInstance>> oglobal_n_key_up_callbacks;
+		std::vector<TScriptInstance> global_before_physics_callbacks;
 
-		//TBaluScriptInstance script_engine;
+		//class
+
+		std::map<TKey, std::vector<std::tuple<TScriptInstance, IBaluClass*>>> on_key_down_callbacks;
+		std::map<TKey, std::vector<std::tuple<TScriptInstance, IBaluClass*>>> on_key_up_callbacks;
+		std::vector<std::tuple<TScriptInstance, IBaluClass*>> before_physics_callbacks;
+
+		std::vector<TSpriteWithClassCollideInstance> on_collide_callbacks;
+
+		TEventsEditor* source;
 	public:
-
-		//TBaluClassCompiledScripts* GetClassCompiled(TBaluClass* source)
-		//{
-		//	for (auto& v : class_compiled_instances)
-		//		if (v->GetClass() == source)
-		//			return v.get();
-		//	return nullptr;
-		//}
-		//TBaluScriptInstance* GetScriptEngine()
-		//{
-		//	return &script_engine;
-		//}
+		TEventsEditorInstance(TEventsEditor* source);
+		~TEventsEditorInstance();
 		//world
 		void AddMouseEventListener(TMouseEventListener*);
 		void RemoveMouseEventListener(TMouseEventListener*);
@@ -137,7 +117,7 @@ namespace EngineInterface
 		void ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size);
 
 		bool CompileScripts();
-		static bool CheckScriptErrors(TBaluWorld* source, std::vector<std::string>& errors_list);
+		bool CheckScriptErrors(std::vector<std::string>& errors_list);
 
 		//scene
 		//void OnPrePhysStep();
@@ -146,6 +126,17 @@ namespace EngineInterface
 		//void OnMouseUp(TMouseEventArgs e, TVec2 scene_cursor_location);
 		//void OnMouseDown(TMouseEventArgs e, TVec2 scene_cursor_location);
 		//void OnMouseMove(TMouseEventArgs e, TVec2 scene_cursor_location);
+
+		//class
+		static void CheckScriptErrors(TBaluClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
+
+		//void DoKeyDown(TKey key, TBaluTransformedClassInstance* instance);
+		//void DoKeyUp(TKey key, TBaluTransformedClassInstance* instance);
+		//void DoBeforePhysicsStep(TBaluTransformedClassInstance* instance);
+		//void DoCollide(TBaluTransformedClassInstance* source_object, TBaluTransformedSpriteInstance* obj_a, TBaluTransformedClassInstance* obstancle);
+		//void DoSensorCollide(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
+		//void DoBeginContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
+		//void DoEndContact(TSensorInstance* sensor, TBaluTransformedClassInstance* obstancle, TBaluPhysShapeInstance* obstacle_shape);
 	};
 #endif
 }
