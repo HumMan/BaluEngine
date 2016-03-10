@@ -15,28 +15,31 @@ NVGcontext* vg = NULL;
 
 void nanovg_init()
 {
+	if (GLEW_VERSION_2_0)
+	{
 
-	vg = nvgCreateGL2(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
+		vg = nvgCreateGL2(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
 
-	if (vg == NULL) {
-		printf("Could not init nanovg.\n");
-		throw;
-		return;
+		if (vg == NULL) {
+			printf("Could not init nanovg.\n");
+			throw;
+			return;
+		}
+
+		//nvgDeleteGL2(vg);
+
+		int r = nvgCreateFont(vg, "icons", "assets/fonts/entypo.ttf");
+
+		r = nvgCreateFont(vg, "sans", "assets/fonts/Roboto-Regular.ttf");
+
+		//r = nvgCreateFont(vg, "sans-bold", "../fonts/Roboto-Bold.ttf");
 	}
-
-	//nvgDeleteGL2(vg);
-
-	int r = nvgCreateFont(vg, "icons", "assets/fonts/entypo.ttf");
-
-	r = nvgCreateFont(vg, "sans", "assets/fonts/Roboto-Regular.ttf");
-
-	//r = nvgCreateFont(vg, "sans-bold", "../fonts/Roboto-Bold.ttf");
-
 }
 
 void nanovg_deinit()
 {
-	nvgDeleteGL2(vg);
+	if (vg!=nullptr)
+		nvgDeleteGL2(vg);
 }
 
 NVGcontext* GetNanoVGContext()

@@ -88,44 +88,47 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 	render->Set.PolygonMode(TBaluRenderEnums::TPolygonMode::Fill);
 
 	auto vg_context = GetNanoVGContext();
-	//render_test();
-
-	//render->Depth.Test(false);
-
-	begin_frame(render->ScreenSize());
-
-	TDrawingHelperContext drawing_context;
-
-	drawing_context.viewport = viewport;
-	auto screen = TScreen(this->GetInternalRender()->Get.Viewport());
-	drawing_context.screen = &screen;
-	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
-	drawing_context.view = &main_viewport_view;
-
-	auto drawing_helper = TDrawingHelper(drawing_context);
-
-	for each (auto& v in gui)
+	if (vg_context != nullptr)
 	{
-		v->Render(&drawing_helper);
-	}
-	char buf[100];
-	nvgFontSize(vg_context, 20.2f);
-	nvgFontFace(vg_context, "sans");
-	nvgFillColor(vg_context, nvgRGBA(255, 255, 255, 255));
-	nvgTextAlign(vg_context, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
-	
-	sprintf_s(buf, "draw_calls %i", draw_calls);
-	nvgText(vg_context, 10,10, buf, NULL);
-	sprintf_s(buf, "vertex_array_setups %i", vertex_array_setups);
-	nvgText(vg_context, 10, 30, buf, NULL);
-	sprintf_s(buf, "texture_binds %i", texture_binds);
-	nvgText(vg_context, 10, 50, buf, NULL);
-	sprintf_s(buf, "vertices %i", vertex_count);
-	nvgText(vg_context, 10, 70, buf, NULL);
-	sprintf_s(buf, "guis %i", gui.size());
-	nvgText(vg_context, 10, 90, buf, NULL);
+		//render_test();
 
-	end_frame();
+		//render->Depth.Test(false);
+
+		begin_frame(render->ScreenSize());
+
+		TDrawingHelperContext drawing_context;
+
+		drawing_context.viewport = viewport;
+		auto screen = TScreen(this->GetInternalRender()->Get.Viewport());
+		drawing_context.screen = &screen;
+		auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+		drawing_context.view = &main_viewport_view;
+
+		auto drawing_helper = TDrawingHelper(drawing_context);
+
+		for each (auto& v in gui)
+		{
+			v->Render(&drawing_helper);
+		}
+		char buf[100];
+		nvgFontSize(vg_context, 20.2f);
+		nvgFontFace(vg_context, "sans");
+		nvgFillColor(vg_context, nvgRGBA(255, 255, 255, 255));
+		nvgTextAlign(vg_context, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
+
+		sprintf_s(buf, "draw_calls %i", draw_calls);
+		nvgText(vg_context, 10, 10, buf, NULL);
+		sprintf_s(buf, "vertex_array_setups %i", vertex_array_setups);
+		nvgText(vg_context, 10, 30, buf, NULL);
+		sprintf_s(buf, "texture_binds %i", texture_binds);
+		nvgText(vg_context, 10, 50, buf, NULL);
+		sprintf_s(buf, "vertices %i", vertex_count);
+		nvgText(vg_context, 10, 70, buf, NULL);
+		sprintf_s(buf, "guis %i", gui.size());
+		nvgText(vg_context, 10, 90, buf, NULL);
+
+		end_frame();
+	}
 }
 
 void TRender::EnableScissor(bool enable)
