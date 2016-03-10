@@ -72,10 +72,10 @@ namespace EngineInterface
 		delete dynamic_cast<TBaluWorldInstance*>(world);
 	}
 
-	//bool CompileScripts(IBaluWorld* source, IBaluScriptInstance* script_instance, std::vector<std::string>& errors_list)
-	//{
-	//	return TBaluWorldInstance::CheckScriptErrors(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TBaluScriptInstance*>(script_instance), errors_list);
-	//}
+	/*bool CompileScripts(IBaluWorld* source, IBaluScriptInstance* script_instance, std::vector<std::string>& errors_list)
+	{
+		return TBaluWorldInstance::CheckScriptErrors(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TBaluScriptInstance*>(script_instance), errors_list);
+	}*/
 
 	TVec2 TDrawingHelperContext::FromScreenPixelsToScene(TVec2i screen_pixels)
 	{

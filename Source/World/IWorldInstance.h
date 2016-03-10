@@ -39,7 +39,7 @@ namespace EngineInterface
 		virtual int GetSceneInstancesCount()=0;
 		virtual IBaluSceneInstance* GetSceneInstance(int index)=0;
 
-		virtual IEventsEditorInstance* GetEventsEditor();
+		virtual IEventsEditorInstance* GetEventsEditor()=0;
 		
 		virtual IComposer* GetComposer() = 0;
 	};
@@ -59,7 +59,10 @@ namespace EngineInterface
 
 	public:
 		~TBaluWorldInstance();
-		IEventsEditorInstance* GetEventsEditor();
+		IEventsEditorInstance* GetEventsEditor()
+		{
+			return (IEventsEditorInstance*)events_editor.get();
+		}
 
 		TResources* GetResources()
 		{

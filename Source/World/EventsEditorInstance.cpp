@@ -73,40 +73,40 @@ using namespace EngineInterface;
 //		instances[i]->OnKeyUp(key);
 //}
 //
-//void TBaluWorldInstance::MouseDown(TMouseEventArgs e)
-//{
-//	for (auto& v : OnMouseEventListeners)
-//		v->OnMouseDown(e);
-//	for (auto& v : mouse_down_callbacks)
-//	{
-//		script_engine.CallMouseEvent(v, &e);
-//	}
-//}
-//
-//void TBaluWorldInstance::MouseMove(TMouseEventArgs e)
-//{
-//	for (auto& v : OnMouseEventListeners)
-//		v->OnMouseMove(e);
-//	for (auto& v : mouse_move_callbacks)
-//	{
-//		script_engine.CallMouseEvent(v, &e);
-//	}
-//}
-//
-//void TBaluWorldInstance::MouseUp(TMouseEventArgs e)
-//{
-//	for (auto& v : OnMouseEventListeners)
-//		v->OnMouseUp(e);
-//	for (auto& v : mouse_up_callbacks)
-//	{
-//		script_engine.CallMouseEvent(v, &e);
-//	}
-//}
-//
-//void TBaluWorldInstance::MouseVerticalWheel(int amount)
-//{
-//
-//}
+void TEventsEditorInstance::MouseDown(TMouseEventArgs e)
+{
+	for (auto& v : OnMouseEventListeners)
+		v->OnMouseDown(e);
+	for (auto& v : mouse_down_callbacks)
+	{
+		script_engine->CallMouseEvent(v, &e);
+	}
+}
+
+void TEventsEditorInstance::MouseMove(TMouseEventArgs e)
+{
+	for (auto& v : OnMouseEventListeners)
+		v->OnMouseMove(e);
+	for (auto& v : mouse_move_callbacks)
+	{
+		script_engine->CallMouseEvent(v, &e);
+	}
+}
+
+void TEventsEditorInstance::MouseUp(TMouseEventArgs e)
+{
+	for (auto& v : OnMouseEventListeners)
+		v->OnMouseUp(e);
+	for (auto& v : mouse_up_callbacks)
+	{
+		script_engine->CallMouseEvent(v, &e);
+	}
+}
+
+void TEventsEditorInstance::MouseVerticalWheel(int amount)
+{
+
+}
 void TEventsEditorInstance::AddMouseEventListener(TMouseEventListener* listener)
 {
 	auto it = std::find(OnMouseEventListeners.begin(), OnMouseEventListeners.end(), listener);
@@ -122,57 +122,58 @@ void TEventsEditorInstance::RemoveMouseEventListener(TMouseEventListener* listen
 		assert(false);
 	OnMouseEventListeners.erase(it);
 }
-//
-//
-//bool TEventsEditorInstance::CompileScripts()
-//{
-//	TBaluScriptInstance& script_engine = *GetScriptEngine();
-//	TBaluWorld* world = GetSource();
-//	try
-//	{
-//		for (auto& v : world->on_start_world_callback)
-//		{
-//			auto method_body = v.GetScriptSource();
-//			std::string method = std::string("func static StartWorld(IWorldInstance world_instance, IComposer composer)\n{\n") + method_body + "\n}\n";
-//			this->on_start_world_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
-//		}
-//		for (auto& v : world->viewport_resize_callback)
-//		{
-//			auto method_body = v.GetScriptSource();
-//			std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
-//			this->viewport_resize_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
-//		}
-//
-//		for (auto& v : world->mouse_up_callbacks)
-//		{
-//			auto method_body = v.GetScriptSource();
-//			std::string method = std::string("") + method_body + "";
-//			this->mouse_up_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
-//		}
-//		for (auto& v : world->mouse_down_callbacks)
-//		{
-//			auto method_body = v.GetScriptSource();
-//			std::string method = std::string("") + method_body + "";
-//			this->mouse_down_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
-//		}
-//		for (auto& v : world->mouse_move_callbacks)
-//		{
-//			auto method_body = v.GetScriptSource();
-//			std::string method = std::string("") + method_body + "";
-//			this->mouse_move_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
-//		}
-//		for (auto& k : this->class_compiled_instances)
-//		{
-//			k->CompileScripts();
-//		}
-//	}
-//	catch (std::string ex)
-//	{
-//		return false;
-//	}
-//	return true;
-//}
-//
+
+
+bool TEventsEditorInstance::CompileScripts()
+{
+	//TODO uncomment
+	/*TBaluScriptInstance& script_engine = *GetScriptEngine();
+	TBaluWorld* world = GetSource();
+	try
+	{
+		for (auto& v : world->on_start_world_callback)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("func static StartWorld(IWorldInstance world_instance, IComposer composer)\n{\n") + method_body + "\n}\n";
+			this->on_start_world_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
+		}
+		for (auto& v : world->viewport_resize_callback)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
+			this->viewport_resize_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
+		}
+
+		for (auto& v : world->mouse_up_callbacks)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("") + method_body + "";
+			this->mouse_up_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
+		}
+		for (auto& v : world->mouse_down_callbacks)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("") + method_body + "";
+			this->mouse_down_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
+		}
+		for (auto& v : world->mouse_move_callbacks)
+		{
+			auto method_body = v.GetScriptSource();
+			std::string method = std::string("") + method_body + "";
+			this->mouse_move_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
+		}
+		for (auto& k : this->class_compiled_instances)
+		{
+			k->CompileScripts();
+		}
+	}
+	catch (std::string ex)
+	{
+		return false;
+	}*/
+	return true;
+}
+
 void TEventsEditorInstance::ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size)
 {
 	for (auto& v : viewport_resize_callback)
