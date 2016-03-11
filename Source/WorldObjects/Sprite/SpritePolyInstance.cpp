@@ -34,29 +34,28 @@ TBaluSpritePolygonInstance::~TBaluSpritePolygonInstance()
 	source->RemoveChangesListener(this);
 }
 
-void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, TLayersManagerInstance& layers)
+void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, TLayersManager& layers)
 {
 	if (enable && vertices.size() > 0)
 	{
-		if (layers.GetSource()->GetLayersCount() > 0)
+		if (layers.GetLayersCount() > 0)
 		{
-			auto layer_desc = layers.GetSource()->GetLayer(layer);
-			auto layer_inst_desc = layers.GetLayers()[layer];
+			auto layer_desc = layers.GetLayer(layer);
 			if (layer_desc.IsVisible())
-		{
-			commands.emplace_back();
+			{
+				commands.emplace_back();
 
-			auto& command = commands.back();
+				auto& command = commands.back();
 
-			command.draw_triangles_grid = source->draw_triangles_grid;
-			command.material_id = &material;
-			command.vertices = &vertices[0];
-			command.vertices_count = vertices.size();
-			assert(tex_coords.size() != 0);
-			command.tex_coords = &tex_coords[0];
-			command.layer_order = layer_desc.GetOrder();
-			command.alpha = layer_inst_desc.GetAlpha();
-		}
+				command.draw_triangles_grid = source->draw_triangles_grid;
+				command.material_id = &material;
+				command.vertices = &vertices[0];
+				command.vertices_count = vertices.size();
+				assert(tex_coords.size() != 0);
+				command.tex_coords = &tex_coords[0];
+				command.layer_order = layer_desc.GetOrder();
+				command.alpha = layer_desc.GetAlpha();
+			}
 		}
 	}
 }

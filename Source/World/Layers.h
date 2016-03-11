@@ -27,6 +27,10 @@ namespace EngineInterface
 		std::string name;
 		bool visible;
 		int order;
+
+		float alpha;
+		bool locked;
+		bool editor_visible;
 	public:
 		TLayer();
 		TLayer(std::string name, bool visible);
@@ -36,6 +40,12 @@ namespace EngineInterface
 		void SetIsVisible(bool visible);
 		int GetOrder();
 		void SetOrder(int order);
+		float GetAlpha();
+		void SetAlpha(float alpha);
+		bool IsLocked();
+		void SetIsLocked(bool is_locked);
+		bool IsVisibleInEditor();
+		void SetIsVisibleInEditor(bool is_editor_visible);
 	};
 
 	class TLayersManagerChangeListener
@@ -83,34 +93,7 @@ namespace EngineInterface
 		void MoveObjects(int from_layer_id, int to_layer_id);
 	};
 
-	class TLayersManagerInstance;
-
-	class BALUENGINEDLL_API TLayerInstance
-	{
-	private:
-		TLayersManagerInstance* manager;
-
-		float alpha;
-		bool locked;
-		bool editor_visible;
-	public:
-		TLayerInstance()
-		{
-			alpha = 1;
-			locked = false;
-			editor_visible = true;
-		}
-		float GetAlpha();
-		void SetAlpha(float alpha);
-		bool IsLocked();
-		void SetIsLocked(bool is_locked);
-		bool IsVisibleInEditor();
-		void SetIsVisibleInEditor(bool is_editor_visible);
-	};
-
-
-
-	class TInstanceLayersManagerChangeListener : public TLayersManagerChangeListener
+	/*class TInstanceLayersManagerChangeListener : public TLayersManagerChangeListener
 	{
 		TLayersManagerInstance* manager;
 	public:
@@ -141,5 +124,5 @@ namespace EngineInterface
 		{
 			layers[id] = layer;
 		}
-	};
+	};*/
 }

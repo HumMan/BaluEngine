@@ -6,11 +6,17 @@ TLayer::TLayer()
 {
 	name = "Layer";
 	visible = true;
+	alpha = 1;
+	locked = false;
+	editor_visible = true;
 }
 TLayer::TLayer(std::string name, bool visible)
 {
 	this->name = name;
 	this->visible = visible;
+	alpha = 1;
+	locked = false;
+	editor_visible = true;
 }
 std::string TLayer::GetName()
 {
@@ -36,27 +42,27 @@ void TLayer::SetOrder(int order)
 {
 	this->order = order;
 }
-float TLayerInstance::GetAlpha()
+float TLayer::GetAlpha()
 {
 	return alpha;
 }
-void TLayerInstance::SetAlpha(float alpha)
+void TLayer::SetAlpha(float alpha)
 {
 	this->alpha = alpha;
 }
-bool TLayerInstance::IsLocked()
+bool TLayer::IsLocked()
 {
 	return locked;
 }
-void TLayerInstance::SetIsLocked(bool is_locked)
+void TLayer::SetIsLocked(bool is_locked)
 {
 	this->locked = is_locked;
 }
-bool TLayerInstance::IsVisibleInEditor()
+bool TLayer::IsVisibleInEditor()
 {
 	return editor_visible;
 }
-void TLayerInstance::SetIsVisibleInEditor(bool is_editor_visible)
+void TLayer::SetIsVisibleInEditor(bool is_editor_visible)
 {
 	this->editor_visible = is_editor_visible;
 }
@@ -85,43 +91,4 @@ void TLayersManager::RemoveLayer(int layer_id)
 {
 	layers.pop_back();
 	for (auto& v : listeners) v->LayerRemoved(layers.size() - 1);
-}
-
-TLayersManagerInstance::TLayersManagerInstance(TLayersManager* source)
-	:source_changes_listener(this)
-{
-	this->source = source;
-	for (int i = 0; i < source->GetLayersCount();i++)
-	{
-		layers.push_back(TLayerInstance());
-	}
-	source->AddListener(&this->source_changes_listener);
-}
-TLayersManagerInstance::~TLayersManagerInstance()
-{
-	source->RemoveListener(&this->source_changes_listener);
-}
-TLayersManager* TLayersManagerInstance::GetSource()
-{
-	return source;
-}
-TInstanceLayersManagerChangeListener::TInstanceLayersManagerChangeListener(TLayersManagerInstance* manager)
-{
-	this->manager = manager;
-}
-void TInstanceLayersManagerChangeListener::LayerReordered(int layer_id, int after_id)
-{
-
-}
-void TInstanceLayersManagerChangeListener::LayerAdded(int layer_id)
-{
-	manager->layers.insert(manager->layers.begin() + layer_id, TLayerInstance());
-}
-void TInstanceLayersManagerChangeListener::LayerRemoved(int layer_id)
-{
-	manager->layers.erase(manager->layers.begin() + layer_id);
-}
-void TInstanceLayersManagerChangeListener::LayerChanged(int layer_id)
-{
-
 }

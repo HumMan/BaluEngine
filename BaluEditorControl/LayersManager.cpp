@@ -99,33 +99,32 @@ namespace Editor
 			p->scene_instance = scene_instance;
 			if (scene_instance != nullptr)
 			{
-				p->source_scene = (IBaluScene*)p->scene_instance->GetLayers()->GetSource()->GetScene();
-				p->scene_instance->GetLayers()->GetSource()->AddListener(p->layers_change_listener.get());
+				p->source_scene = (IBaluScene*)p->scene_instance->GetSource()->GetLayers()->GetScene();
 			}
 		}
 		GUI_Notify_LayersManagerSceneChange(sender, scene_instance != nullptr);
 	}
 	void TLayersManager::AddLayer()
 	{
-		p->scene_instance->GetLayers()->GetSource()->AddLayer(TLayer(), -1);
+		p->scene_instance->GetSource()->GetLayers()->AddLayer(TLayer(), -1);
 	}
 	void TLayersManager::RemoveLayer(int id)
 	{
-		p->scene_instance->GetLayers()->GetSource()->RemoveLayer(id);
+		p->scene_instance->GetSource()->GetLayers()->RemoveLayer(id);
 	}
 	int TLayersManager::GetLayersCount()
 	{
-		return p->scene_instance->GetLayers()->GetLayers().size();
+		return p->scene_instance->GetSource()->GetLayers()->GetLayersCount();
 	}
 	TLayerDesc^ TLayersManager::GetLayer(int id)
 	{
-		auto v = p->scene_instance->GetLayers()->GetLayers()[id];
+		auto v = p->scene_instance->GetSource()->GetLayers()->GetLayer(id);
 		TLayerDesc^ desc = gcnew TLayerDesc();
 		desc->alpha = v.GetAlpha();
 		desc->locked = v.IsLocked();
 		desc->visible_in_editor = v.IsVisibleInEditor();
 
-		auto vs = p->scene_instance->GetLayers()->GetSource()->GetLayer(id);
+		auto vs = p->scene_instance->GetSource()->GetLayers()->GetLayer(id);
 		desc->name = Converters::ToClrString(vs.GetName());
 		desc->visible = vs.IsVisible();
 
@@ -136,11 +135,9 @@ namespace Editor
 		TLayer layer;
 		layer.SetIsVisible(desc->visible);
 		layer.SetName(Converters::FromClrString( desc->name));
-		p->scene_instance->GetLayers()->GetSource()->SetLayer(id, layer);
-		TLayerInstance layer_inst;
-		layer_inst.SetAlpha(desc->alpha);
-		layer_inst.SetIsLocked(desc->locked);
-		layer_inst.SetIsVisibleInEditor(desc->visible_in_editor);
-		p->scene_instance->GetLayers()->SetLayer(id, layer_inst);
+		p->scene_instance->GetSource()->GetLayers()->SetLayer(id, layer);
+		layer.SetAlpha(desc->alpha);
+		layer.SetIsLocked(desc->locked);
+		layer.SetIsVisibleInEditor(desc->visible_in_editor);
 	}
 }

@@ -24,7 +24,6 @@ namespace EngineInterface
 	class IBaluSceneInstance
 	{
 	public:
-		virtual TLayersManagerInstance* GetLayers() = 0;
 		virtual bool PointCollide(TVec2 scene_space_point, TSceneObjectInstance* &result) = 0;
 		virtual IBaluScene* GetSource()=0;
 		virtual IBaluWorldInstance* GetWorld()=0;
@@ -115,8 +114,6 @@ namespace EngineInterface
 
 		std::map<std::string, TViewport> viewports;
 
-		std::unique_ptr<TLayersManagerInstance> layers;
-
 		//struct TCollisionInfo
 		//{
 		//	TBaluPhysShapeInstance *A, *B;
@@ -133,10 +130,6 @@ namespace EngineInterface
 
 		TContactsHolder contact_listener;
 	public:
-		TLayersManagerInstance* GetLayers()
-		{
-			return layers.get();
-		}
 		TResources* GetResources()
 		{
 			return resources;
