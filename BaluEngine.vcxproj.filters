@@ -49,22 +49,7 @@
     <ClInclude Include="Source\EditorUtils\IAbstractEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\World\ICallbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\ICommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\World\IComposer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\IDirector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\IProperties.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\IResources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\World\IScriptInstance.h">
@@ -74,21 +59,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\World\IWorldInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\Layers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\Render.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\RenderCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\ScriptClassesRegistry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\World\SerializeCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldObjects\BoxContour\BoxGui.h">
@@ -211,9 +181,6 @@
     <ClInclude Include="Source\WorldObjects\InterfaceIncludes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\World\Binding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldObjects\Class\ISkeleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -229,10 +196,43 @@
     <ClInclude Include="Source\WorldObjects\Sprite\IAnimationFrames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\World\IEventsEditor.h">
+    <ClInclude Include="Source\Scripts\ICallbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\World\IEventsEditorInstance.h">
+    <ClInclude Include="Source\Scripts\Binding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scripts\IEventsEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scripts\IEventsEditorInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scripts\ScriptClassesRegistry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\ICommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\IDirector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\IProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\IResources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\Render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\RenderCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\SerializeCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldObjects\Scene\Layers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -252,16 +252,7 @@
     <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp" />
     <ClCompile Include="Source\EditorUtils\IAbstractEditor.cpp" />
-    <ClCompile Include="Source\World\Callbacks.cpp" />
-    <ClCompile Include="Source\World\Render.cpp" />
-    <ClCompile Include="Source\World\Resources.cpp" />
-    <ClCompile Include="Source\World\Common.cpp" />
     <ClCompile Include="Source\World\Composer.cpp" />
-    <ClCompile Include="Source\World\Director.cpp" />
-    <ClCompile Include="Source\World\Layers.cpp" />
-    <ClCompile Include="Source\World\Properties.cpp" />
-    <ClCompile Include="Source\World\ScriptClassesRegistry.cpp" />
-    <ClCompile Include="Source\World\ScriptInstance.cpp" />
     <ClCompile Include="Source\World\World.cpp" />
     <ClCompile Include="Source\World\WorldInstance.cpp" />
     <ClCompile Include="Source\WorldObjects\BoxContour\BoxGuiInstance.cpp" />
@@ -301,9 +292,18 @@
     <ClCompile Include="Source\WorldObjects\Scene\SceneSerialize.cpp" />
     <ClCompile Include="Source\WorldObjects\Material\MaterialSerialize.cpp" />
     <ClCompile Include="Source\WorldObjects\Class\ClassSerialize.cpp" />
-    <ClCompile Include="Source\World\SerializeCommon.cpp" />
     <ClCompile Include="Source\Interfaces\GenerateCppToBaluScript.cpp" />
-    <ClCompile Include="Source\World\EventsEditor.cpp" />
-    <ClCompile Include="Source\World\EventsEditorInstance.cpp" />
+    <ClCompile Include="Source\Scripts\Callbacks.cpp" />
+    <ClCompile Include="Source\Scripts\EventsEditor.cpp" />
+    <ClCompile Include="Source\Scripts\EventsEditorInstance.cpp" />
+    <ClCompile Include="Source\Scripts\ScriptClassesRegistry.cpp" />
+    <ClCompile Include="Source\Scripts\ScriptInstance.cpp" />
+    <ClCompile Include="Source\Common\Common.cpp" />
+    <ClCompile Include="Source\Common\Director.cpp" />
+    <ClCompile Include="Source\Common\Properties.cpp" />
+    <ClCompile Include="Source\Common\Render.cpp" />
+    <ClCompile Include="Source\Common\Resources.cpp" />
+    <ClCompile Include="Source\Common\SerializeCommon.cpp" />
+    <ClCompile Include="Source\WorldObjects\Scene\Layers.cpp" />
   </ItemGroup>
 </Project>
