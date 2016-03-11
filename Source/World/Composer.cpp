@@ -49,15 +49,8 @@ void TComposer::Render(EngineInterface::TRender* render)
 		//TODO где то нужно хранить viewport_view
 		auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
 
-		for (auto& v : gui_draw)
-		{
-			//v.screen = &screen;
-			//v.view = &main_viewport_view;
-			//v.viewport = &viewport_aabb;
-		}
-
-		//render->EnableScissor(true);
-		//render->SetScissorRect(*screen, main_viewport_view);
+		render->EnableScissor(true);
+		render->SetScissorRect(screen, main_viewport_view);
 		render->Render(render_commands, gui_draw, main_viewport);
 
 		TDrawingHelperContext drawing_context;
@@ -66,7 +59,7 @@ void TComposer::Render(EngineInterface::TRender* render)
 		drawing_context.viewport = main_viewport;
 
 		(dynamic_cast<TBaluSceneInstance*>(v.scene_instance))->DebugDraw(drawing_context);
-		//render->EnableScissor(false);
+		render->EnableScissor(false);
 	}		
 }
 

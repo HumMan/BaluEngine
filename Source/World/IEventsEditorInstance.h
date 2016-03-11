@@ -6,6 +6,7 @@ namespace EngineInterface
 {
 	class IDirector;
 	class TDirector;
+	class IComposer;
 	class IBaluWorldInstance;
 	class TBaluWorldInstance;
 	class TRender;
@@ -97,7 +98,7 @@ namespace EngineInterface
 
 		TEventsEditor* source;
 	public:
-		TEventsEditorInstance(TEventsEditor* source);
+		TEventsEditorInstance(TEventsEditor* source, std::string assets_dir);
 		~TEventsEditorInstance();
 		//world
 		void AddMouseEventListener(TMouseEventListener*);
@@ -115,6 +116,8 @@ namespace EngineInterface
 		void MouseVerticalWheel(int amount);
 
 		void ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size);
+
+		void WorldStart(IBaluWorldInstance* world_instance, IComposer* composer);
 
 		bool CompileScripts();
 		bool CheckScriptErrors(std::vector<std::string>& errors_list);

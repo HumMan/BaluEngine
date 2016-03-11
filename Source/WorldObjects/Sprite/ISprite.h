@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../World/ICallbacks.h"
 #include "IPhysShape.h"
 #include "ISpritePolygon.h"
 
@@ -74,20 +73,21 @@ namespace EngineInterface
 #ifdef BALUENGINEDLL_EXPORTS
 	class TBaluTransformedSprite : public IBaluTransformedSprite, public TChangeListenerArray
 	{
-		TBaluSprite* sprite;
+		TObjLocator<TBaluSprite> sprite;
 		TBaluTransformWithScale local;
 	public:
+		static TWorldObjectType GetWorldObjectType()
+		{
+			return TWorldObjectType::Sprite;
+		}
 		TBaluSprite* GetSprite()
 		{
-			return sprite;
+			return sprite.Get();
 		}
-		TBaluTransformedSprite()
+		TBaluTransformedSprite(TBaluSprite* sprite, TBaluWorld* world)
+			:sprite(world, sprite->GetName())
 		{
-			sprite = nullptr;
-		}
-		TBaluTransformedSprite(TBaluSprite* sprite)
-		{
-			this->sprite = sprite;
+			//this->sprite = sprite;
 		}
 		void SetTransform(TBaluTransform transform)
 		{

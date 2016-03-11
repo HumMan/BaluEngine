@@ -21,12 +21,6 @@ namespace EngineInterface
 
 namespace EngineInterface
 {
-	class TBaluWorldChangeListener
-	{
-	public:
-		virtual void OnObjectCreate(TWorldObjectType type, const std::string& name) = 0;
-		virtual void OnObjectDestroy(TWorldObjectType type, const std::string& name){}
-	};
 
 	class IBaluWorld
 	{

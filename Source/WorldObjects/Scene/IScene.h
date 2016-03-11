@@ -88,6 +88,10 @@ namespace EngineInterface
 		TProperties properties;
 		TBaluWorld* world;
 	public:
+		static TWorldObjectType GetWorldObjectType()
+		{
+			return TWorldObjectType::Scene;
+		}
 		TLayersManager* GetLayers()
 		{
 			return &layers;

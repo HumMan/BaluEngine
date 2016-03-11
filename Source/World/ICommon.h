@@ -290,6 +290,7 @@ namespace EngineInterface
 		virtual void Save(pugi::xml_node& parent_node, const int version)=0;
 		virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world) = 0;
 		virtual ~IBaluWorldObject() {}
+		//virtual TWorldObjectType GetWorldObjectType() = 0;
 	};
 
 	class IChangeListener
@@ -372,6 +373,52 @@ namespace EngineInterface
 		std::string GetName();
 		void SetName(const std::string& name);
 		IBaluWorld* GetWorld();
+	};
+
+	class TBaluWorldChangeListener
+	{
+	public:
+		virtual void OnObjectCreate(TWorldObjectType type, const std::string& name) = 0;
+		virtual void OnObjectDestroy(TWorldObjectType type, const std::string& name){}
+		virtual void OnObjectRename(TWorldObjectType type, const std::string& old_name, const std::string& new_name){}
+	};
+
+	template<class T>
+	class TObjLocator : TBaluWorldChangeListener
+	{
+		TBaluWorld* world;
+		std::string name;
+		T* curr_ref;
+	public:
+		TObjLocator(TBaluWorld* world, std::string name)
+		{
+			this->world = world;
+			this->name = name;
+			curr_ref = nullptr;
+		}
+		void OnObjectCreate(TWorldObjectType type, const std::string& name)
+		{
+			curr_ref = world->GetObjectByName(T::GetWorldObjectType(), name);
+		}
+		void OnObjectDestroy(TWorldObjectType type, const std::string& name)
+		{
+			curr_ref = nullptr;
+		}
+		void OnObjectRename(TWorldObjectType type, const std::string& old_name, const std::string& new_name)
+		{
+			if (old_name == name)
+			{
+				name = old_name;
+			}
+		}
+		T* Get()
+		{
+			if (curr_ref == nullptr)
+			{
+				curr_ref = world->GetObjectByName(T::GetWorldObjectType(), name);
+			}
+			return curr_ref;
+		}
 	};
 
 #endif

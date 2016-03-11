@@ -98,11 +98,11 @@ namespace EngineInterface
 	private:
 
 		//global
-
 		std::vector<TScript>
 			mouse_down_callbacks,
 			mouse_up_callbacks,
 			mouse_move_callbacks;
+
 		std::vector<TScript> on_start_world_callback;
 		std::vector<TScript> viewport_resize_callback;
 
@@ -111,7 +111,6 @@ namespace EngineInterface
 		std::vector<TScript> global_before_physics_callbacks;
 
 		//class
-
 		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>> on_key_down_callbacks;
 		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>> on_key_up_callbacks;
 		std::vector<std::tuple<TScript, IBaluClass*>> before_physics_callbacks;

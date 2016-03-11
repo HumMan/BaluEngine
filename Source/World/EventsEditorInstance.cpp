@@ -126,51 +126,44 @@ void TEventsEditorInstance::RemoveMouseEventListener(TMouseEventListener* listen
 
 bool TEventsEditorInstance::CompileScripts()
 {
-	//TODO uncomment
-	/*TBaluScriptInstance& script_engine = *GetScriptEngine();
-	TBaluWorld* world = GetSource();
 	try
 	{
-		for (auto& v : world->on_start_world_callback)
+		for (auto& v : source->on_start_world_callback)
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("func static StartWorld(IWorldInstance world_instance, IComposer composer)\n{\n") + method_body + "\n}\n";
-			this->on_start_world_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
+			on_start_world_callback.push_back(script_engine->CompileMethod(&v, method.c_str()));
 		}
-		for (auto& v : world->viewport_resize_callback)
+		for (auto& v : source->viewport_resize_callback)
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("func static ViewportResize(IDirector director, vec2i old_size, vec2i new_size)\n{\n") + method_body + "\n}\n";
-			this->viewport_resize_callback.push_back(script_engine.CompileMethod(&v, method.c_str()));
+			this->viewport_resize_callback.push_back(script_engine->CompileMethod(&v, method.c_str()));
 		}
 
-		for (auto& v : world->mouse_up_callbacks)
+		for (auto& v : source->mouse_up_callbacks)
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("") + method_body + "";
-			this->mouse_up_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
+			this->mouse_up_callbacks.push_back(script_engine->CompileMethod(&v, method.c_str()));
 		}
-		for (auto& v : world->mouse_down_callbacks)
+		for (auto& v : source->mouse_down_callbacks)
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("") + method_body + "";
-			this->mouse_down_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
+			this->mouse_down_callbacks.push_back(script_engine->CompileMethod(&v, method.c_str()));
 		}
-		for (auto& v : world->mouse_move_callbacks)
+		for (auto& v : source->mouse_move_callbacks)
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("") + method_body + "";
-			this->mouse_move_callbacks.push_back(script_engine.CompileMethod(&v, method.c_str()));
-		}
-		for (auto& k : this->class_compiled_instances)
-		{
-			k->CompileScripts();
+			this->mouse_move_callbacks.push_back(script_engine->CompileMethod(&v, method.c_str()));
 		}
 	}
 	catch (std::string ex)
 	{
 		return false;
-	}*/
+	}
 	return true;
 }
 
@@ -178,6 +171,14 @@ void TEventsEditorInstance::ViewportResize(TDirector* director, TVec2i old_size,
 {
 	for (auto& v : viewport_resize_callback)
 		script_engine->CallViewportResize(v, director, old_size, new_size);
+}
+
+void TEventsEditorInstance::WorldStart(IBaluWorldInstance* world_instance, IComposer* composer)
+{
+	for (auto& v : on_start_world_callback)
+	{
+		script_engine->CallWorldStart(v, world_instance, composer);
+	}
 }
 
 bool TEventsEditorInstance::CheckScriptErrors(std::vector<std::string>& errors_list)
@@ -333,9 +334,11 @@ bool TEventsEditorInstance::CheckScriptErrors(std::vector<std::string>& errors_l
 //	}
 //}
 
-TEventsEditorInstance::TEventsEditorInstance(TEventsEditor* source)
+TEventsEditorInstance::TEventsEditorInstance(TEventsEditor* source, std::string assets_dir)
 {
+	this->source = source;
 
+	this->script_engine.reset(new TBaluScriptInstance(assets_dir));
 }
 TEventsEditorInstance::~TEventsEditorInstance()
 {

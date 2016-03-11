@@ -140,5 +140,5 @@ void TRender::SetScissorRect(TScreen screen, TView view)
 {
 	auto p0 = screen.ToScreenPixels(screen.FromViewToScreen(view, TVec2(0, 0)));
 	auto p1 = screen.ToScreenPixels(screen.FromViewToScreen(view, TVec2(1, 1)));
-	//render->ScissorRect.Box(p0, p1);
+	render->ScissorRect.Box(p0, p1);
 }

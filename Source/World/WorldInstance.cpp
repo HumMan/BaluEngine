@@ -22,29 +22,17 @@ namespace EngineInterface
 		return source;
 	}
 
-	
 	TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources)
-		//:script_engine(resources->GetAssetsDir())
 	{
 		this->source = source;
 		this->resources = resources;
 
-		this->events_editor.reset(new TEventsEditorInstance(dynamic_cast<TEventsEditor*>(source->GetEventsEditor())));
-
-
-
-		//for (auto& k : source->GetObjects(TWorldObjectType::Class))
-		//{
-		//	auto curr_class = dynamic_cast<TBaluClass*>(&(*k));
-		//	auto new_class_instance = new TBaluClassCompiledScripts(this, curr_class);
-		//	class_compiled_instances.emplace_back(new_class_instance);
-		//}
+		this->events_editor.reset(new TEventsEditorInstance(dynamic_cast<TEventsEditor*>(source->GetEventsEditor()), resources->GetAssetsDir()));
 
 		std::vector<std::string> errors_list;
 		this->events_editor->CompileScripts();
 
-		//for (auto& v : on_start_world_callback)
-		//	script_engine.CallWorldStart(v, this, &composer);
+		this->events_editor->WorldStart(this, &composer);
 	}
 
 	TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)

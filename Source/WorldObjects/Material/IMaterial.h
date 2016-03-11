@@ -4,6 +4,7 @@
 
 namespace EngineInterface
 {
+	
 
 	class IBaluMaterial: public virtual IBaluWorldObject
 	{
@@ -98,6 +99,10 @@ namespace EngineInterface
 		TVec4 color;
 
 	public:
+		static TWorldObjectType GetWorldObjectType()
+		{
+			return TWorldObjectType::Material;
+		}
 		IBaluWorld* GetWorld()
 		{
 			return world;

@@ -123,10 +123,8 @@ namespace Editor
 		desc->alpha = v.GetAlpha();
 		desc->locked = v.IsLocked();
 		desc->visible_in_editor = v.IsVisibleInEditor();
-
-		auto vs = p->scene_instance->GetSource()->GetLayers()->GetLayer(id);
-		desc->name = Converters::ToClrString(vs.GetName());
-		desc->visible = vs.IsVisible();
+		desc->name = Converters::ToClrString(v.GetName());
+		desc->visible = v.IsVisible();
 
 		return desc;
 	}
@@ -135,9 +133,9 @@ namespace Editor
 		TLayer layer;
 		layer.SetIsVisible(desc->visible);
 		layer.SetName(Converters::FromClrString( desc->name));
-		p->scene_instance->GetSource()->GetLayers()->SetLayer(id, layer);
 		layer.SetAlpha(desc->alpha);
 		layer.SetIsLocked(desc->locked);
 		layer.SetIsVisibleInEditor(desc->visible_in_editor);
+		p->scene_instance->GetSource()->GetLayers()->SetLayer(id, layer);
 	}
 }

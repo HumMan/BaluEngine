@@ -86,7 +86,10 @@ namespace EngineInterface
 		void Initialize();
 
 	public:
-
+		static TWorldObjectType GetWorldObjectType()
+		{
+			return TWorldObjectType::Class;
+		}
 		TBaluClass(std::string name, TBaluWorld* world);
 
 		IProperties* GetProperties();
