@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Material/IMaterial.h"
-#include <Common\RenderCommand.h>
+#include <Render/RenderCommand.h>
 
 #include "IAnimationFrames.h"
 

@@ -220,12 +220,6 @@
     <ClInclude Include="Source\Common\IResources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Common\Render.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Common\RenderCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Common\SerializeCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -233,6 +227,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scripts\IScriptInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\Render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\RenderCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -301,9 +301,9 @@
     <ClCompile Include="Source\Common\Common.cpp" />
     <ClCompile Include="Source\Common\Director.cpp" />
     <ClCompile Include="Source\Common\Properties.cpp" />
-    <ClCompile Include="Source\Common\Render.cpp" />
     <ClCompile Include="Source\Common\Resources.cpp" />
     <ClCompile Include="Source\Common\SerializeCommon.cpp" />
     <ClCompile Include="Source\WorldObjects\Scene\Layers.cpp" />
+    <ClCompile Include="Source\Render\Render.cpp" />
   </ItemGroup>
 </Project>

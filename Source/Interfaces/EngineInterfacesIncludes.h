@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Scripts/ICallbacks.h"
-#include "../Common/RenderCommand.h"
+#include "../Render/RenderCommand.h"
 #include "../Common/IProperties.h"
 #include "../Common/ICommon.h"
 

@@ -170,8 +170,8 @@
     <ClInclude Include="Source\World\IWorld.h" />
     <ClInclude Include="Source\World\IWorldInstance.h" />
     <ClInclude Include="Source\WorldObjects\Scene\Layers.h" />
-    <ClInclude Include="Source\Common\Render.h" />
-    <ClInclude Include="Source\Common\RenderCommand.h" />
+    <ClInclude Include="Source\Render\Render.h" />
+    <ClInclude Include="Source\Render\RenderCommand.h" />
     <ClInclude Include="Source\Scripts\ScriptClassesRegistry.h" />
     <ClInclude Include="Source\Common\SerializeCommon.h" />
   </ItemGroup>
@@ -236,7 +236,7 @@
     <ClCompile Include="Source\Scripts\EventsEditorInstance.cpp" />
     <ClCompile Include="Source\WorldObjects\Scene\Layers.cpp" />
     <ClCompile Include="Source\Common\Properties.cpp" />
-    <ClCompile Include="Source\Common\Render.cpp" />
+    <ClCompile Include="Source\Render\Render.cpp" />
     <ClCompile Include="Source\Common\Resources.cpp" />
     <ClCompile Include="Source\Scripts\ScriptClassesRegistry.cpp" />
     <ClCompile Include="Source\Scripts\ScriptInstance.cpp" />

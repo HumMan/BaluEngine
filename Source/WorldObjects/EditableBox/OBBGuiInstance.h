@@ -4,7 +4,7 @@
 #include "../Material/IMaterialInstance.h"
 #include "OBBGui.h"
 
-#include <Common/RenderCommand.h>
+#include <Render/RenderCommand.h>
 
 #include <World\IWorld.h>
 

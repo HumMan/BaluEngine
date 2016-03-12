@@ -2,7 +2,7 @@
 
 #include "IResources.h"
 #include <World/IWorldInstance.h>
-#include <Common/Render.h>
+#include <Render/Render.h>
 
 namespace EngineInterface
 {

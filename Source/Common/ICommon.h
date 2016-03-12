@@ -313,6 +313,14 @@ namespace EngineInterface
 		virtual void OnBeforeDelete() = 0;
 	};
 
+	class TBaluWorldChangeListener
+	{
+	public:
+		virtual void OnObjectCreate(TWorldObjectType type, const std::string& name) = 0;
+		virtual void OnObjectDestroy(TWorldObjectType type, const std::string& name){}
+		virtual void OnObjectRename(TWorldObjectType type, const std::string& old_name, const std::string& new_name){}
+	};
+
 #ifdef BALUENGINEDLL_EXPORTS
 	class TChangeListenerArray : public virtual IChangeListenerArray
 	{
@@ -375,51 +383,45 @@ namespace EngineInterface
 		IBaluWorld* GetWorld();
 	};
 
-	class TBaluWorldChangeListener
-	{
-	public:
-		virtual void OnObjectCreate(TWorldObjectType type, const std::string& name) = 0;
-		virtual void OnObjectDestroy(TWorldObjectType type, const std::string& name){}
-		virtual void OnObjectRename(TWorldObjectType type, const std::string& old_name, const std::string& new_name){}
-	};
 
-	/*template<class T>
-	class TObjLocator : TBaluWorldChangeListener
-	{
-		TBaluWorld* world;
-		std::string name;
-		T* curr_ref;
-	public:
-		TObjLocator(TBaluWorld* world, std::string name)
-		{
-			this->world = world;
-			this->name = name;
-			curr_ref = nullptr;
-		}
-		void OnObjectCreate(TWorldObjectType type, const std::string& name)
-		{
-			curr_ref = world->GetObjectByName(T::GetWorldObjectType(), name);
-		}
-		void OnObjectDestroy(TWorldObjectType type, const std::string& name)
-		{
-			curr_ref = nullptr;
-		}
-		void OnObjectRename(TWorldObjectType type, const std::string& old_name, const std::string& new_name)
-		{
-			if (old_name == name)
-			{
-				name = old_name;
-			}
-		}
-		T* Get()
-		{
-			if (curr_ref == nullptr)
-			{
-				curr_ref = world->GetObjectByName(T::GetWorldObjectType(), name);
-			}
-			return curr_ref;
-		}
-	};*/
+
+	//template<class T>
+	//class TObjLocator : TBaluWorldChangeListener
+	//{
+	//	TBaluWorld* world;
+	//	std::string name;
+	//	T* curr_ref;
+	//public:
+	//	TObjLocator(TBaluWorld* world, std::string name)
+	//	{
+	//		this->world = world;
+	//		this->name = name;
+	//		curr_ref = nullptr;
+	//	}
+	//	void OnObjectCreate(TWorldObjectType type, const std::string& name)
+	//	{
+	//		curr_ref = world->GetObjectByName(T::GetWorldObjectType(), name);
+	//	}
+	//	void OnObjectDestroy(TWorldObjectType type, const std::string& name)
+	//	{
+	//		curr_ref = nullptr;
+	//	}
+	//	void OnObjectRename(TWorldObjectType type, const std::string& old_name, const std::string& new_name)
+	//	{
+	//		if (old_name == name)
+	//		{
+	//			name = old_name;
+	//		}
+	//	}
+	//	T* Get()
+	//	{
+	//		if (curr_ref == nullptr)
+	//		{
+	//			curr_ref = world->GetObjectByName(T::GetWorldObjectType(), name);
+	//		}
+	//		return curr_ref;
+	//	}
+	//};
 
 #endif
 

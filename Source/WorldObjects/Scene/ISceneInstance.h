@@ -2,7 +2,7 @@
 
 #include <WorldObjects\Scene\Layers.h>
 
-#include <Common/RenderCommand.h>
+#include <Render/RenderCommand.h>
 #include "IScene.h"
 #include "../Class/IClassInstance.h"
 #include "../Material/IMaterialInstance.h"

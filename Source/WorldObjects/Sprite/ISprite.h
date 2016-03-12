@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Common\ICommon.h>
+
 #include "IPhysShape.h"
 #include "ISpritePolygon.h"
 
@@ -83,12 +85,18 @@ namespace EngineInterface
 		}
 		TBaluSprite* GetSprite()
 		{
+			//return sprite.Get();
 			return sprite;
 		}
-		TBaluTransformedSprite(TBaluSprite* sprite, TBaluWorld* world)
+		TBaluTransformedSprite()
 			//:sprite(world, sprite->GetName())
 		{
-			//this->sprite = sprite;
+			this->sprite = nullptr;
+		}
+		TBaluTransformedSprite(TBaluSprite* sprite)
+			//:sprite(world, sprite->GetName())
+		{
+			this->sprite = sprite;
 		}
 		void SetTransform(TBaluTransform transform)
 		{
