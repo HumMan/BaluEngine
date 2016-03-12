@@ -1,6 +1,6 @@
 #pragma once
 
-#include <World/ICommon.h>
+#include <Common/ICommon.h>
 
 namespace EngineInterface
 {

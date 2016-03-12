@@ -383,7 +383,7 @@ namespace EngineInterface
 		virtual void OnObjectRename(TWorldObjectType type, const std::string& old_name, const std::string& new_name){}
 	};
 
-	template<class T>
+	/*template<class T>
 	class TObjLocator : TBaluWorldChangeListener
 	{
 		TBaluWorld* world;
@@ -419,7 +419,7 @@ namespace EngineInterface
 			}
 			return curr_ref;
 		}
-	};
+	};*/
 
 #endif
 

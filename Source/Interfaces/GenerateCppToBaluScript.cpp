@@ -1,4 +1,4 @@
-#include <World\ScriptClassesRegistry.h>
+#include <Scripts\ScriptClassesRegistry.h>
 
 
 

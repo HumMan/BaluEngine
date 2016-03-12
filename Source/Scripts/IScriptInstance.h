@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ICommon.h"
+#include <Common/ICommon.h>
 #include "ICallbacks.h"
 
 namespace EngineInterface

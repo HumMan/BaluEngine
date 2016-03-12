@@ -2,7 +2,7 @@
 
 #include "IScriptInstance.h"
 
-#include "IDirector.h"
+#include <Common/IDirector.h>
 
 #include <pugixml.hpp>
 

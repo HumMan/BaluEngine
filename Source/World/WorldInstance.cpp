@@ -1,6 +1,6 @@
-#include "IWorldInstance.h"
+#include <World/IWorldInstance.h>
 
-#include "ScriptClassesRegistry.h"
+#include <Scripts/ScriptClassesRegistry.h>
 
 #include "../Source/Semantic/SMethod.h"
 #include "../Source/Semantic/SClass.h"
@@ -10,9 +10,9 @@
 #include "../Source/Syntax/Method.h"
 #include "../Source/semanticAnalyzer.h"
 
-#include "IDirector.h"
+#include <Common/IDirector.h>
 
-#include "IEventsEditorInstance.h"
+#include <Scripts/IEventsEditorInstance.h>
 
 namespace EngineInterface
 {

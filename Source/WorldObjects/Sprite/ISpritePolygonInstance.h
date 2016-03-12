@@ -2,7 +2,7 @@
 
 #include "ISpritePolygon.h"
 #include "../Material/IMaterialInstance.h"
-#include <World\Layers.h>
+#include <WorldObjects\Scene\Layers.h>
 
 namespace EngineInterface
 {

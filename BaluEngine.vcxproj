@@ -166,7 +166,7 @@
     <ClInclude Include="Source\Scripts\IEventsEditorInstance.h" />
     <ClInclude Include="Source\Common\IProperties.h" />
     <ClInclude Include="Source\Common\IResources.h" />
-    <ClInclude Include="Source\World\IScriptInstance.h" />
+    <ClInclude Include="Source\Scripts\IScriptInstance.h" />
     <ClInclude Include="Source\World\IWorld.h" />
     <ClInclude Include="Source\World\IWorldInstance.h" />
     <ClInclude Include="Source\WorldObjects\Scene\Layers.h" />

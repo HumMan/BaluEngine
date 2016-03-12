@@ -1,5 +1,5 @@
 
-#include "World\Binding.h"
+#include <Scripts\Binding.h>
 
 #include "WorldObjects\Material\Binding.h"
 #include "WorldObjects\Sprite\Binding.h"

@@ -5,8 +5,8 @@
 
 #include <EditorUtils/DrawingHelper.h>
 
-#include "../../../World/ICommon.h"
-#include "../../Sprite/ISprite.h"
+#include <Common/ICommon.h>
+#include <WorldObjects/Sprite/ISprite.h>
 
 class TCreateClassSpriteTool : public IEditorTool
 {

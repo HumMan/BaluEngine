@@ -1,8 +1,8 @@
 #pragma once
 
-#include <World\IResources.h>
+#include <Common/IResources.h>
 #include <baluLib.h>
-#include <World/ICommon.h>
+#include <Common/ICommon.h>
 
 using namespace BaluLib;
 

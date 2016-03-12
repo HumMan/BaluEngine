@@ -2,9 +2,9 @@
 
 #define _SCL_SECURE_NO_WARNINGS
 
-#include <World\IProperties.h>
+#include <Common\IProperties.h>
 #include <World\IWorldInstance.h>
-#include <World\IEventsEditorInstance.h>
+#include <Scripts\IEventsEditorInstance.h>
 
 #include <EditorUtils\IAbstractEditor.h>
 

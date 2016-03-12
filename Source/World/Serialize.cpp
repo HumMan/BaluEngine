@@ -1,6 +1,6 @@
 #include "IWorld.h"
 
-#include "SerializeCommon.h"
+#include <Common/SerializeCommon.h>
 
 #include "../Source/WorldObjects/Material/IMaterial.h"
 #include "../Source/WorldObjects/Sprite/ISprite.h"

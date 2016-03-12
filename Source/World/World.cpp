@@ -12,7 +12,7 @@ using namespace EngineInterface;
 #include "../Source/WorldObjects/Class/IClass.h"
 #include "../Source/WorldObjects/Scene/IScene.h"
 
-#include "IEventsEditor.h"
+#include <Scripts/IEventsEditor.h>
 
 TBaluWorld::TBaluWorld()
 {

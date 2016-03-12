@@ -1,7 +1,5 @@
 #pragma once
 
-#include <World\Layers.h>
-
 #include <WorldObjects\Scene\ISceneInstance.h>
 #include "IWorld.h"
 #include "IComposer.h"

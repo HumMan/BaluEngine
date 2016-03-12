@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "RenderCommand.h"
+#include <Common\RenderCommand.h>
 
 namespace EngineInterface
 {

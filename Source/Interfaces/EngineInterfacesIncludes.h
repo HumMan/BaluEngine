@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../World/ICallbacks.h"
-#include "../World/RenderCommand.h"
-#include "../World/IProperties.h"
-#include "../World/ICommon.h"
+#include "../Scripts/ICallbacks.h"
+#include "../Common/RenderCommand.h"
+#include "../Common/IProperties.h"
+#include "../Common/ICommon.h"
 
 #include "../WorldObjects/InterfaceIncludes.h"
 
 #include "../World/IWorldInstance.h"
-#include "../World/IDirector.h"
+#include "../Common/IDirector.h"
 
 #include "../Source/EditorUtils/IAbstractEditor.h"
 
-#include "../World/IEventsEditorInstance.h"
+#include "../Scripts/IEventsEditorInstance.h"

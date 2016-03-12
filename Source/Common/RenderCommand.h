@@ -3,7 +3,7 @@
 #include <baluLib.h>
 using namespace BaluLib;
 
-#include <World/ICallbacks.h>
+#include <Scripts/ICallbacks.h>
 
 namespace EngineInterface
 {

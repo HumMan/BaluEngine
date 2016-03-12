@@ -73,7 +73,8 @@ namespace EngineInterface
 #ifdef BALUENGINEDLL_EXPORTS
 	class TBaluTransformedSprite : public IBaluTransformedSprite, public TChangeListenerArray
 	{
-		TObjLocator<TBaluSprite> sprite;
+		//TObjLocator<TBaluSprite> sprite;
+		TBaluSprite* sprite;
 		TBaluTransformWithScale local;
 	public:
 		static TWorldObjectType GetWorldObjectType()
@@ -82,10 +83,10 @@ namespace EngineInterface
 		}
 		TBaluSprite* GetSprite()
 		{
-			return sprite.Get();
+			return sprite;
 		}
 		TBaluTransformedSprite(TBaluSprite* sprite, TBaluWorld* world)
-			:sprite(world, sprite->GetName())
+			//:sprite(world, sprite->GetName())
 		{
 			//this->sprite = sprite;
 		}

@@ -3,7 +3,7 @@
 #include <map>
 #include <set>
 
-#include <World/IProperties.h>
+#include <Common/IProperties.h>
 #include <WorldObjects/Sprite/ISprite.h>
 #include <WorldObjects/Sprite/IPhysShape.h>
 

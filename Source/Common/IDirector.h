@@ -1,8 +1,8 @@
 #pragma once
 
 #include "IResources.h"
-#include "IWorldInstance.h"
-#include <World\Render.h>
+#include <World/IWorldInstance.h>
+#include <Common/Render.h>
 
 namespace EngineInterface
 {

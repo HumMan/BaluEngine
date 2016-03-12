@@ -6,7 +6,7 @@ using namespace pugi;
 
 #include <baluLib.h>
 
-#include <World\ICommon.h>
+#include <Common\ICommon.h>
 
 using namespace EngineInterface;
 using namespace BaluLib;

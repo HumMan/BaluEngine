@@ -1,6 +1,6 @@
 #include "IClass.h"
 
-#include <World\SerializeCommon.h>
+#include <Common\SerializeCommon.h>
 
 #include "../../World/IWorld.h"
 

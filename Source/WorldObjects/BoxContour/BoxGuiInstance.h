@@ -4,7 +4,7 @@
 #include "../Material/IMaterialInstance.h"
 #include "BoxGui.h"
 
-#include <World\RenderCommand.h>
+#include <Common/RenderCommand.h>
 
 #include <World\IWorld.h>
 

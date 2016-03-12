@@ -1,10 +1,8 @@
 #include "ICommon.h"
 
-#include "IWorld.h"
-
 #include <World\IWorld.h>
 
-#include <World\IDirector.h>
+#include <Common\IDirector.h>
 #include <World\IWorldInstance.h>
 
 

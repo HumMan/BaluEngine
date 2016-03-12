@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ICallbacks.h"
-#include "ICommon.h"
+#include <Common/ICommon.h>
 #include "Interfaces\ExportMacro.h"
 
 namespace EngineInterface

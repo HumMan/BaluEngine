@@ -52,9 +52,6 @@
     <ClInclude Include="Source\World\IComposer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\World\IScriptInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\World\IWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -233,6 +230,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldObjects\Scene\Layers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scripts\IScriptInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

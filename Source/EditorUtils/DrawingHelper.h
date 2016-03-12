@@ -11,7 +11,7 @@ namespace EngineInterface
 	class TScreen;
 }
 
-#include <World\ICommon.h>
+#include <Common\ICommon.h>
 namespace EngineInterface
 {
 	class TDrawingHelper

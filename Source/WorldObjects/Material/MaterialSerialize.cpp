@@ -1,6 +1,6 @@
 #include "IMaterial.h"
 
-#include <World\SerializeCommon.h>
+#include <Common\SerializeCommon.h>
 
 using namespace EngineInterface;
 
