@@ -306,4 +306,7 @@
     <ClCompile Include="Source\WorldObjects\Scene\Layers.cpp" />
     <ClCompile Include="Source\Render\Render.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
