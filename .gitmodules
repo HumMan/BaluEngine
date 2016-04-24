@@ -22,3 +22,6 @@
 [submodule "poly2tri"]
 	path = poly2tri
 	url = https://github.com/jhasse/poly2tri.git
+[submodule "pugixml"]
+	path = pugixml
+	url = https://github.com/HumMan/pugixml.git
