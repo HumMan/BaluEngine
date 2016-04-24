@@ -16,9 +16,6 @@
 [submodule "Box2D"]
 	path = Box2D
 	url = https://github.com/erincatto/Box2D.git
-[submodule "pugixml"]
-	path = pugixml
-	url = https://github.com/zeux/pugixml.git
 [submodule "boost-nowide"]
 	path = boost-nowide
 	url = https://github.com/halex2005/boost-nowide.git
