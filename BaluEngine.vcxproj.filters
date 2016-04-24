@@ -235,6 +235,24 @@
     <ClInclude Include="Source\Render\RenderCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="nanovg\src\fontstash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\src\nanovg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\src\nanovg_gl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\src\nanovg_gl_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\src\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\src\stb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
@@ -245,11 +263,6 @@
     <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
     <ClCompile Include="Source\Utils\texture_polygon.cpp" />
     <ClCompile Include="Source\EditorUtils\abstractEditor.cpp" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\advancing_front.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\cdt.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\common\shapes.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp" />
     <ClCompile Include="Source\EditorUtils\IAbstractEditor.cpp" />
     <ClCompile Include="Source\World\Composer.cpp" />
@@ -305,6 +318,12 @@
     <ClCompile Include="Source\Common\SerializeCommon.cpp" />
     <ClCompile Include="Source\WorldObjects\Scene\Layers.cpp" />
     <ClCompile Include="Source\Render\Render.cpp" />
+    <ClCompile Include="poly2tri\poly2tri\common\shapes.cc" />
+    <ClCompile Include="poly2tri\poly2tri\sweep\advancing_front.cc" />
+    <ClCompile Include="poly2tri\poly2tri\sweep\cdt.cc" />
+    <ClCompile Include="poly2tri\poly2tri\sweep\sweep.cc" />
+    <ClCompile Include="poly2tri\poly2tri\sweep\sweep_context.cc" />
+    <ClCompile Include="nanovg\src\nanovg.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

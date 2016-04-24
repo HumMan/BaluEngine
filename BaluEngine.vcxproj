@@ -54,8 +54,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\BaluLib\Include;$(ProjectDir)\BaluScript\Include;$(ProjectDir)\BaluRender\Include;$(ProjectDir)\box2d\box2d\box2d;$(ProjectDir)\box2d\box2d\;$(ProjectDir)/nanovg\src\;$(ProjectDir)\easyloggingpp\src\;$(ProjectDir)\boost-nowide\boost\nowide\;$(ProjectDir)\Source;$(ProjectDir)\pugixml\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;BALUENGINE_DESIGN_TIME;ELPP_WINSOCK2;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ForcedIncludeFiles>$(ProjectDir)\..\BaluScript\source\memleaks.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;BALUENGINE_DESIGN_TIME;ELPP_WINSOCK2;WIN32_LEAN_AND_MEAN;NANOVG_GLEW;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ForcedIncludeFiles>$(ProjectDir)\BaluScript\source\memleaks.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessToFile>false</PreprocessToFile>
@@ -69,11 +69,12 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;DevIL.lib;ilu.lib;ilut.lib;nanovg.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;pugixmlsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)/nanovg/build;$(ProjectDir)\pugixml\scripts\vs2010\x32\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;DevIL.lib;ilu.lib;ilut.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;pugixmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\pugixml\scripts\vs2010\x32\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)\..\BaluScript\Source\NativeTypes\base_types.bscript $(ProjectDir)\assets\scripts\ /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,7 +93,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)/nanovg/build;$(ProjectDir)\pugixml\scripts\vs2010\x32\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\pugixml\scripts\vs2010\x32\</AdditionalLibraryDirectories>
       <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;DevIL.lib;ilu.lib;ilut.lib;nanovg.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;pugixmls.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -101,6 +102,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h" />
+    <ClInclude Include="nanovg\src\fontstash.h" />
+    <ClInclude Include="nanovg\src\nanovg.h" />
+    <ClInclude Include="nanovg\src\nanovg_gl.h" />
+    <ClInclude Include="nanovg\src\nanovg_gl_utils.h" />
+    <ClInclude Include="nanovg\src\stb_image.h" />
+    <ClInclude Include="nanovg\src\stb_truetype.h" />
     <ClInclude Include="Source\EditorUtils\abstractEditor.h" />
     <ClInclude Include="Source\EditorUtils\DrawingHelper.h" />
     <ClInclude Include="Source\EditorUtils\IAbstractEditor.h" />
@@ -178,11 +185,12 @@
     <ClInclude Include="Source\Common\SerializeCommon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\poly2tri\poly2tri\common\shapes.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\advancing_front.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\cdt.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep.cc" />
-    <ClCompile Include="..\poly2tri\poly2tri\sweep\sweep_context.cc" />
+    <ClCompile Include="nanovg\src\nanovg.c" />
+    <ClCompile Include="poly2tri\poly2tri\common\shapes.cc" />
+    <ClCompile Include="poly2tri\poly2tri\sweep\advancing_front.cc" />
+    <ClCompile Include="poly2tri\poly2tri\sweep\cdt.cc" />
+    <ClCompile Include="poly2tri\poly2tri\sweep\sweep.cc" />
+    <ClCompile Include="poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Source\EditorUtils\abstractEditor.cpp" />
     <ClCompile Include="Source\EditorUtils\DrawingHelper.cpp" />
     <ClCompile Include="Source\EditorUtils\IAbstractEditor.cpp" />
