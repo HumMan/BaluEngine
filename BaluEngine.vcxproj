@@ -70,7 +70,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;DevIL.lib;ilu.lib;ilut.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;pugixmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\pugixml\scripts\vs2010\x32\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\pugixml\scripts\vs2013\x32\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -93,7 +93,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\pugixml\scripts\vs2010\x32\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\pugixml\scripts\vs2013\x32\</AdditionalLibraryDirectories>
       <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;DevIL.lib;ilu.lib;ilut.lib;nanovg.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;pugixmls.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
