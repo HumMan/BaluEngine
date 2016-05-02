@@ -3,7 +3,7 @@
 #include <WorldObjects\Scene\Layers.h>
 
 #include "../Class/IClass.h"
-#include "../../BaluLib/Source/BVolumes/AABB.h"
+#include <baluLib.h>
 #include <Interfaces\exportMacro.h>
 
 namespace EngineInterface

@@ -5,7 +5,7 @@
 
 #include "IAnimationFrames.h"
 
-#include "../../BaluLib/Source/Math/vec.h"
+#include <baluLib.h>
 #include <vector>
 
 namespace EngineInterface
