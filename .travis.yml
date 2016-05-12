@@ -17,6 +17,7 @@ install:
     - ./configure --prefix=$SDL2DIR
     - make
     - make install
+    - cd ..
 addons:
   apt:
     sources:
