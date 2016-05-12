@@ -7,17 +7,10 @@ before_script:
   - cd build
   - cmake ..
 script: make
+before_install:
+  - sudo apt-add-repository --yes ppa:zoogie/sdl2-snapshots
 install:
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.7" CC="gcc-4.7"; fi
-    - mkdir sdl2install
-    - export SDL2DIR="`pwd`/sdl2install"
-    - wget https://www.libsdl.org/release/SDL2-2.0.3.tar.gz
-    - tar xzf SDL2-2.0.3.tar.gz
-    - cd SDL2-2.0.3
-    - ./configure --prefix=$SDL2DIR
-    - make
-    - make install
-    - cd ..
 addons:
   apt:
     sources:
@@ -31,4 +24,4 @@ addons:
       - libglew-dev
       - libfreetype6
       - libdevil-dev
-
+      - libsdl2-dev
