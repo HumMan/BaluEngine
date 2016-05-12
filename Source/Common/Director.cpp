@@ -188,7 +188,7 @@ void TDirector::Initialize(void* handle)
 
 	p->base_path = SDL_GetBasePath();
 	p->physics_sym = true;
-	p->internal_render.reset(new TBaluRender((int)handle, TVec2i(512, 512)));
+	p->internal_render.reset(new TBaluRender(TVec2i(512, 512)));
 
 	p->render.reset(new TRender(p->internal_render.get()));
 
@@ -198,13 +198,11 @@ void TDirector::Initialize(void* handle)
 }
 void TDirector::BeginFrame()
 {
-	p->internal_render->BeginScene();
 	p->internal_render->Set.ClearColor(0.2, 0.3, 0.3);
 	p->internal_render->Clear(true, true);
 }
 void TDirector::EndFrame()
 {
-	p->internal_render->EndScene();
 }
 
 void TDirector::MainLoop()
