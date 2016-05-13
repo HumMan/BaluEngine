@@ -1,11 +1,11 @@
 #pragma once
 
 #if !defined(BALU_ENGINE_SCRIPT_CLASSES)  && !defined(BALU_ENGINE_DISABLE_PRAGMA_ONCE)
-#include <Interfaces\ExportMacro.h>
+#include <Interfaces/ExportMacro.h>
 
-#include <Common\ICommon.h>
-#include <World\IWorld.h>
-#include <World\IWorldInstance.h>
+#include <Common/ICommon.h>
+#include <World/IWorld.h>
+#include <World/IWorldInstance.h>
 
 #include <memory>
 #include <vector>

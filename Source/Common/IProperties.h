@@ -70,6 +70,30 @@ namespace EngineInterface
 		static TProperty* Create(const char* name);
 	};
 
+template<class T>
+class TPropertyValue : public TProperty
+{
+protected:
+	T value;
+public:
+	TPropertyValue()
+	{
+
+	}
+	TPropertyValue(const T& value)
+	{
+		this->value = value;
+	}
+	T* GetValue()
+	{
+		return &value;
+	}
+	void SetValue(const T& value)
+	{
+		this->value = value;
+	}
+};
+
 	class TProperties : public EngineInterface::IProperties
 	{
 	public:

@@ -37,17 +37,17 @@ namespace EngineInterface
 
 	TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
 	{
-		scene_instances.push_back(std::make_unique<TBaluSceneInstance>(this, scene_source, resources));
+		scene_instances.push_back(std::unique_ptr<TBaluSceneInstance>(new TBaluSceneInstance(this, scene_source, resources)));
 		return scene_instances.back().get();
 	}
 	TBaluSceneInstance* TBaluWorldInstance::RunScene()
 	{
-		scene_instances.push_back(std::make_unique<TBaluSceneInstance>(this, resources));
+		scene_instances.push_back(std::unique_ptr<TBaluSceneInstance>(new TBaluSceneInstance(this, resources)));
 		return scene_instances.back().get();
 	}
 	TBaluSceneInstance* TBaluWorldInstance::RunScene(TLayersManager* scene_layers)
 	{
-		scene_instances.push_back(std::make_unique<TBaluSceneInstance>(this, resources, scene_layers));
+		scene_instances.push_back(std::unique_ptr<TBaluSceneInstance>(new TBaluSceneInstance(this, resources, scene_layers)));
 		return scene_instances.back().get();
 	}
 

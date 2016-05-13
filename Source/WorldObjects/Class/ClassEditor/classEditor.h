@@ -1,6 +1,6 @@
 #pragma once
 
-#include <EditorUtils\abstractEditor.h>
+#include <EditorUtils/abstractEditor.h>
 
 #include "classEditorScene.h"
 #include "classEditorTools.h"
@@ -9,7 +9,7 @@
 
 using namespace EngineInterface;
 
-#include <EditorUtils\DrawingHelper.h>
+#include <EditorUtils/DrawingHelper.h>
 
 class TClassEditor :public TAbstractEditor
 {

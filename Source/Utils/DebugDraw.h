@@ -21,7 +21,7 @@
 
 #include <Box2D.h>
 
-#include <Common\ICommon.h>
+#include <Common/ICommon.h>
 
 using namespace EngineInterface;
 
@@ -42,7 +42,7 @@ struct Camera
 	//	m_height = 800;
 	//}
 	TDrawingHelperContext drawing_context;
-	void Camera::BuildProjectionMatrix(float32* m, float32 zBias);
+	void BuildProjectionMatrix(float32* m, float32 zBias);
 	//b2Vec2 ConvertScreenToWorld(const b2Vec2& screenPoint);
 	//b2Vec2 ConvertWorldToScreen(const b2Vec2& worldPoint);
 	//void BuildProjectionMatrix(float32* m, float32 zBias);

@@ -6,30 +6,6 @@
 
 using namespace EngineInterface;
 
-template<class T>
-class TPropertyValue : public TProperty
-{
-protected:
-	T value;
-public:
-	TPropertyValue()
-	{
-
-	}
-	TPropertyValue(const T& value)
-	{
-		this->value = value;
-	}
-	T* GetValue()
-	{
-		return &value;
-	}
-	void SetValue(const T& value)
-	{
-		this->value = value;
-	}
-};
-
 class TBoolProperty : public TPropertyValue<bool>
 {
 

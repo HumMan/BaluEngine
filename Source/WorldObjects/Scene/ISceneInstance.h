@@ -1,11 +1,11 @@
 #pragma once
 
-#include <WorldObjects\Scene\Layers.h>
+#include <WorldObjects/Scene/Layers.h>
 
 #include <Render/RenderCommand.h>
 #include "IScene.h"
-#include "../Class/IClassInstance.h"
-#include "../Material/IMaterialInstance.h"
+#include <WorldObjects/Class/IClassInstance.h>
+#include <WorldObjects/Material/IMaterialInstance.h>
 
 #ifdef BALUENGINEDLL_EXPORTS
 #include "Utils/DebugDraw.h"
@@ -166,7 +166,7 @@ namespace EngineInterface
 		
 		void UpdateTransform();
 
-		void DebugDraw(TDrawingHelperContext drawing_context);
+		void DoDebugDraw(TDrawingHelperContext drawing_context);
 };
 #endif
 

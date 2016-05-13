@@ -1,5 +1,7 @@
 #pragma once
 
+#include <new>
+
 #define MUnpackConstrA0(interface_wrapper,  method_name \
 )\
 methods.push_back(SetAsConstructor(new UnpackConstructorA0<interface_wrapper\
@@ -54,7 +56,7 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s:%s;", func_name
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -101,7 +103,7 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s:%s;", func_name
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -182,13 +184,13 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "copy(%s a0);"
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
 		);
 		return buf;
 	}
 	static void Run(TMethodRunContext run_context)
 	{
-		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())(typename Tobject_type::InterfaceType)
 		(
 			(*run_context.formal_params)[0].get_as<Ta0>().ToCppValue()
 		));
@@ -208,8 +210,8 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -235,7 +237,7 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -261,8 +263,8 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -288,7 +290,7 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -358,14 +360,14 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "copy(%s a0, %s a1);"
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
 		);
 		return buf;
 	}
 	static void Run(TMethodRunContext run_context)
 	{
-		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())(typename Tobject_type::InterfaceType)
 		(
 			(*run_context.formal_params)[0].get_as<Ta0>().ToCppValue(), 
 			(*run_context.formal_params)[1].get_as<Ta1>().ToCppValue()
@@ -387,9 +389,9 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -417,8 +419,8 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -446,9 +448,9 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -476,8 +478,8 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -559,15 +561,15 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "copy(%s a0, %s a1, %s a2);"
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
 		);
 		return buf;
 	}
 	static void Run(TMethodRunContext run_context)
 	{
-		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())(typename Tobject_type::InterfaceType)
 		(
 			(*run_context.formal_params)[0].get_as<Ta0>().ToCppValue(), 
 			(*run_context.formal_params)[1].get_as<Ta1>().ToCppValue(), 
@@ -591,10 +593,10 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -624,9 +626,9 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -656,10 +658,10 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -689,9 +691,9 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -785,16 +787,16 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "copy(%s a0, %s a1, %s a2, %s a3);"
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
 		);
 		return buf;
 	}
 	static void Run(TMethodRunContext run_context)
 	{
-		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())(typename Tobject_type::InterfaceType)
 		(
 			(*run_context.formal_params)[0].get_as<Ta0>().ToCppValue(), 
 			(*run_context.formal_params)[1].get_as<Ta1>().ToCppValue(), 
@@ -820,11 +822,11 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2, %s a3):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -856,10 +858,10 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2, %s a3);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -891,11 +893,11 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2, %s a3):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -927,10 +929,10 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2, %s a3);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -1036,17 +1038,17 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "copy(%s a0, %s a1, %s a2, %s a3, %s a4);"
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta4::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta4::TypeForGetName>::Get()
 		);
 		return buf;
 	}
 	static void Run(TMethodRunContext run_context)
 	{
-		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType
+		(new (&run_context.object->get_as<Tobject_type>().GetInterface())(typename Tobject_type::InterfaceType)
 		(
 			(*run_context.formal_params)[0].get_as<Ta0>().ToCppValue(), 
 			(*run_context.formal_params)[1].get_as<Ta1>().ToCppValue(), 
@@ -1074,12 +1076,12 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2, %s a3, %s a4):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta4::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta4::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -1113,11 +1115,11 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2, %s a3, %s a4);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta4::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta4::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -1151,12 +1153,12 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2, %s a3, %s a4):%s;", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta4::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta4::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()
 		);
 		return buf;
 	}
@@ -1190,11 +1192,11 @@ public:
 	{
 		char buf[255];
 			sprintf_s(buf, "func %s(%s a0, %s a1, %s a2, %s a3, %s a4);", func_name
-			, EngineInterface::CppTypeToScript<Ta0::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta1::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta2::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta3::TypeForGetName>::Get()
-			, EngineInterface::CppTypeToScript<Ta4::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta0::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta1::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta2::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta3::TypeForGetName>::Get()
+			, EngineInterface::CppTypeToScript<typename Ta4::TypeForGetName>::Get()
 		);
 		return buf;
 	}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Interfaces\ExportMacro.h>
+#include <Interfaces/ExportMacro.h>
 
 #include <baluLib.h>
 using namespace BaluLib;

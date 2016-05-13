@@ -2,9 +2,9 @@
 
 #include "nanovg.h"
 
-#include <WorldObjects\Scene\IScene.h>
+#include <WorldObjects/Scene/IScene.h>
 
-#include <Utils\nanovg_support.h>
+#include <Utils/nanovg_support.h>
 
 using namespace EngineInterface;
 
@@ -294,7 +294,7 @@ void TDrawingHelper::RenderLine(const TVec2& p0, const TVec2& p1, TBaluTransform
 //	if (material == nullptr)
 //		return;
 //	if (material->image_path == "")
-//		material->image_path = "Textures/Crate005_ebox.png";//TODO текстура отсутствует
+//		material->image_path = "Textures/Crate005_ebox.png";//TODO \F2\E5\EA\F1\F2\F3\F0\E0 \EE\F2\F1\F3\F2\F1\F2\E2\F3\E5\F2
 //	if (material->image_path != "")
 //	{
 //		TTextureId tex_id = resources->CreateTextureFromFile(material->image_path);

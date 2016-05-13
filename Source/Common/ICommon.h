@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <baluLib.h>
 #include <string>
 #include "IProperties.h"

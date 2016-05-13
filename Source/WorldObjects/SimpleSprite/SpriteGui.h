@@ -1,7 +1,7 @@
 #pragma once
 
-#include "..\Material\IMaterial.h"
-#include "..\Sprite\ISprite.h"
+#include "../Material/IMaterial.h"
+#include "../Sprite/ISprite.h"
 
 
 class TSimpleSpriteDef

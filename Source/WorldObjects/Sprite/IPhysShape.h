@@ -1,12 +1,12 @@
 #pragma once
 
-#include <Common\ICommon.h>
+#include <Common/ICommon.h>
 
 #ifdef BALUENGINEDLL_EXPORTS
 #include <Box2D.h>
 #endif
 
-#include "../../Interfaces/ExportMacro.h"
+#include <Interfaces/ExportMacro.h>
 
 namespace EngineInterface
 {

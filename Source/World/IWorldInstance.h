@@ -1,6 +1,6 @@
 #pragma once
 
-#include <WorldObjects\Scene\ISceneInstance.h>
+#include <WorldObjects/Scene/ISceneInstance.h>
 #include "IWorld.h"
 #include "IComposer.h"
 

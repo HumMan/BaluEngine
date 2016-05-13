@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Interfaces\ExportMacro.h>
+#include <Interfaces/ExportMacro.h>
 #include <baluLib.h>
+#include <string>
 using namespace BaluLib;
 
 class NVGcontext;

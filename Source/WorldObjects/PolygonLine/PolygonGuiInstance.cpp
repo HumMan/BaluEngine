@@ -1,7 +1,7 @@
 #include "PolygonGuiInstance.h"
 
-#include <EditorUtils\DrawingHelper.h>
-#include "..\Scene\ISceneInstance.h"
+#include <EditorUtils/DrawingHelper.h>
+#include "../Scene/ISceneInstance.h"
 
 using namespace EngineInterface;
 

@@ -1,4 +1,7 @@
 #include "polygon_vertices.h"
+
+#include <algorithm>
+
 using namespace FarseerPhysics_Common;
 
 Vertices::Vertices() { }
@@ -140,7 +143,8 @@ TAABB2 Vertices::GetAABB()
 
 void Vertices::Translate(TVec2 value)
 {
-	assert(!_AttachedToBody, "Translating vertices that are used by a Body can result in unstable behavior. Use Body.Position instead.");
+	if(!_AttachedToBody)
+	assert("Translating vertices that are used by a Body can result in unstable behavior. Use Body.Position instead.");
 
 	for (int i = 0; i < size(); i++)
 		(*this)[i] += value;
@@ -156,7 +160,8 @@ void Vertices::Translate(TVec2 value)
 
 void Vertices::Scale(TVec2 value)
 {
-	assert(!_AttachedToBody, "Scaling vertices that are used by a Body can result in unstable behavior.");
+	if(!_AttachedToBody)
+	assert("Scaling vertices that are used by a Body can result in unstable behavior.");
 
 	for (int i = 0; i < size(); i++)
 		(*this)[i] *= value;
@@ -172,7 +177,8 @@ void Vertices::Scale(TVec2 value)
 
 void Vertices::Rotate(float value)
 {
-	assert(!_AttachedToBody, "Rotating vertices that are used by a Body can result in unstable behavior.");
+	if(!_AttachedToBody)
+	assert("Rotating vertices that are used by a Body can result in unstable behavior.");
 
 	float num1 = cosf(value);
 	float num2 = sinf(value);

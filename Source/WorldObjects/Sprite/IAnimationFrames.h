@@ -4,7 +4,7 @@
 using namespace BaluLib;
 #include <vector>
 
-#include <Interfaces\exportMacro.h>
+#include <Interfaces/ExportMacro.h>
 
 namespace pugi
 {

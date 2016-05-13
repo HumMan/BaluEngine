@@ -12,7 +12,7 @@ using namespace EngineInterface;
 #include "../../EditableBox/OBBGuiInstance.h"
 #include "../../BoxContour/BoxGuiInstance.h"
 
-#include <EditorUtils\abstractEditor.h>
+#include <EditorUtils/abstractEditor.h>
 
 class TSceneEditorScene
 {

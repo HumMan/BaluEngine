@@ -216,7 +216,7 @@ void TBaluSceneInstance::UpdateTransform()
 	}
 }
 
-void TBaluSceneInstance::DebugDraw(TDrawingHelperContext drawing_context)
+void TBaluSceneInstance::DoDebugDraw(TDrawingHelperContext drawing_context)
 {
 	uint32 flags = 0;
 	flags |= b2Draw::e_shapeBit;

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ISpritePolygon.h"
-#include "../Material/IMaterialInstance.h"
-#include <WorldObjects\Scene\Layers.h>
+#include <WorldObjects/Material/IMaterialInstance.h>
+#include <WorldObjects/Scene/Layers.h>
 
 namespace EngineInterface
 {

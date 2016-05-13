@@ -1,8 +1,8 @@
 #include "OBBGuiInstance.h"
 
-#include <EditorUtils\DrawingHelper.h>
+#include <EditorUtils/DrawingHelper.h>
 
-#include "..\Scene\ISceneInstance.h"
+#include "../Scene/ISceneInstance.h"
 
 void TPointAdornment::Render(TDrawingHelper* helper)const
 {

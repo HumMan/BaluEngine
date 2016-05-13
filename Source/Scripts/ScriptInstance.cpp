@@ -2,8 +2,8 @@
 
 #include "baluScript.h"
 
-#include <WorldObjects\Class\IClassInstance.h>
-#include "World\IWorld.h"
+#include <WorldObjects/Class/IClassInstance.h>
+#include <World/IWorld.h>
 
 #include "ScriptClassesRegistry.h"
 

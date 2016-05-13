@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Scripts\ICallbacks.h>
-#include <Common\ICommon.h>
+#include <Scripts/ICallbacks.h>
+#include <Common/ICommon.h>
 
 namespace EngineInterface
 {

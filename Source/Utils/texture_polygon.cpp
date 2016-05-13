@@ -1,6 +1,8 @@
 ﻿
 #include "texture_polygon.h"
 
+#include <stdexcept>
+
 using namespace FarseerPhysics_Common;
 using namespace FarseerPhysics_Common_TextureTools;
 
@@ -229,18 +231,18 @@ std::vector<Vertices> TextureConverter::DetectVertices()
 {
 
 	if (_data == nullptr)
-		throw std::exception("'_data' can't be nullptr. You have to use SetTextureData(unsigned int* data, int width) before calling this method.");
+		throw std::runtime_error("'_data' can't be nullptr. You have to use SetTextureData(unsigned int* data, int width) before calling this method.");
 
 	if (_dataLength < 4)
-		throw std::exception("'_data' length can't be less then 4. Your texture must be at least 2 x 2 pixels in size. "
+		throw std::runtime_error("'_data' length can't be less then 4. Your texture must be at least 2 x 2 pixels in size. "
 		"You have to use SetTextureData(unsigned int* data, int width) before calling this method.");
 
 	if (_width < 2)
-		throw std::exception("'_width' can't be less then 2. Your texture must be at least 2 x 2 pixels in size. "
+		throw std::runtime_error("'_width' can't be less then 2. Your texture must be at least 2 x 2 pixels in size. "
 		"You have to use SetTextureData(unsigned int* data, int width) before calling this method.");
 
 	if (_dataLength % _width != 0)
-		throw std::exception("'_width' has an invalid value. You have to use SetTextureData(unsigned int* data, int width) before calling this method.");
+		throw std::runtime_error("'_width' has an invalid value. You have to use SetTextureData(unsigned int* data, int width) before calling this method.");
 
 	std::vector<Vertices> detectedPolygons;
 
@@ -329,7 +331,7 @@ std::vector<Vertices> TextureConverter::DetectVertices()
 	} while (searchOn);
 
 	if (detectedPolygons.size() == 0)
-		throw std::exception("Couldn't detect any vertices.");
+		throw std::runtime_error("Couldn't detect any vertices.");
 
 	// Post processing.
 	if (GetPolygonDetectionType() == VerticesDetectionType::Separated) // Only when VerticesDetectionType.Separated? -> Recheck.

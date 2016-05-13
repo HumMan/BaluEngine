@@ -1,16 +1,30 @@
 
 #include "abstractEditor.h"
 
-#include <WorldObjects\Scene\SceneEditor\sceneEditor.h>
-#include <WorldObjects\Class\ClassEditor\classEditor.h>
-#include <WorldObjects\Sprite\SpriteEditor\spriteEditor.h>
-#include <WorldObjects\Material\MaterialEditor\materialEditor.h>
+#include <WorldObjects/Scene/SceneEditor/sceneEditor.h>
+#include <WorldObjects/Class/ClassEditor/classEditor.h>
+#include <WorldObjects/Sprite/SpriteEditor/spriteEditor.h>
+#include <WorldObjects/Material/MaterialEditor/materialEditor.h>
 
 #include <easylogging++.h>
 
 #include <ctime>
 
 #include <pugixml.hpp>
+
+#if defined(WIN32)||defined(_WIN32)
+#else
+void ctime_s(char* dt,int buf_size, time_t* now)
+{
+	char* temp = ctime(now);
+	strcpy(temp, dt);
+}
+void localtime_s(tm* timeinfo, time_t* time)
+{
+	tm* temp = localtime(time);
+	*timeinfo = *temp;
+}
+#endif
 
 namespace EngineInterface
 {

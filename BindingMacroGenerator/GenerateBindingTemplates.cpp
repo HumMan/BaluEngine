@@ -9,6 +9,11 @@
 #include <string>
 #include <iostream>
 
+#if defined(WIN32)||defined(_WIN32)
+#else
+#define sprintf_s sprintf
+#endif
+
 struct TParamType
 {
 	const char* macro_id_letter;

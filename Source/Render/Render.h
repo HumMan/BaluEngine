@@ -2,9 +2,9 @@
 
 #include "RenderCommand.h"
 
-#include <WorldObjects\Material\IMaterial.h>
+#include <WorldObjects/Material/IMaterial.h>
 
-#include <Interfaces\ExportMacro.h>
+#include <Interfaces/ExportMacro.h>
 
 #include <vector>
 

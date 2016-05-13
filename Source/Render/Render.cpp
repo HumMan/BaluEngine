@@ -2,17 +2,20 @@
 
 #include "baluRender.h"
 
-#include <Utils\nanovg_support.h>
+#include <Utils/nanovg_support.h>
 
 #include <WorldObjects/Material/IMaterialInstance.h>
 
-
-
 #include <nanovg.h>
 
-#include <EditorUtils\DrawingHelper.h>
+#include <EditorUtils/DrawingHelper.h>
 
 #include <algorithm>
+
+#if defined(WIN32)||defined(_WIN32)
+#else
+#define sprintf_s sprintf
+#endif
 
 using namespace TBaluRenderEnums;
 
@@ -106,7 +109,7 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 
 		auto drawing_helper = TDrawingHelper(drawing_context);
 
-		for each (auto& v in gui)
+		for (auto& v : gui)
 		{
 			v->Render(&drawing_helper);
 		}

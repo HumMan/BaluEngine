@@ -1,8 +1,8 @@
 
 #include "SpriteGuiInstance.h"
 
-#include "..\Sprite\ISpriteInstance.h"
-#include "..\Scene\ISceneInstance.h"
+#include "../Sprite/ISpriteInstance.h"
+#include "../Scene/ISceneInstance.h"
 
 using namespace EngineInterface;
 

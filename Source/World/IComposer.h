@@ -11,6 +11,7 @@ namespace EngineInterface
 	class IViewport;
 	class TComposerPrivate;
 	class TRender;
+        class TComposer;
 
 	class IComposerStage
 	{

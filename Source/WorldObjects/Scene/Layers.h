@@ -5,8 +5,9 @@
 #include <set>
 #include <vector>
 #include <assert.h>
+#include <algorithm>
 
-#include <Interfaces\exportMacro.h>
+#include <Interfaces/ExportMacro.h>
 
 namespace EngineInterface
 {

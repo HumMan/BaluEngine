@@ -118,7 +118,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
 		{
 			std::string class_name = class_node.attribute("name").as_string();
-			world_objects[(int)TWorldObjectType::Class].emplace(class_name, std::make_unique<TBaluClass>(class_name.c_str(), this));
+			world_objects[(int)TWorldObjectType::Class].emplace(class_name, std::unique_ptr<TBaluClass>(new TBaluClass(class_name.c_str(), this)));
 		}
 	}
 	{

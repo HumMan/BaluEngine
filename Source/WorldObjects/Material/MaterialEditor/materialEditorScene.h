@@ -8,7 +8,7 @@
 #include "../../Scene/IScene.h"
 #include "../IMaterialInstance.h"
 #include "../../Scene/ISceneInstance.h"
-#include <World\IWorld.h>
+#include <World/IWorld.h>
 
 namespace EngineInterface
 {

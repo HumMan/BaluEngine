@@ -1,10 +1,10 @@
 #pragma once
 
-#include <WorldObjects\Scene\Layers.h>
+#include <WorldObjects/Scene/Layers.h>
 
-#include "../Class/IClass.h"
+#include <WorldObjects/Class/IClass.h>
 #include <baluLib.h>
-#include <Interfaces\exportMacro.h>
+#include <Interfaces/ExportMacro.h>
 
 namespace EngineInterface
 {
