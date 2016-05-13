@@ -1,4 +1,6 @@
 
+#define MUnpackCOMMA ,
+
 DECL_SCRIPT_TYPE(PropertyType, "PropertyType");
 
 void PropertyType_register(TClassRegistryParams& params)
@@ -16,7 +18,7 @@ void PropertyType_register(TClassRegistryParams& params)
 static bool PropertyType_registered = TScriptClassesRegistry::RegisterEnum("PropertyType", PropertyType_register);
 
 BALU_ENGINE_SCRIPT_BEGIN_CLASS(WrapInterface, IProperties, "IProperties");
-MUnpackRA2(WrapValue<bool>, WrapInterface<IProperties>, HasProperty, WrapString, WrapValue<PropertyType _COMMA PropertyType&>);
+MUnpackRA2(WrapValue<bool>, WrapInterface<IProperties>, HasProperty, WrapString, WrapValue<PropertyType MUnpackCOMMA PropertyType&>);
 MUnpackRA1(WrapValue<bool>, WrapInterface<IProperties>, GetBool, WrapString);
 MUnpackA2(WrapInterface<IProperties>, SetBool, WrapString, WrapValue<bool>);
 BALU_ENGINE_SCRIPT_END_CLASS;

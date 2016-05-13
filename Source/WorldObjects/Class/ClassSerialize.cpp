@@ -1,6 +1,6 @@
 #include "IClass.h"
 
-#include <Common\SerializeCommon.h>
+#include <Common/SerializeCommon.h>
 
 #include "../../World/IWorld.h"
 
@@ -82,7 +82,7 @@ void TTimeLine::Load(const pugi::xml_node& timeline_node, const int version, TBa
 	auto tracks_node = timeline_node.child("Tracks");
 	for (pugi::xml_node prop_node = tracks_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
-		auto temp = std::make_unique<TTrack>();
+		auto temp = std::unique_ptr<TTrack>(new TTrack());
 		temp->Load(prop_node, version, world, skeleton);
 		tracks.push_back(std::move(temp));
 	}
@@ -104,7 +104,7 @@ void TSkeletonAnimation::Load(const pugi::xml_node& skel_animation_node, const i
 	auto animation_node = skel_animation_node.child("Animations");
 	for (pugi::xml_node prop_node = animation_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
-		auto temp = std::make_unique<TTimeLine>();
+		auto temp = std::unique_ptr<TTimeLine>(new TTimeLine());
 		temp->Load(prop_node, version, world, skeleton);
 		animations.push_back(std::move(temp));
 	}
@@ -200,7 +200,7 @@ void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version, TBa
 		xml_node bones_node = skeleton_node.child("Bones");
 		for (pugi::xml_node prop_node = bones_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 		{
-			bones.push_back(std::make_unique<TBone>());
+			bones.push_back(std::unique_ptr<TBone>(new TBone()));
 		}
 		int i = 0;
 		for (pugi::xml_node prop_node = bones_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
@@ -211,7 +211,7 @@ void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version, TBa
 		xml_node skins_node = skeleton_node.child("Skins");
 		for (pugi::xml_node prop_node = skins_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 		{
-			auto temp = std::make_unique<TSkin>();
+			auto temp = std::unique_ptr<TSkin>(new TSkin());
 			temp->Load(prop_node, version, world);
 			skins.push_back(std::move(temp));
 		}

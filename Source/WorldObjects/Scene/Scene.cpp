@@ -1,8 +1,8 @@
 #include "IScene.h"
 
-#include <World\IWorld.h>
+#include <World/IWorld.h>
 
-#include "SceneEditor\sceneEditor.h"
+#include "SceneEditor/sceneEditor.h"
 
 TVec2 EngineInterface::IBaluScene::FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord)
 {
@@ -52,7 +52,7 @@ TSceneObject* TBaluScene::GetInstance(int index)
 
 TSceneObject* TBaluScene::CreateInstance(TBaluClass* balu_class)
 {
-	instances.push_back(std::make_unique<TBaluTransformedClass>(balu_class));
+	instances.push_back(std::unique_ptr<TBaluTransformedClass>(new TBaluTransformedClass(balu_class)));
 	return instances.back().get();
 }
 

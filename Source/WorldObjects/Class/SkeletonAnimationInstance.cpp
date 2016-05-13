@@ -58,7 +58,7 @@ TTimeLineInstance::TTimeLineInstance(TSkeletonInstance* skeleton, TTimeLine* sou
 	{
 		auto source_track = source->GetTrack(i);
 		int bone_index = skeleton->GetSource()->GetBoneIndex(source_track->GetBone());
-		tracks.push_back(std::make_unique<TTrackInstance>(skeleton->GetBone(bone_index), source_track));
+		tracks.push_back(std::unique_ptr<TTrackInstance>(new TTrackInstance(skeleton->GetBone(bone_index), source_track)));
 	}
 }
 void TTimeLineInstance::SetAlpha()
@@ -136,7 +136,7 @@ void TSkeletonAnimationInstance::Init()
 {
 	for (int i = 0; i < source->GetAnimationsCount(); i++)
 	{
-		animations.push_back(std::make_unique<TTimeLineInstance>(skeleton, source->GetAnimation(i)));
+		animations.push_back(std::unique_ptr<TTimeLineInstance>(new TTimeLineInstance(skeleton, source->GetAnimation(i))));
 	}
 }
 

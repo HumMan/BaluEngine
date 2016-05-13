@@ -8,6 +8,8 @@
 
 #include "../../poly2tri/poly2tri/poly2tri.h"
 
+#include <string.h>
+
 using namespace EngineInterface;
 
 std::vector < std::pair<const char*, AnimDescClone>>& get_anim_descs_registry()

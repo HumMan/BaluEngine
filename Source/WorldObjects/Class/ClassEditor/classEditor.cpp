@@ -9,7 +9,7 @@ TClassEditor::TClassEditor(TDrawingHelperContext drawing_context, IBaluWorld* wo
 	auto scene_instance = world_instance->RunScene();
 	world_instance->GetComposer()->AddToRender(scene_instance, drawing_context.viewport);
 
-	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
+	drawing_helper = std::unique_ptr<TDrawingHelper>(new TDrawingHelper(drawing_context));
 	scene.Initialize(world, edited_class, scene_instance, drawing_helper.get());
 
 	scene.transformed_class.reset(new TBaluTransformedClass(dynamic_cast<TBaluClass*>(edited_class)));

@@ -289,7 +289,7 @@ void TDirector::MainLoop()
 
 TDirector::TDirector(std::string assets_dir)
 {
-	p = std::make_unique<TGameInternal>();
+	p = std::unique_ptr<TGameInternal>(new TGameInternal());
 	p->assets_dir = assets_dir;
 }
 

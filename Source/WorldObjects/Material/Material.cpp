@@ -1,7 +1,7 @@
 #include "IMaterial.h"
 #include <World/IWorld.h>
 
-#include "MaterialEditor\materialEditor.h"
+#include "MaterialEditor/materialEditor.h"
 
 TBaluMaterial::TBaluMaterial(std::string material_name, TBaluWorld* world)
 	:TBaluWorldObject(world, material_name)

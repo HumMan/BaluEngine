@@ -42,7 +42,7 @@ namespace EngineInterface
 		{
 			size_t size = format.size() + name.size();
 			std::unique_ptr<char> buf(new char[size]);
-			sprintf_s(buf.get(), size*sizeof(char), format.c_str());
+			sprintf(buf.get(), format.c_str());
 			return buf.get();
 		}
 	};

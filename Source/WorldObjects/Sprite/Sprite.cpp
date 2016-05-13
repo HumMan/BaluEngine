@@ -2,9 +2,9 @@
 
 #include "../Class/IClass.h"
 
-#include <World\IWorld.h>
+#include <World/IWorld.h>
 
-#include "SpriteEditor\spriteEditor.h"
+#include "SpriteEditor/spriteEditor.h"
 
 using namespace EngineInterface;
 
@@ -38,7 +38,7 @@ TBaluPhysShape* TBaluSprite::GetPhysShape()
 
 void TBaluSprite::SetPhysShapeFromGeometry()
 {
-	phys_shape = std::make_unique<TBaluPolygonShape>();
+	phys_shape = std::unique_ptr<TBaluPolygonShape>(new TBaluPolygonShape());
 }
 
 TBaluSpritePolygon* TBaluSprite::GetPolygon()

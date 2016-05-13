@@ -119,7 +119,7 @@ std::string GenerateUnpackConstructorMacro(int params_count)
 	for (int i = 0; i < params_count; i++)
 	{
 		std::string param_wrapper = "param" + IntToStr(i) + "_wrapper";
-		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::CppType\\\n";
+		result += std::string(", ") + param_wrapper + ", typename " + param_wrapper + "::CppType\\\n";
 	}
 	result += ">));\n";
 
@@ -158,7 +158,7 @@ std::string GenerateUnpackMacro(int params_count, bool have_result, bool const_m
 
 	if (have_result)
 	{	
-		result += "<ret_wrapper, ret_wrapper::CppType, interface_wrapper\\\n";
+		result += "<ret_wrapper, typename ret_wrapper::CppType, interface_wrapper\\\n";
 	}
 	else
 	{
@@ -168,7 +168,7 @@ std::string GenerateUnpackMacro(int params_count, bool have_result, bool const_m
 	for (int i = 0; i < params_count; i++)
 	{
 		std::string param_wrapper = "param" + IntToStr(i) + "_wrapper";
-		result += std::string(", ") + param_wrapper + ", " + param_wrapper + "::CppType\\\n";
+		result += std::string(", ") + param_wrapper + ", typename " + param_wrapper + "::CppType\\\n";
 	}
 	result += ", &interface_wrapper::InterfaceType::method_name>));\n";
 
@@ -332,7 +332,7 @@ std::string GenerateTemplateConstructorClass(int params_count)
 	result += "			sprintf_s(buf, \"" + GetScriptConstrFunc(params_count) + "\"\n";
 	for (int i = 0; i < params_count; i++)
 	{
-		result += "			, EngineInterface::CppTypeToScript<Ta" + IntToStr(i) + "::TypeForGetName>::Get()\n";
+		result += "			, EngineInterface::CppTypeToScript<typename Ta" + IntToStr(i) + "::TypeForGetName>::Get()\n";
 	}
 	result +=
 		"		);\n"
@@ -342,7 +342,7 @@ std::string GenerateTemplateConstructorClass(int params_count)
 		"	{\n";
 
 		result +=
-			"		(new (&run_context.object->get_as<Tobject_type>().GetInterface())Tobject_type::InterfaceType\n"
+			"		(new (&run_context.object->get_as<Tobject_type>().GetInterface())(typename Tobject_type::InterfaceType)\n"
 			"		(\n";
 
 	for (int i = 0; i < params_count; i++)
@@ -398,11 +398,11 @@ std::string GenerateTemplateClass(int params_count, bool have_return, bool const
 	result += "			sprintf_s(buf, \"" + GetScriptFunc(params_count, have_return) + "\", func_name\n";
 	for (int i = 0; i < params_count; i++)
 	{
-		result += "			, EngineInterface::CppTypeToScript<Ta" + IntToStr(i) + "::TypeForGetName>::Get()\n";
+		result += "			, EngineInterface::CppTypeToScript<typename Ta" + IntToStr(i) + "::TypeForGetName>::Get()\n";
 	}
 	if (have_return)
 		result +=
-			"			, EngineInterface::CppTypeToScript<Tresult_type::TypeForGetName>::Get()\n";
+			"			, EngineInterface::CppTypeToScript<typename Tresult_type::TypeForGetName>::Get()\n";
 	result+=
 		"		);\n"
 		"		return buf;\n"

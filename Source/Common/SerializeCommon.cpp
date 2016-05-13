@@ -12,7 +12,7 @@ void SaveColor(pugi::xml_node& parent, TVec4 color)
 	new_node.append_attribute("a").set_value(color[3]);
 }
 
-TVec4 LoadColor(pugi::xml_node& node)
+TVec4 LoadColor(const pugi::xml_node& node)
 {
 	TVec4 color;
 	color[0] = node.attribute("r").as_float();
@@ -29,7 +29,7 @@ void SaveCoord(pugi::xml_node& parent_node, std::string name, TVec2 coord)
 	new_node.append_attribute("y").set_value(coord[1]);
 }
 
-TVec2 LoadCoord(pugi::xml_node& node)
+TVec2 LoadCoord(const pugi::xml_node& node)
 {
 	TVec2 coord;
 	coord[0] = node.attribute("x").as_float();
@@ -44,7 +44,7 @@ void SaveTransform(pugi::xml_node& parent_node, std::string name, TBaluTransform
 	new_node.append_attribute("rotation").set_value(transform.angle.GetAngle());
 }
 
-TBaluTransform LoadTransform(pugi::xml_node& node)
+TBaluTransform LoadTransform(const pugi::xml_node& node)
 {
 	TBaluTransform transform;
 	transform.position = LoadCoord(node.child("offset"));
@@ -60,7 +60,7 @@ void SaveTransformWithScale(pugi::xml_node& parent_node, std::string name, TBalu
 	SaveCoord(new_node, "scale", transform.scale);
 }
 
-TBaluTransformWithScale LoadTransformWithScale(pugi::xml_node& node)
+TBaluTransformWithScale LoadTransformWithScale(const pugi::xml_node& node)
 {
 	TBaluTransformWithScale transform;
 	transform.transform = LoadTransform(node);

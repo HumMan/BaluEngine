@@ -66,7 +66,7 @@ std::vector<TBaluTransformedSprite>& TSkin::GetSpritesOfBone(int bone_index)
 
 TSkin* TSkeleton::CreateSkin()
 {
-	skins.push_back(std::make_unique<TSkin>(bones.size()));
+	skins.push_back(std::unique_ptr<TSkin>(new TSkin(bones.size())));
 	return skins.back().get();
 }
 void TSkeleton::DestroySkin(TSkin* skin)
@@ -90,11 +90,11 @@ TBone* TSkeleton::CreateBone(TBone* parent)
 	if (parent == nullptr)
 	{
 		root = 0;
-		bones.push_back(std::make_unique<TBone>(nullptr));
+		bones.push_back(std::unique_ptr<TBone>(new TBone(nullptr)));
 	}
 	else
 	{
-		auto new_bone = std::make_unique<TBone>(parent);
+		auto new_bone = std::unique_ptr<TBone>(new TBone(parent));
 		parent->AddChild(new_bone.get());
 		bones.push_back(std::move(new_bone));
 	}

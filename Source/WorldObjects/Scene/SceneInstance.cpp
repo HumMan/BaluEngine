@@ -87,7 +87,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 	this->source = source;
 	this->world = world;
 	this->resources = resources;
-	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));
+	phys_world = std::unique_ptr<b2World>(new b2World(b2Vec2(0, -1)));
 
 	phys_debug.Create();
 
@@ -109,7 +109,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TResources* re
 	this->source = nullptr;
 	this->world = world;
 	this->resources = resources;
-	phys_world = std::make_unique<b2World>(b2Vec2(0, -1));
+	phys_world = std::unique_ptr<b2World>(new b2World(b2Vec2(0, -1)));
 
 	phys_debug.Create();
 

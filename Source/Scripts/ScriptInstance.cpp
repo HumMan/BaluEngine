@@ -32,7 +32,7 @@ TBaluScriptInstance::~TBaluScriptInstance()
 
 TBaluScriptInstance::TBaluScriptInstance(std::string assets_dir)
 {
-	p = std::make_unique<TBaluScriptInstancePrivate>();
+	p = std::unique_ptr<TBaluScriptInstancePrivate>(new TBaluScriptInstancePrivate());
 
 	p->time.Start();
 

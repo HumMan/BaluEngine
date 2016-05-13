@@ -26,7 +26,8 @@ b2PolygonShape* GetTransformedShape(TBaluTransformWithScale class_transform, TBa
 	for (int i = 0; i < b2shape.m_count; i++)
 	{
 		auto vertex = *(TVec2*)&b2shape.m_vertices[i];
-		vertices[i] = *(b2Vec2*)& class_transform.ToGlobal(local.ToGlobal(vertex));
+		auto global_vertex = class_transform.ToGlobal(local.ToGlobal(vertex));
+		vertices[i] = *(b2Vec2*)& global_vertex;
 	}
 	transformed_shape->Set(&vertices[0], b2shape.m_count);
 	return transformed_shape;
@@ -57,8 +58,8 @@ b2CircleShape* TBaluCircleShape::GetShape(TBaluTransformWithScale class_transfor
 {
 	b2CircleShape* transformed_shape = new b2CircleShape();
 	*(b2Shape*)transformed_shape = b2shape;
-
-	transformed_shape->m_p = *(b2Vec2*)& class_transform.ToGlobal(local.ToGlobal(TVec2(0,0)));
+	auto global_p = class_transform.ToGlobal(local.ToGlobal(TVec2(0,0)));
+	transformed_shape->m_p = *(b2Vec2*)& global_p;
 	transformed_shape->m_radius = b2shape.m_radius*fminf(local.scale[0], local.scale[1])*fminf(class_transform.scale[0], class_transform.scale[1]);
 	return transformed_shape;
 }

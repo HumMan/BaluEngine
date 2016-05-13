@@ -18,7 +18,7 @@ TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TResources* resour
 {
 	this->source = source;
 	source->AddChangesListener(this);
-	phys_shape = std::make_unique<TBaluPhysShapeInstance>(source->GetPhysShape(), TPhysShapeUserData(scene_object, parent));
+	phys_shape = std::unique_ptr<TBaluPhysShapeInstance>(new TBaluPhysShapeInstance(source->GetPhysShape(), TPhysShapeUserData(scene_object, parent)));
 }
 
 TBaluSpriteInstance::~TBaluSpriteInstance()

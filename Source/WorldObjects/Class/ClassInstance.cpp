@@ -36,10 +36,10 @@ TBaluClassInstance::TBaluClassInstance(TBaluClass* source, b2World* phys_world, 
 
 	for (int i = 0; i < source->GetSpritesCount(); i++)
 	{
-		sprites.push_back(std::make_unique<TBaluTransformedSpriteInstance>(source->GetSprite(i), resources, scene_object));
+		sprites.push_back(std::unique_ptr<TBaluTransformedSpriteInstance>(new TBaluTransformedSpriteInstance(source->GetSprite(i), resources, scene_object)));
 	}
 
-	phys_body = std::make_unique<TBaluClassPhysBodyIntance>(phys_world, source->GetPhysBody(),this, parent_transform);
+	phys_body = std::unique_ptr<TBaluClassPhysBodyIntance>(new TBaluClassPhysBodyIntance(phys_world, source->GetPhysBody(),this, parent_transform));
 }
 
 TSkeletonAnimationInstance* TBaluClassInstance::GetSkeletonAnimation()

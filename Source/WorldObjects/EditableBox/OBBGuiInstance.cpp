@@ -130,7 +130,7 @@ void TBoundaryBoxAdornment::UpdatePointsPos()
 		case TPointAdornmentType::Resize:
 		{
 			TAABB<float, 2> aabb = boundary.GetLocalAABB();
-			TMatrix<float, 2> or = boundary.GetOrient();
+			TMatrix<float, 2> orient = boundary.GetOrient();
 			TVec2 pos = boundary.GetPos();
 			TVec2 new_pos = p.GetPosition();
 			if (p.x_resize == -1)
@@ -147,13 +147,13 @@ void TBoundaryBoxAdornment::UpdatePointsPos()
 			if (p.y_resize == 1)
 				new_pos[1] = aabb[1][1];
 
-			p.SetPosition(or*new_pos + pos);
+			p.SetPosition(orient*new_pos + pos);
 		}
 		break;
 		case TPointAdornmentType::Rotate:
 		{
 			TAABB<float, 2> aabb = boundary.GetLocalAABB();
-			TMatrix<float, 2> or = boundary.GetOrient();
+			TMatrix<float, 2> orient = boundary.GetOrient();
 			TVec2 pos = boundary.GetPos();
 			TVec2 new_pos = p.GetPosition();
 
@@ -171,7 +171,7 @@ void TBoundaryBoxAdornment::UpdatePointsPos()
 			if (p.y_resize == 1)
 				new_pos[1] = aabb[1][1] + 0.2;
 
-			p.SetPosition(or*new_pos + pos);
+			p.SetPosition(orient*new_pos + pos);
 		}
 		break;
 		default:

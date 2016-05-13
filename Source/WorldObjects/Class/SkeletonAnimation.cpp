@@ -39,7 +39,7 @@ TTimeLine::TTimeLine(std::string name)
 
 TTrack* TTimeLine::CreateTrack(TBone* bone)
 {
-	tracks.push_back(std::make_unique<TTrack>(bone));
+	tracks.push_back(std::unique_ptr<TTrack>(new TTrack(bone)));
 	return tracks.back().get();
 }
 
@@ -93,7 +93,7 @@ TSkeletonAnimation::TSkeletonAnimation(TSkeleton* skeleton)
 }
 TTimeLine* TSkeletonAnimation::CreateAnimation(std::string name)
 {
-	animations.push_back(std::make_unique<TTimeLine>(name));
+	animations.push_back(std::unique_ptr<TTimeLine>(new TTimeLine(name)));
 	return animations.back().get();
 }
 void TSkeletonAnimation::DestroyAnimation(TTimeLine* animation)

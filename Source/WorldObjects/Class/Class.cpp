@@ -2,7 +2,7 @@
 
 #include <World/IWorld.h>
 
-#include "ClassEditor\classEditor.h"
+#include "ClassEditor/classEditor.h"
 
 TBaluClass::TBaluClass(std::string name, TBaluWorld* world)
 	:TBaluWorldObject(world, name)
@@ -85,8 +85,8 @@ TAABB2 TBaluClass::GetAABB()
 
 void TBaluClass::Initialize()
 {
-	skeleton = std::make_unique<TSkeleton>();
-	skeleton_animation = std::make_unique<TSkeletonAnimation>(skeleton.get());
+	skeleton = std::unique_ptr<TSkeleton>(new TSkeleton);
+	skeleton_animation = std::unique_ptr<TSkeletonAnimation>(new TSkeletonAnimation(skeleton.get()));
 }
 
 TBaluClass::~TBaluClass()
@@ -111,7 +111,7 @@ TSkeleton* TBaluClass::GetSkeleton()
 
 TBaluTransformedSprite* TBaluClass::AddSprite(TBaluSprite* sprite)
 {
-	sprites.push_back(std::make_unique<TBaluTransformedSprite>(sprite));
+	sprites.push_back(std::unique_ptr<TBaluTransformedSprite>(new TBaluTransformedSprite(sprite)));
 	return sprites.back().get();
 }
 

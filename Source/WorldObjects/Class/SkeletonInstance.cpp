@@ -12,7 +12,7 @@ TBoneInstance::TBoneInstance(TBoneInstance* parent, TBone* source)
 
 	for (int i = 0; i < source->GetChildrenCount(); i++)
 	{
-		children.push_back(std::make_unique<TBoneInstance>(this, source->GetChild(i)));
+		children.push_back(std::unique_ptr<TBoneInstance>(new TBoneInstance(this, source->GetChild(i))));
 	}
 
 }
@@ -39,8 +39,9 @@ TBone* TBoneInstance::GetSourceBone()
 
 TBaluTransform FromLocalToGlobal(TBaluTransform global, TBaluTransform local)
 {
-	TMatrix2 global_orient(*(TVec2*)&global.angle.GetXAxis(), *(TVec2*)&global.angle.GetYAxis());
-	//TMatrix2 local_orient(*(TVec2*)&local.angle.GetXAxis(), *(TVec2*)&local.angle.GetYAxis());
+	auto x_axis = global.angle.GetXAxis();
+	auto y_axis = global.angle.GetYAxis();
+	TMatrix2 global_orient(*(TVec2*)&x_axis, *(TVec2*)&y_axis);
 
 	TVec2 result_pos = global_orient*local.position;
 
@@ -50,8 +51,9 @@ TBaluTransform FromLocalToGlobal(TBaluTransform global, TBaluTransform local)
 void TBoneInstance::UpdateTranform(TBaluTransform parent_transform)
 {
 	auto local = source->GetTransform();
-
-	TMatrix2 global_orient(*(TVec2*)&parent_transform.angle.GetXAxis(), *(TVec2*)&parent_transform.angle.GetYAxis());
+	auto x_axis = parent_transform.angle.GetXAxis();
+	auto y_axis = parent_transform.angle.GetYAxis();
+	TMatrix2 global_orient(*(TVec2*)&x_axis, *(TVec2*)&y_axis);
 	//global_orient.Transpose();
 
 	global.position = parent_transform.position + global_orient*local.position;
@@ -76,7 +78,7 @@ TSkinInstance::TSkinInstance(TSkin* source, TResources* resources, TSceneObjectI
 		auto& source_sprite_of_bones = source->GetSpritesOfBone(i);
 		for (int k = 0; k < source_sprite_of_bones.size(); k++)
 		{
-			sprites_of_bones[i].push_back(std::make_unique<TBaluTransformedSpriteInstance>(&source_sprite_of_bones[k], resources, scene_object));
+			sprites_of_bones[i].push_back(std::unique_ptr<TBaluTransformedSpriteInstance>(new TBaluTransformedSpriteInstance(&source_sprite_of_bones[k], resources, scene_object)));
 		}
 	}
 }
@@ -122,7 +124,7 @@ TSkeletonInstance::TSkeletonInstance(TSkeleton* source, TResources* resources, T
 	if (source->GetRoot() == nullptr)
 		return;
 
-	root = std::make_unique<TBoneInstance>(nullptr, source->GetRoot());
+	root = std::unique_ptr<TBoneInstance>(new TBoneInstance(nullptr, source->GetRoot()));
 
 	auto all_source_bones = source->GetAllBones();
 	
@@ -154,7 +156,7 @@ TSkeletonInstance::TSkeletonInstance(TSkeleton* source, TResources* resources, T
 
 	for (int i = 0; i < source->GetSkinsCount(); i++)
 	{
-		skins.push_back(std::make_unique<TSkinInstance>(source->GetSkin(i), resources,scene_object));
+		skins.push_back(std::unique_ptr<TSkinInstance>(new TSkinInstance(source->GetSkin(i), resources,scene_object)));
 	}
 }
 

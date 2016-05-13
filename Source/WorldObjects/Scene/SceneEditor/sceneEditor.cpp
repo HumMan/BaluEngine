@@ -9,7 +9,7 @@ TSceneEditor::TSceneEditor(TDrawingHelperContext drawing_context, IBaluWorld* wo
 	auto scene_instance = world_instance->RunScene(edited_scene);
 	world_instance->GetComposer()->AddToRender(scene_instance, drawing_context.viewport);
 
-	drawing_helper = std::make_unique<TDrawingHelper>(drawing_context);
+	drawing_helper = std::unique_ptr<TDrawingHelper>(new TDrawingHelper(drawing_context));
 	scene.Initialize(world, edited_scene, scene_instance, drawing_helper.get(), this);
 
 }
