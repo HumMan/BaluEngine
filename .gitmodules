@@ -1,0 +1,21 @@
+[submodule "submodules/BaluScript"]
+	path = submodules/BaluScript
+	url = https://github.com/HumMan/BaluScript.git
+[submodule "submodules/BaluRender"]
+	path = submodules/BaluRender
+	url = https://github.com/HumMan/BaluRender.git
+[submodule "submodules/nanovg"]
+	path = submodules/nanovg
+	url = https://github.com/memononen/nanovg.git
+[submodule "submodules/Box2D"]
+	path = submodules/Box2D
+	url = https://github.com/erincatto/Box2D.git
+[submodule "submodules/boost-nowide"]
+	path = submodules/boost-nowide
+	url = https://github.com/halex2005/boost-nowide.git
+[submodule "submodules/poly2tri"]
+	path = submodules/poly2tri
+	url = https://github.com/jhasse/poly2tri.git
+[submodule "submodules/pugixml"]
+	path = submodules/pugixml
+	url = https://github.com/zeux/pugixml.git
