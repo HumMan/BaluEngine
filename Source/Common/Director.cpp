@@ -38,6 +38,15 @@ namespace EngineInterface
 		std::string assets_dir;
 
 		bool physics_sym;
+
+		HDC__ *hDC;
+		HGLRC__ *hRC;
+
+		TGameInternal()
+		{
+			mainwindow = nullptr;
+			world_instance = nullptr;
+		}
 	};
 
 	class TBaluEngineInternal
@@ -186,9 +195,37 @@ void TDirector::Initialize(void* handle)
 {
 	LOG(INFO) << "Initializing director\n";
 
+	auto hWnd = *(HWND*)&handle;
+	auto hDC = GetDC(hWnd);
+	PIXELFORMATDESCRIPTOR pfd;
+	ZeroMemory(&pfd, sizeof(pfd));
+	pfd.nSize = sizeof(pfd);
+	pfd.nVersion = 1;
+	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+	pfd.iPixelType = PFD_TYPE_RGBA;
+	pfd.cColorBits = 32;
+	pfd.cDepthBits = 24;
+	pfd.iLayerType = PFD_MAIN_PLANE;
+	auto pixel_format = ChoosePixelFormat(hDC, &pfd);
+	SetPixelFormat(hDC, pixel_format, &pfd);
+	auto hRC = wglCreateContext((HDC)hDC);
+
+	p->hDC = hDC;
+	p->hRC = hRC;
+
+	if (!wglMakeCurrent(hDC, hRC))
+		assert(false);
+	CheckGLError();
+	if (!wglMakeCurrent(hDC, hRC))
+		assert(false);
+	CheckGLError();
+
+	LOG(INFO) << " passed\n";
+
 	p->base_path = SDL_GetBasePath();
 	p->physics_sym = true;
 	p->internal_render.reset(new TBaluRender(TVec2i(512, 512)));
+	p->internal_render->Set.Viewport(TVec2i(100, 100));
 
 	p->render.reset(new TRender(p->internal_render.get()));
 
@@ -198,11 +235,15 @@ void TDirector::Initialize(void* handle)
 }
 void TDirector::BeginFrame()
 {
+	if (!wglMakeCurrent((HDC)p->hDC, (HGLRC)p->hRC))assert(false);
+	CheckGLError();
+
 	p->internal_render->Set.ClearColor(0.2, 0.3, 0.3);
 	p->internal_render->Clear(true, true);
 }
 void TDirector::EndFrame()
 {
+	SwapBuffers((HDC)p->hDC);
 }
 
 void TDirector::MainLoop()
