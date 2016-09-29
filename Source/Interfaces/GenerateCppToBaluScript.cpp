@@ -1,6 +1,6 @@
 #include <Scripts/ScriptClassesRegistry.h>
 
-
+using namespace::BaluLib;
 
 #include "CppToBaluScriptBinding.h"
 

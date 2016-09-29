@@ -101,7 +101,7 @@ void DeclareExternClass(TClassRegistryParams& params, TClassBinding* binding)
 	syntax->sem_base_class->AddClass(binding->compiled);
 	binding->compiled->Build();
 
-	binding->compiled->SetSize(IntSizeOf(binding->size) / sizeof(int));
+	binding->compiled->SetSize(LexerIntSizeOf(binding->size) / sizeof(int));
 	//binding->compiled->SetAutoMethodsInitialized();
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <baluScript.h>
+#include <baluLib.h>
 
 class Unpacker
 {
