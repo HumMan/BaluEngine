@@ -181,7 +181,7 @@ namespace Editor
 
 				auto editor_scene = p->active_editor->GetEditorSceneInstance();
 
-				//оповещаем редактор слоёв и смене сцены
+				//оповещаем редактор слоёв о смене сцены
 				if (type == TWorldObjectType::Scene)
 					director->Perform_Notify_LayersManager_SceneChange(this, editor_scene);
 				else
@@ -368,7 +368,7 @@ namespace Editor
 		p->main_viewport.SetAspectRatio(((float)p->screen.size[1]) / p->screen.size[0]);
 		p->main_viewport.SetWidth(20);
 
-		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
+		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources(), false);
 		p->director->SetWorldInstance(p->world_instance);
 
 		p->active_edited_object = obj;

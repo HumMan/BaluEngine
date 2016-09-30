@@ -53,7 +53,7 @@ void Run(std::string assets_dir)
 
 	main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
 
-	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources());
+	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources(),true);
 
 	auto demo_scene = dynamic_cast<IBaluScene*>(demo_world->GetObjectByName(TWorldObjectType::Scene, "scene0"));
 
@@ -74,5 +74,6 @@ void Run(std::string assets_dir)
 
 	DestroyWorldInstance(demo_world_instance);
 	DestroyWorld(demo_world);
+	delete screen;
 	IDirector::DestroyDirector(director);
 }

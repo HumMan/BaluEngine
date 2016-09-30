@@ -6,6 +6,7 @@
 #include "../Source/WorldObjects/Sprite/ISprite.h"
 #include "../Source/WorldObjects/Class/IClass.h"
 #include "../Source/WorldObjects/Scene/IScene.h"
+#include "../Source/Scripts/IEventsEditor.h"
 
 using namespace EngineInterface;
 
@@ -34,6 +35,7 @@ void TProperties::Load(const pugi::xml_node& instance_node, const int version, T
 
 void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 {
+	this->events_editor->SaveToXML(parent_node, version);
 	xml_node new_node = parent_node.append_child("World");
 	{
 		xml_node materials_node = new_node.append_child("Materials");
@@ -101,6 +103,8 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 
 void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int version)
 {
+	this->events_editor.reset(new TEventsEditor());
+	this->events_editor->LoadFromXML(document_node, version);
 	xml_node world_node = document_node.child("World");
 	{
 		xml_node materials_node = world_node.child("Materials");

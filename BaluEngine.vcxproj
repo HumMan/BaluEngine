@@ -185,6 +185,7 @@
     <ClInclude Include="Source\Common\SerializeCommon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Scripts\SerializeEventsEditor.cpp" />
     <ClCompile Include="submodules\nanovg\src\nanovg.c" />
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\advancing_front.cc" />

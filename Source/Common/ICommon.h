@@ -234,6 +234,7 @@ namespace EngineInterface
 	public:
 		static bool Register(const char* name, SceneObjectClone clone);
 		static TSceneObject* Create(const char* name);
+		static void UnregisterAll();
 	};
 
 	class TGui : public TSceneObject

@@ -58,11 +58,12 @@ namespace EngineInterface
 	void IDirector::DestroyDirector(IDirector* director)
 	{
 		delete dynamic_cast<TDirector*>(director);
+		SceneObjectFactory::UnregisterAll();
 	}
 
-	IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources)
+	IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources, bool call_scripts)
 	{
-		return new TBaluWorldInstance(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TResources*>(resources));
+		return new TBaluWorldInstance(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TResources*>(resources), call_scripts);
 	}
 
 	void DestroyWorldInstance(IBaluWorldInstance* world)
@@ -97,6 +98,11 @@ namespace EngineInterface
 	{
 		scene_object_registry.push_back(std::pair<const char*, SceneObjectClone>(name, clone));
 		return true;
+	}
+
+	void SceneObjectFactory::UnregisterAll()
+	{
+		scene_object_registry.clear();
 	}
 
 	TSceneObject* SceneObjectFactory::Create(const char* name)

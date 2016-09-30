@@ -88,6 +88,7 @@ namespace EngineInterface
 		virtual void AddOnCollide(IBaluTransformedSprite* sprite, IBaluClass* obstancle_class, TScript script) = 0;
 		virtual std::vector<TSpriteWithClassCollide>& GetOnCollide() = 0;
 		virtual void RemoveOnCollide(int index) = 0;
+
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
@@ -159,6 +160,9 @@ namespace EngineInterface
 		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& GetOnKeyDown();
 		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& GetOnKeyUp();
 		std::vector<std::tuple<TScript, IBaluClass*>>& GetOnBeforePhysicsStep();
+
+		void SaveToXML(pugi::xml_node& parent_node, const int version);
+		void LoadFromXML(const pugi::xml_node& document_node, const int version);
 	};
 #endif
 

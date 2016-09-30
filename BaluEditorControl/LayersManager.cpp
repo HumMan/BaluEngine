@@ -100,6 +100,7 @@ namespace Editor
 			if (scene_instance != nullptr)
 			{
 				p->source_scene = (IBaluScene*)p->scene_instance->GetSource()->GetLayers()->GetScene();
+				p->source_scene->GetLayers()->AddListener(p->layers_change_listener.get());
 			}
 		}
 		GUI_Notify_LayersManagerSceneChange(sender, scene_instance != nullptr);

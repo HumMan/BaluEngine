@@ -324,6 +324,7 @@
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\sweep.cc" />
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="submodules\nanovg\src\nanovg.c" />
+    <ClCompile Include="Source\Scripts\SerializeEventsEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
