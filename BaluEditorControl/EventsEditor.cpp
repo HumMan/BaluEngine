@@ -82,20 +82,21 @@ namespace Editor
 	}
 	bool TEventsEditor::CompileScripts(array<String^>^% errors_list)
 	{
-		//std::vector<std::string> errors;
-		//auto script_engine = EngineInterface::CreateScriptInstance(p->assets_dir);
-		//bool result = EngineInterface::CompileScripts(p->world, script_engine, errors);
-		//EngineInterface::DestroyScriptInstance(script_engine);
-		//array<String^>::Resize(errors_list, errors.size());
-		//int i = 0;
-		//for (auto& v : errors)
-		//{
-		//	errors_list[i] = gcnew String(v.c_str());
-		//	i++;
-		//}
-		//return result;
+		auto director = IDirector::CreateDirector(p->assets_dir);
+		bool compile_success;
+		std::string error_message;
+		auto world_instance = CreateWorldInstance(p->world, director->GetResources(), p->assets_dir, false, compile_success, error_message);
 
-		return true;
+		DestroyWorldInstance(world_instance);
+		IDirector::DestroyDirector(director, false);
+
+		if (!compile_success)
+		{
+			array<String^>::Resize(errors_list, 1);
+			errors_list[0] = gcnew String(error_message.c_str());
+		}
+	
+		return compile_success;
 	}
 	void TEventsEditor::Clear()
 	{

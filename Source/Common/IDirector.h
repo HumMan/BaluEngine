@@ -39,7 +39,7 @@ namespace EngineInterface
 		//
 
 		BALUENGINEDLL_API static IDirector* CreateDirector(std::string assets_dir);
-		BALUENGINEDLL_API static void DestroyDirector(IDirector* director);
+		BALUENGINEDLL_API static void DestroyDirector(IDirector* director, bool clear_static_data);
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS

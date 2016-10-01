@@ -69,7 +69,7 @@ namespace EngineInterface
 
 		TBaluWorld* GetSource();
 
-		TBaluWorldInstance(TBaluWorld* source, TResources* resources, bool call_scripts);
+		TBaluWorldInstance(TBaluWorld* source, TResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message);
 
 		TBaluSceneInstance* RunScene(TBaluScene* scene_source);
 		void StopScene(TBaluSceneInstance*);
@@ -106,7 +106,7 @@ namespace EngineInterface
 };
 #endif
 
-	BALUENGINEDLL_API IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources, bool call_scripts);
+	BALUENGINEDLL_API IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message);
 	BALUENGINEDLL_API void DestroyWorldInstance(IBaluWorldInstance* world);
 
 

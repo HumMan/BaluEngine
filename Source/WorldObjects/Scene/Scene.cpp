@@ -53,6 +53,7 @@ TSceneObject* TBaluScene::GetInstance(int index)
 TSceneObject* TBaluScene::CreateInstance(TBaluClass* balu_class)
 {
 	instances.push_back(std::unique_ptr<TBaluTransformedClass>(new TBaluTransformedClass(balu_class)));
+	TChangeListenerArray::OnElementAdded(TWorldObjectSubType::SceneClassInstance);
 	return instances.back().get();
 }
 

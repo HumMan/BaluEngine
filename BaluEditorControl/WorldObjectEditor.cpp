@@ -119,7 +119,7 @@ namespace Editor
 	void TWorldObjectEditor::Destroy()
 	{
 		OnEditedObjectChange(this, (int)TWorldObjectType::None, "");
-		IDirector::DestroyDirector(p->director);
+		IDirector::DestroyDirector(p->director, true);
 		p->director = nullptr;
 		p->world = nullptr;
 		director = nullptr;
@@ -283,15 +283,6 @@ namespace Editor
 		auto& tools = p->active_editor->GetAvailableTools();
 		return Converters::ToClrString(tools[tool_index].tool->GetAvailableStates()[tool_state_index]);
 	}
-	//void TWorldObjectEditor::CreateEditorScene(TLayersManager* scene_layers)
-	//{
-	//	p->main_viewport.SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
-	//	p->main_viewport.SetAspectRatio(((float)p->screen.size[1]) / p->screen.size[0]);
-	//	p->main_viewport.SetWidth(20);
-
-	//	p->world_instance = CreateWorldInstance(p->world, p->director->GetResources());
-	//	p->director->SetWorldInstance(p->world_instance);
-	//}
 
 	bool TWorldObjectEditor::NeedLayers()
 	{
@@ -308,8 +299,10 @@ namespace Editor
 				p->viewport_drag_last_mouse_pos = Convert(e).location;
 				p->viewport_drag_last_pos = p->main_viewport.GetTransform().position;
 			}
-
-			//p->world_instance->MouseDown(Convert(e));
+			else if(e->Button == MouseButtons::Left)
+			{
+				p->active_editor->GetActiveTool()->OnMouseDown(Convert(e));
+			}
 		}
 	}
 
@@ -336,7 +329,10 @@ namespace Editor
 				t.position = p->viewport_drag_last_pos - (new_scene_coord - old_scene_coord);
 				p->main_viewport.SetTransform(t);
 			}
-			 //p->world_instance->MouseMove(Convert(e));
+			else
+			{
+				p->active_editor->GetActiveTool()->OnMouseMove(Convert(e));
+			}
 		}
 	}
 
@@ -348,7 +344,10 @@ namespace Editor
 			{
 				p->viewport_drag_active = false;
 			}
-			//p->world_instance->MouseUp(Convert(e));
+			else if (e->Button == MouseButtons::Left)
+			{
+				p->active_editor->GetActiveTool()->OnMouseUp(Convert(e));
+			}
 		}
 	}
 
@@ -356,7 +355,6 @@ namespace Editor
 	{
 		if (p->world_instance != nullptr)
 		{
-			//p->world_instance->MouseVerticalWheel(e->Delta);
 			p->main_viewport.SetWidth(p->main_viewport.GetSize()[0] * (e->Delta>0 ? 1.1 : 0.9));
 		}
 	}
@@ -367,8 +365,10 @@ namespace Editor
 		p->main_viewport.SetTransform(TBaluTransform(TVec2(0, 0), TRot(0)));
 		p->main_viewport.SetAspectRatio(((float)p->screen.size[1]) / p->screen.size[0]);
 		p->main_viewport.SetWidth(20);
-
-		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources(), false);
+		
+		bool compile_success;
+		std::string error_message;
+		p->world_instance = CreateWorldInstance(p->world, p->director->GetResources(), p->director->GetAssetsDir(), false, compile_success, error_message);
 		p->director->SetWorldInstance(p->world_instance);
 
 		p->active_edited_object = obj;

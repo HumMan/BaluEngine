@@ -48,7 +48,9 @@ void Run(std::string assets_dir, std::string file_to_run)
 
 	world->LoadFromXML(file_to_run.c_str());
 
-	auto world_instance = CreateWorldInstance(world, director->GetResources(), true);
+	bool compile_success;
+	std::string error_message;
+	auto world_instance = CreateWorldInstance(world, director->GetResources(),assets_dir, true, compile_success, error_message);
 
 	director->SetWorldInstance(world_instance);
 
@@ -56,5 +58,5 @@ void Run(std::string assets_dir, std::string file_to_run)
 
 	DestroyWorldInstance(world_instance);
 	DestroyWorld(world);
-	IDirector::DestroyDirector(director);
+	IDirector::DestroyDirector(director, true);
 }

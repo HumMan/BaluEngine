@@ -124,7 +124,7 @@ void TEventsEditorInstance::RemoveMouseEventListener(TMouseEventListener* listen
 }
 
 
-bool TEventsEditorInstance::CompileScripts()
+bool TEventsEditorInstance::CompileScripts(std::string& error_message)
 {
 	try
 	{
@@ -162,6 +162,7 @@ bool TEventsEditorInstance::CompileScripts()
 	}
 	catch (std::string ex)
 	{
+		error_message = ex;
 		return false;
 	}
 	return true;

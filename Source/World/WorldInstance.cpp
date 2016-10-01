@@ -22,20 +22,18 @@ namespace EngineInterface
 		return source;
 	}
 
-	TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources, bool call_scripts)
+	TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
 	{
 		this->source = source;
 		this->resources = resources;
 
-		if (call_scripts)
+		this->events_editor.reset(new TEventsEditorInstance(dynamic_cast<TEventsEditor*>(source->GetEventsEditor()), assets_dir));
+
+		std::vector<std::string> errors_list;
+		compile_success = this->events_editor->CompileScripts(error_message);
+
+		if (call_scripts && compile_success)
 		{
-
-			this->events_editor.reset(new TEventsEditorInstance(dynamic_cast<TEventsEditor*>(source->GetEventsEditor()), resources->GetAssetsDir()));
-
-			std::vector<std::string> errors_list;
-			this->events_editor->CompileScripts();
-
-
 			this->events_editor->WorldStart(this, &composer);
 		}
 	}

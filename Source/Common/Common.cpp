@@ -61,19 +61,23 @@ namespace EngineInterface
 		return new TDirector(assets_dir);
 	}
 
-	void IDirector::DestroyDirector(IDirector* director)
+	void IDirector::DestroyDirector(IDirector* director, bool clear_static_data)
 	{
 		delete dynamic_cast<TDirector*>(director);
-		SceneObjectFactory::UnregisterAll();
-		SceneObjectInstanceFactory::UnregisterAll();
-		PropertiesFactory::UnregisterAll();
-		AnimDescFactory::UnregisterAll();
-		PhysShapeFactory::UnregisterAll();
+		//очистка статичных данных должна выполняться только при завершении работы
+		if (clear_static_data)
+		{
+			SceneObjectFactory::UnregisterAll();
+			SceneObjectInstanceFactory::UnregisterAll();
+			PropertiesFactory::UnregisterAll();
+			AnimDescFactory::UnregisterAll();
+			PhysShapeFactory::UnregisterAll();
+		}
 	}
 
-	IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources, bool call_scripts)
+	IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
 	{
-		return new TBaluWorldInstance(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TResources*>(resources), call_scripts);
+		return new TBaluWorldInstance(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TResources*>(resources), assets_dir, call_scripts, compile_success, error_message);
 	}
 
 	void DestroyWorldInstance(IBaluWorldInstance* world)

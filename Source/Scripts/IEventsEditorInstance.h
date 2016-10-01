@@ -119,7 +119,7 @@ namespace EngineInterface
 
 		void WorldStart(IBaluWorldInstance* world_instance, IComposer* composer);
 
-		bool CompileScripts();
+		bool CompileScripts(std::string& error_message);
 		bool CheckScriptErrors(std::vector<std::string>& errors_list);
 
 		//scene
