@@ -5,9 +5,9 @@ project(BaluEngine)
 file(GLOB_RECURSE ${PROJECT_NAME}_SRC
     "Source/*.h"
     "Source/*.cpp"
-	"pugixml/src/*.cpp"
-	"poly2tri/poly2tri/**/*.cpp"
-	"nanovg/src/*.cpp"
+	"submodules/pugixml/src/*.cpp"
+	"submodules/poly2tri/poly2tri/**/*.cpp"
+	"submodules/nanovg/src/*.cpp"
 )
 
 if(UNIX)
@@ -16,31 +16,31 @@ endif()
 
 include_directories("Include")
 include_directories("Source")
-include_directories("easyloggingpp/src")
-include_directories("nanovg/src")
-include_directories("poly2tri/poly2tri")
-include_directories("pugixml/src")
+include_directories("submodules/BaluRender/easyloggingpp/src")
+include_directories("submodules/nanovg/src")
+include_directories("submodules/poly2tri/poly2tri")
+include_directories("submodules/pugixml/src")
 
 add_definitions(-DBALUENGINEDLL_EXPORTS -DBALUENGINE_DESIGN_TIME -DNANOVG_GLEW)
 
 if (NOT TARGET BaluLib)
-add_subdirectory(BaluLib)
+add_subdirectory(submodules/BaluRender/BaluLib)
 include_directories(${BaluLib_SOURCE_DIR}/Include)
 endif()
 
 if (NOT TARGET BaluRender)
-add_subdirectory(BaluRender)
+add_subdirectory(submodules/BaluRender)
 include_directories(${BaluRender_SOURCE_DIR}/Include)
 endif()
 if (NOT TARGET BaluScript)
-add_subdirectory(BaluScript)
+add_subdirectory(submodules/BaluScript)
 include_directories(${BaluScript_SOURCE_DIR}/Include)
 endif()
 
-add_subdirectory("Box2D/Box2D/Box2D")
+add_subdirectory("submodules/Box2D/Box2D/Box2D")
 
-include_directories("Box2D/Box2D")
-include_directories("Box2D/Box2D/Box2D")
+include_directories("submodules/Box2D/Box2D")
+include_directories("submodules/Box2D/Box2D/Box2D")
 
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
