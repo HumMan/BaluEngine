@@ -2,20 +2,28 @@
 
 using namespace EngineInterface;
 
-std::vector < std::pair<const char*, PhysShapeClone>> phys_shape_registry;
+typedef  std::vector < std::pair<const char*, PhysShapeClone>> phys_shape_registry_type;
+phys_shape_registry_type *phys_shape_registry;
 
 bool PhysShapeFactory::Register(const char* name, PhysShapeClone clone)
 {
-	phys_shape_registry.push_back(std::pair<const char*, PhysShapeClone>(name, clone));
+	if (phys_shape_registry == nullptr)
+		phys_shape_registry = new phys_shape_registry_type();
+	phys_shape_registry->push_back(std::pair<const char*, PhysShapeClone>(name, clone));
 	return true;
 }
 
 TBaluPhysShape* PhysShapeFactory::Create(const char* name)
 {
-	for (int i = 0; i < phys_shape_registry.size(); i++)
-		if (strcmp(phys_shape_registry[i].first, name) == 0)
-			return phys_shape_registry[i].second();
+	for (int i = 0; i < phys_shape_registry->size(); i++)
+		if (strcmp((*phys_shape_registry)[i].first, name) == 0)
+			return (*phys_shape_registry)[i].second();
 	throw std::invalid_argument("Тип не зарегистрирован");
+}
+
+void PhysShapeFactory::UnregisterAll()
+{
+	delete phys_shape_registry;
 }
 
 b2PolygonShape* GetTransformedShape(TBaluTransformWithScale class_transform, TBaluTransformWithScale local, b2PolygonShape& b2shape)

@@ -60,6 +60,7 @@ namespace EngineInterface
 	public:
 		static bool Register(const char* name, PhysShapeClone clone);
 		static TBaluPhysShape* Create(const char* name);
+		static void UnregisterAll();
 	};
 #endif
 

@@ -50,6 +50,7 @@ namespace EngineInterface
 	public:
 		static bool Register(const char* name, AnimDescClone clone);
 		static TAnimDesc* Create(const char* name);
+		static void UnregisterAll();
 	};
 
 	class BALUENGINEDLL_API TSpecificFrame : public TAnimDesc

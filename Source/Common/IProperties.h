@@ -67,6 +67,7 @@ namespace EngineInterface
 	{
 	public:
 		static bool Register(const char* name, PropertyClone clone);
+		static void UnregisterAll();
 		static TProperty* Create(const char* name);
 	};
 

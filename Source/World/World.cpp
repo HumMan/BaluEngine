@@ -14,6 +14,9 @@ using namespace EngineInterface;
 
 #include <Scripts/IEventsEditor.h>
 
+typedef std::vector < std::pair<const char*, PropertyClone>> properties_registry_type;
+properties_registry_type *properties_registry;
+
 TBaluWorld::TBaluWorld()
 {
 	ilInit();
@@ -162,19 +165,24 @@ void TBaluWorld::LoadFromXML(const std::string& path)
 	LoadFromXML(doc.child("BaluEditorWorldFile"), 1);
 }
 
-std::vector < std::pair<const char*, PropertyClone>> properties_registry;
-
 bool PropertiesFactory::Register(const char* name, PropertyClone clone)
 {
-	properties_registry.push_back(std::pair<const char*, PropertyClone>(name, clone));
+	if (properties_registry == nullptr)
+		properties_registry = new properties_registry_type();
+	properties_registry->push_back(std::pair<const char*, PropertyClone>(name, clone));
 	return true;
+}
+
+void PropertiesFactory::UnregisterAll()
+{
+	delete properties_registry;
 }
 
 TProperty* PropertiesFactory::Create(const char* name)
 {
-	for (int i = 0; i < properties_registry.size(); i++)
-		if (strcmp(properties_registry[i].first, name) == 0)
-			return properties_registry[i].second();
+	for (int i = 0; i < properties_registry->size(); i++)
+		if (strcmp((*properties_registry)[i].first, name) == 0)
+			return (*properties_registry)[i].second();
 	throw std::invalid_argument("Тип не зарегистрирован");
 }
 

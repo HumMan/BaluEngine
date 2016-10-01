@@ -8,6 +8,12 @@
 
 using namespace EngineInterface;
 
+typedef std::vector < std::pair<const char*, SceneObjectClone>> scene_object_registry_type;
+scene_object_registry_type *scene_object_registry = nullptr;
+
+typedef std::vector < std::pair<const char*, SceneObjectInstanceClone>> scene_object_instance_registry_type;
+scene_object_instance_registry_type *scene_object_instance_registry = nullptr;
+
 void TBaluWorldObject::SetName(const std::string& name)
 {
 	assert(!world->ObjectNameExists(TWorldObjectType::Material, name.c_str()));
@@ -59,6 +65,10 @@ namespace EngineInterface
 	{
 		delete dynamic_cast<TDirector*>(director);
 		SceneObjectFactory::UnregisterAll();
+		SceneObjectInstanceFactory::UnregisterAll();
+		PropertiesFactory::UnregisterAll();
+		AnimDescFactory::UnregisterAll();
+		PhysShapeFactory::UnregisterAll();
 	}
 
 	IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources, bool call_scripts)
@@ -92,40 +102,45 @@ namespace EngineInterface
 		return screen_pixels;
 	}
 
-	std::vector < std::pair<const char*, SceneObjectClone>> scene_object_registry;
-
 	bool SceneObjectFactory::Register(const char* name, SceneObjectClone clone)
 	{
-		scene_object_registry.push_back(std::pair<const char*, SceneObjectClone>(name, clone));
+		if (scene_object_registry == nullptr)
+			scene_object_registry = new scene_object_registry_type();
+		scene_object_registry->push_back(std::pair<const char*, SceneObjectClone>(name, clone));
 		return true;
 	}
 
 	void SceneObjectFactory::UnregisterAll()
 	{
-		scene_object_registry.clear();
+		delete scene_object_registry;
 	}
 
 	TSceneObject* SceneObjectFactory::Create(const char* name)
 	{
-		for (int i = 0; i < scene_object_registry.size(); i++)
-			if (strcmp(scene_object_registry[i].first, name) == 0)
-				return scene_object_registry[i].second();
+		for (int i = 0; i < scene_object_registry->size(); i++)
+			if (strcmp((*scene_object_registry)[i].first, name) == 0)
+				return (*scene_object_registry)[i].second();
 		throw std::invalid_argument("Тип не зарегистрирован");
 	}
 
-	std::vector < std::pair<const char*, SceneObjectInstanceClone>> scene_object_instance_registry;
-
 	bool SceneObjectInstanceFactory::Register(const char* name, SceneObjectInstanceClone clone)
 	{
-		scene_object_instance_registry.push_back(std::pair<const char*, SceneObjectInstanceClone>(name, clone));
+		if (scene_object_instance_registry == nullptr)
+			scene_object_instance_registry = new scene_object_instance_registry_type();
+		scene_object_instance_registry->push_back(std::pair<const char*, SceneObjectInstanceClone>(name, clone));
 		return true;
+	}
+
+	void SceneObjectInstanceFactory::UnregisterAll()
+	{
+		delete scene_object_instance_registry;
 	}
 
 	TSceneObjectInstance* SceneObjectInstanceFactory::Create(const char* name, TSceneObject* param, TBaluSceneInstance* scene)
 	{
-		for (int i = 0; i < scene_object_instance_registry.size(); i++)
-			if (strcmp(scene_object_instance_registry[i].first, name) == 0)
-				return scene_object_instance_registry[i].second(param, scene);
+		for (int i = 0; i < scene_object_instance_registry->size(); i++)
+			if (strcmp((*scene_object_instance_registry)[i].first, name) == 0)
+				return (*scene_object_instance_registry)[i].second(param, scene);
 		throw std::invalid_argument("Тип не зарегистрирован");
 	}
 }

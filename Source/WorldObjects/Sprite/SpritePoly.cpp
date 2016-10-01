@@ -12,24 +12,29 @@
 
 using namespace EngineInterface;
 
-std::vector < std::pair<const char*, AnimDescClone>>& get_anim_descs_registry()
-{
-	static std::vector < std::pair<const char*, AnimDescClone>> anim_descs_registry;
-	return anim_descs_registry;
-}
+typedef std::vector < std::pair<const char*, AnimDescClone>> anim_descs_registry_type;
+
+anim_descs_registry_type *anim_descs_registry;
 
 bool AnimDescFactory::Register(const char* name, AnimDescClone clone)
 {
-	get_anim_descs_registry().push_back(std::pair<const char*, AnimDescClone>(name, clone));
+	if (anim_descs_registry == nullptr)
+		anim_descs_registry = new anim_descs_registry_type();
+	anim_descs_registry->push_back(std::pair<const char*, AnimDescClone>(name, clone));
 	return true;
 }
 
 TAnimDesc* AnimDescFactory::Create(const char* name)
 {
-	for (int i = 0; i < get_anim_descs_registry().size(); i++)
-		if (strcmp(get_anim_descs_registry()[i].first, name) == 0)
-			return get_anim_descs_registry()[i].second();
+	for (int i = 0; i < anim_descs_registry->size(); i++)
+		if (strcmp((*anim_descs_registry)[i].first, name) == 0)
+			return (*anim_descs_registry)[i].second();
 	throw std::invalid_argument("Тип не зарегистрирован");
+}
+
+void AnimDescFactory::UnregisterAll()
+{
+	delete anim_descs_registry;
 }
 
 TAABB2 TBaluSpritePolygon::GetVerticesBox()

@@ -39,6 +39,7 @@ namespace EngineInterface
 	{
 	public:
 		static bool Register(const char* name, SceneObjectInstanceClone clone);
+		static void UnregisterAll();
 		static TSceneObjectInstance* Create(const char* name, TSceneObject* param, TBaluSceneInstance* scene);
 	};
 #endif
