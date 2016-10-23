@@ -4,8 +4,8 @@
 #include <Interfaces/ExportMacro.h>
 
 #include <Common/ICommon.h>
-#include <World/IWorld.h>
-#include <World/IWorldInstance.h>
+#include <WorldDef/IWorld.h>
+#include <WorldInstance/IWorldInstance.h>
 
 #include <memory>
 #include <vector>

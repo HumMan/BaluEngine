@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 
-#include <World/IWorldInstance.h>
+#include <WorldInstance/IWorldInstance.h>
 
 #include <Render/Render.h>
 

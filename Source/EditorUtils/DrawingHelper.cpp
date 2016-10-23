@@ -2,7 +2,7 @@
 
 #include "nanovg.h"
 
-#include <WorldObjects/Scene/IScene.h>
+#include <WorldDef/Objects/Scene/IScene.h>
 
 #include <Utils/nanovg_support.h>
 

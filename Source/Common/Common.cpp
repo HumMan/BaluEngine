@@ -1,9 +1,9 @@
 #include "ICommon.h"
 
-#include <World/IWorld.h>
+#include <WorldDef/IWorld.h>
 
 #include <Common/IDirector.h>
-#include <World/IWorldInstance.h>
+#include <WorldInstance/IWorldInstance.h>
 
 
 using namespace EngineInterface;

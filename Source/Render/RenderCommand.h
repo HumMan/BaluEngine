@@ -3,8 +3,6 @@
 #include <baluLib.h>
 using namespace BaluLib;
 
-#include <Scripts/ICallbacks.h>
-
 namespace EngineInterface
 {
 	class IBaluSpritePolygonInstance;

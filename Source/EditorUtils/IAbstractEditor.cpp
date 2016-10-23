@@ -1,10 +1,10 @@
 
 #include "abstractEditor.h"
 
-#include <WorldObjects/Scene/SceneEditor/sceneEditor.h>
-#include <WorldObjects/Class/ClassEditor/classEditor.h>
-#include <WorldObjects/Sprite/SpriteEditor/spriteEditor.h>
-#include <WorldObjects/Material/MaterialEditor/materialEditor.h>
+#include <WorldInstance/Objects/Scene/SceneEditor/sceneEditor.h>
+#include <WorldInstance/Objects/Class/ClassEditor/classEditor.h>
+#include <WorldInstance/Objects/Sprite/SpriteEditor/spriteEditor.h>
+#include <WorldInstance/Objects/Material/MaterialEditor/materialEditor.h>
 
 #include <easylogging++.h>
 

@@ -4,7 +4,7 @@
 
 #include <Utils/nanovg_support.h>
 
-#include <WorldObjects/Material/IMaterialInstance.h>
+#include <WorldInstance/Objects/Material/IMaterialInstance.h>
 
 #include <nanovg.h>
 

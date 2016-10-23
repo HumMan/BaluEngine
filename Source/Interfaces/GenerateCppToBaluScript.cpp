@@ -17,5 +17,5 @@ namespace EngineInterface
 #include "EngineInterfacesIncludes.h"
 namespace EngineInterface
 {
-#include "../WorldObjects/BindingIncludes.h"
+#include <WorldInstance/BindingIncludes.h>
 }

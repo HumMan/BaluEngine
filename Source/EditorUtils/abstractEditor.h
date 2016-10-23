@@ -3,8 +3,8 @@
 #define _SCL_SECURE_NO_WARNINGS
 
 #include <Common/IProperties.h>
-#include <World/IWorldInstance.h>
-#include <Scripts/IEventsEditorInstance.h>
+#include <WorldInstance/IWorldInstance.h>
+#include <WorldInstance/Scripts/IEventsEditorInstance.h>
 
 #include <EditorUtils/IAbstractEditor.h>
 

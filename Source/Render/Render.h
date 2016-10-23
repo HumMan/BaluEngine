@@ -2,11 +2,11 @@
 
 #include "RenderCommand.h"
 
-#include <WorldObjects/Material/IMaterial.h>
-
 #include <Interfaces/ExportMacro.h>
 
 #include <vector>
+
+#include <Common/ICommon.h>
 
 namespace BaluRender
 {

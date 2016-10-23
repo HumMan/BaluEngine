@@ -288,7 +288,7 @@ namespace EngineInterface
 		virtual std::string GetName()=0;
 		virtual void SetName(const std::string& name) = 0;
 		virtual IBaluWorld* GetWorld()=0;
-		virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance) = 0;
+		//virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance) = 0;
 		virtual void Save(pugi::xml_node& parent_node, const int version)=0;
 		virtual void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world) = 0;
 		virtual ~IBaluWorldObject() {}
