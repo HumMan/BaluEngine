@@ -1,9 +1,9 @@
 #include "Converters.h"
 
 //#include <vcclr.h>
-#include <msclr\marshal_cppstd.h>
+#include <msclr/marshal_cppstd.h>
 
-#include <Interfaces\BaluEngineInterface.h>
+#include <Interfaces/BaluEngineInterface.h>
 
 namespace Converters
 {

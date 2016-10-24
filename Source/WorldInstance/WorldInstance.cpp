@@ -1,6 +1,6 @@
 #include "IWorldInstance.h"
 
-#include <Scripts/ScriptClassesRegistry.h>
+#include "Scripts/ScriptClassesRegistry.h"
 
 #include "../Source/Semantic/SMethod.h"
 #include "../Source/Semantic/SClass.h"

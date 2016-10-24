@@ -5,7 +5,7 @@
 
 #include "WorldDirector.h"
 
-#include "Source\PropertiesRegistry\propertiesRegistry.h"
+#include "Source/PropertiesRegistry/propertiesRegistry.h"
 
 class TCallbackManagedBridge;
 

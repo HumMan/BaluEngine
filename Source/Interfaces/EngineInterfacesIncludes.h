@@ -10,6 +10,6 @@
 #include "../WorldInstance/IWorldInstance.h"
 #include "../Common/IDirector.h"
 
-#include "../Source/EditorUtils/IAbstractEditor.h"
+#include "../Source/Editor/IAbstractEditor.h"
 
 #include <WorldInstance/Scripts/IEventsEditorInstance.h>

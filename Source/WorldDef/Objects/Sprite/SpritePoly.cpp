@@ -179,17 +179,6 @@ TAnimationFrames::TAnimationFrames(TAnimDesc* desc, int frame)
 	this->frames = std::vector < int > {frame};
 }
 
-//void TBaluSpritePolygon::AddOnCustomDraw(TSpecialCallback<TCustomDrawCallback> callback)
-//{
-//	is_custom_draw = true;
-//	custom_draw_callbacks.push_back(callback);
-//}
-//
-//void TBaluSpritePolygon::RemoveOnCustomDraw(int index)
-//{
-//	custom_draw_callbacks.erase(custom_draw_callbacks.begin() + index);
-//}
-
 TBaluSpritePolygon::TBaluSpritePolygon()
 {
 	layer = 0;

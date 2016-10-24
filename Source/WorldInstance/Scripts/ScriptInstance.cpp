@@ -5,7 +5,7 @@
 #include "../Objects/Class/IClassInstance.h"
 #include <WorldDef/IWorld.h>
 
-#include <Scripts/ScriptClassesRegistry.h>
+#include "ScriptClassesRegistry.h"
 
 #include <iostream>
 #include <fstream>

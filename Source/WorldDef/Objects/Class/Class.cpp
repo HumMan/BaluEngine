@@ -134,10 +134,3 @@ TBaluTransformedSprite* TBaluClass::GetSprite(int index)
 {
 	return sprites[index].get();
 }
-
-
-//IAbstractEditor* TBaluClass::CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance)
-//{
-//	auto result = new TClassEditor(drawing_context, world, this, world_instance);
-//	return result;
-//}

@@ -331,7 +331,12 @@ namespace Editor
 			}
 			else
 			{
-				p->active_editor->GetActiveTool()->OnMouseMove(Convert(e));
+				if (p->active_editor != nullptr)
+				{
+					auto active_tool = p->active_editor->GetActiveTool();
+					if (active_tool!=nullptr)
+						active_tool->OnMouseMove(Convert(e));
+				}
 			}
 		}
 	}
@@ -372,7 +377,8 @@ namespace Editor
 		p->director->SetWorldInstance(p->world_instance);
 
 		p->active_edited_object = obj;
-		return obj->CreateEditor(p->drawing_context, p->world_instance);
+
+		return CreateEditor(obj, p->drawing_context, p->world_instance);
 	}
 
 	void TWorldObjectEditor::DestroyEditorOfWorldObject(IBaluWorldObject* obj)

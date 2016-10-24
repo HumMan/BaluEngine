@@ -8,7 +8,7 @@
 
 #include <nanovg.h>
 
-#include <EditorUtils/DrawingHelper.h>
+#include <Editor/DrawingHelper.h>
 
 #include <algorithm>
 

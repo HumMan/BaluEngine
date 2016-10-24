@@ -72,9 +72,3 @@ void TBaluScene::DestroyInstance(TSceneObject* instance)
 		throw std::invalid_argument("Объект не находится на данной сцене");
 	}
 }
-
-//IAbstractEditor* TBaluScene::CreateEditor(TDrawingHelperContext drawing_context, IBaluWorldInstance* world_instance)
-//{
-//	auto result = new TSceneEditor(drawing_context, world, this, world_instance);
-//	return result;
-//}
