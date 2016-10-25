@@ -47,8 +47,6 @@ namespace EngineInterface
 	class IBaluTransformedSpriteInstance
 	{
 	public:
-		//virtual void SetTransform(TBaluTransform local)=0;
-		//virtual TBaluTransform GetTransform() = 0;
 		virtual IBaluTransformedSprite* GetSource()=0;
 		virtual IBaluPhysShapeInstance* GetPhysShape() = 0;
 		virtual TVec2 GetScale() = 0;
