@@ -4,8 +4,6 @@
 
 using namespace pugi;
 using namespace EngineInterface;
-//needed for polygon from image contruction
-#include <IL/ilut.h>
 
 #include "Objects/Material/IMaterial.h"
 #include "Objects/Sprite/ISprite.h"
@@ -19,13 +17,11 @@ properties_registry_type *properties_registry;
 
 TBaluWorld::TBaluWorld()
 {
-	ilInit();
 	events_editor.reset(new TEventsEditor());
 }
 
 TBaluWorld::~TBaluWorld()
 {
-	ilShutDown();
 }
 
 template<class T, class find_array>

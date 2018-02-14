@@ -2,14 +2,6 @@
 
 #include "Scripts/ScriptClassesRegistry.h"
 
-#include "../Source/Semantic/SMethod.h"
-#include "../Source/Semantic/SClass.h"
-#include "../Source/Semantic/FormalParam.h"
-#include "../Source/Semantic/SStatements.h"
-#include "../Source/Syntax/Statements.h"
-#include "../Source/Syntax/Method.h"
-#include "../Source/semanticAnalyzer.h"
-
 #include <Common/IDirector.h>
 
 #include "Scripts/IEventsEditorInstance.h"
@@ -98,5 +90,9 @@ namespace EngineInterface
 
 	TBaluWorldInstance::~TBaluWorldInstance()
 	{
+	}
+	IEventsEditorInstance* TBaluWorldInstance::GetEventsEditor()
+	{
+		return dynamic_cast<IEventsEditorInstance*>(events_editor.get());
 	}
 }

@@ -5,47 +5,47 @@
 using namespace pugi;
 using namespace EngineInterface;
 
-void TEventsEditor::AddOnMouseDown(TScript callback)
+void TEventsEditor::AddOnMouseDownGlobal(TScript callback)
 {
-	mouse_down_callbacks.push_back(callback);
+	global_mouse_down_callbacks.push_back(callback);
 }
 
-void TEventsEditor::AddOnMouseUp(TScript callback)
+void TEventsEditor::AddOnMouseUpGlobal(TScript callback)
 {
-	mouse_up_callbacks.push_back(callback);
+	global_mouse_up_callbacks.push_back(callback);
 }
 
-void TEventsEditor::AddOnMouseMove(TScript callback)
+void TEventsEditor::AddOnMouseMoveGlobal(TScript callback)
 {
-	mouse_move_callbacks.push_back(callback);
+	global_mouse_move_callbacks.push_back(callback);
 }
 
-std::vector<TScript>& TEventsEditor::GetOnMouseDown()
+std::vector<TScript>& TEventsEditor::GetOnMouseDownGlobal()
 {
-	return mouse_down_callbacks;
+	return global_mouse_down_callbacks;
 }
-std::vector<TScript>& TEventsEditor::GetOnMouseUp()
+std::vector<TScript>& TEventsEditor::GetOnMouseUpGlobal()
 {
-	return mouse_up_callbacks;
+	return global_mouse_up_callbacks;
 }
-std::vector<TScript>& TEventsEditor::GetOnMouseMove()
+std::vector<TScript>& TEventsEditor::GetOnMouseMoveGlobal()
 {
-	return mouse_move_callbacks;
-}
-
-void TEventsEditor::RemoveOnMouseDown(int index)
-{
-	mouse_down_callbacks.erase(mouse_down_callbacks.begin() + index);
+	return global_mouse_move_callbacks;
 }
 
-void TEventsEditor::RemoveOnMouseUp(int index)
+void TEventsEditor::RemoveOnMouseDownGlobal(int index)
 {
-	mouse_up_callbacks.erase(mouse_up_callbacks.begin() + index);
+	global_mouse_down_callbacks.erase(global_mouse_down_callbacks.begin() + index);
 }
 
-void TEventsEditor::RemoveOnMouseMove(int index)
+void TEventsEditor::RemoveOnMouseUpGlobal(int index)
 {
-	mouse_move_callbacks.erase(mouse_move_callbacks.begin() + index);
+	global_mouse_up_callbacks.erase(global_mouse_up_callbacks.begin() + index);
+}
+
+void TEventsEditor::RemoveOnMouseMoveGlobal(int index)
+{
+	global_mouse_move_callbacks.erase(global_mouse_move_callbacks.begin() + index);
 }
 
 

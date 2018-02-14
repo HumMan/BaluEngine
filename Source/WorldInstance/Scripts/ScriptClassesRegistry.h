@@ -14,7 +14,7 @@ public:
 		func_name = nullptr;
 		is_constructor = false;
 	}
-	virtual TExternalSMethod GetUnpackMethod() = 0;
+	//virtual TExternalSMethod GetUnpackMethod() = 0;
 	virtual std::string GetSyntax() = 0;
 	const char* GetFuncName()
 	{
@@ -63,7 +63,7 @@ class TClassRegistryParams
 public:
 	TSyntaxAnalyzer* syntax;
 	std::vector<TStaticValue> *static_objects;
-	std::vector < std::unique_ptr<TSMethod>> *smethods;
+	//std::vector < std::unique_ptr<TSMethod>> *smethods;
 };
 
 typedef void(*RegisterScriptClass)(TClassRegistryParams& params);

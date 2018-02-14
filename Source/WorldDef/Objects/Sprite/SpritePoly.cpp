@@ -4,8 +4,6 @@
 
 #include "Utils/texture_polygon.h"
 
-#include <IL/ilut.h>
-
 #include "../../poly2tri/poly2tri/poly2tri.h"
 
 #include <string.h>
@@ -212,43 +210,44 @@ void TBaluSpritePolygon::SetScale(TVec2 scale)
 
 void TBaluSpritePolygon::SetPolygonFromTexture(std::string assets_dir)
 {
-	if (material != nullptr)
-	{
-		ILuint handle;
-		ilGenImages(1, &handle);
-		ilBindImage(handle);
-		if (ilLoadImage((assets_dir+"//"+material->GetImagePath()).c_str()))
-		{
-			auto w = ilGetInteger(IL_IMAGE_WIDTH);
-			auto h = ilGetInteger(IL_IMAGE_HEIGHT);
-			int memory_needed = w * h * sizeof(unsigned int);
-			ILuint * data = new ILuint[memory_needed];
-			ilCopyPixels(0, 0, 0, w, h, 1, IL_ALPHA, IL_UNSIGNED_INT, data);
+	//TODO
+	//if (material != nullptr)
+	//{
+	//	ILuint handle;
+	//	ilGenImages(1, &handle);
+	//	ilBindImage(handle);
+	//	if (ilLoadImage((assets_dir+"//"+material->GetImagePath()).c_str()))
+	//	{
+	//		auto w = ilGetInteger(IL_IMAGE_WIDTH);
+	//		auto h = ilGetInteger(IL_IMAGE_HEIGHT);
+	//		int memory_needed = w * h * sizeof(unsigned int);
+	//		ILuint * data = new ILuint[memory_needed];
+	//		ilCopyPixels(0, 0, 0, w, h, 1, IL_ALPHA, IL_UNSIGNED_INT, data);
 
 
-			int temp = std::numeric_limits<unsigned int>().max() / 255;
-			for (int i = 0; i < w * h; i++)
-				data[i] = data[i] / temp;
+	//		int temp = std::numeric_limits<unsigned int>().max() / 255;
+	//		for (int i = 0; i < w * h; i++)
+	//			data[i] = data[i] / temp;
 
-			polygon_vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, w*h, w);
+	//		polygon_vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, w*h, w);
 
-			delete[] data;
+	//		delete[] data;
 
-			ilDeleteImage(handle);
+	//		ilDeleteImage(handle);
 
-			for (int i = 0; i < polygon_vertices.size(); i++)
-				polygon_vertices[i] = TVec2(polygon_vertices[i][0], h-polygon_vertices[i][1]) / TVec2(w, h) - TVec2(0.5, 0.5);
+	//		for (int i = 0; i < polygon_vertices.size(); i++)
+	//			polygon_vertices[i] = TVec2(polygon_vertices[i][0], h-polygon_vertices[i][1]) / TVec2(w, h) - TVec2(0.5, 0.5);
 
-			UpdatePolyVertices();
-		}
-		else
-		{
-			auto err = ilGetError();
-			auto err_string = iluErrorString(err);
-			ilDeleteImage(handle);
-		}
-	}
-	TriangulateGeometry();
+	//		UpdatePolyVertices();
+	//	}
+	//	else
+	//	{
+	//		auto err = ilGetError();
+	//		auto err_string = iluErrorString(err);
+	//		ilDeleteImage(handle);
+	//	}
+	//}
+	//TriangulateGeometry();
 }
 
 

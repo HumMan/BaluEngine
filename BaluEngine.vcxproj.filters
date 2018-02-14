@@ -250,9 +250,6 @@
     <ClInclude Include="Source\WorldInstance\Scripts\ScriptClassesRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Scripts\CppToBaluScriptBinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
@@ -323,7 +320,6 @@
     <ClCompile Include="Source\Editor\EditorGUI\EditableBox\OBBGuiInstance.cpp" />
     <ClCompile Include="Source\Editor\EditorGUI\PolygonLine\PolygonGuiInstance.cpp" />
     <ClCompile Include="Source\Editor\EditorGUI\SimpleSprite\SpriteGuiInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Scripts\ScriptClassesRegistry.cpp" />
     <ClCompile Include="Source\WorldInstance\Scripts\GenerateCppToBaluScript.cpp" />
   </ItemGroup>
   <ItemGroup>

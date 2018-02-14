@@ -46,6 +46,8 @@ namespace EngineInterface
 		//KeyUp KeyDown BeforePhysicsStep
 		void CallInstanceEvent(TScriptInstance& script_instance, IBaluTransformedClassInstance* obj);
 		void CallMouseEvent(TScriptInstance &callback, TMouseEventArgs* e);
+		void CallKeyUpEvent(TScriptInstance &callback, TKey key);
+		void CallKeyDownEvent(TScriptInstance &callback, TKey key);
 		void CallCollide(TScriptInstance &callback, IBaluTransformedClassInstance* object, IBaluTransformedSpriteInstance* obj_a, IBaluTransformedClassInstance* obj_b);
 
 		//std::string GetEventSignature(EngineInterface::TEventType event_type);

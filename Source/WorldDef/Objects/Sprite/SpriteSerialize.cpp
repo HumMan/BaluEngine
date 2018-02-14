@@ -194,15 +194,14 @@ void TBaluCircleShape::Load(const pugi::xml_node& node, const int version, TBalu
 	b2shape.m_radius = radius;
 }
 
-
 void TBaluPolygonShape::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("PolygoneShape");
 	{
 		xml_node polygons_node = new_node.append_child("polygon_vertex");
-		for (int i = 0; i < b2shape.GetVertexCount(); i++)
+		for (int i = 0; i < b2shape.m_count; i++)
 		{
-			SaveCoord(polygons_node, "vertex", *(TVec2*)(&b2shape.GetVertex(i)));
+			SaveCoord(polygons_node, "vertex", *(TVec2*)(&b2shape.m_vertices[i]));
 		}
 		SaveTransformWithScale(new_node, "Transform", local);
 	}

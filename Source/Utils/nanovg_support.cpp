@@ -4,9 +4,9 @@
 
 #include <stdio.h>
 #ifdef NANOVG_GLEW
-#  include <GL/glew.h>
+#include <GL/glew.h>
 #endif
-//#include <GLFW/glfw3.h>
+
 #include "nanovg.h"
 #define NANOVG_GL2_IMPLEMENTATION
 #include "nanovg_gl.h"
@@ -15,31 +15,35 @@ NVGcontext* vg = NULL;
 
 void nanovg_init()
 {
-	if (GLEW_VERSION_2_0)
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
 	{
-
-		vg = nvgCreateGL2(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
-
+		/* Problem: glewInit failed, something is seriously wrong. */
+		printf("Could not init glew in nanovg_init.\n");
+	}
+	else
+	{
+		if (GLEW_VERSION_2_0)
+		{
+			vg = nvgCreateGL2(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
+		}
 		if (vg == NULL) {
 			printf("Could not init nanovg.\n");
-			throw;
-			return;
 		}
-
-		//nvgDeleteGL2(vg);
-
-		int r = nvgCreateFont(vg, "icons", "assets/fonts/entypo.ttf");
-
-		r = nvgCreateFont(vg, "sans", "assets/fonts/Roboto-Regular.ttf");
-
-		//r = nvgCreateFont(vg, "sans-bold", "../fonts/Roboto-Bold.ttf");
+		else
+		{
+			int r = nvgCreateFont(vg, "icons", "assets/fonts/entypo.ttf");
+			r = nvgCreateFont(vg, "sans", "assets/fonts/Roboto-Regular.ttf");
+		}
 	}
 }
 
 void nanovg_deinit()
 {
-	if (vg!=nullptr)
+	if (vg != nullptr)
+	{
 		nvgDeleteGL2(vg);
+	}
 }
 
 NVGcontext* GetNanoVGContext()

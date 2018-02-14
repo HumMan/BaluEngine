@@ -258,7 +258,7 @@ std::vector<Vertices> TextureConverter::DetectVertices()
 		if (detectedPolygons.size() == 0)
 		{
 			// First pass / single polygon
-			polygon = Vertices(CreateSimplePolygon(TVec2(0), TVec2(0)));
+			polygon = Vertices(CreateSimplePolygon(TVec2(0.0f), TVec2(0.0f)));
 
 			if (polygon.size() > 2)
 				polygonEntrance = GetTopMostVertex(polygon);

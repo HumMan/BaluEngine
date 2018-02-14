@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -13,18 +13,19 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FF7F8607-DB68-49AD-91C8-DC817C303D85}</ProjectGuid>
     <RootNamespace>BaluEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -37,9 +38,7 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros">
-    <NuGetPackageImportStamp>512a7e17</NuGetPackageImportStamp>
-  </PropertyGroup>
+  <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\Output\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
@@ -54,7 +53,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\submodules\BaluRender\BaluLib\Include;$(ProjectDir)\submodules\BaluScript\Include;$(ProjectDir)\submodules\BaluRender\Include;$(ProjectDir)\submodules\box2d\box2d\box2d;$(ProjectDir)\submodules\box2d\box2d\;$(ProjectDir)/submodules\nanovg\src\;$(ProjectDir)\submodules\BaluRender\easyloggingpp\src\;$(ProjectDir)\submodules\boost-nowide\boost\nowide\;$(ProjectDir)\Source;$(ProjectDir)\submodules\pugixml\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;BALUENGINE_DESIGN_TIME;ELPP_WINSOCK2;WIN32_LEAN_AND_MEAN;NANOVG_GLEW;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;BALUENGINE_DESIGN_TIME;ELPP_WINSOCK2;WIN32_LEAN_AND_MEAN;NANOVG_GLEW;_CRT_SECURE_NO_WARNINGS;_ALLOW_RTCc_IN_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>$(ProjectDir)\submodules\BaluScript\source\memleaks.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -69,8 +68,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;DevIL.lib;ilu.lib;ilut.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;pugixmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\submodules\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\submodules\pugixml\scripts\vs2013\x32\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;pugixml.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\submodules\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\submodules\pugixml\scripts\vs2013\x32\;$(SolutionDir)/submodules/BaluRender/BaluLib/Library/$(ConfigurationName)/;$(ProjectDir)\Output\$(Configuration);$(SolutionDir)$(Configuration)\;$(SolutionDir)\submodules\pugixml\scripts\vs2017\Win32_$(ConfigurationName)/</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -85,7 +84,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\Include;$(ProjectDir)\submodules\BaluRender\BaluLib\Include;$(ProjectDir)\submodules\BaluScript\Include;$(ProjectDir)\submodules\BaluRender\Include;$(ProjectDir)\submodules\box2d\box2d\box2d;$(ProjectDir)\submodules\box2d\box2d\;$(ProjectDir)/submodules\nanovg\src\;$(ProjectDir)\submodules\BaluRender\easyloggingpp\src\;$(ProjectDir)\submodules\boost-nowide\boost\nowide\;$(ProjectDir)\Source;$(ProjectDir)\submodules\pugixml\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;BALUENGINE_DESIGN_TIME;ELPP_WINSOCK2;WIN32_LEAN_AND_MEAN;NANOVG_GLEW;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;BALUENGINEDLL_EXPORTS;BALUENGINE_DESIGN_TIME;ELPP_WINSOCK2;WIN32_LEAN_AND_MEAN;NANOVG_GLEW;_CRT_SECURE_NO_WARNINGS;_ALLOW_RTCc_IN_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
@@ -93,11 +92,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\submodules\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\submodules\pugixml\scripts\vs2013\x32\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;DevIL.lib;ilu.lib;ilut.lib;glu32.lib;opengl32.lib;gdi32.lib;winmm.lib;user32.lib;pugixml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\submodules\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\submodules\pugixml\scripts\vs2013\x32\;$(SolutionDir)/submodules/BaluRender/BaluLib/Library/$(ConfigurationName)/;$(ProjectDir)\Output\$(Configuration);$(SolutionDir)$(Configuration)\;$(SolutionDir)\submodules\pugixml\scripts\vs2017\Win32_$(ConfigurationName)/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;pugixml.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)\..\BaluScript\Source\NativeTypes\base_types.bscript $(ProjectDir)\assets\scripts\ /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -113,7 +113,6 @@
     <ClInclude Include="Source\Editor\IAbstractEditor.h" />
     <ClInclude Include="Source\WorldDef\Scripts\IEventsEditor.h" />
     <ClInclude Include="Source\Interfaces\BaluEngineInterface.h" />
-    <ClInclude Include="Source\WorldInstance\Scripts\CppToBaluScriptBinding.h" />
     <ClInclude Include="Source\Interfaces\EngineInterfacesIncludes.h" />
     <ClInclude Include="Source\Interfaces\exportMacro.h" />
     <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h" />
@@ -249,7 +248,6 @@
     <ClCompile Include="Source\Common\Properties.cpp" />
     <ClCompile Include="Source\Render\Render.cpp" />
     <ClCompile Include="Source\Common\Resources.cpp" />
-    <ClCompile Include="Source\WorldInstance\Scripts\ScriptClassesRegistry.cpp" />
     <ClCompile Include="Source\WorldInstance\Scripts\ScriptInstance.cpp" />
     <ClCompile Include="Source\WorldDef\Serialize.cpp" />
     <ClCompile Include="Source\Common\SerializeCommon.cpp" />
@@ -261,24 +259,16 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\DevIL.redist.1.7.8\build\native\DevIL.redist.targets" Condition="Exists('packages\DevIL.redist.1.7.8\build\native\DevIL.redist.targets')" />
-    <Import Project="packages\DevIL.1.7.8\build\native\DevIL.targets" Condition="Exists('packages\DevIL.1.7.8\build\native\DevIL.targets')" />
-    <Import Project="packages\freetype.redist.2.6.2.1\build\native\freetype.redist.targets" Condition="Exists('packages\freetype.redist.2.6.2.1\build\native\freetype.redist.targets')" />
-    <Import Project="packages\freetype.2.6.2.1\build\native\freetype.targets" Condition="Exists('packages\freetype.2.6.2.1\build\native\freetype.targets')" />
-    <Import Project="packages\glew.v140.1.12.0\build\native\glew.v140.targets" Condition="Exists('packages\glew.v140.1.12.0\build\native\glew.v140.targets')" />
     <Import Project="packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets" Condition="Exists('packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets')" />
     <Import Project="packages\sdl2.v140.2.0.4\build\native\sdl2.v140.targets" Condition="Exists('packages\sdl2.v140.2.0.4\build\native\sdl2.v140.targets')" />
+    <Import Project="packages\glew.v140.1.12.0\build\native\glew.v140.targets" Condition="Exists('packages\glew.v140.1.12.0\build\native\glew.v140.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\DevIL.redist.1.7.8\build\native\DevIL.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\DevIL.redist.1.7.8\build\native\DevIL.redist.targets'))" />
-    <Error Condition="!Exists('packages\DevIL.1.7.8\build\native\DevIL.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\DevIL.1.7.8\build\native\DevIL.targets'))" />
-    <Error Condition="!Exists('packages\freetype.redist.2.6.2.1\build\native\freetype.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\freetype.redist.2.6.2.1\build\native\freetype.redist.targets'))" />
-    <Error Condition="!Exists('packages\freetype.2.6.2.1\build\native\freetype.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\freetype.2.6.2.1\build\native\freetype.targets'))" />
-    <Error Condition="!Exists('packages\glew.v140.1.12.0\build\native\glew.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\glew.v140.1.12.0\build\native\glew.v140.targets'))" />
     <Error Condition="!Exists('packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets'))" />
     <Error Condition="!Exists('packages\sdl2.v140.2.0.4\build\native\sdl2.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sdl2.v140.2.0.4\build\native\sdl2.v140.targets'))" />
+    <Error Condition="!Exists('packages\glew.v140.1.12.0\build\native\glew.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\glew.v140.1.12.0\build\native\glew.v140.targets'))" />
   </Target>
 </Project>

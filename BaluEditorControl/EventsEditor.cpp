@@ -115,15 +115,15 @@ namespace Editor
 		{
 			p->event_types[(int)TEventType::OnViewportResize].events.push_back(TEventInfo(TEventType::OnViewportResize, std::vector<TEventParam>(),  &e));
 		}
-		for (auto& e : p->world->GetEventsEditor()->GetOnMouseDown())
+		for (auto& e : p->world->GetEventsEditor()->GetOnMouseDownGlobal())
 		{
 			p->event_types[(int)TEventType::OnGlobalMouseDown].events.push_back(TEventInfo(TEventType::OnGlobalMouseDown, std::vector<TEventParam>(),  &e));
 		}
-		for (auto& e : p->world->GetEventsEditor()->GetOnMouseUp())
+		for (auto& e : p->world->GetEventsEditor()->GetOnMouseUpGlobal())
 		{
 			p->event_types[(int)TEventType::OnGlobalMouseUp].events.push_back(TEventInfo(TEventType::OnGlobalMouseUp, std::vector<TEventParam>(), &e));
 		}
-		for (auto& e : p->world->GetEventsEditor()->GetOnMouseMove())
+		for (auto& e : p->world->GetEventsEditor()->GetOnMouseMoveGlobal())
 		{
 			p->event_types[(int)TEventType::OnGlobalMouseMove].events.push_back(TEventInfo(TEventType::OnGlobalMouseMove, std::vector<TEventParam>(),  &e));
 		}

@@ -42,7 +42,6 @@ namespace EngineInterface
 		bool enable;
 	public:
 		TBaluClassPhysBody();
-		int GetSensorsCount();
 		void SetFixedRotation(bool fixed);
 		void SetPhysBodyType(TPhysBodyType type);
 		void Enable(bool enable);

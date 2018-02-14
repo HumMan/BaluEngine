@@ -39,28 +39,20 @@ namespace EngineInterface
 		}
 	};
 
-	enum TKey :int
-	{
-		Left,
-		Right,
-		Up,
-		Down
-	};
-
 	class IEventsEditor
 	{
 	public:
-		virtual void AddOnMouseDown(TScript) = 0;
-		virtual void AddOnMouseUp(TScript) = 0;
-		virtual void AddOnMouseMove(TScript) = 0;
+		virtual void AddOnMouseDownGlobal(TScript) = 0;
+		virtual void AddOnMouseUpGlobal(TScript) = 0;
+		virtual void AddOnMouseMoveGlobal(TScript) = 0;
 
-		virtual void RemoveOnMouseDown(int index) = 0;
-		virtual void RemoveOnMouseUp(int index) = 0;
-		virtual void RemoveOnMouseMove(int index) = 0;
+		virtual void RemoveOnMouseDownGlobal(int index) = 0;
+		virtual void RemoveOnMouseUpGlobal(int index) = 0;
+		virtual void RemoveOnMouseMoveGlobal(int index) = 0;
 
-		virtual std::vector<TScript>& GetOnMouseDown() = 0;
-		virtual std::vector<TScript>& GetOnMouseUp() = 0;
-		virtual std::vector<TScript>& GetOnMouseMove() = 0;
+		virtual std::vector<TScript>& GetOnMouseDownGlobal() = 0;
+		virtual std::vector<TScript>& GetOnMouseUpGlobal() = 0;
+		virtual std::vector<TScript>& GetOnMouseMoveGlobal() = 0;
 
 		virtual void AddOnWorldStart(TScript callback) = 0;
 		virtual std::vector<TScript>& GetOnWorldStart() = 0;
@@ -100,9 +92,9 @@ namespace EngineInterface
 
 		//global
 		std::vector<TScript>
-			mouse_down_callbacks,
-			mouse_up_callbacks,
-			mouse_move_callbacks;
+			global_mouse_down_callbacks,
+			global_mouse_up_callbacks,
+			global_mouse_move_callbacks;
 
 		std::vector<TScript> on_start_world_callback;
 		std::vector<TScript> viewport_resize_callback;
@@ -120,17 +112,19 @@ namespace EngineInterface
 
 	public:
 
-		void AddOnMouseDown(TScript);
-		void AddOnMouseUp(TScript);
-		void AddOnMouseMove(TScript);
+		//global
 
-		void RemoveOnMouseDown(int index);
-		void RemoveOnMouseUp(int index);
-		void RemoveOnMouseMove(int index);
+		void AddOnMouseDownGlobal(TScript);
+		void AddOnMouseUpGlobal(TScript);
+		void AddOnMouseMoveGlobal(TScript);
 
-		std::vector<TScript>& GetOnMouseDown();
-		std::vector<TScript>& GetOnMouseUp();
-		std::vector<TScript>& GetOnMouseMove();
+		void RemoveOnMouseDownGlobal(int index);
+		void RemoveOnMouseUpGlobal(int index);
+		void RemoveOnMouseMoveGlobal(int index);
+
+		std::vector<TScript>& GetOnMouseDownGlobal();
+		std::vector<TScript>& GetOnMouseUpGlobal();
+		std::vector<TScript>& GetOnMouseMoveGlobal();
 
 		void AddOnWorldStart(TScript callback);
 		std::vector<TScript>& GetOnWorldStart();
@@ -140,6 +134,14 @@ namespace EngineInterface
 		std::vector<TScript>& GetOnViewportResize();
 		void RemoveOnViewportResize(int index);
 
+		void OnKeyDownGlobal(TKey key, TScript callback);
+		void OnKeyUpGlobal(TKey key, TScript callback);
+		void OnBeforePhysicsStepGlobal(TScript callback);
+
+		std::map<TKey, std::vector<TScript>>& GetOnKeyDownGlobal();
+		std::map<TKey, std::vector<TScript>>& GetOnKeyUpGlobal();
+		std::vector<TScript>& GetOnBeforePhysicsStepGlobal();
+
 		//class
 
 		void AddOnCollide(IBaluTransformedSprite* sprite, IBaluClass* obstancle_class, TScript callback);
@@ -147,19 +149,16 @@ namespace EngineInterface
 		TScript* GetOnCollide(IBaluTransformedSprite* sprite, IBaluClass* obstancle_class);
 		void RemoveOnCollide(int index);
 
-		void OnKeyDownGlobal(TKey key, TScript callback);
-		void OnKeyDown(TKey key, TScript callback, IBaluClass* use_class);
-		void OnKeyUpGlobal(TKey key, TScript callback);
-		void OnKeyUp(TKey key, TScript callback, IBaluClass* use_class);
-		void OnBeforePhysicsStepGlobal(TScript callback);
-		void OnBeforePhysicsStep(TScript callback, IBaluClass* use_class);
-
-		std::map<TKey, std::vector<TScript>>& GetOnKeyDownGlobal();
-		std::map<TKey, std::vector<TScript>>& GetOnKeyUpGlobal();
-		std::vector<TScript>& GetOnBeforePhysicsStepGlobal();
+		void OnKeyDown(TKey key, TScript callback, IBaluClass* use_class);		
 		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& GetOnKeyDown();
+
+		void OnKeyUp(TKey key, TScript callback, IBaluClass* use_class);		
 		std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& GetOnKeyUp();
+
+		void OnBeforePhysicsStep(TScript callback, IBaluClass* use_class);
 		std::vector<std::tuple<TScript, IBaluClass*>>& GetOnBeforePhysicsStep();
+
+		//
 
 		void SaveToXML(pugi::xml_node& parent_node, const int version);
 		void LoadFromXML(const pugi::xml_node& document_node, const int version);

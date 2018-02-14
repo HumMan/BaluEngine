@@ -57,10 +57,7 @@ namespace EngineInterface
 
 	public:
 		~TBaluWorldInstance();
-		IEventsEditorInstance* GetEventsEditor()
-		{
-			return (IEventsEditorInstance*)events_editor.get();
-		}
+		IEventsEditorInstance* GetEventsEditor();
 
 		TResources* GetResources()
 		{

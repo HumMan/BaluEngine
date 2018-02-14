@@ -61,18 +61,20 @@ using namespace EngineInterface;
 //		scene_instances[i]->OnProcessCollisions();
 //}
 //
-//void TBaluWorldInstance::KeyDown(TKey key)
-//{
-//	for (int i = 0; i < scene_instances.size(); i++)
-//		scene_instances[i]->OnKeyDown(key);
-//}
-//
-//void TBaluWorldInstance::KeyUp(TKey key)
-//{
-//	for (int i = 0; i < instances.size(); i++)
-//		instances[i]->OnKeyUp(key);
-//}
-//
+void TEventsEditorInstance::KeyDown(TKey key)
+{
+	//for (int i = 0; i < scene_instances.size(); i++)
+	//	scene_instances[i]->OnKeyDown(key);
+}
+
+void TEventsEditorInstance::KeyUp(TKey key)
+{
+	for (auto& v : global_on_key_up_callbacks[key])
+	{
+		script_engine->CallKeyUpEvent(v, key);
+	}
+}
+
 void TEventsEditorInstance::MouseDown(TMouseEventArgs e)
 {
 	for (auto& v : OnMouseEventListeners)
@@ -141,19 +143,19 @@ bool TEventsEditorInstance::CompileScripts(std::string& error_message)
 			this->viewport_resize_callback.push_back(script_engine->CompileMethod(&v, method.c_str()));
 		}
 
-		for (auto& v : source->GetOnMouseUp())
+		for (auto& v : source->GetOnMouseUpGlobal())
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("") + method_body + "";
 			this->mouse_up_callbacks.push_back(script_engine->CompileMethod(&v, method.c_str()));
 		}
-		for (auto& v : source->GetOnMouseDown())
+		for (auto& v : source->GetOnMouseDownGlobal())
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("") + method_body + "";
 			this->mouse_down_callbacks.push_back(script_engine->CompileMethod(&v, method.c_str()));
 		}
-		for (auto& v : source->GetOnMouseMove())
+		for (auto& v : source->GetOnMouseMoveGlobal())
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("") + method_body + "";
@@ -168,7 +170,7 @@ bool TEventsEditorInstance::CompileScripts(std::string& error_message)
 	return true;
 }
 
-void TEventsEditorInstance::ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size)
+void TEventsEditorInstance::ViewportResize(IDirector* director, TVec2i old_size, TVec2i new_size)
 {
 	for (auto& v : viewport_resize_callback)
 		script_engine->CallViewportResize(v, director, old_size, new_size);
@@ -199,19 +201,19 @@ bool TEventsEditorInstance::CheckScriptErrors(std::vector<std::string>& errors_l
 			script_engine->CompileMethod(&v, method.c_str());
 		}
 
-		for (auto& v : source->GetOnMouseUp())
+		for (auto& v : source->GetOnMouseUpGlobal())
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("") + method_body + "";
 			script_engine->CompileMethod(&v, method.c_str());
 		}
-		for (auto& v : source->GetOnMouseDown())
+		for (auto& v : source->GetOnMouseDownGlobal())
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("") + method_body + "";
 			script_engine->CompileMethod(&v, method.c_str());
 		}
-		for (auto& v : source->GetOnMouseMove())
+		for (auto& v : source->GetOnMouseMoveGlobal())
 		{
 			auto method_body = v.GetScriptSource();
 			std::string method = std::string("") + method_body + "";

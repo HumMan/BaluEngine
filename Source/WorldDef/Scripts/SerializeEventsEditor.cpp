@@ -8,22 +8,22 @@ void TEventsEditor::SaveToXML(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("Events");
 	{
-		xml_node callbacks_node = new_node.append_child("MouseDownScripts");
-		for (auto& v : mouse_down_callbacks)
+		xml_node callbacks_node = new_node.append_child("GlobalMouseDownScripts");
+		for (auto& v : global_mouse_down_callbacks)
 		{
 			v.SaveToXML(callbacks_node, version);
 		}
 	}
 	{
-		xml_node callbacks_node = new_node.append_child("MouseUpScripts");
-		for (auto& v : mouse_up_callbacks)
+		xml_node callbacks_node = new_node.append_child("GlobalMouseUpScripts");
+		for (auto& v : global_mouse_up_callbacks)
 		{
 			v.SaveToXML(callbacks_node, version);
 		}
 	}
 	{
-		xml_node callbacks_node = new_node.append_child("MouseMoveScripts");
-		for (auto& v : mouse_move_callbacks)
+		xml_node callbacks_node = new_node.append_child("GlobalMouseMoveScripts");
+		for (auto& v : global_mouse_move_callbacks)
 		{
 			v.SaveToXML(callbacks_node, version);
 		}
@@ -46,30 +46,30 @@ void TEventsEditor::LoadFromXML(const pugi::xml_node& document_node, const int v
 {
 	xml_node world_node = document_node.child("Events");
 	{
-		xml_node callbacks_node = world_node.child("MouseDownScripts");
+		xml_node callbacks_node = world_node.child("GlobalMouseDownScripts");
 		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
 		{
 			TScript new_callback;
 			new_callback.LoadFromXML(callback_node, version);
-			mouse_down_callbacks.push_back(new_callback);
+			global_mouse_down_callbacks.push_back(new_callback);
 		}
 	}
 	{
-		xml_node callbacks_node = world_node.child("MouseUpScripts");
+		xml_node callbacks_node = world_node.child("GlobalMouseUpScripts");
 		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
 		{
 			TScript new_callback;
 			new_callback.LoadFromXML(callback_node, version);
-			mouse_up_callbacks.push_back(new_callback);
+			global_mouse_up_callbacks.push_back(new_callback);
 		}
 	}
 	{
-		xml_node callbacks_node = world_node.child("MouseMoveScripts");
+		xml_node callbacks_node = world_node.child("GlobalMouseMoveScripts");
 		for (pugi::xml_node callback_node = callbacks_node.first_child(); callback_node; callback_node = callback_node.next_sibling())
 		{
 			TScript new_callback;
 			new_callback.LoadFromXML(callback_node, version);
-			mouse_move_callbacks.push_back(new_callback);
+			global_mouse_move_callbacks.push_back(new_callback);
 		}
 	}
 	{

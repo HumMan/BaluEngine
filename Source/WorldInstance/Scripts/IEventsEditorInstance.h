@@ -43,6 +43,8 @@ namespace EngineInterface
 
 		virtual void AddMouseEventListener(TMouseEventListener*) = 0;
 		virtual void RemoveMouseEventListener(TMouseEventListener*) = 0;
+
+		virtual void ViewportResize(IDirector* director, TVec2i old_size, TVec2i new_size) = 0;
 	};
 
 
@@ -84,10 +86,9 @@ namespace EngineInterface
 			mouse_move_callbacks;
 		std::vector<TScriptInstance> on_start_world_callback;
 		std::vector<TScriptInstance> viewport_resize_callback;
-
 		
 		std::map<TKey, std::vector<TScriptInstance>> global_on_key_down_callbacks;
-		std::map<TKey, std::vector<TScriptInstance>> oglobal_n_key_up_callbacks;
+		std::map<TKey, std::vector<TScriptInstance>> global_on_key_up_callbacks;
 		std::vector<TScriptInstance> global_before_physics_callbacks;
 
 		//class
@@ -108,7 +109,6 @@ namespace EngineInterface
 		void OnPrePhysStep();
 		void OnProcessCollisions();
 
-
 		void KeyDown(TKey key);
 		void KeyUp(TKey key);
 
@@ -117,7 +117,7 @@ namespace EngineInterface
 		void MouseUp(TMouseEventArgs e);
 		void MouseVerticalWheel(int amount);
 
-		void ViewportResize(TDirector* director, TVec2i old_size, TVec2i new_size);
+		void ViewportResize(IDirector* director, TVec2i old_size, TVec2i new_size);
 
 		void WorldStart(IBaluWorldInstance* world_instance, IComposer* composer);
 
@@ -126,7 +126,7 @@ namespace EngineInterface
 
 		//scene
 		//void OnPrePhysStep();
-		//void OnKeyDown(TKey key);
+		void OnKeyDown(TKey key);
 
 		//void OnMouseUp(TMouseEventArgs e, TVec2 scene_cursor_location);
 		//void OnMouseDown(TMouseEventArgs e, TVec2 scene_cursor_location);

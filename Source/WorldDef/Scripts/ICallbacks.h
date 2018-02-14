@@ -15,6 +15,15 @@ namespace pugi
 
 namespace EngineInterface
 {
+
+	enum TKey :int
+	{
+		Left,
+		Right,
+		Up,
+		Down
+	};
+
 	enum class TEventType
 	{
 		OnWorldStart,

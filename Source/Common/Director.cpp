@@ -6,6 +6,8 @@
 
 #include <Render/Render.h>
 
+#include <WorldInstance\Scripts\IEventsEditorInstance.h>
+
 #include "nanovg.h"
 
 #include <baluRender.h>
@@ -267,13 +269,13 @@ void TDirector::MainLoop()
 		const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
 		//if (keystate[SDL_SCANCODE_LEFT])
-		//	p->world_instance->KeyDown(TKey::Left);
+		//	p->world_instance->GetEventsEditor()->KeyDown(TKey::Left);
 		//if (keystate[SDL_SCANCODE_RIGHT])
-		//	p->world_instance->KeyDown(TKey::Right);
+		//	p->world_instance->GetEventsEditor()->KeyDown(TKey::Right);
 		//if (keystate[SDL_SCANCODE_UP])
-		//	p->world_instance->KeyDown(TKey::Up);
+		//	p->world_instance->GetEventsEditor()->KeyDown(TKey::Up);
 		//if (keystate[SDL_SCANCODE_DOWN])
-		//	p->world_instance->KeyDown(TKey::Down);
+		//	p->world_instance->GetEventsEditor()->KeyDown(TKey::Down);
 
 		Step(step);
 
@@ -287,36 +289,40 @@ void TDirector::MainLoop()
 			else if (event.type == SDL_KEYUP)
 			{
 				//p->world_instance->KeyUp();
+				//p->world_instance->GetEventsEditor()->MouseDown();
 			}
 			else if (event.type == SDL_KEYDOWN)
 			{
 				SDL_SetWindowTitle(p->mainwindow, "keydown");
 				//p->world_instance->KeyDown();
 			}
-			//else if (event.type == SDL_MOUSEMOTION)
-			//{
-			//	char b[100];
-			//	sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
-			//	SDL_SetWindowTitle(p->mainwindow, b);
-			//	p->world_instance->MouseMove(TMouseEventArgs(TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)));
-			//}
-			//else if (event.type == SDL_MOUSEBUTTONDOWN)
-			//{
-			//	p->world_instance->MouseDown(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
-			//}
-			//else if (event.type == SDL_MOUSEBUTTONUP)
-			//{
-			//	p->world_instance->MouseUp(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
-			//}
-			//else if (event.type == SDL_MOUSEWHEEL)
-			//{
-			//	p->world_instance->MouseVerticalWheel(event.wheel.y);
-			//}
+			else if (event.type == SDL_MOUSEMOTION)
+			{
+				char b[100];
+				sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
+				SDL_SetWindowTitle(p->mainwindow, b);
+				p->world_instance->GetEventsEditor()->MouseMove(TMouseEventArgs(TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)));
+			}
+			else if (event.type == SDL_MOUSEBUTTONDOWN)
+			{
+				p->world_instance->GetEventsEditor()->MouseDown(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
+			}
+			else if (event.type == SDL_MOUSEBUTTONUP)
+			{
+				p->world_instance->GetEventsEditor()->MouseUp(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
+			}
+			else if (event.type == SDL_MOUSEWHEEL)
+			{
+				p->world_instance->GetEventsEditor()->MouseVerticalWheel(event.wheel.y);
+			}
 			else if (event.type == SDL_WINDOWEVENT)
 			{
 				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
 				{
-					SetScreenSize(TVec2i(event.window.data1, event.window.data2));
+					auto old_screen_size = p->internal_render->Get.Viewport();
+					auto new_screen_size = TVec2i(event.window.data1, event.window.data2);
+					SetScreenSize(new_screen_size);
+					p->world_instance->GetEventsEditor()->ViewportResize(this, old_screen_size, new_screen_size);
 				}
 			}
 		}
