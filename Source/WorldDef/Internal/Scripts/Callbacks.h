@@ -91,7 +91,7 @@ namespace EngineInterface
 		}
 	};
 
-	class BALUENGINEDLL_API TScript
+	class TScript
 	{
 	private:
 		std::string script_source;

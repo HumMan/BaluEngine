@@ -10,58 +10,10 @@
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\DebugDraw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\nanovg_support.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\polygon_decomp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\polygon_vertices.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\texture_polygon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Interfaces\EngineInterfacesIncludes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Interfaces\exportMacro.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldObjects\InterfacesIncludes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Interfaces\BaluEngineInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Common\ICommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Common\IDirector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Common\IProperties.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Common\IResources.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Common\SerializeCommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Render\Render.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Render\RenderCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="submodules\nanovg\src\fontstash.h">
@@ -82,165 +34,6 @@
     <ClInclude Include="submodules\nanovg\src\stb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldInstance\BindingIncludes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\InterfaceIncludes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\IComposer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\IWorldInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Class\Binding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Class\IClassInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Class\ISkeletonAnimationInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Class\ISkeletonInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Material\Binding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Material\IMaterialInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Scene\Binding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Scene\ISceneInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Sprite\Binding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Sprite\IPhysShapeInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Sprite\ISpriteInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Objects\Sprite\ISpritePolygonInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Scripts\IEventsEditorInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Scripts\IScriptInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\abstractEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\DrawingHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\IAbstractEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\ClassEditor\classEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\ClassEditor\classEditorScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\ClassEditor\classEditorTools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\MaterialEditor\materialEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\MaterialEditor\materialEditorScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\MaterialEditor\materialEditorTools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorTools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\SpriteEditor\spriteEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\SpriteEditor\spriteEditorScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\SpriteEditor\spriteEditorTools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\EditorGUI\BoxContour\BoxGui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\EditorGUI\BoxContour\BoxGuiInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\EditorGUI\EditableBox\OBBGui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\EditorGUI\EditableBox\OBBGuiInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\EditorGUI\PolygonLine\PolygonGui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\EditorGUI\PolygonLine\PolygonGuiInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\EditorGUI\SimpleSprite\SpriteGui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\EditorGUI\SimpleSprite\SpriteGuiInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Scripts\Binding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Scripts\ScriptClassesRegistry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Scene\Layers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\World\World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Sprite\AnimationFrames.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Sprite\PhysShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Sprite\SpritePolygon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Sprite\Sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Scripts\Callbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Scripts\EventsEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Scene\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Material\Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldDef\Internal\Class\Class.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -250,76 +43,113 @@
     <ClInclude Include="Source\WorldDef\Internal\Class\SkeletonAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\WorldDef\IWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\ISpritePolygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\ISprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\IPhysShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\IAnimationFrames.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\IEventsEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\ICallbacks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\IScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\ILayers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\IMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\ICommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\IProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\IClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\ISkeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\ISkeletonAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Common\Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Common\Properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Common\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Common\SerializeCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Material\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Scene\Layers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Scripts\Callbacks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Scripts\EventsEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Sprite\AnimationFrames.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Sprite\PhysShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Sprite\Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Sprite\SpritePolygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\World\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\World\WorldPrivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
-    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
-    <ClCompile Include="Source\Utils\DebugDraw.cpp" />
-    <ClCompile Include="Source\Utils\nanovg_support.cpp" />
-    <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
-    <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
-    <ClCompile Include="Source\Utils\texture_polygon.cpp" />
-    <ClCompile Include="Source\Common\Common.cpp" />
-    <ClCompile Include="Source\Common\Director.cpp" />
-    <ClCompile Include="Source\Common\Properties.cpp" />
-    <ClCompile Include="Source\Common\Resources.cpp" />
-    <ClCompile Include="Source\Common\SerializeCommon.cpp" />
-    <ClCompile Include="Source\Render\Render.cpp" />
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\advancing_front.cc" />
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\cdt.cc" />
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\sweep.cc" />
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="submodules\nanovg\src\nanovg.c" />
-    <ClCompile Include="Source\WorldInstance\Composer.cpp" />
-    <ClCompile Include="Source\WorldInstance\WorldInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Objects\Class\ClassInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Objects\Class\SkeletonAnimationInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Objects\Class\SkeletonInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Objects\Material\MaterialInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Objects\Scene\SceneInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Objects\Sprite\PhysShapeInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Objects\Sprite\SpriteInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Objects\Sprite\SpritePolyInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Scripts\EventsEditorInstance.cpp" />
-    <ClCompile Include="Source\WorldInstance\Scripts\ScriptInstance.cpp" />
-    <ClCompile Include="Source\Editor\abstractEditor.cpp" />
-    <ClCompile Include="Source\Editor\DrawingHelper.cpp" />
-    <ClCompile Include="Source\Editor\IAbstractEditor.cpp" />
-    <ClCompile Include="Source\Editor\Objects\ClassEditor\classEditor.cpp" />
-    <ClCompile Include="Source\Editor\Objects\ClassEditor\classEditorScene.cpp" />
-    <ClCompile Include="Source\Editor\Objects\ClassEditor\classEditorTools.cpp" />
-    <ClCompile Include="Source\Editor\Objects\MaterialEditor\materialEditor.cpp" />
-    <ClCompile Include="Source\Editor\Objects\MaterialEditor\materialEditorScene.cpp" />
-    <ClCompile Include="Source\Editor\Objects\MaterialEditor\materialEditorTools.cpp" />
-    <ClCompile Include="Source\Editor\Objects\SceneEditor\sceneEditor.cpp" />
-    <ClCompile Include="Source\Editor\Objects\SceneEditor\sceneEditorScene.cpp" />
-    <ClCompile Include="Source\Editor\Objects\SceneEditor\sceneEditorTools.cpp" />
-    <ClCompile Include="Source\Editor\Objects\SpriteEditor\spriteEditor.cpp" />
-    <ClCompile Include="Source\Editor\Objects\SpriteEditor\spriteEditorScene.cpp" />
-    <ClCompile Include="Source\Editor\Objects\SpriteEditor\spriteEditorTools.cpp" />
-    <ClCompile Include="Source\Editor\EditorGUI\BoxContour\BoxGuiInstance.cpp" />
-    <ClCompile Include="Source\Editor\EditorGUI\EditableBox\OBBGuiInstance.cpp" />
-    <ClCompile Include="Source\Editor\EditorGUI\PolygonLine\PolygonGuiInstance.cpp" />
-    <ClCompile Include="Source\Editor\EditorGUI\SimpleSprite\SpriteGuiInstance.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\Class.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Class\ClassSerialize.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Class\Skeleton.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Class\SkeletonAnimation.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Material\Material.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Material\MaterialSerialize.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Scene\Layers.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Scene\Scene.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Scene\SceneSerialize.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\World\Serialize.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\World\World.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Scripts\Callbacks.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Scripts\EventsEditor.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Scripts\SerializeEventsEditor.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Sprite\Sprite.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Sprite\SpritePoly.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpriteSerialize.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Sprite\PhysShape.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\World\World.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\World\Serialize.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Class\ClassSerialize.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Common\SerializeCommon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

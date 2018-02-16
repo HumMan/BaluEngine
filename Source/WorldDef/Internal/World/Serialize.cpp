@@ -1,16 +1,14 @@
-#include "IWorld.h"
+#include "World.h"
 
-#include <Common/SerializeCommon.h>
+#include <pugixml.hpp>
 
-#include "Objects/Material/IMaterial.h"
-#include "Objects/Sprite/ISprite.h"
-#include "Objects/Class/IClass.h"
-#include "Objects/Scene/IScene.h"
-#include "Scripts/IEventsEditor.h"
+using namespace pugi;
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
 
-using namespace EngineInterface;
+#include "WorldPrivate.h"
 
-void TProperties::Save(pugi::xml_node& parent_node, const int version)
+void TProperties::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node props_node = parent_node.append_child("Properties");
 	for (auto& v : properties)
@@ -20,7 +18,7 @@ void TProperties::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TProperties::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void TProperties::Load(const pugi::xml_node& instance_node, const int version, IWorld* world)
 {
 	xml_node props_node = instance_node.child("Properties");
 	for (pugi::xml_node prop_node = props_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
@@ -32,35 +30,34 @@ void TProperties::Load(const pugi::xml_node& instance_node, const int version, T
 	}
 }
 
-
-void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
+void TWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 {
-	this->events_editor->SaveToXML(parent_node, version);
+	p->events_editor->SaveToXML(parent_node, version);
 	xml_node new_node = parent_node.append_child("World");
 	{
 		xml_node materials_node = new_node.append_child("Materials");
-		for (auto& i : world_objects[(int)TWorldObjectType::Material])
+		for (auto& i : p->world_objects[(int)TWorldObjectType::Material])
 		{
 			i.second->Save(materials_node, version);
 		}
 	}
 	{
 		xml_node sprites_node = new_node.append_child("Sprites");
-		for (auto& i : world_objects[(int)TWorldObjectType::Sprite])
+		for (auto& i : p->world_objects[(int)TWorldObjectType::Sprite])
 		{
 			i.second->Save(sprites_node, version);
 		}
 	}
 	{
 		xml_node classes_node = new_node.append_child("Classes");
-		for (auto& i : world_objects[(int)TWorldObjectType::Class])
+		for (auto& i : p->world_objects[(int)TWorldObjectType::Class])
 		{
 			i.second->Save(classes_node, version);
 		}
 	}
 	{
 		xml_node scenes_node = new_node.append_child("Scenes");
-		for (auto& i : world_objects[(int)TWorldObjectType::Scene])
+		for (auto& i : p->world_objects[(int)TWorldObjectType::Scene])
 		{
 			i.second->Save(scenes_node, version);
 		}
@@ -101,7 +98,7 @@ void TBaluWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 	}*/
 }
 
-void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int version)
+void TWorld::LoadFromXML(const pugi::xml_node& document_node, const int version)
 {
 	this->events_editor.reset(new TEventsEditor());
 	this->events_editor->LoadFromXML(document_node, version);
@@ -113,7 +110,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 			std::string material_name = materials_node.attribute("name").as_string();
 			TBaluMaterial* new_material = new TBaluMaterial(material_name, this);
 			new_material->Load(material, version, this);
-			world_objects[(int)TWorldObjectType::Material][new_material->GetName()].reset(new_material);
+			p->world_objects[(int)TWorldObjectType::Material][new_material->GetName()].reset(new_material);
 		}
 	}
 	//предварительно создаем классы, т.к. их имена используются в OnCollide
@@ -122,7 +119,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
 		{
 			std::string class_name = class_node.attribute("name").as_string();
-			world_objects[(int)TWorldObjectType::Class].emplace(class_name, std::unique_ptr<TBaluClass>(new TBaluClass(class_name.c_str(), this)));
+			p->world_objects[(int)TWorldObjectType::Class].emplace(class_name, std::unique_ptr<TClass>(new TClass(class_name.c_str(), this)));
 		}
 	}
 	{
@@ -132,13 +129,13 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 			std::string sprite_name = sprite_node.attribute("name").as_string();
 			TBaluSprite* sprite = new TBaluSprite(sprite_name.c_str(), this);
 			sprite->Load(sprite_node, version, this);
-			world_objects[(int)TWorldObjectType::Sprite][sprite_name].reset(sprite);
+			p->world_objects[(int)TWorldObjectType::Sprite][sprite_name].reset(sprite);
 		}
 	}
 	//загружаем классы полностью
 	{
 		xml_node classes_node = world_node.child("Classes");
-		auto curr_class = world_objects[(int)TWorldObjectType::Class].begin();
+		auto curr_class = p->world_objects[(int)TWorldObjectType::Class].begin();
 		for (pugi::xml_node class_node = classes_node.first_child(); class_node; class_node = class_node.next_sibling())
 		{
 			curr_class->second->Load(class_node, version, this);
@@ -152,7 +149,7 @@ void TBaluWorld::LoadFromXML(const pugi::xml_node& document_node, const int vers
 			std::string scene_name = scenes_node.attribute("name").as_string();
 			TBaluScene* scene = new TBaluScene(scene_name.c_str(), this);
 			scene->Load(scene_node, version, this);
-			world_objects[(int)TWorldObjectType::Scene][scene->GetName()].reset(scene);
+			p->world_objects[(int)TWorldObjectType::Scene][scene->GetName()].reset(scene);
 		}
 	}
 

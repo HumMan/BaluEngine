@@ -1,0 +1,45 @@
+#pragma once
+
+namespace BaluEngine
+{
+	namespace WorldDef
+	{
+
+		
+
+		class IWorld: public ISerializable
+		{
+		public:
+			virtual void AddChangesListener(TWorldChangeListener* listener) = 0;
+			virtual void RemoveChangesListener(TWorldChangeListener* listener) = 0;
+
+			virtual bool TryFind(const char* name, IWorldObject*& result) = 0;
+
+			virtual IWorldObject* GetObjectByName(TWorldObjectType type, const char* name) = 0;
+			virtual std::vector<IWorldObject*> GetObjects(TWorldObjectType type) = 0;
+			virtual bool ObjectNameExists(TWorldObjectType type, const char* name) = 0;
+			virtual IWorldObject* CreateObject(TWorldObjectType type, const char* name) = 0;
+			virtual void DestroyObject(TWorldObjectType type, const char* name) = 0;
+
+			virtual IMaterial* CreateMaterial(const char* name) = 0;
+			virtual ISprite* CreateSprite(const char* name) = 0;
+			virtual IClass* CreateClass(const char* name) = 0;
+			virtual IScene* CreateScene(const char* name) = 0;
+
+			virtual IScene* GetScene(const std::string& name) = 0;
+			virtual IMaterial* GetMaterial(const std::string& name) = 0;
+			virtual ISprite* GetSprite(const std::string& name) = 0;
+			virtual IClass* GetClass(const std::string& name) = 0;
+
+			virtual void SaveToXML(const std::string& path) = 0;
+			virtual void LoadFromXML(const std::string& path) = 0;
+
+			virtual IEventsEditor* GetEventsEditor() = 0;
+		};
+
+
+		IWorld* CreateWorld();
+		void DestroyWorld(IWorld* world);
+
+	}
+}

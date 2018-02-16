@@ -30,7 +30,7 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 	properties.Save(new_node, version);
 }
 
-void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBaluWorld* world)
+void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TWorld* world)
 {
 	name = scene_node.attribute("name").as_string();
 	{
@@ -55,7 +55,7 @@ void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TBalu
 	properties.Load(scene_node, version, world);
 }
 
-void TBaluTransformedClass::Save(pugi::xml_node& parent_node, const int version)
+void TTransformedClass::Save(pugi::xml_node& parent_node, const int version)
 {
 	xml_node new_node = parent_node.append_child("ClassInstance");
 
@@ -63,7 +63,7 @@ void TBaluTransformedClass::Save(pugi::xml_node& parent_node, const int version)
 	SaveTransformWithScale(new_node, "Transform", transform);
 }
 
-void TBaluTransformedClass::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void TTransformedClass::Load(const pugi::xml_node& instance_node, const int version, TWorld* world)
 {
 	balu_class = dynamic_cast<TBaluClass*>(world->GetObjectByName(TWorldObjectType::Class, instance_node.attribute("class_name").as_string()));
 	transform = LoadTransformWithScale(instance_node.child("Transform"));
@@ -77,7 +77,7 @@ void TViewport::Save(pugi::xml_node& parent_node, const int version)
 	viewport_node.append_attribute("width").set_value(width);
 }
 
-void TViewport::Load(const pugi::xml_node& viewport_node, const int version, TBaluWorld* world)
+void TViewport::Load(const pugi::xml_node& viewport_node, const int version, TWorld* world)
 {
 	LoadTransform(viewport_node.child("transform"));
 	aspect = viewport_node.attribute("aspect").as_float();

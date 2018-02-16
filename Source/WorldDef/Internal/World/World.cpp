@@ -1,26 +1,22 @@
-#include "IWorld.h"
+#include "World.h"
 
 #include <pugixml.hpp>
 
 using namespace pugi;
-using namespace EngineInterface;
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
 
-#include "Objects/Material/IMaterial.h"
-#include "Objects/Sprite/ISprite.h"
-#include "Objects/Class/IClass.h"
-#include "Objects/Scene/IScene.h"
-
-#include "Scripts/IEventsEditor.h"
+#include "WorldPrivate.h"
 
 typedef std::vector < std::pair<const char*, PropertyClone>> properties_registry_type;
 properties_registry_type *properties_registry;
 
-TBaluWorld::TBaluWorld()
+TWorld::TWorld()
 {
-	events_editor.reset(new TEventsEditor());
+	//p->events_editor.reset(new TEventsEditor());
 }
 
-TBaluWorld::~TBaluWorld()
+TWorld::~TWorld()
 {
 }
 
@@ -57,94 +53,94 @@ std::vector<T*> GetObjectsFromMap(M& map)
 	return result;
 }
 
-bool TBaluWorld::TryFind(const char* name, IBaluWorldObject*& result)
+bool TWorld::TryFind(const char* name, IWorldObject*& result)
 {
 	return false;
 }
 
-IBaluWorldObject* TBaluWorld::GetObjectByName(TWorldObjectType type,const char* name)
+IWorldObject* TWorld::GetObjectByName(TWorldObjectType type,const char* name)
 {
-	return world_objects[(int)type][name].get();
+	return p->world_objects[(int)type][name].get();
 }
-std::vector<IBaluWorldObject*> TBaluWorld::GetObjects(TWorldObjectType type)
+std::vector<IWorldObject*> TWorld::GetObjects(TWorldObjectType type)
 {
-	return GetObjectsFromMap<IBaluWorldObject>(this->world_objects[(int)type]);
+	return GetObjectsFromMap<IWorldObject>(p->world_objects[(int)type]);
 }
 
-bool TBaluWorld::ObjectNameExists(TWorldObjectType type, const char* name)
+bool TWorld::ObjectNameExists(TWorldObjectType type, const char* name)
 {
 	return false;
 }
-TBaluWorldObject* TBaluWorld::CreateObject(TWorldObjectType type, const char* name)
+TWorldObject* TWorld::CreateObject(TWorldObjectType type, const char* name)
 {
-	TBaluWorldObject* resutl = nullptr;
+	TWorldObject* resutl = nullptr;
 	//TODO заменить фабрикой
 	switch (type)
 	{
-	case EngineInterface::TWorldObjectType::Material:
+	case TWorldObjectType::Material:
 		resutl = new TBaluMaterial(name, this);
 		break;
-	case EngineInterface::TWorldObjectType::Sprite:
+	case TWorldObjectType::Sprite:
 		resutl = new TBaluSprite(name, this);
 		break;
-	case EngineInterface::TWorldObjectType::Class:
-		resutl = new TBaluClass(name, this);
+	case TWorldObjectType::Class:
+		resutl = new TClass(name, this);
 		break;
-	case EngineInterface::TWorldObjectType::Scene:
+	case TWorldObjectType::Scene:
 		resutl = new TBaluScene(name, this);
 		break;
-	case EngineInterface::TWorldObjectType::None:
+	case TWorldObjectType::None:
 		break;
 	default:
 		break;
 	}
-	world_objects[(int)type][name].reset(resutl);
+	p->world_objects[(int)type][name].reset(resutl);
 	return resutl;
 }
-void TBaluWorld::DestroyObject(TWorldObjectType type, const char* name)
+void TWorld::DestroyObject(TWorldObjectType type, const char* name)
 {
 	//world_objects[(int)type].erase(world_objects[(int)type].at(name));
 }
 
 
-IBaluMaterial* TBaluWorld::CreateMaterial(const char* name)
+IMaterial* TWorld::CreateMaterial(const char* name)
 {
-	return dynamic_cast<IBaluMaterial*>(CreateObject(TWorldObjectType::Material, name));
+	return dynamic_cast<IMaterial*>(CreateObject(TWorldObjectType::Material, name));
 }
 
-IBaluSprite* TBaluWorld::CreateSprite(const char* name)
+ISprite* TWorld::CreateSprite(const char* name)
 {
-	return dynamic_cast<IBaluSprite*>(CreateObject(TWorldObjectType::Sprite, name));
+	return dynamic_cast<ISprite*>(CreateObject(TWorldObjectType::Sprite, name));
 }
 
-IBaluClass* TBaluWorld::CreateClass(const char* name)
+IClass* TWorld::CreateClass(const char* name)
 {
-	return dynamic_cast<IBaluClass*>(CreateObject(TWorldObjectType::Class, name));
+	return dynamic_cast<IClass*>(CreateObject(TWorldObjectType::Class, name));
 }
 
-IBaluScene* TBaluWorld::CreateScene(const char* name)
+IScene* TWorld::CreateScene(const char* name)
 {
-	return dynamic_cast<IBaluScene*>(CreateObject(TWorldObjectType::Scene, name));
+	return dynamic_cast<IScene*>(CreateObject(TWorldObjectType::Scene, name));
 }
 
-IBaluScene* TBaluWorld::GetScene(const std::string& name)
+IScene* TWorld::GetScene(const std::string& name)
 {
-	return dynamic_cast<IBaluScene*>(GetObjectByName(TWorldObjectType::Scene, name.c_str()));
+	return dynamic_cast<IScene*>(GetObjectByName(TWorldObjectType::Scene, name.c_str()));
 }
-IBaluMaterial* TBaluWorld::GetMaterial(const std::string& name)
+IMaterial* TWorld::GetMaterial(const std::string& name)
 {
-	return dynamic_cast<IBaluMaterial*>(GetObjectByName(TWorldObjectType::Material, name.c_str()));
+	return dynamic_cast<IMaterial*>(GetObjectByName(TWorldObjectType::Material, name.c_str()));
 }
-IBaluSprite* TBaluWorld::GetSprite(const std::string& name)
+ISprite* TWorld::GetSprite(const std::string& name)
 {
-	return dynamic_cast<IBaluSprite*>(GetObjectByName(TWorldObjectType::Sprite, name.c_str()));
+	return dynamic_cast<ISprite*>(GetObjectByName(TWorldObjectType::Sprite, name.c_str()));
 }
-IBaluClass* TBaluWorld::GetClass(const std::string& name)
+IClass* TWorld::GetClass(const std::string& name)
 {
-	return dynamic_cast<IBaluClass*>(GetObjectByName(TWorldObjectType::Class, name.c_str()));
+	return dynamic_cast<IClass*>(GetObjectByName(TWorldObjectType::Class, name.c_str()));
 }
 
-void TBaluWorld::SaveToXML(const std::string& path)
+void TWorld::SaveToXML(const std::string& path)
 {
 	setlocale(LC_ALL, "C");
 	xml_document doc;
@@ -153,7 +149,7 @@ void TBaluWorld::SaveToXML(const std::string& path)
 	doc.save_file(pugi::as_wide(path.c_str()).c_str());
 }
 
-void TBaluWorld::LoadFromXML(const std::string& path)
+void TWorld::LoadFromXML(const std::string& path)
 {
 	setlocale(LC_ALL, "C");
 	xml_document doc;
@@ -182,16 +178,17 @@ TProperty* PropertiesFactory::Create(const char* name)
 	throw std::invalid_argument("Тип не зарегистрирован");
 }
 
-IEventsEditor* TBaluWorld::GetEventsEditor()
+IEventsEditor* TWorld::GetEventsEditor()
 {
-	return events_editor.get();
+	//return events_editor.get();
+	return nullptr;
 }
 
-void TBaluWorld::AddChangesListener(TBaluWorldChangeListener* listener)
+void TWorld::AddChangesListener(TWorldChangeListener* listener)
 {
-	listeners.AddChangesListener(listener);
+	p->listeners.AddChangesListener(listener);
 }
-void TBaluWorld::RemoveChangesListener(TBaluWorldChangeListener* listener)
+void TWorld::RemoveChangesListener(TWorldChangeListener* listener)
 {
-	listeners.RemoveChangesListener(listener);
+	p->listeners.RemoveChangesListener(listener);
 }

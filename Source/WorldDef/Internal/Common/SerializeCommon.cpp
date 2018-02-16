@@ -1,9 +1,13 @@
 #include "SerializeCommon.h"
 
-using namespace EngineInterface;
+#include <pugixml.hpp>
+
+using namespace pugi;
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
 using namespace BaluLib;
 
-void SaveColor(pugi::xml_node& parent, TVec4 color)
+void SerializeCommon::SaveColor(pugi::xml_node& parent, TVec4 color)
 {
 	xml_node new_node = parent.append_child("Color");
 	new_node.append_attribute("r").set_value(color[0]);
@@ -12,7 +16,7 @@ void SaveColor(pugi::xml_node& parent, TVec4 color)
 	new_node.append_attribute("a").set_value(color[3]);
 }
 
-TVec4 LoadColor(const pugi::xml_node& node)
+TVec4 SerializeCommon::LoadColor(const pugi::xml_node& node)
 {
 	TVec4 color;
 	color[0] = node.attribute("r").as_float();
@@ -22,14 +26,14 @@ TVec4 LoadColor(const pugi::xml_node& node)
 	return color;
 }
 
-void SaveCoord(pugi::xml_node& parent_node, std::string name, TVec2 coord)
+void SerializeCommon::SaveCoord(pugi::xml_node& parent_node, std::string name, TVec2 coord)
 {
 	xml_node new_node = parent_node.append_child(name.c_str());
 	new_node.append_attribute("x").set_value(coord[0]);
 	new_node.append_attribute("y").set_value(coord[1]);
 }
 
-TVec2 LoadCoord(const pugi::xml_node& node)
+TVec2 SerializeCommon::LoadCoord(const pugi::xml_node& node)
 {
 	TVec2 coord;
 	coord[0] = node.attribute("x").as_float();
@@ -37,22 +41,22 @@ TVec2 LoadCoord(const pugi::xml_node& node)
 	return coord;
 }
 
-void SaveTransform(pugi::xml_node& parent_node, std::string name, TBaluTransform transform)
+void SerializeCommon::SaveTransform(pugi::xml_node& parent_node, std::string name, TTransform transform)
 {
 	xml_node new_node = parent_node.append_child(name.c_str());
 	SaveCoord(new_node, "offset", transform.position);
 	new_node.append_attribute("rotation").set_value(transform.angle.GetAngle());
 }
 
-TBaluTransform LoadTransform(const pugi::xml_node& node)
+TTransform SerializeCommon::LoadTransform(const pugi::xml_node& node)
 {
-	TBaluTransform transform;
+	TTransform transform;
 	transform.position = LoadCoord(node.child("offset"));
 	transform.angle.Set(node.attribute("rotation").as_float());
 	return transform;
 }
 
-void SaveTransformWithScale(pugi::xml_node& parent_node, std::string name, TBaluTransformWithScale transform)
+void SerializeCommon::SaveTransformWithScale(pugi::xml_node& parent_node, std::string name, TTransformWithScale transform)
 {
 	xml_node new_node = parent_node.append_child(name.c_str());
 	SaveCoord(new_node, "offset", transform.transform.position);
@@ -60,9 +64,9 @@ void SaveTransformWithScale(pugi::xml_node& parent_node, std::string name, TBalu
 	SaveCoord(new_node, "scale", transform.scale);
 }
 
-TBaluTransformWithScale LoadTransformWithScale(const pugi::xml_node& node)
+TTransformWithScale SerializeCommon::LoadTransformWithScale(const pugi::xml_node& node)
 {
-	TBaluTransformWithScale transform;
+	TTransformWithScale transform;
 	transform.transform = LoadTransform(node);
 	transform.scale = LoadCoord(node.child("scale"));
 	return transform;

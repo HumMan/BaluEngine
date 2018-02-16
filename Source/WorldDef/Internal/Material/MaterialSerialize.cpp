@@ -12,7 +12,7 @@ void TBaluMaterial::Save(pugi::xml_node& parent_node, const int version)
 	SaveColor(new_node, color);
 }
 
-void TBaluMaterial::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TBaluMaterial::Load(const pugi::xml_node& node, const int version, TWorld* world)
 {
 	name = node.attribute("name").as_string();
 	image_path = node.attribute("image_path").as_string();

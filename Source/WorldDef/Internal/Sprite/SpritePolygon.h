@@ -1,146 +1,108 @@
 #pragma once
 
-#include "../Material/IMaterial.h"
-#include <Render/RenderCommand.h>
+#include "../../Interface.h"
 
-#include "IAnimationFrames.h"
+#include "../Material/Material.h"
 
-#include <baluLib.h>
-#include <vector>
+#include "AnimationFrames.h"
 
-namespace EngineInterface
+namespace BaluEngine
 {
-
-	class IBaluSpritePolygon
+	namespace WorldDef
 	{
-	public:
-
-		virtual bool PointCollide(TVec2 sprite_space_point)=0;
-		virtual TOBB2 GetBoundingBox()=0;
-		virtual bool IsEnable() = 0;
-		virtual void SetEnable(bool enable)=0 ;
-		virtual void AddAnimDesc(TAnimDesc* desc) = 0;
-		virtual void CreateAnimationLine(std::string line_name, std::vector<TAnimationFrames> frames) = 0;
-		virtual void CreateAnimationLine(std::string line_name, TAnimDesc* desc, std::vector<int> frames) = 0;
-
-		virtual IBaluMaterial* GetMaterial() = 0;
-		virtual void SetMaterial(IBaluMaterial* material) = 0;
-		virtual void SetAsBox(float width, float height) = 0;
-		virtual void SetPolygonFromTexture(std::string assets_dir) = 0;
-		virtual void SetVertices(std::vector<TVec2> vertices) = 0;
-		virtual std::vector<TVec2> GetTriangulatedVertices() = 0;
-		virtual std::vector<TVec2> GetPolygon()=0;
-		virtual std::vector<TVec2> GetTexCoords() = 0;
-
-		virtual int GetVerticesCount() = 0;
-		virtual void SetVertex(int id, TVec2 pos) = 0;
-		virtual TVec2 GetPolygonVertex(int id) = 0;
-		virtual TVec2 GetVertex(int id) = 0;
-
-		virtual TBaluTransformWithScale GetTransformWithScale() = 0;
-		virtual TBaluTransform GetTransform()=0;
-		virtual TVec2 GetScale() = 0;
-		virtual void SetTransform(TBaluTransform)=0;
-		virtual void SetScale(TVec2 scale)=0;
-
-		virtual void SetTexCoordsFromVertices(TVec2 origin, TVec2 scale) = 0;
-		virtual void SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top) = 0;
-	};
-
-#ifdef BALUENGINEDLL_EXPORTS
-	class TBaluSpritePolygon : public IBaluSpritePolygon, public TChangeListenerArray
-	{
-	private:
-		friend class TBaluSpritePolygonInstance;
-
-		TBaluMaterial* material;
-
-		std::vector<TVec2> polygon_vertices;//вершины замкнутого контура спрайта
-
-		TVec2 size; //используется при генерации полигона по текстуре
-		TBaluTransformWithScale transform; //положение полигона в спрайте
-
-		std::vector<TVec2> triangulated;
-
-		TVec2 tex_coord_origin, tex_coord_scale;
-		std::vector<TVec2> tex_coordinates;
-
-		std::vector<std::unique_ptr<TAnimDesc>> anim_descs;
-
-		std::map<std::string, TAnimLine> animation_lines;
-
-		bool enable;
-		bool draw_triangles_grid;
-
-		void UpdateTexCoords();
-		void UpdatePolyVertices();
-		void TriangulateGeometry();
-
-		int layer;
-
-		TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
-	public:
-
-		void SetDrawTrianglesGrid(bool draw)
+		namespace Internal
 		{
-			draw_triangles_grid = draw;
+			class TSpritePolygon : public ISpritePolygon, public TChangeListenerArray
+			{
+			private:
+				TBaluMaterial* material;
+
+				std::vector<BaluLib::TVec2> polygon_vertices;//вершины замкнутого контура спрайта
+
+				BaluLib::TVec2 size; //используется при генерации полигона по текстуре
+				TTransformWithScale transform; //положение полигона в спрайте
+
+				std::vector<BaluLib::TVec2> triangulated;
+
+				BaluLib::TVec2 tex_coord_origin, tex_coord_scale;
+				std::vector<BaluLib::TVec2> tex_coordinates;
+
+				std::vector<std::unique_ptr<IAnimDesc>> anim_descs;
+
+				std::map<std::string, TAnimLine> animation_lines;
+
+				bool enable;
+				bool draw_triangles_grid;
+
+				void UpdateTexCoords();
+				void UpdatePolyVertices();
+				void TriangulateGeometry();
+
+				int layer;
+
+				BaluLib::TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
+			public:
+
+				void SetDrawTrianglesGrid(bool draw)
+				{
+					draw_triangles_grid = draw;
+				}
+
+				int GetAnimDescIndex(IAnimDesc* desc)const;
+				IAnimDesc* GetAnimDesc(int index)const;
+
+				BaluLib::TAABB2 GetAABB(TTransformWithScale sprite_in_class);
+				BaluLib::TOBB2 GetBoundingBox();
+
+				bool PointCollide(BaluLib::TVec2 sprite_space_point);
+
+				bool IsEnable()
+				{
+					return enable;
+				}
+
+				void SetEnable(bool enable)
+				{
+					this->enable = enable;
+				}
+
+				TSpritePolygon();
+
+				TTransform GetTransform();
+				TTransformWithScale GetTransformWithScale();
+				BaluLib::TVec2 GetScale()
+				{
+					return transform.scale;
+				}
+				void SetTransform(TTransform);
+				void SetScale(BaluLib::TVec2 scale);
+
+				TBaluMaterial* GetMaterial();
+				void SetMaterial(TBaluMaterial* material);
+				void SetMaterial(IMaterial* material);
+				void SetAsBox(float width, float height);
+				void SetPolygonFromTexture(std::string assets_dir);
+				void SetVertices(std::vector<BaluLib::TVec2> vertices);
+				std::vector<BaluLib::TVec2> GetTriangulatedVertices();
+				std::vector<BaluLib::TVec2> GetPolygon();
+
+				std::vector<BaluLib::TVec2> GetTexCoords();
+
+				int GetVerticesCount();
+				void SetVertex(int id, BaluLib::TVec2 pos);
+				BaluLib::TVec2 GetPolygonVertex(int id);
+				BaluLib::TVec2 GetVertex(int id);
+
+				void SetTexCoordsFromVertices(BaluLib::TVec2 origin, BaluLib::TVec2 scale);
+				void SetTexCoordsFromVerticesByRegion(BaluLib::TVec2 left_bottom, BaluLib::TVec2 right_top);
+
+				void AddAnimDesc(IAnimDesc* desc);
+				void CreateAnimationLine(std::string line_name, std::vector<IAnimationFrames*> frames);
+				void CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames);
+
+				void Save(pugi::xml_node& parent_node, const int version)const;
+				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
+			};
 		}
-
-		int GetAnimDescIndex(TAnimDesc* desc);
-		TAnimDesc* GetAnimDesc(int index);
-
-		TAABB2 GetAABB(TBaluTransformWithScale sprite_in_class);
-		TOBB2 GetBoundingBox();
-
-		bool PointCollide(TVec2 sprite_space_point);
-
-		bool IsEnable()
-		{
-			return enable;
-		}
-
-		void SetEnable(bool enable)
-		{
-			this->enable = enable;
-		}
-
-		TBaluSpritePolygon();
-
-		TBaluTransform GetTransform();
-		TBaluTransformWithScale GetTransformWithScale();
-		TVec2 GetScale()
-		{
-			return transform.scale;
-		}
-		void SetTransform(TBaluTransform);
-		void SetScale(TVec2 scale);
-
-		TBaluMaterial* GetMaterial();
-		void SetMaterial(TBaluMaterial* material);
-		void SetMaterial(IBaluMaterial* material);
-		void SetAsBox(float width, float height);
-		void SetPolygonFromTexture(std::string assets_dir);
-		void SetVertices(std::vector<TVec2> vertices);
-		std::vector<TVec2> GetTriangulatedVertices();
-		std::vector<TVec2> GetPolygon();
-
-		std::vector<TVec2> GetTexCoords();
-
-		int GetVerticesCount();
-		void SetVertex(int id, TVec2 pos);
-		TVec2 GetPolygonVertex(int id);
-		TVec2 GetVertex(int id);
-
-		void SetTexCoordsFromVertices(TVec2 origin, TVec2 scale);
-		void SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top);
-
-		void AddAnimDesc(TAnimDesc* desc);
-		void CreateAnimationLine(std::string line_name, std::vector<TAnimationFrames> frames);
-		void CreateAnimationLine(std::string line_name, TAnimDesc* desc, std::vector<int> frames);
-
-		void Save(pugi::xml_node& parent_node, const int version);
-		void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world);
-};
-#endif
-
+	}
 }

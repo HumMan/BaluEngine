@@ -1,65 +1,65 @@
-#include "IClass.h"
+#include "Class.h"
 
-#include <Common/ICommon.h>
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
+using namespace BaluLib;
 
-using namespace EngineInterface;
-
-TBaluClass::TBaluClass(std::string name, IBaluWorld* world)
-	:TBaluWorldObject(world, name)
+TClass::TClass(std::string name, IWorld* world)
+	:TWorldObject(world, name)
 {
 	skeleton.reset(new TSkeleton());
 	this->skeleton_animation.reset(new TSkeletonAnimation(skeleton.get()));
 }
 
-TBaluClassPhysBody::TBaluClassPhysBody()
+TClassPhysBody::TClassPhysBody()
 {
 	enable = false;
 }
 
-void TBaluClassPhysBody::SetFixedRotation(bool fixed)
+void TClassPhysBody::SetFixedRotation(bool fixed)
 {
-	body_def.fixedRotation = fixed;
+	//body_def.fixedRotation = fixed;
 }
-void TBaluClassPhysBody::SetPhysBodyType(TPhysBodyType type)
+void TClassPhysBody::SetPhysBodyType(TPhysBodyType type)
 {
-	switch (type)
-	{
-	case Static:
-		body_def.type = b2BodyType::b2_staticBody;
-		break;
-	case Dynamic:
-		body_def.type = b2BodyType::b2_dynamicBody;
-		break;
-	case Kinematic:
-		body_def.type = b2BodyType::b2_kinematicBody;
-		break;
-	default:
-		assert(false);
-		break;
-	}
+	//switch (type)
+	//{
+	//case Static:
+	//	body_def.type = b2BodyType::b2_staticBody;
+	//	break;
+	//case Dynamic:
+	//	body_def.type = b2BodyType::b2_dynamicBody;
+	//	break;
+	//case Kinematic:
+	//	body_def.type = b2BodyType::b2_kinematicBody;
+	//	break;
+	//default:
+	//	assert(false);
+	//	break;
+	//}
 }
-void TBaluClassPhysBody::Enable(bool enable)
+void TClassPhysBody::Enable(bool enable)
 {
 	this->enable = enable;
 }
 
-bool TBaluClassPhysBody::IsEnable()
+bool TClassPhysBody::IsEnable()
 {
 	return this->enable;
 }
 
-b2BodyDef TBaluClassPhysBody::GetBodyDef()
-{
-	return body_def;
-}
+//b2BodyDef TClassPhysBody::GetBodyDef()
+//{
+//	return body_def;
+//}
 
-IProperties* TBaluClass::GetProperties()
+IProperties* TClass::GetProperties()
 {
 	return &properties;
 }
 
 
-bool TBaluClass::PointCollide(TVec2 class_space_point)
+bool TClass::PointCollide(TVec2 class_space_point)
 {
 	for (auto& s : sprites)
 	{
@@ -70,7 +70,7 @@ bool TBaluClass::PointCollide(TVec2 class_space_point)
 	return false;
 }
 
-TAABB2 TBaluClass::GetAABB()
+TAABB2 TClass::GetAABB()
 {
 	if (sprites.size() > 0)
 	{
@@ -83,54 +83,54 @@ TAABB2 TBaluClass::GetAABB()
 		return TAABB2(TVec2(0), TVec2(0));
 }
 
-void TBaluClass::Initialize()
+void TClass::Initialize()
 {
 	skeleton = std::unique_ptr<TSkeleton>(new TSkeleton);
 	skeleton_animation = std::unique_ptr<TSkeletonAnimation>(new TSkeletonAnimation(skeleton.get()));
 }
 
-TBaluClass::~TBaluClass()
+TClass::~TClass()
 {
 
 }
 
-TBaluClassPhysBody* TBaluClass::GetPhysBody()
+TClassPhysBody* TClass::GetPhysBody()
 {
 	return &phys_body;
 }
 
-TSkeletonAnimation* TBaluClass::GetSkeletonAnimation()
+TSkeletonAnimation* TClass::GetSkeletonAnimation()
 {
 	return skeleton_animation.get();
 }
 
-TSkeleton* TBaluClass::GetSkeleton()
+TSkeleton* TClass::GetSkeleton()
 {
 	return skeleton.get();
 }
 
-TBaluTransformedSprite* TBaluClass::AddSprite(TBaluSprite* sprite)
+TTransformedSprite* TClass::AddSprite(TBaluSprite* sprite)
 {
-	sprites.push_back(std::unique_ptr<TBaluTransformedSprite>(new TBaluTransformedSprite(sprite)));
+	sprites.push_back(std::unique_ptr<TTransformedSprite>(new TTransformedSprite(sprite)));
 	return sprites.back().get();
 }
 
-IBaluTransformedSprite* TBaluClass::AddSprite(IBaluSprite* sprite)
+ITransformedSprite* TClass::AddSprite(ISprite* sprite)
 {
 	return AddSprite(dynamic_cast<TBaluSprite*>(sprite));
 }
 
-void TBaluClass::RemoveSprite(TBaluSprite* sprite)
+void TClass::RemoveSprite(TBaluSprite* sprite)
 {
 
 }
 
-int TBaluClass::GetSpritesCount()
+int TClass::GetSpritesCount()
 {
 	return sprites.size();
 }
 
-TBaluTransformedSprite* TBaluClass::GetSprite(int index)
+TTransformedSprite* TClass::GetSprite(int index)
 {
 	return sprites[index].get();
 }

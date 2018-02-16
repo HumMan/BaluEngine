@@ -85,7 +85,7 @@ std::vector<TSpriteWithClassCollide>& TEventsEditor::GetOnCollide()
 	return on_collide_callbacks;
 }
 
-TScript* TEventsEditor::GetOnCollide(IBaluTransformedSprite* sprite, IBaluClass* obstancle_class)
+TScript* TEventsEditor::GetOnCollide(ITransformedSprite* sprite, IClass* obstancle_class)
 {
 	for (auto& v : on_collide_callbacks)
 		if (v.with_class == obstancle_class && v.sprite == sprite)
@@ -93,7 +93,7 @@ TScript* TEventsEditor::GetOnCollide(IBaluTransformedSprite* sprite, IBaluClass*
 	return nullptr;
 }
 
-void TEventsEditor::AddOnCollide(IBaluTransformedSprite* sprite, IBaluClass* obstancle_class, TScript callback)
+void TEventsEditor::AddOnCollide(ITransformedSprite* sprite, IClass* obstancle_class, TScript callback)
 {
 	on_collide_callbacks.push_back(TSpriteWithClassCollide(sprite, obstancle_class, callback));
 }
@@ -135,28 +135,28 @@ std::vector<TScript>& TEventsEditor::GetOnBeforePhysicsStepGlobal()
 	return global_before_physics_callbacks;
 }
 
-std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& TEventsEditor::GetOnKeyDown()
+std::map<TKey, std::vector<std::tuple<TScript, IClass*>>>& TEventsEditor::GetOnKeyDown()
 {
 	return on_key_down_callbacks;
 }
 
-std::map<TKey, std::vector<std::tuple<TScript, IBaluClass*>>>& TEventsEditor::GetOnKeyUp()
+std::map<TKey, std::vector<std::tuple<TScript, IClass*>>>& TEventsEditor::GetOnKeyUp()
 {
 	return on_key_up_callbacks;
 }
-std::vector<std::tuple<TScript, IBaluClass*>>& TEventsEditor::GetOnBeforePhysicsStep()
+std::vector<std::tuple<TScript, IClass*>>& TEventsEditor::GetOnBeforePhysicsStep()
 {
 	return before_physics_callbacks;
 }
-void TEventsEditor::OnKeyDown(TKey key, TScript callback, IBaluClass* use_class)
+void TEventsEditor::OnKeyDown(TKey key, TScript callback, IClass* use_class)
 {
-	on_key_down_callbacks[key].push_back(std::tuple<TScript, IBaluClass*>(callback, use_class));
+	on_key_down_callbacks[key].push_back(std::tuple<TScript, IClass*>(callback, use_class));
 }
-void TEventsEditor::OnKeyUp(TKey key, TScript callback, IBaluClass* use_class)
+void TEventsEditor::OnKeyUp(TKey key, TScript callback, IClass* use_class)
 {
-	on_key_up_callbacks[key].push_back(std::tuple<TScript, IBaluClass*>(callback, use_class));
+	on_key_up_callbacks[key].push_back(std::tuple<TScript, IClass*>(callback, use_class));
 }
-void TEventsEditor::OnBeforePhysicsStep(TScript callback, IBaluClass* use_class)
+void TEventsEditor::OnBeforePhysicsStep(TScript callback, IClass* use_class)
 {
-	before_physics_callbacks.push_back(std::tuple<TScript, IBaluClass*>(callback, use_class));
+	before_physics_callbacks.push_back(std::tuple<TScript, IClass*>(callback, use_class));
 }

@@ -1,12 +1,15 @@
-#include "IClass.h"
+#include "Class.h"
 
-#include <Common/SerializeCommon.h>
+#include <pugixml.hpp>
 
-#include "../../IWorld.h"
+#include "../Common/SerializeCommon.h"
 
-using namespace EngineInterface;
+using namespace pugi;
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
+using namespace BaluLib;
 
-void TBaluClassPhysBody::Save(pugi::xml_node& parent_node, const int version)
+void TClassPhysBody::Save(pugi::xml_node& parent_node, const int version)const
 {
 	auto phys_Body_node = parent_node.append_child("PhysBody");
 	phys_Body_node.append_attribute("enable").set_value(enable);
@@ -15,7 +18,7 @@ void TBaluClassPhysBody::Save(pugi::xml_node& parent_node, const int version)
 	body_def_node.append_attribute("type").set_value(body_def.type);
 }
 
-void TBaluClassPhysBody::Load(const pugi::xml_node& phys_body_node, const int version, TBaluWorld* world)
+void TClassPhysBody::Load(const pugi::xml_node& phys_body_node, const int version, IWorld* world)
 {
 	enable = phys_body_node.attribute("enable").as_bool();
 	auto body_def_node = phys_body_node.child("PhysBody");
@@ -30,7 +33,7 @@ void TTrackFrame::Save(pugi::xml_node& parent_node, const int version)const
 	frame_node.append_attribute("rotation").set_value(rotation);
 }
 
-void TTrackFrame::Load(const pugi::xml_node& frame_node, const int version, TBaluWorld* world)
+void TTrackFrame::Load(const pugi::xml_node& frame_node, const int version, IWorld* world)
 {
 	time = frame_node.attribute("time").as_float();
 	rotation = frame_node.attribute("rotation").as_float();
@@ -48,7 +51,7 @@ void TTrack::Save(pugi::xml_node& parent_node, const int version, TSkeleton* ske
 	}
 }
 
-void TTrack::Load(const pugi::xml_node& track_node, const int version, TBaluWorld* world, TSkeleton* skeleton)
+void TTrack::Load(const pugi::xml_node& track_node, const int version, IWorld* world, TSkeleton* skeleton)
 {
 	bone = skeleton->GetBone(track_node.attribute("bone_id").as_int());
 	auto tracks_node = track_node.child("Frames");
@@ -59,7 +62,6 @@ void TTrack::Load(const pugi::xml_node& track_node, const int version, TBaluWorl
 		frames.insert(frame);
 	}
 }
-
 
 void TTimeLine::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton)
 {
@@ -74,7 +76,7 @@ void TTimeLine::Save(pugi::xml_node& parent_node, const int version, TSkeleton* 
 	}
 }
 
-void TTimeLine::Load(const pugi::xml_node& timeline_node, const int version, TBaluWorld* world, TSkeleton* skeleton)
+void TTimeLine::Load(const pugi::xml_node& timeline_node, const int version, IWorld* world, TSkeleton* skeleton)
 {
 	name = timeline_node.attribute("name").as_string();
 	timeline_size = timeline_node.attribute("timeline_size").as_float();
@@ -89,7 +91,7 @@ void TTimeLine::Load(const pugi::xml_node& timeline_node, const int version, TBa
 }
 
 
-void TSkeletonAnimation::Save(pugi::xml_node& parent_node, const int version)
+void TSkeletonAnimation::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node skeleton_animation_node = parent_node.append_child("SkeletonAnimation");
 	xml_node animations_node = skeleton_animation_node.append_child("Animations");
@@ -99,7 +101,7 @@ void TSkeletonAnimation::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TSkeletonAnimation::Load(const pugi::xml_node& skel_animation_node, const int version, TBaluWorld* world)
+void TSkeletonAnimation::Load(const pugi::xml_node& skel_animation_node, const int version, IWorld* world)
 {
 	auto animation_node = skel_animation_node.child("Animations");
 	for (pugi::xml_node prop_node = animation_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
@@ -110,7 +112,7 @@ void TSkeletonAnimation::Load(const pugi::xml_node& skel_animation_node, const i
 	}
 }
 
-void TBone::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton)
+void TBone::Save(pugi::xml_node& parent_node, const int version, const TSkeleton* skeleton)const
 {
 	xml_node bone_node = parent_node.append_child("Bone");
 
@@ -121,7 +123,7 @@ void TBone::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skel
 	else
 		bone_node.append_attribute("parent_id").set_value(-1);
 
-	SaveTransform(bone_node, "LocalTransform", local);
+	SerializeCommon::SaveTransform(bone_node, "LocalTransform", local);
 
 	xml_node children_node = bone_node.append_child("Children");
 	for (auto& v : children)
@@ -131,7 +133,7 @@ void TBone::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skel
 	}
 }
 
-void TBone::Load(const pugi::xml_node& bone_node, const int version, TBaluWorld* world, TSkeleton* skeleton)
+void TBone::Load(const pugi::xml_node& bone_node, const int version, IWorld* world, TSkeleton* skeleton)
 {
 	auto parent_id = bone_node.attribute("parent_id").as_int();
 	if (parent_id == -1)
@@ -139,7 +141,7 @@ void TBone::Load(const pugi::xml_node& bone_node, const int version, TBaluWorld*
 	else
 		parent = skeleton->GetBone(parent_id);
 
-	local = LoadTransform(bone_node.child("LocalTransform"));
+	local = SerializeCommon::LoadTransform(bone_node.child("LocalTransform"));
 
 	xml_node children_node = bone_node.child("Children");
 	for (pugi::xml_node prop_node = children_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
@@ -148,7 +150,7 @@ void TBone::Load(const pugi::xml_node& bone_node, const int version, TBaluWorld*
 	}
 }
 
-void TSkin::Save(pugi::xml_node& parent_node, const int version)
+void TSkin::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node skin_node = parent_node.append_child("Skin");
 	xml_node sprites_of_bones_node = skin_node.append_child("SpritesOfBones");
@@ -162,7 +164,7 @@ void TSkin::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TSkin::Load(const pugi::xml_node& skin_node, const int version, TBaluWorld* world)
+void TSkin::Load(const pugi::xml_node& skin_node, const int version, IWorld* world)
 {
 	xml_node sprites_of_bones_node = skin_node.child("SpritesOfBones");
 	for (pugi::xml_node sprites_node = sprites_of_bones_node.first_child(); sprites_node; sprites_node = sprites_node.next_sibling())
@@ -176,7 +178,7 @@ void TSkin::Load(const pugi::xml_node& skin_node, const int version, TBaluWorld*
 	}
 }
 
-void TSkeleton::Save(pugi::xml_node& parent_node, const int version)
+void TSkeleton::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node skeleton_node = parent_node.append_child("Skeleton");
 	xml_node bones_node = skeleton_node.append_child("Bones");
@@ -192,7 +194,7 @@ void TSkeleton::Save(pugi::xml_node& parent_node, const int version)
 	skeleton_node.append_attribute("root_node").set_value(root);
 }
 
-void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version, TBaluWorld* world)
+void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version, IWorld* world)
 {
 	if (skeleton_node.first_child())
 	{
@@ -219,20 +221,20 @@ void TSkeleton::Load(const pugi::xml_node& skeleton_node, const int version, TBa
 }
 
 
-void TBaluTransformedSprite::Save(pugi::xml_node& parent_node, const int version)
+void TTransformedSprite::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node sprite_node = parent_node.append_child("sprite");
 	sprite_node.append_attribute("name").set_value(sprite->GetName().c_str());
-	SaveTransformWithScale(sprite_node, "Transform", local);
+	SerializeCommon::SaveTransformWithScale(sprite_node, "Transform", local);
 }
 
-void TBaluTransformedSprite::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TTransformedSprite::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
 	sprite = dynamic_cast<TBaluSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, node.attribute("name").as_string()));
-	local = LoadTransformWithScale(node.child("Transform"));
+	local = SerializeCommon::LoadTransformWithScale(node.child("Transform"));
 }
 
-void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
+void TClass::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node new_node = parent_node.append_child("Class");
 	new_node.append_attribute("name").set_value(name.c_str());
@@ -290,7 +292,7 @@ void TBaluClass::Save(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld* world)
+void TClass::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
 	name = node.attribute("name").as_string();
 	//layer_name = node.attribute("name").as_string();
@@ -298,9 +300,9 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 		xml_node sprites_node = node.child("sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
-			TBaluTransformedSprite* new_sprite_instance = new TBaluTransformedSprite();
+			TTransformedSprite* new_sprite_instance = new TTransformedSprite();
 			new_sprite_instance->Load(sprite_node, version, world);
-			sprites.push_back(std::unique_ptr<TBaluTransformedSprite>(new_sprite_instance));
+			sprites.push_back(std::unique_ptr<TTransformedSprite>(new_sprite_instance));
 		}
 	}
 	xml_node phys_body_node = node.child("PhysBody");
@@ -357,7 +359,7 @@ void TBaluClass::Load(const pugi::xml_node& node, const int version, TBaluWorld*
 				auto class_name = collide_collback_node.attribute("class").as_string();
 				auto sprite_name = collide_collback_node.attribute("sprite").as_string();
 
-				auto collide_with_class = dynamic_cast<TBaluClass*>(world->GetObjectByName(TWorldObjectType::Class, class_name));
+				auto collide_with_class = dynamic_cast<TClass*>(world->GetObjectByName(TWorldObjectType::Class, class_name));
 				auto collide_sprite = dynamic_cast<TBaluSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, sprite_name));
 
 				on_collide_callbacks.push_back(TSpriteWithClassCollide(collide_sprite, collide_with_class, new_callback));

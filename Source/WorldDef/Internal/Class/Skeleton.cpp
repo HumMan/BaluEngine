@@ -7,12 +7,12 @@ TBone::TBone(TBone* parent)
 	this->parent = parent;
 }
 
-void TBone::SetTransform(TBaluTransform local)
+void TBone::SetTransform(TTransform local)
 {
 	this->local = local;
 }
 
-TBaluTransform TBone::GetTransform()
+TTransform TBone::GetTransform()
 {
 	return local;
 }
@@ -35,13 +35,13 @@ TSkin::TSkin(int bones_count)
 	sprites_of_bones.resize(bones_count);
 }
 
-void TSkin::SetBoneSprite(int bone_index, TBaluSprite* sprite, TBaluTransform global)
+void TSkin::SetBoneSprite(int bone_index, TBaluSprite* sprite, TTransform global)
 {
-	sprites_of_bones[bone_index].push_back(TBaluTransformedSprite(sprite));
+	sprites_of_bones[bone_index].push_back(TTransformedSprite(sprite));
 	sprites_of_bones[bone_index].back().SetTransform(global);
 }
 
-void TSkin::SetBoneSprite(int bone_index, EngineInterface::IBaluSprite* sprite, TBaluTransform global)
+void TSkin::SetBoneSprite(int bone_index, EngineInterface::ISprite* sprite, TTransform global)
 {
 	SetBoneSprite(bone_index, dynamic_cast<TBaluSprite*>(sprite), global);
 }
@@ -51,7 +51,7 @@ int TSkin::GetBonesCount()
 	return sprites_of_bones.size();
 }
 
-std::vector<TBaluTransformedSprite>& TSkin::GetSpritesOfBone(int bone_index)
+std::vector<TTransformedSprite>& TSkin::GetSpritesOfBone(int bone_index)
 {
 	return sprites_of_bones[bone_index];
 }

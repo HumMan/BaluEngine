@@ -33,7 +33,7 @@ public:
 		TProperty::Save(parent_node, version);
 		parent_node.append_attribute("value").set_value(value);
 	}
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+	void Load(const pugi::xml_node& instance_node, const int version, TWorld* world)
 	{
 		value = instance_node.attribute("value").as_bool();
 	}
@@ -67,7 +67,7 @@ public:
 		TProperty::Save(parent_node, version);
 		parent_node.append_attribute("value").set_value(value.c_str());
 	}
-	void Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+	void Load(const pugi::xml_node& instance_node, const int version, TWorld* world)
 	{
 		TProperty::Load(instance_node, version, world);
 	}
@@ -79,7 +79,7 @@ void TProperty::Save(pugi::xml_node& parent_node, const int version)
 {
 	parent_node.append_attribute("type").set_value(GetTypeString());
 }
-void TProperty::Load(const pugi::xml_node& instance_node, const int version, TBaluWorld* world)
+void TProperty::Load(const pugi::xml_node& instance_node, const int version, TWorld* world)
 {}
 TProperty::~TProperty()
 {

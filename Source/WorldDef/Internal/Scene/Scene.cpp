@@ -2,12 +2,12 @@
 
 using namespace EngineInterface;
 
-TVec2 EngineInterface::IBaluScene::FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord)
+TVec2 EngineInterface::IScene::FromViewportToScene(EngineInterface::IViewport* viewport, TVec2 viewport_coord)
 {
 	return ((viewport_coord - TVec2(0.5, 0.5))).ComponentMul(viewport->GetAABB().GetSize()) + viewport->GetAABB().GetPosition();
 }
 
-TVec2 EngineInterface::IBaluScene::FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord)
+TVec2 EngineInterface::IScene::FromSceneToViewport(EngineInterface::IViewport* viewport, TVec2 scene_coord)
 {
 	//return (scene_coord - viewport->GetAABB().GetPosition()) / viewport->GetAABB().GetSize();
 	return ((scene_coord - viewport->GetAABB().GetPosition()) / viewport->GetAABB().GetSize())+TVec2(0.5,0.5);
@@ -21,8 +21,8 @@ TViewport* TBaluScene::CreateViewport(const std::string& name)
 	return &(viewports[name]);
 }
 
-TBaluScene::TBaluScene(const char* name, IBaluWorld* world) 
-	:layers(this), TBaluWorldObject(world, name)
+TBaluScene::TBaluScene(const char* name, IWorld* world) 
+	:layers(this), TWorldObject(world, name)
 {
 }
 
@@ -50,12 +50,12 @@ TSceneObject* TBaluScene::GetInstance(int index)
 
 TSceneObject* TBaluScene::CreateInstance(TBaluClass* balu_class)
 {
-	instances.push_back(std::unique_ptr<TBaluTransformedClass>(new TBaluTransformedClass(balu_class)));
+	instances.push_back(std::unique_ptr<TTransformedClass>(new TTransformedClass(balu_class)));
 	TChangeListenerArray::OnElementAdded(TWorldObjectSubType::SceneClassInstance);
 	return instances.back().get();
 }
 
-TSceneObject* TBaluScene::CreateInstance(EngineInterface::IBaluClass* balu_class)
+TSceneObject* TBaluScene::CreateInstance(EngineInterface::IClass* balu_class)
 {
 	return CreateInstance(dynamic_cast<TBaluClass*>(balu_class));
 }

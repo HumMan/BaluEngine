@@ -1,11 +1,7 @@
-#include "IMaterial.h"
+#include "Material.h"
 
-#include <Common/ICommon.h>
-
-using namespace EngineInterface;
-
-TBaluMaterial::TBaluMaterial(std::string material_name, IBaluWorld* world)
-	:TBaluWorldObject(world, material_name)
+TBaluMaterial::TBaluMaterial(std::string material_name, IWorld* world)
+	:TWorldObject(world, material_name)
 {
 }
 

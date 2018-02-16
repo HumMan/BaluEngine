@@ -1,12 +1,12 @@
 #define NOMINMAX
 
-#include "ISpritePolygon.h"
+#include "SpritePolygon.h"
 
 #include "Utils/texture_polygon.h"
 
 #include "../../poly2tri/poly2tri/poly2tri.h"
 
-#include <string.h>
+
 
 using namespace EngineInterface;
 
@@ -35,7 +35,7 @@ void AnimDescFactory::UnregisterAll()
 	delete anim_descs_registry;
 }
 
-TAABB2 TBaluSpritePolygon::GetVerticesBox()
+TAABB2 TSpritePolygon::GetVerticesBox()
 {
 	//if (vertices.size() > 0)
 	//{
@@ -57,19 +57,19 @@ TAABB2 TBaluSpritePolygon::GetVerticesBox()
 		return TAABB2(TVec2(0), TVec2(0));
 }
 
-int TBaluSpritePolygon::GetAnimDescIndex(EngineInterface::TAnimDesc* desc)
+int TSpritePolygon::GetAnimDescIndex(EngineInterface::TAnimDesc* desc)
 {
 	for (int i = 0; i < anim_descs.size(); i++)
 		if (anim_descs[i].get() == desc)
 			return i;
 	return -1;
 }
-EngineInterface::TAnimDesc* TBaluSpritePolygon::GetAnimDesc(int index)
+EngineInterface::TAnimDesc* TSpritePolygon::GetAnimDesc(int index)
 {
 	return anim_descs[index].get();
 }
 
-TAABB2 TBaluSpritePolygon::GetAABB(TBaluTransformWithScale sprite_in_class)
+TAABB2 TSpritePolygon::GetAABB(TTransformWithScale sprite_in_class)
 {
 	auto global = sprite_in_class.ToGlobal(transform);
 
@@ -84,12 +84,12 @@ TAABB2 TBaluSpritePolygon::GetAABB(TBaluTransformWithScale sprite_in_class)
 		return TAABB2(global.ToGlobal(TVec2(0)), TVec2(0));
 }
 
-TOBB2 TBaluSpritePolygon::GetBoundingBox()
+TOBB2 TSpritePolygon::GetBoundingBox()
 {
 	return transform.ToGlobal(GetVerticesBox());
 }
 
-bool TBaluSpritePolygon::PointCollide(TVec2 sprite_space_point)
+bool TSpritePolygon::PointCollide(TVec2 sprite_space_point)
 {
 	TVec2 p = this->transform.ToLocal(sprite_space_point);
 	for (int i = 0; i < triangulated.size(); i += 3)
@@ -177,7 +177,7 @@ TAnimationFrames::TAnimationFrames(TAnimDesc* desc, int frame)
 	this->frames = std::vector < int > {frame};
 }
 
-TBaluSpritePolygon::TBaluSpritePolygon()
+TSpritePolygon::TSpritePolygon()
 {
 	layer = 0;
 	enable = true;
@@ -189,26 +189,26 @@ TBaluSpritePolygon::TBaluSpritePolygon()
 	tex_coord_origin = TVec2(0, 0);
 	tex_coord_scale = TVec2(1, 1);
 }
-TBaluTransformWithScale TBaluSpritePolygon::GetTransformWithScale()
+TTransformWithScale TSpritePolygon::GetTransformWithScale()
 {
 	return transform;
 }
-TBaluTransform TBaluSpritePolygon::GetTransform()
+TTransform TSpritePolygon::GetTransform()
 {
 	return transform.transform;
 }
 
-void TBaluSpritePolygon::SetTransform(TBaluTransform t)
+void TSpritePolygon::SetTransform(TTransform t)
 {
 	transform.transform = t;
 }
 
-void TBaluSpritePolygon::SetScale(TVec2 scale)
+void TSpritePolygon::SetScale(TVec2 scale)
 {
 	transform.scale = scale;
 }
 
-void TBaluSpritePolygon::SetPolygonFromTexture(std::string assets_dir)
+void TSpritePolygon::SetPolygonFromTexture(std::string assets_dir)
 {
 	//TODO
 	//if (material != nullptr)
@@ -251,7 +251,7 @@ void TBaluSpritePolygon::SetPolygonFromTexture(std::string assets_dir)
 }
 
 
-void TBaluSpritePolygon::TriangulateGeometry()
+void TSpritePolygon::TriangulateGeometry()
 {
 	if (polygon_vertices.size() <= 2)
 	{
@@ -292,28 +292,28 @@ void TBaluSpritePolygon::TriangulateGeometry()
 	}
 }
 
-void TBaluSpritePolygon::UpdatePolyVertices()
+void TSpritePolygon::UpdatePolyVertices()
 {
 	for (int i = 0; i < polygon_vertices.size(); i++)
 		polygon_vertices[i] = transform.ToGlobal(polygon_vertices[i]);
 }
 
-TBaluMaterial* TBaluSpritePolygon::GetMaterial()
+TBaluMaterial* TSpritePolygon::GetMaterial()
 {
 	return material;
 }
 
-void TBaluSpritePolygon::SetMaterial(TBaluMaterial* material)
+void TSpritePolygon::SetMaterial(TBaluMaterial* material)
 {
 	this->material = material;
 }
 
-void TBaluSpritePolygon::SetMaterial(EngineInterface::IBaluMaterial* material)
+void TSpritePolygon::SetMaterial(EngineInterface::IMaterial* material)
 {
 	SetMaterial(dynamic_cast<TBaluMaterial*>(material));
 }
 
-void TBaluSpritePolygon::SetAsBox(float width, float height)
+void TSpritePolygon::SetAsBox(float width, float height)
 {
 	size = TVec2(width, height);
 	polygon_vertices.resize(4);
@@ -324,56 +324,56 @@ void TBaluSpritePolygon::SetAsBox(float width, float height)
 	TriangulateGeometry();
 }
 
-void TBaluSpritePolygon::SetVertices(std::vector<TVec2> vertices)
+void TSpritePolygon::SetVertices(std::vector<TVec2> vertices)
 {
 	this->polygon_vertices = vertices;
 	TriangulateGeometry();
 	UpdateTexCoords();
 }
-std::vector<TVec2> TBaluSpritePolygon::GetPolygon()
+std::vector<TVec2> TSpritePolygon::GetPolygon()
 {
 	return polygon_vertices;
 }
-std::vector<TVec2> TBaluSpritePolygon::GetTriangulatedVertices()
+std::vector<TVec2> TSpritePolygon::GetTriangulatedVertices()
 {
 	return triangulated;
 }
 
-std::vector<TVec2> TBaluSpritePolygon::GetTexCoords()
+std::vector<TVec2> TSpritePolygon::GetTexCoords()
 {
 	return tex_coordinates;
 }
 
-int TBaluSpritePolygon::GetVerticesCount()
+int TSpritePolygon::GetVerticesCount()
 {
 	return polygon_vertices.size();
 }
 
-void TBaluSpritePolygon::SetVertex(int id, TVec2 pos)
+void TSpritePolygon::SetVertex(int id, TVec2 pos)
 {
 	polygon_vertices[id] = pos;
 	TriangulateGeometry();
 	UpdateTexCoords();
 }
 
-TVec2 TBaluSpritePolygon::GetPolygonVertex(int id)
+TVec2 TSpritePolygon::GetPolygonVertex(int id)
 {
 	return polygon_vertices[id];
 }
 
-TVec2 TBaluSpritePolygon::GetVertex(int id)
+TVec2 TSpritePolygon::GetVertex(int id)
 {
 	return polygon_vertices[id];
 }
 
-void TBaluSpritePolygon::SetTexCoordsFromVertices(TVec2 tex_coord_origin, TVec2 tex_coord_scale)
+void TSpritePolygon::SetTexCoordsFromVertices(TVec2 tex_coord_origin, TVec2 tex_coord_scale)
 {
 	this->tex_coord_origin = tex_coord_origin;
 	this->tex_coord_scale = tex_coord_scale;
 	UpdateTexCoords();
 }
 
-void TBaluSpritePolygon::UpdateTexCoords()
+void TSpritePolygon::UpdateTexCoords()
 {
 	tex_coordinates.resize(triangulated.size());
 	auto vertex_left_bottom = - size*0.5;
@@ -389,7 +389,7 @@ void TBaluSpritePolygon::UpdateTexCoords()
 	}
 }
 
-void TBaluSpritePolygon::SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top)
+void TSpritePolygon::SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 right_top)
 {
 	this->tex_coord_origin = (left_bottom+right_top)*0.5;
 	this->tex_coord_scale = (left_bottom - right_top).GetAbs();
@@ -397,12 +397,12 @@ void TBaluSpritePolygon::SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVe
 	UpdateTexCoords();
 }
 
-void TBaluSpritePolygon::AddAnimDesc(TAnimDesc* desc)
+void TSpritePolygon::AddAnimDesc(TAnimDesc* desc)
 {
 	anim_descs.push_back(std::unique_ptr<TAnimDesc>(desc));
 }
 
-void TBaluSpritePolygon::CreateAnimationLine(std::string line_name, std::vector<TAnimationFrames> frames)
+void TSpritePolygon::CreateAnimationLine(std::string line_name, std::vector<TAnimationFrames> frames)
 {
 	TAnimLine new_line;
 	new_line.line_name = line_name;
@@ -410,7 +410,7 @@ void TBaluSpritePolygon::CreateAnimationLine(std::string line_name, std::vector<
 	animation_lines[line_name] = new_line;
 }
 
-void TBaluSpritePolygon::CreateAnimationLine(std::string line_name, TAnimDesc* desc, std::vector<int> frames)
+void TSpritePolygon::CreateAnimationLine(std::string line_name, TAnimDesc* desc, std::vector<int> frames)
 {
 	std::vector<TAnimationFrames> anim_frames;
 	anim_frames.push_back(TAnimationFrames(desc, frames));

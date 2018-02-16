@@ -14,29 +14,29 @@ scene_object_registry_type *scene_object_registry = nullptr;
 typedef std::vector < std::pair<const char*, SceneObjectInstanceClone>> scene_object_instance_registry_type;
 scene_object_instance_registry_type *scene_object_instance_registry = nullptr;
 
-void TBaluWorldObject::SetName(const std::string& name)
+void TWorldObject::SetName(const std::string& name)
 {
 	assert(!world->ObjectNameExists(TWorldObjectType::Material, name.c_str()));
 	this->name = name;
 }
 
-std::string TBaluWorldObject::GetName()
+std::string TWorldObject::GetName()
 {
 	return name;
 }
 
-TBaluWorldObject::TBaluWorldObject(IBaluWorld* world, std::string name)
+TWorldObject::TWorldObject(IWorld* world, std::string name)
 {
 	this->world = world;
 	this->name = name;
 }
 
-IProperties* TBaluWorldObject::GetProperties()
+IProperties* TWorldObject::GetProperties()
 {
 	return &properties;
 }
 
-IBaluWorld* TBaluWorldObject::GetWorld()
+IWorld* TWorldObject::GetWorld()
 {
 	return world;
 }
@@ -44,14 +44,14 @@ IBaluWorld* TBaluWorldObject::GetWorld()
 
 namespace EngineInterface
 {
-	IBaluWorld* CreateWorld()
+	IWorld* CreateWorld()
 	{
-		return (new TBaluWorld());
+		return (new TWorld());
 	}
 
-	void DestroyWorld(IBaluWorld* world)
+	void DestroyWorld(IWorld* world)
 	{
-		delete dynamic_cast<TBaluWorld*>(world);
+		delete dynamic_cast<TWorld*>(world);
 	}
 
 
@@ -75,19 +75,19 @@ namespace EngineInterface
 		}
 	}
 
-	IBaluWorldInstance* CreateWorldInstance(IBaluWorld* source, IResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
+	IWorldInstance* CreateWorldInstance(IWorld* source, IResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
 	{
-		return new TBaluWorldInstance(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TResources*>(resources), assets_dir, call_scripts, compile_success, error_message);
+		return new TWorldInstance(dynamic_cast<TWorld*>(source), dynamic_cast<TResources*>(resources), assets_dir, call_scripts, compile_success, error_message);
 	}
 
-	void DestroyWorldInstance(IBaluWorldInstance* world)
+	void DestroyWorldInstance(IWorldInstance* world)
 	{
-		delete dynamic_cast<TBaluWorldInstance*>(world);
+		delete dynamic_cast<TWorldInstance*>(world);
 	}
 
-	/*bool CompileScripts(IBaluWorld* source, IBaluScriptInstance* script_instance, std::vector<std::string>& errors_list)
+	/*bool CompileScripts(IWorld* source, IScriptInstance* script_instance, std::vector<std::string>& errors_list)
 	{
-		return TBaluWorldInstance::CheckScriptErrors(dynamic_cast<TBaluWorld*>(source), dynamic_cast<TBaluScriptInstance*>(script_instance), errors_list);
+		return TWorldInstance::CheckScriptErrors(dynamic_cast<TWorld*>(source), dynamic_cast<TBaluScriptInstance*>(script_instance), errors_list);
 	}*/
 
 	TVec2 TDrawingHelperContext::FromScreenPixelsToScene(TVec2i screen_pixels)
@@ -95,12 +95,12 @@ namespace EngineInterface
 
 		auto screen_coords = screen->FromScreenPixels2(screen_pixels);
 		auto view_coord = screen->FromScreenToView(*view, screen_coords);
-		auto scene_coord = IBaluScene::FromViewportToScene(viewport, view_coord);
+		auto scene_coord = IScene::FromViewportToScene(viewport, view_coord);
 		return scene_coord;
 	}
 	TVec2i TDrawingHelperContext::FromSceneToScreenPixels(TVec2 scene_coordinates)
 	{
-		auto viewport_coord = IBaluScene::FromSceneToViewport(viewport, scene_coordinates);
+		auto viewport_coord = IScene::FromSceneToViewport(viewport, scene_coordinates);
 		auto screen_coord = screen->FromViewToScreen(*view, viewport_coord);
 		auto screen_pixels = screen->ToScreenPixels2(screen_coord);
 		return screen_pixels;
