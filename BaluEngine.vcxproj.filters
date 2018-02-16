@@ -211,43 +211,43 @@
     <ClInclude Include="Source\WorldInstance\Scripts\ScriptClassesRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Class\IClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Class\ISkeleton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Class\ISkeletonAnimation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Material\IMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Scene\IScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldDef\Internal\Scene\Layers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Scripts\ICallbacks.h">
+    <ClInclude Include="Source\WorldDef\Internal\World\World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Scripts\IEventsEditor.h">
+    <ClInclude Include="Source\WorldDef\Internal\Sprite\AnimationFrames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Sprite\ISprite.h">
+    <ClInclude Include="Source\WorldDef\Internal\Sprite\PhysShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Sprite\ISpritePolygon.h">
+    <ClInclude Include="Source\WorldDef\Internal\Sprite\SpritePolygon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Sprite\IPhysShape.h">
+    <ClInclude Include="Source\WorldDef\Internal\Sprite\Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Sprite\IAnimationFrames.h">
+    <ClInclude Include="Source\WorldDef\Internal\Scripts\Callbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\World\IWorld.h">
+    <ClInclude Include="Source\WorldDef\Internal\Scripts\EventsEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Material\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Class\Class.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Class\Skeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Class\SkeletonAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
