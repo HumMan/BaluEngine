@@ -17,7 +17,7 @@ namespace BaluEngine
 			virtual bool IsEnable() = 0;
 			virtual void SetEnable(bool enable) = 0;
 			virtual void AddAnimDesc(IAnimDesc* desc) = 0;
-			virtual void CreateAnimationLine(std::string line_name, std::vector<IAnimationFrames*> frames) = 0;
+			virtual void CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames) = 0;
 			virtual void CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames) = 0;
 
 			virtual IMaterial* GetMaterial() = 0;

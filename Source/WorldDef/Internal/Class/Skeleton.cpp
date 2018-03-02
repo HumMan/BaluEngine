@@ -1,6 +1,10 @@
-#include "IClass.h"
+#include "Skeleton.h"
 
-using namespace EngineInterface;
+#include "../Sprite/Sprite.h"
+
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
+using namespace BaluLib;
 
 TBone::TBone(TBone* parent)
 {
@@ -27,7 +31,7 @@ int TBone::GetChildrenCount()
 }
 TBone* TBone::GetChild(int index)
 {
-	return children[index];
+	return dynamic_cast<TBone*>(children[index]);
 }
 
 TSkin::TSkin(int bones_count)
@@ -35,15 +39,15 @@ TSkin::TSkin(int bones_count)
 	sprites_of_bones.resize(bones_count);
 }
 
-void TSkin::SetBoneSprite(int bone_index, TBaluSprite* sprite, TTransform global)
+void TSkin::SetBoneSprite(int bone_index, TSprite* sprite, TTransform global)
 {
 	sprites_of_bones[bone_index].push_back(TTransformedSprite(sprite));
 	sprites_of_bones[bone_index].back().SetTransform(global);
 }
 
-void TSkin::SetBoneSprite(int bone_index, EngineInterface::ISprite* sprite, TTransform global)
+void TSkin::SetBoneSprite(int bone_index, ISprite* sprite, TTransform global)
 {
-	SetBoneSprite(bone_index, dynamic_cast<TBaluSprite*>(sprite), global);
+	SetBoneSprite(bone_index, dynamic_cast<TSprite*>(sprite), global);
 }
 
 int TSkin::GetBonesCount()
@@ -56,37 +60,27 @@ std::vector<TTransformedSprite>& TSkin::GetSpritesOfBone(int bone_index)
 	return sprites_of_bones[bone_index];
 }
 
-//TSkeleton::TSkeleton(TSkeleton&& right)
-//	:root(std::move(right.root))
-//	, bones(std::move(right.bones))
-//	, skins(std::move(right.skins))
-//{
-//	
-//}
-
-TSkin* TSkeleton::CreateSkin()
+ISkin* TSkeleton::CreateSkin()
 {
 	skins.push_back(std::unique_ptr<TSkin>(new TSkin(bones.size())));
 	return skins.back().get();
 }
-void TSkeleton::DestroySkin(TSkin* skin)
-{
-	
-}
-void TSkeleton::DestroySkin(EngineInterface::ISkin* skin)
+
+void TSkeleton::DestroySkin(ISkin* skin)
 {
 	DestroySkin(dynamic_cast<TSkin*>(skin));
 }
-int TSkeleton::GetSkinsCount()
+int TSkeleton::GetSkinsCount()const
 {
 	return skins.size();
 }
-TSkin* TSkeleton::GetSkin(int index)
+ISkin* TSkeleton::GetSkin(int index)const
 {
 	return skins[index].get();
 }
-TBone* TSkeleton::CreateBone(TBone* parent)
+IBone* TSkeleton::CreateBone(IBone* _parent)
 {
+	auto parent = dynamic_cast<TBone*>(_parent);
 	if (parent == nullptr)
 	{
 		root = 0;
@@ -102,22 +96,12 @@ TBone* TSkeleton::CreateBone(TBone* parent)
 	return bones.back().get();
 }
 
-EngineInterface::IBone* TSkeleton::CreateBone(EngineInterface::IBone* parent)
-{
-	return CreateBone(dynamic_cast<TBone*>(parent));
-}
-
-void TSkeleton::DestroyBone(TBone* bone)
-{
-
-}
-
-void TSkeleton::DestroyBone(EngineInterface::IBone* bone)
+void TSkeleton::DestroyBone(IBone* bone)
 {
 	DestroyBone(dynamic_cast<TBone*>(bone));
 }
 
-int TSkeleton::GetBoneIndex(TBone* bone)
+int TSkeleton::GetBoneIndex(const IBone* bone)const
 {
 	for (int i = 0; i < bones.size(); i++)
 	{
@@ -127,21 +111,16 @@ int TSkeleton::GetBoneIndex(TBone* bone)
 	throw std::invalid_argument("Данная кость отсутсвует в скелете!");
 }
 
-int TSkeleton::GetBoneIndex(EngineInterface::IBone* bone)
-{
-	return GetBoneIndex(dynamic_cast<TBone*>(bone));
-}
-
-TBone* TSkeleton::GetRoot()
+IBone* TSkeleton::GetRoot()const
 {
 	if (root == -1)
 		return nullptr;
 	return bones[root].get();
 }
 
-std::vector<TBone*> TSkeleton::GetAllBones()
+std::vector<IBone*> TSkeleton::GetAllBones()const
 {
-	std::vector<TBone*> result;
+	std::vector<IBone*> result;
 	result.reserve(bones.size());
 	for (auto& v : bones)
 		result.push_back(v.get());

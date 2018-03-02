@@ -2,6 +2,8 @@
 
 #include "../../Interface.h"
 
+#include "../Sprite/Sprite.h"
+
 namespace BaluEngine
 {
 	namespace WorldDef
@@ -13,8 +15,8 @@ namespace BaluEngine
 			class TBone : public IBone
 			{
 			private:
-				TBone * parent;
-				std::vector<TBone*> children;
+				IBone * parent;
+				std::vector<IBone*> children;
 
 				TTransform local;
 			public:
@@ -43,7 +45,7 @@ namespace BaluEngine
 				{
 				}
 				TSkin(int bones_count);
-				void SetBoneSprite(int bone_index, TBaluSprite* sprite, TTransform global);
+				void SetBoneSprite(int bone_index, TSprite* sprite, TTransform global);
 				void SetBoneSprite(int bone_index, ISprite* sprite, TTransform global);
 				int GetBonesCount();
 				std::vector<TTransformedSprite>& GetSpritesOfBone(int bone_index);
@@ -63,24 +65,16 @@ namespace BaluEngine
 				{
 					root = -1;
 				}
-				//TSkeleton(TSkeleton&& right);
-				TSkin* CreateSkin();
-				void DestroySkin(TSkin* skin);
+				ISkin* CreateSkin();
 				void DestroySkin(ISkin* skin);
-				int GetSkinsCount();
-				TSkin* GetSkin(int index);
-				TBone* CreateBone(TBone* parent);
+				int GetSkinsCount()const;
+				ISkin* GetSkin(int index)const;
 				IBone* CreateBone(IBone* parent);
-				void DestroyBone(TBone* bone);
 				void DestroyBone(IBone* bone);
-				int GetBoneIndex(TBone* bone);
-				int GetBoneIndex(IBone* bone);
-				TBone* GetBone(int index)
-				{
-					return bones[index].get();
-				}
-				TBone* GetRoot();
-				std::vector<TBone*> GetAllBones();
+				int GetBoneIndex(const IBone* bone)const;
+				IBone* GetBone(int index)const;
+				IBone* GetRoot()const;
+				std::vector<IBone*> GetAllBones()const;
 
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);

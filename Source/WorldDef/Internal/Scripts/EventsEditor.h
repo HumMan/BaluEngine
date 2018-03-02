@@ -2,6 +2,7 @@
 
 #include "../../Interface.h"
 
+#include "Callbacks.h"
 
 namespace BaluEngine
 {
@@ -9,97 +10,105 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
+			typedef std::string TScript;
+
 			struct TSpriteWithClassCollide
 			{
-				ITransformedSprite* sprite;
-				IClass* with_class;
+				std::string source_class;
+				size_t source_sprite_id;
+				std::string with_class;
 				TScript script;
 				TSpriteWithClassCollide()
 				{
-					sprite = nullptr;
-					with_class = nullptr;
+					source_sprite_id = -1;
 				}
-				TSpriteWithClassCollide(ITransformedSprite* sprite, IClass* with_class, TScript script)
+				TSpriteWithClassCollide(std::string source_class, size_t source_sprite_id, std::string with_class, TScript script)
 				{
-					this->sprite = sprite;
+					this->source_class = source_class;
+					this->source_sprite_id = source_sprite_id;
 					this->with_class = with_class;
 					this->script = script;
 				}
+				void SaveToXML(pugi::xml_node& parent_node, const int version);
+				void LoadFromXML(const pugi::xml_node& instance_node, const int version);
 			};
 
-			class TEventsEditor : public IEventsEditor
+			enum class GlobalCallbackType
+			{
+				MouseUp,
+				MouseDown,
+				MouseMove,
+				WorldStart,
+				ViewportResize,
+				BeforePhysics,
+				KeyDown,
+				KeyUp,
+
+				Count
+			};
+
+			enum class GlobalKeyCallbackType
+			{
+				KeyDown,
+				KeyUp,
+
+				Count
+			};
+
+			enum class ClassCallbackType
+			{
+				BeforePhysics,
+
+				Count
+			};
+
+			enum class ClassKeyCallbackType
+			{
+				KeyDown,
+				KeyUp,
+
+				Count
+			};
+
+			class TEventsEditor //: public IEventsEditor
 			{
 			private:
+				std::vector<TScript> global[(int)GlobalCallbackType::Count];
 
-				//global
-				std::vector<TScript>
-					global_mouse_down_callbacks,
-					global_mouse_up_callbacks,
-					global_mouse_move_callbacks;
+				std::vector<std::tuple<TKey, TScript>> global_key[(int)GlobalKeyCallbackType::Count];
 
-				std::vector<TScript> on_start_world_callback;
-				std::vector<TScript> viewport_resize_callback;
+				std::vector<std::tuple<TKey, TScript, std::string>> class_key[(int)ClassKeyCallbackType::Count];
+				
+				std::vector<std::tuple<TScript, std::string>> class_callbacks[(int)ClassCallbackType::Count];
 
-				std::map<TKey, std::vector<TScript>> global_on_key_down_callbacks;
-				std::map<TKey, std::vector<TScript>> global_on_key_up_callbacks;
-				std::vector<TScript> global_before_physics_callbacks;
-
-				//class
-				std::map<TKey, std::vector<std::tuple<TScript, IClass*>>> on_key_down_callbacks;
-				std::map<TKey, std::vector<std::tuple<TScript, IClass*>>> on_key_up_callbacks;
-				std::vector<std::tuple<TScript, IClass*>> before_physics_callbacks;
-
-				std::vector<TSpriteWithClassCollide> on_collide_callbacks;
+				std::vector<TSpriteWithClassCollide> on_collide;
 
 			public:
 
-				//global
+				size_t GlobalGetCount(GlobalCallbackType type);
+				TScript& GlobalGet(GlobalCallbackType type, size_t index);
+				void GlobalInsert(GlobalCallbackType type, size_t after_index, TScript script);
+				void GlobalRemove(GlobalCallbackType type, size_t index);
 
-				void AddOnMouseDownGlobal(TScript);
-				void AddOnMouseUpGlobal(TScript);
-				void AddOnMouseMoveGlobal(TScript);
+				size_t GlobalKeyGetCount(GlobalCallbackType type);
+				std::tuple<TKey, TScript>& GlobalKeyGet(GlobalCallbackType type, size_t index);
+				void GlobalKeyInsert(GlobalCallbackType type, TKey key, size_t after_index, TScript script);
+				void GlobalKeyRemove(GlobalCallbackType type, size_t index);
 
-				void RemoveOnMouseDownGlobal(int index);
-				void RemoveOnMouseUpGlobal(int index);
-				void RemoveOnMouseMoveGlobal(int index);
+				size_t ClassGetCount(GlobalCallbackType type);
+				std::tuple<TScript, std::string>& ClassGet(GlobalCallbackType type, size_t index);
+				void ClassInsert(GlobalCallbackType type, std::string class_name, size_t after_index, TScript script);
+				void ClassRemove(GlobalCallbackType type, size_t index);
 
-				std::vector<TScript>& GetOnMouseDownGlobal();
-				std::vector<TScript>& GetOnMouseUpGlobal();
-				std::vector<TScript>& GetOnMouseMoveGlobal();
+				size_t ClassKeyGetCount(GlobalCallbackType type);
+				std::tuple<TKey, TScript, std::string>& ClassKeyGet(GlobalCallbackType type, size_t index);
+				void ClassKeyInsert(GlobalCallbackType type, TKey key, std::string class_name, size_t after_index, TScript script);
+				void ClassKeyRemove(GlobalCallbackType type, size_t index);
 
-				void AddOnWorldStart(TScript callback);
-				std::vector<TScript>& GetOnWorldStart();
-				void RemoveOnWorldStart(int index);
-
-				void AddOnViewportResize(TScript callback);
-				std::vector<TScript>& GetOnViewportResize();
-				void RemoveOnViewportResize(int index);
-
-				void OnKeyDownGlobal(TKey key, TScript callback);
-				void OnKeyUpGlobal(TKey key, TScript callback);
-				void OnBeforePhysicsStepGlobal(TScript callback);
-
-				std::map<TKey, std::vector<TScript>>& GetOnKeyDownGlobal();
-				std::map<TKey, std::vector<TScript>>& GetOnKeyUpGlobal();
-				std::vector<TScript>& GetOnBeforePhysicsStepGlobal();
-
-				//class
-
-				void AddOnCollide(ITransformedSprite* sprite, IClass* obstancle_class, TScript callback);
-				std::vector<TSpriteWithClassCollide>& GetOnCollide();
-				TScript* GetOnCollide(ITransformedSprite* sprite, IClass* obstancle_class);
-				void RemoveOnCollide(int index);
-
-				void OnKeyDown(TKey key, TScript callback, IClass* use_class);
-				std::map<TKey, std::vector<std::tuple<TScript, IClass*>>>& GetOnKeyDown();
-
-				void OnKeyUp(TKey key, TScript callback, IClass* use_class);
-				std::map<TKey, std::vector<std::tuple<TScript, IClass*>>>& GetOnKeyUp();
-
-				void OnBeforePhysicsStep(TScript callback, IClass* use_class);
-				std::vector<std::tuple<TScript, IClass*>>& GetOnBeforePhysicsStep();
-
-				//
+				size_t OnCollideGetCount();
+				TSpriteWithClassCollide& OnCollideGet(size_t index);
+				void OnCollideInsert(int after_index, std::string source_class, int sprite, std::string  obstancle_class, TScript callback);
+				void OnCollideRemove(size_t index);
 
 				void SaveToXML(pugi::xml_node& parent_node, const int version);
 				void LoadFromXML(const pugi::xml_node& document_node, const int version);

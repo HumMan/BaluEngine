@@ -97,9 +97,6 @@
     <ClInclude Include="Source\WorldDef\Internal\Common\Properties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Common\Resources.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldDef\Internal\Common\SerializeCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -147,9 +144,23 @@
     <ClCompile Include="Source\WorldDef\Internal\Class\Class.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpriteSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\World\World.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\World\Serialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\ClassSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Common\SerializeCommon.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Sprite\Sprite.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Common\Properties.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Common\Common.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scene\Layers.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scene\Scene.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Class\Skeleton.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Class\SkeletonAnimation.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Material\Material.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Material\MaterialSerialize.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\World\Serialize.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scene\SceneSerialize.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scripts\Callbacks.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scripts\SerializeEventsEditor.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scripts\EventsEditor.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Sprite\SpritePoly.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

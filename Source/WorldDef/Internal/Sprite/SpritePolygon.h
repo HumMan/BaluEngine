@@ -15,7 +15,7 @@ namespace BaluEngine
 			class TSpritePolygon : public ISpritePolygon, public TChangeListenerArray
 			{
 			private:
-				TBaluMaterial* material;
+				TMaterial* material;
 
 				std::vector<BaluLib::TVec2> polygon_vertices;//вершины замкнутого контура спрайта
 
@@ -77,8 +77,8 @@ namespace BaluEngine
 				void SetTransform(TTransform);
 				void SetScale(BaluLib::TVec2 scale);
 
-				TBaluMaterial* GetMaterial();
-				void SetMaterial(TBaluMaterial* material);
+				TMaterial* GetMaterial();
+				void SetMaterial(TMaterial* material);
 				void SetMaterial(IMaterial* material);
 				void SetAsBox(float width, float height);
 				void SetPolygonFromTexture(std::string assets_dir);
@@ -97,7 +97,7 @@ namespace BaluEngine
 				void SetTexCoordsFromVerticesByRegion(BaluLib::TVec2 left_bottom, BaluLib::TVec2 right_top);
 
 				void AddAnimDesc(IAnimDesc* desc);
-				void CreateAnimationLine(std::string line_name, std::vector<IAnimationFrames*> frames);
+				void CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames);
 				void CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames);
 
 				void Save(pugi::xml_node& parent_node, const int version)const;

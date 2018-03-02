@@ -1,42 +1,30 @@
-#include "ISprite.h"
+#include "Sprite.h"
 
-#include "../Class/IClass.h"
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
 
-using namespace EngineInterface;
-
-TBaluSprite::TBaluSprite(const char* name, IWorld* world)
+TSprite::TSprite(const char* name, IWorld* world)
 	:TWorldObject(world, name)
 {
-	this->sprite_name = name;
 	phys_shape.reset(new TBaluBoxShape(0.1, 0.1));
 }
 
-IProperties* TBaluSprite::GetProperties()
-{
-	return &properties;
-}
-
-void TBaluSprite::SetPhysShape(TPhysShape* shape)
-{
-	phys_shape.reset(shape);
-}
-
-void TBaluSprite::SetPhysShape(EngineInterface::IPhysShape* shape)
+void TSprite::SetPhysShape(IPhysShape* shape)
 {
 	phys_shape.reset(dynamic_cast<TPhysShape*>(shape));
 }
 
-TPhysShape* TBaluSprite::GetPhysShape()
+TPhysShape* TSprite::GetPhysShape()
 {
 	return phys_shape.get();
 }
 
-void TBaluSprite::SetPhysShapeFromGeometry()
+void TSprite::SetPhysShapeFromGeometry()
 {
 	phys_shape = std::unique_ptr<TBaluPolygonShape>(new TBaluPolygonShape());
 }
 
-TSpritePolygon* TBaluSprite::GetPolygon()
+TSpritePolygon* TSprite::GetPolygon()
 {
 	return &sprite_polygon;
 }

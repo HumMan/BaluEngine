@@ -1,7 +1,8 @@
 #pragma once
 
-
 #include "../../Interface.h"
+
+#include "Skeleton.h"
 
 namespace BaluEngine
 {
@@ -42,20 +43,20 @@ namespace BaluEngine
 			class TTrack : public ITrack
 			{
 			private:
-				TBone * bone;
+				IBone * bone;
 				std::set<TTrackFrame, TFrameComparer> frames;
 			public:
 				TTrack()
 				{
 					bone = nullptr;
 				}
-				TTrack(TBone* bone);
+				TTrack(IBone* bone);
 				TTrackFrame* CreateFrame(float time, float rotation);
 				void DestroyFrame(TTrackFrame* frame);
-				TBone* GetBone();
+				IBone* GetBone();
 				std::set<TTrackFrame, TFrameComparer>& GetFrames();
-				void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
-				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, TSkeleton* skeleton);
+				void Save(pugi::xml_node& parent_node, const int version, ISkeleton* skeleton);
+				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, ISkeleton* skeleton);
 			};
 
 			class TTimeLine : public ITimeLine
@@ -69,8 +70,7 @@ namespace BaluEngine
 				{
 				}
 				TTimeLine(std::string name);
-				TTrack* CreateTrack(TBone* bone);
-				ITrack* CreateTrack(IBone* bone);
+				TTrack* CreateTrack(IBone* bone);
 				void DestroyTrack(TTrack* track);
 				void DestroyTrack(ITrack* track);
 				void SetTimelineSize(float size);
@@ -78,18 +78,18 @@ namespace BaluEngine
 				std::string GetName();
 				int GetTracksCount();
 				TTrack* GetTrack(int index);
-				void Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton);
-				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, TSkeleton* skeleton);
+				void Save(pugi::xml_node& parent_node, const int version, ISkeleton* skeleton);
+				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, ISkeleton* skeleton);
 			};
 
 			class TSkeletonAnimation : public ISkeletonAnimation, public TChangeListenerArray, public ISerializable
 			{
 			private:
 				std::vector<std::unique_ptr<TTimeLine>> animations;
-				TSkeleton* skeleton;
+				ISkeleton* skeleton;
 			public:
 				TSkeletonAnimation();
-				TSkeletonAnimation(TSkeleton* skeleton);
+				TSkeletonAnimation(ISkeleton* skeleton);
 				TTimeLine* CreateAnimation(std::string name);
 				void DestroyAnimation(TTimeLine* animation);
 				int GetAnimationsCount();

@@ -1,162 +1,118 @@
-#include "IEventsEditor.h"
+#include "EventsEditor.h"
 
 #include <pugixml.hpp>
 
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
 using namespace pugi;
-using namespace EngineInterface;
 
-void TEventsEditor::AddOnMouseDownGlobal(TScript callback)
+size_t TEventsEditor::GlobalGetCount(GlobalCallbackType type)
 {
-	global_mouse_down_callbacks.push_back(callback);
+	return global[(int)type].size();
 }
 
-void TEventsEditor::AddOnMouseUpGlobal(TScript callback)
+TScript& TEventsEditor::GlobalGet(GlobalCallbackType type, size_t index)
 {
-	global_mouse_up_callbacks.push_back(callback);
+	return global[(int)type][index];
 }
 
-void TEventsEditor::AddOnMouseMoveGlobal(TScript callback)
+void TEventsEditor::GlobalInsert(GlobalCallbackType type, size_t after_index, TScript script)
 {
-	global_mouse_move_callbacks.push_back(callback);
+	auto& arr = global[(int)type];
+	arr.insert((after_index + 1 == arr.size()) ? arr.end() : (arr.begin() + after_index + 1), script);
 }
 
-std::vector<TScript>& TEventsEditor::GetOnMouseDownGlobal()
+void TEventsEditor::GlobalRemove(GlobalCallbackType type, size_t index)
 {
-	return global_mouse_down_callbacks;
-}
-std::vector<TScript>& TEventsEditor::GetOnMouseUpGlobal()
-{
-	return global_mouse_up_callbacks;
-}
-std::vector<TScript>& TEventsEditor::GetOnMouseMoveGlobal()
-{
-	return global_mouse_move_callbacks;
+	global[(int)type].erase(global[(int)type].begin() + index);
 }
 
-void TEventsEditor::RemoveOnMouseDownGlobal(int index)
+size_t TEventsEditor::GlobalKeyGetCount(GlobalCallbackType type)
 {
-	global_mouse_down_callbacks.erase(global_mouse_down_callbacks.begin() + index);
+	return global_key[(int)type].size();
 }
 
-void TEventsEditor::RemoveOnMouseUpGlobal(int index)
+std::tuple<TKey, TScript>& TEventsEditor::GlobalKeyGet(GlobalCallbackType type, size_t index)
 {
-	global_mouse_up_callbacks.erase(global_mouse_up_callbacks.begin() + index);
+	return global_key[(int)type][index];
 }
 
-void TEventsEditor::RemoveOnMouseMoveGlobal(int index)
+void TEventsEditor::GlobalKeyInsert(GlobalCallbackType type, TKey key, size_t after_index, TScript script)
 {
-	global_mouse_move_callbacks.erase(global_mouse_move_callbacks.begin() + index);
+	auto& arr = global_key[(int)type];
+	arr.insert((after_index+1== arr.size())?arr.end():(arr.begin() + after_index + 1), 
+		std::tuple<TKey, TScript>(key,script));
 }
 
-
-void TEventsEditor::AddOnWorldStart(TScript callback)
+void TEventsEditor::GlobalKeyRemove(GlobalCallbackType type, size_t index)
 {
-	on_start_world_callback.push_back(callback);
-}
-
-std::vector<TScript>& TEventsEditor::GetOnWorldStart()
-{
-	return on_start_world_callback;
-}
-
-void TEventsEditor::RemoveOnWorldStart(int index)
-{
-	on_start_world_callback.erase(on_start_world_callback.begin() + index);
-}
-
-void TEventsEditor::AddOnViewportResize(TScript callback)
-{
-	viewport_resize_callback.push_back(callback);
-}
-
-std::vector<TScript>& TEventsEditor::GetOnViewportResize()
-{
-	return viewport_resize_callback;
-}
-
-void TEventsEditor::RemoveOnViewportResize(int index)
-{
-	viewport_resize_callback.erase(viewport_resize_callback.begin() + index);
+	global_key[(int)type].erase(global_key[(int)type].begin() + index);
 }
 
 
-std::vector<TSpriteWithClassCollide>& TEventsEditor::GetOnCollide()
+size_t TEventsEditor::ClassGetCount(GlobalCallbackType type)
 {
-	return on_collide_callbacks;
+	return class_callbacks[(int)type].size();
 }
 
-TScript* TEventsEditor::GetOnCollide(ITransformedSprite* sprite, IClass* obstancle_class)
+std::tuple<TScript, std::string>& TEventsEditor::ClassGet(GlobalCallbackType type, size_t index)
 {
-	for (auto& v : on_collide_callbacks)
-		if (v.with_class == obstancle_class && v.sprite == sprite)
-			return &v.script;
-	return nullptr;
+	return class_callbacks[(int)type][index];
 }
 
-void TEventsEditor::AddOnCollide(ITransformedSprite* sprite, IClass* obstancle_class, TScript callback)
+void TEventsEditor::ClassInsert(GlobalCallbackType type, std::string class_name, size_t after_index, TScript script)
 {
-	on_collide_callbacks.push_back(TSpriteWithClassCollide(sprite, obstancle_class, callback));
+	auto& arr = class_callbacks[(int)type];
+	arr.insert((after_index + 1 == arr.size()) ? arr.end() : (arr.begin() + after_index + 1),
+		std::tuple<std::string, TScript>(class_name, script));
 }
 
-void TEventsEditor::RemoveOnCollide(int index)
+void TEventsEditor::ClassRemove(GlobalCallbackType type, size_t index)
 {
-	on_collide_callbacks.erase(on_collide_callbacks.begin() + index);
+	class_callbacks[(int)type].erase(class_callbacks[(int)type].begin() + index);
+}
+
+size_t TEventsEditor::ClassKeyGetCount(GlobalCallbackType type)
+{
+	return class_key[(int)type].size();
+}
+
+std::tuple<TKey, TScript, std::string>& TEventsEditor::ClassKeyGet(GlobalCallbackType type, size_t index)
+{
+	return class_key[(int)type][index];
+}
+
+void TEventsEditor::ClassKeyInsert(GlobalCallbackType type, TKey key, std::string class_name, size_t after_index, TScript script)\
+{
+	auto& arr = class_key[(int)type];
+	arr.insert((after_index + 1 == arr.size()) ? arr.end() : (arr.begin() + after_index + 1),
+		std::tuple<TKey, TScript, std::string>(key, script, class_name));
+}
+
+void TEventsEditor::ClassKeyRemove(GlobalCallbackType type, size_t index)
+{
+	class_key[(int)type].erase(class_key[(int)type].begin() + index);
 }
 
 
-void TEventsEditor::OnKeyDownGlobal(TKey key, TScript callback)
+size_t TEventsEditor::OnCollideGetCount()
 {
-	global_on_key_down_callbacks[key].push_back(callback);
+	return on_collide.size();
 }
 
-void TEventsEditor::OnKeyUpGlobal(TKey key, TScript callback)
+TSpriteWithClassCollide& TEventsEditor::OnCollideGet(size_t index)
 {
-	global_on_key_up_callbacks[key].push_back(callback);
+	return on_collide[index];
 }
 
-
-void TEventsEditor::OnBeforePhysicsStepGlobal(TScript callback)
+void TEventsEditor::OnCollideInsert(int after_index, std::string source_class, int sprite, std::string  obstancle_class, TScript callback)
 {
-	global_before_physics_callbacks.push_back(callback);
+	auto& arr = on_collide;
+	arr.insert((after_index + 1 == arr.size()) ? arr.end() : (arr.begin() + after_index + 1),
+		TSpriteWithClassCollide(source_class, sprite, obstancle_class, callback));
 }
 
-std::map<TKey, std::vector<TScript>>& TEventsEditor::GetOnKeyDownGlobal()
+void TEventsEditor::OnCollideRemove(size_t index)
 {
-	return global_on_key_down_callbacks;
-}
-
-std::map<TKey, std::vector<TScript>>& TEventsEditor::GetOnKeyUpGlobal()
-{
-	return global_on_key_up_callbacks;
-}
-
-std::vector<TScript>& TEventsEditor::GetOnBeforePhysicsStepGlobal()
-{
-	return global_before_physics_callbacks;
-}
-
-std::map<TKey, std::vector<std::tuple<TScript, IClass*>>>& TEventsEditor::GetOnKeyDown()
-{
-	return on_key_down_callbacks;
-}
-
-std::map<TKey, std::vector<std::tuple<TScript, IClass*>>>& TEventsEditor::GetOnKeyUp()
-{
-	return on_key_up_callbacks;
-}
-std::vector<std::tuple<TScript, IClass*>>& TEventsEditor::GetOnBeforePhysicsStep()
-{
-	return before_physics_callbacks;
-}
-void TEventsEditor::OnKeyDown(TKey key, TScript callback, IClass* use_class)
-{
-	on_key_down_callbacks[key].push_back(std::tuple<TScript, IClass*>(callback, use_class));
-}
-void TEventsEditor::OnKeyUp(TKey key, TScript callback, IClass* use_class)
-{
-	on_key_up_callbacks[key].push_back(std::tuple<TScript, IClass*>(callback, use_class));
-}
-void TEventsEditor::OnBeforePhysicsStep(TScript callback, IClass* use_class)
-{
-	before_physics_callbacks.push_back(std::tuple<TScript, IClass*>(callback, use_class));
+	on_collide.erase(on_collide.begin() + index);
 }

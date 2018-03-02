@@ -1,15 +1,9 @@
 #include "World.h"
 
-#include <pugixml.hpp>
-
-using namespace pugi;
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 
 #include "WorldPrivate.h"
-
-typedef std::vector < std::pair<const char*, PropertyClone>> properties_registry_type;
-properties_registry_type *properties_registry;
 
 TWorld::TWorld()
 {
@@ -73,29 +67,30 @@ bool TWorld::ObjectNameExists(TWorldObjectType type, const char* name)
 }
 TWorldObject* TWorld::CreateObject(TWorldObjectType type, const char* name)
 {
-	TWorldObject* resutl = nullptr;
-	//TODO заменить фабрикой
-	switch (type)
-	{
-	case TWorldObjectType::Material:
-		resutl = new TBaluMaterial(name, this);
-		break;
-	case TWorldObjectType::Sprite:
-		resutl = new TBaluSprite(name, this);
-		break;
-	case TWorldObjectType::Class:
-		resutl = new TClass(name, this);
-		break;
-	case TWorldObjectType::Scene:
-		resutl = new TBaluScene(name, this);
-		break;
-	case TWorldObjectType::None:
-		break;
-	default:
-		break;
-	}
-	p->world_objects[(int)type][name].reset(resutl);
-	return resutl;
+	//TWorldObject* resutl = nullptr;
+	////TODO заменить фабрикой
+	//switch (type)
+	//{
+	//case TWorldObjectType::Material:
+	//	resutl = new TMaterial(name, this);
+	//	break;
+	//case TWorldObjectType::Sprite:
+	//	resutl = new TSprite(name, this);
+	//	break;
+	//case TWorldObjectType::Class:
+	//	resutl = new TClass(name, this);
+	//	break;
+	//case TWorldObjectType::Scene:
+	//	resutl = new TScene(name, this);
+	//	break;
+	//case TWorldObjectType::None:
+	//	break;
+	//default:
+	//	break;
+	//}
+	//p->world_objects[(int)type][name].reset(resutl);
+	//return resutl;
+	return nullptr;
 }
 void TWorld::DestroyObject(TWorldObjectType type, const char* name)
 {
@@ -140,43 +135,6 @@ IClass* TWorld::GetClass(const std::string& name)
 	return dynamic_cast<IClass*>(GetObjectByName(TWorldObjectType::Class, name.c_str()));
 }
 
-void TWorld::SaveToXML(const std::string& path)
-{
-	setlocale(LC_ALL, "C");
-	xml_document doc;
-	auto doc_el = doc.append_child("BaluEditorWorldFile");
-	SaveToXML(doc_el, 1);
-	doc.save_file(pugi::as_wide(path.c_str()).c_str());
-}
-
-void TWorld::LoadFromXML(const std::string& path)
-{
-	setlocale(LC_ALL, "C");
-	xml_document doc;
-	doc.load_file(pugi::as_wide(path.c_str()).c_str());
-	LoadFromXML(doc.child("BaluEditorWorldFile"), 1);
-}
-
-bool PropertiesFactory::Register(const char* name, PropertyClone clone)
-{
-	if (properties_registry == nullptr)
-		properties_registry = new properties_registry_type();
-	properties_registry->push_back(std::pair<const char*, PropertyClone>(name, clone));
-	return true;
-}
-
-void PropertiesFactory::UnregisterAll()
-{
-	delete properties_registry;
-}
-
-TProperty* PropertiesFactory::Create(const char* name)
-{
-	for (int i = 0; i < properties_registry->size(); i++)
-		if (strcmp((*properties_registry)[i].first, name) == 0)
-			return (*properties_registry)[i].second();
-	throw std::invalid_argument("Тип не зарегистрирован");
-}
 
 IEventsEditor* TWorld::GetEventsEditor()
 {
@@ -191,4 +149,14 @@ void TWorld::AddChangesListener(TWorldChangeListener* listener)
 void TWorld::RemoveChangesListener(TWorldChangeListener* listener)
 {
 	p->listeners.RemoveChangesListener(listener);
+}
+
+IWorld* BaluEngine::WorldDef::CreateWorld()
+{
+	return (new TWorld());
+}
+
+void BaluEngine::WorldDef::DestroyWorld(IWorld* world)
+{
+	delete dynamic_cast<TWorld*>(world);
 }

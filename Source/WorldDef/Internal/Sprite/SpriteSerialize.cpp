@@ -11,10 +11,10 @@ using namespace BaluLib;
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 
-void TBaluSprite::Save(pugi::xml_node& parent_node, const int version)const
+void TSprite::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node new_node = parent_node.append_child("Sprite");
-	new_node.append_attribute("name").set_value(sprite_name.c_str());
+	new_node.append_attribute("name").set_value(GetName().c_str());
 	sprite_polygon.Save(new_node, version);
 
 	if (phys_shape)
@@ -26,10 +26,11 @@ void TBaluSprite::Save(pugi::xml_node& parent_node, const int version)const
 
 }
 
-void TBaluSprite::Load(const pugi::xml_node& node, const int version, IWorld* world)
+void TSprite::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
 	this->world = world;
-	sprite_name = node.attribute("name").as_string();
+	//TODO
+	//sprite_name = node.attribute("name").as_string();
 	xml_node polygon_node = node.child("SpritePolygon");
 	sprite_polygon.Load(polygon_node, version, world);
 
@@ -110,7 +111,7 @@ void TSpritePolygon::Load(const pugi::xml_node& node, const int version, IWorld*
 		mat_name = node.attribute("material_name").as_string();
 
 	if (mat_name != "")
-		material = dynamic_cast<TBaluMaterial*>(world->GetMaterial(mat_name.c_str()));
+		material = dynamic_cast<TMaterial*>(world->GetMaterial(mat_name.c_str()));
 
 	size = SerializeCommon::LoadCoord(node.child("size"));
 

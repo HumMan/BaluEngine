@@ -1,74 +1,39 @@
 #include "Layers.h"
 
-using namespace EngineInterface;
+#include <pugixml.hpp>
+
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
+using namespace pugi;
 
 TLayer::TLayer()
 {
-	name = "Layer";
-	visible = true;
-	alpha = 1;
-	locked = false;
-	editor_visible = true;
 }
+
 TLayer::TLayer(std::string name, bool visible)
 {
-	this->name = name;
-	this->visible = visible;
-	alpha = 1;
-	locked = false;
-	editor_visible = true;
 }
-std::string TLayer::GetName()
+
+void BaluEngine::WorldDef::Internal::TLayer::Save(pugi::xml_node & parent_node, const int version) const
 {
-	return name;
+	xml_node new_node = parent_node.append_child("Layer");
+	TProperties::Save(new_node, version);
 }
-void TLayer::SetName(std::string name)
+
+void BaluEngine::WorldDef::Internal::TLayer::Load(const pugi::xml_node & instance_node, const int version, IWorld * world)
 {
-	this->name = name;
+	TProperties::Load(instance_node, version, world);
 }
-bool TLayer::IsVisible()
+
+TLayersManager::TLayersManager(IScene* scene)
 {
-	return visible;
+	layers.push_back(std::unique_ptr<TLayer>(new TLayer("Default", true)));
+	this->scene = scene;
 }
-void TLayer::SetIsVisible(bool visible)
+
+ILayer* TLayersManager::GetLayer(int id)
 {
-	this->visible = visible;
-}
-int TLayer::GetOrder()
-{
-	return order;
-}
-void TLayer::SetOrder(int order)
-{
-	this->order = order;
-}
-float TLayer::GetAlpha()
-{
-	return alpha;
-}
-void TLayer::SetAlpha(float alpha)
-{
-	this->alpha = alpha;
-}
-bool TLayer::IsLocked()
-{
-	return locked;
-}
-void TLayer::SetIsLocked(bool is_locked)
-{
-	this->locked = is_locked;
-}
-bool TLayer::IsVisibleInEditor()
-{
-	return editor_visible;
-}
-void TLayer::SetIsVisibleInEditor(bool is_editor_visible)
-{
-	this->editor_visible = is_editor_visible;
-}
-TLayer TLayersManager::GetLayer(int id)
-{
-	return layers[id];
+	return layers[id].get();
 }
 
 int TLayersManager::GetLayersCount()
@@ -76,16 +41,12 @@ int TLayersManager::GetLayersCount()
 	return layers.size();
 }
 
-void TLayersManager::SetLayer(int id, TLayer layer)
+ILayer* TLayersManager::AddLayer(int after_id, const std::string& name)
 {
-	layers[id] = layer;
-	for (auto& v : listeners) v->LayerChanged(id);
-}
-
-void TLayersManager::AddLayer(TLayer layer, int after_id)
-{
-	layers.push_back(layer);
+	layers.push_back(std::unique_ptr<TLayer>(new TLayer(name, true)));
 	for (auto& v : listeners) v->LayerAdded(layers.size() - 1);
+
+	return layers.back().get();
 }
 void TLayersManager::RemoveLayer(int layer_id)
 {

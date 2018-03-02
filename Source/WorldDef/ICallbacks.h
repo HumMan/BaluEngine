@@ -79,9 +79,5 @@ namespace BaluEngine
 				return EventSignatures[(int)index];
 			}
 		};
-
-		class IScript
-		{
-		};
 	}
 }

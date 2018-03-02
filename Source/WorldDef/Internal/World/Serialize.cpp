@@ -8,29 +8,12 @@ using namespace BaluEngine::WorldDef::Internal;
 
 #include "WorldPrivate.h"
 
-void TProperties::Save(pugi::xml_node& parent_node, const int version)const
-{
-	xml_node props_node = parent_node.append_child("Properties");
-	for (auto& v : properties)
-	{
-		v.second->Save(props_node, version);
-		props_node.last_child().append_attribute("name").set_value(v.first.c_str());
-	}
-}
+#include "../Material/Material.h"
+#include "../Sprite/Sprite.h"
+#include "../Class/Class.h"
+#include "../Scene/Scene.h"
 
-void TProperties::Load(const pugi::xml_node& instance_node, const int version, IWorld* world)
-{
-	xml_node props_node = instance_node.child("Properties");
-	for (pugi::xml_node prop_node = props_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
-	{
-		auto new_prop = PropertiesFactory::Create(prop_node.attribute("type").as_string());
-		new_prop->Load(prop_node, version, world);
-		auto name = prop_node.attribute("name").as_string();
-		properties[name].reset(new_prop);
-	}
-}
-
-void TWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
+void TWorld::SaveToXML(pugi::xml_node& parent_node, const int version)const
 {
 	p->events_editor->SaveToXML(parent_node, version);
 	xml_node new_node = parent_node.append_child("World");
@@ -100,15 +83,15 @@ void TWorld::SaveToXML(pugi::xml_node& parent_node, const int version)
 
 void TWorld::LoadFromXML(const pugi::xml_node& document_node, const int version)
 {
-	this->events_editor.reset(new TEventsEditor());
-	this->events_editor->LoadFromXML(document_node, version);
+	p->events_editor.reset(new TEventsEditor());
+	p->events_editor->LoadFromXML(document_node, version);
 	xml_node world_node = document_node.child("World");
 	{
 		xml_node materials_node = world_node.child("Materials");
 		for (pugi::xml_node material = materials_node.first_child(); material; material = material.next_sibling())
 		{
 			std::string material_name = materials_node.attribute("name").as_string();
-			TBaluMaterial* new_material = new TBaluMaterial(material_name, this);
+			TMaterial* new_material = new TMaterial(material_name, this);
 			new_material->Load(material, version, this);
 			p->world_objects[(int)TWorldObjectType::Material][new_material->GetName()].reset(new_material);
 		}
@@ -127,7 +110,7 @@ void TWorld::LoadFromXML(const pugi::xml_node& document_node, const int version)
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
 			std::string sprite_name = sprite_node.attribute("name").as_string();
-			TBaluSprite* sprite = new TBaluSprite(sprite_name.c_str(), this);
+			TSprite* sprite = new TSprite(sprite_name.c_str(), this);
 			sprite->Load(sprite_node, version, this);
 			p->world_objects[(int)TWorldObjectType::Sprite][sprite_name].reset(sprite);
 		}
@@ -147,7 +130,7 @@ void TWorld::LoadFromXML(const pugi::xml_node& document_node, const int version)
 		for (pugi::xml_node scene_node = scenes_node.first_child(); scene_node; scene_node = scene_node.next_sibling())
 		{
 			std::string scene_name = scenes_node.attribute("name").as_string();
-			TBaluScene* scene = new TBaluScene(scene_name.c_str(), this);
+			TScene* scene = new TScene(scene_name.c_str(), this);
 			scene->Load(scene_node, version, this);
 			p->world_objects[(int)TWorldObjectType::Scene][scene->GetName()].reset(scene);
 		}
@@ -200,15 +183,20 @@ void TWorld::LoadFromXML(const pugi::xml_node& document_node, const int version)
 	}*/
 }
 
-void TScript::SaveToXML(pugi::xml_node& parent_node, const int version)
-{
-	xml_node new_node = parent_node.append_child("Script");
 
-	xml_node ndAvatarData = new_node.append_child(pugi::node_pcdata);
-	ndAvatarData.set_value(script_source.c_str());
+void TWorld::SaveToXML(const std::string& path)const
+{
+	setlocale(LC_ALL, "C");
+	xml_document doc;
+	auto doc_el = doc.append_child("BaluEditorWorldFile");
+	SaveToXML(doc_el, 1);
+	doc.save_file(pugi::as_wide(path.c_str()).c_str());
 }
 
-void TScript::LoadFromXML(const pugi::xml_node& document_node, const int version)
+void TWorld::LoadFromXML(const std::string& path)
 {
-	script_source = document_node.child_value();
+	setlocale(LC_ALL, "C");
+	xml_document doc;
+	doc.load_file(pugi::as_wide(path.c_str()).c_str());
+	LoadFromXML(doc.child("BaluEditorWorldFile"), 1);
 }

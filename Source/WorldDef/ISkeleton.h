@@ -20,15 +20,16 @@ namespace BaluEngine
 		class ISkeleton
 		{
 		public:
-			virtual ISkin* CreateSkin() = 0;
-			virtual void DestroySkin(ISkin* skin) = 0;
-			virtual int GetSkinsCount() = 0;
-			virtual ISkin* GetSkin(int index) = 0;
-			virtual IBone* CreateBone(IBone* parent) = 0;
-			virtual void DestroyBone(IBone* bone) = 0;
-			virtual int GetBoneIndex(IBone* bone) = 0;
-			virtual IBone* GetRoot() = 0;
-			//virtual std::vector<IBone*> GetAllBones() = 0;
+			virtual ISkin * CreateSkin()=0;
+			virtual void DestroySkin(ISkin* skin)=0;
+			virtual int GetSkinsCount()const =0;
+			virtual ISkin* GetSkin(int index)const =0;
+			virtual IBone* CreateBone(IBone* parent)=0;
+			virtual void DestroyBone(IBone* bone)=0;
+			virtual int GetBoneIndex(const IBone* const bone)const =0;
+			virtual IBone* GetBone(int index)const =0;
+			virtual IBone* GetRoot()const =0;
+			virtual std::vector<IBone*> GetAllBones()const =0;
 		};
 	}
 }

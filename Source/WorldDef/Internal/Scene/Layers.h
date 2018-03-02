@@ -2,6 +2,8 @@
 
 #include "../../Interface.h"
 
+#include "../Common/Common.h"
+
 namespace BaluEngine
 {
 	namespace WorldDef
@@ -12,70 +14,65 @@ namespace BaluEngine
 
 			class TLayersManager;
 
-			class TLayer
+			class TLayer: public TProperties, public ILayer
 			{
 			private:
 				TLayersManager * manager;
-
-				std::string name;
-				bool visible;
-				int order;
-
-				float alpha;
-				bool locked;
-				bool editor_visible;
+			protected:
+				void InitAllProperties()
+				{
+					InitProperty_Alpha();
+					InitProperty_Visible();
+					InitProperty_Order();
+					InitProperty_Alpha();
+					InitProperty_Locked();
+					InitProperty_VisibleInEditor();
+				}
 			public:
+
+				BALU_ENGINE_REGISTER_PROPERTY(Name, PropertyType::String, "Default")
+				BALU_ENGINE_REGISTER_PROPERTY(Visible, PropertyType::Bool, true)
+				BALU_ENGINE_REGISTER_PROPERTY(Order, PropertyType::Int, 0)
+				BALU_ENGINE_REGISTER_PROPERTY(Alpha, PropertyType::Float, 1)
+				BALU_ENGINE_REGISTER_PROPERTY(Locked, PropertyType::Bool, false)
+				BALU_ENGINE_REGISTER_PROPERTY(VisibleInEditor, PropertyType::String, true)
+
 				TLayer();
 				TLayer(std::string name, bool visible);
-				std::string GetName();
-				void SetName(std::string name);
-				bool IsVisible();
-				void SetIsVisible(bool visible);
-				int GetOrder();
-				void SetOrder(int order);
-				float GetAlpha();
-				void SetAlpha(float alpha);
-				bool IsLocked();
-				void SetIsLocked(bool is_locked);
-				bool IsVisibleInEditor();
-				void SetIsVisibleInEditor(bool is_editor_visible);
+
+				void Save(pugi::xml_node& parent_node, const int version)const;
+				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
 
 			class TLayersManager
 			{
 			private:
 				IScene * scene;
-				std::vector<TLayer> layers;
+				std::vector<std::unique_ptr<TLayer>> layers;
 
-				std::vector<TLayersManagerChangeListener*> listeners;
+				std::vector<ILayersManagerChangeListener*> listeners;
 			public:
-				TLayersManager(TBaluScene* scene)
-				{
-					layers.push_back(TLayer("Default", true));
-					this->scene = scene;
-				}
-				TBaluScene* GetScene()
+				TLayersManager(IScene* scene);
+				IScene* GetScene()
 				{
 					return scene;
 				}
-				void AddListener(TLayersManagerChangeListener* listener)
+				void AddListener(ILayersManagerChangeListener* listener)
 				{
 					auto it = std::find(listeners.begin(), listeners.end(), listener);
 					assert(it == listeners.end());
 					listeners.push_back(listener);
 				}
-				void RemoveListener(TLayersManagerChangeListener* listener)
+				void RemoveListener(ILayersManagerChangeListener* listener)
 				{
 					auto it = std::find(listeners.begin(), listeners.end(), listener);
 					assert(it != listeners.end());
 					listeners.erase(it);
 				}
-				TLayer GetLayer(int id);
+				ILayer* GetLayer(int id);
 				int GetLayersCount();
-				void SetLayer(int id, TLayer layer);
-				void AddLayer(TLayer layer, int after_id);
+				ILayer* AddLayer(int after_id, const std::string& name);
 				void RemoveLayer(int layer_id);
-				void MoveObjects(int from_layer_id, int to_layer_id);
 			};
 
 			/*class TInstanceLayersManagerChangeListener : public TLayersManagerChangeListener

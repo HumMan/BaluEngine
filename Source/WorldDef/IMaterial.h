@@ -77,9 +77,6 @@ namespace BaluEngine
 			{
 				return "material";
 			}
-			virtual void SetImagePath(std::string image_path) = 0;
-			virtual std::string GetImagePath() = 0;
-			virtual void SetColor(BaluLib::TVec4 color) = 0;
 		};
 	}
 }

@@ -4,8 +4,8 @@
 
 #include "Properties.h"
 
-#define REGISTER_FACTORY_CLASS(factory_name,class_name)\
-	static bool class_name##_registered = factory_name::Register(class_name::FactoryName(), class_name::Clone);
+//#define REGISTER_FACTORY_CLASS(factory_name,class_name)\
+//	static bool class_name##_registered = factory_name::Register(class_name::FactoryName(), class_name::Clone);
 
 namespace BaluEngine
 {
@@ -29,16 +29,16 @@ namespace BaluEngine
 				//BaluLib::TVec2i FromSceneToScreenPixels(BaluLib::TVec2 scene_coordinates);
 			};
 
-			typedef TSceneObject*(*SceneObjectClone)();
+			typedef ISceneObject*(*SceneObjectClone)();
 			class SceneObjectFactory
 			{
 			public:
 				static bool Register(const char* name, SceneObjectClone clone);
-				static TSceneObject* Create(const char* name);
+				static ISceneObject* Create(const char* name);
 				static void UnregisterAll();
 			};
 
-			class TGui : public TSceneObject
+			class TGui : public ISceneObject
 			{
 			public:
 			};
@@ -86,17 +86,21 @@ namespace BaluEngine
 				}
 			};
 
-			class TWorldObject : public virtual IWorldObject
+			class TWorldObject : public TProperties, public virtual IWorldObject
 			{
 			protected:
 				IWorld * world;
-				TProperties properties;
-				std::string name;
+
+				void InitAllProperties()
+				{
+					InitProperty_Name();
+				}
+
 			public:
+
+				BALU_ENGINE_REGISTER_PROPERTY(Name, PropertyType::String, "")
+
 				TWorldObject(IWorld* world, std::string name);
-				IProperties* GetProperties();
-				std::string GetName();
-				void SetName(const std::string& name);
 				IWorld* GetWorld();
 			};
 

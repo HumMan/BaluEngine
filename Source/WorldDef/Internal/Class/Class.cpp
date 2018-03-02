@@ -13,51 +13,8 @@ TClass::TClass(std::string name, IWorld* world)
 
 TClassPhysBody::TClassPhysBody()
 {
-	enable = false;
+	EnabledValue = false;
 }
-
-void TClassPhysBody::SetFixedRotation(bool fixed)
-{
-	//body_def.fixedRotation = fixed;
-}
-void TClassPhysBody::SetPhysBodyType(TPhysBodyType type)
-{
-	//switch (type)
-	//{
-	//case Static:
-	//	body_def.type = b2BodyType::b2_staticBody;
-	//	break;
-	//case Dynamic:
-	//	body_def.type = b2BodyType::b2_dynamicBody;
-	//	break;
-	//case Kinematic:
-	//	body_def.type = b2BodyType::b2_kinematicBody;
-	//	break;
-	//default:
-	//	assert(false);
-	//	break;
-	//}
-}
-void TClassPhysBody::Enable(bool enable)
-{
-	this->enable = enable;
-}
-
-bool TClassPhysBody::IsEnable()
-{
-	return this->enable;
-}
-
-//b2BodyDef TClassPhysBody::GetBodyDef()
-//{
-//	return body_def;
-//}
-
-IProperties* TClass::GetProperties()
-{
-	return &properties;
-}
-
 
 bool TClass::PointCollide(TVec2 class_space_point)
 {
@@ -109,7 +66,7 @@ TSkeleton* TClass::GetSkeleton()
 	return skeleton.get();
 }
 
-TTransformedSprite* TClass::AddSprite(TBaluSprite* sprite)
+TTransformedSprite* TClass::AddSprite(TSprite* sprite)
 {
 	sprites.push_back(std::unique_ptr<TTransformedSprite>(new TTransformedSprite(sprite)));
 	return sprites.back().get();
@@ -117,10 +74,10 @@ TTransformedSprite* TClass::AddSprite(TBaluSprite* sprite)
 
 ITransformedSprite* TClass::AddSprite(ISprite* sprite)
 {
-	return AddSprite(dynamic_cast<TBaluSprite*>(sprite));
+	return AddSprite(dynamic_cast<TSprite*>(sprite));
 }
 
-void TClass::RemoveSprite(TBaluSprite* sprite)
+void TClass::RemoveSprite(TSprite* sprite)
 {
 
 }

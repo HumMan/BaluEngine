@@ -1,20 +1,23 @@
-#include <Common/SerializeCommon.h>
+#include "Scene.h"
 
-#include "IScene.h"
+#include <pugixml.hpp>
 
-#include "../../IWorld.h"
+#include "../Common/SerializeCommon.h"
 
-using namespace EngineInterface;
+using namespace pugi;
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
+using namespace BaluLib;
 
-void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
+void TScene::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node new_node = parent_node.append_child("Scene");
-	new_node.append_attribute("name").set_value(name.c_str());
+	TProperties::Save(new_node,version);
+	new_node.append_attribute("name").set_value(GetName().c_str());
 	{
 		xml_node instances_node = new_node.append_child("instances");
 		for (int i = 0; i < instances.size(); i++)
 		{
-			EngineInterface::PropertyType type;
 			instances[i]->Save(instances_node, version);
 		}
 	}
@@ -26,20 +29,18 @@ void TBaluScene::Save(pugi::xml_node& parent_node, const int version)
 			viewports_node.last_child().append_attribute("name").set_value(v.first.c_str());
 		}
 	}
-	//TODO TLayersManager layers;
-	properties.Save(new_node, version);
 }
 
-void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TWorld* world)
+void TScene::Load(const pugi::xml_node& scene_node, const int version, IWorld* world)
 {
-	name = scene_node.attribute("name").as_string();
+	TProperties::Load(scene_node, version, world);
 	{
 		xml_node instances_node = scene_node.child("instances");
 		for (pugi::xml_node instance_node = instances_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
 			auto new_instance = SceneObjectFactory::Create(instance_node.name());
 			new_instance->Load(instance_node, version, world);
-			instances.push_back(std::unique_ptr<TSceneObject>(new_instance));
+			instances.push_back(std::unique_ptr<ISceneObject>(new_instance));
 		}
 	}
 	{
@@ -51,35 +52,20 @@ void TBaluScene::Load(const pugi::xml_node& scene_node, const int version, TWorl
 			viewports.insert(std::make_pair(instance_node.attribute("name").as_string(), temp));
 		}
 	}
-	//TODO TLayersManager layers;
-	properties.Load(scene_node, version, world);
 }
 
-void TTransformedClass::Save(pugi::xml_node& parent_node, const int version)
-{
-	xml_node new_node = parent_node.append_child("ClassInstance");
 
-	new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
-	SaveTransformWithScale(new_node, "Transform", transform);
-}
-
-void TTransformedClass::Load(const pugi::xml_node& instance_node, const int version, TWorld* world)
-{
-	balu_class = dynamic_cast<TBaluClass*>(world->GetObjectByName(TWorldObjectType::Class, instance_node.attribute("class_name").as_string()));
-	transform = LoadTransformWithScale(instance_node.child("Transform"));
-}
-
-void TViewport::Save(pugi::xml_node& parent_node, const int version)
+void TViewport::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node viewport_node = parent_node.append_child("Viewport");
-	SaveTransform(viewport_node, "transform", transform);
+	SerializeCommon::SaveTransform(viewport_node, "transform", transform);
 	viewport_node.append_attribute("aspect").set_value(aspect);
 	viewport_node.append_attribute("width").set_value(width);
 }
 
-void TViewport::Load(const pugi::xml_node& viewport_node, const int version, TWorld* world)
+void TViewport::Load(const pugi::xml_node& viewport_node, const int version, IWorld* world)
 {
-	LoadTransform(viewport_node.child("transform"));
+	SerializeCommon::LoadTransform(viewport_node.child("transform"));
 	aspect = viewport_node.attribute("aspect").as_float();
 	width = viewport_node.attribute("width").as_float();
 }

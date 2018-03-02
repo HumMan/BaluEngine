@@ -181,7 +181,7 @@ namespace BaluEngine
 			virtual BaluLib::TVec2 GetSize() = 0;
 		};
 
-		class TSceneObject: public ISerializable
+		class ISceneObject: public ISerializable
 		{
 		public:
 			virtual const char* GetFactoryName() = 0;
@@ -190,9 +190,7 @@ namespace BaluEngine
 			virtual TTransform GetTransform() = 0;
 			virtual BaluLib::TVec2 GetScale() = 0;
 			virtual TTransformWithScale GetTransformWithScale() = 0;
-			virtual ~TSceneObject()
-			{
-			}
+			virtual ~ISceneObject(){}
 		};
 
 		enum class TWorldObjectType
@@ -229,12 +227,58 @@ namespace BaluEngine
 			}
 		};
 
-		class IWorldObject:public ISerializable
+		enum class PropertyType
+		{
+			Bool,
+			Int,
+			Number,
+			Float,
+			String,
+			Color,
+			ColorWithAlpha,
+			TransparentMode,
+			AlphaTestFunc,
+			BlendFunc,
+			BlendEquation,
+			TexFilter,
+			TexClamp,
+			Size,
+			TransformWithScale,
+			Transform,
+			Scale,
+			Pos,
+			Rotation,
+			PhysBodyType,
+			PhysShapeType,//возможно просто PhysSHape
+			ImagePath,
+
+			//TODO что за свойства такие???
+			Material,
+			Layer,
+			Properties,
+		};
+
+
+
+		class IProperty: public ISerializable
 		{
 		public:
-			virtual IProperties* GetProperties() = 0;
-			virtual std::string GetName() = 0;
-			virtual void SetName(const std::string& name) = 0;
+			virtual PropertyType GetType()const = 0;
+			virtual void SetAsBool(bool value) = 0;
+			virtual bool GetAsBool()const = 0;
+			virtual void Set(const void const* new_value) = 0;
+		};
+
+		class IProperties : public virtual ISerializable
+		{
+		public:
+			virtual IProperty * GetProperty(const std::string& name)const = 0;
+			virtual bool HasProperty(const std::string& name, PropertyType& type)const = 0;
+		};
+
+		class IWorldObject:public virtual ISerializable, public virtual IProperties
+		{
+		public:
 			virtual IWorld* GetWorld() = 0;
 			//virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IWorldInstance* world_instance) = 0;
 			virtual ~IWorldObject() {}

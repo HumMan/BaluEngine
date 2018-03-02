@@ -16,6 +16,9 @@ namespace BaluEngine
 				void SaveCoord(pugi::xml_node& parent_node, std::string name, BaluLib::TVec2 coord);
 				BaluLib::TVec2 LoadCoord(const pugi::xml_node& node);
 
+				void SaveRotation(pugi::xml_node& parent_node, std::string name, TRot coord);
+				TRot LoadRotation(const pugi::xml_node& node);
+
 				void SaveTransform(pugi::xml_node& parent_node, std::string name, TTransform transform);
 				TTransform LoadTransform(const pugi::xml_node& node);
 

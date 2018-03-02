@@ -1,3 +1,5 @@
+#include "../Scripts/EventsEditor.h"
+
 class TWorld::TPrivate
 {
 public:
@@ -15,7 +17,7 @@ public:
 		return result;
 	}
 
-	//std::unique_ptr<TEventsEditor> events_editor;
+	std::unique_ptr<TEventsEditor> events_editor;
 
 	TWorldChangeListenerArray listeners;
 };

@@ -28,7 +28,6 @@ namespace BaluEngine
 		class ISpritePolygon;
 		class IAnimationFrames;
 		class IAnimDesc;
-		class IScript;
 
 		class IWorldObject;
 		class IEventsEditor;
@@ -59,3 +58,5 @@ namespace BaluEngine
 #include "IClass.h"
 #include "ISkeleton.h"
 #include "ISkeletonAnimation.h"
+#include "IScene.h"
+#include "ILayers.h"

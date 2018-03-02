@@ -7,7 +7,7 @@ namespace BaluEngine
 
 		
 
-		class IWorld: public ISerializable
+		class IWorld
 		{
 		public:
 			virtual void AddChangesListener(TWorldChangeListener* listener) = 0;
@@ -31,7 +31,7 @@ namespace BaluEngine
 			virtual ISprite* GetSprite(const std::string& name) = 0;
 			virtual IClass* GetClass(const std::string& name) = 0;
 
-			virtual void SaveToXML(const std::string& path) = 0;
+			virtual void SaveToXML(const std::string& path)const = 0;
 			virtual void LoadFromXML(const std::string& path) = 0;
 
 			virtual IEventsEditor* GetEventsEditor() = 0;

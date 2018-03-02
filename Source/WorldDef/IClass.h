@@ -12,13 +12,13 @@ namespace BaluEngine
 			Kinematic
 		};
 
-		class IClassPhysBody
+		class IClassPhysBody: public ISerializable
 		{
 		public:
 			virtual void SetFixedRotation(bool fixed) = 0;
 			virtual void SetPhysBodyType(TPhysBodyType type) = 0;
-			virtual void Enable(bool enable) = 0;
-			virtual bool IsEnable() = 0;
+			virtual void SetEnabled(bool enable) = 0;
+			virtual bool GetEnabled()const = 0;
 		};
 
 		class IClass : public virtual IWorldObject

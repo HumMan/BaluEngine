@@ -12,18 +12,12 @@ using namespace BaluLib;
 void TClassPhysBody::Save(pugi::xml_node& parent_node, const int version)const
 {
 	auto phys_Body_node = parent_node.append_child("PhysBody");
-	phys_Body_node.append_attribute("enable").set_value(enable);
-	auto body_def_node = phys_Body_node.append_child("PhysBody");
-	body_def_node.append_attribute("fixed_rotation").set_value(body_def.fixedRotation);
-	body_def_node.append_attribute("type").set_value(body_def.type);
+	TProperties::Save(phys_Body_node, version);
 }
 
 void TClassPhysBody::Load(const pugi::xml_node& phys_body_node, const int version, IWorld* world)
 {
-	enable = phys_body_node.attribute("enable").as_bool();
-	auto body_def_node = phys_body_node.child("PhysBody");
-	body_def.fixedRotation = body_def_node.attribute("fixed_rotation").as_bool();
-	body_def.type = (b2BodyType)body_def_node.attribute("type").as_int();
+	TProperties::Load(phys_body_node, version, world);
 }
 
 void TTrackFrame::Save(pugi::xml_node& parent_node, const int version)const
@@ -40,7 +34,7 @@ void TTrackFrame::Load(const pugi::xml_node& frame_node, const int version, IWor
 }
 
 
-void TTrack::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton)
+void TTrack::Save(pugi::xml_node& parent_node, const int version, ISkeleton* skeleton)
 {
 	auto track_node = parent_node.append_child("Track");
 	track_node.append_attribute("bone_id").set_value(skeleton->GetBoneIndex(bone));
@@ -51,7 +45,7 @@ void TTrack::Save(pugi::xml_node& parent_node, const int version, TSkeleton* ske
 	}
 }
 
-void TTrack::Load(const pugi::xml_node& track_node, const int version, IWorld* world, TSkeleton* skeleton)
+void TTrack::Load(const pugi::xml_node& track_node, const int version, IWorld* world, ISkeleton* skeleton)
 {
 	bone = skeleton->GetBone(track_node.attribute("bone_id").as_int());
 	auto tracks_node = track_node.child("Frames");
@@ -63,7 +57,7 @@ void TTrack::Load(const pugi::xml_node& track_node, const int version, IWorld* w
 	}
 }
 
-void TTimeLine::Save(pugi::xml_node& parent_node, const int version, TSkeleton* skeleton)
+void TTimeLine::Save(pugi::xml_node& parent_node, const int version, ISkeleton* skeleton)
 {
 	auto timeline_node = parent_node.append_child("TimeLine");
 	timeline_node.append_attribute("name").set_value(name.c_str());
@@ -76,7 +70,7 @@ void TTimeLine::Save(pugi::xml_node& parent_node, const int version, TSkeleton* 
 	}
 }
 
-void TTimeLine::Load(const pugi::xml_node& timeline_node, const int version, IWorld* world, TSkeleton* skeleton)
+void TTimeLine::Load(const pugi::xml_node& timeline_node, const int version, IWorld* world, ISkeleton* skeleton)
 {
 	name = timeline_node.attribute("name").as_string();
 	timeline_size = timeline_node.attribute("timeline_size").as_float();
@@ -230,15 +224,15 @@ void TTransformedSprite::Save(pugi::xml_node& parent_node, const int version)con
 
 void TTransformedSprite::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
-	sprite = dynamic_cast<TBaluSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, node.attribute("name").as_string()));
+	sprite = dynamic_cast<TSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, node.attribute("name").as_string()));
 	local = SerializeCommon::LoadTransformWithScale(node.child("Transform"));
 }
 
 void TClass::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node new_node = parent_node.append_child("Class");
-	new_node.append_attribute("name").set_value(name.c_str());
-	//new_node.append_attribute("name").set_value(layer_name.c_str());
+	new_node.append_attribute("name").set_value(GetName().c_str());
+
 	{
 		xml_node sprites_node = new_node.append_child("sprites");
 		for (int i = 0; i < sprites.size(); i++)
@@ -250,7 +244,8 @@ void TClass::Save(pugi::xml_node& parent_node, const int version)const
 	phys_body.Save(new_node, version);
 	skeleton->Save(new_node, version);
 	skeleton_animation->Save(new_node, version);
-	properties.Save(new_node, version);
+
+	TProperties::Save(new_node, version);
 
 	{
 		//xml_node callbacks_node = new_node.append_child("KeyDownScripts");
@@ -294,8 +289,8 @@ void TClass::Save(pugi::xml_node& parent_node, const int version)const
 
 void TClass::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
-	name = node.attribute("name").as_string();
-	//layer_name = node.attribute("name").as_string();
+	TProperties::Load(node, version, world);
+
 	{
 		xml_node sprites_node = node.child("sprites");
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
@@ -313,8 +308,6 @@ void TClass::Load(const pugi::xml_node& node, const int version, IWorld* world)
 
 	xml_node skeleton_animation_node = node.child("SkeletonAnimation");
 	skeleton_animation->Load(skeleton_animation_node, version, world);
-
-	properties.Load(node, version, world);
 
 	{
 		/*xml_node child_node = node.child("KeyDownScripts");
@@ -360,10 +353,24 @@ void TClass::Load(const pugi::xml_node& node, const int version, IWorld* world)
 				auto sprite_name = collide_collback_node.attribute("sprite").as_string();
 
 				auto collide_with_class = dynamic_cast<TClass*>(world->GetObjectByName(TWorldObjectType::Class, class_name));
-				auto collide_sprite = dynamic_cast<TBaluSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, sprite_name));
+				auto collide_sprite = dynamic_cast<TSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, sprite_name));
 
 				on_collide_callbacks.push_back(TSpriteWithClassCollide(collide_sprite, collide_with_class, new_callback));
 			}
 		}*/
 	}
+}
+
+void TTransformedClass::Save(pugi::xml_node& parent_node, const int version)const
+{
+	xml_node new_node = parent_node.append_child("ClassInstance");
+
+	new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
+	SerializeCommon::SaveTransformWithScale(new_node, "Transform", transform);
+}
+
+void TTransformedClass::Load(const pugi::xml_node& instance_node, const int version, IWorld* world)
+{
+	balu_class = dynamic_cast<TClass*>(world->GetObjectByName(TWorldObjectType::Class, instance_node.attribute("class_name").as_string()));
+	transform = SerializeCommon::LoadTransformWithScale(instance_node.child("Transform"));
 }

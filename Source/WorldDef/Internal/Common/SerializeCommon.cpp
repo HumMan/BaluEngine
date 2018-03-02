@@ -41,6 +41,19 @@ TVec2 SerializeCommon::LoadCoord(const pugi::xml_node& node)
 	return coord;
 }
 
+void SerializeCommon::SaveRotation(pugi::xml_node& parent_node, std::string name, TRot coord)
+{
+	xml_node new_node = parent_node.append_child(name.c_str());
+	new_node.append_attribute("s").set_value(coord.s);
+	new_node.append_attribute("c").set_value(coord.c);
+}
+
+TRot SerializeCommon::LoadRotation(const pugi::xml_node& node)
+{
+	TRot coord(node.attribute("s").as_float(), node.attribute("c").as_float());
+	return coord;
+}
+
 void SerializeCommon::SaveTransform(pugi::xml_node& parent_node, std::string name, TTransform transform)
 {
 	xml_node new_node = parent_node.append_child(name.c_str());

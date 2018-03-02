@@ -1,8 +1,12 @@
-#include "IClass.h"
+#include "SkeletonAnimation.h"
 
-using namespace EngineInterface;
+#include "../Sprite/Sprite.h"
 
-TTrack::TTrack(TBone* bone)
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
+using namespace BaluLib;
+
+TTrack::TTrack(IBone* bone)
 {
 	this->bone = bone;
 }
@@ -22,7 +26,7 @@ void TTrack::DestroyFrame(TTrackFrame* frame)
 
 }
 
-TBone* TTrack::GetBone()
+IBone* TTrack::GetBone()
 {
 	return bone;
 }
@@ -37,23 +41,19 @@ TTimeLine::TTimeLine(std::string name)
 	this->name = name;
 }
 
-TTrack* TTimeLine::CreateTrack(TBone* bone)
+TTrack* TTimeLine::CreateTrack(IBone* bone)
 {
 	tracks.push_back(std::unique_ptr<TTrack>(new TTrack(bone)));
 	return tracks.back().get();
 }
 
-EngineInterface::ITrack* TTimeLine::CreateTrack(EngineInterface::IBone* bone)
-{
-	return CreateTrack(dynamic_cast<TBone*>(bone));
-}
 
 void TTimeLine::DestroyTrack(TTrack* track)
 {
 
 }
 
-void TTimeLine::DestroyTrack(EngineInterface::ITrack* track)
+void TTimeLine::DestroyTrack(ITrack* track)
 {
 	DestroyTrack(dynamic_cast<TTrack*>(track));
 }
@@ -87,7 +87,7 @@ TSkeletonAnimation::TSkeletonAnimation()
 {
 	skeleton = nullptr;
 }
-TSkeletonAnimation::TSkeletonAnimation(TSkeleton* skeleton)
+TSkeletonAnimation::TSkeletonAnimation(ISkeleton* skeleton)
 {
 	this->skeleton = skeleton;
 }

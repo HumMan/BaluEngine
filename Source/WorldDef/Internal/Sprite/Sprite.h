@@ -14,21 +14,18 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-
-			class TBaluSprite :public ISprite, public TWorldObject, public TChangeListenerArray
+			class TSprite : public TProperties, public ISprite, public TWorldObject, public TChangeListenerArray
 			{
 			private:
-				std::string sprite_name;
-
 				TSpritePolygon sprite_polygon;
 				std::unique_ptr<TPhysShape> phys_shape;
-
-				int layer;
-				TProperties properties;
-
-
+			protected:
+				void InitAllProperties()
+				{
+				}
 			public:
-				TBaluSprite(const char* name, IWorld* world);
+
+				TSprite(const char* name, IWorld* world);
 
 				IProperties* GetProperties();
 
@@ -45,15 +42,15 @@ namespace BaluEngine
 
 			class TTransformedSprite : public ITransformedSprite, public TChangeListenerArray
 			{
-				//TObjLocator<TBaluSprite> sprite;
-				TBaluSprite* sprite;
+				//TObjLocator<TSprite> sprite;
+				TSprite* sprite;
 				TTransformWithScale local;
 			public:
 				static TWorldObjectType GetWorldObjectType()
 				{
 					return TWorldObjectType::Sprite;
 				}
-				TBaluSprite* GetSprite()
+				TSprite* GetSprite()
 				{
 					//return sprite.Get();
 					return sprite;
@@ -63,7 +60,7 @@ namespace BaluEngine
 				{
 					this->sprite = nullptr;
 				}
-				TTransformedSprite(TBaluSprite* sprite)
+				TTransformedSprite(TSprite* sprite)
 					//:sprite(world, sprite->GetName())
 				{
 					this->sprite = sprite;

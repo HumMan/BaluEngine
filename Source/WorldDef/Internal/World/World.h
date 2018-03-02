@@ -72,10 +72,10 @@ namespace BaluEngine
 				ISprite* GetSprite(const std::string& name);
 				IClass* GetClass(const std::string& name);
 
-				void SaveToXML(const std::string& path);
+				void SaveToXML(const std::string& path)const;
 				void LoadFromXML(const std::string& path);
 
-				void SaveToXML(pugi::xml_node& parent_node, const int version);
+				void SaveToXML(pugi::xml_node& parent_node, const int version)const;
 				void LoadFromXML(const pugi::xml_node& document_node, const int version);
 			};
 		}

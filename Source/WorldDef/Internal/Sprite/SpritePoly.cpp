@@ -1,14 +1,12 @@
-#define NOMINMAX
-
 #include "SpritePolygon.h"
 
 #include "Utils/texture_polygon.h"
 
 #include "../../poly2tri/poly2tri/poly2tri.h"
 
-
-
-using namespace EngineInterface;
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
+using namespace BaluLib;
 
 typedef std::vector < std::pair<const char*, AnimDescClone>> anim_descs_registry_type;
 
@@ -22,7 +20,7 @@ bool AnimDescFactory::Register(const char* name, AnimDescClone clone)
 	return true;
 }
 
-TAnimDesc* AnimDescFactory::Create(const char* name)
+IAnimDesc* AnimDescFactory::Create(const char* name)
 {
 	for (int i = 0; i < anim_descs_registry->size(); i++)
 		if (strcmp((*anim_descs_registry)[i].first, name) == 0)
@@ -57,14 +55,14 @@ TAABB2 TSpritePolygon::GetVerticesBox()
 		return TAABB2(TVec2(0), TVec2(0));
 }
 
-int TSpritePolygon::GetAnimDescIndex(EngineInterface::TAnimDesc* desc)
+int TSpritePolygon::GetAnimDescIndex(IAnimDesc* desc)const
 {
 	for (int i = 0; i < anim_descs.size(); i++)
 		if (anim_descs[i].get() == desc)
 			return i;
 	return -1;
 }
-EngineInterface::TAnimDesc* TSpritePolygon::GetAnimDesc(int index)
+IAnimDesc* TSpritePolygon::GetAnimDesc(int index)const
 {
 	return anim_descs[index].get();
 }
@@ -122,14 +120,6 @@ std::vector<int> TFramesRange::ToFramesArray()
 	return result;
 }
 
-using namespace EngineInterface;
-
-TFrame::TFrame(TVec2 left_bottom, TVec2 right_top)
-{
-	this->left_bottom = left_bottom;
-	this->right_top = right_top;
-}
-
 TSpecificFrame::TSpecificFrame(TVec2 left_bottom, TVec2 right_top)
 {
 	this->left_bottom = left_bottom;
@@ -165,13 +155,13 @@ TFrame TGridFrames::GetFrame(int index)
 	return TFrame(frame_left_bottom, TVec2(frame_left_bottom[0] + cell_size_x, frame_left_bottom[1] + cell_size_y));
 }
 
-TAnimationFrames::TAnimationFrames(TAnimDesc* desc, std::vector<int> frames)
+TAnimationFrames::TAnimationFrames(IAnimDesc* desc, std::vector<int> frames)
 {
 	this->desc = desc;
 	this->frames = frames;
 }
 
-TAnimationFrames::TAnimationFrames(TAnimDesc* desc, int frame)
+TAnimationFrames::TAnimationFrames(IAnimDesc* desc, int frame)
 {
 	this->desc = desc;
 	this->frames = std::vector < int > {frame};
@@ -298,19 +288,14 @@ void TSpritePolygon::UpdatePolyVertices()
 		polygon_vertices[i] = transform.ToGlobal(polygon_vertices[i]);
 }
 
-TBaluMaterial* TSpritePolygon::GetMaterial()
+TMaterial* TSpritePolygon::GetMaterial()
 {
 	return material;
 }
 
-void TSpritePolygon::SetMaterial(TBaluMaterial* material)
+void TSpritePolygon::SetMaterial(IMaterial* material)
 {
-	this->material = material;
-}
-
-void TSpritePolygon::SetMaterial(EngineInterface::IMaterial* material)
-{
-	SetMaterial(dynamic_cast<TBaluMaterial*>(material));
+	this->material = dynamic_cast<TMaterial*>(material);
 }
 
 void TSpritePolygon::SetAsBox(float width, float height)
@@ -397,22 +382,24 @@ void TSpritePolygon::SetTexCoordsFromVerticesByRegion(TVec2 left_bottom, TVec2 r
 	UpdateTexCoords();
 }
 
-void TSpritePolygon::AddAnimDesc(TAnimDesc* desc)
+void TSpritePolygon::AddAnimDesc(IAnimDesc* desc)
 {
-	anim_descs.push_back(std::unique_ptr<TAnimDesc>(desc));
+	anim_descs.push_back(std::unique_ptr<IAnimDesc>(desc));
 }
 
-void TSpritePolygon::CreateAnimationLine(std::string line_name, std::vector<TAnimationFrames> frames)
+void TSpritePolygon::CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames)
 {
 	TAnimLine new_line;
 	new_line.line_name = line_name;
-	new_line.frames = frames;
-	animation_lines[line_name] = new_line;
+	//TODO
+	//new_line.frames = frames;
+	//animation_lines[line_name] = new_line;
 }
 
-void TSpritePolygon::CreateAnimationLine(std::string line_name, TAnimDesc* desc, std::vector<int> frames)
+void TSpritePolygon::CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames)
 {
-	std::vector<TAnimationFrames> anim_frames;
-	anim_frames.push_back(TAnimationFrames(desc, frames));
-	CreateAnimationLine(line_name, anim_frames);
+	std::vector<std::unique_ptr<IAnimationFrames>> anim_frames;
+	anim_frames.push_back(std::unique_ptr<IAnimationFrames>(new TAnimationFrames(desc, frames)));
+	//TODO
+	//CreateAnimationLine(line_name, anim_frames);
 }

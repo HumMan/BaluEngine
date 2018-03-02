@@ -1,20 +1,18 @@
-#include "IMaterial.h"
+#include "Material.h"
 
-#include <Common/SerializeCommon.h>
+#include <pugixml.hpp>
 
-using namespace EngineInterface;
+using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldDef::Internal;
+using namespace pugi;
 
-void TBaluMaterial::Save(pugi::xml_node& parent_node, const int version)
+void TMaterial::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node new_node = parent_node.append_child("Material");
-	new_node.append_attribute("name").set_value(name.c_str());
-	new_node.append_attribute("image_path").set_value(image_path.c_str());
-	SaveColor(new_node, color);
+	TProperties::Save(new_node, version);
 }
 
-void TBaluMaterial::Load(const pugi::xml_node& node, const int version, TWorld* world)
+void TMaterial::Load(const pugi::xml_node& material_node, const int version, IWorld* world)
 {
-	name = node.attribute("name").as_string();
-	image_path = node.attribute("image_path").as_string();
-	color = LoadColor(node.child("Color"));
+	TProperties::Load(material_node, version, world);
 }

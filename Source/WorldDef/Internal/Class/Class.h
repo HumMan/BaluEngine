@@ -15,18 +15,24 @@ namespace BaluEngine
 		namespace Internal
 		{
 
-			class TClassPhysBody : public IClassPhysBody
+			class TClassPhysBody : public TProperties, public IClassPhysBody
 			{
-			private:
-				//b2BodyDef body_def;
-				bool enable;
+			protected:
+				void InitAllProperties()
+				{					
+					InitProperty_FixedRotation();
+					InitProperty_PhysBodyType();
+					InitProperty_Enabled();
+				}
 			public:
+
+				BALU_ENGINE_REGISTER_PROPERTY(Enabled, PropertyType::Bool, false)				
+				BALU_ENGINE_REGISTER_PROPERTY(PhysBodyType, PropertyType::PhysBodyType, TPhysBodyType::Static)
+				BALU_ENGINE_REGISTER_PROPERTY(FixedRotation, PropertyType::Bool, false)
+				
+
 				TClassPhysBody();
-				void SetFixedRotation(bool fixed);
-				void SetPhysBodyType(TPhysBodyType type);
-				void Enable(bool enable);
-				bool IsEnable();
-				//b2BodyDef GetBodyDef();
+				
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
@@ -34,14 +40,10 @@ namespace BaluEngine
 			class TClass : public IClass, public TWorldObject
 			{
 			private:
-
-				int layer_id;
-
 				std::vector<std::unique_ptr<TTransformedSprite>> sprites;
 				TClassPhysBody phys_body;
 				std::unique_ptr<TSkeleton> skeleton;
 				std::unique_ptr<TSkeletonAnimation> skeleton_animation;
-				TProperties properties;
 
 				void Initialize();
 
@@ -52,7 +54,6 @@ namespace BaluEngine
 				}
 				TClass(std::string name, IWorld* world);
 
-				IProperties* GetProperties();
 				bool PointCollide(BaluLib::TVec2 class_space_point);
 				BaluLib::TAABB2 GetAABB();
 
@@ -60,9 +61,9 @@ namespace BaluEngine
 
 				//void OnMouseMove(TMouseMoveCallback);
 
-				TTransformedSprite* AddSprite(TBaluSprite* sprite);
+				TTransformedSprite* AddSprite(TSprite* sprite);
 				ITransformedSprite* AddSprite(ISprite* sprite);
-				void RemoveSprite(TBaluSprite* sprite);
+				void RemoveSprite(TSprite* sprite);
 				int GetSpritesCount();
 				TTransformedSprite* GetSprite(int index);
 
@@ -75,7 +76,7 @@ namespace BaluEngine
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
 
-			class TTransformedClass : public ITransformedClass, public TSceneObject, public TChangeListenerArray, public ISerializable
+			class TTransformedClass : public ITransformedClass, public ISceneObject, public TChangeListenerArray
 			{
 				TClass* balu_class;
 				TTransformWithScale transform;
@@ -124,7 +125,7 @@ namespace BaluEngine
 				}
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
-				static TSceneObject* Clone()
+				static ISceneObject* Clone()
 				{
 					return new TTransformedClass();
 				}
