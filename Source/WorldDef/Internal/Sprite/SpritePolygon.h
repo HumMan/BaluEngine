@@ -29,7 +29,7 @@ namespace BaluEngine
 
 				std::vector<std::unique_ptr<IAnimDesc>> anim_descs;
 
-				std::map<std::string, TAnimLine> animation_lines;
+				std::map<std::string, std::unique_ptr<TAnimLine>> animation_lines;
 
 				bool enable;
 				bool draw_triangles_grid;
@@ -77,8 +77,7 @@ namespace BaluEngine
 				void SetTransform(TTransform);
 				void SetScale(BaluLib::TVec2 scale);
 
-				TMaterial* GetMaterial();
-				void SetMaterial(TMaterial* material);
+				IMaterial* GetMaterial();
 				void SetMaterial(IMaterial* material);
 				void SetAsBox(float width, float height);
 				void SetPolygonFromTexture(std::string assets_dir);
@@ -97,7 +96,7 @@ namespace BaluEngine
 				void SetTexCoordsFromVerticesByRegion(BaluLib::TVec2 left_bottom, BaluLib::TVec2 right_top);
 
 				void AddAnimDesc(IAnimDesc* desc);
-				void CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames);
+				//void CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames);
 				void CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames);
 
 				void Save(pugi::xml_node& parent_node, const int version)const;

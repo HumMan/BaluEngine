@@ -2,6 +2,8 @@
 
 #include "../../Interface.h"
 
+#include "../Common/Common.h"
+
 namespace BaluEngine
 {
 	namespace WorldDef
@@ -9,34 +11,23 @@ namespace BaluEngine
 		namespace Internal
 		{
 
-			class TPhysShape : public IPhysShape, public TChangeListenerArray
+			class TPhysShape : public TProperties, public IPhysShape//, public TChangeListenerArray
 			{
 			protected:
-				TTransformWithScale local;
-				bool is_sensor;
-			public:
-				TPhysShape()
+				void InitAllProperties()
 				{
-					is_sensor = false;
+					InitProperty_Local();
+					InitProperty_IsSensor();
 				}
+			public:
+
+				TPhysShape();
+
+				BALU_ENGINE_REGISTER_PROPERTY(Local, PropertyType::TransformWithScale, TTransformWithScale())
+				BALU_ENGINE_REGISTER_PROPERTY(IsSensor, PropertyType::Bool, false)
+
 				virtual ~TPhysShape() {}
 				//virtual b2Shape* GetShape(TTransformWithScale class_transform) = 0;
-				void SetTransform(TTransform local)
-				{
-					this->local.transform = local;
-				}
-				void SetScale(BaluLib::TVec2 scale)
-				{
-					this->local.scale = scale;
-				}
-				void SetIsSensor(bool value)
-				{
-					is_sensor = value;
-				}
-				bool IsSensor()
-				{
-					return is_sensor;
-				}
 				//virtual TPhysShape* GetPhysShape() = 0;
 			};
 

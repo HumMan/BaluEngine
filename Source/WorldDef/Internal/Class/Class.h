@@ -131,7 +131,7 @@ namespace BaluEngine
 				}
 			};
 
-			//REGISTER_FACTORY_CLASS(SceneObjectFactory, TTransformedClass)
+			REGISTER_FACTORY_CLASS(SceneObjectFactory, TTransformedClass)
 		}
 	}
 }

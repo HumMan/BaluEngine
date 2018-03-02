@@ -20,72 +20,29 @@ namespace BaluEngine
 			};
 
 			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Bool, bool)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Int, int)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Number, unsigned int)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Float, float)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::String, std::string)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Color, BaluLib::TVec3)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::ColorWithAlpha, BaluLib::TVec4)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TransparentMode, TTransparentMode)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::AlphaTestFunc, TAlphaTestFunc)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::BlendFunc, TBlendFunc)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::BlendEquation, TBlendEquation)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TexFilter, TTexFilter)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TexClamp, TTexClamp)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Size, BaluLib::TVec2)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TransformWithScale, TTransformWithScale)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Transform, TTransform)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Scale, BaluLib::TVec2)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Pos, BaluLib::TVec2)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Rotation, TRot)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::PhysBodyType, TPhysBodyType)
-				//BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::PhysShapeType, TTransparentMode)
-				BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::ImagePath, std::string)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Int, int)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Number, unsigned int)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Float, float)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::String, std::string)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Color, BaluLib::TVec3)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::ColorWithAlpha, BaluLib::TVec4)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TransparentMode, TTransparentMode)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::AlphaTestFunc, TAlphaTestFunc)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::BlendFunc, TBlendFunc)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::BlendEquation, TBlendEquation)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TexFilter, TTexFilter)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TexClamp, TTexClamp)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Size, BaluLib::TVec2)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TransformWithScale, TTransformWithScale)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Transform, TTransform)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Scale, BaluLib::TVec2)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Pos, BaluLib::TVec2)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Rotation, TRot)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::PhysBodyType, TPhysBodyType)
+			//BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::PhysShapeType, TTransparentMode)
+			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::ImagePath, std::string)
 
 #undef BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP
-
-				/*class TProperty
-				{
-				public:
-					virtual const char* GetTypeString() = 0;
-					virtual PropertyType GetType() = 0;
-					void Save(pugi::xml_node& parent_node, const int version)const;
-					virtual void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
-					virtual ~TProperty();
-				};
-
-				typedef TProperty*(*PropertyClone)();
-				class PropertiesFactory
-				{
-				public:
-					static bool Register(const char* name, PropertyClone clone);
-					static void UnregisterAll();
-					static TProperty* Create(const char* name);
-				};
-
-				template<class T>
-				class TPropertyValue : public TProperty
-				{
-				protected:
-					T value;
-				public:
-					TPropertyValue()
-					{
-
-					}
-					TPropertyValue(const T& value)
-					{
-						this->value = value;
-					}
-					T* GetValue()
-					{
-						return &value;
-					}
-					void SetValue(const T& value)
-					{
-						this->value = value;
-					}
-				};*/
 
 #define BALU_ENGINE_REGISTER_PROPERTY(property_name, property_type, default_value)\
 private:\
@@ -145,8 +102,6 @@ public:\
 			{
 			private:
 				std::map<std::string, std::unique_ptr<TProperty>> properties;
-			protected:
-				virtual void InitAllProperties() = 0;
 			public:
 				TProperties();
 				void AddProperty(const std::string& name, PropertyType type, void* value)

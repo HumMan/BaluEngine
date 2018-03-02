@@ -8,10 +8,12 @@ using namespace pugi;
 
 TLayer::TLayer()
 {
+	InitAllProperties();
 }
 
 TLayer::TLayer(std::string name, bool visible)
 {
+	InitAllProperties();
 }
 
 void BaluEngine::WorldDef::Internal::TLayer::Save(pugi::xml_node & parent_node, const int version) const

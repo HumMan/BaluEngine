@@ -99,7 +99,7 @@ void TSpritePolygon::Save(pugi::xml_node& parent_node, const int version)const
 		xml_node polygons_node = new_node.append_child("AnimLines");
 		for (auto& anim_line : animation_lines)
 		{
-			anim_line.second.Save(polygons_node, version, this);
+			anim_line.second->Save(polygons_node, version, this);
 		}
 	}
 }
@@ -156,9 +156,9 @@ void TSpritePolygon::Load(const pugi::xml_node& node, const int version, IWorld*
 		xml_node polygons_node = node.child("AnimLines");
 		for (pugi::xml_node polygon = polygons_node.first_child(); polygon; polygon = polygon.next_sibling())
 		{
-			TAnimLine line;
-			line.Load(polygon, version, dynamic_cast<TWorld*>(world), this);
-			animation_lines.insert(std::make_pair(line.line_name, line));
+			auto line = new TAnimLine();
+			line->Load(polygon, version, dynamic_cast<TWorld*>(world), this);
+			animation_lines.insert(std::make_pair(line->line_name, std::unique_ptr<TAnimLine>(line)));
 		}
 	}
 }
@@ -225,18 +225,18 @@ void TBaluPolygonShape::Load(const pugi::xml_node& node, const int version, IWor
 	//local = LoadTransformWithScale(node.child("Transform"));
 }
 
-void TFrame::Save(pugi::xml_node& parent_node, const int version)const
-{
-	auto frame_node = parent_node.append_child("Frame");
-	SerializeCommon::SaveCoord(frame_node, "left_bottom", left_bottom);
-	SerializeCommon::SaveCoord(frame_node, "right_top", right_top);
-}
-
-void TFrame::Load(const pugi::xml_node& instance_node, const int version, IWorld* world)
-{
-	left_bottom = SerializeCommon::LoadCoord(instance_node.child("left_bottom"));
-	right_top = SerializeCommon::LoadCoord(instance_node.child("right_top"));
-}
+//void TFrame::Save(pugi::xml_node& parent_node, const int version)const
+//{
+//	auto frame_node = parent_node.append_child("Frame");
+//	SerializeCommon::SaveCoord(frame_node, "left_bottom", left_bottom);
+//	SerializeCommon::SaveCoord(frame_node, "right_top", right_top);
+//}
+//
+//void TFrame::Load(const pugi::xml_node& instance_node, const int version, IWorld* world)
+//{
+//	left_bottom = SerializeCommon::LoadCoord(instance_node.child("left_bottom"));
+//	right_top = SerializeCommon::LoadCoord(instance_node.child("right_top"));
+//}
 
 void TSpecificFrame::Save(pugi::xml_node& parent_node, const int version)const
 {
@@ -267,7 +267,7 @@ void TGridFrames::Load(const pugi::xml_node& instance_node, const int version, I
 	width_height = SerializeCommon::LoadCoord(instance_node.child("width_height"));
 }
 
-void TAnimationFrames::Save(pugi::xml_node& parent_node, const int version, const TSpritePolygon* sprite_polygon)const
+void TAnimationFrames::Save(pugi::xml_node& parent_node, const int version, const ISpritePolygon* sprite_polygon)const
 {
 	auto frames_node = parent_node.append_child("AnimationFrames");
 	frames_node.append_attribute("anim_desc_id").set_value(sprite_polygon->GetAnimDescIndex(desc));
@@ -276,7 +276,7 @@ void TAnimationFrames::Save(pugi::xml_node& parent_node, const int version, cons
 		f_node.append_child("Frame").append_attribute("value").set_value(v);
 }
 
-void TAnimationFrames::Load(const pugi::xml_node& instance_node, const int version, IWorld* world, TSpritePolygon* sprite_polygon)
+void TAnimationFrames::Load(const pugi::xml_node& instance_node, const int version, IWorld* world, ISpritePolygon* sprite_polygon)
 {
 	int anim_desc_id = instance_node.attribute("anim_desc_id").as_int();
 	desc = sprite_polygon->GetAnimDesc(anim_desc_id);
@@ -293,7 +293,7 @@ void TAnimLine::Save(pugi::xml_node& parent_node, const int version, const TSpri
 	anim_line_node.append_attribute("name").set_value(line_name.c_str());
 	auto frames_node = anim_line_node.append_child("Frames");
 	for (auto& frame : frames)
-		frame.Save(frames_node, version, sprite_polygon);
+		frame.get()->Save(frames_node, version, sprite_polygon);
 }
 
 void TAnimLine::Load(const pugi::xml_node& instance_node, const int version, IWorld* world, TSpritePolygon* sprite_polygon)
@@ -302,8 +302,8 @@ void TAnimLine::Load(const pugi::xml_node& instance_node, const int version, IWo
 	auto f_node = instance_node.child("Frames");
 	for (pugi::xml_node polygon = f_node.first_child(); polygon; polygon = polygon.next_sibling())
 	{
-		TAnimationFrames temp;
-		temp.Load(polygon, version, world, sprite_polygon);
-		frames.push_back(temp);
+		auto temp = new TAnimationFrames();
+		temp->Load(polygon, version, world, sprite_polygon);
+		frames.push_back(std::unique_ptr<IAnimationFrames>(temp));
 	}
 }

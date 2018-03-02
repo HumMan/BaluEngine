@@ -35,7 +35,9 @@ namespace BaluEngine
 
 		class IAnimationFrames
 		{
-
+		public:
+			virtual void Save(pugi::xml_node& parent_node, const int version, const ISpritePolygon* sprite_polygon)const=0;
+			virtual void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, ISpritePolygon* sprite_polygon)=0;
 		};
 	}
 }

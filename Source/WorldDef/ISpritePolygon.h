@@ -17,7 +17,7 @@ namespace BaluEngine
 			virtual bool IsEnable() = 0;
 			virtual void SetEnable(bool enable) = 0;
 			virtual void AddAnimDesc(IAnimDesc* desc) = 0;
-			virtual void CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames) = 0;
+			//virtual void CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames) = 0;
 			virtual void CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames) = 0;
 
 			virtual IMaterial* GetMaterial() = 0;
@@ -39,6 +39,9 @@ namespace BaluEngine
 			virtual BaluLib::TVec2 GetScale() = 0;
 			virtual void SetTransform(TTransform) = 0;
 			virtual void SetScale(BaluLib::TVec2 scale) = 0;
+
+			virtual int GetAnimDescIndex(IAnimDesc* desc)const=0;
+			virtual IAnimDesc* GetAnimDesc(int index)const=0;
 
 			virtual void SetTexCoordsFromVertices(BaluLib::TVec2 origin, BaluLib::TVec2 scale) = 0;
 			virtual void SetTexCoordsFromVerticesByRegion(BaluLib::TVec2 left_bottom, BaluLib::TVec2 right_top) = 0;

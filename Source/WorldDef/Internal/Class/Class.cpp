@@ -13,6 +13,7 @@ TClass::TClass(std::string name, IWorld* world)
 
 TClassPhysBody::TClassPhysBody()
 {
+	InitAllProperties();
 	EnabledValue = false;
 }
 

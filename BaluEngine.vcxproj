@@ -160,6 +160,7 @@
     <ClCompile Include="Source\WorldDef\Internal\Scripts\Callbacks.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scripts\EventsEditor.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scripts\SerializeEventsEditor.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Sprite\PhysShape.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Sprite\Sprite.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpritePoly.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpriteSerialize.cpp" />

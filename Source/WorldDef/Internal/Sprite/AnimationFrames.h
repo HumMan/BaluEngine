@@ -82,8 +82,8 @@ namespace BaluEngine
 				TAnimationFrames(IAnimDesc* desc, std::vector<int> frames);
 				TAnimationFrames(IAnimDesc* desc, int frame);
 
-				void Save(pugi::xml_node& parent_node, const int version, const TSpritePolygon* sprite_polygon)const;
-				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, TSpritePolygon* sprite_polygon);
+				void Save(pugi::xml_node& parent_node, const int version, const ISpritePolygon* sprite_polygon)const;
+				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, ISpritePolygon* sprite_polygon);
 			};
 
 			class TAnimLine
@@ -91,6 +91,8 @@ namespace BaluEngine
 			public:
 				std::string line_name;
 				std::vector<std::unique_ptr<IAnimationFrames>> frames;
+
+				//TAnimLine(const TAnimLine&) = delete;
 
 				void Save(pugi::xml_node& parent_node, const int version, const TSpritePolygon* sprite_polygon)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, TSpritePolygon* sprite_polygon);

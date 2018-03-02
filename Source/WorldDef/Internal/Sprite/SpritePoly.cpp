@@ -288,7 +288,7 @@ void TSpritePolygon::UpdatePolyVertices()
 		polygon_vertices[i] = transform.ToGlobal(polygon_vertices[i]);
 }
 
-TMaterial* TSpritePolygon::GetMaterial()
+IMaterial* TSpritePolygon::GetMaterial()
 {
 	return material;
 }
@@ -387,19 +387,16 @@ void TSpritePolygon::AddAnimDesc(IAnimDesc* desc)
 	anim_descs.push_back(std::unique_ptr<IAnimDesc>(desc));
 }
 
-void TSpritePolygon::CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames)
-{
-	TAnimLine new_line;
-	new_line.line_name = line_name;
-	//TODO
-	//new_line.frames = frames;
-	//animation_lines[line_name] = new_line;
-}
+//void TSpritePolygon::CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames)
+//{
+//	TAnimLine new_line;
+//	new_line.line_name = line_name;
+//	new_line.frames = frames;
+//	animation_lines[line_name] = new_line;
+//}
 
 void TSpritePolygon::CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames)
 {
-	std::vector<std::unique_ptr<IAnimationFrames>> anim_frames;
-	anim_frames.push_back(std::unique_ptr<IAnimationFrames>(new TAnimationFrames(desc, frames)));
-	//TODO
-	//CreateAnimationLine(line_name, anim_frames);
+	animation_lines[line_name]->line_name = line_name;
+	animation_lines[line_name]->frames.push_back(std::unique_ptr<IAnimationFrames>(new TAnimationFrames(desc, frames)));
 }

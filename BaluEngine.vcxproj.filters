@@ -161,6 +161,7 @@
     <ClCompile Include="Source\WorldDef\Internal\Scripts\SerializeEventsEditor.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scripts\EventsEditor.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpritePoly.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Sprite\PhysShape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

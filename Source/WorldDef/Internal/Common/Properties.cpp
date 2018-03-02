@@ -11,7 +11,6 @@ using namespace pugi;
 
 TProperties::TProperties()
 {
-	InitAllProperties();
 }
 
 bool TProperties::HasProperty(const std::string & name, PropertyType & type)const
