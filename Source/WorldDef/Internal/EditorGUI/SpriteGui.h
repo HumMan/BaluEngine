@@ -1,19 +1,44 @@
+
 #pragma once
 
-#include <WorldDef/Objects/Material/IMaterial.h>
-#include <WorldDef/Objects/Sprite/ISprite.h>
+#include "../../Interface.h"
 
-class TSimpleSpriteDef
-{
-protected:
-	bool visible;
-	EngineInterface::IBaluSprite* visual;
-public: 
-	EngineInterface::IBaluSprite* GetSprite();
-};
+#include "../../Internal/Common/Common.h"
 
-class TSimpleSprite : public TSimpleSpriteDef, public EngineInterface::TSceneObject
+namespace BaluEngine
 {
-public:
-	//TODO abstract methods
-};
+	namespace WorldDef
+	{
+		namespace Internal
+		{
+			class TSimpleSprite: TGui
+			{
+			protected:
+				bool visible;
+				ISprite* visual;
+			public:
+				ISprite* GetSprite();
+				static const char* FactoryName()
+				{
+					return "SimpleSprite";
+				}
+
+				static ISceneObject* Clone()
+				{
+					return new TSimpleSprite();
+				}
+
+				const char* GetFactoryName()
+				{
+					return FactoryName();
+				}
+
+				void Save(pugi::xml_node& parent_node, const int version)const;
+				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
+			};
+
+			REGISTER_FACTORY_CLASS(SceneObjectFactory, TSimpleSprite)
+
+		}
+	}
+}
