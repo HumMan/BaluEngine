@@ -133,6 +133,18 @@
     <ClInclude Include="Source\WorldDef\Internal\World\WorldPrivate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\EditorGUI\BoxGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\EditorGUI\OBBGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\EditorGUI\PolygonGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\EditorGUI\SpriteGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
@@ -162,6 +174,10 @@
     <ClCompile Include="Source\WorldDef\Internal\Scripts\EventsEditor.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpritePoly.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Sprite\PhysShape.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\EditorGUI\PolygonGui.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\EditorGUI\BoxGui.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\EditorGUI\OBBGui.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\EditorGUI\SpriteGui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

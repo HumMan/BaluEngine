@@ -125,7 +125,7 @@ IPhysShapeFactory*  BaluEngine::WorldDef::GetPhysShapeFactory()
 	return &TPhysShapeFactory_local;
 }
 
-BaluEngine::WorldDef::Internal::TPhysShape::TPhysShape()
+TPhysShape::TPhysShape()
 {
 	InitAllProperties();
 }

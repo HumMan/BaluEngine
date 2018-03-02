@@ -111,7 +111,7 @@ int TSkeleton::GetBoneIndex(const IBone* bone)const
 	throw std::invalid_argument("Данная кость отсутсвует в скелете!");
 }
 
-IBone * BaluEngine::WorldDef::Internal::TSkeleton::GetBone(int index) const
+IBone * TSkeleton::GetBone(int index) const
 {
 	return bones[index].get();
 }

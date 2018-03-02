@@ -102,6 +102,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h" />
+    <ClInclude Include="Source\WorldDef\Internal\EditorGUI\BoxGui.h" />
+    <ClInclude Include="Source\WorldDef\Internal\EditorGUI\OBBGui.h" />
+    <ClInclude Include="Source\WorldDef\Internal\EditorGUI\PolygonGui.h" />
+    <ClInclude Include="Source\WorldDef\Internal\EditorGUI\SpriteGui.h" />
     <ClInclude Include="Source\WorldDef\IClass.h" />
     <ClInclude Include="Source\WorldDef\ICallbacks.h" />
     <ClInclude Include="Source\WorldDef\ICommon.h" />
@@ -152,6 +156,10 @@
     <ClCompile Include="Source\WorldDef\Internal\Common\Common.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Common\Properties.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Common\SerializeCommon.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\EditorGUI\BoxGui.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\EditorGUI\OBBGui.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\EditorGUI\PolygonGui.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\EditorGUI\SpriteGui.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Material\Material.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Material\MaterialSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\Layers.cpp" />

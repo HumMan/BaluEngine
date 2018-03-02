@@ -185,11 +185,11 @@ namespace BaluEngine
 		{
 		public:
 			virtual const char* GetFactoryName() = 0;
-			virtual void SetTransform(TTransform transform) = 0;
-			virtual void SetScale(BaluLib::TVec2 scale) = 0;
-			virtual TTransform GetTransform() = 0;
-			virtual BaluLib::TVec2 GetScale() = 0;
-			virtual TTransformWithScale GetTransformWithScale() = 0;
+			//virtual void SetTransform(TTransform transform) = 0;
+			//virtual void SetScale(BaluLib::TVec2 scale) = 0;
+			//virtual TTransform GetTransform() = 0;
+			//virtual BaluLib::TVec2 GetScale() = 0;
+			//virtual TTransformWithScale GetTransformWithScale() = 0;
 			virtual ~ISceneObject(){}
 		};
 
