@@ -13,7 +13,7 @@ class TSpritePolygonAdornmentInstance : public TSpritePolygonAdornment, public E
 public:
 	virtual void Render(TDrawingHelper* drawing_helper)const;
 
-	TSpritePolygonAdornmentInstance(TBaluSceneInstance* scene);
+	TSpritePolygonAdornmentInstance(TSceneInstance* scene);
 	TOBB2 GetOBB()
 	{
 		return TOBB2();

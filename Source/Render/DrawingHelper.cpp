@@ -2,11 +2,13 @@
 
 #include "nanovg.h"
 
-#include <WorldDef/Objects/Scene/IScene.h>
+//#include <WorldDef/Objects/Scene/IScene.h>
 
 #include <Utils/nanovg_support.h>
 
-using namespace EngineInterface;
+using namespace BaluLib;
+using namespace BaluEngine::Editor::Internal;
+using namespace BaluEngine;
 
 TDrawingHelper::TDrawingHelper(TDrawingHelperContext drawing_context)
 {
@@ -14,7 +16,7 @@ TDrawingHelper::TDrawingHelper(TDrawingHelperContext drawing_context)
 	this->drawing_context = drawing_context;
 }
 
-void TDrawingHelper::RenderPointAdornment(TVec2 p, TBaluTransformWithScale trans)
+void TDrawingHelper::RenderPointAdornment(TVec2 p, WorldDef::TTransformWithScale trans)
 {
 	auto c = trans.ToGlobal(p);
 	auto temp = drawing_context.FromSceneToScreenPixels(c);
@@ -31,7 +33,7 @@ void TDrawingHelper::RenderPointAdornment(TVec2 p, TBaluTransformWithScale trans
 	nvgFill(context);
 }
 
-void TDrawingHelper::RenderPointHighlightAdornment(TVec2 p, TBaluTransformWithScale trans)
+void TDrawingHelper::RenderPointHighlightAdornment(TVec2 p, WorldDef::TTransformWithScale trans)
 {
 	auto c = trans.ToGlobal(p);
 	auto temp = drawing_context.FromSceneToScreenPixels(c);
@@ -94,7 +96,7 @@ void TDrawingHelper::RenderSelectionBox(TOBB2 box)
 	nvgFill(context);
 }
 
-void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices, TBaluTransformWithScale trans)
+void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices, WorldDef::TTransformWithScale trans)
 {
 	nvgBeginPath(context);
 	nvgLineCap(context, NVG_BUTT);
@@ -114,7 +116,7 @@ void TDrawingHelper::RenderLinesLoop(const std::vector<TVec2>& vertices, TBaluTr
 
 	nvgStroke(context);
 }
-void TDrawingHelper::RenderLine(const TVec2& p0, const TVec2& p1, TBaluTransformWithScale trans)
+void TDrawingHelper::RenderLine(const TVec2& p0, const TVec2& p1, WorldDef::TTransformWithScale trans)
 {
 	nvgBeginPath(context);
 	nvgLineCap(context, NVG_BUTT);

@@ -99,8 +99,8 @@ public:
 
 	TBoundaryBoxChangeListener* OnChange;
 
-	TBoundaryBoxAdornment(TBaluSceneInstance* scene);
-	TBoundaryBoxAdornment(TBaluSceneInstance* scene, TOBBGui* source);
+	TBoundaryBoxAdornment(TSceneInstance* scene);
+	TBoundaryBoxAdornment(TSceneInstance* scene, TOBBGui* source);
 	TOBB2 GetOBB()
 	{
 		return boundary;

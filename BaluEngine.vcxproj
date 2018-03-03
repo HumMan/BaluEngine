@@ -102,6 +102,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h" />
+    <ClInclude Include="Source\Render\DrawingHelper.h" />
+    <ClInclude Include="Source\Render\Render.h" />
+    <ClInclude Include="Source\Render\RenderCommand.h" />
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h" />
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h" />
+    <ClInclude Include="Source\Utils\DebugDraw.h" />
+    <ClInclude Include="Source\Utils\nanovg_support.h" />
+    <ClInclude Include="Source\Utils\polygon_decomp.h" />
+    <ClInclude Include="Source\Utils\polygon_vertices.h" />
+    <ClInclude Include="Source\Utils\texture_polygon.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\BoxGui.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\OBBGui.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\PolygonGui.h" />
@@ -136,6 +146,12 @@
     <ClInclude Include="Source\WorldDef\IMaterial.h" />
     <ClInclude Include="Source\WorldDef\ISkeleton.h" />
     <ClInclude Include="Source\WorldDef\ISkeletonAnimation.h" />
+    <ClInclude Include="Source\WorldInstance\IComposer.h" />
+    <ClInclude Include="Source\WorldInstance\IMaterialInstance.h" />
+    <ClInclude Include="Source\WorldInstance\Interface.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\World\WorldInstance.h" />
+    <ClInclude Include="Source\WorldInstance\ISceneInstance.h" />
+    <ClInclude Include="Source\WorldInstance\IWorldInstance.h" />
     <ClInclude Include="submodules\nanovg\src\fontstash.h" />
     <ClInclude Include="submodules\nanovg\src\nanovg.h" />
     <ClInclude Include="submodules\nanovg\src\nanovg_gl.h" />
@@ -149,6 +165,15 @@
     <ClInclude Include="Source\WorldObjects\InterfacesIncludes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Render\DrawingHelper.cpp" />
+    <ClCompile Include="Source\Render\Render.cpp" />
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
+    <ClCompile Include="Source\Utils\DebugDraw.cpp" />
+    <ClCompile Include="Source\Utils\nanovg_support.cpp" />
+    <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
+    <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
+    <ClCompile Include="Source\Utils\texture_polygon.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\Class.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\ClassSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\Skeleton.cpp" />

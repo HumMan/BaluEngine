@@ -14,23 +14,23 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluSpriteInstance: public IChangeListener
+	class TSpriteInstance: public IChangeListener
 	{
 	private:
-		TBaluSprite* source;
+		TSprite* source;
 		std::unique_ptr<TBaluPhysShapeInstance> phys_shape;
-		TBaluSpritePolygonInstance polygon;
+		TSpritePolygonInstance polygon;
 
 		TProperties properties;
 	public:
-		TBaluSprite* GetSource();
-		TBaluSpriteInstance(TBaluSprite* source, TResources* resources, TSceneObjectInstance* scene_object, TBaluTransformedSpriteInstance* parent);
-		~TBaluSpriteInstance();
+		TSprite* GetSource();
+		TSpriteInstance(TSprite* source, TResources* resources, TSceneObjectInstance* scene_object, TBaluTransformedSpriteInstance* parent);
+		~TSpriteInstance();
 		TOBB2 GetOBB();
 
 		IBaluPhysShapeInstance* GetPhysShape();
 
-		TBaluSpritePolygonInstance* GetPolygon();
+		TSpritePolygonInstance* GetPolygon();
 
 		void PlayAnimation(std::string animation_name, bool loop);
 		void PauseAnimation(bool pause);
@@ -67,13 +67,13 @@ namespace EngineInterface
 
 		TBaluTransformWithScale transform;
 
-		TBaluSpriteInstance sprite_instance;
+		TSpriteInstance sprite_instance;
 	public:
 		IProperties* GetProperties()
 		{
 			return sprite_instance.GetProperties();
 		}
-		TBaluSpriteInstance* GetSprite();
+		TSpriteInstance* GetSprite();
 		TBaluTransformedSpriteInstance(TBaluTransformedSprite* source, TResources* resources, TSceneObjectInstance* scene_object);
 
 		void SetTransform(TBaluTransform local)
@@ -98,7 +98,7 @@ namespace EngineInterface
 
 		IBaluPhysShapeInstance* GetPhysShape();
 
-		TBaluSpritePolygonInstance* GetPolygon();
+		TSpritePolygonInstance* GetPolygon();
 
 		void PlayAnimation(std::string animation_name, bool loop);
 		void PauseAnimation(bool pause);

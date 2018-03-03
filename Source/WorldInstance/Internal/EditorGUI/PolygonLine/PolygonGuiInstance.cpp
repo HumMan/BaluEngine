@@ -5,7 +5,7 @@
 
 using namespace EngineInterface;
 
-TSpritePolygonAdornmentInstance::TSpritePolygonAdornmentInstance(TBaluSceneInstance* scene)
+TSpritePolygonAdornmentInstance::TSpritePolygonAdornmentInstance(TSceneInstance* scene)
 	:TSceneObjectInstance(scene)
 {
 }

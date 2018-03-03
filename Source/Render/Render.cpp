@@ -4,11 +4,9 @@
 
 #include <Utils/nanovg_support.h>
 
-#include <WorldInstance/Objects/Material/IMaterialInstance.h>
-
 #include <nanovg.h>
 
-#include <Editor/DrawingHelper.h>
+#include "DrawingHelper.h"
 
 #include <algorithm>
 
@@ -17,9 +15,8 @@
 #define sprintf_s sprintf
 #endif
 
-using namespace TBaluRenderEnums;
-
-using namespace EngineInterface;
+using namespace BaluEngine;
+using namespace BaluEngine::WorldDef;
 
 TRender::TRender(TBaluRender* internal_render)
 {
@@ -32,7 +29,7 @@ TRender::~TRender()
 	nanovg_deinit();
 }
 
-void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual*>& gui, EngineInterface::IViewport* viewport)
+void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual*>& gui, IViewport* viewport)
 {
 	//render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
 	render->Set.ModelView(TMatrix4::GetOrtho(viewport->GetTransform().position, viewport->GetSize(), -1, 1));

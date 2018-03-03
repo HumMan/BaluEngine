@@ -8,7 +8,7 @@ void TMaterialInstance::SourceChanged()
 	texture = resources->CreateTextureFromFile(source->GetImagePath());
 }
 
-TMaterialInstance::TMaterialInstance(TBaluMaterial* source, TResources* resources)
+TMaterialInstance::TMaterialInstance(TMaterial* source, TResources* resources)
 {
 	this->source = source;
 	this->resources = resources;
@@ -33,11 +33,11 @@ TBaluTexture TMaterialInstance::GetTexture()
 
 #include "../Scene/ISceneInstance.h"
 
-TBaluSceneInstance* TSceneObjectInstance::GetScene()
+TSceneInstance* TSceneObjectInstance::GetScene()
 {
 	return scene;
 }
-TSceneObjectInstance::TSceneObjectInstance(TBaluSceneInstance* scene)
+TSceneObjectInstance::TSceneObjectInstance(TSceneInstance* scene)
 {
 	this->scene = scene;
 	scene->AddInstance(this);

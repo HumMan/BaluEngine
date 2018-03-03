@@ -2,17 +2,17 @@
 
 using namespace EngineInterface;
 
-void TBaluSpritePolygonInstance::UpdateGeometry()
+void TSpritePolygonInstance::UpdateGeometry()
 {
 
 }
 
-TBaluSpritePolygon* TBaluSpritePolygonInstance::GetSpritePolygon()
+TSpritePolygon* TSpritePolygonInstance::GetSpritePolygon()
 {
 	return source;
 }
 
-TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResources* resources)
+TSpritePolygonInstance::TSpritePolygonInstance(TSpritePolygon* source, TResources* resources)
 	:material(source->GetMaterial(), resources)
 {
 	this->layer = source->layer;
@@ -29,12 +29,12 @@ TBaluSpritePolygonInstance::TBaluSpritePolygonInstance(TBaluSpritePolygon* sourc
 	UpdateAnimation();
 }
 
-TBaluSpritePolygonInstance::~TBaluSpritePolygonInstance()
+TSpritePolygonInstance::~TSpritePolygonInstance()
 {
 	source->RemoveChangesListener(this);
 }
 
-void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, TLayersManager& layers)
+void TSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, TLayersManager& layers)
 {
 	if (enable && vertices.size() > 0)
 	{
@@ -60,7 +60,7 @@ void TBaluSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands, T
 	}
 }
 
-void TBaluSpritePolygonInstance::NextFrame()
+void TSpritePolygonInstance::NextFrame()
 {
 	if (active_frame_index == source->animation_lines[active_animation_line].frames[active_desc_index].frames.size() - 1)
 	{
@@ -83,7 +83,7 @@ void TBaluSpritePolygonInstance::NextFrame()
 	}
 }
 
-void TBaluSpritePolygonInstance::UpdateAnimation()
+void TSpritePolygonInstance::UpdateAnimation()
 {
 	if (source->animation_lines.size() > 0)
 	{
@@ -104,7 +104,7 @@ void TBaluSpritePolygonInstance::UpdateAnimation()
 	}
 }
 
-void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransformWithScale global)
+void TSpritePolygonInstance::UpdateTransform(TBaluTransformWithScale global)
 {
 	if (source->animation_lines.size()>0)
 		UpdateAnimation();
@@ -123,7 +123,7 @@ void TBaluSpritePolygonInstance::UpdateTransform(TBaluTransformWithScale global)
 	}
 }
 
-void TBaluSpritePolygonInstance::SetActiveAnimation(const std::string& name)
+void TSpritePolygonInstance::SetActiveAnimation(const std::string& name)
 {
 	if (active_animation_line != name)
 	{

@@ -2,17 +2,17 @@
 
 using namespace EngineInterface;
 
-IBaluPhysShapeInstance* TBaluSpriteInstance::GetPhysShape()
+IBaluPhysShapeInstance* TSpriteInstance::GetPhysShape()
 {
 	return phys_shape.get();
 }
 
-TBaluSpritePolygonInstance* TBaluSpriteInstance::GetPolygon()
+TSpritePolygonInstance* TSpriteInstance::GetPolygon()
 {
 	return &polygon;
 }
 
-TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TResources* resources, 
+TSpriteInstance::TSpriteInstance(TSprite* source, TResources* resources, 
 	TSceneObjectInstance* scene_object, TBaluTransformedSpriteInstance* parent)
 	:polygon(source->GetPolygon(), resources)
 {
@@ -21,22 +21,22 @@ TBaluSpriteInstance::TBaluSpriteInstance(TBaluSprite* source, TResources* resour
 	phys_shape = std::unique_ptr<TBaluPhysShapeInstance>(new TBaluPhysShapeInstance(source->GetPhysShape(), TPhysShapeUserData(scene_object, parent)));
 }
 
-TBaluSpriteInstance::~TBaluSpriteInstance()
+TSpriteInstance::~TSpriteInstance()
 {
 	source->RemoveChangesListener(this);
 }
 
-TOBB2 TBaluSpriteInstance::GetOBB()
+TOBB2 TSpriteInstance::GetOBB()
 {
 	return source->GetPolygon()->GetBoundingBox();
 }
 
-void TBaluSpriteInstance::UpdateTransform(TBaluTransformWithScale global)
+void TSpriteInstance::UpdateTransform(TBaluTransformWithScale global)
 {
 	polygon.UpdateTransform(global);
 }
 
-TBaluSprite* TBaluSpriteInstance::GetSource()
+TSprite* TSpriteInstance::GetSource()
 {
 	return source;
 }
@@ -46,7 +46,7 @@ IBaluPhysShapeInstance* TBaluTransformedSpriteInstance::GetPhysShape()
 	return sprite_instance.GetPhysShape();
 }
 
-TBaluSpritePolygonInstance* TBaluTransformedSpriteInstance::GetPolygon()
+TSpritePolygonInstance* TBaluTransformedSpriteInstance::GetPolygon()
 {
 	return sprite_instance.GetPolygon();
 }

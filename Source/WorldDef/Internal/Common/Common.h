@@ -14,20 +14,7 @@ namespace BaluEngine
 		namespace Internal
 		{
 
-			struct TDrawingHelperContext
-			{
-				//TScreen* screen;
-				//TView* view;
-				//IViewport* viewport;
-				//TDrawingHelperContext()
-				//{
-				//	screen = nullptr;
-				//	view = nullptr;
-				//	viewport = nullptr;
-				//}
-				//BaluLib::TVec2 FromScreenPixelsToScene(BaluLib::TVec2i screen_pixels);
-				//BaluLib::TVec2i FromSceneToScreenPixels(BaluLib::TVec2 scene_coordinates);
-			};
+			
 
 			typedef ISceneObject*(*SceneObjectClone)();
 			class SceneObjectFactory

@@ -13,7 +13,7 @@ namespace EngineInterface
 {
 	class TBaluTransformedSpriteInstance;
 	class TBaluTransformedSprite;
-	class TBaluSprite;
+	class TSprite;
 }
 using namespace EngineInterface;
 
@@ -23,10 +23,10 @@ class TSimpleSpriteInstance : public EngineInterface::TSceneObjectInstance
 	std::unique_ptr<TBaluTransformedSpriteInstance> sprite_instance;
 	TBaluTransformWithScale instance_transform;
 
-	TBaluSceneInstance* scene;
-	TBaluSprite* source;
+	TSceneInstance* scene;
+	TSprite* source;
 public:
-	TSimpleSpriteInstance(TBaluSceneInstance* scene, TBaluSprite* source);
+	TSimpleSpriteInstance(TSceneInstance* scene, TSprite* source);
 	virtual TOBB2 GetOBB();
 	virtual void SetTransform(TBaluTransform transform){ instance_transform.transform = transform; }
 	virtual TBaluTransform GetTransform(){ return instance_transform.transform; }
@@ -34,6 +34,6 @@ public:
 	virtual void SetScale(TVec2 scale){ instance_transform.scale = scale; }
 	virtual bool PointCollide(TVec2 scene_space_point);
 	virtual void UpdateTransform();
-	virtual void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
+	virtual void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results);
 	virtual ~TSimpleSpriteInstance();
 };

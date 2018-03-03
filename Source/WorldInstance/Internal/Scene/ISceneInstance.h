@@ -100,7 +100,7 @@ namespace EngineInterface
 		void OnProcessCollisions();
 	};
 
-	class TBaluSceneInstance : public IBaluSceneInstance, public IChangeListener
+	class TSceneInstance : public IBaluSceneInstance, public IChangeListener
 	{
 	private:
 		TResources* resources;
@@ -109,7 +109,7 @@ namespace EngineInterface
 
 		DebugDraw phys_debug;
 
-		TBaluScene* source;
+		TScene* source;
 		std::vector<std::unique_ptr<TSceneObjectInstance>> instances;
 
 		std::map<std::string, TViewport> viewports;
@@ -140,22 +140,22 @@ namespace EngineInterface
 		}
 		bool PointCollide(TVec2 scene_space_point, TSceneObjectInstance* &result);
 
-		TBaluScene* GetSource();
+		TScene* GetSource();
 		IBaluWorldInstance* GetWorld();
 
 		TViewport* GetViewport(std::string name);
 
-		TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* source, TResources* resources);
-		TBaluSceneInstance(TBaluWorldInstance* world, TResources* resources, TLayersManager* layers = nullptr);
-		//TBaluSceneInstance(TBaluSceneInstance&& right);
-		~TBaluSceneInstance();
+		TSceneInstance(TBaluWorldInstance* world, TScene* source, TResources* resources);
+		TSceneInstance(TBaluWorldInstance* world, TResources* resources, TLayersManager* layers = nullptr);
+		//TSceneInstance(TSceneInstance&& right);
+		~TSceneInstance();
 
 		//TSceneObjectInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
 		//IBaluTransformedClassInstance* CreateInstance(TSceneObject* use_class, TBaluTransform transform, TVec2 scale);
 		void AddInstance(TSceneObjectInstance*);
 		void DestroyInstance(TSceneObjectInstance*);
 
-		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
+		void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results);
 		void QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui);
 
 		

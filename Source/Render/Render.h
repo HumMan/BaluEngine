@@ -6,29 +6,35 @@
 
 #include <vector>
 
-#include <Common/ICommon.h>
+
+#include "WorldDef/Interface.h"
 
 namespace BaluRender
 {
 	class TBaluRender;
 }
-using namespace BaluRender;
 
-namespace EngineInterface
+namespace BaluEngine
 {
-
-	class BALUENGINEDLL_API TRender
+	namespace Editor
 	{
-		TBaluRender* render;
-	public:
-		TRender(TBaluRender* internal_render);
-		~TRender();
-		void Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual*>& gui, EngineInterface::IViewport* viewport);
-		void EnableScissor(bool enable);
-		void SetScissorRect(TScreen screen, TView view);
-		TBaluRender* GetInternalRender()
+		namespace Internal
 		{
-			return render;
+
+			class TRender
+			{
+				BaluRender::TBaluRender* render;
+			public:
+				TRender(BaluRender::TBaluRender* internal_render);
+				~TRender();
+				void Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual*>& gui, BaluEngine::WorldDef::IViewport* viewport);
+				void EnableScissor(bool enable);
+				void SetScissorRect(TScreen screen, TView view);
+				BaluRender::TBaluRender* GetInternalRender()
+				{
+					return render;
+				}
+			};
 		}
-	};
+	}
 }

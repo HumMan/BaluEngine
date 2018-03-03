@@ -24,7 +24,7 @@ public:
 
 	void Render(TDrawingHelper* helper)const;
 
-	TOBBContour(TBaluSceneInstance* scene);
+	TOBBContour(TSceneInstance* scene);
 
 	bool PointCollide(TVec2 scene_space_point)
 	{

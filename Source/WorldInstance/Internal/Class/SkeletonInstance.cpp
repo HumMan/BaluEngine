@@ -83,7 +83,7 @@ TSkinInstance::TSkinInstance(TSkin* source, TResources* resources, TSceneObjectI
 	}
 }
 
-void TSkinInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results)
+void TSkinInstance::QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results)
 {
 	for (int i = 0; i < sprites_of_bones.size(); i++)
 	{
@@ -177,7 +177,7 @@ void TSkeletonInstance::UpdateTranform(TBaluTransformWithScale class_transform)
 	}
 }
 
-void TSkeletonInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results)
+void TSkeletonInstance::QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results)
 {
 	for (int i = 0; i < skins.size(); i++)
 	{

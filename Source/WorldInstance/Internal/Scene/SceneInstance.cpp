@@ -2,7 +2,7 @@
 
 #include <WorldInstance/IWorldInstance.h>
 
-bool TBaluSceneInstance::PointCollide(TVec2 scene_space_point, EngineInterface::TSceneObjectInstance* &result)
+bool TSceneInstance::PointCollide(TVec2 scene_space_point, EngineInterface::TSceneObjectInstance* &result)
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
@@ -16,12 +16,12 @@ bool TBaluSceneInstance::PointCollide(TVec2 scene_space_point, EngineInterface::
 	return false;
 }
 
-TBaluScene* TBaluSceneInstance::GetSource()
+TScene* TSceneInstance::GetSource()
 {
 	return source;
 }
 
-EngineInterface::IBaluWorldInstance* TBaluSceneInstance::GetWorld()
+EngineInterface::IBaluWorldInstance* TSceneInstance::GetWorld()
 {
 	return dynamic_cast<EngineInterface::IBaluWorldInstance*>(world);
 }
@@ -54,8 +54,8 @@ void TContactsHolder::OnProcessCollisions()
 		auto instance_a = dynamic_cast<TBaluTransformedClassInstance*>(user_data_a->GetSceneObject());
 		auto instance_b = dynamic_cast<TBaluTransformedClassInstance*>(user_data_b->GetSceneObject());
 
-		//auto class_a = instance_a!=nullptr?dynamic_cast<TBaluClassCompiledScripts*>(instance_a->GetClass()->GetScripts()):nullptr;
-		//auto class_b = instance_b!=nullptr?dynamic_cast<TBaluClassCompiledScripts*>(instance_b->GetClass()->GetScripts()):nullptr;
+		//auto class_a = instance_a!=nullptr?dynamic_cast<TClassCompiledScripts*>(instance_a->GetClass()->GetScripts()):nullptr;
+		//auto class_b = instance_b!=nullptr?dynamic_cast<TClassCompiledScripts*>(instance_b->GetClass()->GetScripts()):nullptr;
 
 		//if (class_a != nullptr && class_b != nullptr)
 		//{
@@ -77,12 +77,12 @@ void TContactsHolder::PostSolve(b2Contact* contact, const b2ContactImpulse* impu
 	B2_NOT_USED(impulse);
 }
 
-TViewport* TBaluSceneInstance::GetViewport(std::string name)
+TViewport* TSceneInstance::GetViewport(std::string name)
 {
 	return &viewports[name];
 }
 
-TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* source, TResources* resources)
+TSceneInstance::TSceneInstance(TBaluWorldInstance* world, TScene* source, TResources* resources)
 {
 	this->source = source;
 	this->world = world;
@@ -104,7 +104,7 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TBaluScene* so
 }
 
 
-TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TResources* resources, TLayersManager* layers)
+TSceneInstance::TSceneInstance(TBaluWorldInstance* world, TResources* resources, TLayersManager* layers)
 {
 	this->source = nullptr;
 	this->world = world;
@@ -117,14 +117,14 @@ TBaluSceneInstance::TBaluSceneInstance(TBaluWorldInstance* world, TResources* re
 	phys_world->SetContactListener(&contact_listener);
 }
 
-TBaluSceneInstance::~TBaluSceneInstance()
+TSceneInstance::~TSceneInstance()
 {
 	phys_debug.Destroy();
 	if (source != nullptr)
 		source->RemoveChangesListener(this);
 }
 
-void TBaluSceneInstance::AddInstance(EngineInterface::TSceneObjectInstance* instance)
+void TSceneInstance::AddInstance(EngineInterface::TSceneObjectInstance* instance)
 {
 	for (auto& v : instances)
 		if (v.get() == instance)
@@ -132,7 +132,7 @@ void TBaluSceneInstance::AddInstance(EngineInterface::TSceneObjectInstance* inst
 	instances.push_back(std::unique_ptr<TSceneObjectInstance>(instance));
 }
 
-void TBaluSceneInstance::DestroyInstance(EngineInterface::TSceneObjectInstance* instance)
+void TSceneInstance::DestroyInstance(EngineInterface::TSceneObjectInstance* instance)
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
@@ -143,7 +143,7 @@ void TBaluSceneInstance::DestroyInstance(EngineInterface::TSceneObjectInstance* 
 	}
 }
 
-void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results)
+void TSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results)
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
@@ -151,9 +151,9 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygo
 	}
 }
 
-void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui)
+void TSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui)
 {
-	std::vector<TBaluSpritePolygonInstance*> polygons;
+	std::vector<TSpritePolygonInstance*> polygons;
 	QueryAABB(frustum, polygons);
 
 	
@@ -186,18 +186,18 @@ void TBaluSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& 
 }
 
 
-void TBaluSceneInstance::PhysStep(float step)
+void TSceneInstance::PhysStep(float step)
 {
 	contact_listener.BeforePhysStep();
 	phys_world->Step(step*10, 3, 5);
 }
 
-void TBaluSceneInstance::OnProcessCollisions()
+void TSceneInstance::OnProcessCollisions()
 {
 	contact_listener.OnProcessCollisions();
 }
 
-void TBaluSceneInstance::OnStep(float step)
+void TSceneInstance::OnStep(float step)
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
@@ -208,7 +208,7 @@ void TBaluSceneInstance::OnStep(float step)
 }
 
 
-void TBaluSceneInstance::UpdateTransform()
+void TSceneInstance::UpdateTransform()
 {
 	for (int i = 0; i < instances.size(); i++)
 	{
@@ -216,7 +216,7 @@ void TBaluSceneInstance::UpdateTransform()
 	}
 }
 
-void TBaluSceneInstance::DoDebugDraw(TDrawingHelperContext drawing_context)
+void TSceneInstance::DoDebugDraw(TDrawingHelperContext drawing_context)
 {
 	uint32 flags = 0;
 	flags |= b2Draw::e_shapeBit;

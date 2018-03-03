@@ -8,18 +8,18 @@ using namespace BaluLib;
 
 namespace EngineInterface
 {
-	class TBaluSceneInstance;
-	class TBaluSpritePolygonInstance;
+	class TSceneInstance;
+	class TSpritePolygonInstance;
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TSceneObjectInstance
+	class TSceneObjectInstance: public ISceneObjectInstance
 	{
 	private:
-		TBaluSceneInstance* scene;
+		TSceneInstance* scene;
 	public:
-		TBaluSceneInstance* GetScene();
-		TSceneObjectInstance(TBaluSceneInstance* scene);
-		virtual void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results){}
+		TSceneInstance* GetScene();
+		TSceneObjectInstance(TSceneInstance* scene);
+		virtual void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results){}
 		virtual TOBB2 GetOBB() = 0;
 		virtual void SetTransform(TBaluTransform transform){}
 		virtual TSceneObject* GetSource(){ return nullptr; };
@@ -34,13 +34,13 @@ namespace EngineInterface
 		virtual ~TSceneObjectInstance(){}
 	};
 
-	typedef TSceneObjectInstance*(*SceneObjectInstanceClone)(TSceneObject* source_def, TBaluSceneInstance* scene);
+	typedef TSceneObjectInstance*(*SceneObjectInstanceClone)(TSceneObject* source_def, TSceneInstance* scene);
 	class SceneObjectInstanceFactory
 	{
 	public:
 		static bool Register(const char* name, SceneObjectInstanceClone clone);
 		static void UnregisterAll();
-		static TSceneObjectInstance* Create(const char* name, TSceneObject* param, TBaluSceneInstance* scene);
+		static TSceneObjectInstance* Create(const char* name, TSceneObject* param, TSceneInstance* scene);
 	};
 #endif
 
@@ -50,16 +50,16 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluMaterial;
+	class TMaterial;
 	class TMaterialInstance: public IChangeListener
 	{
 		TBaluTexture texture;
-		TBaluMaterial* source;
+		TMaterial* source;
 		TResources* resources;
 
 		virtual void SourceChanged();
 	public:
-		TMaterialInstance(TBaluMaterial* source, TResources* resources);
+		TMaterialInstance(TMaterial* source, TResources* resources);
 		~TMaterialInstance();
 		TBaluTexture GetTexture();
 	};

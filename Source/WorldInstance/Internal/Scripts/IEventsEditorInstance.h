@@ -133,7 +133,7 @@ namespace EngineInterface
 		//void OnMouseMove(TMouseEventArgs e, TVec2 scene_cursor_location);
 
 		//class
-		static void CheckScriptErrors(TBaluClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
+		static void CheckScriptErrors(TClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list);
 
 		//void DoKeyDown(TKey key, TBaluTransformedClassInstance* instance);
 		//void DoKeyUp(TKey key, TBaluTransformedClassInstance* instance);

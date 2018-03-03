@@ -10,7 +10,7 @@ using namespace pugi;
 using namespace EngineInterface;
 //
 //
-//void TBaluSceneInstance::OnKeyDown(TKey key)
+//void TSceneInstance::OnKeyDown(TKey key)
 //{
 //	for (int i = 0; i < instances.size(); i++)
 //	{
@@ -20,28 +20,28 @@ using namespace EngineInterface;
 //	}
 //}
 //
-//void TBaluSceneInstance::OnMouseUp(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
+//void TSceneInstance::OnMouseUp(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
 //{
 //	for (int i = 0; i < instances.size(); i++)
 //	{
 //		instances[i]->OnMouseUp(e, scene_cursor_location);
 //	}
 //}
-//void TBaluSceneInstance::OnMouseDown(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
+//void TSceneInstance::OnMouseDown(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
 //{
 //	for (int i = 0; i < instances.size(); i++)
 //	{
 //		instances[i]->OnMouseDown(e, scene_cursor_location);
 //	}
 //}
-//void TBaluSceneInstance::OnMouseMove(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
+//void TSceneInstance::OnMouseMove(EngineInterface::TMouseEventArgs e, TVec2 scene_cursor_location)
 //{
 //	for (int i = 0; i < instances.size(); i++)
 //	{
 //		instances[i]->OnMouseMove(e, scene_cursor_location);
 //	}
 //}
-//void TBaluSceneInstance::OnPrePhysStep()
+//void TSceneInstance::OnPrePhysStep()
 //{
 //	for (int i = 0; i < instances.size(); i++)
 //	{
@@ -269,7 +269,7 @@ bool TEventsEditorInstance::CheckScriptErrors(std::vector<std::string>& errors_l
 	//}
 //}
 //
-//void TBaluClassCompiledScripts::DoKeyUp(TKey key, TBaluTransformedClassInstance* instance)
+//void TClassCompiledScripts::DoKeyUp(TKey key, TBaluTransformedClassInstance* instance)
 //{
 //	for (auto& v : on_key_up_callbacks)
 //	{
@@ -280,7 +280,7 @@ bool TEventsEditorInstance::CheckScriptErrors(std::vector<std::string>& errors_l
 //	}
 //}
 //
-//void TBaluClassCompiledScripts::DoBeforePhysicsStep(TBaluTransformedClassInstance* instance)
+//void TClassCompiledScripts::DoBeforePhysicsStep(TBaluTransformedClassInstance* instance)
 //{
 //	for (auto& i : before_physics_callbacks)
 //	{
@@ -288,7 +288,7 @@ bool TEventsEditorInstance::CheckScriptErrors(std::vector<std::string>& errors_l
 //	}
 //}
 //
-//void TBaluClassCompiledScripts::DoCollide(TBaluTransformedClassInstance* source_object, TBaluTransformedSpriteInstance* obj_a, TBaluTransformedClassInstance* obstancle)
+//void TClassCompiledScripts::DoCollide(TBaluTransformedClassInstance* source_object, TBaluTransformedSpriteInstance* obj_a, TBaluTransformedClassInstance* obstancle)
 //{
 //	for (auto& i : on_collide_callbacks)
 //	{
@@ -297,13 +297,13 @@ bool TEventsEditorInstance::CheckScriptErrors(std::vector<std::string>& errors_l
 //	}
 //}
 //
-//TBaluClassCompiledScripts::TBaluClassCompiledScripts(TBaluWorldInstance* world_instance, TBaluClass* source)
+//TClassCompiledScripts::TClassCompiledScripts(TBaluWorldInstance* world_instance, TClass* source)
 //{
 //	this->world_instance = world_instance;
 //	this->source = source;
 //}
 //
-//void TBaluClassCompiledScripts::CheckScriptErrors(TBaluClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list)
+//void TClassCompiledScripts::CheckScriptErrors(TClass* source, TBaluScriptInstance* script_engine, std::vector<std::string>& errors_list)
 //{
 //	for (auto& v : source->GetOnBeforePhysicsStep())
 //	{

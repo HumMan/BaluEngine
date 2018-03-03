@@ -21,9 +21,7 @@
 
 #include <Box2D.h>
 
-#include <Common/ICommon.h>
-
-using namespace EngineInterface;
+#include "Render/DrawingHelper.h"
 
 struct b2AABB;
 struct GLRenderPoints;
@@ -41,7 +39,7 @@ struct Camera
 	//	m_width = 1280;
 	//	m_height = 800;
 	//}
-	TDrawingHelperContext drawing_context;
+	BaluEngine::Editor::Internal::TDrawingHelperContext drawing_context;
 	void BuildProjectionMatrix(float32* m, float32 zBias);
 	//b2Vec2 ConvertScreenToWorld(const b2Vec2& screenPoint);
 	//b2Vec2 ConvertWorldToScreen(const b2Vec2& worldPoint);

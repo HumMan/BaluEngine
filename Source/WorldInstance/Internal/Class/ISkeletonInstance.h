@@ -39,7 +39,7 @@ namespace EngineInterface
 		std::vector<std::vector<std::unique_ptr<TBaluTransformedSpriteInstance>>> sprites_of_bones;
 	public:
 		TSkinInstance(TSkin* source, TResources* resources, TSceneObjectInstance* scene_object);
-		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
+		void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results);
 		void UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TBaluTransformWithScale class_transform);
 	};
 
@@ -55,7 +55,7 @@ namespace EngineInterface
 		TSkeletonInstance(TSkeleton* source, TResources* resources, TSceneObjectInstance* scene_object);
 		~TSkeletonInstance();
 		void UpdateTranform(TBaluTransformWithScale class_transform);
-		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
+		void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results);
 		TSkeleton* GetSource();
 		TBoneInstance* GetBone(int index);
 	};

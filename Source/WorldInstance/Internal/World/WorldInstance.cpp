@@ -30,25 +30,25 @@ namespace EngineInterface
 		}
 	}
 
-	TBaluSceneInstance* TBaluWorldInstance::RunScene(TBaluScene* scene_source)
+	TSceneInstance* TBaluWorldInstance::RunScene(TScene* scene_source)
 	{
-		scene_instances.push_back(std::unique_ptr<TBaluSceneInstance>(new TBaluSceneInstance(this, scene_source, resources)));
+		scene_instances.push_back(std::unique_ptr<TSceneInstance>(new TSceneInstance(this, scene_source, resources)));
 		return scene_instances.back().get();
 	}
-	TBaluSceneInstance* TBaluWorldInstance::RunScene()
+	TSceneInstance* TBaluWorldInstance::RunScene()
 	{
-		scene_instances.push_back(std::unique_ptr<TBaluSceneInstance>(new TBaluSceneInstance(this, resources)));
+		scene_instances.push_back(std::unique_ptr<TSceneInstance>(new TSceneInstance(this, resources)));
 		return scene_instances.back().get();
 	}
-	TBaluSceneInstance* TBaluWorldInstance::RunScene(TLayersManager* scene_layers)
+	TSceneInstance* TBaluWorldInstance::RunScene(TLayersManager* scene_layers)
 	{
-		scene_instances.push_back(std::unique_ptr<TBaluSceneInstance>(new TBaluSceneInstance(this, resources, scene_layers)));
+		scene_instances.push_back(std::unique_ptr<TSceneInstance>(new TSceneInstance(this, resources, scene_layers)));
 		return scene_instances.back().get();
 	}
 
-	void TBaluWorldInstance::StopScene(TBaluSceneInstance* scene)
+	void TBaluWorldInstance::StopScene(TSceneInstance* scene)
 	{
-		auto iter = std::find_if(scene_instances.begin(), scene_instances.end(), [&](std::unique_ptr<TBaluSceneInstance>& p){return p.get() == scene; });
+		auto iter = std::find_if(scene_instances.begin(), scene_instances.end(), [&](std::unique_ptr<TSceneInstance>& p){return p.get() == scene; });
 		if (iter != scene_instances.end())
 		{
 			scene_instances.erase(iter);
@@ -61,12 +61,12 @@ namespace EngineInterface
 
 	IBaluSceneInstance* TBaluWorldInstance::RunScene(IBaluScene* scene_source)
 	{
-		return RunScene(dynamic_cast<TBaluScene*>(scene_source));
+		return RunScene(dynamic_cast<TScene*>(scene_source));
 	}
 
 	void TBaluWorldInstance::StopScene(EngineInterface::IBaluSceneInstance* scene_instance)
 	{
-		StopScene(dynamic_cast<TBaluSceneInstance*>(scene_instance));
+		StopScene(dynamic_cast<TSceneInstance*>(scene_instance));
 	}
 
 

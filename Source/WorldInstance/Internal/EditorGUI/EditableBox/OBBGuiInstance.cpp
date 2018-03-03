@@ -199,7 +199,7 @@ std::vector<TPointAdornment> InitControlPointsByBoundary(TOBB<float, 2> boundary
 	return control_points;
 }
 
-TBoundaryBoxAdornment::TBoundaryBoxAdornment(TBaluSceneInstance* scene)
+TBoundaryBoxAdornment::TBoundaryBoxAdornment(TSceneInstance* scene)
 	:TSceneObjectInstance(scene)
 {
 	control_under_cursor = -1;
@@ -214,7 +214,7 @@ TBoundaryBoxAdornment::TBoundaryBoxAdornment(TBaluSceneInstance* scene)
 
 	
 }
-TBoundaryBoxAdornment::TBoundaryBoxAdornment(TBaluSceneInstance* scene, TOBBGui* source)
+TBoundaryBoxAdornment::TBoundaryBoxAdornment(TSceneInstance* scene, TOBBGui* source)
 	:TSceneObjectInstance(scene)
 {
 

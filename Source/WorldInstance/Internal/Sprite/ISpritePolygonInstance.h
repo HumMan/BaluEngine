@@ -19,11 +19,11 @@ namespace EngineInterface
 	};
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluSpritePolygonInstance: public IBaluSpritePolygonInstance, public IChangeListener
+	class TSpritePolygonInstance: public IBaluSpritePolygonInstance, public IChangeListener
 	{
 	private:
 		TMaterialInstance material;
-		TBaluSpritePolygon* source;
+		TSpritePolygon* source;
 
 		std::vector<TVec2> vertices; //in scene coordinates
 		std::vector<TVec2> tex_coords;
@@ -53,17 +53,17 @@ namespace EngineInterface
 			this->enable = enable;
 		}
 
-		TBaluSpritePolygonInstance(TBaluSpritePolygon* source, TResources* resources);
-		~TBaluSpritePolygonInstance();
+		TSpritePolygonInstance(TSpritePolygon* source, TResources* resources);
+		~TSpritePolygonInstance();
 
-		//void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance>& results);
+		//void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance>& results);
 
 		void Render(std::vector<TRenderCommand>& commands, TLayersManager& layers);
 
 		void UpdateTransform(TBaluTransformWithScale global);
 		void UpdateAnimation();
 
-		TBaluSpritePolygon* GetSpritePolygon();
+		TSpritePolygon* GetSpritePolygon();
 
 		void SetActiveAnimation(const std::string&);
 	};

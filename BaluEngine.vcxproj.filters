@@ -145,6 +145,54 @@
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\SpriteGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\WorldInstance\ISceneInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldInstance\Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldInstance\IWorldInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldInstance\Internal\World\WorldInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldInstance\IComposer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldInstance\IMaterialInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\RenderCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\Render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\DrawingHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\DebugDraw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\nanovg_support.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\polygon_decomp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\polygon_vertices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\texture_polygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
@@ -178,6 +226,15 @@
     <ClCompile Include="Source\WorldDef\Internal\EditorGUI\BoxGui.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\EditorGUI\OBBGui.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\EditorGUI\SpriteGui.cpp" />
+    <ClCompile Include="Source\Render\Render.cpp" />
+    <ClCompile Include="Source\Render\DrawingHelper.cpp" />
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
+    <ClCompile Include="Source\Utils\DebugDraw.cpp" />
+    <ClCompile Include="Source\Utils\nanovg_support.cpp" />
+    <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
+    <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
+    <ClCompile Include="Source\Utils\texture_polygon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

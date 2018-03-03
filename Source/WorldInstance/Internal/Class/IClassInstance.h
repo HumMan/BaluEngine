@@ -11,7 +11,7 @@ namespace EngineInterface
 	class TBaluWorldInstance;
 	class TBaluScriptInstance;
 	class TBaluPhysShapeInstance;
-	class TBaluClassCompiledScripts;
+	class TClassCompiledScripts;
 	class TBaluTransformedClass;
 
 	class ISpritesArray
@@ -30,11 +30,11 @@ namespace EngineInterface
 
 #ifdef BALUENGINEDLL_EXPORTS
 
-	class TBaluClassPhysBodyIntance : public IBaluClassPhysBodyIntance
+	class TClassPhysBodyIntance : public IBaluClassPhysBodyIntance
 	{
 	private:
 		b2Body* phys_body;
-		TBaluClassPhysBody* source;
+		TClassPhysBody* source;
 		b2World* phys_world;
 		ISpritesArray* sprites;
 
@@ -43,7 +43,7 @@ namespace EngineInterface
 		bool is_enable;
 
 	public:
-		TBaluClassPhysBodyIntance(b2World* phys_world, TBaluClassPhysBody* source, ISpritesArray* sprites, TBaluTransform parent_transform);
+		TClassPhysBodyIntance(b2World* phys_world, TClassPhysBody* source, ISpritesArray* sprites, TBaluTransform parent_transform);
 
 		void BuildAllFixtures();
 
@@ -68,15 +68,15 @@ namespace EngineInterface
 	class IScriptsCache
 	{
 	public:
-		virtual TBaluClassCompiledScripts* GetClassCompiled(TBaluClass* source) = 0;
+		virtual TClassCompiledScripts* GetClassCompiled(TClass* source) = 0;
 	};
 
 #endif
-	class TBaluClass;
+	class TClass;
 	class IBaluClassInstance: public ISpritesArray
 	{
 	public:
-		virtual TBaluClass* GetSource() = 0;
+		virtual TClass* GetSource() = 0;
 		virtual int GetSpritesCount() = 0;
 		virtual IBaluTransformedSpriteInstance* GetSprite(int index) = 0;
 		virtual IBaluClassPhysBodyIntance* GetPhysBody() = 0;
@@ -87,29 +87,29 @@ namespace EngineInterface
 	
 
 #ifdef BALUENGINEDLL_EXPORTS
-	class TBaluClassInstance :public IBaluClassInstance
+	class TClassInstance :public IBaluClassInstance
 	{
 	private:
-		TBaluClass* source;
+		TClass* source;
 		TSceneObjectInstance* scene_object;
 		TResources* resources;
 
 		std::vector<std::unique_ptr<TBaluTransformedSpriteInstance>> sprites;
-		std::unique_ptr<TBaluClassPhysBodyIntance> phys_body;
+		std::unique_ptr<TClassPhysBodyIntance> phys_body;
 		TSkeletonInstance skeleton;
 		TSkeletonAnimationInstance skeleton_animation;
 
 		TProperties properties;
 		void BuildAllFixtures();
 	public:
-		TBaluClassInstance(TBaluClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, TSceneObjectInstance* scene_object);
-		TBaluClass* GetSource();
+		TClassInstance(TClass* source, b2World* phys_world, TBaluTransform parent_transform, TResources* resources, TSceneObjectInstance* scene_object);
+		TClass* GetSource();
 		int GetSpritesCount();
 		IBaluTransformedSpriteInstance* GetSprite(int index);
 		TSkeletonAnimationInstance* GetSkeletonAnimation();
-		TBaluClassPhysBodyIntance* GetPhysBody();
+		TClassPhysBodyIntance* GetPhysBody();
 		bool PointCollide(TVec2 class_space_point, IBaluTransformedSpriteInstance* &result);
-		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
+		void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results);
 
 		void UpdateTransform(TBaluTransformWithScale transform);
 	};
@@ -138,7 +138,7 @@ namespace EngineInterface
 	{
 	private:
 		int uid;
-		TBaluClassInstance instance_class;
+		TClassInstance instance_class;
 		TBaluTransformWithScale instance_transform;
 
 		TProperties properties;
@@ -157,12 +157,12 @@ namespace EngineInterface
 		{
 			return FactoryName();
 		}
-		TBaluClassInstance* GetClass();
+		TClassInstance* GetClass();
 		TSceneObject* GetSource()
 		{
 			return source;
 		}
-		TBaluTransformedClassInstance(TBaluTransformedClass* source, TBaluSceneInstance* scene);
+		TBaluTransformedClassInstance(TBaluTransformedClass* source, TSceneInstance* scene);
 		~TBaluTransformedClassInstance();
 		void SetTransform(TBaluTransform transform);
 		TBaluTransform GetTransform();
@@ -170,7 +170,7 @@ namespace EngineInterface
 		void SetScale(TVec2 scale);
 		TProperties* GetProperties();
 
-		TBaluClassPhysBodyIntance* GetPhysBody();
+		TClassPhysBodyIntance* GetPhysBody();
 
 		int GetSpritesCount();
 		IBaluTransformedSpriteInstance* GetSprite(int index);
@@ -181,10 +181,10 @@ namespace EngineInterface
 		bool PointCollide(TVec2 scene_space_point);
 		TOBB2 GetOBB();
 		TAABB2 GetAABB();
-		void QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results);
+		void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results);
 
 		void UpdateTransform();
-		static TSceneObjectInstance* Clone(TSceneObject* source, TBaluSceneInstance* scene);
+		static TSceneObjectInstance* Clone(TSceneObject* source, TSceneInstance* scene);
 };
 
 	REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TBaluTransformedClassInstance);

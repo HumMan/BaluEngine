@@ -44,7 +44,7 @@ namespace BaluEngine
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
 
-			class TLayersManager
+			class TLayersManager :public ILayersManager
 			{
 			private:
 				IScene * scene;

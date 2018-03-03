@@ -6,7 +6,7 @@
 
 using namespace EngineInterface;
 
-TSimpleSpriteInstance::TSimpleSpriteInstance(TBaluSceneInstance* scene, TBaluSprite* source)
+TSimpleSpriteInstance::TSimpleSpriteInstance(TSceneInstance* scene, TSprite* source)
 	:TSceneObjectInstance(scene)
 {
 	
@@ -32,7 +32,7 @@ TSimpleSpriteInstance::~TSimpleSpriteInstance()
 {
 }
 
-void TSimpleSpriteInstance::QueryAABB(TAABB2 frustum, std::vector<TBaluSpritePolygonInstance*>& results)
+void TSimpleSpriteInstance::QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results)
 {
 		if (sprite_instance->GetPolygon()->IsEnable())
 		{
