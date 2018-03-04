@@ -172,10 +172,10 @@
     <ClInclude Include="Source\Render\DrawingHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Internal\Scene\ISceneInstance.h">
+    <ClInclude Include="Source\WorldInstance\ISpritePolygonInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldInstance\ISpritePolygonInstance.h">
+    <ClInclude Include="Source\WorldInstance\Internal\Scene\SceneInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

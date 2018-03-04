@@ -142,7 +142,7 @@
     <ClInclude Include="Source\WorldInstance\IComposer.h" />
     <ClInclude Include="Source\WorldInstance\IMaterialInstance.h" />
     <ClInclude Include="Source\WorldInstance\Interface.h" />
-    <ClInclude Include="Source\WorldInstance\Internal\Scene\ISceneInstance.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Scene\SceneInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\World\WorldInstance.h" />
     <ClInclude Include="Source\WorldInstance\ISceneInstance.h" />
     <ClInclude Include="Source\WorldInstance\ISpritePolygonInstance.h" />
