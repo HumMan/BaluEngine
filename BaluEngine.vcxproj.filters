@@ -172,25 +172,10 @@
     <ClInclude Include="Source\Render\DrawingHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h">
+    <ClInclude Include="Source\WorldInstance\Internal\Scene\ISceneInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\DebugDraw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\nanovg_support.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\polygon_decomp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\polygon_vertices.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\texture_polygon.h">
+    <ClInclude Include="Source\WorldInstance\ISpritePolygonInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -228,13 +213,7 @@
     <ClCompile Include="Source\WorldDef\Internal\EditorGUI\SpriteGui.cpp" />
     <ClCompile Include="Source\Render\Render.cpp" />
     <ClCompile Include="Source\Render\DrawingHelper.cpp" />
-    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
-    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
-    <ClCompile Include="Source\Utils\DebugDraw.cpp" />
-    <ClCompile Include="Source\Utils\nanovg_support.cpp" />
-    <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
-    <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
-    <ClCompile Include="Source\Utils\texture_polygon.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\World\WorldInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

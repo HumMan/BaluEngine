@@ -21,3 +21,5 @@ namespace BaluEngine
 #include "ISceneInstance.h"
 #include "IWorldInstance.h"
 #include "IComposer.h"
+#include "ISpritePolygonInstance.h"
+#include "IMaterialInstance.h"

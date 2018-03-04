@@ -16,7 +16,7 @@ namespace BaluRender
 
 namespace BaluEngine
 {
-	namespace Editor
+	namespace WorldInstance
 	{
 		namespace Internal
 		{

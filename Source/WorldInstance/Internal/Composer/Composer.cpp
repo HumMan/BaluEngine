@@ -1,25 +1,20 @@
-#include "IComposer.h"
+#include "Composer.h"
 
-#include <Render/Render.h>
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
-#include "baluRender.h"
 
-#include "Objects/Scene/ISceneInstance.h"
-
-using namespace EngineInterface;
-
-#include <WorldDef/Objects/Material/IMaterial.h>
-
-namespace EngineInterface
+namespace TComposer
 {
-	class TComposerPrivate
+	class TPrivate
 	{
 	public:
 		std::vector<TComposerStage> stages;
 	};
 }
 
-TComposerStage* TComposer::AddToRender(EngineInterface::IBaluSceneInstance* scene_instance, EngineInterface::IViewport* viewport)
+TComposerStage* TComposer::AddToRender(IScene* scene_instance, WorldDef::IViewport* viewport)
 {
 	p->stages.emplace_back();
 	p->stages.back().scene_instance = scene_instance;
@@ -27,45 +22,46 @@ TComposerStage* TComposer::AddToRender(EngineInterface::IBaluSceneInstance* scen
 	return nullptr;
 }
 
-void TComposer::RemoveFromRender(EngineInterface::IComposerStage* stage)
+void TComposer::RemoveFromRender(IComposerStage* stage)
 {
 
 }
 
-void TComposer::Render(EngineInterface::TRender* render)
+void TComposer::Render(Rendering::IRender* render)
 {
-	auto internal_render = render->GetInternalRender();
-	auto screen = TScreen(internal_render->Get.Viewport());
+	//TODO
+	//auto internal_render = render->GetInternalRender();
+	//auto screen = TScreen(internal_render->Get.Viewport());
 
-	for (auto& v : p->stages)
-	{
-		auto main_viewport = v.viewport;
+	//for (auto& v : p->stages)
+	//{
+	//	auto main_viewport = v.viewport;
 
-		std::vector<TRenderCommand> render_commands;
-		std::vector<IGUIVisual*> gui_draw;
-		auto viewport_aabb = main_viewport->GetAABB();
-		v.scene_instance->QueryAABB(viewport_aabb, render_commands, gui_draw);
+	//	std::vector<TRenderCommand> render_commands;
+	//	std::vector<IGUIVisual*> gui_draw;
+	//	auto viewport_aabb = main_viewport->GetAABB();
+	//	v.scene_instance->QueryAABB(viewport_aabb, render_commands, gui_draw);
 
-		//TODO где то нужно хранить viewport_view
-		auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+	//	//TODO где то нужно хранить viewport_view
+	//	auto main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
 
-		render->EnableScissor(true);
-		render->SetScissorRect(screen, main_viewport_view);
-		render->Render(render_commands, gui_draw, main_viewport);
+	//	render->EnableScissor(true);
+	//	render->SetScissorRect(screen, main_viewport_view);
+	//	render->Render(render_commands, gui_draw, main_viewport);
 
-		TDrawingHelperContext drawing_context;
-		drawing_context.screen = &screen;
-		drawing_context.view = &main_viewport_view;
-		drawing_context.viewport = main_viewport;
+	//	TDrawingHelperContext drawing_context;
+	//	drawing_context.screen = &screen;
+	//	drawing_context.view = &main_viewport_view;
+	//	drawing_context.viewport = main_viewport;
 
-		(dynamic_cast<TBaluSceneInstance*>(v.scene_instance))->DoDebugDraw(drawing_context);
-		render->EnableScissor(false);
-	}		
+	//	(dynamic_cast<TSceneInstance*>(v.scene_instance))->DoDebugDraw(drawing_context);
+	//	render->EnableScissor(false);
+	//}		
 }
 
 TComposer::TComposer()
 {
-	p = std::unique_ptr<TComposerPrivate>(new TComposerPrivate());
+	p = std::unique_ptr<TComposer::TPrivate>(new TComposer::TPrivate());
 }
 
 TComposer::~TComposer()

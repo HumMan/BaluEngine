@@ -40,7 +40,6 @@ namespace BaluEngine
 				IScene* RunScene(WorldDef::IScene* scene_source);
 				void StopScene(IScene*);
 
-				IScene* RunScene(WorldDef::IScene* scene_source);
 				IScene* RunScene();
 				IScene* RunScene(WorldDef::ILayersManager* scene_layers);
 
@@ -52,8 +51,6 @@ namespace BaluEngine
 				{
 					return scene_instances[index].get();
 				}
-				void StopScene(IScene*);
-
 
 				void PhysStep(float step);
 

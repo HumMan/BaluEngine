@@ -4,7 +4,7 @@ namespace BaluEngine
 {
 	namespace WorldInstance
 	{
-		class IBaluMaterialInstance
+		class IMaterial
 		{
 		public:
 		};

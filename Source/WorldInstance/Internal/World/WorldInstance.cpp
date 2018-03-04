@@ -1,54 +1,54 @@
-#include "IWorldInstance.h"
+#include "WorldInstance.h"
 
-#include "Scripts/ScriptClassesRegistry.h"
+#include "../Scene/ISceneInstance.h"
 
-#include <Common/IDirector.h>
+#include <algorithm>
 
-#include "Scripts/IEventsEditorInstance.h"
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
-namespace EngineInterface
-{
 
-	TBaluWorld* TBaluWorldInstance::GetSource()
+	WorldDef::IWorld* TWorld::GetSource()
 	{
 		return source;
 	}
 
-	TBaluWorldInstance::TBaluWorldInstance(TBaluWorld* source, TResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
+	TWorld::TWorld(WorldDef::IWorld* source/*, TResources* resources*/, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
 	{
 		this->source = source;
-		this->resources = resources;
+		//this->resources = resources;
 
-		this->events_editor.reset(new TEventsEditorInstance(source->GetEventsEditor(), assets_dir));
+		//this->events_editor.reset(new TEventsEditorInstance(source->GetEventsEditor(), assets_dir));
 
 		std::vector<std::string> errors_list;
-		compile_success = this->events_editor->CompileScripts(error_message);
+		//compile_success = this->events_editor->CompileScripts(error_message);
 
-		if (call_scripts && compile_success)
-		{
-			this->events_editor->WorldStart(this, &composer);
-		}
-	}
-
-	TSceneInstance* TBaluWorldInstance::RunScene(TScene* scene_source)
-	{
-		scene_instances.push_back(std::unique_ptr<TSceneInstance>(new TSceneInstance(this, scene_source, resources)));
-		return scene_instances.back().get();
-	}
-	TSceneInstance* TBaluWorldInstance::RunScene()
-	{
-		scene_instances.push_back(std::unique_ptr<TSceneInstance>(new TSceneInstance(this, resources)));
-		return scene_instances.back().get();
-	}
-	TSceneInstance* TBaluWorldInstance::RunScene(TLayersManager* scene_layers)
-	{
-		scene_instances.push_back(std::unique_ptr<TSceneInstance>(new TSceneInstance(this, resources, scene_layers)));
-		return scene_instances.back().get();
+		//if (call_scripts && compile_success)
+		//{
+		//	this->events_editor->WorldStart(this, &composer);
+		//}
 	}
 
-	void TBaluWorldInstance::StopScene(TSceneInstance* scene)
+	IScene* TWorld::RunScene(WorldDef::IScene* scene_source)
 	{
-		auto iter = std::find_if(scene_instances.begin(), scene_instances.end(), [&](std::unique_ptr<TSceneInstance>& p){return p.get() == scene; });
+		scene_instances.push_back(std::unique_ptr<IScene>(new TScene(this, scene_source/*, resources*/)));
+		return scene_instances.back().get();
+	}
+	IScene* TWorld::RunScene()
+	{
+		scene_instances.push_back(std::unique_ptr<TScene>(new TScene(this/*, resources*/)));
+		return scene_instances.back().get();
+	}
+	//IScene* TWorld::RunScene(TLayersManager* scene_layers)
+	//{
+	//	scene_instances.push_back(std::unique_ptr<TSceneInstance>(new TSceneInstance(this, resources, scene_layers)));
+	//	return scene_instances.back().get();
+	//}
+
+	void TWorld::StopScene(IScene* scene)
+	{
+		auto iter = std::find_if(scene_instances.begin(), scene_instances.end(), [&](std::unique_ptr<IScene>& p){return p.get() == scene; });
 		if (iter != scene_instances.end())
 		{
 			scene_instances.erase(iter);
@@ -59,40 +59,28 @@ namespace EngineInterface
 		}
 	}
 
-	IBaluSceneInstance* TBaluWorldInstance::RunScene(IBaluScene* scene_source)
+	void TWorld::PhysStep(float step)
 	{
-		return RunScene(dynamic_cast<TScene*>(scene_source));
+		//for (int i = 0; i < scene_instances.size(); i++)
+		//	scene_instances[i]->PhysStep(step);
 	}
-
-	void TBaluWorldInstance::StopScene(EngineInterface::IBaluSceneInstance* scene_instance)
+	void TWorld::OnStep(float step)
 	{
-		StopScene(dynamic_cast<TSceneInstance*>(scene_instance));
-	}
-
-
-	void TBaluWorldInstance::PhysStep(float step)
-	{
-		for (int i = 0; i < scene_instances.size(); i++)
-			scene_instances[i]->PhysStep(step);
-	}
-	void TBaluWorldInstance::OnStep(float step)
-	{
-		for (int i = 0; i < scene_instances.size(); i++)
-			scene_instances[i]->OnStep(step);
+		//for (int i = 0; i < scene_instances.size(); i++)
+		//	scene_instances[i]->OnStep(step);
 	}
 
 
-	void TBaluWorldInstance::UpdateTransform()
+	void TWorld::UpdateTransform()
 	{
-		for (int i = 0; i < scene_instances.size(); i++)
-			scene_instances[i]->UpdateTransform();
+		//for (int i = 0; i < scene_instances.size(); i++)
+		//	scene_instances[i]->UpdateTransform();
 	}
 
-	TBaluWorldInstance::~TBaluWorldInstance()
+	TWorld::~TWorld()
 	{
 	}
-	IEventsEditorInstance* TBaluWorldInstance::GetEventsEditor()
-	{
-		return dynamic_cast<IEventsEditorInstance*>(events_editor.get());
-	}
-}
+	//IEventsEditorInstance* TWorld::GetEventsEditor()
+	//{
+	//	return dynamic_cast<IEventsEditorInstance*>(events_editor.get());
+	//}

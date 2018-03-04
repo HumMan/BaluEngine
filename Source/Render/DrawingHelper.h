@@ -1,11 +1,33 @@
 #pragma once
 
+#include "WorldDef/Interface.h"
+
+class NVGcontext;
+
 namespace BaluEngine
 {
-	namespace Editor
+	namespace WorldInstance
 	{
 		namespace Internal
 		{
+			class TScreen;
+			class TView;
+
+			struct TDrawingHelperContext
+			{
+				TScreen* screen;
+				TView* view;
+				WorldDef::IViewport* viewport;
+				TDrawingHelperContext()
+				{
+					screen = nullptr;
+					view = nullptr;
+					viewport = nullptr;
+				}
+				BaluLib::TVec2 FromScreenPixelsToScene(BaluLib::TVec2i screen_pixels);
+				BaluLib::TVec2i FromSceneToScreenPixels(BaluLib::TVec2 scene_coordinates);
+			};
+
 			class TDrawingHelper
 			{
 				NVGcontext* context;
@@ -18,14 +40,14 @@ namespace BaluEngine
 					return drawing_context;
 				}
 
-				void RenderPointAdornment(TVec2 p, TBaluTransformWithScale trans = TBaluTransformWithScale());
-				void RenderPointHighlightAdornment(TVec2 p, TBaluTransformWithScale trans = TBaluTransformWithScale());
+				void RenderPointAdornment(BaluLib::TVec2 p, WorldDef::TTransformWithScale trans = WorldDef::TTransformWithScale());
+				void RenderPointHighlightAdornment(BaluLib::TVec2 p, WorldDef::TTransformWithScale trans = WorldDef::TTransformWithScale());
 
 				//
-				void RenderBoxCountour(TOBB2 box, float width);
-				void RenderSelectionBox(TOBB2 box);
-				void RenderLinesLoop(const std::vector<TVec2>& vertices, TBaluTransformWithScale trans = TBaluTransformWithScale());
-				void RenderLine(const TVec2& p0, const TVec2& p1, TBaluTransformWithScale trans = TBaluTransformWithScale());
+				void RenderBoxCountour(BaluLib::TOBB2 box, float width);
+				void RenderSelectionBox(BaluLib::TOBB2 box);
+				void RenderLinesLoop(const std::vector<BaluLib::TVec2>& vertices, WorldDef::TTransformWithScale trans = WorldDef::TTransformWithScale());
+				void RenderLine(const BaluLib::TVec2& p0, const BaluLib::TVec2& p1, WorldDef::TTransformWithScale trans = WorldDef::TTransformWithScale());
 			};
 		}
 	}

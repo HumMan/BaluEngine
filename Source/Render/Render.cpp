@@ -10,13 +10,19 @@
 
 #include <algorithm>
 
+#include "WorldInstance/IMaterialInstance.h"
+
 #if defined(WIN32)||defined(_WIN32)
 #else
 #define sprintf_s sprintf
 #endif
 
 using namespace BaluEngine;
-using namespace BaluEngine::WorldDef;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
+
+using namespace BaluRender;
+using namespace TBaluRenderEnums;
 
 TRender::TRender(TBaluRender* internal_render)
 {
@@ -29,7 +35,7 @@ TRender::~TRender()
 	nanovg_deinit();
 }
 
-void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual*>& gui, IViewport* viewport)
+void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual*>& gui, WorldDef::IViewport* viewport)
 {
 	//render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
 	render->Set.ModelView(TMatrix4::GetOrtho(viewport->GetTransform().position, viewport->GetSize(), -1, 1));
@@ -54,8 +60,9 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 		assert(c.vertices_count > 0);
 		{
 			render->Set.Color(1, 1, 1, c.alpha);
-			auto tex = c.material_id->GetTexture();
-			render->Texture.Bind(*(TTextureId*)&tex);
+			//TODO
+			/*auto tex = c.material_id->GetTexture();
+			render->Texture.Bind(*(TTextureId*)&tex);*/
 			TStreamsDesc streams;
 			streams.AddStream(TStream::Vertex, TDataType::Float, 2, c.vertices);
 			streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);

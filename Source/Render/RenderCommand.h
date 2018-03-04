@@ -8,16 +8,13 @@ namespace BaluEngine
 	namespace WorldInstance
 	{
 		class TMaterial;
-	}
-	namespace Editor
-	{
 		namespace Internal
-		{
+		{			
 
 			struct TRenderCommand
 			{
 			public:
-				WorldInstance::TMaterial* material_id;
+				TMaterial* material_id;
 
 				bool draw_triangles_grid;
 				int vertices_count;
@@ -29,7 +26,7 @@ namespace BaluEngine
 
 				TRenderCommand() {}
 
-				TRenderCommand(WorldInstance::TMaterial* material_id, int vertices_count, TVec2* vertices, TVec2* tex_coords, TVec4* colors)
+				TRenderCommand(TMaterial* material_id, int vertices_count, TVec2* vertices, TVec2* tex_coords, TVec4* colors)
 				{
 					this->material_id = material_id;
 					this->vertices_count = vertices_count;
@@ -127,6 +124,7 @@ namespace BaluEngine
 			};
 
 			//TODO в дальнейшем вся информация для рендера должна находиться полностью здесь, для возможности параллельной отрисовки
+			class TDrawingHelper;
 
 			class IGUIVisual
 			{

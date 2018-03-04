@@ -69,7 +69,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;pugixml.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\submodules\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\submodules\pugixml\scripts\vs2013\x32\;$(SolutionDir)/submodules/BaluRender/BaluLib/Library/$(ConfigurationName)/;$(ProjectDir)\Output\$(Configuration);$(SolutionDir)$(Configuration)\;$(SolutionDir)\submodules\pugixml\scripts\vs2017\Win32_$(ConfigurationName)/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\submodules\box2d\Box2D\Build\vs2017\bin\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\submodules\pugixml\scripts\vs2013\x32\;$(SolutionDir)/submodules/BaluRender/BaluLib/Library/$(ConfigurationName)/;$(ProjectDir)\Output\$(Configuration);$(SolutionDir)$(Configuration)\;$(SolutionDir)\submodules\pugixml\scripts\vs2017\Win32_$(ConfigurationName)/</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -92,7 +92,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\submodules\box2d\Box2D\Build\vs2013\bin\x32\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\submodules\pugixml\scripts\vs2013\x32\;$(SolutionDir)/submodules/BaluRender/BaluLib/Library/$(ConfigurationName)/;$(ProjectDir)\Output\$(Configuration);$(SolutionDir)$(Configuration)\;$(SolutionDir)\submodules\pugixml\scripts\vs2017\Win32_$(ConfigurationName)/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Library\$(Configuration);$(ProjectDir)\submodules\box2d\Box2D\Build\vs2017\bin\$(Configuration);$(ProjectDir)/packages/DevIL.1.7.8/build/native/lib/$(Platform)/dynamic/v110/$(Configuration);$(ProjectDir)\submodules\pugixml\scripts\vs2013\x32\;$(SolutionDir)/submodules/BaluRender/BaluLib/Library/$(ConfigurationName)/;$(ProjectDir)\Output\$(Configuration);$(SolutionDir)$(Configuration)\;$(SolutionDir)\submodules\pugixml\scripts\vs2017\Win32_$(ConfigurationName)/</AdditionalLibraryDirectories>
       <AdditionalDependencies>BaluLib.lib;BaluRender.lib;BaluScript.lib;Box2D.lib;pugixml.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -105,13 +105,6 @@
     <ClInclude Include="Source\Render\DrawingHelper.h" />
     <ClInclude Include="Source\Render\Render.h" />
     <ClInclude Include="Source\Render\RenderCommand.h" />
-    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h" />
-    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h" />
-    <ClInclude Include="Source\Utils\DebugDraw.h" />
-    <ClInclude Include="Source\Utils\nanovg_support.h" />
-    <ClInclude Include="Source\Utils\polygon_decomp.h" />
-    <ClInclude Include="Source\Utils\polygon_vertices.h" />
-    <ClInclude Include="Source\Utils\texture_polygon.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\BoxGui.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\OBBGui.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\PolygonGui.h" />
@@ -149,8 +142,10 @@
     <ClInclude Include="Source\WorldInstance\IComposer.h" />
     <ClInclude Include="Source\WorldInstance\IMaterialInstance.h" />
     <ClInclude Include="Source\WorldInstance\Interface.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Scene\ISceneInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\World\WorldInstance.h" />
     <ClInclude Include="Source\WorldInstance\ISceneInstance.h" />
+    <ClInclude Include="Source\WorldInstance\ISpritePolygonInstance.h" />
     <ClInclude Include="Source\WorldInstance\IWorldInstance.h" />
     <ClInclude Include="submodules\nanovg\src\fontstash.h" />
     <ClInclude Include="submodules\nanovg\src\nanovg.h" />
@@ -167,13 +162,6 @@
   <ItemGroup>
     <ClCompile Include="Source\Render\DrawingHelper.cpp" />
     <ClCompile Include="Source\Render\Render.cpp" />
-    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
-    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
-    <ClCompile Include="Source\Utils\DebugDraw.cpp" />
-    <ClCompile Include="Source\Utils\nanovg_support.cpp" />
-    <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
-    <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
-    <ClCompile Include="Source\Utils\texture_polygon.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\Class.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\ClassSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\Skeleton.cpp" />
@@ -199,6 +187,7 @@
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpriteSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\World\Serialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\World\World.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\World\WorldInstance.cpp" />
     <ClCompile Include="submodules\nanovg\src\nanovg.c" />
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\advancing_front.cc" />

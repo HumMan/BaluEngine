@@ -2,12 +2,10 @@
 
 #include "nanovg.h"
 
-//#include <WorldDef/Objects/Scene/IScene.h>
-
 #include <Utils/nanovg_support.h>
 
 using namespace BaluLib;
-using namespace BaluEngine::Editor::Internal;
+using namespace BaluEngine::WorldInstance::Internal;
 using namespace BaluEngine;
 
 TDrawingHelper::TDrawingHelper(TDrawingHelperContext drawing_context)

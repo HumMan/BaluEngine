@@ -2,6 +2,8 @@
 
 #include "../../Interface.h"
 
+#include "Render/RenderCommand.h"
+
 namespace BaluEngine
 {
 	namespace WorldInstance
