@@ -7,6 +7,7 @@ namespace BaluEngine
 		class ISceneObjectInstance
 		{
 		public:
+			virtual ~ISceneObjectInstance() {};
 		};
 
 

@@ -22,15 +22,11 @@ void TSprite::Save(pugi::xml_node& parent_node, const int version)const
 		xml_node fixture = new_node.append_child("Fixture");
 		phys_shape->Save(fixture, version);
 	}
-
-
 }
 
 void TSprite::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
 	this->world = world;
-	//TODO
-	//sprite_name = node.attribute("name").as_string();
 	xml_node polygon_node = node.child("SpritePolygon");
 	sprite_polygon.Load(polygon_node, version, world);
 
@@ -48,8 +44,6 @@ void TSprite::Load(const pugi::xml_node& node, const int version, IWorld* world)
 		new_shape->Load(fixture, version, world);
 		phys_shape.reset(new_shape);
 	}
-
-
 }
 
 void TSpritePolygon::Save(pugi::xml_node& parent_node, const int version)const
@@ -167,61 +161,49 @@ void TBaluBoxShape::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node new_node = parent_node.append_child("BoxShape");
 	{
-		new_node.append_attribute("width").set_value(width);
-		new_node.append_attribute("height").set_value(height);
-		TBaluPolygonShape::Save(new_node, version);
+		SaveProperties(new_node, version);
 	}
 }
 
 void TBaluBoxShape::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
-	width = node.attribute("width").as_float();
-	height = node.attribute("height").as_float();
-	xml_node new_node = node.child("PolygoneShape");
-	TBaluPolygonShape::Load(new_node, version, world);
+	LoadProperties(node, version);
 }
 
 
 void TBaluCircleShape::Save(pugi::xml_node& parent_node, const int version)const
 {
-	//xml_node new_node = parent_node.append_child("CircleShape");
-	//{
-	//	new_node.append_attribute("radius").set_value(b2shape.m_radius);
-	//	SaveTransformWithScale(new_node, "Transform", local);
-	//}
+	xml_node new_node = parent_node.append_child("CircleShape");
+	SaveProperties(new_node, version);
 }
 
 void TBaluCircleShape::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
-	//float radius = node.attribute("radius").as_float();
-	//TVec2 pos = LoadCoord(node.child("position"));
-	//local = LoadTransformWithScale(node.child("Transform"));
-	//b2shape.m_radius = radius;
+	LoadProperties(node, version);
 }
 
 void TBaluPolygonShape::Save(pugi::xml_node& parent_node, const int version)const
 {
-	//xml_node new_node = parent_node.append_child("PolygoneShape");
-	//{
-	//	xml_node polygons_node = new_node.append_child("polygon_vertex");
-	//	for (int i = 0; i < b2shape.m_count; i++)
-	//	{
-	//		SaveCoord(polygons_node, "vertex", *(TVec2*)(&b2shape.m_vertices[i]));
-	//	}
-	//	SaveTransformWithScale(new_node, "Transform", local);
-	//}
+	xml_node new_node = parent_node.append_child("PolygoneShape");
+	{
+		SaveProperties(new_node, version);
+		xml_node polygons_node = new_node.append_child("polygon_vertex");
+		for(auto& v : vertices)
+		{
+			SerializeCommon::SaveCoord(polygons_node, "vertex", v);
+		}		
+	}
 }
 
 void TBaluPolygonShape::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
-	//xml_node polygons_node = node.child("polygon_vertex");
-	//std::vector<TVec2> vertices;
-	//for (pugi::xml_node polygon_node = polygons_node.first_child(); polygon_node; polygon_node = polygon_node.next_sibling())
-	//{
-	//	vertices.push_back(LoadCoord(polygon_node));
-	//}
-	//b2shape.Set((b2Vec2*)&vertices[0], vertices.size());
-	//local = LoadTransformWithScale(node.child("Transform"));
+	LoadProperties(node, version);
+	xml_node polygons_node = node.child("polygon_vertex");
+	vertices.clear();
+	for (pugi::xml_node polygon_node = polygons_node.first_child(); polygon_node; polygon_node = polygon_node.next_sibling())
+	{
+		vertices.push_back(SerializeCommon::LoadCoord(polygon_node));
+	}
 }
 
 //void TFrame::Save(pugi::xml_node& parent_node, const int version)const

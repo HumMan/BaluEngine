@@ -39,13 +39,13 @@ namespace BaluEngine
 			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Pos, BaluLib::TVec2)
 			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Rotation, TRot)
 			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::PhysBodyType, TPhysBodyType)
-			//BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::PhysShapeType, TTransparentMode)
+			//BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::PhysShapeType, TPhysShapeType TODO)
 			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::ImagePath, std::string)
 
 #undef BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP
 
 #define BALU_ENGINE_REGISTER_PROPERTY(property_name, property_type, default_value)\
-private:\
+protected:\
 	PropertyToTypeMap<(int)property_type>::Result property_name##Value; \
 	void InitProperty_##property_name()\
 	{\
@@ -53,11 +53,12 @@ private:\
 		AddProperty(#property_name, property_type, &property_name##Value);\
 	}\
 public:\
-	void Set##property_name(PropertyToTypeMap<(int)property_type>::Result value){\
+	void Set##property_name(const PropertyToTypeMap<(int)property_type>::Result& value){\
 		PropertyType temp_property_type;\
 		assert(HasProperty(#property_name, temp_property_type));\
 		assert(property_type == temp_property_type);\
-		GetProperty(#property_name)->Set(&value);}\
+		property_name##Value = value;\
+		GetProperty(#property_name)->CallOnChange();}\
 	PropertyToTypeMap<(int)property_type>::Result Get##property_name()const {\
 		PropertyType temp_property_type;\
 		assert(HasProperty(#property_name, temp_property_type));\
@@ -80,19 +81,31 @@ public:\
 				{
 					return type;
 				}
-				void Set(const void const* new_value)
+				/*template<int property_type>
+				void Set(void* new_value)
+				{
+					*(PropertyToTypeMap<property_type>::Result*)value = *(PropertyToTypeMap<property_type>::Result*)new_value;
+				}*/
+				//void Set(const void const* new_value)
+				//{
+
+				//}
+
+				void CallOnChange()
 				{
 
 				}
-				void SetAsBool(bool value)
-				{
-					//TODO - listener update
-					*(bool*)(this->value) = value;
-				}
-				bool GetAsBool()const
-				{
-					return *(bool*)value;
-				}
+
+				//void SetAsBool(bool value)
+				//{
+				//	//TODO - listener update
+				//	//Set<(int)PropertyType::Bool>(&value);
+				//	*(bool*)(this->value) = value;
+				//}
+				//bool GetAsBool()const
+				//{
+				//	return *(bool*)value;
+				//}
 
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& parent_node, const int version);

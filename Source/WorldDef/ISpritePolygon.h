@@ -12,10 +12,13 @@ namespace BaluEngine
 		{
 		public:
 
+			BALU_ENGINE_VPROPERTY(Enabled, bool)
+			BALU_ENGINE_VPROPERTY(DrawTrianglesGrid, bool)
+			BALU_ENGINE_VPROPERTY(Layer, int)
+
 			virtual bool PointCollide(BaluLib::TVec2 sprite_space_point) = 0;
 			virtual BaluLib::TOBB2 GetBoundingBox() = 0;
-			virtual bool GetEnabled()const = 0;
-			virtual void SetEnabled(bool enable) = 0;
+
 			virtual void AddAnimDesc(IAnimDesc* desc) = 0;
 			//virtual void CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames) = 0;
 			virtual void CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames) = 0;
@@ -45,9 +48,6 @@ namespace BaluEngine
 
 			virtual void SetTexCoordsFromVertices(BaluLib::TVec2 origin, BaluLib::TVec2 scale) = 0;
 			virtual void SetTexCoordsFromVerticesByRegion(BaluLib::TVec2 left_bottom, BaluLib::TVec2 right_top) = 0;
-
-			virtual int GetLayer()const = 0;
-			virtual bool GetDrawTrianglesGrid()const = 0;
 
 			virtual IAnimationLine* GetAnimationLine(const std::string& name)=0;
 			virtual std::vector<std::string> GetAnimationLineNames()=0;

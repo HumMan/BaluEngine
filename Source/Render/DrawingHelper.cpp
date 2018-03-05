@@ -7,6 +7,7 @@
 #include "RenderCommand.h"
 
 using namespace BaluLib;
+using namespace BaluEngine::WorldInstance;
 using namespace BaluEngine::WorldInstance::Internal;
 using namespace BaluEngine;
 

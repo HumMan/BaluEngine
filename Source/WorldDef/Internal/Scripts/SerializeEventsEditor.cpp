@@ -24,69 +24,69 @@ void TSpriteWithClassCollide::LoadFromXML(const pugi::xml_node& instance_node, c
 
 void TEventsEditor::SaveToXML(pugi::xml_node& parent_node, const int version)
 {
-	xml_node new_node = parent_node.append_child("Events");
+	xml_node events_node = parent_node.append_child("Events");
 	{
 		{
-			xml_node callbacks_node = new_node.append_child("Global");
+			xml_node callbacks_node = events_node.append_child("Global");
 			for (int i = 0; i < (int)GlobalCallbackType::Count; i++)
 			{
 				auto& v = global[i];
-				xml_node node = new_node.append_child("Type");
+				xml_node node = callbacks_node.append_child("Type");
 				node.append_attribute("id").set_value(i);
 				for (auto& script : v)
 				{
-					new_node.append_child("Event").set_value(script.c_str());
+					node.append_child("Event").set_value(script.c_str());
 				}
 			}
 		}
 		{
-			xml_node callbacks_node = new_node.append_child("GlobalKey");
+			xml_node callbacks_node = events_node.append_child("GlobalKey");
 			for (int i = 0; i < (int)GlobalKeyCallbackType::Count; i++)
 			{
 				auto& v = global_key[i];
-				xml_node node = new_node.append_child("Type");
+				xml_node node = callbacks_node.append_child("Type");
 				node.append_attribute("id").set_value(i);
 				for (auto& script : v)
 				{
-					auto node = new_node.append_child("Event");
-					node.append_attribute("key").set_value(std::get<0>(script));
-					node.set_value(std::get<1>(script).c_str());
+					auto event_node = node.append_child("Event");
+					event_node.append_attribute("key").set_value(std::get<0>(script));
+					event_node.set_value(std::get<1>(script).c_str());
 				}
 			}
 		}
 		{
-			xml_node callbacks_node = new_node.append_child("ClassKey");
+			xml_node callbacks_node = events_node.append_child("ClassKey");
 			for (int i = 0; i < (int)ClassKeyCallbackType::Count; i++)
 			{
 				auto& v = class_key[i];
-				xml_node node = new_node.append_child("Type");
+				xml_node node = callbacks_node.append_child("Type");
 				node.append_attribute("id").set_value(i);
 				for (auto& script : v)
 				{
-					auto node = new_node.append_child("Event");
-					node.append_attribute("key").set_value(std::get<0>(script));
-					node.append_attribute("class").set_value(std::get<2>(script).c_str());
-					node.set_value(std::get<1>(script).c_str());
+					auto event_node = node.append_child("Event");
+					event_node.append_attribute("key").set_value(std::get<0>(script));
+					event_node.append_attribute("class").set_value(std::get<2>(script).c_str());
+					event_node.set_value(std::get<1>(script).c_str());
 				}
 			}
 		}
 		{
-			xml_node callbacks_node = new_node.append_child("Class");
+			xml_node callbacks_node = events_node.append_child("Class");
 			for (int i = 0; i < (int)ClassCallbackType::Count; i++)
 			{
 				auto& v = class_callbacks[i];
-				xml_node node = new_node.append_child("Type");
+				xml_node node = callbacks_node.append_child("Type");
 				node.append_attribute("id").set_value(i);
 				for (auto& script : v)
 				{
-					auto node = new_node.append_child("Event");
-					node.append_attribute("class").set_value(std::get<1>(script).c_str());
-					node.set_value(std::get<0>(script).c_str());
+					auto event_node = node.append_child("Event");
+					event_node.append_attribute("class").set_value(std::get<1>(script).c_str());
+					event_node.set_value(std::get<0>(script).c_str());
 				}
 			}
 		}
 		{
-			xml_node callbacks_node = new_node.append_child("Collide");
+			xml_node callbacks_node = events_node.append_child("Collide");
 			{
 				for (auto& script : on_collide)
 				{

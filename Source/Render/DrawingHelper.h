@@ -8,25 +8,26 @@ namespace BaluEngine
 {
 	namespace WorldInstance
 	{
-		namespace Internal
-		{
-			class TScreen;
-			class TView;
+		class TScreen;
+		class TView;
 
-			struct TDrawingHelperContext
+		struct TDrawingHelperContext
+		{
+			TScreen* screen;
+			TView* view;
+			WorldDef::IViewport* viewport;
+			TDrawingHelperContext()
 			{
-				TScreen* screen;
-				TView* view;
-				WorldDef::IViewport* viewport;
-				TDrawingHelperContext()
-				{
-					screen = nullptr;
-					view = nullptr;
-					viewport = nullptr;
-				}
-				BaluLib::TVec2 FromScreenPixelsToScene(BaluLib::TVec2i screen_pixels);
-				BaluLib::TVec2i FromSceneToScreenPixels(BaluLib::TVec2 scene_coordinates);
-			};
+				screen = nullptr;
+				view = nullptr;
+				viewport = nullptr;
+			}
+			BaluLib::TVec2 FromScreenPixelsToScene(BaluLib::TVec2i screen_pixels);
+			BaluLib::TVec2i FromSceneToScreenPixels(BaluLib::TVec2 scene_coordinates);
+		};
+
+		namespace Internal
+		{	
 
 			class TDrawingHelper
 			{

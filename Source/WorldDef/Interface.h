@@ -47,6 +47,7 @@ namespace BaluEngine
 	}
 }
 
+#include "IProperties.h"
 #include "ICommon.h"
 #include "ICallbacks.h"
 #include "IWorld.h"
@@ -56,7 +57,6 @@ namespace BaluEngine
 #include "IPhysShape.h"
 #include "IEventsEditor.h"
 #include "IMaterial.h"
-#include "IProperties.h"
 #include "ICommon.h"
 #include "IClass.h"
 #include "ISkeleton.h"

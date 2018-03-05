@@ -35,7 +35,6 @@ namespace BaluEngine
 				void BuildAllFixtures();
 
 				bool IsEnable();
-				//b2BodyDef GetBodyDef();
 				void SetFixedRotation(bool fixed);
 
 				BaluLib::TVec2 GetLinearVelocity();
@@ -84,7 +83,7 @@ namespace BaluEngine
 				void UpdateTransform(WorldDef::TTransformWithScale transform);
 			};
 
-			class TBaluTransformedClassInstance : public ITransformedClassInstance, public TSceneObjectInstance//, public IChangeListener
+			class TTransformedClassInstance : public ITransformedClassInstance, public TSceneObjectInstance//, public IChangeListener
 			{
 			private:
 				int uid;
@@ -112,8 +111,8 @@ namespace BaluEngine
 				{
 					return source;
 				}
-				TBaluTransformedClassInstance(WorldDef::ITransformedClass* source, IScene* scene);
-				~TBaluTransformedClassInstance();
+				TTransformedClassInstance(WorldDef::ITransformedClass* source, IScene* scene);
+				~TTransformedClassInstance();
 				void SetTransform(WorldDef::TTransform transform);
 				WorldDef::TTransform GetTransform();
 				BaluLib::TVec2 GetScale();
@@ -137,7 +136,7 @@ namespace BaluEngine
 				static ISceneObjectInstance* Clone(WorldDef::ISceneObject* source, IScene* scene);
 			};
 
-			REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TBaluTransformedClassInstance)
+			REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TTransformedClassInstance)
 		}
 	}
 }

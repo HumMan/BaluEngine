@@ -102,6 +102,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h" />
+    <ClInclude Include="Source\Common\Director.h" />
+    <ClInclude Include="Source\Common\IDirector.h" />
     <ClInclude Include="Source\Common\IResources.h" />
     <ClInclude Include="Source\Render\DrawingHelper.h" />
     <ClInclude Include="Source\Render\Render.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Source\WorldObjects\InterfacesIncludes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Common\Director.cpp" />
     <ClCompile Include="Source\Common\Resources.cpp" />
     <ClCompile Include="Source\Render\DrawingHelper.cpp" />
     <ClCompile Include="Source\Render\Render.cpp" />

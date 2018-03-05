@@ -185,11 +185,11 @@ namespace BaluEngine
 		{
 		public:
 			virtual const char* GetFactoryName() = 0;
-			//virtual void SetTransform(TTransform transform) = 0;
-			//virtual void SetScale(BaluLib::TVec2 scale) = 0;
-			//virtual TTransform GetTransform() = 0;
-			//virtual BaluLib::TVec2 GetScale() = 0;
-			//virtual TTransformWithScale GetTransformWithScale() = 0;
+			virtual void SetTransform(TTransform transform) = 0;
+			virtual void SetScale(BaluLib::TVec2 scale) = 0;
+			virtual TTransform GetTransform() = 0;
+			virtual BaluLib::TVec2 GetScale() = 0;
+			virtual TTransformWithScale GetTransformWithScale() = 0;
 			virtual ~ISceneObject(){}
 		};
 
@@ -263,10 +263,11 @@ namespace BaluEngine
 		class IProperty
 		{
 		public:
+			virtual void CallOnChange()=0;
 			virtual PropertyType GetType()const = 0;
-			virtual void SetAsBool(bool value) = 0;
-			virtual bool GetAsBool()const = 0;
-			virtual void Set(const void const* new_value) = 0;
+			//virtual void SetAsBool(bool value) = 0;
+			//virtual bool GetAsBool()const = 0;
+			//virtual void Set(const void const* new_value) = 0;
 			virtual void Save(pugi::xml_node& parent_node, const int version)const = 0;
 			virtual void Load(const pugi::xml_node& instance_node, const int version) = 0;
 		};

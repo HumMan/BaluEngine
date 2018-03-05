@@ -241,6 +241,12 @@
     <ClInclude Include="Source\WorldInstance\Internal\Material\MaterialInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Common\IDirector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\Director.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
@@ -294,6 +300,7 @@
     <ClCompile Include="Source\WorldInstance\Internal\Sprite\PhysShapeInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Sprite\SpriteInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Sprite\SpritePolyInstance.cpp" />
+    <ClCompile Include="Source\Common\Director.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

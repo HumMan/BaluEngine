@@ -1,12 +1,11 @@
 #pragma once
 
+#include "../Interfaces/ExportMacro.h"
+
 namespace BaluEngine
 {
 	namespace WorldDef
 	{
-
-		
-
 		class IWorld
 		{
 		public:
@@ -37,9 +36,7 @@ namespace BaluEngine
 			virtual IEventsEditor* GetEventsEditor() = 0;
 		};
 
-
-		IWorld* CreateWorld();
-		void DestroyWorld(IWorld* world);
-
+		BALUENGINEDLL_API IWorld* CreateWorld();
+		BALUENGINEDLL_API void DestroyWorld(IWorld* world);
 	}
 }

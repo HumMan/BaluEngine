@@ -11,6 +11,7 @@
 #include <algorithm>
 
 #include "WorldInstance/IMaterialInstance.h"
+#include "WorldInstance/Internal/Material/MaterialInstance.h"
 
 #if defined(WIN32)||defined(_WIN32)
 #else
@@ -37,6 +38,7 @@ TRender::~TRender()
 
 void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<IGUIVisual*>& gui, WorldDef::IViewport* viewport)
 {
+	render->Texture.Enable(true);
 	//render->Set.ModelView(TMatrix4::GetOrtho(TVec2(0, 0), TVec2(20, 20), -1, 1));
 	render->Set.ModelView(TMatrix4::GetOrtho(viewport->GetTransform().position, viewport->GetSize(), -1, 1));
 	//render->AlphaTest.Enable(true);
@@ -60,9 +62,8 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 		assert(c.vertices_count > 0);
 		{
 			render->Set.Color(1, 1, 1, c.alpha);
-			//TODO
-			/*auto tex = c.material_id->GetTexture();
-			render->Texture.Bind(*(TTextureId*)&tex);*/
+			auto tex = c.material_id->GetTexture();
+			render->Texture.Bind(*(TTextureId*)&tex);
 			TStreamsDesc streams;
 			streams.AddStream(TStream::Vertex, TDataType::Float, 2, c.vertices);
 			streams.AddStream(TStream::TexCoord, TDataType::Float, 2, c.tex_coords);

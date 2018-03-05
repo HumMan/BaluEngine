@@ -11,19 +11,19 @@ using namespace BaluLib;
 
 #include <Box2D.h>
 
-TClassInstance* TBaluTransformedClassInstance::GetClass()
+TClassInstance* TTransformedClassInstance::GetClass()
 {
 	return &instance_class;
 }
 
-bool TBaluTransformedClassInstance::PointCollide(TVec2 scene_space_point)
+bool TTransformedClassInstance::PointCollide(TVec2 scene_space_point)
 {
 	TVec2 p = instance_transform.ToLocal(scene_space_point);
 	ITransformedSpriteInstance* sprite = nullptr;
 	return instance_class.PointCollide(p, sprite);
 }
 
-TOBB2 TBaluTransformedClassInstance::GetOBB()
+TOBB2 TTransformedClassInstance::GetOBB()
 {
 	auto aabb = instance_class.GetSource()->GetAABB();
 	return instance_transform.ToGlobal(aabb);
@@ -68,7 +68,7 @@ ITransformedSpriteInstance* TClassInstance::GetSprite(int index)
 	return sprites[index].get();
 }
 
-void TBaluTransformedClassInstance::SourceChanged()
+void TTransformedClassInstance::SourceChanged()
 {
 	instance_transform = source->GetTransformWithScale();
 	if (instance_class.GetPhysBody()->IsEnable())
@@ -76,12 +76,12 @@ void TBaluTransformedClassInstance::SourceChanged()
 		instance_class.GetPhysBody()->SetTransform(instance_transform.transform);
 	}
 }
-void TBaluTransformedClassInstance::BeforeDeleteSource()
+void TTransformedClassInstance::BeforeDeleteSource()
 {
 
 }
 
-TBaluTransformedClassInstance::TBaluTransformedClassInstance(WorldDef::ITransformedClass* source, IScene* scene)
+TTransformedClassInstance::TTransformedClassInstance(WorldDef::ITransformedClass* source, IScene* scene)
 	:TSceneObjectInstance(scene)
 	, instance_class(source->GetClass(), 
 		dynamic_cast<TScene*>(scene)->GetPhysWorld(), 
@@ -93,12 +93,12 @@ TBaluTransformedClassInstance::TBaluTransformedClassInstance(WorldDef::ITransfor
 	//source->AddChangesListener(this);
 }
 
-TBaluTransformedClassInstance::~TBaluTransformedClassInstance()
+TTransformedClassInstance::~TTransformedClassInstance()
 {
 	//source->RemoveChangesListener(this);
 }
 
-void TBaluTransformedClassInstance::SetTransform(WorldDef::TTransform transform)
+void TTransformedClassInstance::SetTransform(WorldDef::TTransform transform)
 {
 	this->instance_transform.transform = transform;
 	if (instance_class.GetPhysBody()->IsEnable())
@@ -107,15 +107,15 @@ void TBaluTransformedClassInstance::SetTransform(WorldDef::TTransform transform)
 	}
 }
 
-WorldDef::TTransform TBaluTransformedClassInstance::GetTransform()
+WorldDef::TTransform TTransformedClassInstance::GetTransform()
 {
 	return instance_transform.transform;
 }
-TVec2 TBaluTransformedClassInstance::GetScale()
+TVec2 TTransformedClassInstance::GetScale()
 {
 	return this->instance_transform.scale;
 }
-void TBaluTransformedClassInstance::SetScale(TVec2 scale)
+void TTransformedClassInstance::SetScale(TVec2 scale)
 {
 	this->instance_transform.scale = scale;
 	if (instance_class.GetPhysBody()->IsEnable())
@@ -123,43 +123,43 @@ void TBaluTransformedClassInstance::SetScale(TVec2 scale)
 		instance_class.GetPhysBody()->BuildAllFixtures();
 	}
 }
-//TProperties* TBaluTransformedClassInstance::GetProperties()
+//TProperties* TTransformedClassInstance::GetProperties()
 //{
 //	return &properties;
 //}
 
-TClassPhysBodyIntance* TBaluTransformedClassInstance::GetPhysBody()
+TClassPhysBodyIntance* TTransformedClassInstance::GetPhysBody()
 {
 	return instance_class.GetPhysBody();
 }
 
-int TBaluTransformedClassInstance::GetSpritesCount()
+int TTransformedClassInstance::GetSpritesCount()
 {
 	return instance_class.GetSpritesCount();
 }
 
-ISceneObjectInstance* TBaluTransformedClassInstance::Clone(WorldDef::ISceneObject* source, IScene* scene)
+ISceneObjectInstance* TTransformedClassInstance::Clone(WorldDef::ISceneObject* source, IScene* scene)
 {
-	return new TBaluTransformedClassInstance(dynamic_cast<WorldDef::ITransformedClass*>(source), scene);
+	return new TTransformedClassInstance(dynamic_cast<WorldDef::ITransformedClass*>(source), scene);
 }
 
-ITransformedSpriteInstance* TBaluTransformedClassInstance::GetSprite(int index)
+ITransformedSpriteInstance* TTransformedClassInstance::GetSprite(int index)
 {
 	return instance_class.GetSprite(index);
 }
 
-TAABB2 TBaluTransformedClassInstance::GetAABB()
+TAABB2 TTransformedClassInstance::GetAABB()
 {
 	//TODO
 	return TAABB2();
 }
 
-TSkeletonAnimationInstance* TBaluTransformedClassInstance::GetSkeletonAnimation()
+TSkeletonAnimationInstance* TTransformedClassInstance::GetSkeletonAnimation()
 {
 	return instance_class.GetSkeletonAnimation();
 }
 
-bool TBaluTransformedClassInstance::PointCollide(TVec2 class_space_point, ITransformedSpriteInstance* &result)
+bool TTransformedClassInstance::PointCollide(TVec2 class_space_point, ITransformedSpriteInstance* &result)
 {
 	return instance_class.PointCollide(class_space_point, result);
 }
@@ -177,7 +177,7 @@ bool TClassInstance::PointCollide(TVec2 class_space_point, ITransformedSpriteIns
 	return false;
 }
 
-void TBaluTransformedClassInstance::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results)
+void TTransformedClassInstance::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results)
 {
 	instance_class.QueryAABB(frustum, results);
 }
@@ -195,7 +195,7 @@ void TClassInstance::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstanc
 	skeleton.QueryAABB(frustum, results);
 }
 
-void TBaluTransformedClassInstance::UpdateTransform()
+void TTransformedClassInstance::UpdateTransform()
 {
 	if (instance_class.GetPhysBody()->IsEnable())
 	{
@@ -237,19 +237,21 @@ TClassPhysBodyIntance::TClassPhysBodyIntance(b2World* phys_world, WorldDef::ICla
 		this->source = source;
 		this->phys_world = phys_world;
 
-		//TODO
-		//auto body_def = source->GetBodyDef();
+		b2BodyDef body_def;
+
+		body_def.type = (b2BodyType)source->GetPhysBodyType();
+		body_def.fixedRotation = source->GetFixedRotation();
+
 		auto instance_transform = parent_transform;
 		this->sprites = sprites;
-		//body_def.position = *(b2Vec2*)&instance_transform.position;
-		//body_def.angle = instance_transform.angle.GetAngle();
-		//body_def.linearDamping = 0.1;
+		body_def.position = *(b2Vec2*)&instance_transform.position;
+		body_def.angle = instance_transform.angle.GetAngle();
+		body_def.linearDamping = 0.1;
+		//TODO остальные параметры в свойства
 		//body_def.angularDamping = 0.1;
-		//body_def.fixedRotation = false;
-		//if (body_def.type == b2BodyType::b2_dynamicBody)
-		//	body_def.angularVelocity = 10;
+		//body_def.angularVelocity = 10;
 
-		//phys_body = phys_world->CreateBody(&body_def);
+		phys_body = phys_world->CreateBody(&body_def);
 
 		BuildAllFixtures();
 	}

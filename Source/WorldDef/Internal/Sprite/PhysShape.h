@@ -11,7 +11,7 @@ namespace BaluEngine
 		namespace Internal
 		{
 
-			class TPhysShape : public TProperties, public IPhysShape//, public TChangeListenerArray
+			class TPhysShape : public TProperties, public virtual IPhysShape//, public TChangeListenerArray
 			{
 			protected:
 				void InitAllProperties()
@@ -41,10 +41,10 @@ namespace BaluEngine
 				static void UnregisterAll();
 			};
 
-			class TBaluPolygonShape : public TPhysShape, public IPolygonShape
+			class TBaluPolygonShape : public TPhysShape, public virtual IPolygonShape
 			{
 			protected:
-				//b2PolygonShape b2shape;
+				std::vector<BaluLib::TVec2> vertices;
 			public:
 				TBaluPolygonShape()
 				{
@@ -52,6 +52,14 @@ namespace BaluEngine
 				static TPhysShape* Clone()
 				{
 					return new TBaluPolygonShape();
+				}
+				void Accept(IPhysShapeVisitor* visitor)
+				{
+					visitor->Visit(this);
+				}
+				std::vector<BaluLib::TVec2> GetVertices()const
+				{
+					return vertices;
 				}
 				//b2PolygonShape* GetShape(TTransformWithScale class_transform);
 				TPhysShape* GetPhysShape();
@@ -62,17 +70,27 @@ namespace BaluEngine
 
 			class TBaluCircleShape : public TPhysShape, public ICircleShape
 			{
-			private:
-				//b2CircleShape b2shape;
+			protected:
+				void InitAllProperties()
+				{
+					InitProperty_Radius();
+				}
 			public:
+
+				BALU_ENGINE_REGISTER_PROPERTY(Radius, PropertyType::Float, 1)
+
 				TBaluCircleShape()
 				{
+					InitAllProperties();
 				}
 				static TPhysShape* Clone()
 				{
 					return new TBaluCircleShape();
 				}
-				TBaluCircleShape(float radius);
+				void Accept(IPhysShapeVisitor* visitor)
+				{
+					visitor->Visit(this);
+				}
 				TBaluCircleShape(float radius, BaluLib::TVec2 pos);
 				//b2CircleShape* GetShape(TTransformWithScale class_transform);
 				TPhysShape* GetPhysShape();
@@ -81,16 +99,29 @@ namespace BaluEngine
 			};
 			static bool TBaluCircleShape_registered = PhysShapeFactory::Register("CircleShape", TBaluCircleShape::Clone);
 
-			class TBaluBoxShape : public TBaluPolygonShape, public IBoxShape
+			class TBaluBoxShape : public TPhysShape, public IBoxShape
 			{
-				float width, height;
+			protected:
+				void InitAllProperties()
+				{
+					InitProperty_Width();
+					InitProperty_Height();
+				}
 			public:
+				BALU_ENGINE_REGISTER_PROPERTY(Width, PropertyType::Float, 1)
+				BALU_ENGINE_REGISTER_PROPERTY(Height, PropertyType::Float, 1)
+
 				TBaluBoxShape()
 				{
+					InitAllProperties();
 				}
 				static TPhysShape* Clone()
 				{
 					return new TBaluBoxShape();
+				}
+				void Accept(IPhysShapeVisitor* visitor)
+				{
+					visitor->Visit(this);
 				}
 				TBaluBoxShape(float width, float height);
 				//b2PolygonShape* GetShape(TTransformWithScale class_transform);
@@ -104,7 +135,6 @@ namespace BaluEngine
 			{
 			public:
 				TBaluPolygonShape * CreatePolygonShape();
-				TBaluCircleShape* CreateCircleShape(float radius);
 				TBaluCircleShape* CreateCircleShape(float radius, BaluLib::TVec2 pos);
 				TBaluBoxShape* CreateBoxShape(float width, float height);
 			};

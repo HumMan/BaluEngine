@@ -4,6 +4,8 @@
 
 #include "../../poly2tri/poly2tri/poly2tri.h"
 
+#include <baluRender.h>
+
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 using namespace BaluLib;
@@ -99,26 +101,26 @@ bool TSpritePolygon::PointCollide(TVec2 sprite_space_point)
 	return false;
 }
 
-TFramesRange::TFramesRange(int start, int end)
-{
-	this->start = start;
-	this->end = end;
-}
-
-std::vector<int> TFramesRange::ToFramesArray()
-{
-	if (end < start)
-		throw std::invalid_argument("end должен быть больше start");
-	std::vector<int> result;
-	int length = end - start + 1;
-	result.reserve(length);
-	result.resize(length);
-	for (int i = start; i <= end; i++)
-	{
-		result[i - start] = i;
-	}
-	return result;
-}
+//TFramesRange::TFramesRange(int start, int end)
+//{
+//	this->start = start;
+//	this->end = end;
+//}
+//
+//std::vector<int> TFramesRange::ToFramesArray()
+//{
+//	if (end < start)
+//		throw std::invalid_argument("end должен быть больше start");
+//	std::vector<int> result;
+//	int length = end - start + 1;
+//	result.reserve(length);
+//	result.resize(length);
+//	for (int i = start; i <= end; i++)
+//	{
+//		result[i - start] = i;
+//	}
+//	return result;
+//}
 
 TSpecificFrame::TSpecificFrame(TVec2 left_bottom, TVec2 right_top)
 {
@@ -199,44 +201,25 @@ void TSpritePolygon::SetScale(TVec2 scale)
 
 void TSpritePolygon::SetPolygonFromTexture(std::string assets_dir)
 {
-	//TODO
-	//if (material != nullptr)
-	//{
-	//	ILuint handle;
-	//	ilGenImages(1, &handle);
-	//	ilBindImage(handle);
-	//	if (ilLoadImage((assets_dir+"//"+material->GetImagePath()).c_str()))
-	//	{
-	//		auto w = ilGetInteger(IL_IMAGE_WIDTH);
-	//		auto h = ilGetInteger(IL_IMAGE_HEIGHT);
-	//		int memory_needed = w * h * sizeof(unsigned int);
-	//		ILuint * data = new ILuint[memory_needed];
-	//		ilCopyPixels(0, 0, 0, w, h, 1, IL_ALPHA, IL_UNSIGNED_INT, data);
+	if (material != nullptr)
+	{
+		unsigned int width; 
+		unsigned int height;
+		auto data = BaluRender::TBaluRender::LoadImageData(assets_dir + "//" + material->GetImagePath(), width, height);
 
+		if (data != nullptr)
+		{
+			polygon_vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, width*height, width);
 
-	//		int temp = std::numeric_limits<unsigned int>().max() / 255;
-	//		for (int i = 0; i < w * h; i++)
-	//			data[i] = data[i] / temp;
+			delete[] data;
 
-	//		polygon_vertices = FarseerPhysics_Common_TextureTools::TextureConverter::DetectVertices(data, w*h, w);
+			for (int i = 0; i < polygon_vertices.size(); i++)
+				polygon_vertices[i] = TVec2(polygon_vertices[i][0], height - polygon_vertices[i][1]) / TVec2(width, height) - TVec2(0.5, 0.5);
 
-	//		delete[] data;
-
-	//		ilDeleteImage(handle);
-
-	//		for (int i = 0; i < polygon_vertices.size(); i++)
-	//			polygon_vertices[i] = TVec2(polygon_vertices[i][0], h-polygon_vertices[i][1]) / TVec2(w, h) - TVec2(0.5, 0.5);
-
-	//		UpdatePolyVertices();
-	//	}
-	//	else
-	//	{
-	//		auto err = ilGetError();
-	//		auto err_string = iluErrorString(err);
-	//		ilDeleteImage(handle);
-	//	}
-	//}
-	//TriangulateGeometry();
+			UpdatePolyVertices();
+		}
+	}
+	TriangulateGeometry();
 }
 
 
@@ -396,8 +379,10 @@ void TSpritePolygon::AddAnimDesc(IAnimDesc* desc)
 
 void TSpritePolygon::CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames)
 {
-	//animation_lines[line_name]->line_name = line_name;
-	animation_lines[line_name]->frames.push_back(std::unique_ptr<IAnimationFrames>(new TAnimationFrames(desc, frames)));
+	//animation_lines[line_name]->line_name = line_name;	
+	auto new_line = new TAnimLine();
+	new_line->frames.push_back(std::unique_ptr<IAnimationFrames>(new TAnimationFrames(desc, frames)));
+	animation_lines[line_name].reset(new_line);
 }
 
 IAnimationLine* TSpritePolygon::GetAnimationLine(const std::string& name)
@@ -411,4 +396,9 @@ std::vector<std::string> TSpritePolygon::GetAnimationLineNames()
 	for (auto& v : animation_lines)
 		result.push_back(v.first);
 	return result;
+}
+
+IAnimDesc* IAnimDesc::Create_TGridFrames(BaluLib::TVec2 left_bottom, BaluLib::TVec2 width_height, int cell_count_x, int cell_count_y)
+{
+	return new TGridFrames(left_bottom, width_height, cell_count_x, cell_count_y);
 }

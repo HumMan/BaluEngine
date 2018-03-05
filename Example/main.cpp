@@ -4,12 +4,12 @@
 //#define USE_CALLBACKS
 #include "DemoWorld.h"
 
-IBaluSceneInstance* scene_instance;
-TScreen* screen;
-IViewport* main_viewport;
-TView main_viewport_view;
+WorldInstance::IScene* scene_instance;
+WorldInstance::TScreen* screen;
+WorldDef::IViewport* main_viewport;
+WorldInstance::TView main_viewport_view;
 
-EngineInterface::IDirector* director;
+WorldInstance::IDirector* director;
 
 #include <Windows.h>
 
@@ -43,27 +43,27 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 void Run(std::string assets_dir)
 {
-	director = IDirector::CreateDirector(assets_dir);
+	director = WorldInstance::IDirector::CreateDirector(assets_dir);
 
 	director->Initialize(true);
 
 	auto demo_world = CreateDemoWorld(director->GetAssetsDir());
+	demo_world->SaveToXML("demo_test.xml");
 
-	screen = new TScreen(director->GetScreenSize());
+	screen = new WorldInstance::TScreen(director->GetScreenSize());
 
-	main_viewport_view = TView(TVec2(0.5, 0.5), TVec2(1, 1));
+	main_viewport_view = WorldInstance::TView(BaluLib::TVec2(0.5, 0.5), BaluLib::TVec2(1, 1));
 
 	std::string error;
 	bool compile_success;
-	auto demo_world_instance = CreateWorldInstance(demo_world, director->GetResources(), assets_dir, true, compile_success, error);
-
-	auto demo_scene = dynamic_cast<IBaluScene*>(demo_world->GetObjectByName(TWorldObjectType::Scene, "scene0"));
-
-	main_viewport = demo_scene->FindViewport("main_viewport");
-
-	scene_instance = demo_world_instance->RunScene(demo_scene);
+	auto demo_world_instance = WorldInstance::CreateWorld(demo_world, director->GetResources(), assets_dir, true, compile_success, error);
 	
-	TDrawingHelperContext drawing_context;
+	//TODO убрать после исправления скриптов - оно есть в WorldStart_source
+	auto scene = demo_world_instance->GetSource()->GetScene("scene0");
+	auto scene_instance = demo_world_instance->RunScene(scene);
+	demo_world_instance->GetComposer()->AddToRender(scene_instance, scene->FindViewport("main_viewport"));
+	
+	WorldInstance::TDrawingHelperContext drawing_context;
 	drawing_context.screen = screen;
 	drawing_context.view = &main_viewport_view;
 	drawing_context.viewport = main_viewport;
@@ -74,8 +74,8 @@ void Run(std::string assets_dir)
 
 	director->MainLoop();
 
-	DestroyWorldInstance(demo_world_instance);
-	DestroyWorld(demo_world);
+	WorldInstance::DestroyWorld(demo_world_instance);
+	WorldDef::DestroyWorld(demo_world);
 	delete screen;
-	IDirector::DestroyDirector(director, true);
+	WorldInstance::IDirector::DestroyDirector(director, true);
 }

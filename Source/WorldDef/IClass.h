@@ -8,17 +8,17 @@ namespace BaluEngine
 		enum TPhysBodyType
 		{
 			Static,
+			Kinematic,
 			Dynamic,
-			Kinematic
 		};
 
 		class IClassPhysBody: public ISerializable
 		{
 		public:
-			virtual void SetFixedRotation(bool fixed) = 0;
-			virtual void SetPhysBodyType(TPhysBodyType type) = 0;
-			virtual void SetEnabled(bool enable) = 0;
-			virtual bool GetEnabled()const = 0;
+			BALU_ENGINE_VPROPERTY(Enabled, bool)
+			BALU_ENGINE_VPROPERTY(PhysBodyType, TPhysBodyType)
+			BALU_ENGINE_VPROPERTY(FixedRotation,bool)
+
 		};
 
 		class IClass : public virtual IWorldObject

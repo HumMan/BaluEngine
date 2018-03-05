@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Interfaces/ExportMacro.h"
+
 namespace BaluEngine
 {
 	namespace WorldDef
@@ -31,6 +33,7 @@ namespace BaluEngine
 		{
 		public:
 			virtual TFrame GetFrame(int index) = 0;
+			BALUENGINEDLL_API static IAnimDesc* Create_TGridFrames(BaluLib::TVec2 left_bottom, BaluLib::TVec2 width_height, int cell_count_x, int cell_count_y);
 		};
 
 		class IAnimationFrames
@@ -41,6 +44,34 @@ namespace BaluEngine
 
 			virtual void Save(pugi::xml_node& parent_node, const int version, const ISpritePolygon* sprite_polygon)const=0;
 			virtual void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, ISpritePolygon* sprite_polygon)=0;
+		};
+
+		class TFramesRange
+		{
+		private:
+			int start;
+			int end;
+		public:
+			TFramesRange(int start, int end)
+			{
+				this->start = start;
+				this->end = end;
+			}
+
+			std::vector<int> ToFramesArray()
+			{
+				if (end < start)
+					throw std::invalid_argument("end должен быть больше start");
+				std::vector<int> result;
+				int length = end - start + 1;
+				result.reserve(length);
+				result.resize(length);
+				for (int i = start; i <= end; i++)
+				{
+					result[i - start] = i;
+				}
+				return result;
+			}
 		};
 
 		class IAnimationLine

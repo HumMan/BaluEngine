@@ -30,34 +30,6 @@ IWorld* TWorldObject::GetWorld()
 	return world;
 }
 
-//IDirector* IDirector::CreateDirector(std::string assets_dir)
-//{
-//	return new TDirector(assets_dir);
-//}
-
-//void IDirector::DestroyDirector(IDirector* director, bool clear_static_data)
-//{
-//	delete dynamic_cast<TDirector*>(director);
-//	//очистка статичных данных должна выполняться только при завершении работы
-//	if (clear_static_data)
-//	{
-//		SceneObjectFactory::UnregisterAll();
-//		SceneObjectInstanceFactory::UnregisterAll();
-//		PropertiesFactory::UnregisterAll();
-//		AnimDescFactory::UnregisterAll();
-//		PhysShapeFactory::UnregisterAll();
-//	}
-//}
-
-//IWorldInstance* CreateWorldInstance(IWorld* source, IResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
-//{
-//	return new TWorldInstance(dynamic_cast<TWorld*>(source), dynamic_cast<TResources*>(resources), assets_dir, call_scripts, compile_success, error_message);
-//}
-
-//void DestroyWorldInstance(IWorldInstance* world)
-//{
-//	delete dynamic_cast<TWorldInstance*>(world);
-//}
 
 ///*bool CompileScripts(IWorld* source, IScriptInstance* script_instance, std::vector<std::string>& errors_list)
 //{

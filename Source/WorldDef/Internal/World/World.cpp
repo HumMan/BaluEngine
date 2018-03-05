@@ -1,12 +1,19 @@
 #include "World.h"
 
+using namespace BaluEngine;
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 
 #include "WorldPrivate.h"
 
+#include "../Scene/Scene.h"
+#include "../Class/Class.h"
+#include "../Sprite/Sprite.h"
+#include "../Material/Material.h"
+
 TWorld::TWorld()
 {
+	p.reset(new TWorld::TPrivate());
 	//p->events_editor.reset(new TEventsEditor());
 }
 
@@ -67,34 +74,34 @@ bool TWorld::ObjectNameExists(TWorldObjectType type, const char* name)
 }
 TWorldObject* TWorld::CreateObject(TWorldObjectType type, const char* name)
 {
-	//TWorldObject* resutl = nullptr;
-	////TODO заменить фабрикой
-	//switch (type)
-	//{
-	//case TWorldObjectType::Material:
-	//	resutl = new TMaterial(name, this);
-	//	break;
-	//case TWorldObjectType::Sprite:
-	//	resutl = new TSprite(name, this);
-	//	break;
-	//case TWorldObjectType::Class:
-	//	resutl = new TClass(name, this);
-	//	break;
-	//case TWorldObjectType::Scene:
-	//	resutl = new TScene(name, this);
-	//	break;
-	//case TWorldObjectType::None:
-	//	break;
-	//default:
-	//	break;
-	//}
-	//p->world_objects[(int)type][name].reset(resutl);
-	//return resutl;
-	return nullptr;
+	TWorldObject* resutl = nullptr;
+	//TODO заменить фабрикой
+	switch (type)
+	{
+	case TWorldObjectType::Material:
+		resutl = new TMaterial(name, this);
+		break;
+	case TWorldObjectType::Sprite:
+		resutl = new TSprite(name, this);
+		break;
+	case TWorldObjectType::Class:
+		resutl = new TClass(name, this);
+		break;
+	case TWorldObjectType::Scene:
+		resutl = new TScene(name, this);
+		break;
+	case TWorldObjectType::None:
+		break;
+	default:
+		break;
+	}
+	p->world_objects[(int)type][name].reset(resutl);
+	return resutl;
 }
 void TWorld::DestroyObject(TWorldObjectType type, const char* name)
 {
-	//world_objects[(int)type].erase(world_objects[(int)type].at(name));
+	throw std::runtime_error("not realized");
+	//p->world_objects[(int)type].erase(p->world_objects[(int)type].at(name));
 }
 
 
@@ -138,6 +145,7 @@ IClass* TWorld::GetClass(const std::string& name)
 
 IEventsEditor* TWorld::GetEventsEditor()
 {
+	throw std::runtime_error("not realized");
 	//return events_editor.get();
 	return nullptr;
 }
@@ -151,12 +159,12 @@ void TWorld::RemoveChangesListener(TWorldChangeListener* listener)
 	p->listeners.RemoveChangesListener(listener);
 }
 
-IWorld* BaluEngine::WorldDef::CreateWorld()
+IWorld* WorldDef::CreateWorld()
 {
 	return (new TWorld());
 }
 
-void BaluEngine::WorldDef::DestroyWorld(IWorld* world)
+void WorldDef::DestroyWorld(IWorld* world)
 {
 	delete dynamic_cast<TWorld*>(world);
 }

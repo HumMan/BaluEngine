@@ -63,17 +63,7 @@ namespace BaluEngine
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
 			static bool TGridFrames_registered = AnimDescFactory::Register("GridFrames", TGridFrames::Clone);
-
-			class TFramesRange
-			{
-			private:
-				int start;
-				int end;
-			public:
-				TFramesRange(int start, int end);
-				std::vector<int> ToFramesArray();
-			};
-
+			
 			class TAnimationFrames: public IAnimationFrames
 			{
 			private:

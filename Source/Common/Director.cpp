@@ -1,31 +1,31 @@
-#include "IDirector.h"
+#include "Director.h"
+
+#include "../Render/Render.h"
+
+#include "../WorldInstance/Internal/Composer/Composer.h"
+
+#include "../WorldInstance/Internal/World/WorldInstance.h"
 
 #include <SDL.h>
 
-#include <WorldInstance/IWorldInstance.h>
-
-#include <Render/Render.h>
-
-#include <WorldInstance\Scripts\IEventsEditorInstance.h>
-
-#include "nanovg.h"
+#include <nanovg.h>
 
 #include <baluRender.h>
 
 #include <easylogging++.h>
 INITIALIZE_EASYLOGGINGPP
 
-using namespace EngineInterface;
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
-namespace EngineInterface
-{
-	class TGameInternal
+	class TDirector::TPrivate
 	{
 	public:
 
 		bool create_window;
 
-		std::unique_ptr<TBaluRender> internal_render;
+		std::unique_ptr<BaluRender::TBaluRender> internal_render;
 		std::unique_ptr<TRender> render;
 		std::unique_ptr<TResources> resources;
 
@@ -35,7 +35,7 @@ namespace EngineInterface
 
 		SDL_GLContext maincontext; /* Our opengl context handle */
 
-		TBaluWorldInstance* world_instance;
+		TWorld* world_instance;
 
 		std::string assets_dir;
 
@@ -44,24 +44,18 @@ namespace EngineInterface
 		HDC__ *hDC;
 		HGLRC__ *hRC;
 
-		TGameInternal()
+		TPrivate()
 		{
 			mainwindow = nullptr;
 			world_instance = nullptr;
 		}
 	};
 
-	class TBaluEngineInternal
-	{
-	public:
-		std::unique_ptr<TBaluRender> render;
-	};
-}
 
 void TDirector::Render()
 {
 	if (p->world_instance != nullptr)
-		p->world_instance->GetComposer()->Render(p->render.get());
+		dynamic_cast<TComposer*>(p->world_instance->GetComposer())->Render(p->render.get());
 }
 
 void TDirector::Step(float step)
@@ -93,17 +87,12 @@ void TDirector::Step(float step)
 	}
 }
 
-void TDirector::SetWorldInstance(TBaluWorldInstance* world_instance)
+void TDirector::SetWorldInstance(IWorld* world_instance)
 {
-	p->world_instance = world_instance;
+	p->world_instance = dynamic_cast<TWorld*>(world_instance);
 }
 
-void TDirector::SetWorldInstance(EngineInterface::IBaluWorldInstance* world_instance)
-{
-	SetWorldInstance(dynamic_cast<TBaluWorldInstance*>(world_instance));
-}
-
-EngineInterface::IBaluWorldInstance* TDirector::GetWorldInstance()
+IWorld* TDirector::GetWorldInstance()
 {
 	return p->world_instance;
 }
@@ -156,7 +145,7 @@ int TDirector::Initialize(bool create_window)
 		//SDL_GL_SetSwapInterval(1);
 	}
 
-	p->internal_render.reset(new TBaluRender(TVec2i(512, 512)));
+	p->internal_render.reset(new BaluRender::TBaluRender(TVec2i(512, 512)));
 
 	p->render.reset(new TRender(p->internal_render.get()));
 
@@ -217,16 +206,16 @@ void TDirector::Initialize(void* handle)
 
 	if (!wglMakeCurrent(hDC, hRC))
 		assert(false);
-	CheckGLError();
+	BaluRender::CheckGLError();
 	if (!wglMakeCurrent(hDC, hRC))
 		assert(false);
-	CheckGLError();
+	BaluRender::CheckGLError();
 
 	LOG(INFO) << " passed\n";
 
 	p->base_path = SDL_GetBasePath();
 	p->physics_sym = true;
-	p->internal_render.reset(new TBaluRender(TVec2i(512, 512)));
+	p->internal_render.reset(new BaluRender::TBaluRender(TVec2i(512, 512)));
 	p->internal_render->Set.Viewport(TVec2i(100, 100));
 
 	p->render.reset(new TRender(p->internal_render.get()));
@@ -238,7 +227,7 @@ void TDirector::Initialize(void* handle)
 void TDirector::BeginFrame()
 {
 	if (!wglMakeCurrent((HDC)p->hDC, (HGLRC)p->hRC))assert(false);
-	CheckGLError();
+	BaluRender::CheckGLError();
 
 	p->internal_render->Set.ClearColor(0.2, 0.3, 0.3);
 	p->internal_render->Clear(true, true);
@@ -277,7 +266,7 @@ void TDirector::MainLoop()
 		//if (keystate[SDL_SCANCODE_DOWN])
 		//	p->world_instance->GetEventsEditor()->KeyDown(TKey::Down);
 
-		Step(step);
+		Step(step/10);
 
 		SDL_GL_SwapWindow(p->mainwindow);
 		while (SDL_PollEvent(&event))
@@ -301,19 +290,19 @@ void TDirector::MainLoop()
 				char b[100];
 				sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
 				SDL_SetWindowTitle(p->mainwindow, b);
-				p->world_instance->GetEventsEditor()->MouseMove(TMouseEventArgs(TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)));
+				//p->world_instance->GetEventsEditor()->MouseMove(TMouseEventArgs(TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)));
 			}
 			else if (event.type == SDL_MOUSEBUTTONDOWN)
 			{
-				p->world_instance->GetEventsEditor()->MouseDown(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
+				//p->world_instance->GetEventsEditor()->MouseDown(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
 			}
 			else if (event.type == SDL_MOUSEBUTTONUP)
 			{
-				p->world_instance->GetEventsEditor()->MouseUp(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
+				//p->world_instance->GetEventsEditor()->MouseUp(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
 			}
 			else if (event.type == SDL_MOUSEWHEEL)
 			{
-				p->world_instance->GetEventsEditor()->MouseVerticalWheel(event.wheel.y);
+				//p->world_instance->GetEventsEditor()->MouseVerticalWheel(event.wheel.y);
 			}
 			else if (event.type == SDL_WINDOWEVENT)
 			{
@@ -322,7 +311,7 @@ void TDirector::MainLoop()
 					auto old_screen_size = p->internal_render->Get.Viewport();
 					auto new_screen_size = TVec2i(event.window.data1, event.window.data2);
 					SetScreenSize(new_screen_size);
-					p->world_instance->GetEventsEditor()->ViewportResize(this, old_screen_size, new_screen_size);
+					//p->world_instance->GetEventsEditor()->ViewportResize(this, old_screen_size, new_screen_size);
 				}
 			}
 		}
@@ -336,10 +325,31 @@ void TDirector::MainLoop()
 
 TDirector::TDirector(std::string assets_dir)
 {
-	p = std::unique_ptr<TGameInternal>(new TGameInternal());
+	p.reset(new TPrivate());
 	p->assets_dir = assets_dir;
 }
 
 TDirector::~TDirector()
 {
+}
+
+
+IDirector* IDirector::CreateDirector(std::string assets_dir)
+{
+	return new TDirector(assets_dir);
+}
+
+void IDirector::DestroyDirector(IDirector* director, bool clear_static_data)
+{
+	delete dynamic_cast<TDirector*>(director);
+	//очистка статичных данных должна выполняться только при завершении работы
+	//TODO
+	//if (clear_static_data)
+	//{
+	//	SceneObjectFactory::UnregisterAll();
+	//	SceneObjectInstanceFactory::UnregisterAll();
+	//	PropertiesFactory::UnregisterAll();
+	//	AnimDescFactory::UnregisterAll();
+	//	PhysShapeFactory::UnregisterAll();
+	//}
 }

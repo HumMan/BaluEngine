@@ -25,6 +25,11 @@ namespace BaluEngine
 			class TGui : public ISceneObject
 			{
 			public:
+				void SetTransform(TTransform transform) {}
+				void SetScale(BaluLib::TVec2 scale) {}
+				TTransform GetTransform() { return TTransform(); }
+				BaluLib::TVec2 GetScale() { return BaluLib::TVec2(1, 1); }
+				TTransformWithScale GetTransformWithScale() { return TTransformWithScale(); }
 			};
 
 			class TChangeListenerArray : public virtual IChangeListenerArray

@@ -28,7 +28,7 @@ namespace BaluEngine
 				virtual BaluLib::TVec2 GetScale() { return BaluLib::TVec2(); }
 				virtual void SetScale(BaluLib::TVec2 scale) {}
 				virtual bool PointCollide(BaluLib::TVec2 scene_space_point) = 0;
-				//virtual void UpdateTransform() {};
+				virtual void UpdateTransform() {};
 				//virtual void OnMouseUp(TMouseEventArgs e, TVec2 scene_cursor_location) {};
 				//virtual void OnMouseDown(TMouseEventArgs e, TVec2 scene_cursor_location) {};
 				//virtual void OnMouseMove(TMouseEventArgs e, TVec2 scene_cursor_location) {};
@@ -44,71 +44,7 @@ namespace BaluEngine
 				static ISceneObjectInstance* Create(const char* name, WorldDef::ISceneObject* param, IScene* scene);
 			};
 
-			/*struct TCollisionInfo
-			{
-				b2Fixture *A, *B;
-				TCollisionInfo() {}
-				TCollisionInfo(b2Fixture* A, b2Fixture* B)
-				{
-					this->A = A;
-					this->B = B;
-				}
-				bool operator==(const TCollisionInfo& r)const
-				{
-					return (A == r.A && B == r.B) || (A == r.B && B == r.A);
-				}
-			};
-
-			class TContactsHolder : public b2ContactListener
-			{
-			public:
-				std::vector<TCollisionInfo> contacts;
-				std::vector<TCollisionInfo> in_step_contacts;
-
-				void AddContact(TCollisionInfo collision)
-				{
-					auto it = std::find(contacts.begin(), contacts.end(), collision);
-					if (it == contacts.end())
-					{
-						contacts.push_back(collision);
-					}
-				}
-				void RemoveContact(TCollisionInfo collision)
-				{
-					auto it = std::find(contacts.begin(), contacts.end(), collision);
-					if (it != contacts.end())
-					{
-						contacts.erase(it);
-					}
-				}
-				void AddInStepContact(TCollisionInfo collision)
-				{
-					auto it = std::find(in_step_contacts.begin(), in_step_contacts.end(), collision);
-					if (it == in_step_contacts.end())
-					{
-						in_step_contacts.push_back(collision);
-					}
-				}
-				void RemoveInStepContact(TCollisionInfo collision)
-				{
-					auto it = std::find(in_step_contacts.begin(), in_step_contacts.end(), collision);
-					if (it != in_step_contacts.end())
-					{
-						in_step_contacts.erase(it);
-					}
-				}
-
-				void BeginContact(b2Contact* contact);
-				void EndContact(b2Contact* contact);
-				void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
-				void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
-
-				void BeforePhysStep()
-				{
-					in_step_contacts.clear();
-				}
-				void OnProcessCollisions();
-			};*/
+			
 
 			class TScene : public IScene/*, public IChangeListener*/
 			{
@@ -125,8 +61,8 @@ namespace BaluEngine
 
 				WorldDef::IViewport* GetViewport(std::string name);
 
-				TScene(IWorld* world, WorldDef::IScene* source/*, TResources* resources*/);
-				TScene(IWorld* world/*, TResources* resources, TLayersManager* layers = nullptr*/);
+				TScene(IWorld* world, WorldDef::IScene* source, TResources* resources);
+				TScene(IWorld* world, TResources* resources/*, TLayersManager* layers = nullptr*/);
 				//TSceneInstance(TSceneInstance&& right);
 				~TScene();
 

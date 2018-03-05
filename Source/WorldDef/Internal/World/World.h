@@ -43,7 +43,7 @@ namespace BaluEngine
 			{
 			private:
 				class TPrivate;
-				TPrivate* p;
+				std::unique_ptr<TPrivate> p;
 			public:
 
 				IEventsEditor * GetEventsEditor();

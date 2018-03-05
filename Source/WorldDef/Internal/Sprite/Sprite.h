@@ -14,7 +14,7 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			class TSprite : public TProperties, public ISprite, public TWorldObject, public TChangeListenerArray
+			class TSprite : public ISprite, public TWorldObject, public TChangeListenerArray
 			{
 			private:
 				TSpritePolygon sprite_polygon;

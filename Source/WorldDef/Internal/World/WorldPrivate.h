@@ -20,5 +20,10 @@ public:
 	std::unique_ptr<TEventsEditor> events_editor;
 
 	TWorldChangeListenerArray listeners;
+
+	TPrivate()
+	{
+		events_editor.reset(new TEventsEditor());
+	}
 };
 

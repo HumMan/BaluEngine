@@ -28,7 +28,6 @@ namespace BaluEngine
 
 		class TResources// : public IResources
 		{
-			friend class TBaluEngineRender;
 			class TResourcesInternal;
 			std::unique_ptr<TResourcesInternal> p;
 		public:

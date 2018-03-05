@@ -32,6 +32,7 @@ WorldDef::IWorld* TWorld::GetSource()
 
 TWorld::TWorld(WorldDef::IWorld* source, TResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
 {
+	p.reset(new TWorld::TPrivate());
 	p->source = source;
 	p->resources = resources;
 
@@ -48,14 +49,14 @@ TWorld::TWorld(WorldDef::IWorld* source, TResources* resources, std::string asse
 
 IScene* TWorld::RunScene(WorldDef::IScene* scene_source)
 {
-	p->scene_instances.push_back(std::unique_ptr<IScene>(new TScene(this, scene_source/*, resources*/)));
+	p->scene_instances.push_back(std::unique_ptr<IScene>(new TScene(this, scene_source, p->resources)));
 	return p->scene_instances.back().get();
 }
-IScene* TWorld::RunScene()
-{
-	p->scene_instances.push_back(std::unique_ptr<TScene>(new TScene(this/*, resources*/)));
-	return p->scene_instances.back().get();
-}
+//IScene* TWorld::RunScene()
+//{
+//	p->scene_instances.push_back(std::unique_ptr<TScene>(new TScene(this, p->resources)));
+//	return p->scene_instances.back().get();
+//}
 //IScene* TWorld::RunScene(TLayersManager* scene_layers)
 //{
 //	scene_instances.push_back(std::unique_ptr<TSceneInstance>(new TSceneInstance(this, resources, scene_layers)));
@@ -77,20 +78,20 @@ void TWorld::StopScene(IScene* scene)
 
 void TWorld::PhysStep(float step)
 {
-	//for (int i = 0; i < scene_instances.size(); i++)
-	//	scene_instances[i]->PhysStep(step);
+	for(auto& v : p->scene_instances)
+		dynamic_cast<TScene*>(v.get())->PhysStep(step);
 }
 void TWorld::OnStep(float step)
 {
-	//for (int i = 0; i < scene_instances.size(); i++)
-	//	scene_instances[i]->OnStep(step);
+	for (auto& v : p->scene_instances)
+		dynamic_cast<TScene*>(v.get())->OnStep(step);
 }
 
 
 void TWorld::UpdateTransform()
 {
-	//for (int i = 0; i < scene_instances.size(); i++)
-	//	scene_instances[i]->UpdateTransform();
+	for (auto& v : p->scene_instances)
+		dynamic_cast<TScene*>(v.get())->UpdateTransform();
 }
 
 TWorld::~TWorld()
@@ -113,4 +114,14 @@ IScene* TWorld::GetSceneInstance(int index)
 IComposer* TWorld::GetComposer()
 {
 	return &p->composer;
+}
+
+IWorld* WorldInstance::CreateWorld(WorldDef::IWorld* source, TResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
+{
+	return new TWorld(source, dynamic_cast<TResources*>(resources), assets_dir, call_scripts, compile_success, error_message);
+}
+
+void WorldInstance::DestroyWorld(IWorld* world)
+{
+	delete dynamic_cast<TWorld*>(world);
 }

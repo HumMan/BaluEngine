@@ -61,7 +61,7 @@ void TProperties::LoadProperties(const pugi::xml_node& instance_node, const int 
 
 void TProperty::Save(pugi::xml_node& parent_node, const int version)const
 {
-	xml_node node = parent_node.append_child();
+	xml_node node = parent_node.append_child("Property");
 	auto val = node.append_attribute("value");
 	switch (this->type)
 	{
@@ -123,9 +123,12 @@ void TProperty::Save(pugi::xml_node& parent_node, const int version)const
 	case BaluEngine::WorldDef::PropertyType::Rotation:
 		SerializeCommon::SaveRotation(node, "Rot", *(TRot*)value);
 		break;
-	case BaluEngine::WorldDef::PropertyType::PhysShapeType:
+	case BaluEngine::WorldDef::PropertyType::PhysBodyType:
 		val.set_value(*(int*)value);
 		break;
+	//case BaluEngine::WorldDef::PropertyType::PhysShapeType:
+	//	val.set_value(*(int*)value);
+	//	break;
 	default:
 		assert(false);
 		break;
@@ -195,9 +198,12 @@ void TProperty::Load(const pugi::xml_node& prop_node, const int version)
 	case BaluEngine::WorldDef::PropertyType::Rotation:
 		*(TRot*)value = SerializeCommon::LoadRotation(prop_node.child("Rot"));
 		break;
-	case BaluEngine::WorldDef::PropertyType::PhysShapeType:
+	case BaluEngine::WorldDef::PropertyType::PhysBodyType:
 		*(int*)value = val.as_int();
 		break;
+	//case BaluEngine::WorldDef::PropertyType::PhysShapeType:
+	//	*(int*)value = val.as_int();
+	//	break;
 	default:
 		assert(false);
 		break;

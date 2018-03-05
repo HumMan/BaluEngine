@@ -32,7 +32,7 @@ namespace BaluEngine
 				IScene* RunScene(WorldDef::IScene* scene_source);
 				void StopScene(IScene*);
 
-				IScene* RunScene();
+				//IScene* RunScene();
 				//IScene* RunScene(WorldDef::ILayersManager* scene_layers);
 
 				int GetSceneInstancesCount();
