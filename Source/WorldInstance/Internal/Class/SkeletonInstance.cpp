@@ -1,9 +1,13 @@
-#include <WorldDef/Objects/Class/IClass.h>
-#include "IClassInstance.h"
+#include "ClassInstance.h"
 
-using namespace EngineInterface;
+#include "../Sprite/SpriteInstance.h"
 
-TBoneInstance::TBoneInstance(TBoneInstance* parent, TBone* source)
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
+using namespace BaluLib;
+
+TBoneInstance::TBoneInstance(TBoneInstance* parent, WorldDef::IBone* source)
 {
 	this->parent = parent;
 	this->source = source;
@@ -32,12 +36,12 @@ void TBoneInstance::SetRotationAmount(float amount)
 	current_rotation = amount;
 }
 
-TBone* TBoneInstance::GetSourceBone()
+WorldDef::IBone* TBoneInstance::GetSourceBone()
 {
 	return source;
 }
 
-TBaluTransform FromLocalToGlobal(TBaluTransform global, TBaluTransform local)
+WorldDef::TTransform FromLocalToGlobal(WorldDef::TTransform global, WorldDef::TTransform local)
 {
 	auto x_axis = global.angle.GetXAxis();
 	auto y_axis = global.angle.GetYAxis();
@@ -45,10 +49,10 @@ TBaluTransform FromLocalToGlobal(TBaluTransform global, TBaluTransform local)
 
 	TVec2 result_pos = global_orient*local.position;
 
-	return TBaluTransform(result_pos, TRot(global.angle.GetAngle() + local.angle.GetAngle()));
+	return WorldDef::TTransform(result_pos, WorldDef::TRot(global.angle.GetAngle() + local.angle.GetAngle()));
 }
 
-void TBoneInstance::UpdateTranform(TBaluTransform parent_transform)
+void TBoneInstance::UpdateTranform(WorldDef::TTransform parent_transform)
 {
 	auto local = source->GetTransform();
 	auto x_axis = parent_transform.angle.GetXAxis();
@@ -57,7 +61,7 @@ void TBoneInstance::UpdateTranform(TBaluTransform parent_transform)
 	//global_orient.Transpose();
 
 	global.position = parent_transform.position + global_orient*local.position;
-	global.angle = TRot(parent_transform.angle.GetAngle() + local.angle.GetAngle() + current_rotation);
+	global.angle = WorldDef::TRot(parent_transform.angle.GetAngle() + local.angle.GetAngle() + current_rotation);
 
 	for (int i = 0; i < children.size(); i++)
 	{
@@ -65,31 +69,31 @@ void TBoneInstance::UpdateTranform(TBaluTransform parent_transform)
 	}
 }
 
-TBaluTransform TBoneInstance::GetGlobalTransform()
+WorldDef::TTransform TBoneInstance::GetGlobalTransform()
 {
 	return global;
 }
 
-TSkinInstance::TSkinInstance(TSkin* source, TResources* resources, TSceneObjectInstance* scene_object)
+TSkinInstance::TSkinInstance(WorldDef::ISkin* source, TResources* resources, ISceneObjectInstance* scene_object)
 {
 	sprites_of_bones.resize(source->GetBonesCount());
 	for (int i = 0; i < sprites_of_bones.size(); i++)
 	{
-		auto& source_sprite_of_bones = source->GetSpritesOfBone(i);
+		auto& source_sprite_of_bones = source->IGetSpritesOfBone(i);
 		for (int k = 0; k < source_sprite_of_bones.size(); k++)
 		{
-			sprites_of_bones[i].push_back(std::unique_ptr<TBaluTransformedSpriteInstance>(new TBaluTransformedSpriteInstance(&source_sprite_of_bones[k], resources, scene_object)));
+			sprites_of_bones[i].push_back(std::unique_ptr<ITransformedSpriteInstance>(new TTransformedSpriteInstance(source_sprite_of_bones[k], resources, scene_object)));
 		}
 	}
 }
 
-void TSkinInstance::QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results)
+void TSkinInstance::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results)
 {
 	for (int i = 0; i < sprites_of_bones.size(); i++)
 	{
 		for (int k = 0; k < sprites_of_bones[i].size(); k++)
 		{
-			if (sprites_of_bones[i][k]->GetPolygon()->IsEnable())
+			if (dynamic_cast<TSpritePolygonInstance*>(sprites_of_bones[i][k]->GetPolygon())->IsEnable())
 			{
 				results.push_back(sprites_of_bones[i][k]->GetPolygon());
 			}
@@ -97,13 +101,13 @@ void TSkinInstance::QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance
 	}
 }
 
-void TSkinInstance::UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TBaluTransformWithScale class_transform)
+void TSkinInstance::UpdateSpritesTransform(std::vector<TBoneInstance*> bones, WorldDef::TTransformWithScale class_transform)
 {
 	for (int i = 0; i < sprites_of_bones.size(); i++)
 	{
 		for (int k = 0; k < sprites_of_bones[i].size(); k++)
 		{
-			sprites_of_bones[i][k]->UpdateTransform(class_transform.ToGlobal(TBaluTransformWithScale(bones[i]->GetGlobalTransform(), TVec2(1, 1))));
+			dynamic_cast<TTransformedSpriteInstance*>(sprites_of_bones[i][k].get())->UpdateTransform(class_transform.ToGlobal(WorldDef::TTransformWithScale(bones[i]->GetGlobalTransform(), TVec2(1, 1))));
 		}
 	}
 }
@@ -117,10 +121,10 @@ void GatherBones(TBoneInstance* bone, std::vector<TBoneInstance*> &result)
 	}
 }
 
-TSkeletonInstance::TSkeletonInstance(TSkeleton* source, TResources* resources, TSceneObjectInstance* scene_object)
+TSkeletonInstance::TSkeletonInstance(WorldDef::ISkeleton* source, TResources* resources, ISceneObjectInstance* scene_object)
 {
 	this->source = source;
-	source->AddChangesListener(this);
+	//source->AddChangesListener(this);
 	if (source->GetRoot() == nullptr)
 		return;
 
@@ -156,20 +160,20 @@ TSkeletonInstance::TSkeletonInstance(TSkeleton* source, TResources* resources, T
 
 	for (int i = 0; i < source->GetSkinsCount(); i++)
 	{
-		skins.push_back(std::unique_ptr<TSkinInstance>(new TSkinInstance(source->GetSkin(i), resources,scene_object)));
+		skins.push_back(std::unique_ptr<TSkinInstance>(new TSkinInstance(source->GetSkin(i), resources, scene_object)));
 	}
 }
 
 TSkeletonInstance::~TSkeletonInstance()
 {
-	source->RemoveChangesListener(this);
+	//source->RemoveChangesListener(this);
 }
 
-void TSkeletonInstance::UpdateTranform(TBaluTransformWithScale class_transform)
+void TSkeletonInstance::UpdateTranform(WorldDef::TTransformWithScale class_transform)
 {
 	if (root != nullptr)
 	{
-		root->UpdateTranform(TBaluTransform());
+		root->UpdateTranform(WorldDef::TTransform());
 		for (int i = 0; i < skins.size(); i++)
 		{
 			skins[i]->UpdateSpritesTransform(bones, class_transform);
@@ -177,7 +181,7 @@ void TSkeletonInstance::UpdateTranform(TBaluTransformWithScale class_transform)
 	}
 }
 
-void TSkeletonInstance::QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results)
+void TSkeletonInstance::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results)
 {
 	for (int i = 0; i < skins.size(); i++)
 	{
@@ -185,7 +189,7 @@ void TSkeletonInstance::QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInst
 	}
 }
 
-TSkeleton* TSkeletonInstance::GetSource()
+WorldDef::ISkeleton* TSkeletonInstance::GetSource()
 {
 	return source;
 }

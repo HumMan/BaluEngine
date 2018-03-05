@@ -10,35 +10,8 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			class TTrackFrame : public ITrackFrame
-			{
-			public:
-				//int index;
-				float time;
-				float rotation;
-				TTrackFrame()
-				{
-					time = 0;
-					rotation = 0;
-				}
-				TTrackFrame(float time)
-				{
-					this->time = time;
-					this->rotation = 0;
-				}
-				void Save(pugi::xml_node& parent_node, const int version) const;
-				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
-			};
 
-			class TFrameComparer
-			{
-			public:
-				bool operator() (const TTrackFrame& lhs, const TTrackFrame& rhs) const
-				{
-					//return lhs.index < rhs.index;
-					return lhs.time < rhs.time;
-				}
-			};
+			
 
 			class TTrack : public ITrack
 			{
@@ -51,7 +24,7 @@ namespace BaluEngine
 					bone = nullptr;
 				}
 				TTrack(IBone* bone);
-				TTrackFrame* CreateFrame(float time, float rotation);
+				TTrackFrame CreateFrame(float time, float rotation);
 				void DestroyFrame(TTrackFrame* frame);
 				IBone* GetBone();
 				std::set<TTrackFrame, TFrameComparer>& GetFrames();

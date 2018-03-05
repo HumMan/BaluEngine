@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WorldDef/Interface.h"
+#include "WorldInstance/Interface.h"
 
 class NVGcontext;
 

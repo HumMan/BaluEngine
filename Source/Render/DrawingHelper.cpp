@@ -4,6 +4,8 @@
 
 #include <Utils/nanovg_support.h>
 
+#include "RenderCommand.h"
+
 using namespace BaluLib;
 using namespace BaluEngine::WorldInstance::Internal;
 using namespace BaluEngine;
@@ -12,6 +14,23 @@ TDrawingHelper::TDrawingHelper(TDrawingHelperContext drawing_context)
 {
 	this->context = GetNanoVGContext();
 	this->drawing_context = drawing_context;
+}
+
+
+TVec2 TDrawingHelperContext::FromScreenPixelsToScene(TVec2i screen_pixels)
+{
+
+	auto screen_coords = screen->FromScreenPixels2(screen_pixels);
+	auto view_coord = screen->FromScreenToView(*view, screen_coords);
+	auto scene_coord =  WorldDef::IScene::FromViewportToScene(viewport, view_coord);
+	return scene_coord;
+}
+TVec2i TDrawingHelperContext::FromSceneToScreenPixels(TVec2 scene_coordinates)
+{
+	auto viewport_coord = WorldDef::IScene::FromSceneToViewport(viewport, scene_coordinates);
+	auto screen_coord = screen->FromViewToScreen(*view, viewport_coord);
+	auto screen_pixels = screen->ToScreenPixels2(screen_coord);
+	return screen_pixels;
 }
 
 void TDrawingHelper::RenderPointAdornment(TVec2 p, WorldDef::TTransformWithScale trans)

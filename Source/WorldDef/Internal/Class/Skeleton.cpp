@@ -41,8 +41,8 @@ TSkin::TSkin(int bones_count)
 
 void TSkin::SetBoneSprite(int bone_index, TSprite* sprite, TTransform global)
 {
-	sprites_of_bones[bone_index].push_back(TTransformedSprite(sprite));
-	sprites_of_bones[bone_index].back().SetTransform(global);
+	sprites_of_bones[bone_index].push_back(std::unique_ptr<TTransformedSprite>(new TTransformedSprite(sprite)));
+	sprites_of_bones[bone_index].back()->SetTransform(global);
 }
 
 void TSkin::SetBoneSprite(int bone_index, ISprite* sprite, TTransform global)
@@ -55,9 +55,22 @@ int TSkin::GetBonesCount()
 	return sprites_of_bones.size();
 }
 
-std::vector<TTransformedSprite>& TSkin::GetSpritesOfBone(int bone_index)
+std::vector<TTransformedSprite*> TSkin::GetSpritesOfBone(int bone_index)
 {
-	return sprites_of_bones[bone_index];
+	std::vector<TTransformedSprite*> result;
+	result.reserve(sprites_of_bones[bone_index].size());
+	for (auto& v : sprites_of_bones[bone_index])
+		result.push_back(v.get());
+	return result;
+}
+
+std::vector<ITransformedSprite*> TSkin::IGetSpritesOfBone(int bone_index)
+{
+	std::vector<ITransformedSprite*> result;
+	result.reserve(sprites_of_bones[bone_index].size());
+	for (auto& v : sprites_of_bones[bone_index])
+		result.push_back(v.get());
+	return result;
 }
 
 ISkin* TSkeleton::CreateSkin()

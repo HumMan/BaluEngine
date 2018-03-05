@@ -1,64 +1,68 @@
 #pragma once
 
-#include "../Sprite/ISpriteInstance.h"
+#include "../../Interface.h"
 
-namespace EngineInterface
+
+namespace BaluEngine
 {
-
-#ifdef BALUENGINEDLL_EXPORTS
-	class TBoneInstance
+	namespace WorldInstance
 	{
-	private:
-		TBoneInstance* parent;
-		std::vector<std::unique_ptr<TBoneInstance>> children;
+		namespace Internal
+		{
 
-		TBone* source;
+			class TBoneInstance
+			{
+			private:
+				TBoneInstance * parent;
+				std::vector<std::unique_ptr<TBoneInstance>> children;
 
-		//float rotation_amount;
+				WorldDef::IBone* source;
 
-		//TVec2 current_position;
-		float current_rotation;
+				//float rotation_amount;
 
-		TBaluTransform global;
-	public:
-		TBoneInstance(TBoneInstance* parent, TBone* source);
-		int GetChildrenCount();
-		TBoneInstance* GetChild(int index);
+				//TVec2 current_position;
+				float current_rotation;
 
-		void SetRotationAmount(float amount);
+				WorldDef::TTransform global;
+			public:
+				TBoneInstance(TBoneInstance* parent, WorldDef::IBone* source);
+				int GetChildrenCount();
+				TBoneInstance* GetChild(int index);
 
-		TBone* GetSourceBone();
+				void SetRotationAmount(float amount);
 
-		void UpdateTranform(TBaluTransform parent);
-		TBaluTransform GetGlobalTransform();
-	};
+				WorldDef::IBone* GetSourceBone();
 
-	class TSkinInstance
-	{
-	private:
-		std::vector<std::vector<std::unique_ptr<TBaluTransformedSpriteInstance>>> sprites_of_bones;
-	public:
-		TSkinInstance(TSkin* source, TResources* resources, TSceneObjectInstance* scene_object);
-		void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results);
-		void UpdateSpritesTransform(std::vector<TBoneInstance*> bones, TBaluTransformWithScale class_transform);
-	};
+				void UpdateTranform(WorldDef::TTransform parent);
+				WorldDef::TTransform GetGlobalTransform();
+			};
 
-	class TSkeletonInstance: public IChangeListener
-	{
-	private:
-		std::unique_ptr<TBoneInstance> root;
-		std::vector<TBoneInstance*> bones;
-		std::vector<std::unique_ptr<TSkinInstance>> skins;
+			class TSkinInstance
+			{
+			private:
+				std::vector<std::vector<std::unique_ptr<ITransformedSpriteInstance>>> sprites_of_bones;
+			public:
+				TSkinInstance(WorldDef::ISkin* source, TResources* resources, ISceneObjectInstance* scene_object);
+				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results);
+				void UpdateSpritesTransform(std::vector<TBoneInstance*> bones, WorldDef::TTransformWithScale class_transform);
+			};
 
-		TSkeleton* source;
-	public:
-		TSkeletonInstance(TSkeleton* source, TResources* resources, TSceneObjectInstance* scene_object);
-		~TSkeletonInstance();
-		void UpdateTranform(TBaluTransformWithScale class_transform);
-		void QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results);
-		TSkeleton* GetSource();
-		TBoneInstance* GetBone(int index);
-	};
-#endif
+			class TSkeletonInstance : public ISkeletonInstance //public IChangeListener
+			{
+			private:
+				std::unique_ptr<TBoneInstance> root;
+				std::vector<TBoneInstance*> bones;
+				std::vector<std::unique_ptr<TSkinInstance>> skins;
 
+				WorldDef::ISkeleton* source;
+			public:
+				TSkeletonInstance(WorldDef::ISkeleton* source, TResources* resources, ISceneObjectInstance* scene_object);
+				~TSkeletonInstance();
+				void UpdateTranform(WorldDef::TTransformWithScale class_transform);
+				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results);
+				WorldDef::ISkeleton* GetSource();
+				TBoneInstance* GetBone(int index);
+			};
+		}
+	}
 }

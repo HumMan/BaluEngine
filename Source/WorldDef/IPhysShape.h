@@ -5,7 +5,7 @@ namespace BaluEngine
 	namespace WorldDef
 	{
 
-		class IPhysShape: public virtual ISerializable, public virtual IProperties
+		class IPhysShape: public ISerializable, public virtual IProperties
 		{
 		public:
 			virtual void SetIsSensor(bool value) = 0;

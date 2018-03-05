@@ -95,7 +95,7 @@ public:\
 				}
 
 				void Save(pugi::xml_node& parent_node, const int version)const;
-				void Load(const pugi::xml_node& parent_node, const int version, IWorld* world);
+				void Load(const pugi::xml_node& parent_node, const int version);
 			};
 
 			class TProperties : public virtual IProperties
@@ -111,8 +111,8 @@ public:\
 
 				bool HasProperty(const std::string& name, PropertyType& type)const;
 				IProperty* GetProperty(const std::string& name)const;
-				void Save(pugi::xml_node& parent_node, const int version)const;
-				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
+				void SaveProperties(pugi::xml_node& parent_node, const int version)const;
+				void LoadProperties(const pugi::xml_node& instance_node, const int version);
 				~TProperties();
 			};
 		}

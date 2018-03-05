@@ -55,6 +55,7 @@ void TSprite::Load(const pugi::xml_node& node, const int version, IWorld* world)
 void TSpritePolygon::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node new_node = parent_node.append_child("SpritePolygon");
+	SaveProperties(new_node, version);
 	if (material != nullptr)
 		new_node.append_attribute("material_name").set_value(material->GetName().c_str());
 
@@ -64,8 +65,6 @@ void TSpritePolygon::Save(pugi::xml_node& parent_node, const int version)const
 
 	SerializeCommon::SaveCoord(new_node, "tex_coord_origin", tex_coord_origin);
 	SerializeCommon::SaveCoord(new_node, "tex_coord_scale", tex_coord_scale);
-
-	new_node.append_attribute("enable").set_value(enable);
 
 	{
 		xml_node polygons_node = new_node.append_child("polygon_vertices");
@@ -100,12 +99,14 @@ void TSpritePolygon::Save(pugi::xml_node& parent_node, const int version)const
 		for (auto& anim_line : animation_lines)
 		{
 			anim_line.second->Save(polygons_node, version, this);
+			polygons_node.last_child().append_attribute("name").set_value(anim_line.first.c_str());
 		}
 	}
 }
 
 void TSpritePolygon::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
+	LoadProperties(node, version);
 	std::string mat_name = "";
 	if (node.attribute("material_name"))
 		mat_name = node.attribute("material_name").as_string();
@@ -119,8 +120,6 @@ void TSpritePolygon::Load(const pugi::xml_node& node, const int version, IWorld*
 
 	tex_coord_origin = SerializeCommon::LoadCoord(node.child("tex_coord_origin"));
 	tex_coord_scale = SerializeCommon::LoadCoord(node.child("tex_coord_scale"));
-
-	enable = node.attribute("enable").as_bool();
 
 	{
 		xml_node polygons_node = node.child("polygon_vertices");
@@ -158,7 +157,7 @@ void TSpritePolygon::Load(const pugi::xml_node& node, const int version, IWorld*
 		{
 			auto line = new TAnimLine();
 			line->Load(polygon, version, dynamic_cast<TWorld*>(world), this);
-			animation_lines.insert(std::make_pair(line->line_name, std::unique_ptr<TAnimLine>(line)));
+			animation_lines.insert(std::make_pair(polygon.attribute("name").as_string(), std::unique_ptr<TAnimLine>(line)));
 		}
 	}
 }
@@ -290,7 +289,6 @@ void TAnimationFrames::Load(const pugi::xml_node& instance_node, const int versi
 void TAnimLine::Save(pugi::xml_node& parent_node, const int version, const TSpritePolygon* sprite_polygon)const
 {
 	auto anim_line_node = parent_node.append_child("AnimLine");
-	anim_line_node.append_attribute("name").set_value(line_name.c_str());
 	auto frames_node = anim_line_node.append_child("Frames");
 	for (auto& frame : frames)
 		frame.get()->Save(frames_node, version, sprite_polygon);
@@ -298,7 +296,6 @@ void TAnimLine::Save(pugi::xml_node& parent_node, const int version, const TSpri
 
 void TAnimLine::Load(const pugi::xml_node& instance_node, const int version, IWorld* world, TSpritePolygon* sprite_polygon)
 {
-	line_name = instance_node.attribute("name").as_string();
 	auto f_node = instance_node.child("Frames");
 	for (pugi::xml_node polygon = f_node.first_child(); polygon; polygon = polygon.next_sibling())
 	{

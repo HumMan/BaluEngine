@@ -6,8 +6,6 @@ using namespace BaluEngine::WorldDef::Internal;
 typedef std::vector < std::pair<const char*, SceneObjectClone>> scene_object_registry_type;
 scene_object_registry_type *scene_object_registry = nullptr;
 
-//typedef std::vector < std::pair<const char*, SceneObjectInstanceClone>> scene_object_instance_registry_type;
-//scene_object_instance_registry_type *scene_object_instance_registry = nullptr;
 
 //void TWorldObject::SetName(const std::string& name)
 //{
@@ -66,22 +64,6 @@ IWorld* TWorldObject::GetWorld()
 //	return TWorldInstance::CheckScriptErrors(dynamic_cast<TWorld*>(source), dynamic_cast<TBaluScriptInstance*>(script_instance), errors_list);
 //}*/
 
-//TVec2 TDrawingHelperContext::FromScreenPixelsToScene(TVec2i screen_pixels)
-//{
-
-//	auto screen_coords = screen->FromScreenPixels2(screen_pixels);
-//	auto view_coord = screen->FromScreenToView(*view, screen_coords);
-//	auto scene_coord = IScene::FromViewportToScene(viewport, view_coord);
-//	return scene_coord;
-//}
-//TVec2i TDrawingHelperContext::FromSceneToScreenPixels(TVec2 scene_coordinates)
-//{
-//	auto viewport_coord = IScene::FromSceneToViewport(viewport, scene_coordinates);
-//	auto screen_coord = screen->FromViewToScreen(*view, viewport_coord);
-//	auto screen_pixels = screen->ToScreenPixels2(screen_coord);
-//	return screen_pixels;
-//}
-
 bool SceneObjectFactory::Register(const char* name, SceneObjectClone clone)
 {
 	if (scene_object_registry == nullptr)
@@ -103,24 +85,5 @@ ISceneObject* SceneObjectFactory::Create(const char* name)
 	throw std::invalid_argument("Тип не зарегистрирован");
 }
 
-//bool SceneObjectInstanceFactory::Register(const char* name, SceneObjectInstanceClone clone)
-//{
-//	if (scene_object_instance_registry == nullptr)
-//		scene_object_instance_registry = new scene_object_instance_registry_type();
-//	scene_object_instance_registry->push_back(std::pair<const char*, SceneObjectInstanceClone>(name, clone));
-//	return true;
-//}
 
-//void SceneObjectInstanceFactory::UnregisterAll()
-//{
-//	delete scene_object_instance_registry;
-//}
-
-//TSceneObjectInstance* SceneObjectInstanceFactory::Create(const char* name, ISceneObject* param, TBaluSceneInstance* scene)
-//{
-//	for (int i = 0; i < scene_object_instance_registry->size(); i++)
-//		if (strcmp((*scene_object_instance_registry)[i].first, name) == 0)
-//			return (*scene_object_instance_registry)[i].second(param, scene);
-//	throw std::invalid_argument("Тип не зарегистрирован");
-//}
 

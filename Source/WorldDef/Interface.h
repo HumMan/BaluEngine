@@ -15,6 +15,8 @@ namespace pugi
 
 //#include <Interfaces/ExportMacro.h>
 
+#define REGISTER_FACTORY_CLASS(factory_name,class_name)\
+	static bool class_name##_registered = factory_name::Register(class_name::FactoryName(), class_name::Clone);
 
 namespace BaluEngine
 {
@@ -40,6 +42,7 @@ namespace BaluEngine
 		class IClassPhysBody;
 
 		class ISkeleton;
+		class IAnimationLine;
 
 	}
 }

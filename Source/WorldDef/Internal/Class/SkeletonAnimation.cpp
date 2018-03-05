@@ -11,14 +11,14 @@ TTrack::TTrack(IBone* bone)
 	this->bone = bone;
 }
 
-TTrackFrame* TTrack::CreateFrame(float time, float rotation)
+TTrackFrame TTrack::CreateFrame(float time, float rotation)
 {
 	TTrackFrame temp;
 	//temp.index = 0;
 	temp.time = time;
 	temp.rotation = rotation;
 	auto it = frames.insert(temp);
-	return (TTrackFrame*) &(*(it.first));
+	return *(it.first);
 }
 
 void TTrack::DestroyFrame(TTrackFrame* frame)

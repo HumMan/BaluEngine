@@ -169,9 +169,8 @@ TAnimationFrames::TAnimationFrames(IAnimDesc* desc, int frame)
 
 TSpritePolygon::TSpritePolygon()
 {
-	layer = 0;
-	enable = true;
-	draw_triangles_grid = true;
+	InitAllProperties();
+	
 	material = nullptr;
 
 	size = TVec2(1,1);
@@ -397,6 +396,19 @@ void TSpritePolygon::AddAnimDesc(IAnimDesc* desc)
 
 void TSpritePolygon::CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames)
 {
-	animation_lines[line_name]->line_name = line_name;
+	//animation_lines[line_name]->line_name = line_name;
 	animation_lines[line_name]->frames.push_back(std::unique_ptr<IAnimationFrames>(new TAnimationFrames(desc, frames)));
+}
+
+IAnimationLine* TSpritePolygon::GetAnimationLine(const std::string& name)
+{
+	return animation_lines[name].get();
+}
+
+std::vector<std::string> TSpritePolygon::GetAnimationLineNames()
+{
+	std::vector<std::string> result;
+	for (auto& v : animation_lines)
+		result.push_back(v.first);
+	return result;
 }

@@ -12,7 +12,7 @@ using namespace BaluLib;
 void TScene::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node new_node = parent_node.append_child("Scene");
-	TProperties::Save(new_node,version);
+	SaveProperties(new_node,version);
 	new_node.append_attribute("name").set_value(GetName().c_str());
 	{
 		xml_node instances_node = new_node.append_child("instances");
@@ -33,7 +33,7 @@ void TScene::Save(pugi::xml_node& parent_node, const int version)const
 
 void TScene::Load(const pugi::xml_node& scene_node, const int version, IWorld* world)
 {
-	TProperties::Load(scene_node, version, world);
+	LoadProperties(scene_node, version);
 	{
 		xml_node instances_node = scene_node.child("instances");
 		for (pugi::xml_node instance_node = instances_node.first_child(); instance_node; instance_node = instance_node.next_sibling())

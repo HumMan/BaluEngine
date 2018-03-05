@@ -2,7 +2,7 @@
 
 #include "../../Interface.h"
 
-#include "Render/RenderCommand.h"
+#include "Render/Render.h"
 
 namespace BaluEngine
 {
@@ -29,14 +29,14 @@ namespace BaluEngine
 			class TComposer : public IComposer
 			{
 				class TPrivate;
-				TPrivate* p;
+				std::unique_ptr<TPrivate> p;
 			public:
 				TComposer();
 				//TComposer(TRender* render);
 				TComposerStage* AddToRender(IScene* scene_instance, WorldDef::IViewport* viewport);
 				void RemoveFromRender(IComposerStage* stage);
 
-				void Render(Rendering::IRender* render);
+				void Render(TRender* render);
 				~TComposer();
 			};
 		}

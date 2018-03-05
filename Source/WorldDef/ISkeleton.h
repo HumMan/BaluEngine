@@ -9,12 +9,17 @@ namespace BaluEngine
 		{
 		public:
 			virtual void SetTransform(TTransform) = 0;
+			virtual int GetChildrenCount()=0;
+			virtual IBone* GetChild(int index)=0;
+			virtual TTransform GetTransform()=0;
 		};
 
 		class ISkin
 		{
 		public:
 			virtual void SetBoneSprite(int bone_index, ISprite* sprite, TTransform global) = 0;
+			virtual std::vector<ITransformedSprite*> IGetSpritesOfBone(int bone_index)=0;
+			virtual int GetBonesCount() = 0;
 		};
 
 		class ISkeleton

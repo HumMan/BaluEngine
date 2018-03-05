@@ -1,10 +1,11 @@
-#include <WorldDef/Objects/Class/IClass.h>
+#include "ClassInstance.h"
 
-#include "IClassInstance.h"
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
+using namespace BaluLib;
 
-using namespace EngineInterface;
-
-TTrackInstance::TTrackInstance(TBoneInstance* bone, TTrack* source)
+TTrackInstance::TTrackInstance(TBoneInstance* bone, WorldDef::ITrack* source)
 {
 	this->bone = bone;
 	this->source = source;
@@ -24,7 +25,7 @@ void TTrackInstance::Update(float time, float timeline_size)
 	auto& frames = source->GetFrames();
 	if (frames.size() > 1)
 	{
-		auto lower_it = frames.lower_bound(TTrackFrame(time));
+		auto lower_it = frames.lower_bound(WorldDef::TTrackFrame(time));
 		float amount;
 
 		if (lower_it == frames.end())
@@ -51,7 +52,7 @@ void TTrackInstance::Update(float time, float timeline_size)
 	}
 }
 
-TTimeLineInstance::TTimeLineInstance(TSkeletonInstance* skeleton, TTimeLine* source)
+TTimeLineInstance::TTimeLineInstance(TSkeletonInstance* skeleton, WorldDef::ITimeLine* source)
 {
 	this->source = source;
 	is_active = false;
@@ -114,24 +115,24 @@ void TTimeLineInstance::Step(float step)
 	}
 }
 
-TTimeLine* TTimeLineInstance::GetSource()
+WorldDef::ITimeLine* TTimeLineInstance::GetSource()
 {
 	return source;
 }
 
-TSkeletonAnimationInstance::TSkeletonAnimationInstance(TSkeletonInstance* skeleton, TSkeletonAnimation* source)
+TSkeletonAnimationInstance::TSkeletonAnimationInstance(TSkeletonInstance* skeleton, WorldDef::ISkeletonAnimation* source)
 {
 	this->skeleton = skeleton;
 	this->source = source;
 	
-	source->AddChangesListener(this);
+	//source->AddChangesListener(this);
 
 	Init();
 }
 
 TSkeletonAnimationInstance::~TSkeletonAnimationInstance()
 {
-	source->RemoveChangesListener(this);
+	//source->RemoveChangesListener(this);
 }
 
 void TSkeletonAnimationInstance::Init()

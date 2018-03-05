@@ -1,32 +1,31 @@
 #pragma once
 
 #include <baluLib.h>
-using namespace BaluLib;
 
 namespace BaluEngine
 {
 	namespace WorldInstance
 	{
-		class TMaterial;
 		namespace Internal
 		{			
+			class TMaterialInstance;
 
 			struct TRenderCommand
 			{
 			public:
-				TMaterial* material_id;
+				TMaterialInstance* material_id;
 
 				bool draw_triangles_grid;
 				int vertices_count;
-				TVec2* vertices;
-				TVec2* tex_coords;
-				TVec4* colors;
+				BaluLib::TVec2* vertices;
+				BaluLib::TVec2* tex_coords;
+				BaluLib::TVec4* colors;
 				int layer_order;
 				float alpha;
 
 				TRenderCommand() {}
 
-				TRenderCommand(TMaterial* material_id, int vertices_count, TVec2* vertices, TVec2* tex_coords, TVec4* colors)
+				TRenderCommand(TMaterialInstance* material_id, int vertices_count, BaluLib::TVec2* vertices, BaluLib::TVec2* tex_coords, BaluLib::TVec4* colors)
 				{
 					this->material_id = material_id;
 					this->vertices_count = vertices_count;
@@ -39,12 +38,12 @@ namespace BaluEngine
 			class TView
 			{
 				//TODO заменить на матрицу ориентации и масштабирование
-				TVec2 pos; //центр вида в координатах экрана
-				TVec2 size; //ширина и высота в координатах экрана
+				BaluLib::TVec2 pos; //центр вида в координатах экрана
+				BaluLib::TVec2 size; //ширина и высота в координатах экрана
 				//EngineInterface::IViewport* viewport;
 			public:
 				TView() {}
-				TView(TVec2 pos, TVec2 size)//, EngineInterface::IViewport* viewport)
+				TView(BaluLib::TVec2 pos, BaluLib::TVec2 size)//, EngineInterface::IViewport* viewport)
 				{
 					this->pos = pos;
 					this->size = size;
@@ -54,11 +53,11 @@ namespace BaluEngine
 				//{
 				//	return viewport;
 				//}
-				TVec2 GetPos()
+				BaluLib::TVec2 GetPos()
 				{
 					return pos;
 				}
-				TVec2 GetSize()
+				BaluLib::TVec2 GetSize()
 				{
 					return size;
 				}
@@ -67,11 +66,11 @@ namespace BaluEngine
 			class TScreen
 			{
 			public:
-				TVec2i size;
+				BaluLib::TVec2i size;
 				//std::vector<TView> views;
 			public:
 				TScreen() {}
-				TScreen(TVec2i size)
+				TScreen(BaluLib::TVec2i size)
 				{
 					this->size = size;
 				}
@@ -85,38 +84,38 @@ namespace BaluEngine
 				//void RemoveView(int i);
 
 				//координаты view_coord x (0,1) y (0,1)
-				TVec2 FromViewToScreen(TView view, TVec2 view_coord)
+				BaluLib::TVec2 FromViewToScreen(TView view, BaluLib::TVec2 view_coord)
 				{
-					return (view_coord - TVec2(0.5, 0.5)).ComponentMul(view.GetSize()) + view.GetPos();
+					return (view_coord - BaluLib::TVec2(0.5, 0.5)).ComponentMul(view.GetSize()) + view.GetPos();
 				}
-				TVec2 FromScreenToView(TView view, TVec2 screen_coord)
+				BaluLib::TVec2 FromScreenToView(TView view, BaluLib::TVec2 screen_coord)
 				{
-					return ((screen_coord - view.GetPos()) / view.GetSize()) + TVec2(0.5, 0.5);
+					return ((screen_coord - view.GetPos()) / view.GetSize()) + BaluLib::TVec2(0.5, 0.5);
 				}
-				TVec2i ToScreenPixels(TVec2 coord)
+				BaluLib::TVec2i ToScreenPixels(BaluLib::TVec2 coord)
 				{
-					return TVec2i(
+					return BaluLib::TVec2i(
 						size[0] * coord[0],
 						size[1] * coord[1]
 					);
 				}
-				TVec2 FromScreenPixels(TVec2i coord)
+				BaluLib::TVec2 FromScreenPixels(BaluLib::TVec2i coord)
 				{
-					return TVec2(
+					return BaluLib::TVec2(
 						coord[0] / size[0],
 						coord[1] / size[1]
 					);
 				}
-				TVec2i ToScreenPixels2(TVec2 coord)
+				BaluLib::TVec2i ToScreenPixels2(BaluLib::TVec2 coord)
 				{
-					return TVec2i(
+					return BaluLib::TVec2i(
 						size[0] * coord[0],
 						size[1] * (1 - coord[1])
 					);
 				}
-				TVec2 FromScreenPixels2(TVec2i coord)
+				BaluLib::TVec2 FromScreenPixels2(BaluLib::TVec2i coord)
 				{
-					return TVec2(
+					return BaluLib::TVec2(
 						(float)coord[0] / size[0],
 						1 - (float)coord[1] / size[1]
 					);

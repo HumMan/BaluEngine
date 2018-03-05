@@ -39,7 +39,7 @@ IProperty * TProperties::GetProperty(const std::string & name)const
 		return ptr;
 }
 
-void TProperties::Save(pugi::xml_node& parent_node, const int version)const
+void TProperties::SaveProperties(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node props_node = parent_node.append_child("Properties");
 	for (auto& v : properties)
@@ -49,13 +49,13 @@ void TProperties::Save(pugi::xml_node& parent_node, const int version)const
 	}
 }
 
-void TProperties::Load(const pugi::xml_node& instance_node, const int version, IWorld* world)
+void TProperties::LoadProperties(const pugi::xml_node& instance_node, const int version)
 {
 	xml_node props_node = instance_node.child("Properties");
 	for (pugi::xml_node prop_node = props_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
 		auto name = prop_node.attribute("name").as_string();
-		GetProperty(name)->Load(prop_node, version, world);
+		GetProperty(name)->Load(prop_node, version);
 	}
 }
 
@@ -132,7 +132,7 @@ void TProperty::Save(pugi::xml_node& parent_node, const int version)const
 	}
 }
 
-void TProperty::Load(const pugi::xml_node& prop_node, const int version, IWorld* world)
+void TProperty::Load(const pugi::xml_node& prop_node, const int version)
 {
 	auto val = prop_node.attribute("value");
 	switch (this->type)

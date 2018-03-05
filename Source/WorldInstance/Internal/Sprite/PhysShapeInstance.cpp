@@ -1,22 +1,26 @@
-#include "IPhysShapeInstance.h"
+#include "PhysShapeInstance.h"
 
-using namespace EngineInterface;
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
-TBaluPhysShapeInstance::TBaluPhysShapeInstance(TBaluPhysShape* source, TPhysShapeUserData _user_data)
+#include <Box2D.h>
+
+TPhysShapeInstance::TPhysShapeInstance(WorldDef::IPhysShape* source, TPhysShapeUserData _user_data)
 	:user_data(_user_data)
 {
 	this->fixture = nullptr;
 	this->body = nullptr;
 	this->source = source;
-	source->AddChangesListener(this);
+	//source->AddChangesListener(this);
 }
 
-TBaluPhysShapeInstance::~TBaluPhysShapeInstance()
+TPhysShapeInstance::~TPhysShapeInstance()
 {
-	source->RemoveChangesListener(this);
+	//source->RemoveChangesListener(this);
 }
 
-void TBaluPhysShapeInstance::BuildFixture(b2Body* body, TBaluTransformWithScale class_transform)
+void TPhysShapeInstance::BuildFixture(b2Body* body, WorldDef::TTransformWithScale class_transform)
 {
 	if (this->body != nullptr)
 		assert(this->body == body);
@@ -26,12 +30,13 @@ void TBaluPhysShapeInstance::BuildFixture(b2Body* body, TBaluTransformWithScale 
 	{
 		body->DestroyFixture(fixture);
 	}
-	b2FixtureDef fixture_def;
-	fixture_def.shape = source->GetShape(class_transform);
-	fixture_def.isSensor = source->IsSensor();
-	if (fixture_def.shape->m_type == b2BodyType::b2_dynamicBody)
-		fixture_def.density = 1.0;
-	fixture_def.userData = GetUserData();
-	fixture = body->CreateFixture(&fixture_def);
-	delete fixture_def.shape;
+	//TODO
+	//b2FixtureDef fixture_def;
+	//fixture_def.shape = source->GetShape(class_transform);
+	//fixture_def.isSensor = source->IsSensor();
+	//if (fixture_def.shape->m_type == b2BodyType::b2_dynamicBody)
+	//	fixture_def.density = 1.0;
+	//fixture_def.userData = GetUserData();
+	//fixture = body->CreateFixture(&fixture_def);
+	//delete fixture_def.shape;
 }

@@ -26,6 +26,8 @@ namespace BaluEngine
 			virtual void SetScale(BaluLib::TVec2 scale) = 0;
 			virtual TTransform GetTransform() = 0;
 			virtual BaluLib::TVec2 GetScale() = 0;
+			virtual bool PointCollide(BaluLib::TVec2 class_space_point) = 0;
+			virtual TTransformWithScale GetTransformWithScale() = 0;
 		};
 	}
 }

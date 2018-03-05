@@ -102,9 +102,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BindingMacroGenerator\UnpackTemplates.h" />
+    <ClInclude Include="Source\Common\IResources.h" />
     <ClInclude Include="Source\Render\DrawingHelper.h" />
     <ClInclude Include="Source\Render\Render.h" />
     <ClInclude Include="Source\Render\RenderCommand.h" />
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Polygon.h" />
+    <ClInclude Include="Source\Utils\ConvexDecomposition\b2Triangle.h" />
+    <ClInclude Include="Source\Utils\DebugDraw.h" />
+    <ClInclude Include="Source\Utils\nanovg_support.h" />
+    <ClInclude Include="Source\Utils\polygon_decomp.h" />
+    <ClInclude Include="Source\Utils\polygon_vertices.h" />
+    <ClInclude Include="Source\Utils\texture_polygon.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\BoxGui.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\OBBGui.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\PolygonGui.h" />
@@ -139,12 +147,25 @@
     <ClInclude Include="Source\WorldDef\IMaterial.h" />
     <ClInclude Include="Source\WorldDef\ISkeleton.h" />
     <ClInclude Include="Source\WorldDef\ISkeletonAnimation.h" />
+    <ClInclude Include="Source\WorldInstance\IClassInstance.h" />
     <ClInclude Include="Source\WorldInstance\IComposer.h" />
     <ClInclude Include="Source\WorldInstance\IMaterialInstance.h" />
     <ClInclude Include="Source\WorldInstance\Interface.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Class\ClassInstance.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Class\SkeletonAnimationInstance.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Class\SkeletonInstance.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Composer\Composer.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Material\MaterialInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Scene\SceneInstance.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Sprite\PhysShapeInstance.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Sprite\SpriteInstance.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Sprite\SpritePolygonInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\World\WorldInstance.h" />
+    <ClInclude Include="Source\WorldInstance\IPhysShapeInstance.h" />
     <ClInclude Include="Source\WorldInstance\ISceneInstance.h" />
+    <ClInclude Include="Source\WorldInstance\ISkeletonAnimationInstance.h" />
+    <ClInclude Include="Source\WorldInstance\ISkeletonInstance.h" />
+    <ClInclude Include="Source\WorldInstance\ISpriteInstance.h" />
     <ClInclude Include="Source\WorldInstance\ISpritePolygonInstance.h" />
     <ClInclude Include="Source\WorldInstance\IWorldInstance.h" />
     <ClInclude Include="submodules\nanovg\src\fontstash.h" />
@@ -160,8 +181,16 @@
     <ClInclude Include="Source\WorldObjects\InterfacesIncludes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Common\Resources.cpp" />
     <ClCompile Include="Source\Render\DrawingHelper.cpp" />
     <ClCompile Include="Source\Render\Render.cpp" />
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
+    <ClCompile Include="Source\Utils\ConvexDecomposition\b2Triangle.cpp" />
+    <ClCompile Include="Source\Utils\DebugDraw.cpp" />
+    <ClCompile Include="Source\Utils\nanovg_support.cpp" />
+    <ClCompile Include="Source\Utils\polygon_decomp.cpp" />
+    <ClCompile Include="Source\Utils\polygon_vertices.cpp" />
+    <ClCompile Include="Source\Utils\texture_polygon.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\Class.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\ClassSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\Skeleton.cpp" />
@@ -187,6 +216,15 @@
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpriteSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\World\Serialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\World\World.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Class\ClassInstance.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Class\SkeletonAnimationInstance.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Class\SkeletonInstance.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Composer\Composer.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Material\MaterialInstance.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Scene\SceneInstance.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Sprite\PhysShapeInstance.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Sprite\SpriteInstance.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Sprite\SpritePolyInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\World\WorldInstance.cpp" />
     <ClCompile Include="submodules\nanovg\src\nanovg.c" />
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />

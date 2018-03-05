@@ -12,25 +12,25 @@ using namespace BaluLib;
 void TClassPhysBody::Save(pugi::xml_node& parent_node, const int version)const
 {
 	auto phys_Body_node = parent_node.append_child("PhysBody");
-	TProperties::Save(phys_Body_node, version);
+	TProperties::SaveProperties(phys_Body_node, version);
 }
 
 void TClassPhysBody::Load(const pugi::xml_node& phys_body_node, const int version, IWorld* world)
 {
-	TProperties::Load(phys_body_node, version, world);
+	TProperties::LoadProperties(phys_body_node, version);
 }
 
-void TTrackFrame::Save(pugi::xml_node& parent_node, const int version)const
+void TTrackFrame_Save(const TTrackFrame& obj, pugi::xml_node& parent_node, const int version)
 {
 	auto frame_node = parent_node.append_child("Frame");
-	frame_node.append_attribute("time").set_value(time);
-	frame_node.append_attribute("rotation").set_value(rotation);
+	frame_node.append_attribute("time").set_value(obj.time);
+	frame_node.append_attribute("rotation").set_value(obj.rotation);
 }
 
-void TTrackFrame::Load(const pugi::xml_node& frame_node, const int version, IWorld* world)
+void TTrackFrame_Load(TTrackFrame& obj, const pugi::xml_node& frame_node, const int version, IWorld* world)
 {
-	time = frame_node.attribute("time").as_float();
-	rotation = frame_node.attribute("rotation").as_float();
+	obj.time = frame_node.attribute("time").as_float();
+	obj.rotation = frame_node.attribute("rotation").as_float();
 }
 
 
@@ -41,7 +41,7 @@ void TTrack::Save(pugi::xml_node& parent_node, const int version, ISkeleton* ske
 	auto tracks_node = track_node.append_child("Frames");
 	for (auto& frame : frames)
 	{
-		frame.Save(tracks_node, version);
+		TTrackFrame_Save(frame, tracks_node, version);
 	}
 }
 
@@ -52,7 +52,7 @@ void TTrack::Load(const pugi::xml_node& track_node, const int version, IWorld* w
 	for (pugi::xml_node prop_node = tracks_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
 		TTrackFrame frame;
-		frame.Load(prop_node, version, world);
+		TTrackFrame_Load(frame, prop_node, version, world);
 		frames.insert(frame);
 	}
 }
@@ -153,7 +153,7 @@ void TSkin::Save(pugi::xml_node& parent_node, const int version)const
 		xml_node sprites_of_bone_node = sprites_of_bones_node.append_child("SpritesOfBone");
 		for (auto& sprite : sprites)
 		{
-			sprite.Save(sprites_of_bone_node, version);
+			sprite->Save(sprites_of_bone_node, version);
 		}
 	}
 }
@@ -167,7 +167,7 @@ void TSkin::Load(const pugi::xml_node& skin_node, const int version, IWorld* wor
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
 			sprites_of_bones.back().emplace_back();
-			sprites_of_bones.back().back().Load(sprite_node, version, world);
+			sprites_of_bones.back().back()->Load(sprite_node, version, world);
 		}
 	}
 }
@@ -245,7 +245,7 @@ void TClass::Save(pugi::xml_node& parent_node, const int version)const
 	skeleton->Save(new_node, version);
 	skeleton_animation->Save(new_node, version);
 
-	TProperties::Save(new_node, version);
+	SaveProperties(new_node, version);
 
 	{
 		//xml_node callbacks_node = new_node.append_child("KeyDownScripts");
@@ -289,7 +289,7 @@ void TClass::Save(pugi::xml_node& parent_node, const int version)const
 
 void TClass::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
-	TProperties::Load(node, version, world);
+	LoadProperties(node, version);
 
 	{
 		xml_node sprites_node = node.child("sprites");

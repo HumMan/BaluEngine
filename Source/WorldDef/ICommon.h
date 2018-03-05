@@ -260,23 +260,27 @@ namespace BaluEngine
 
 
 
-		class IProperty: public ISerializable
+		class IProperty
 		{
 		public:
 			virtual PropertyType GetType()const = 0;
 			virtual void SetAsBool(bool value) = 0;
 			virtual bool GetAsBool()const = 0;
 			virtual void Set(const void const* new_value) = 0;
+			virtual void Save(pugi::xml_node& parent_node, const int version)const = 0;
+			virtual void Load(const pugi::xml_node& instance_node, const int version) = 0;
 		};
 
-		class IProperties : public virtual ISerializable
+		class IProperties
 		{
 		public:
 			virtual IProperty * GetProperty(const std::string& name)const = 0;
 			virtual bool HasProperty(const std::string& name, PropertyType& type)const = 0;
+			virtual void SaveProperties(pugi::xml_node& parent_node, const int version)const=0;
+			virtual void LoadProperties(const pugi::xml_node& instance_node, const int version)=0;
 		};
 
-		class IWorldObject:public virtual ISerializable, public virtual IProperties
+		class IWorldObject:public ISerializable, public virtual IProperties
 		{
 		public:
 			virtual IWorld* GetWorld() = 0;

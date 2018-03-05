@@ -39,7 +39,7 @@ namespace BaluEngine
 			class TSkin : public ISkin, public ISerializable
 			{
 			private:
-				std::vector<std::vector<TTransformedSprite>> sprites_of_bones;
+				std::vector<std::vector<std::unique_ptr<TTransformedSprite>>> sprites_of_bones;
 			public:
 				TSkin()
 				{
@@ -48,7 +48,9 @@ namespace BaluEngine
 				void SetBoneSprite(int bone_index, TSprite* sprite, TTransform global);
 				void SetBoneSprite(int bone_index, ISprite* sprite, TTransform global);
 				int GetBonesCount();
-				std::vector<TTransformedSprite>& GetSpritesOfBone(int bone_index);
+				std::vector<TTransformedSprite*> GetSpritesOfBone(int bone_index);
+
+				std::vector<ITransformedSprite*> IGetSpritesOfBone(int bone_index);
 
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);

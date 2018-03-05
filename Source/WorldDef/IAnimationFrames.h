@@ -36,8 +36,18 @@ namespace BaluEngine
 		class IAnimationFrames
 		{
 		public:
+			virtual IAnimDesc * GetDesc()const = 0;
+			virtual std::vector<int> GetFrames()const = 0;
+
 			virtual void Save(pugi::xml_node& parent_node, const int version, const ISpritePolygon* sprite_polygon)const=0;
 			virtual void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, ISpritePolygon* sprite_polygon)=0;
+		};
+
+		class IAnimationLine
+		{
+		public:
+			virtual int GetFramesCount()const = 0;
+			virtual IAnimationFrames* GetFrames(int index)const = 0;
 		};
 	}
 }

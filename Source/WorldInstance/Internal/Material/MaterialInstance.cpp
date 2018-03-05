@@ -1,29 +1,32 @@
-#include "IMaterialInstance.h"
-#include <WorldDef/Objects/Material/IMaterial.h>
+#include "MaterialInstance.h"
 
-using namespace EngineInterface;
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
+using namespace BaluLib;
+
 
 void TMaterialInstance::SourceChanged()
 {
 	texture = resources->CreateTextureFromFile(source->GetImagePath());
 }
 
-TMaterialInstance::TMaterialInstance(TMaterial* source, TResources* resources)
+TMaterialInstance::TMaterialInstance(WorldDef::IMaterial* source, TResources* resources)
 {
 	this->source = source;
 	this->resources = resources;
 	
 	if (source != nullptr)
 	{
-		source->AddChangesListener(this);
+		//source->AddChangesListener(this);
 		texture = resources->CreateTextureFromFile(source->GetImagePath());
 	}
 }
 
 TMaterialInstance::~TMaterialInstance()
 {
-	if (source!=nullptr)
-		source->RemoveChangesListener(this);
+	//if (source!=nullptr)
+	//	source->RemoveChangesListener(this);
 }
 
 TBaluTexture TMaterialInstance::GetTexture()
@@ -31,14 +34,3 @@ TBaluTexture TMaterialInstance::GetTexture()
 	return texture;
 }
 
-#include "../Scene/ISceneInstance.h"
-
-TSceneInstance* TSceneObjectInstance::GetScene()
-{
-	return scene;
-}
-TSceneObjectInstance::TSceneObjectInstance(TSceneInstance* scene)
-{
-	this->scene = scene;
-	scene->AddInstance(this);
-}

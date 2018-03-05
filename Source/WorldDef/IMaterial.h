@@ -77,6 +77,7 @@ namespace BaluEngine
 			{
 				return "material";
 			}
+			virtual std::string GetImagePath()const = 0;
 		};
 	}
 }

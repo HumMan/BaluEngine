@@ -2,19 +2,19 @@
 
 #include <baluRender.h>
 using namespace BaluRender;
-using namespace EngineInterface;
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
 #include <map>
 
-namespace EngineInterface
-{
-	class TResourcesInternal
+
+	class TResources::TResourcesInternal
 	{
 	public:
 		std::map<std::string, TTextureId> textures;
 		TBaluRender* render;
 		std::string assets_dir;
-	};
-}
+};
+
 
 //TODO настройка ссылок кто использует текстуру - очистка неиспользуемых текстур
 TBaluTexture TResources::CreateTextureFromFile(std::string path)

@@ -38,7 +38,7 @@ namespace BaluEngine
 			virtual ISkeleton* GetSkeleton() = 0;
 		};
 
-		class ITransformedClass
+		class ITransformedClass: public virtual ISceneObject
 		{
 		public:
 			virtual ~ITransformedClass() {}
@@ -46,6 +46,7 @@ namespace BaluEngine
 			virtual void SetScale(BaluLib::TVec2 scale) = 0;
 			virtual TTransform GetTransform() = 0;
 			virtual BaluLib::TVec2 GetScale() = 0;
+			virtual TTransformWithScale GetTransformWithScale() = 0;
 			virtual IClass* GetClass() = 0;
 		};
 	}

@@ -1,230 +1,316 @@
-#include "ISceneInstance.h"
+#include "SceneInstance.h"
 
-#include <WorldInstance/IWorldInstance.h>
+#include "WorldInstance/IWorldInstance.h"
 
-bool TSceneInstance::PointCollide(TVec2 scene_space_point, EngineInterface::TSceneObjectInstance* &result)
+#include <algorithm>
+
+#include <Box2D.h>
+
+#include "../../../Utils/DebugDraw.h"
+
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
+using namespace BaluLib;
+
+
+typedef std::vector < std::pair<const char*, SceneObjectInstanceClone>> scene_object_instance_registry_type;
+scene_object_instance_registry_type *scene_object_instance_registry = nullptr;
+
+bool SceneObjectInstanceFactory::Register(const char* name, SceneObjectInstanceClone clone)
 {
-	for (int i = 0; i < instances.size(); i++)
-	{
-		bool collide = instances[i]->PointCollide(scene_space_point);
-		if (collide)
-		{
-			result = instances[i].get();
-			return true;
-		}
-	}
+	if (scene_object_instance_registry == nullptr)
+		scene_object_instance_registry = new scene_object_instance_registry_type();
+	scene_object_instance_registry->push_back(std::pair<const char*, SceneObjectInstanceClone>(name, clone));
+	return true;
+}
+
+void SceneObjectInstanceFactory::UnregisterAll()
+{
+	delete scene_object_instance_registry;
+}
+
+ISceneObjectInstance* SceneObjectInstanceFactory::Create(const char* name, WorldDef::ISceneObject* param, IScene* scene)
+{
+	for (int i = 0; i < scene_object_instance_registry->size(); i++)
+		if (strcmp((*scene_object_instance_registry)[i].first, name) == 0)
+			return (*scene_object_instance_registry)[i].second(param, scene);
+	throw std::invalid_argument("Тип не зарегистрирован");
+}
+
+class TScene::TPrivate
+{
+public:
+	TResources * resources;
+
+	std::unique_ptr<b2World> phys_world;
+
+	DebugDraw phys_debug;
+
+	WorldDef::IScene* source;
+	std::vector<std::unique_ptr<ISceneObjectInstance>> instances;
+
+	std::map<std::string, std::unique_ptr<WorldDef::IViewport>> viewports;
+
+	//struct TCollisionInfo
+	//{
+	//	TBaluPhysShapeInstance *A, *B;
+	//	TCollisionInfo(){}
+	//	TCollisionInfo(TBaluPhysShapeInstance* A, TBaluPhysShapeInstance* B)
+	//	{
+	//		this->A = A;
+	//		this->B = B;
+	//	}
+	//};
+	//std::vector<TCollisionInfo> begin_contact, end_contact;
+
+	IWorld* world;
+
+	//TContactsHolder contact_listener;
+};
+
+IScene* TSceneObjectInstance::GetScene()
+{
+	return scene;
+}
+TSceneObjectInstance::TSceneObjectInstance(IScene* scene)
+{
+	this->scene = scene;
+	(dynamic_cast<TScene*>(scene))->AddInstance(this);
+}
+
+bool TScene::PointCollide(TVec2 scene_space_point, ISceneObjectInstance* &result)
+{
+	//for (int i = 0; i < instances.size(); i++)
+	//{
+	//	bool collide = instances[i]->PointCollide(scene_space_point);
+	//	if (collide)
+	//	{
+	//		result = instances[i].get();
+	//		return true;
+	//	}
+	//}
 	return false;
 }
 
-TScene* TSceneInstance::GetSource()
+WorldDef::IScene* TScene::GetSource()
 {
-	return source;
+	return p->source;
 }
 
-EngineInterface::IBaluWorldInstance* TSceneInstance::GetWorld()
+IWorld* TScene::GetWorld()
 {
-	return dynamic_cast<EngineInterface::IBaluWorldInstance*>(world);
+	return p->world;
+}
+//
+//void TContactsHolder::BeginContact(b2Contact* contact)
+//{ 
+//	TCollisionInfo collision(contact->GetFixtureA(), contact->GetFixtureB());
+//
+//	RemoveInStepContact(collision);
+//	AddContact(collision);
+//}
+//void TContactsHolder::EndContact(b2Contact* contact)
+//{
+//	TCollisionInfo collision(contact->GetFixtureA(), contact->GetFixtureB());
+//
+//	AddInStepContact(collision);
+//	RemoveContact(collision);
+//}
+//
+//void TContactsHolder::OnProcessCollisions()
+//{
+//	for (auto& v : contacts)
+//	{
+//		auto user_data_a = (TPhysShapeUserData*)v.A->GetUserData();
+//		auto user_data_b = (TPhysShapeUserData*)v.B->GetUserData();
+//
+//		auto sprite_a = user_data_a->GetSprite();
+//		auto sprite_b = user_data_b->GetSprite();
+//
+//		auto instance_a = dynamic_cast<TBaluTransformedClassInstance*>(user_data_a->GetSceneObject());
+//		auto instance_b = dynamic_cast<TBaluTransformedClassInstance*>(user_data_b->GetSceneObject());
+//
+//		//auto class_a = instance_a!=nullptr?dynamic_cast<TClassCompiledScripts*>(instance_a->GetClass()->GetScripts()):nullptr;
+//		//auto class_b = instance_b!=nullptr?dynamic_cast<TClassCompiledScripts*>(instance_b->GetClass()->GetScripts()):nullptr;
+//
+//		//if (class_a != nullptr && class_b != nullptr)
+//		//{
+//		//	//TODO взаимодействие не только с TBaluTransformedClassInstance
+//		//	class_a->DoCollide(instance_a, sprite_a, dynamic_cast<TBaluTransformedClassInstance*>(instance_b));
+//		//	class_b->DoCollide(instance_b, sprite_b, dynamic_cast<TBaluTransformedClassInstance*>(instance_a));
+//		//}
+//	}
+//}
+//
+//void TContactsHolder::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
+//{
+//	B2_NOT_USED(contact);
+//	B2_NOT_USED(oldManifold);
+//}
+//void TContactsHolder::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
+//{
+//	B2_NOT_USED(contact);
+//	B2_NOT_USED(impulse);
+//}
+//
+WorldDef::IViewport* TScene::GetViewport(std::string name)
+{
+	return p->viewports[name].get();
 }
 
-void TContactsHolder::BeginContact(b2Contact* contact)
-{ 
-	TCollisionInfo collision(contact->GetFixtureA(), contact->GetFixtureB());
-
-	RemoveInStepContact(collision);
-	AddContact(collision);
-}
-void TContactsHolder::EndContact(b2Contact* contact)
+TScene::TScene(IWorld* world, WorldDef::IScene* source/*, TResources* resources*/)
 {
-	TCollisionInfo collision(contact->GetFixtureA(), contact->GetFixtureB());
+	p->source = source;
+	p->world = world;
+	//this->resources = resources;
+	//phys_world = std::unique_ptr<b2World>(new b2World(b2Vec2(0, -1)));
 
-	AddInStepContact(collision);
-	RemoveContact(collision);
-}
+	//phys_debug.Create();
 
-void TContactsHolder::OnProcessCollisions()
-{
-	for (auto& v : contacts)
-	{
-		auto user_data_a = (TPhysShapeUserData*)v.A->GetUserData();
-		auto user_data_b = (TPhysShapeUserData*)v.B->GetUserData();
+	//phys_world->SetDebugDraw(&phys_debug);
+	//phys_world->SetContactListener(&contact_listener);
 
-		auto sprite_a = user_data_a->GetSprite();
-		auto sprite_b = user_data_b->GetSprite();
+	//for (int i = 0; i < source->GetInstancesCount(); i++)
+	//{
+	//	auto source_instance = source->GetInstance(i);
+	//	auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, this);
+	//}
 
-		auto instance_a = dynamic_cast<TBaluTransformedClassInstance*>(user_data_a->GetSceneObject());
-		auto instance_b = dynamic_cast<TBaluTransformedClassInstance*>(user_data_b->GetSceneObject());
-
-		//auto class_a = instance_a!=nullptr?dynamic_cast<TClassCompiledScripts*>(instance_a->GetClass()->GetScripts()):nullptr;
-		//auto class_b = instance_b!=nullptr?dynamic_cast<TClassCompiledScripts*>(instance_b->GetClass()->GetScripts()):nullptr;
-
-		//if (class_a != nullptr && class_b != nullptr)
-		//{
-		//	//TODO взаимодействие не только с TBaluTransformedClassInstance
-		//	class_a->DoCollide(instance_a, sprite_a, dynamic_cast<TBaluTransformedClassInstance*>(instance_b));
-		//	class_b->DoCollide(instance_b, sprite_b, dynamic_cast<TBaluTransformedClassInstance*>(instance_a));
-		//}
-	}
-}
-
-void TContactsHolder::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
-{
-	B2_NOT_USED(contact);
-	B2_NOT_USED(oldManifold);
-}
-void TContactsHolder::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
-{
-	B2_NOT_USED(contact);
-	B2_NOT_USED(impulse);
-}
-
-TViewport* TSceneInstance::GetViewport(std::string name)
-{
-	return &viewports[name];
-}
-
-TSceneInstance::TSceneInstance(TBaluWorldInstance* world, TScene* source, TResources* resources)
-{
-	this->source = source;
-	this->world = world;
-	this->resources = resources;
-	phys_world = std::unique_ptr<b2World>(new b2World(b2Vec2(0, -1)));
-
-	phys_debug.Create();
-
-	phys_world->SetDebugDraw(&phys_debug);
-	phys_world->SetContactListener(&contact_listener);
-
-	for (int i = 0; i < source->GetInstancesCount(); i++)
-	{
-		auto source_instance = source->GetInstance(i);
-		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, this);
-	}
-
-	source->AddChangesListener(this);
+	//source->AddChangesListener(this);
 }
 
 
-TSceneInstance::TSceneInstance(TBaluWorldInstance* world, TResources* resources, TLayersManager* layers)
+TScene::TScene(IWorld* world/*, TResources* resources, TLayersManager* layers*/)
 {
-	this->source = nullptr;
-	this->world = world;
-	this->resources = resources;
-	phys_world = std::unique_ptr<b2World>(new b2World(b2Vec2(0, -1)));
+	p->source = nullptr;
+	p->world = world;
+	//this->resources = resources;
+	//phys_world = std::unique_ptr<b2World>(new b2World(b2Vec2(0, -1)));
 
-	phys_debug.Create();
+	//phys_debug.Create();
 
-	phys_world->SetDebugDraw(&phys_debug);
-	phys_world->SetContactListener(&contact_listener);
+	//phys_world->SetDebugDraw(&phys_debug);
+	//phys_world->SetContactListener(&contact_listener);
 }
 
-TSceneInstance::~TSceneInstance()
+TScene::~TScene()
 {
-	phys_debug.Destroy();
-	if (source != nullptr)
-		source->RemoveChangesListener(this);
+	//phys_debug.Destroy();
+	//if (source != nullptr)
+	//	source->RemoveChangesListener(this);
 }
 
-void TSceneInstance::AddInstance(EngineInterface::TSceneObjectInstance* instance)
+void TScene::AddInstance(ISceneObjectInstance* instance)
 {
-	for (auto& v : instances)
+	for (auto& v : p->instances)
 		if (v.get() == instance)
 			assert(false);
-	instances.push_back(std::unique_ptr<TSceneObjectInstance>(instance));
+	p->instances.push_back(std::unique_ptr<ISceneObjectInstance>(instance));
 }
 
-void TSceneInstance::DestroyInstance(EngineInterface::TSceneObjectInstance* instance)
+void TScene::DestroyInstance(ISceneObjectInstance* instance)
 {
-	for (int i = 0; i < instances.size(); i++)
+	for (int i = 0; i < p->instances.size(); i++)
 	{
-		if (dynamic_cast<TSceneObjectInstance*>(instances[i].get()) == instance)
+		if (p->instances[i].get() == instance)
 		{
-			instances[i].reset();
+			p->instances[i].reset();
 		}
 	}
 }
 
-void TSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TSpritePolygonInstance*>& results)
+void TScene::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results)
 {
-	for (int i = 0; i < instances.size(); i++)
-	{
-		instances[i]->QueryAABB(frustum, results);
-	}
+	//for (int i = 0; i < instances.size(); i++)
+	//{
+	//	instances[i]->QueryAABB(frustum, results);
+	//}
 }
 
-void TSceneInstance::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui)
+void TScene::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui)
 {
-	std::vector<TSpritePolygonInstance*> polygons;
-	QueryAABB(frustum, polygons);
+	//std::vector<TSpritePolygonInstance*> polygons;
+	//QueryAABB(frustum, polygons);
 
-	
-	if (this->source != nullptr)
-	{
-		TLayersManager* layers = this->source->GetLayers();
-		{
-			for (int i = 0; i < polygons.size(); i++)
-			{
-				polygons[i]->Render(results, *layers);
-			}
-		}
-	}
-	else
-	{
-		TLayersManager without_layers(nullptr);	
-		without_layers.AddLayer(TLayer(), -1);
-		for (int i = 0; i < polygons.size(); i++)
-		{
-			polygons[i]->Render(results, without_layers);
-		}
-	}
+	//
+	//if (this->source != nullptr)
+	//{
+	//	TLayersManager* layers = this->source->GetLayers();
+	//	{
+	//		for (int i = 0; i < polygons.size(); i++)
+	//		{
+	//			polygons[i]->Render(results, *layers);
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	TLayersManager without_layers(nullptr);	
+	//	without_layers.AddLayer(TLayer(), -1);
+	//	for (int i = 0; i < polygons.size(); i++)
+	//	{
+	//		polygons[i]->Render(results, without_layers);
+	//	}
+	//}
 
-	for (auto& v : instances)
-	{
-		auto visual = dynamic_cast<IGUIVisual*>(v.get());
-		if (visual != nullptr)
-			gui.push_back(visual);
-	}
-}
-
-
-void TSceneInstance::PhysStep(float step)
-{
-	contact_listener.BeforePhysStep();
-	phys_world->Step(step*10, 3, 5);
-}
-
-void TSceneInstance::OnProcessCollisions()
-{
-	contact_listener.OnProcessCollisions();
-}
-
-void TSceneInstance::OnStep(float step)
-{
-	for (int i = 0; i < instances.size(); i++)
-	{
-		auto class_instance = dynamic_cast<TBaluTransformedClassInstance*>(instances[i].get());
-		if (class_instance != nullptr)
-			class_instance->GetSkeletonAnimation()->Update(step);
-	}
+	//for (auto& v : instances)
+	//{
+	//	auto visual = dynamic_cast<IGUIVisual*>(v.get());
+	//	if (visual != nullptr)
+	//		gui.push_back(visual);
+	//}
 }
 
 
-void TSceneInstance::UpdateTransform()
+void TScene::PhysStep(float step)
 {
-	for (int i = 0; i < instances.size(); i++)
-	{
-		instances[i]->UpdateTransform();
-	}
+	//contact_listener.BeforePhysStep();
+	//phys_world->Step(step*10, 3, 5);
 }
 
-void TSceneInstance::DoDebugDraw(TDrawingHelperContext drawing_context)
+void TScene::OnProcessCollisions()
+{
+	//contact_listener.OnProcessCollisions();
+}
+
+void TScene::OnStep(float step)
+{
+	//for (int i = 0; i < instances.size(); i++)
+	//{
+	//	auto class_instance = dynamic_cast<ITransformedClassInstance*>(instances[i].get());
+	//	if (class_instance != nullptr)
+	//		class_instance->GetSkeletonAnimation()->Update(step);
+	//}
+}
+
+
+void TScene::UpdateTransform()
+{
+	//for (int i = 0; i < instances.size(); i++)
+	//{
+	//	instances[i]->UpdateTransform();
+	//}
+}
+
+void TScene::DoDebugDraw(TDrawingHelperContext drawing_context)
 {
 	uint32 flags = 0;
 	flags |= b2Draw::e_shapeBit;
 	flags |= b2Draw::e_jointBit;
 	//flags |= b2Draw::e_aabbBit;
 	flags |= b2Draw::e_centerOfMassBit;
-	phys_debug.SetFlags(flags);
+	p->phys_debug.SetFlags(flags);
 	g_camera.drawing_context = drawing_context;
-	phys_world->DrawDebugData();
-	phys_debug.Flush();
+	p->phys_world->DrawDebugData();
+	p->phys_debug.Flush();
+}
+
+TResources * TScene::GetResources()
+{
+	return p->resources;
+}
+b2World* TScene::GetPhysWorld()
+{
+	return p->phys_world.get();
 }

@@ -19,12 +19,12 @@ TLayer::TLayer(std::string name, bool visible)
 void TLayer::Save(pugi::xml_node & parent_node, const int version) const
 {
 	xml_node new_node = parent_node.append_child("Layer");
-	TProperties::Save(new_node, version);
+	SaveProperties(new_node, version);
 }
 
 void TLayer::Load(const pugi::xml_node & instance_node, const int version, IWorld * world)
 {
-	TProperties::Load(instance_node, version, world);
+	LoadProperties(instance_node, version);
 }
 
 TLayersManager::TLayersManager(IScene* scene)

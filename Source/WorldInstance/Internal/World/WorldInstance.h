@@ -2,7 +2,6 @@
 
 #include "../../Interface.h"
 
-#include "../Composer/Composer.h"
 
 namespace BaluEngine
 {
@@ -15,15 +14,8 @@ namespace BaluEngine
 			class TWorld : public IWorld
 			{
 			private:
-				WorldDef::IWorld* source;
-				std::vector<std::unique_ptr<IScene>> scene_instances;
-
-				//TResources* resources;
-
-				TComposer composer;
-
-				//std::unique_ptr<TEventsEditorInstance> events_editor;
-
+				class TPrivate;
+				std::unique_ptr<TPrivate> p;
 			public:
 				~TWorld();
 				//IEventsEditorInstance* GetEventsEditor();
@@ -35,22 +27,18 @@ namespace BaluEngine
 
 				WorldDef::IWorld* GetSource();
 
-				TWorld(WorldDef::IWorld* source, /*TResources* resources,*/ std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message);
+				TWorld(WorldDef::IWorld* source, TResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message);
 
 				IScene* RunScene(WorldDef::IScene* scene_source);
 				void StopScene(IScene*);
 
 				IScene* RunScene();
-				IScene* RunScene(WorldDef::ILayersManager* scene_layers);
+				//IScene* RunScene(WorldDef::ILayersManager* scene_layers);
 
-				int GetSceneInstancesCount()
-				{
-					return scene_instances.size();
-				}
-				IScene* GetSceneInstance(int index)
-				{
-					return scene_instances[index].get();
-				}
+				int GetSceneInstancesCount();
+				IScene* GetSceneInstance(int index);
+
+				IComposer* GetComposer();
 
 				void PhysStep(float step);
 
@@ -62,10 +50,7 @@ namespace BaluEngine
 				void UpdateTransform();
 
 
-				TComposer* GetComposer()
-				{
-					return &composer;
-				}
+				
 			};
 		}
 	}

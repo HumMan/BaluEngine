@@ -1,9 +1,12 @@
 #pragma once
 
-#include "../Sprite/ISpriteInstance.h"
-
-namespace EngineInterface
+namespace BaluEngine
 {
-
-
+	namespace WorldInstance
+	{
+		class ISkeletonInstance
+		{
+		public:
+		};
+	}
 }

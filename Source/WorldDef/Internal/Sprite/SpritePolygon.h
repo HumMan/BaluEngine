@@ -12,7 +12,7 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			class TSpritePolygon : public ISpritePolygon, public TChangeListenerArray
+			class TSpritePolygon : public TProperties, public ISpritePolygon, public TChangeListenerArray
 			{
 			private:
 				TMaterial* material;
@@ -31,22 +31,25 @@ namespace BaluEngine
 
 				std::map<std::string, std::unique_ptr<TAnimLine>> animation_lines;
 
-				bool enable;
-				bool draw_triangles_grid;
-
 				void UpdateTexCoords();
 				void UpdatePolyVertices();
 				void TriangulateGeometry();
 
-				int layer;
-
 				BaluLib::TAABB2 GetVerticesBox(); //AABB контура(polygon_vertices) без применения трансформации local
+
+			protected:
+				void InitAllProperties()
+				{
+					InitProperty_DrawTrianglesGrid();
+					InitProperty_Enabled();
+					InitProperty_Layer();
+				}
 			public:
 
-				void SetDrawTrianglesGrid(bool draw)
-				{
-					draw_triangles_grid = draw;
-				}
+				BALU_ENGINE_REGISTER_PROPERTY(Enabled, PropertyType::Bool, true)
+				BALU_ENGINE_REGISTER_PROPERTY(DrawTrianglesGrid, PropertyType::Bool, true)
+				BALU_ENGINE_REGISTER_PROPERTY(Layer, PropertyType::Int, 0)
+
 
 				int GetAnimDescIndex(IAnimDesc* desc)const;
 				IAnimDesc* GetAnimDesc(int index)const;
@@ -55,16 +58,6 @@ namespace BaluEngine
 				BaluLib::TOBB2 GetBoundingBox();
 
 				bool PointCollide(BaluLib::TVec2 sprite_space_point);
-
-				bool IsEnable()
-				{
-					return enable;
-				}
-
-				void SetEnable(bool enable)
-				{
-					this->enable = enable;
-				}
 
 				TSpritePolygon();
 
@@ -98,6 +91,8 @@ namespace BaluEngine
 				void AddAnimDesc(IAnimDesc* desc);
 				//void CreateAnimationLine(std::string line_name, std::vector<std::unique_ptr<IAnimationFrames>> frames);
 				void CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames);
+				IAnimationLine* GetAnimationLine(const std::string& name);
+				std::vector<std::string> GetAnimationLineNames();
 
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);

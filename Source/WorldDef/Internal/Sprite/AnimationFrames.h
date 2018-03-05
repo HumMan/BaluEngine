@@ -22,6 +22,7 @@ namespace BaluEngine
 
 			class TSpecificFrame : public IAnimDesc
 			{
+			private:
 				BaluLib::TVec2 left_bottom;
 				BaluLib::TVec2 right_top;
 			public:
@@ -42,6 +43,7 @@ namespace BaluEngine
 
 			class TGridFrames : public IAnimDesc
 			{
+			private:
 				BaluLib::TVec2 left_bottom;
 				BaluLib::TVec2 width_height;
 				int cell_count_x;
@@ -64,6 +66,7 @@ namespace BaluEngine
 
 			class TFramesRange
 			{
+			private:
 				int start;
 				int end;
 			public:
@@ -73,26 +76,49 @@ namespace BaluEngine
 
 			class TAnimationFrames: public IAnimationFrames
 			{
+			private:
+				IAnimDesc* desc;
+				std::vector<int> frames;
 			public:
 				TAnimationFrames()
 				{
-				}
-				IAnimDesc* desc;
-				std::vector<int> frames;
+				}				
 				TAnimationFrames(IAnimDesc* desc, std::vector<int> frames);
 				TAnimationFrames(IAnimDesc* desc, int frame);
+
+				std::vector<int> GetFrames()const
+				{
+					return frames;
+				}
+
+				IAnimDesc* GetDesc()const
+				{
+					return desc;
+				}
 
 				void Save(pugi::xml_node& parent_node, const int version, const ISpritePolygon* sprite_polygon)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, ISpritePolygon* sprite_polygon);
 			};
 
-			class TAnimLine
+			class TAnimLine: public IAnimationLine
 			{
-			public:
-				std::string line_name;
+				friend class TSpritePolygon;
+			private:
 				std::vector<std::unique_ptr<IAnimationFrames>> frames;
-
+				//std::string line_name;
+			public:
+				
 				//TAnimLine(const TAnimLine&) = delete;
+
+				int GetFramesCount()const
+				{
+					return frames.size();
+				}
+
+				IAnimationFrames* GetFrames(int index)const
+				{
+					return frames[index].get();
+				}
 
 				void Save(pugi::xml_node& parent_node, const int version, const TSpritePolygon* sprite_polygon)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, TSpritePolygon* sprite_polygon);

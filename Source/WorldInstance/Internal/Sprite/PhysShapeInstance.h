@@ -1,60 +1,34 @@
 #pragma once
 
-#include <WorldDef/Objects/Sprite/IPhysShape.h>
+#include "../../Interface.h"
 
-namespace EngineInterface
-{
-	class TBaluTransformedSpriteInstance;
-	class TSceneObjectInstance;
-	class IBaluTransformedClassInstance;
-}
+#include "PhysShapeInstance.h"
 
 class b2Body;
+class b2Fixture;
 
-namespace EngineInterface
+namespace BaluEngine
 {
-	class TPhysShapeUserData
+	namespace WorldInstance
 	{
-		TSceneObjectInstance* scene_object;
-		TBaluTransformedSpriteInstance* sprite;
-	public:
-		TSceneObjectInstance* GetSceneObject()
+		namespace Internal
 		{
-			return scene_object;
+			class TPhysShapeInstance : public IPhysShapeInstance//, public IChangeListener
+			{
+			protected:
+				WorldDef::IPhysShape * source;
+				b2Fixture* fixture;
+				b2Body* body;
+				TPhysShapeUserData user_data;
+			public:
+				TPhysShapeInstance(WorldDef::IPhysShape* source, TPhysShapeUserData user_data);
+				~TPhysShapeInstance();
+				void BuildFixture(b2Body* body, WorldDef::TTransformWithScale class_transform);
+				TPhysShapeUserData* GetUserData()
+				{
+					return &user_data;
+				}
+			};
 		}
-		TBaluTransformedSpriteInstance* GetSprite()
-		{
-			return sprite;
-		}
-		TPhysShapeUserData(TSceneObjectInstance* scene_object, TBaluTransformedSpriteInstance* sprite)
-		{
-			this->scene_object = scene_object;
-			this->sprite = sprite;
-		}
-	};
-
-	class IBaluPhysShapeInstance
-	{
-	public:
-		virtual TPhysShapeUserData* GetUserData()=0;
-	};
-
-#ifdef BALUENGINEDLL_EXPORTS
-	class TBaluPhysShapeInstance : public IBaluPhysShapeInstance, public IChangeListener
-	{
-	protected:
-		TBaluPhysShape* source;
-		b2Fixture* fixture;
-		b2Body* body;
-		TPhysShapeUserData user_data;
-	public:
-		TBaluPhysShapeInstance(TBaluPhysShape* source, TPhysShapeUserData user_data);
-		~TBaluPhysShapeInstance();
-		void BuildFixture(b2Body* body, TBaluTransformWithScale class_transform);
-		TPhysShapeUserData* GetUserData()
-		{
-			return &user_data;
-		}
-	};
-#endif
+	}
 }
