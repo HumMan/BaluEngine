@@ -93,7 +93,6 @@ namespace BaluEngine
 				TRuntimeProperties();
 				~TRuntimeProperties();
 				TRuntimeProperties(const TRuntimeProperties& copy_from);
-				void AddProperty(const char* name, TRuntimeProperty* prop);
 				bool HasProperty(const std::string& name, RuntimePropertyType& type);
 
 				void SetBool(const std::string& name, const bool& value);

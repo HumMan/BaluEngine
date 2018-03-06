@@ -7,7 +7,25 @@ using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 using namespace BaluLib;
 
-void SerializeCommon::SaveColor(pugi::xml_node& parent, TVec4 color)
+void SerializeCommon::SaveColor(pugi::xml_node& parent, TVec3 color)
+{
+	xml_node new_node = parent.append_child("Color");
+	new_node.append_attribute("r").set_value(color[0]);
+	new_node.append_attribute("g").set_value(color[1]);
+	new_node.append_attribute("b").set_value(color[2]);
+}
+
+TVec3 SerializeCommon::LoadColor(const pugi::xml_node& node)
+{
+	TVec3 color;
+	color[0] = node.attribute("r").as_float();
+	color[1] = node.attribute("g").as_float();
+	color[2] = node.attribute("b").as_float();
+	return color;
+}
+
+
+void SerializeCommon::SaveColorWithAlpha(pugi::xml_node& parent, TVec4 color)
 {
 	xml_node new_node = parent.append_child("Color");
 	new_node.append_attribute("r").set_value(color[0]);
@@ -16,7 +34,7 @@ void SerializeCommon::SaveColor(pugi::xml_node& parent, TVec4 color)
 	new_node.append_attribute("a").set_value(color[3]);
 }
 
-TVec4 SerializeCommon::LoadColor(const pugi::xml_node& node)
+TVec4 SerializeCommon::LoadColorWithAlpha(const pugi::xml_node& node)
 {
 	TVec4 color;
 	color[0] = node.attribute("r").as_float();

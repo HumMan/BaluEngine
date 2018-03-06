@@ -145,9 +145,7 @@ IClass* TWorld::GetClass(const std::string& name)
 
 IEventsEditor* TWorld::GetEventsEditor()
 {
-	throw std::runtime_error("not realized");
-	//return events_editor.get();
-	return nullptr;
+	return p->events_editor.get();
 }
 
 void TWorld::AddChangesListener(TWorldChangeListener* listener)

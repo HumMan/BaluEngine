@@ -3,6 +3,7 @@
 #include "../../Interface.h"
 
 #include "Properties.h"
+#include "RuntimeProperties.h"
 
 namespace BaluEngine
 {
@@ -80,6 +81,8 @@ namespace BaluEngine
 			protected:
 				IWorld * world;
 
+				std::unique_ptr<TRuntimeProperties> runtime_properties;
+
 				void InitAllProperties()
 				{
 					InitProperty_Name();
@@ -91,9 +94,12 @@ namespace BaluEngine
 
 				TWorldObject(IWorld* world, std::string name);
 				IWorld* GetWorld();
+
+				IRuntimeProperties* GetProperties()const
+				{
+					return runtime_properties.get();
+				}
 			};
-
-
 
 			//template<class T>
 			//class TObjLocator : TWorldChangeListener

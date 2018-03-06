@@ -14,6 +14,8 @@ using namespace BaluEngine::WorldDef::Internal;
 void TSprite::Save(pugi::xml_node& parent_node, const int version)const
 {
 	xml_node new_node = parent_node.append_child("Sprite");
+	GetProperties()->Save(new_node, version);
+
 	new_node.append_attribute("name").set_value(GetName().c_str());
 	sprite_polygon.Save(new_node, version);
 
@@ -22,10 +24,14 @@ void TSprite::Save(pugi::xml_node& parent_node, const int version)const
 		xml_node fixture = new_node.append_child("Fixture");
 		phys_shape->Save(fixture, version);
 	}
+
+	
 }
 
 void TSprite::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
+	GetProperties()->Load(node, version, world);
+
 	this->world = world;
 	xml_node polygon_node = node.child("SpritePolygon");
 	sprite_polygon.Load(polygon_node, version, world);

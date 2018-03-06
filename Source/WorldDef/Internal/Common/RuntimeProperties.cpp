@@ -29,13 +29,6 @@ TRuntimeProperties::TRuntimeProperties(const TRuntimeProperties& copy_from)
 
 }
 
-void TRuntimeProperties::AddProperty(const char* name, TRuntimeProperty* prop)
-{
-	RuntimePropertyType type;
-	assert(!HasProperty(std::string(name), type));
-	properties[name].reset(prop);
-}
-
 bool TRuntimeProperties::HasProperty(const std::string& name, RuntimePropertyType& type)
 {
 	auto it = properties.find(name);
@@ -183,19 +176,19 @@ RUNTIME_PROPERTY_SETGET(Rotation, TRotationProperty, TRot)
 
 void TRuntimeProperties::Save(pugi::xml_node& parent_node, const int version)const
 {
-	xml_node props_node = parent_node.append_child("Properties");
+	xml_node props_node = parent_node.append_child("RuntimeProperties");
 	for (auto& v : properties)
 	{
 		auto prop_node = props_node.append_child("Property");
-		v.second->Save(props_node, version);
 		prop_node.append_attribute("name").set_value(v.first.c_str());
 		prop_node.append_attribute("type").set_value(v.second->GetTypeString());
+		v.second->Save(prop_node, version);		
 	}
 }
 
 void TRuntimeProperties::Load(const pugi::xml_node& instance_node, const int version, IWorld* world)
 {
-	xml_node props_node = instance_node.child("Properties");
+	xml_node props_node = instance_node.child("RuntimeProperties");
 	for (pugi::xml_node prop_node = props_node.first_child(); prop_node; prop_node = prop_node.next_sibling())
 	{
 		auto new_prop = RuntimePropertiesFactory::Create(prop_node.attribute("type").as_string());

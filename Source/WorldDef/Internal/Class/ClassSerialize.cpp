@@ -167,7 +167,9 @@ void TSkin::Load(const pugi::xml_node& skin_node, const int version, IWorld* wor
 		for (pugi::xml_node sprite_node = sprites_node.first_child(); sprite_node; sprite_node = sprite_node.next_sibling())
 		{
 			sprites_of_bones.back().emplace_back();
-			sprites_of_bones.back().back()->Load(sprite_node, version, world);
+			auto new_sprite = new TTransformedSprite();
+			new_sprite->Load(sprite_node, version, world);
+			sprites_of_bones.back().back().reset(new_sprite);				
 		}
 	}
 }
@@ -224,7 +226,8 @@ void TTransformedSprite::Save(pugi::xml_node& parent_node, const int version)con
 
 void TTransformedSprite::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
-	sprite = dynamic_cast<TSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, node.attribute("name").as_string()));
+	auto obj = world->GetObjectByName(TWorldObjectType::Sprite, node.attribute("name").as_string());
+	sprite = dynamic_cast<TSprite*>(obj);
 	local = SerializeCommon::LoadTransformWithScale(node.child("Transform"));
 }
 
@@ -247,49 +250,14 @@ void TClass::Save(pugi::xml_node& parent_node, const int version)const
 
 	SaveProperties(new_node, version);
 
-	{
-		//xml_node callbacks_node = new_node.append_child("KeyDownScripts");
-		//for (auto i = on_key_down_callbacks.begin(); i != on_key_down_callbacks.end(); i++)
-		//{
-		//	xml_node key_callbacks = callbacks_node.append_child("Key");
-		//	key_callbacks.append_attribute("key").set_value(i->first);
-		//	for (auto& v : i->second)
-		//	{
-		//		v.SaveToXML(key_callbacks, version);
-		//	}
-		//}
-
-		//callbacks_node = new_node.append_child("KeyUpScripts");
-		//for (auto i = on_key_up_callbacks.begin(); i != on_key_up_callbacks.end(); i++)
-		//{
-		//	xml_node key_callbacks = callbacks_node.append_child("Key");
-		//	key_callbacks.append_attribute("key").set_value(i->first);
-		//	for (auto& v : i->second)
-		//	{
-		//		v.SaveToXML(key_callbacks, version);
-		//	}
-		//}
-
-		//callbacks_node = new_node.append_child("BeforePhysicsScripts");
-		//for (auto i = before_physics_callbacks.begin(); i != before_physics_callbacks.end(); i++)
-		//{
-		//	i->SaveToXML(callbacks_node, version);
-		//}
-
-		//callbacks_node = new_node.append_child("CollideScripts");
-		//for (auto& v : on_collide_callbacks)
-		//{
-		//	xml_node collide_with = callbacks_node.append_child("CollideWith");
-		//	collide_with.append_attribute("class").set_value(v.with_class->GetName().c_str());
-		//	collide_with.append_attribute("sprite").set_value(v.sprite->GetName().c_str());
-		//	v.script.SaveToXML(collide_with, version);
-		//}
-	}
+	GetProperties()->Save(new_node, version);
 }
 
 void TClass::Load(const pugi::xml_node& node, const int version, IWorld* world)
 {
 	LoadProperties(node, version);
+
+	GetProperties()->Load(node, version, world);
 
 	{
 		xml_node sprites_node = node.child("sprites");
@@ -308,57 +276,6 @@ void TClass::Load(const pugi::xml_node& node, const int version, IWorld* world)
 
 	xml_node skeleton_animation_node = node.child("SkeletonAnimation");
 	skeleton_animation->Load(skeleton_animation_node, version, world);
-
-	{
-		/*xml_node child_node = node.child("KeyDownScripts");
-		for (pugi::xml_node instance_node = child_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
-		{
-			auto key = (TKey)(instance_node.attribute("key").as_int());
-			for (pugi::xml_node callback = instance_node.first_child(); callback; callback = callback.next_sibling())
-			{
-				TScript t;
-				t.LoadFromXML(callback, version);
-				on_key_down_callbacks[key].push_back(t);
-			}
-		}
-		child_node = node.child("KeyUpScripts");
-		for (pugi::xml_node instance_node = child_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
-		{
-			auto key = (TKey)(instance_node.attribute("key").as_int());
-			for (pugi::xml_node callback = instance_node.first_child(); callback; callback = callback.next_sibling())
-			{
-				TScript t;
-				t.LoadFromXML(callback, version);
-				on_key_up_callbacks[key].push_back(t);
-			}
-		}
-		child_node = node.child("BeforePhysicsScripts");
-		for (pugi::xml_node instance_node = child_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
-		{
-			TScript t;
-			t.LoadFromXML(instance_node, version);
-			before_physics_callbacks.push_back(t);
-		}
-
-		{
-			xml_node collide_collbacks_node = node.child("CollideScripts");
-			for (pugi::xml_node collide_collback_node = collide_collbacks_node.first_child(); collide_collback_node; collide_collback_node = collide_collback_node.next_sibling())
-			{
-				xml_node collide_with_node = collide_collback_node.child("Script");
-
-				TScript new_callback;
-				new_callback.LoadFromXML(collide_with_node, version);
-
-				auto class_name = collide_collback_node.attribute("class").as_string();
-				auto sprite_name = collide_collback_node.attribute("sprite").as_string();
-
-				auto collide_with_class = dynamic_cast<TClass*>(world->GetObjectByName(TWorldObjectType::Class, class_name));
-				auto collide_sprite = dynamic_cast<TSprite*>(world->GetObjectByName(TWorldObjectType::Sprite, sprite_name));
-
-				on_collide_callbacks.push_back(TSpriteWithClassCollide(collide_sprite, collide_with_class, new_callback));
-			}
-		}*/
-	}
 }
 
 void TTransformedClass::Save(pugi::xml_node& parent_node, const int version)const

@@ -250,6 +250,9 @@
     <ClInclude Include="Source\WorldDef\Internal\Common\RuntimeProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\WorldDef\IRuntimeProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />

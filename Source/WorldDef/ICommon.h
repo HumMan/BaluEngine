@@ -277,7 +277,9 @@ namespace BaluEngine
 		class IWorldObject:public ISerializable, public virtual IProperties
 		{
 		public:
+			virtual std::string GetName()const = 0;
 			virtual IWorld* GetWorld() = 0;
+			virtual IRuntimeProperties* GetProperties()const = 0;
 			//virtual IAbstractEditor* CreateEditor(TDrawingHelperContext drawing_context, IWorldInstance* world_instance) = 0;
 			virtual ~IWorldObject() {}
 			//virtual TWorldObjectType GetWorldObjectType() = 0;

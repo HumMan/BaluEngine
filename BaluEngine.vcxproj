@@ -140,6 +140,7 @@
     <ClInclude Include="Source\WorldDef\Internal\World\World.h" />
     <ClInclude Include="Source\WorldDef\Internal\World\WorldPrivate.h" />
     <ClInclude Include="Source\WorldDef\IProperties.h" />
+    <ClInclude Include="Source\WorldDef\IRuntimeProperties.h" />
     <ClInclude Include="Source\WorldDef\IWorld.h" />
     <ClInclude Include="Source\WorldDef\ISpritePolygon.h" />
     <ClInclude Include="Source\WorldDef\Interface.h" />

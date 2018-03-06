@@ -1,5 +1,7 @@
 #include "Common.h"
 
+#include "RuntimeProperties.h"
+
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 
@@ -20,6 +22,7 @@ scene_object_registry_type *scene_object_registry = nullptr;
 
 TWorldObject::TWorldObject(IWorld* world, std::string name)
 {
+	runtime_properties.reset(new TRuntimeProperties());
 	InitAllProperties();
 	this->world = world;
 	this->NameValue = name;

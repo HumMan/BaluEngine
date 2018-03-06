@@ -27,8 +27,6 @@ namespace BaluEngine
 
 				TSprite(const char* name, IWorld* world);
 
-				IProperties* GetProperties();
-
 				void SetPhysShape(IPhysShape* shape);
 
 				TPhysShape* GetPhysShape();

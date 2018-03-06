@@ -85,8 +85,8 @@ WorldDef::IWorld* CreateDemoWorld(std::string assets_dir)
 
 	auto world = CreateWorld();
 
-	//world->GetEventsEditor()->AddOnWorldStart(TScript(WorldStart_source));
-	//world->GetEventsEditor()->AddOnViewportResize(TScript(ViewportResize_source));
+	world->GetEventsEditor()->GlobalInsert(GlobalCallbackType::WorldStart, -1, TScript(WorldStart_source));
+	world->GetEventsEditor()->GlobalInsert(GlobalCallbackType::ViewportResize, -1, TScript(ViewportResize_source));
 
 	auto brick_mat = dynamic_cast<IMaterial*>(world->CreateObject(TWorldObjectType::Material, "brick"));
 
@@ -147,16 +147,18 @@ WorldDef::IWorld* CreateDemoWorld(std::string assets_dir)
 	player_phys_sprite->SetPhysShape(GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -3.5))->GetPhysShape());
 	player_phys_sprite->GetPhysShape()->SetIsSensor(true);
 
-	//world->GetEventsEditor()->OnKeyDown(TKey::Up, TScript(PlayerJump_source), player_class);
-	//world->GetEventsEditor()->OnKeyDown(TKey::Left, TScript(PlayerLeft_source), player_class);
-	//world->GetEventsEditor()->OnKeyDown(TKey::Right, TScript(PlayerRight_source), player_class);
+	world->GetEventsEditor()->ClassKeyInsert(ClassKeyCallbackType::KeyDown, TKey::Up, player_class->GetName(), -1, TScript(PlayerJump_source));
+	world->GetEventsEditor()->ClassKeyInsert(ClassKeyCallbackType::KeyDown, TKey::Left, player_class->GetName(), -1, TScript(PlayerLeft_source));
+	world->GetEventsEditor()->ClassKeyInsert(ClassKeyCallbackType::KeyDown, TKey::Right, player_class->GetName(), -1, TScript(PlayerRight_source));
 
-	//world->GetEventsEditor()->OnBeforePhysicsStep(TScript(PlayerPrePhysStep_source), player_class);
-	//world->GetEventsEditor()->AddOnCollide(player_phys_sprite_instance, box_class, TScript(PlayerJumpSensorCollide_source));
+	player_class->GetProperties()->SetBool("can_jump", false);
+
+	world->GetEventsEditor()->ClassInsert(ClassCallbackType::BeforePhysics, player_class->GetName(), -1, TScript(PlayerPrePhysStep_source));
+	world->GetEventsEditor()->OnCollideInsert(-1, player_class->GetName(), 0, box_class->GetName(), TScript(PlayerJumpSensorCollide_source));
 
 	auto bones_player = world->CreateClass("bones");
 
-	//world->GetEventsEditor()->OnBeforePhysicsStep(TScript(BonesPlayerPrePhysStep_source), bones_player);
+	world->GetEventsEditor()->ClassInsert(ClassCallbackType::BeforePhysics, bones_player->GetName(), -1, TScript(BonesPlayerPrePhysStep_source));
 
 	{
 		auto bones_mat = world->CreateMaterial("zombie");

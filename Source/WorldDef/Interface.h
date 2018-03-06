@@ -43,12 +43,13 @@ namespace BaluEngine
 
 		class ISkeleton;
 		class IAnimationLine;
-
+		class IRuntimeProperties;
 	}
 }
 
 #include "IProperties.h"
 #include "ICommon.h"
+#include "IRuntimeProperties.h"
 #include "ICallbacks.h"
 #include "IWorld.h"
 #include "ISprite.h"

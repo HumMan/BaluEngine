@@ -10,8 +10,11 @@ namespace BaluEngine
 		{
 			namespace SerializeCommon
 			{
-				void SaveColor(pugi::xml_node& parent, BaluLib::TVec4 color);
-				BaluLib::TVec4 LoadColor(const pugi::xml_node& node);
+				void SaveColor(pugi::xml_node& parent, BaluLib::TVec3 color);
+				BaluLib::TVec3 LoadColor(const pugi::xml_node& node);
+
+				void SaveColorWithAlpha(pugi::xml_node& parent, BaluLib::TVec4 color);
+				BaluLib::TVec4 LoadColorWithAlpha(const pugi::xml_node& node);
 
 				void SaveCoord(pugi::xml_node& parent_node, std::string name, BaluLib::TVec2 coord);
 				BaluLib::TVec2 LoadCoord(const pugi::xml_node& node);

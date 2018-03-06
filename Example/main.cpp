@@ -50,6 +50,10 @@ void Run(std::string assets_dir)
 	auto demo_world = CreateDemoWorld(director->GetAssetsDir());
 	demo_world->SaveToXML("demo_test.xml");
 
+	auto temp = WorldDef::CreateWorld();
+	temp->LoadFromXML("demo_test.xml");
+	temp->SaveToXML("demo_test_2.xml");
+
 	screen = new WorldInstance::TScreen(director->GetScreenSize());
 
 	main_viewport_view = WorldInstance::TView(BaluLib::TVec2(0.5, 0.5), BaluLib::TVec2(1, 1));

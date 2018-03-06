@@ -82,10 +82,10 @@ void TProperty::Save(pugi::xml_node& parent_node, const int version)const
 		val.set_value(((std::string*)value)->c_str());
 		break;
 	case BaluEngine::WorldDef::PropertyType::Color:
-		SerializeCommon::SaveColor(node, *(BaluLib::TVec4*)value);
+		SerializeCommon::SaveColor(node, *(BaluLib::TVec3*)value);
 		break;
 	case BaluEngine::WorldDef::PropertyType::ColorWithAlpha:
-		SerializeCommon::SaveColor(node, *(BaluLib::TVec4*)value);
+		SerializeCommon::SaveColorWithAlpha(node, *(BaluLib::TVec4*)value);
 		break;
 	case BaluEngine::WorldDef::PropertyType::TransparentMode:
 		val.set_value(*(int*)value);
@@ -157,10 +157,10 @@ void TProperty::Load(const pugi::xml_node& prop_node, const int version)
 		*(std::string*)value = val.as_string();
 		break;
 	case BaluEngine::WorldDef::PropertyType::Color:
-		*(BaluLib::TVec4*)value = SerializeCommon::LoadColor(prop_node);
+		*(BaluLib::TVec3*)value = SerializeCommon::LoadColor(prop_node.child("Color"));
 		break;
 	case BaluEngine::WorldDef::PropertyType::ColorWithAlpha:
-		*(BaluLib::TVec4*)value = SerializeCommon::LoadColor(prop_node);
+		*(BaluLib::TVec4*)value = SerializeCommon::LoadColorWithAlpha(prop_node.child("Color"));
 		break;
 	case BaluEngine::WorldDef::PropertyType::TransparentMode:
 		*(int*)value = val.as_int();

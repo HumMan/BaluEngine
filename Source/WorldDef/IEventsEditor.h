@@ -4,50 +4,96 @@ namespace BaluEngine
 {
 	namespace WorldDef
 	{
+		typedef std::string TScript;
 
-		//class IEventsEditor
-		//{
-		//public:
-		//	virtual void AddOnMouseDownGlobal(IScript*) = 0;
-		//	virtual void AddOnMouseUpGlobal(IScript*) = 0;
-		//	virtual void AddOnMouseMoveGlobal(IScript*) = 0;
+		enum class GlobalCallbackType
+		{
+			MouseUp,
+			MouseDown,
+			MouseMove,
+			WorldStart,
+			ViewportResize,
+			BeforePhysics,
+			KeyDown,
+			KeyUp,
 
-		//	virtual void RemoveOnMouseDownGlobal(int index) = 0;
-		//	virtual void RemoveOnMouseUpGlobal(int index) = 0;
-		//	virtual void RemoveOnMouseMoveGlobal(int index) = 0;
+			Count
+		};
 
-		//	virtual std::vector<IScript*> GetOnMouseDownGlobal() = 0;
-		//	virtual std::vector<IScript*> GetOnMouseUpGlobal() = 0;
-		//	virtual std::vector<IScript*> GetOnMouseMoveGlobal() = 0;
+		enum class GlobalKeyCallbackType
+		{
+			KeyDown,
+			KeyUp,
 
-		//	virtual void AddOnWorldStart(IScript* callback) = 0;
-		//	virtual std::vector<IScript*>& GetOnWorldStart() = 0;
-		//	virtual void RemoveOnWorldStart(int index) = 0;
+			Count
+		};
 
-		//	virtual void AddOnViewportResize(IScript* callback) = 0;
-		//	virtual std::vector<IScript*>& GetOnViewportResize() = 0;
-		//	virtual void RemoveOnViewportResize(int index) = 0;
+		enum class ClassCallbackType
+		{
+			BeforePhysics,
 
-		//	//class
-		//	virtual void OnKeyDownGlobal(TKey key, IScript* callback) = 0;
-		//	virtual void OnKeyDown(TKey key, IScript* callback, IClass* use_class) = 0;
-		//	virtual void OnKeyUpGlobal(TKey key, IScript* callback) = 0;
-		//	virtual void OnKeyUp(TKey key, IScript* callback, IClass* use_class) = 0;
-		//	virtual void OnBeforePhysicsStepGlobal(IScript* callback) = 0;
-		//	virtual void OnBeforePhysicsStep(IScript* callback, IClass* use_class) = 0;
+			Count
+		};
 
-		//	virtual std::map<TKey, std::vector<IScript*>>& GetOnKeyDownGlobal() = 0;
-		//	virtual std::map<TKey, std::vector<IScript*>>& GetOnKeyUpGlobal() = 0;
-		//	virtual std::vector<IScript*>& GetOnBeforePhysicsStepGlobal() = 0;
-		//	virtual std::map<TKey, std::vector<std::tuple<IScript*, IClass*>>>& GetOnKeyDown() = 0;
-		//	virtual std::map<TKey, std::vector<std::tuple<IScript*, IClass*>>>& GetOnKeyUp() = 0;
-		//	virtual std::vector<std::tuple<IScript*, IClass*>>& GetOnBeforePhysicsStep() = 0;
+		enum class ClassKeyCallbackType
+		{
+			KeyDown,
+			KeyUp,
 
-		//	virtual void AddOnCollide(ITransformedSprite* sprite, IClass* obstancle_class, IScript* script) = 0;
-		//	//virtual std::vector<TSpriteWithClassCollide>& GetOnCollide() = 0;
-		//	virtual void RemoveOnCollide(int index) = 0;
+			Count
+		};
 
-		//};
+		struct TSpriteWithClassCollide
+		{
+			std::string source_class;
+			size_t source_sprite_id;
+			std::string with_class;
+			TScript script;
+			TSpriteWithClassCollide()
+			{
+				source_sprite_id = -1;
+			}
+			TSpriteWithClassCollide(std::string source_class, size_t source_sprite_id, std::string with_class, TScript script)
+			{
+				this->source_class = source_class;
+				this->source_sprite_id = source_sprite_id;
+				this->with_class = with_class;
+				this->script = script;
+			}
+			void SaveToXML(pugi::xml_node& parent_node, const int version);
+			void LoadFromXML(const pugi::xml_node& instance_node, const int version);
+		};
+
+		class IEventsEditor
+		{
+		public:
+			virtual int GlobalGetCount(GlobalCallbackType type)=0;
+			virtual TScript& GlobalGet(GlobalCallbackType type, int index)=0;
+			virtual void GlobalInsert(GlobalCallbackType type, int after_index, TScript script)=0;
+			virtual void GlobalRemove(GlobalCallbackType type, int index)=0;
+
+			virtual int GlobalKeyGetCount(GlobalKeyCallbackType type)=0;
+			virtual std::tuple<TKey, TScript>& GlobalKeyGet(GlobalKeyCallbackType type, int index)=0;
+			virtual void GlobalKeyInsert(GlobalKeyCallbackType type, TKey key, int after_index, TScript script)=0;
+			virtual void GlobalKeyRemove(GlobalKeyCallbackType type, int index)=0;
+
+			virtual int ClassGetCount(ClassCallbackType type)=0;
+			virtual std::tuple<TScript, std::string>& ClassGet(ClassCallbackType type, int index)=0;
+			virtual void ClassInsert(ClassCallbackType type, std::string class_name, int after_index, TScript script)=0;
+			virtual void ClassRemove(ClassCallbackType type, int index)=0;
+
+			virtual int ClassKeyGetCount(ClassKeyCallbackType type)=0;
+			virtual std::tuple<TKey, TScript, std::string>& ClassKeyGet(ClassKeyCallbackType type, int index)=0;
+			virtual void ClassKeyInsert(ClassKeyCallbackType type, TKey key, std::string class_name, int after_index, TScript script)=0;
+			virtual void ClassKeyRemove(ClassKeyCallbackType type, int index)=0;
+
+			virtual int OnCollideGetCount()=0;
+			virtual TSpriteWithClassCollide& OnCollideGet(int index)=0;
+			virtual void OnCollideInsert(int after_index, std::string source_class, int sprite, std::string  obstancle_class, TScript callback)=0;
+			virtual void OnCollideRemove(int index)=0;
+
+			virtual void SaveToXML(pugi::xml_node& parent_node, const int version)=0;
+			virtual void LoadFromXML(const pugi::xml_node& document_node, const int version)=0;
+		};
 	}
-
 }
