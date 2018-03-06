@@ -81,11 +81,11 @@ public:\
 				{
 					return type;
 				}
-				/*template<int property_type>
-				void Set(void* new_value)
+				template<int property_type, class T>
+				void Set(T new_value)
 				{
-					*(PropertyToTypeMap<property_type>::Result*)value = *(PropertyToTypeMap<property_type>::Result*)new_value;
-				}*/
+					*(PropertyToTypeMap<property_type>::Result*)value = new_value;
+				}
 				//void Set(const void const* new_value)
 				//{
 
@@ -96,12 +96,12 @@ public:\
 
 				}
 
-				//void SetAsBool(bool value)
-				//{
-				//	//TODO - listener update
-				//	//Set<(int)PropertyType::Bool>(&value);
-				//	*(bool*)(this->value) = value;
-				//}
+				void SetAsBool(bool value)
+				{
+					//TODO - listener update
+					Set<(int)PropertyType::Bool>(value);
+					*(bool*)(this->value) = value;
+				}
 				//bool GetAsBool()const
 				//{
 				//	return *(bool*)value;

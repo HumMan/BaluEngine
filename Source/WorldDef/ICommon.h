@@ -11,13 +11,6 @@ namespace BaluEngine
 			Middle
 		};
 
-		class ISerializable
-		{
-		public:
-			virtual void Save(pugi::xml_node& parent_node, const int version)const=0;
-			virtual void Load(const pugi::xml_node& instance_node, const int version, IWorld* world)=0;
-		};
-
 		class TMouseEventArgs
 		{
 		public:

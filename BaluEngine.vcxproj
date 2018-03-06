@@ -115,6 +115,7 @@
     <ClInclude Include="Source\Utils\polygon_decomp.h" />
     <ClInclude Include="Source\Utils\polygon_vertices.h" />
     <ClInclude Include="Source\Utils\texture_polygon.h" />
+    <ClInclude Include="Source\WorldDef\Internal\Common\RuntimeProperties.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\BoxGui.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\OBBGui.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\PolygonGui.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="Source\WorldDef\Internal\Class\SkeletonAnimation.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Common\Common.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Common\Properties.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Common\RuntimeProperties.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Common\SerializeCommon.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\EditorGUI\BoxGui.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\EditorGUI\OBBGui.cpp" />
