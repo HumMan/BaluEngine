@@ -19,6 +19,7 @@ namespace BaluEngine
 		class ITransformedClassInstance;
 		class ISkeletonAnimationInstance;
 		class ISpritePolygonInstance;		
+		class IDirector;
 
 		class TResources;
 	}
@@ -34,5 +35,6 @@ namespace BaluEngine
 #include "ISkeletonAnimationInstance.h"
 #include "ISkeletonInstance.h"
 #include "ISpriteInstance.h"
+#include "IEventsEditorInstance.h"
 
 #include "../Common/IResources.h"

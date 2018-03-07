@@ -8,6 +8,7 @@ namespace BaluEngine
 		{
 		public:
 			virtual ~ISceneObjectInstance() {};
+			virtual WorldDef::IRuntimeProperties* GetProperties() = 0;
 		};
 
 

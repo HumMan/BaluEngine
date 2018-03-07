@@ -17,6 +17,12 @@ using namespace BaluEngine::WorldInstance;
 using namespace BaluEngine::WorldInstance::Internal;
 using namespace BaluLib;
 
+class TSceneObjectInstance::TPrivate
+{
+public:
+	IScene * scene;
+	WorldDef::Internal::TRuntimeProperties properties;
+};
 
 typedef std::vector < std::pair<const char*, SceneObjectInstanceClone>> scene_object_instance_registry_type;
 scene_object_instance_registry_type *scene_object_instance_registry = nullptr;
@@ -139,13 +145,23 @@ public:
 	TContactsHolder contact_listener;
 };
 
+TSceneObjectInstance::~TSceneObjectInstance()
+{
+
+}
+
+WorldDef::IRuntimeProperties* TSceneObjectInstance::GetProperties()
+{
+	return &p->properties;
+}
+
 IScene* TSceneObjectInstance::GetScene()
 {
-	return scene;
+	return p->scene;
 }
 TSceneObjectInstance::TSceneObjectInstance(IScene* scene)
 {
-	this->scene = scene;
+	p->scene = scene;
 	(dynamic_cast<TScene*>(scene))->AddInstance(this);
 }
 

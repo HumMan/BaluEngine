@@ -7,6 +7,8 @@
 
 #include "../Scene/SceneInstance.h"
 
+#include "../../../WorldDef/Internal/Common/RuntimeProperties.h"
+
 class b2Body;
 class b2World;
 
@@ -90,8 +92,6 @@ namespace BaluEngine
 				TClassInstance instance_class;
 				WorldDef::TTransformWithScale instance_transform;
 
-				//TProperties properties;
-
 				WorldDef::ITransformedClass* source;
 			public:
 
@@ -117,7 +117,6 @@ namespace BaluEngine
 				WorldDef::TTransform GetTransform();
 				BaluLib::TVec2 GetScale();
 				void SetScale(BaluLib::TVec2 scale);
-				//TProperties* GetProperties();
 
 				TClassPhysBodyIntance* GetPhysBody();
 

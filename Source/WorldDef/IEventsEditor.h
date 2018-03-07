@@ -43,6 +43,14 @@ namespace BaluEngine
 			Count
 		};
 
+		enum TKey :int
+		{
+			Left,
+			Right,
+			Up,
+			Down
+		};
+
 		struct TSpriteWithClassCollide
 		{
 			std::string source_class;
@@ -94,6 +102,40 @@ namespace BaluEngine
 
 			virtual void SaveToXML(pugi::xml_node& parent_node, const int version)=0;
 			virtual void LoadFromXML(const pugi::xml_node& document_node, const int version)=0;
+		};
+
+		const std::vector<std::string> GlobalCallbackSignature = 
+		{
+			"func static MouseUp_%s(IWorld world, TMouseEventArgs event)",
+			"func static MouseDown_%s(IWorld world, TMouseEventArgs event)",
+			"func static MouseMove_%s(IWorld world, TMouseEventArgs event)",
+			"func static WorldStart_%s(IWorld world, IComposer composer)",
+			"func static ViewportResize_%s(IDirector director, vec2i old_size, vec2i new_size)",
+			"func static BeforePhysics_%s()",
+			"func static KeyDown_%s(TKey key)",
+			"func static KeyUp_%s(TKey key)",
+		};
+
+		const std::vector<std::string> GlobalKeyCallbackSignature =
+		{
+			"func static KeyDown_%s()",
+			"func static KeyUp_%s()",
+		};
+
+		const std::vector<std::string> ClassCallbackSignature =
+		{
+			"func static BeforePhysics_%s(IInstance object)",
+		};
+
+		const std::vector<std::string> ClassKeyCallbackSignature =
+		{
+			"func static KeyDown_%s(TKey key, IInstance object)",
+			"func static KeyUp_%s(TKey key, IInstance object)",
+		};
+
+		const std::vector<std::string> CollideCallbackSignature =
+		{
+			"func static Collide%s(IPhysShape source, IInstance obstancle)"
 		};
 	}
 }

@@ -64,9 +64,6 @@
     <ClInclude Include="Source\WorldDef\IEventsEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\ICallbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldDef\IScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -107,9 +104,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldDef\Internal\Scene\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Scripts\Callbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldDef\Internal\Scripts\EventsEditor.h">
@@ -253,6 +247,15 @@
     <ClInclude Include="Source\WorldDef\IRuntimeProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\WorldInstance\IEventsEditorInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldInstance\Internal\Scripts\ScriptClassesRegistry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldInstance\Internal\Class\Binding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
@@ -277,7 +280,6 @@
     <ClCompile Include="Source\WorldDef\Internal\Material\MaterialSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\World\Serialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\SceneSerialize.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Scripts\Callbacks.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scripts\SerializeEventsEditor.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scripts\EventsEditor.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpritePoly.cpp" />
@@ -308,6 +310,8 @@
     <ClCompile Include="Source\WorldInstance\Internal\Sprite\SpritePolyInstance.cpp" />
     <ClCompile Include="Source\Common\Director.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Common\RuntimeProperties.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptClassesRegistry.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Bindings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

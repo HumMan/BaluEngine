@@ -50,7 +50,6 @@ namespace BaluEngine
 #include "IProperties.h"
 #include "ICommon.h"
 #include "IRuntimeProperties.h"
-#include "ICallbacks.h"
 #include "IWorld.h"
 #include "ISprite.h"
 #include "ISpritePolygon.h"

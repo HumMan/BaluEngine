@@ -30,6 +30,8 @@ namespace BaluEngine
 
 		BALUENGINEDLL_API IWorld* CreateWorld(WorldDef::IWorld* source, TResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message);
 		BALUENGINEDLL_API void DestroyWorld(IWorld* world);
+
+		BALUENGINEDLL_API void GenerateScriptBindings(std::string output_path);
 	}
 }
 

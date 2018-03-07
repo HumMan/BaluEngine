@@ -32,7 +32,7 @@ namespace BaluEngine
 			virtual bool PointCollide(BaluLib::TVec2 class_space_point, ITransformedSpriteInstance* &result) = 0;
 		};
 
-		class ITransformedClassInstance : public ISpritesArray
+		class ITransformedClassInstance : public ISpritesArray, public virtual ISceneObjectInstance
 		{
 		public:
 			virtual void UpdateTransform() = 0;

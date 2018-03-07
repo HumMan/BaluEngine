@@ -15,7 +15,7 @@ std::string WideToMultiByte(std::wstring source)
 	return std::string(buf);
 }
 
-void Run(std::string assets_dir);
+void Run();
 
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
@@ -28,5 +28,12 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
+	Run();
+
 	return 0;
+}
+
+void Run()
+{
+	BaluEngine::WorldInstance::GenerateScriptBindings("external_bindings.h");
 }

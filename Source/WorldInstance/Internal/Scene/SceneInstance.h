@@ -13,10 +13,11 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			class TSceneObjectInstance : public ISceneObjectInstance
+			class TSceneObjectInstance : public virtual ISceneObjectInstance
 			{
 			private:
-				IScene * scene;
+				class TPrivate;
+				std::unique_ptr<TPrivate> p;
 			public:
 				IScene * GetScene();
 				TSceneObjectInstance(IScene* scene);
@@ -32,7 +33,8 @@ namespace BaluEngine
 				//virtual void OnMouseUp(TMouseEventArgs e, TVec2 scene_cursor_location) {};
 				//virtual void OnMouseDown(TMouseEventArgs e, TVec2 scene_cursor_location) {};
 				//virtual void OnMouseMove(TMouseEventArgs e, TVec2 scene_cursor_location) {};
-				virtual ~TSceneObjectInstance() {}
+				virtual ~TSceneObjectInstance();
+				WorldDef::IRuntimeProperties* GetProperties();
 			};
 
 			typedef ISceneObjectInstance*(*SceneObjectInstanceClone)(WorldDef::ISceneObject* source_def, IScene* scene);

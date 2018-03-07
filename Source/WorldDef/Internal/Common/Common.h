@@ -11,9 +11,6 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-
-			
-
 			typedef ISceneObject*(*SceneObjectClone)();
 			class SceneObjectFactory
 			{

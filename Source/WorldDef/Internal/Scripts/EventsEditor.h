@@ -2,16 +2,12 @@
 
 #include "../../Interface.h"
 
-#include "Callbacks.h"
-
 namespace BaluEngine
 {
 	namespace WorldDef
 	{
 		namespace Internal
 		{
-			
-
 			class TEventsEditor : public IEventsEditor
 			{
 			private:
