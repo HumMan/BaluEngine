@@ -34,7 +34,17 @@ void Bootstrap(TMethodRunContext* run_context)
 using namespace BaluEngine;
 using namespace BaluEngine::WorldInstance;
 
-//TODO конвертирование TString string в параметрах и результате по ссылке и значению
+std::string Convert_TString_to_stdstring(const TString& value)
+{
+	return value.AsStdString();
+}
+
+TString Convert_stdstring_to_TString(const std::string& value)
+{
+	TString result;
+	result.Init(value);
+	return result;
+}
 
 #include "../../../BindingGenerator/external_bindings.h"
 
@@ -91,8 +101,18 @@ void BaluEngine::WorldInstance::GenerateScriptBindings(std::string output_path)
 
 		source += "}\n";
 
-		BindingGen::Generate(source.c_str(), StoC_map, interface_classes,
-			result, offset, external_classes, _external_bindings);
+		BindingGen::TBindingGenInfo binding_gen_info;
+
+		binding_gen_info.bindings_offset = offset;
+		binding_gen_info.external_bindings = _external_bindings;
+		binding_gen_info.external_classes = external_classes;
+		binding_gen_info.interface_script_class = interface_classes;
+		binding_gen_info.script_class_to_c_map = StoC_map;
+		binding_gen_info.type_converters["TString"].in_converter = "Convert_TString_to_stdstring";
+		binding_gen_info.type_converters["TString"].out_converter = "Convert_stdstring_to_TString";
+		binding_gen_info.type_converters["TString"].result_type = "std::string";
+
+		BindingGen::Generate(source.c_str(), result, binding_gen_info);
 
 		std::ofstream file(output_path);
 		for (auto v : result)

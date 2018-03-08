@@ -1,7 +1,7 @@
 //auto-generated code
 namespace ns_Script 
 {
-	void callScriptFromC_Print(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, float p0) 
+	void callScriptFromC_Print(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, const float p0) 
 	{
 		std::vector<TStackValue> params;
 		params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("float"))));
@@ -11,7 +11,7 @@ namespace ns_Script
 	}
 	namespace ns_int 
 	{
-		void callScriptFromC_operator_PlusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, int p1) 
+		void callScriptFromC_operator_PlusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, const int p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("int"))));
@@ -21,7 +21,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_MinusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, int p1) 
+		void callScriptFromC_operator_MinusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, const int p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("int"))));
@@ -31,7 +31,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_MulA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, int p1) 
+		void callScriptFromC_operator_MulA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, const int p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("int"))));
@@ -41,7 +41,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_DivA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, int p1) 
+		void callScriptFromC_operator_DivA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, const int p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("int"))));
@@ -51,7 +51,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_PercentA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, int p1) 
+		void callScriptFromC_operator_PercentA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, int& p0, const int p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("int"))));
@@ -80,7 +80,7 @@ namespace ns_Script
 	}
 	namespace ns_float 
 	{
-		void callScriptFromC_operator_PlusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, float& p0, float p1) 
+		void callScriptFromC_operator_PlusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, float& p0, const float p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("float"))));
@@ -90,7 +90,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_MinusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, float& p0, float p1) 
+		void callScriptFromC_operator_MinusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, float& p0, const float p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("float"))));
@@ -100,7 +100,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_MulA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, float& p0, float p1) 
+		void callScriptFromC_operator_MulA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, float& p0, const float p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("float"))));
@@ -110,7 +110,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_DivA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, float& p0, float p1) 
+		void callScriptFromC_operator_DivA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, float& p0, const float p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("float"))));
@@ -126,7 +126,7 @@ namespace ns_Script
 	}
 	namespace ns_vec2 
 	{
-		void callScriptFromC_operator_PlusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2& p0, BaluLib::TVec2 p1) 
+		void callScriptFromC_operator_PlusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2& p0, const BaluLib::TVec2 p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("vec2"))));
@@ -136,7 +136,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_MinusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2& p0, BaluLib::TVec2 p1) 
+		void callScriptFromC_operator_MinusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2& p0, const BaluLib::TVec2 p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("vec2"))));
@@ -146,7 +146,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_MulA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2& p0, BaluLib::TVec2 p1) 
+		void callScriptFromC_operator_MulA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2& p0, const BaluLib::TVec2 p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("vec2"))));
@@ -156,7 +156,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_DivA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2& p0, BaluLib::TVec2 p1) 
+		void callScriptFromC_operator_DivA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2& p0, const BaluLib::TVec2 p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("vec2"))));
@@ -169,7 +169,7 @@ namespace ns_Script
 	}
 	namespace ns_vec2i 
 	{
-		void callScriptFromC_operator_PlusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2i& p0, BaluLib::TVec2i p1) 
+		void callScriptFromC_operator_PlusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2i& p0, const BaluLib::TVec2i p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("vec2i"))));
@@ -179,7 +179,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_MinusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2i& p0, BaluLib::TVec2i p1) 
+		void callScriptFromC_operator_MinusA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2i& p0, const BaluLib::TVec2i p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("vec2i"))));
@@ -189,7 +189,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_MulA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2i& p0, BaluLib::TVec2i p1) 
+		void callScriptFromC_operator_MulA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2i& p0, const BaluLib::TVec2i p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("vec2i"))));
@@ -199,7 +199,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_operator_DivA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2i& p0, BaluLib::TVec2i p1) 
+		void callScriptFromC_operator_DivA(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, BaluLib::TVec2i& p0, const BaluLib::TVec2i p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(true, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("vec2i"))));
@@ -224,7 +224,7 @@ namespace ns_Script
 	}
 	namespace ns_GlobalCallback 
 	{
-		void callScriptFromC_MouseUp_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IWorld* p0, WorldDef::TMouseEventArgs* p1) 
+		void callScriptFromC_MouseUp_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IWorld* const p0, WorldDef::TMouseEventArgs* const p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IWorld"))));
@@ -234,7 +234,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_MouseDown_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IWorld* p0, WorldDef::TMouseEventArgs* p1) 
+		void callScriptFromC_MouseDown_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IWorld* const p0, WorldDef::TMouseEventArgs* const p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IWorld"))));
@@ -244,7 +244,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_MouseMove_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IWorld* p0, WorldDef::TMouseEventArgs* p1) 
+		void callScriptFromC_MouseMove_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IWorld* const p0, WorldDef::TMouseEventArgs* const p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IWorld"))));
@@ -254,7 +254,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_WorldStart_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IWorld* p0, IComposer* p1) 
+		void callScriptFromC_WorldStart_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IWorld* const p0, IComposer* const p1) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IWorld"))));
@@ -264,7 +264,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_ViewportResize_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IDirector* p0, BaluLib::TVec2i p1, BaluLib::TVec2i p2) 
+		void callScriptFromC_ViewportResize_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, IDirector* const p0, const BaluLib::TVec2i p1, const BaluLib::TVec2i p2) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IDirector"))));
@@ -282,7 +282,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_KeyDown_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, WorldDef::TKey p0) 
+		void callScriptFromC_KeyDown_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, const WorldDef::TKey p0) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("TKey"))));
@@ -290,7 +290,7 @@ namespace ns_Script
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
-		void callScriptFromC_KeyUp_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, WorldDef::TKey p0) 
+		void callScriptFromC_KeyUp_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, const WorldDef::TKey p0) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("TKey"))));
@@ -344,7 +344,7 @@ namespace ns_Script
 		{
 			//BaluLib::TVec2 p0 return --- nothing
 			IClassPhysBodyIntance** obj = ((IClassPhysBodyIntance**)(run_context->object->get()));
-			BaluLib::TVec2 param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
+			const BaluLib::TVec2&  param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
 			(*obj)->SetLinearVelocity(param0);
 		}
 	}
@@ -354,15 +354,17 @@ namespace ns_Script
 		{
 			//TString p0, float p1 return --- nothing
 			ISkeletonAnimationInstance** obj = ((ISkeletonAnimationInstance**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			float param1 = *((float*)(*run_context->formal_params)[1].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			const float&  param1 = *((float*)(*run_context->formal_params)[1].get());
 			(*obj)->PlayAnimation(param0, param1);
 		}
 		void bind_StopAnimation(TMethodRunContext* run_context) 
 		{
 			//TString p0 return --- nothing
 			ISkeletonAnimationInstance** obj = ((ISkeletonAnimationInstance**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			(*obj)->StopAnimation(param0);
 		}
 	}
@@ -375,7 +377,7 @@ namespace ns_Script
 		{
 			//float p0 return --- nothing
 			WorldDef::TRot* obj = ((WorldDef::TRot*)(run_context->object->get()));
-			float param0 = *((float*)(*run_context->formal_params)[0].get());
+			const float&  param0 = *((float*)(*run_context->formal_params)[0].get());
 			obj->Set(param0);
 		}
 		void bind_SetIdentity(TMethodRunContext* run_context) 
@@ -399,8 +401,8 @@ namespace ns_Script
 		{
 			//BaluLib::TVec2 p0, BaluLib::TVec2 p1 return --- BaluLib::TVec2
 			WorldDef::TTransform* obj = ((WorldDef::TTransform*)(run_context->object->get()));
-			BaluLib::TVec2 param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
-			BaluLib::TVec2 param1 = *((BaluLib::TVec2*)(*run_context->formal_params)[1].get());
+			const BaluLib::TVec2&  param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
+			const BaluLib::TVec2&  param1 = *((BaluLib::TVec2*)(*run_context->formal_params)[1].get());
 			BaluLib::TVec2  result = 
 			obj->Transform(param0, param1);
 			*(BaluLib::TVec2*)run_context->result->get() = result;
@@ -415,7 +417,7 @@ namespace ns_Script
 		{
 			//BaluLib::TVec2 p0 return --- nothing
 			WorldDef::IViewport** obj = ((WorldDef::IViewport**)(run_context->object->get()));
-			BaluLib::TVec2 param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
+			const BaluLib::TVec2&  param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
 			(*obj)->SetSize(param0);
 		}
 		void bind_GetSize(TMethodRunContext* run_context) 
@@ -433,7 +435,8 @@ namespace ns_Script
 		{
 			//TString p0, WorldDef::RuntimePropertyType& p1 return --- bool
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::RuntimePropertyType* param1 = ((WorldDef::RuntimePropertyType*)(*run_context->formal_params)[1].get());
 			bool  result = 
 			(*obj)->HasProperty(param0, *param1);
@@ -443,15 +446,17 @@ namespace ns_Script
 		{
 			//TString p0, bool p1 return --- nothing
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			bool param1 = *((bool*)(*run_context->formal_params)[1].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			const bool&  param1 = *((bool*)(*run_context->formal_params)[1].get());
 			(*obj)->SetBool(param0, param1);
 		}
 		void bind_GetBool(TMethodRunContext* run_context) 
 		{
 			//TString p0 return --- bool
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			bool  result = 
 			(*obj)->GetBool(param0);
 			*(bool*)run_context->result->get() = result;
@@ -460,15 +465,17 @@ namespace ns_Script
 		{
 			//TString p0, int p1 return --- nothing
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			int param1 = *((int*)(*run_context->formal_params)[1].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			const int&  param1 = *((int*)(*run_context->formal_params)[1].get());
 			(*obj)->SetInt(param0, param1);
 		}
 		void bind_GetInt(TMethodRunContext* run_context) 
 		{
 			//TString p0 return --- int
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			int  result = 
 			(*obj)->GetInt(param0);
 			*(int*)run_context->result->get() = result;
@@ -477,15 +484,17 @@ namespace ns_Script
 		{
 			//TString p0, float p1 return --- nothing
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			float param1 = *((float*)(*run_context->formal_params)[1].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			const float&  param1 = *((float*)(*run_context->formal_params)[1].get());
 			(*obj)->SetFloat(param0, param1);
 		}
 		void bind_GetFloat(TMethodRunContext* run_context) 
 		{
 			//TString p0 return --- float
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			float  result = 
 			(*obj)->GetFloat(param0);
 			*(float*)run_context->result->get() = result;
@@ -494,32 +503,38 @@ namespace ns_Script
 		{
 			//TString p0, TString p1 return --- nothing
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			TString param1 = *((TString*)(*run_context->formal_params)[1].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			const TString& temp_param1 = *((TString*)(*run_context->formal_params)[1].get());
+			std::string param1 = Convert_TString_to_stdstring(temp_param1);
 			(*obj)->SetString(param0, param1);
 		}
 		void bind_GetString(TMethodRunContext* run_context) 
 		{
 			//TString p0 return --- TString
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			TString  result = 
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			std::string temp_result = 
 			(*obj)->GetString(param0);
+			TString result = Convert_stdstring_to_TString(temp_result);
 			*(TString*)run_context->result->get() = result;
 		}
 		void bind_SetVec2(TMethodRunContext* run_context) 
 		{
 			//TString p0, BaluLib::TVec2 p1 return --- nothing
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			BaluLib::TVec2 param1 = *((BaluLib::TVec2*)(*run_context->formal_params)[1].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			const BaluLib::TVec2&  param1 = *((BaluLib::TVec2*)(*run_context->formal_params)[1].get());
 			(*obj)->SetVec2(param0, param1);
 		}
 		void bind_GetVec2(TMethodRunContext* run_context) 
 		{
 			//TString p0 return --- BaluLib::TVec2
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			BaluLib::TVec2  result = 
 			(*obj)->GetVec2(param0);
 			*(BaluLib::TVec2*)run_context->result->get() = result;
@@ -528,15 +543,17 @@ namespace ns_Script
 		{
 			//TString p0, WorldDef::TTransformWithScale p1 return --- nothing
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			WorldDef::TTransformWithScale param1 = *((WorldDef::TTransformWithScale*)(*run_context->formal_params)[1].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			const WorldDef::TTransformWithScale&  param1 = *((WorldDef::TTransformWithScale*)(*run_context->formal_params)[1].get());
 			(*obj)->SetTransformWithScale(param0, param1);
 		}
 		void bind_GetTransformWithScale(TMethodRunContext* run_context) 
 		{
 			//TString p0 return --- WorldDef::TTransformWithScale
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::TTransformWithScale  result = 
 			(*obj)->GetTransformWithScale(param0);
 			*(WorldDef::TTransformWithScale*)run_context->result->get() = result;
@@ -545,15 +562,17 @@ namespace ns_Script
 		{
 			//TString p0, WorldDef::TTransform p1 return --- nothing
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			WorldDef::TTransform param1 = *((WorldDef::TTransform*)(*run_context->formal_params)[1].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			const WorldDef::TTransform&  param1 = *((WorldDef::TTransform*)(*run_context->formal_params)[1].get());
 			(*obj)->SetTransform(param0, param1);
 		}
 		void bind_GetTransform(TMethodRunContext* run_context) 
 		{
 			//TString p0 return --- WorldDef::TTransform
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::TTransform  result = 
 			(*obj)->GetTransform(param0);
 			*(WorldDef::TTransform*)run_context->result->get() = result;
@@ -562,15 +581,17 @@ namespace ns_Script
 		{
 			//TString p0, WorldDef::TRot p1 return --- nothing
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
-			WorldDef::TRot param1 = *((WorldDef::TRot*)(*run_context->formal_params)[1].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
+			const WorldDef::TRot&  param1 = *((WorldDef::TRot*)(*run_context->formal_params)[1].get());
 			(*obj)->SetRotation(param0, param1);
 		}
 		void bind_GetRotation(TMethodRunContext* run_context) 
 		{
 			//TString p0 return --- WorldDef::TRot
 			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::TRot  result = 
 			(*obj)->GetRotation(param0);
 			*(WorldDef::TRot*)run_context->result->get() = result;
@@ -582,7 +603,8 @@ namespace ns_Script
 		{
 			//TString p0 return --- WorldDef::IViewport
 			WorldDef::IScene** obj = ((WorldDef::IScene**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::IViewport*  result = 
 			(*obj)->FindViewport(param0);
 			*(WorldDef::IViewport**)run_context->result->get() = result;
@@ -619,7 +641,8 @@ namespace ns_Script
 		{
 			//TString p0 return --- WorldDef::IScene
 			WorldDef::IWorld** obj = ((WorldDef::IWorld**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::IScene*  result = 
 			(*obj)->GetScene(param0);
 			*(WorldDef::IScene**)run_context->result->get() = result;
@@ -631,7 +654,7 @@ namespace ns_Script
 		{
 			//int p0 return --- IScene
 			IWorld** obj = ((IWorld**)(run_context->object->get()));
-			int param0 = *((int*)(*run_context->formal_params)[0].get());
+			const int&  param0 = *((int*)(*run_context->formal_params)[0].get());
 			IScene*  result = 
 			(*obj)->GetSceneInstance(param0);
 			*(IScene**)run_context->result->get() = result;
@@ -671,7 +694,7 @@ namespace ns_Script
 		{
 			//bool p0 return --- nothing
 			WorldDef::IPhysShape** obj = ((WorldDef::IPhysShape**)(run_context->object->get()));
-			bool param0 = *((bool*)(*run_context->formal_params)[0].get());
+			const bool&  param0 = *((bool*)(*run_context->formal_params)[0].get());
 			(*obj)->SetIsSensor(param0);
 		}
 		void bind_GetIsSensor(TMethodRunContext* run_context) 
@@ -692,7 +715,7 @@ namespace ns_Script
 		{
 			//BaluLib::TVec2 p0 return --- nothing
 			WorldDef::ISpritePolygon** obj = ((WorldDef::ISpritePolygon**)(run_context->object->get()));
-			BaluLib::TVec2 param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
+			const BaluLib::TVec2&  param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
 			(*obj)->SetScale(param0);
 		}
 	}
@@ -739,7 +762,8 @@ namespace ns_Script
 		{
 			//TString p0 return --- nothing
 			ISpritePolygonInstance** obj = ((ISpritePolygonInstance**)(run_context->object->get()));
-			TString param0 = *((TString*)(*run_context->formal_params)[0].get());
+			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
+			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			(*obj)->SetActiveAnimation(param0);
 		}
 	}
@@ -784,7 +808,7 @@ namespace ns_Script
 		{
 			//BaluLib::TVec2 p0 return --- nothing
 			ITransformedClassInstance** obj = ((ITransformedClassInstance**)(run_context->object->get()));
-			BaluLib::TVec2 param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
+			const BaluLib::TVec2&  param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
 			(*obj)->SetScale(param0);
 		}
 		void bind_GetProperties(TMethodRunContext* run_context) 
@@ -807,7 +831,7 @@ namespace ns_Script
 		{
 			//int p0 return --- ITransformedSpriteInstance
 			ITransformedClassInstance** obj = ((ITransformedClassInstance**)(run_context->object->get()));
-			int param0 = *((int*)(*run_context->formal_params)[0].get());
+			const int&  param0 = *((int*)(*run_context->formal_params)[0].get());
 			ITransformedSpriteInstance*  result = 
 			(*obj)->GetSprite(param0);
 			*(ITransformedSpriteInstance**)run_context->result->get() = result;

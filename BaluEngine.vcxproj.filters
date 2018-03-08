@@ -256,6 +256,9 @@
     <ClInclude Include="Source\WorldInstance\Internal\Class\Binding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\WorldInstance\Internal\Scripts\EventsEditorInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
