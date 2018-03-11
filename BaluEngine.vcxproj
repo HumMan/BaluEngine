@@ -161,7 +161,7 @@
     <ClInclude Include="Source\WorldInstance\Internal\Composer\Composer.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Material\MaterialInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Scene\SceneInstance.h" />
-    <ClInclude Include="Source\WorldInstance\Internal\Scripts\EventsEditorInstance.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\Scripts\IScriptInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Scripts\ScriptClassesRegistry.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Sprite\PhysShapeInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Sprite\SpriteInstance.h" />
@@ -231,6 +231,7 @@
     <ClCompile Include="Source\WorldInstance\Internal\Material\MaterialInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Scene\SceneInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptClassesRegistry.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Sprite\PhysShapeInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Sprite\SpriteInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Sprite\SpritePolyInstance.cpp" />

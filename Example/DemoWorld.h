@@ -68,14 +68,14 @@ char* BonesPlayerPrePhysStep_source = //(void* user_data, IBaluTransformedClassI
 
 char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
 "	vec2 k = vec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
-"	IViewport main_viewport = director.GetWorldInstance().GetSceneInstance(0).GetSource().FindViewport(\"main_viewport\");\n"
+"	IViewport main_viewport = director.GetWorld().GetScene(0).GetSource().FindViewport(\"main_viewport\");\n"
 "	vec2 old_vieport_size = main_viewport.GetSize();\n"
 "	vec2 new_vieport_size = old_vieport_size*k;\n"
 "	main_viewport.SetSize(new_vieport_size);\n";
 
 char* WorldStart_source = //(IWorldInstance world_instance, IComposer composer)
-"	IScene scene = world_instance.GetSource().GetScene(\"scene0\");\n"
-"	ISceneInstance scene_instance = world_instance.RunScene(scene);\n"
+"	ISceneDef scene = world.GetSource().GetScene(\"scene0\");\n"
+"	IScene scene_instance = world.RunScene(scene);\n"
 "	composer.AddToRender(scene_instance, scene.FindViewport(\"main_viewport\"));\n";
 
 WorldDef::IWorld* CreateDemoWorld(std::string assets_dir)

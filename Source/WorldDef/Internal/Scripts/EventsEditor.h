@@ -34,7 +34,7 @@ namespace BaluEngine
 				void GlobalKeyRemove(GlobalKeyCallbackType type, int index);
 
 				int ClassGetCount(ClassCallbackType type);
-				std::tuple<TScript, std::string>& ClassGet(ClassCallbackType type, int index);
+				std::tuple<std::string, TScript>& ClassGet(ClassCallbackType type, int index);
 				void ClassInsert(ClassCallbackType type, std::string class_name, int after_index, TScript script);
 				void ClassRemove(ClassCallbackType type, int index);
 

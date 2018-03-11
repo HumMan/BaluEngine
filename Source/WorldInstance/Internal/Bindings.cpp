@@ -27,33 +27,32 @@ void Bootstrap(TMethodRunContext* run_context)
 
 }
 
-#include "../submodules/BaluScript/Source/TreeRunner/TreeRunner.h"
+//#include "../submodules/BaluScript/Source/TreeRunner/TreeRunner.h"
 
-#include "../../Common/IDirector.h"
+//#include "../../Common/IDirector.h"
 
-using namespace BaluEngine;
-using namespace BaluEngine::WorldInstance;
-
-std::string Convert_TString_to_stdstring(const TString& value)
-{
-	return value.AsStdString();
-}
-
-TString Convert_stdstring_to_TString(const std::string& value)
-{
-	TString result;
-	result.Init(value);
-	return result;
-}
-
-#include "../../../BindingGenerator/external_bindings.h"
+//using namespace BaluEngine;
+//using namespace BaluEngine::WorldInstance;
+//
+//std::string Convert_TString_to_stdstring(const TString& value)
+//{
+//	return value.AsStdString();
+//}
+//
+//TString Convert_stdstring_to_TString(const std::string& value)
+//{
+//	TString result;
+//	result.Init(value);
+//	return result;
+//}
+//
+//#include "../../../BindingGenerator/external_bindings.h"
 
 std::string PrintMethod(std::string value)
 {
 	char buf[200];
 	sprintf(buf, value.c_str(), "");
 	return std::string(buf) + "\n{}\n";
-	return buf;
 }
 
 void BaluEngine::WorldInstance::GenerateScriptBindings(std::string output_path)
@@ -90,7 +89,6 @@ void BaluEngine::WorldInstance::GenerateScriptBindings(std::string output_path)
 
 		for (int i = 0; i < 1000; i++)
 			_external_bindings.push_back(Bootstrap);
-
 
 		source += "class GlobalCallback\n{\n";
 

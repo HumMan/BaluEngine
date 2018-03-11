@@ -62,7 +62,7 @@ int TEventsEditor::ClassGetCount(ClassCallbackType type)
 	return class_callbacks[(int)type].size();
 }
 
-std::tuple<TScript, std::string>& TEventsEditor::ClassGet(ClassCallbackType type, int index)
+std::tuple<std::string, TScript>& TEventsEditor::ClassGet(ClassCallbackType type, int index)
 {
 	return class_callbacks[(int)type][index];
 }

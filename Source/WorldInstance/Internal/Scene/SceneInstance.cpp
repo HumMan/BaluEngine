@@ -147,7 +147,7 @@ public:
 
 TSceneObjectInstance::~TSceneObjectInstance()
 {
-
+	p.reset(new TPrivate());
 }
 
 WorldDef::IRuntimeProperties* TSceneObjectInstance::GetProperties()
@@ -161,6 +161,7 @@ IScene* TSceneObjectInstance::GetScene()
 }
 TSceneObjectInstance::TSceneObjectInstance(IScene* scene)
 {
+	p.reset(new TPrivate());
 	p->scene = scene;
 	(dynamic_cast<TScene*>(scene))->AddInstance(this);
 }

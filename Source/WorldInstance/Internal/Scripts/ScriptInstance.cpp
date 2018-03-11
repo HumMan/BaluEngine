@@ -1,199 +1,153 @@
 #include "IScriptInstance.h"
 
-#include "baluScript.h"
-
-#include "../Objects/Class/IClassInstance.h"
-#include <WorldDef/IWorld.h>
-
 #include "ScriptClassesRegistry.h"
 
-#include <iostream>
+#include <Windows.h>
+
 #include <fstream>
+#include <streambuf>
 
-using namespace EngineInterface;
+#include <vector>
 
-namespace EngineInterface
+#include "../Include/baluScript.h"
+
+#include "../submodules/BaluScript/Source/TreeRunner/TreeRunner.h"
+
+#include "../../../Common/IDirector.h"
+
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+
+std::string Convert_TString_to_stdstring(const TString& value)
 {
-	class TBaluScriptInstancePrivate
+	return value.AsStdString();
+}
+
+TString Convert_stdstring_to_TString(const std::string& value)
+{
+	TString result;
+	result.Init(value);
+	return result;
+}
+
+#include "../../../BindingGenerator/external_bindings.h"
+
+std::string PrintMethod(int index, std::string value, std::string code)
+{
+	char buf[200];
+	sprintf(buf, value.c_str(), std::to_string(index).c_str());
+	auto result = std::string(buf) + "\n{\n";
+	result += code;
+	result += "\n}\n";
+	return result;
+}
+
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
+
+class TScriptInstance::TPrivate
+{
+public:
+	WorldDef::IEventsEditor* source;
+	//std::unique_ptr<TSyntaxAnalyzer> syntax;
+	//std::vector<TStaticValue> static_objects;
+	//std::vector < std::unique_ptr<TSMethod>> smethods;
+	std::vector<std::string> errors;
+};
+
+TScriptInstance::TScriptInstance(WorldDef::IEventsEditor* source)
+{
+	p.reset(new TPrivate());
+	p->source = source;
+}
+
+TScriptInstance::~TScriptInstance()
+{
+
+}
+
+void TScriptInstance::Compile()
+{
+	try
 	{
-	public:
-		std::unique_ptr<TSyntaxAnalyzer> syntax;
-		//std::vector<TStaticValue> static_objects;
-		//std::vector < std::unique_ptr<TSMethod>> smethods;
-		std::vector<std::string> errors;
+		std::string source;
 
-		TTime time;
-	};
-}
+		for (auto& v : BaluEngine::WorldInstance::Internal::TScriptClassesRegistry::get_enum_registry())
+		{
+			source += v.source;
+		}
 
-TBaluScriptInstance::~TBaluScriptInstance()
-{
-}
+		std::vector<std::string> result;
 
-TBaluScriptInstance::TBaluScriptInstance(std::string assets_dir)
-{
-	//TODO
-	//p = std::unique_ptr<TBaluScriptInstancePrivate>(new TBaluScriptInstancePrivate());
+		std::vector<SemanticApi::TExternalClassDecl> external_classes;
 
-	//p->time.Start();
+		for (auto& v : BaluEngine::WorldInstance::Internal::TScriptClassesRegistry::get_external_class_registry())
+		{
+			SemanticApi::TExternalClassDecl t;
+			t.size = LexerIntSizeOf(v.size);
+			t.source = v.source;
+			external_classes.push_back(t);
+		}
 
-	//std::string script_base_source;
-	//{
-	//	std::ifstream file;
-	//	file.open((assets_dir + "//" + "scripts/base_types.bscript").c_str());
+		std::vector<SemanticApi::TExternalSMethod> external_bindings = ns_Script::Register();		
 
-	//	std::string str;
+		{
+			source += "class GlobalCallback\n{\n";
+			for (int i = 0; i < (int)WorldDef::GlobalCallbackType::Count; i++)
+			{
+				for (int k = 0; k < p->source->GlobalGetCount((WorldDef::GlobalCallbackType)i); k++)
+					source += PrintMethod(k, WorldDef::GlobalCallbackSignature[i], 
+						p->source->GlobalGet((WorldDef::GlobalCallbackType)i, k));
+			}
+			source += "}\n";
 
-	//	file.seekg(0, std::ios::end);
-	//	str.reserve(file.tellg());
-	//	file.seekg(0, std::ios::beg);
+			source += "class GlobalKeyCallback\n{\n";
+			for (int i = 0; i < (int)WorldDef::GlobalKeyCallbackType::Count; i++)
+			{
+				for (int k = 0; k < p->source->GlobalKeyGetCount((WorldDef::GlobalKeyCallbackType)i); k++)
+					source += PrintMethod(k, WorldDef::GlobalKeyCallbackSignature[i],
+						std::get<1>(p->source->GlobalKeyGet((WorldDef::GlobalKeyCallbackType)i, k)));
+			}
+			source += "}\n";
 
-	//	str.assign((std::istreambuf_iterator<char>(file)),
-	//		std::istreambuf_iterator<char>());
+			source += "class ClassCallback\n{\n";
+			for (int i = 0; i < (int)WorldDef::ClassCallbackType::Count; i++)
+			{
+				for (int k = 0; k < p->source->ClassGetCount((WorldDef::ClassCallbackType)i); k++)
+					source += PrintMethod(k, WorldDef::ClassCallbackSignature[i], 
+						std::get<1>(p->source->ClassGet((WorldDef::ClassCallbackType)i, k)));
+			}
+			source += "}\n";
 
-	//	script_base_source = str;
-	//}
-	//p->syntax.reset(new TSyntaxAnalyzer());
-	//p->syntax->Compile((char*)(("class Script{" + script_base_source + "}").c_str()));
+			source += "class ClassKeyCallback\n{\n";
+			for (int i = 0; i < (int)WorldDef::ClassKeyCallbackType::Count; i++)
+			{
+				for (int k = 0; k < p->source->ClassKeyGetCount((WorldDef::ClassKeyCallbackType)i); k++)
+					source += PrintMethod(k, WorldDef::ClassKeyCallbackSignature[i],
+						std::get<1>(p->source->ClassKeyGet((WorldDef::ClassKeyCallbackType)i, k)));
+			}
+			source += "}\n";
 
-	//TClassRegistryParams params;
-	//params.smethods = &p->smethods;
-	//params.static_objects = &p->static_objects;
-	//params.syntax = p->syntax.get();
-	//TScriptClassesRegistry::RegisterClassesInScript(params);
-}
+			source += "class OnCollideCallback\n{\n";
 
-EngineInterface::TScriptInstance TBaluScriptInstance::CompileMethod(TScript* script_data, const char* code)
-{
-	//try
-	//{
-	//	SyntaxInternal::TMethod* m = new SyntaxInternal::TMethod(p->syntax->GetBaseClass());
-	//	p->syntax->GetLexer()->ParseSource(code);
-	//	m->AnalyzeSyntax(p->syntax->GetLexer());
-	//	p->syntax->GetLexer()->GetToken(Lexer::TTokenType::Done);
+			for (int k = 0; k < p->source->OnCollideGetCount(); k++)
+			{
+				auto callback = p->source->OnCollideGet(k);
+				source += PrintMethod(k, WorldDef::CollideCallbackSignature[0],	callback.script);
+			}
 
-	//	TSMethod* ms = new TSMethod(p->syntax->GetCompiledBaseClass(), m);
-	//	p->smethods.push_back(std::unique_ptr<TSMethod>(ms));
-	//	ms->Build();
+			source += "}\n";
+		}
 
-	//	std::vector<TSClassField*> static_fields;
-	//	std::vector<TSLocalVar*> static_variables;
+		TSyntaxAnalyzer syntax;
+		syntax.Compile(source.c_str(), external_classes, external_bindings);
 
-	//	TGlobalBuildContext global_build_context(&static_fields, &static_variables);
+	}
+	catch (std::string s)
+	{
+		printf(s.c_str());
+	}
 
-	//	ms->LinkSignature(global_build_context);
-	//	ms->LinkBody(global_build_context);
-	//	ms->CalculateParametersOffsets();
-
-	//	std::vector<TSClass*> owners;
-	//	p->syntax->GetCompiledBaseClass()->CalculateSizes(owners);
-
-	//	InitializeStaticClassFields(static_fields, p->static_objects);
-	//	InitializeStaticVariables(static_variables, p->static_objects);
-
-
-	//	return TScriptInstance(script_data, ms);
-	//}
-	//catch (std::string s)
-	//{
-	//	p->errors.push_back(s);
-	//	throw;
-	//}
-	return TScriptInstance();
-}
-
-bool TBaluScriptInstance::HasErrors()
-{
-	return p->errors.size() >= 0;
-}
-std::vector<std::string> TBaluScriptInstance::GetErrors()
-{
-	return p->errors;
-}
-
-void TBaluScriptInstance::CallViewportResize(TScriptInstance &viewport_resize_callback, EngineInterface::IDirector* director, TVec2i old_size, TVec2i new_size)
-{
-	//std::vector<TStackValue> params;
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("IDirector"))));
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("vec2i"))));
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("vec2i"))));
-	//*(EngineInterface::IDirector**)params[0].get() = director;
-	//*(TVec2i*)params[1].get() = old_size;
-	//*(TVec2i*)params[2].get() = new_size;
-	//TStackValue result, object;
-	//viewport_resize_callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
-}
-void TBaluScriptInstance::CallWorldStart(TScriptInstance &start_world_callback, EngineInterface::IBaluWorldInstance* world_instance, EngineInterface::IComposer* composer)
-{
-	//std::vector<TStackValue> params;
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("IWorldInstance"))));
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("IComposer"))));
-	//*(EngineInterface::IBaluWorldInstance**)params[0].get() = world_instance;
-	//*(EngineInterface::IComposer**)params[1].get() = composer;
-
-	//TStackValue result, object;
-	//start_world_callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
-}
-void TBaluScriptInstance::CallInstanceEvent(TScriptInstance &callback, IBaluTransformedClassInstance* obj)
-{
-	//std::vector<TStackValue> params;
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("IInstance"))));
-	//*(EngineInterface::IBaluTransformedClassInstance**)params[0].get() = obj;
-
-	//TStackValue result, object;
-	//callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
-}
-
-void TBaluScriptInstance::CallMouseEvent(TScriptInstance &callback, TMouseEventArgs* e)
-{
-	//std::vector<TStackValue> params;
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("TMouseEventArgs"))));
-	//params[0].get_as<EngineInterface::TMouseEventArgs>() = *e;
-
-	//TStackValue result, object;
-	//callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
-}
-
-void TBaluScriptInstance::CallKeyUpEvent(TScriptInstance &callback, TKey key)
-{
-	//TODO
-}
-void TBaluScriptInstance::CallKeyDownEvent(TScriptInstance &callback, TKey key)
-{
-	//TODO
-}
-
-void TBaluScriptInstance::CallCollide(EngineInterface::TScriptInstance &callback, IBaluTransformedClassInstance* source_object, IBaluTransformedSpriteInstance* obj_a, IBaluTransformedClassInstance* obj_b)
-{
-	////TODO присвоение параметров с использованием wrapper классов
-	//std::vector<TStackValue> params;
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("IInstance"))));
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("IClassInstanceSpriteInstance"))));
-	//params.push_back(TStackValue(false, p->syntax->GetCompiledBaseClass()->GetClass(p->syntax->GetLexer()->GetIdFromName("IInstance"))));
-	//params[0].get_as<IBaluTransformedClassInstance*>() = source_object;
-	//params[1].get_as<IBaluTransformedSpriteInstance*>() = obj_a;
-	//params[2].get_as<IBaluTransformedClassInstance*>() = obj_b;
-
-	//TStackValue result, object;
-	//callback.GetCompiledScript()->Run(TMethodRunContext(&p->static_objects, &params, &result, &object));
-}
-
-TScript* TScriptInstance::GetSource()
-{
-	return source;
-}
-TScriptInstance::TScriptInstance()
-{
-	source = nullptr;
-	compiled_script = nullptr;
-}
-TScriptInstance::TScriptInstance(TScript* source, TSMethod* compiled_script)
-{
-	this->source = source;
-	this->compiled_script = compiled_script;
-}
-TSMethod* TScriptInstance::GetCompiledScript()
-{
-	assert(compiled_script != nullptr);
-	return compiled_script;
+	printf("All done");
 }

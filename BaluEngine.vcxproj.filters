@@ -256,7 +256,7 @@
     <ClInclude Include="Source\WorldInstance\Internal\Class\Binding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldInstance\Internal\Scripts\EventsEditorInstance.h">
+    <ClInclude Include="Source\WorldInstance\Internal\Scripts\IScriptInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -315,6 +315,7 @@
     <ClCompile Include="Source\WorldDef\Internal\Common\RuntimeProperties.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptClassesRegistry.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Bindings.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

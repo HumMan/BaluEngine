@@ -31,6 +31,8 @@ namespace BaluEngine
 		enum class ClassCallbackType
 		{
 			BeforePhysics,
+			KeyDown,
+			KeyUp,
 
 			Count
 		};
@@ -125,17 +127,19 @@ namespace BaluEngine
 		const std::vector<std::string> ClassCallbackSignature =
 		{
 			"func static BeforePhysics_%s(IInstance object)",
-		};
-
-		const std::vector<std::string> ClassKeyCallbackSignature =
-		{
 			"func static KeyDown_%s(TKey key, IInstance object)",
 			"func static KeyUp_%s(TKey key, IInstance object)",
 		};
 
+		const std::vector<std::string> ClassKeyCallbackSignature =
+		{
+			"func static KeyDown_%s(IInstance object)",
+			"func static KeyUp_%s(IInstance object)",
+		};
+
 		const std::vector<std::string> CollideCallbackSignature =
 		{
-			"func static Collide%s(IPhysShape source, IInstance obstancle)"
+			"func static Collide%s(IInstance object, IPhysShape source, IInstance obstancle)"
 		};
 	}
 }
