@@ -8,6 +8,7 @@ namespace BaluEngine
 		class IComposerStage
 		{
 		public:
+			virtual ~IComposerStage() {}
 		};
 
 		class IComposer
@@ -15,6 +16,7 @@ namespace BaluEngine
 		public:
 			virtual IComposerStage* AddToRender(IScene* scene_instance, WorldDef::IViewport* viewport) = 0;
 			virtual void RemoveFromRender(IComposerStage* stage) = 0;
+			virtual ~IComposer() {}
 		};
 	}
 }

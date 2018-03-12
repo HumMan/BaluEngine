@@ -24,6 +24,8 @@ namespace BaluEngine
 
 			//virtual ISceneObjectInstance* CreateInstance(WorldDef::ISceneObject* use_class, WorldDef::TTransform transform, BaluLib::TVec2 scale) = 0;
 			virtual void DestroyInstance(ISceneObjectInstance*) = 0;
+
+			virtual ~IScene() {};
 		};
 	}
 }

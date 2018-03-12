@@ -166,3 +166,11 @@ void WorldDef::DestroyWorld(IWorld* world)
 {
 	delete dynamic_cast<TWorld*>(world);
 }
+
+void WorldDef::UnregisterAll()
+{
+	SceneObjectFactory::UnregisterAll();
+	RuntimePropertiesFactory::UnregisterAll();
+	AnimDescFactory::UnregisterAll();
+	PhysShapeFactory::UnregisterAll();
+}

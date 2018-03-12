@@ -47,6 +47,7 @@ namespace BaluEngine
 			virtual TTransform GetTransform(const std::string& name) = 0;
 			virtual void SetRotation(const std::string& name, const TRot& value) = 0;
 			virtual TRot GetRotation(const std::string& name) = 0;
+			virtual ~IRuntimeProperties() {};
 		};
 	}
 }

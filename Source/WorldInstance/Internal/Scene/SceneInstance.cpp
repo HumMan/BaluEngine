@@ -111,7 +111,7 @@ public:
 	{
 		in_step_contacts.clear();
 	}
-	void OnProcessCollisions();
+	void OnProcessCollisions(IEventsEditorInstance* events);
 };
 
 class TScene::TPrivate
@@ -205,7 +205,7 @@ void TContactsHolder::EndContact(b2Contact* contact)
 	RemoveContact(collision);
 }
 
-void TContactsHolder::OnProcessCollisions()
+void TContactsHolder::OnProcessCollisions(IEventsEditorInstance* events)
 {
 	for (auto& v : contacts)
 	{
@@ -218,15 +218,8 @@ void TContactsHolder::OnProcessCollisions()
 		auto instance_a = dynamic_cast<TTransformedClassInstance*>(user_data_a->GetSceneObject());
 		auto instance_b = dynamic_cast<TTransformedClassInstance*>(user_data_b->GetSceneObject());
 
-		//auto class_a = instance_a!=nullptr?dynamic_cast<TClassCompiledScripts*>(instance_a->GetClass()->GetScripts()):nullptr;
-		//auto class_b = instance_b!=nullptr?dynamic_cast<TClassCompiledScripts*>(instance_b->GetClass()->GetScripts()):nullptr;
-
-		//if (class_a != nullptr && class_b != nullptr)
-		//{
-		//	//TODO взаимодействие не только с TTransformedClassInstance
-		//	class_a->DoCollide(instance_a, sprite_a, dynamic_cast<TTransformedClassInstance*>(instance_b));
-		//	class_b->DoCollide(instance_b, sprite_b, dynamic_cast<TTransformedClassInstance*>(instance_a));
-		//}
+		events->Collide(instance_a, sprite_a, instance_b);
+		events->Collide(instance_b, sprite_b, instance_a);
 	}
 }
 
@@ -360,7 +353,7 @@ void TScene::PhysStep(float step)
 
 void TScene::OnProcessCollisions()
 {
-	p->contact_listener.OnProcessCollisions();
+	p->contact_listener.OnProcessCollisions(p->world->GetEventsEditor());
 }
 
 void TScene::OnStep(float step)

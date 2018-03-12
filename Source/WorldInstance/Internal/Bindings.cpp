@@ -67,7 +67,7 @@ void BaluEngine::WorldInstance::GenerateScriptBindings(std::string output_path)
 			StoC_map[v.name] = v.c_name;
 		}
 
-		int offset = TSyntaxAnalyzer::GetBindingOffset()+ TSyntaxAnalyzer::GetBindingCount();
+		int offset = TSyntaxAnalyzer::GetBindingOffset() + TSyntaxAnalyzer::GetBindingCount();
 
 		std::vector<std::string> result;
 
@@ -90,14 +90,32 @@ void BaluEngine::WorldInstance::GenerateScriptBindings(std::string output_path)
 		for (int i = 0; i < 1000; i++)
 			_external_bindings.push_back(Bootstrap);
 
-		source += "class GlobalCallback\n{\n";
-
-		for (auto& v : WorldDef::GlobalCallbackSignature)
 		{
-			source += PrintMethod(v);
-		}
+			source += "class GlobalCallback\n{\n";
+			for (auto& v : WorldDef::GlobalCallbackSignature)
+				source += PrintMethod(v);
+			source += "}\n";
 
-		source += "}\n";
+			source += "class GlobalKeyCallback\n{\n";
+			for (auto& v : WorldDef::GlobalKeyCallbackSignature)
+				source += PrintMethod(v);
+			source += "}\n";
+
+			source += "class ClassCallback\n{\n";
+			for (auto& v : WorldDef::ClassCallbackSignature)
+				source += PrintMethod(v);
+			source += "}\n";
+
+			source += "class ClassKeyCallback\n{\n";
+			for (auto& v : WorldDef::ClassKeyCallbackSignature)
+				source += PrintMethod(v);
+			source += "}\n";
+
+			source += "class OnCollideCallback\n{\n";
+			for (auto& v : WorldDef::CollideCallbackSignature)
+				source += PrintMethod(v);
+			source += "}\n";
+		}
 
 		BindingGen::TBindingGenInfo binding_gen_info;
 

@@ -379,7 +379,6 @@ void TSpritePolygon::AddAnimDesc(IAnimDesc* desc)
 
 void TSpritePolygon::CreateAnimationLine(std::string line_name, IAnimDesc* desc, std::vector<int> frames)
 {
-	//animation_lines[line_name]->line_name = line_name;	
 	auto new_line = new TAnimLine();
 	new_line->frames.push_back(std::unique_ptr<IAnimationFrames>(new TAnimationFrames(desc, frames)));
 	animation_lines[line_name].reset(new_line);

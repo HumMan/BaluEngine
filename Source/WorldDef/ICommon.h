@@ -183,7 +183,7 @@ namespace BaluEngine
 			virtual TTransform GetTransform() = 0;
 			virtual BaluLib::TVec2 GetScale() = 0;
 			virtual TTransformWithScale GetTransformWithScale() = 0;
-			virtual ~ISceneObject(){}
+			virtual ~ISceneObject() {};
 		};
 
 		enum class TWorldObjectType

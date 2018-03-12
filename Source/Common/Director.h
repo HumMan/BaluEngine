@@ -24,7 +24,7 @@ namespace BaluEngine
 
 				TDirector(std::string assets_dir);
 				void SetWorldInstance(IWorld* world_instance);
-				IWorld* GetWorldInstance();
+				IWorld* GetWorld();
 
 				int Initialize(bool create_window);
 				TResources* GetResources();

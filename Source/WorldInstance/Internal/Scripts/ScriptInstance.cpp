@@ -32,11 +32,20 @@ TString Convert_stdstring_to_TString(const std::string& value)
 
 #include "../../../BindingGenerator/external_bindings.h"
 
-std::string PrintMethod(int index, std::string value, std::string code)
+std::string GetMethodSignature(std::string value, int index, bool trim_start = false)
 {
 	char buf[200];
 	sprintf(buf, value.c_str(), std::to_string(index).c_str());
-	auto result = std::string(buf) + "\n{\n";
+	const auto start = "func static ";
+	if (trim_start)
+		return std::string(buf).substr(strlen(start));
+	else
+		return buf;
+}
+
+std::string PrintMethod(int index, std::string value, std::string code)
+{
+	auto result = GetMethodSignature(value, index) + "\n{\n";
 	result += code;
 	result += "\n}\n";
 	return result;
@@ -50,8 +59,8 @@ class TScriptInstance::TPrivate
 {
 public:
 	WorldDef::IEventsEditor* source;
-	//std::unique_ptr<TSyntaxAnalyzer> syntax;
-	//std::vector<TStaticValue> static_objects;
+	std::unique_ptr<TSyntaxAnalyzer> syntax;
+	std::vector<TStaticValue> static_objects;
 	//std::vector < std::unique_ptr<TSMethod>> smethods;
 	std::vector<std::string> errors;
 };
@@ -64,7 +73,91 @@ TScriptInstance::TScriptInstance(WorldDef::IEventsEditor* source)
 
 TScriptInstance::~TScriptInstance()
 {
+	TreeRunner::DeinitializeStatic(p->static_objects);
+}
 
+void TScriptInstance::MouseDown(WorldDef::TMouseEventArgs e)
+{
+
+}
+void TScriptInstance::MouseMove(WorldDef::TMouseEventArgs e)
+{
+
+}
+void TScriptInstance::MouseUp(WorldDef::TMouseEventArgs e)
+{
+
+}
+void TScriptInstance::MouseVerticalWheel(int amount)
+{
+
+}
+
+void TScriptInstance::PrePhysStep()
+{
+	auto type = WorldDef::GlobalCallbackType::BeforePhysics;
+	for (int i = 0; i < p->source->GlobalGetCount(type); i++)
+	{
+		auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
+			GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
+		ns_Script::ns_GlobalCallback::callScriptFromC_BeforePhysics_(&p->static_objects, method, *p->syntax.get());
+	}
+}
+
+void TScriptInstance::KeyDown(WorldDef::TKey key)
+{
+
+}
+void TScriptInstance::KeyUp(WorldDef::TKey key)
+{
+
+}
+
+void TScriptInstance::ViewportResize(IDirector* director, BaluLib::TVec2i old_size, BaluLib::TVec2i new_size)
+{
+	auto type = WorldDef::GlobalCallbackType::ViewportResize;
+	for (int i = 0; i < p->source->GlobalGetCount(type); i++)
+	{
+		auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
+			GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
+		ns_Script::ns_GlobalCallback::callScriptFromC_ViewportResize_(&p->static_objects, method, *p->syntax.get(), director, old_size, new_size);
+	}
+}
+
+void TScriptInstance::WorldStart(IWorld* world_instance, IComposer* composer)
+{
+	auto type = WorldDef::GlobalCallbackType::WorldStart;
+	for (int i = 0; i < p->source->GlobalGetCount(type); i++)
+	{
+		auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
+			GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
+		ns_Script::ns_GlobalCallback::callScriptFromC_WorldStart_(&p->static_objects, method, *p->syntax.get(), world_instance, composer);
+	}
+}
+
+void TScriptInstance::Collide(ITransformedClassInstance* object,
+	ITransformedSpriteInstance* obj_a, ITransformedClassInstance* obj_b)
+{
+	int index = -1;
+	for (int i = 0; i < p->source->OnCollideGetCount(); i++)
+	{
+		auto& t = p->source->OnCollideGet(i);
+		if (t.source_class == object->GetClass()->GetSource()->GetName() &&
+			t.with_class == obj_b->GetClass()->GetSource()->GetName() &&
+			object->GetClass()->ContainsSprite(obj_a)==t.source_sprite_id)
+		{
+			index = i;
+			break;
+		}
+	}
+	if (index != -1)
+	{
+		auto method = p->syntax->GetMethod((std::string("func static Script.OnCollideCallback.") +
+			GetMethodSignature(WorldDef::CollideCallbackSignature[0], 0, true)).c_str());
+
+		ns_Script::ns_OnCollideCallback::callScriptFromC_Collide(&p->static_objects, method, *p->syntax.get(),
+			object, obj_a->GetPhysShape(), obj_b);
+	}
 }
 
 void TScriptInstance::Compile()
@@ -139,10 +232,12 @@ void TScriptInstance::Compile()
 
 			source += "}\n";
 		}
+		
+		p->syntax.reset(new TSyntaxAnalyzer());
+		p->syntax->Compile(source.c_str(), external_classes, external_bindings);
 
-		TSyntaxAnalyzer syntax;
-		syntax.Compile(source.c_str(), external_classes, external_bindings);
-
+		TreeRunner::InitializeStaticClassFields(p->syntax->GetStaticFields(), p->static_objects);
+		TreeRunner::InitializeStaticVariables(p->syntax->GetStaticVariables(), p->static_objects);
 	}
 	catch (std::string s)
 	{

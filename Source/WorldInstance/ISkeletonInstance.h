@@ -7,6 +7,7 @@ namespace BaluEngine
 		class ISkeletonInstance
 		{
 		public:
+			virtual ~ISkeletonInstance() {}
 		};
 	}
 }

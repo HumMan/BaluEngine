@@ -299,6 +299,86 @@ namespace ns_Script
 			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
 		}
 	}
+	namespace ns_GlobalKeyCallback 
+	{
+		void callScriptFromC_KeyDown_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax) 
+		{
+			std::vector<TStackValue> params;
+			TStackValue result, object;
+			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
+		}
+		void callScriptFromC_KeyUp_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax) 
+		{
+			std::vector<TStackValue> params;
+			TStackValue result, object;
+			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
+		}
+	}
+	namespace ns_ClassCallback 
+	{
+		void callScriptFromC_BeforePhysics_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, ITransformedClassInstance* const p0) 
+		{
+			std::vector<TStackValue> params;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IInstance"))));
+			*(ITransformedClassInstance**)params[0].get() = p0;
+			TStackValue result, object;
+			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
+		}
+		void callScriptFromC_KeyDown_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, const WorldDef::TKey p0, ITransformedClassInstance* const p1) 
+		{
+			std::vector<TStackValue> params;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("TKey"))));
+			*(WorldDef::TKey*)params[0].get() = p0;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IInstance"))));
+			*(ITransformedClassInstance**)params[1].get() = p1;
+			TStackValue result, object;
+			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
+		}
+		void callScriptFromC_KeyUp_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, const WorldDef::TKey p0, ITransformedClassInstance* const p1) 
+		{
+			std::vector<TStackValue> params;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("TKey"))));
+			*(WorldDef::TKey*)params[0].get() = p0;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IInstance"))));
+			*(ITransformedClassInstance**)params[1].get() = p1;
+			TStackValue result, object;
+			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
+		}
+	}
+	namespace ns_ClassKeyCallback 
+	{
+		void callScriptFromC_KeyDown_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, ITransformedClassInstance* const p0) 
+		{
+			std::vector<TStackValue> params;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IInstance"))));
+			*(ITransformedClassInstance**)params[0].get() = p0;
+			TStackValue result, object;
+			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
+		}
+		void callScriptFromC_KeyUp_(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, ITransformedClassInstance* const p0) 
+		{
+			std::vector<TStackValue> params;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IInstance"))));
+			*(ITransformedClassInstance**)params[0].get() = p0;
+			TStackValue result, object;
+			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
+		}
+	}
+	namespace ns_OnCollideCallback 
+	{
+		void callScriptFromC_Collide(std::vector<TStaticValue>* static_fields, SemanticApi::ISMethod* compiled_method, TSyntaxAnalyzer& syntax, ITransformedClassInstance* const p0, IPhysShapeInstance* const p1, ITransformedClassInstance* const p2) 
+		{
+			std::vector<TStackValue> params;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IInstance"))));
+			*(ITransformedClassInstance**)params[0].get() = p0;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IPhysShape"))));
+			*(IPhysShapeInstance**)params[1].get() = p1;
+			params.push_back(TStackValue(false, syntax.GetCompiledBaseClass()->GetClass(syntax.GetLexer()->GetIdFromName("IInstance"))));
+			*(ITransformedClassInstance**)params[2].get() = p2;
+			TStackValue result, object;
+			TreeRunner::Run(compiled_method, TMethodRunContext(static_fields, &params, &result, &object));
+		}
+	}
 	namespace ns_dword 
 	{
 	}
@@ -650,13 +730,13 @@ namespace ns_Script
 	}
 	namespace ns_IWorld 
 	{
-		void bind_GetSceneInstance(TMethodRunContext* run_context) 
+		void bind_GetScene(TMethodRunContext* run_context) 
 		{
 			//int p0 return --- IScene
 			IWorld** obj = ((IWorld**)(run_context->object->get()));
 			const int&  param0 = *((int*)(*run_context->formal_params)[0].get());
 			IScene*  result = 
-			(*obj)->GetSceneInstance(param0);
+			(*obj)->GetScene(param0);
 			*(IScene**)run_context->result->get() = result;
 		}
 		void bind_RunScene(TMethodRunContext* run_context) 
@@ -679,12 +759,12 @@ namespace ns_Script
 	}
 	namespace ns_IDirector 
 	{
-		void bind_GetWorldInstance(TMethodRunContext* run_context) 
+		void bind_GetWorld(TMethodRunContext* run_context) 
 		{
 			// return --- IWorld
 			IDirector** obj = ((IDirector**)(run_context->object->get()));
 			IWorld*  result = 
-			(*obj)->GetWorldInstance();
+			(*obj)->GetWorld();
 			*(IWorld**)run_context->result->get() = result;
 		}
 	}
@@ -884,10 +964,10 @@ namespace ns_Script
 		result.push_back(ns_Script::ns_IScene::bind_GetSource);
 		result.push_back(ns_Script::ns_IComposer::bind_AddToRender);
 		result.push_back(ns_Script::ns_IWorldDef::bind_GetScene);
-		result.push_back(ns_Script::ns_IWorld::bind_GetSceneInstance);
+		result.push_back(ns_Script::ns_IWorld::bind_GetScene);
 		result.push_back(ns_Script::ns_IWorld::bind_RunScene);
 		result.push_back(ns_Script::ns_IWorld::bind_GetSource);
-		result.push_back(ns_Script::ns_IDirector::bind_GetWorldInstance);
+		result.push_back(ns_Script::ns_IDirector::bind_GetWorld);
 		result.push_back(ns_Script::ns_IPhysShapeDef::bind_SetIsSensor);
 		result.push_back(ns_Script::ns_IPhysShapeDef::bind_GetIsSensor);
 		result.push_back(ns_Script::ns_ISpritePolygonDef::bind_SetScale);

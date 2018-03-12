@@ -18,7 +18,7 @@ namespace BaluEngine
 				std::unique_ptr<TPrivate> p;
 			public:
 				~TWorld();
-				//IEventsEditorInstance* GetEventsEditor();
+				IEventsEditorInstance* GetEventsEditor();
 
 				/*TResources* GetResources()
 				{
@@ -36,21 +36,19 @@ namespace BaluEngine
 				//IScene* RunScene(WorldDef::ILayersManager* scene_layers);
 
 				int GetSceneInstancesCount();
-				IScene* GetSceneInstance(int index);
+				IScene* GetScene(int index);
 
 				IComposer* GetComposer();
 
 				void PhysStep(float step);
 
+				void CallOnProcessCollisions();
 
 				void OnStep(float step);
 
 				//void Render(TDirector* director, TRender* render);
 
-				void UpdateTransform();
-
-
-				
+				void UpdateTransform();				
 			};
 		}
 	}

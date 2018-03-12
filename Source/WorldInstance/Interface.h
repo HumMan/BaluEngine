@@ -20,7 +20,7 @@ namespace BaluEngine
 		class ISkeletonAnimationInstance;
 		class ISpritePolygonInstance;		
 		class IDirector;
-
+		class IEventsEditorInstance;
 		class TResources;
 	}
 }

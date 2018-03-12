@@ -92,6 +92,7 @@ namespace BaluEngine
 			public:
 				TRuntimeProperties();
 				~TRuntimeProperties();
+
 				TRuntimeProperties(const TRuntimeProperties& copy_from);
 				bool HasProperty(const std::string& name, RuntimePropertyType& type);
 

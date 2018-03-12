@@ -6,6 +6,8 @@
 
 #include "../WorldInstance/Internal/World/WorldInstance.h"
 
+#include "../WorldInstance/Internal/Scene/SceneInstance.h"
+
 #include <SDL.h>
 
 #include <nanovg.h>
@@ -66,7 +68,7 @@ void TDirector::Step(float step)
 			return;
 		if (p->physics_sym)
 		{
-			//p->world_instance->OnPrePhysStep();
+			p->world_instance->GetEventsEditor()->PrePhysStep();
 			p->world_instance->PhysStep(step);
 
 		}
@@ -76,7 +78,7 @@ void TDirector::Step(float step)
 
 		if (p->physics_sym)
 		{
-			//p->world_instance->OnProcessCollisions();
+			p->world_instance->CallOnProcessCollisions();
 		}
 
 		p->world_instance->OnStep(step);
@@ -92,7 +94,7 @@ void TDirector::SetWorldInstance(IWorld* world_instance)
 	p->world_instance = dynamic_cast<TWorld*>(world_instance);
 }
 
-IWorld* TDirector::GetWorldInstance()
+IWorld* TDirector::GetWorld()
 {
 	return p->world_instance;
 }
@@ -105,7 +107,9 @@ void TDirector::SetSymulatePhysics(bool enable)
 int TDirector::Initialize(bool create_window)
 {
 	p->create_window = create_window;
-	p->base_path = SDL_GetBasePath();
+	auto base_path = SDL_GetBasePath();
+	p->base_path = base_path;
+	SDL_free(base_path);
 	p->physics_sym = true;
 
 	if (create_window)
@@ -168,8 +172,6 @@ void TDirector::SetScreenSize(TVec2i new_size)
 {
 	auto old_screen_size = p->internal_render->Get.Viewport();
 	p->internal_render->Set.Viewport(new_size);
-	//if (p->world_instance!=nullptr)
-	//	p->world_instance->ViewportResize(this, old_screen_size, new_size);
 }
 
 void TDirector::SetViewport(TVec2i use_size)
@@ -257,14 +259,14 @@ void TDirector::MainLoop()
 		p->internal_render->Clear(true, true);
 		const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
-		//if (keystate[SDL_SCANCODE_LEFT])
-		//	p->world_instance->GetEventsEditor()->KeyDown(TKey::Left);
-		//if (keystate[SDL_SCANCODE_RIGHT])
-		//	p->world_instance->GetEventsEditor()->KeyDown(TKey::Right);
-		//if (keystate[SDL_SCANCODE_UP])
-		//	p->world_instance->GetEventsEditor()->KeyDown(TKey::Up);
-		//if (keystate[SDL_SCANCODE_DOWN])
-		//	p->world_instance->GetEventsEditor()->KeyDown(TKey::Down);
+		if (keystate[SDL_SCANCODE_LEFT])
+			p->world_instance->GetEventsEditor()->KeyDown(WorldDef::TKey::Left);
+		if (keystate[SDL_SCANCODE_RIGHT])
+			p->world_instance->GetEventsEditor()->KeyDown(WorldDef::TKey::Right);
+		if (keystate[SDL_SCANCODE_UP])
+			p->world_instance->GetEventsEditor()->KeyDown(WorldDef::TKey::Up);
+		if (keystate[SDL_SCANCODE_DOWN])
+			p->world_instance->GetEventsEditor()->KeyDown(WorldDef::TKey::Down);
 
 		Step(step/10);
 
@@ -275,30 +277,30 @@ void TDirector::MainLoop()
 			{
 				quit = true;
 			}
-			else if (event.type == SDL_KEYUP)
-			{
-				//p->world_instance->KeyUp();
-				//p->world_instance->GetEventsEditor()->MouseDown();
-			}
-			else if (event.type == SDL_KEYDOWN)
-			{
-				SDL_SetWindowTitle(p->mainwindow, "keydown");
-				//p->world_instance->KeyDown();
-			}
+			//else if (event.type == SDL_KEYUP)
+			//{
+			//	//p->world_instance->KeyUp();
+			//	//p->world_instance->GetEventsEditor()->MouseDown();
+			//}
+			//else if (event.type == SDL_KEYDOWN)
+			//{
+			//	SDL_SetWindowTitle(p->mainwindow, "keydown");
+			//	//p->world_instance->KeyDown();
+			//}
 			else if (event.type == SDL_MOUSEMOTION)
 			{
 				char b[100];
 				sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
 				SDL_SetWindowTitle(p->mainwindow, b);
-				//p->world_instance->GetEventsEditor()->MouseMove(TMouseEventArgs(TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)));
+				p->world_instance->GetEventsEditor()->MouseMove(WorldDef::TMouseEventArgs(WorldDef::TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)));
 			}
 			else if (event.type == SDL_MOUSEBUTTONDOWN)
 			{
-				//p->world_instance->GetEventsEditor()->MouseDown(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
+				p->world_instance->GetEventsEditor()->MouseDown(WorldDef::TMouseEventArgs(WorldDef::TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
 			}
 			else if (event.type == SDL_MOUSEBUTTONUP)
 			{
-				//p->world_instance->GetEventsEditor()->MouseUp(TMouseEventArgs(TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
+				p->world_instance->GetEventsEditor()->MouseUp(WorldDef::TMouseEventArgs(WorldDef::TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
 			}
 			else if (event.type == SDL_MOUSEWHEEL)
 			{
@@ -311,7 +313,7 @@ void TDirector::MainLoop()
 					auto old_screen_size = p->internal_render->Get.Viewport();
 					auto new_screen_size = TVec2i(event.window.data1, event.window.data2);
 					SetScreenSize(new_screen_size);
-					//p->world_instance->GetEventsEditor()->ViewportResize(this, old_screen_size, new_screen_size);
+					p->world_instance->GetEventsEditor()->ViewportResize(this, old_screen_size, new_screen_size);
 				}
 			}
 		}
@@ -343,13 +345,9 @@ void IDirector::DestroyDirector(IDirector* director, bool clear_static_data)
 {
 	delete dynamic_cast<TDirector*>(director);
 	//очистка статичных данных должна выполняться только при завершении работы
-	//TODO
-	//if (clear_static_data)
-	//{
-	//	SceneObjectFactory::UnregisterAll();
-	//	SceneObjectInstanceFactory::UnregisterAll();
-	//	PropertiesFactory::UnregisterAll();
-	//	AnimDescFactory::UnregisterAll();
-	//	PhysShapeFactory::UnregisterAll();
-	//}
+	if (clear_static_data)
+	{
+		SceneObjectInstanceFactory::UnregisterAll();
+		WorldDef::UnregisterAll();
+	}
 }

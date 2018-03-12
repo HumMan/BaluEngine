@@ -11,6 +11,8 @@ namespace BaluEngine
 
 			virtual void SetActiveAnimation(const std::string&) = 0;
 			//virtual TBaluTransform GetGlobalTransform() = 0;
+
+			virtual ~ISpritePolygonInstance() {}
 		};
 	}
 }

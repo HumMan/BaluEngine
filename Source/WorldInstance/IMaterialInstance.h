@@ -7,6 +7,7 @@ namespace BaluEngine
 		class IMaterial
 		{
 		public:
+			virtual ~IMaterial() {}
 		};
 	}
 }

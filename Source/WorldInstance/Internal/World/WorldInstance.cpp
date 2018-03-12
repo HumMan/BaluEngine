@@ -4,6 +4,8 @@
 
 #include "../Composer/Composer.h"
 
+#include "../Scripts/IScriptInstance.h"
+
 #include <algorithm>
 
 using namespace BaluEngine;
@@ -20,7 +22,7 @@ public:
 
 	TComposer composer;
 
-	//std::unique_ptr<TEventsEditorInstance> events_editor;
+	std::unique_ptr<TScriptInstance> script_instance;
 
 };
 
@@ -36,6 +38,10 @@ TWorld::TWorld(WorldDef::IWorld* source, TResources* resources, std::string asse
 	p->source = source;
 	p->resources = resources;
 
+	p->script_instance.reset(new TScriptInstance(source->GetEventsEditor()));
+
+	p->script_instance->Compile();
+
 	//this->events_editor.reset(new TEventsEditorInstance(source->GetEventsEditor(), assets_dir));
 
 	std::vector<std::string> errors_list;
@@ -45,6 +51,8 @@ TWorld::TWorld(WorldDef::IWorld* source, TResources* resources, std::string asse
 	//{
 	//	this->events_editor->WorldStart(this, &composer);
 	//}
+	if (call_scripts)
+		p->script_instance->WorldStart(this, &p->composer);
 }
 
 IScene* TWorld::RunScene(WorldDef::IScene* scene_source)
@@ -52,6 +60,7 @@ IScene* TWorld::RunScene(WorldDef::IScene* scene_source)
 	p->scene_instances.push_back(std::unique_ptr<IScene>(new TScene(this, scene_source, p->resources)));
 	return p->scene_instances.back().get();
 }
+
 //IScene* TWorld::RunScene()
 //{
 //	p->scene_instances.push_back(std::unique_ptr<TScene>(new TScene(this, p->resources)));
@@ -76,6 +85,12 @@ void TWorld::StopScene(IScene* scene)
 	}
 }
 
+void TWorld::CallOnProcessCollisions()
+{
+	for (auto& v : p->scene_instances)
+		dynamic_cast<TScene*>(v.get())->OnProcessCollisions();
+}
+
 void TWorld::PhysStep(float step)
 {
 	for(auto& v : p->scene_instances)
@@ -96,17 +111,19 @@ void TWorld::UpdateTransform()
 
 TWorld::~TWorld()
 {
+
 }
-//IEventsEditorInstance* TWorld::GetEventsEditor()
-//{
-//	return dynamic_cast<IEventsEditorInstance*>(events_editor.get());
-//}
+
+IEventsEditorInstance* TWorld::GetEventsEditor()
+{
+	return p->script_instance.get();
+}
 
 int TWorld::GetSceneInstancesCount()
 {
 	return p->scene_instances.size();
 }
-IScene* TWorld::GetSceneInstance(int index)
+IScene* TWorld::GetScene(int index)
 {
 	return p->scene_instances[index].get();
 }

@@ -38,5 +38,6 @@ namespace BaluEngine
 
 		BALUENGINEDLL_API IWorld* CreateWorld();
 		BALUENGINEDLL_API void DestroyWorld(IWorld* world);
+		BALUENGINEDLL_API void UnregisterAll();
 	}
 }

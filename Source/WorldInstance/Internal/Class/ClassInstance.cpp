@@ -63,6 +63,13 @@ int TClassInstance::GetSpritesCount()
 {
 	return sprites.size();
 }
+int BaluEngine::WorldInstance::Internal::TClassInstance::ContainsSprite(ITransformedSpriteInstance * sprite)
+{
+	for(int i=0;i<sprites.size();i++)
+		if (sprites[i].get() == sprite)
+			return i;
+	return -1;
+}
 ITransformedSpriteInstance* TClassInstance::GetSprite(int index)
 {
 	return sprites[index].get();
@@ -131,11 +138,6 @@ void TTransformedClassInstance::SetScale(TVec2 scale)
 TClassPhysBodyIntance* TTransformedClassInstance::GetPhysBody()
 {
 	return instance_class.GetPhysBody();
-}
-
-int TTransformedClassInstance::GetSpritesCount()
-{
-	return instance_class.GetSpritesCount();
 }
 
 ISceneObjectInstance* TTransformedClassInstance::Clone(WorldDef::ISceneObject* source, IScene* scene)

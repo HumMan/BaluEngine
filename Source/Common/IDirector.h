@@ -16,7 +16,7 @@ namespace BaluEngine
 		public:
 			virtual void Step(float step) = 0;
 			virtual void SetWorldInstance(IWorld* world_instance) = 0;
-			virtual IWorld* GetWorldInstance() = 0;
+			virtual IWorld* GetWorld() = 0;
 			//virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)=0;
 			//virtual void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback) = 0;
 			virtual void SetSymulatePhysics(bool enable) = 0;

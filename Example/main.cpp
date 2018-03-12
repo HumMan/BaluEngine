@@ -36,6 +36,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		Run(WideToMultiByte(args[1]));
 	}
 
+	LocalFree(args);
+
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	return 0;
@@ -48,11 +50,12 @@ void Run(std::string assets_dir)
 	director->Initialize(true);
 
 	auto demo_world = CreateDemoWorld(director->GetAssetsDir());
+	
 	demo_world->SaveToXML("demo_test.xml");
-
 	auto temp = WorldDef::CreateWorld();
 	temp->LoadFromXML("demo_test.xml");
 	temp->SaveToXML("demo_test_2.xml");
+	WorldDef::DestroyWorld(temp);
 
 	screen = new WorldInstance::TScreen(director->GetScreenSize());
 
@@ -61,11 +64,6 @@ void Run(std::string assets_dir)
 	std::string error;
 	bool compile_success;
 	auto demo_world_instance = WorldInstance::CreateWorld(demo_world, director->GetResources(), assets_dir, true, compile_success, error);
-	
-	//TODO убрать после исправления скриптов - оно есть в WorldStart_source
-	auto scene = demo_world_instance->GetSource()->GetScene("scene0");
-	auto scene_instance = demo_world_instance->RunScene(scene);
-	demo_world_instance->GetComposer()->AddToRender(scene_instance, scene->FindViewport("main_viewport"));
 	
 	WorldInstance::TDrawingHelperContext drawing_context;
 	drawing_context.screen = screen;

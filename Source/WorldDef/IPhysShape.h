@@ -15,7 +15,7 @@ namespace BaluEngine
 			BALU_ENGINE_VPROPERTY(Local, TTransformWithScale)
 			BALU_ENGINE_VPROPERTY(IsSensor, bool)
 
-			virtual ~IPhysShape() {};
+			virtual ~IPhysShape() {}
 
 			virtual void Accept(IPhysShapeVisitor* visitor) = 0;
 		};

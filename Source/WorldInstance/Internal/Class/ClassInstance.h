@@ -49,15 +49,6 @@ namespace BaluEngine
 				void SetTransform(WorldDef::TTransform transform);
 			};
 
-
-
-			//class IScriptsCache
-			//{
-			//public:
-			//	virtual TClassCompiledScripts* GetClassCompiled(TClass* source) = 0;
-			//};
-
-
 			class TClassInstance :public IClassInstance
 			{
 			private:
@@ -76,6 +67,7 @@ namespace BaluEngine
 				TClassInstance(WorldDef::IClass* source, b2World* phys_world, WorldDef::TTransform parent_transform, TResources* resources, ISceneObjectInstance* scene_object);
 				WorldDef::IClass* GetSource();
 				int GetSpritesCount();
+				int ContainsSprite(ITransformedSpriteInstance* sprite);
 				ITransformedSpriteInstance* GetSprite(int index);
 				TSkeletonAnimationInstance* GetSkeletonAnimation();
 				TClassPhysBodyIntance* GetPhysBody();
@@ -120,7 +112,6 @@ namespace BaluEngine
 
 				TClassPhysBodyIntance* GetPhysBody();
 
-				int GetSpritesCount();
 				ITransformedSpriteInstance* GetSprite(int index);
 
 				TSkeletonAnimationInstance* GetSkeletonAnimation();

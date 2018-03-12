@@ -4,12 +4,6 @@ namespace BaluEngine
 {
 	namespace WorldInstance
 	{
-		class IBaluSpriteInstance
-		{
-		public:
-		};
-
-
 		class ITransformedSpriteInstance
 		{
 		public:
@@ -22,6 +16,8 @@ namespace BaluEngine
 			virtual WorldDef::TTransform GetTransform() = 0;
 			virtual ISpritePolygonInstance* GetPolygon() = 0;
 			//virtual IProperties* GetProperties() = 0;
+
+			virtual ~ITransformedSpriteInstance() {}
 		};
 	}
 }

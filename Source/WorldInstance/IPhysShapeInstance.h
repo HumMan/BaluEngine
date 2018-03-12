@@ -29,6 +29,7 @@ namespace BaluEngine
 		{
 		public:
 			virtual TPhysShapeUserData* GetUserData() = 0;
+			virtual ~IPhysShapeInstance() {};
 		};
 	}
 }
