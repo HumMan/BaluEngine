@@ -38,7 +38,7 @@ TWorld::TWorld(WorldDef::IWorld* source, TResources* resources, std::string asse
 	p->source = source;
 	p->resources = resources;
 
-	p->script_instance.reset(new TScriptInstance(source->GetEventsEditor()));
+	p->script_instance.reset(new TScriptInstance(this, source->GetEventsEditor()));
 
 	p->script_instance->Compile();
 
@@ -119,7 +119,7 @@ IEventsEditorInstance* TWorld::GetEventsEditor()
 	return p->script_instance.get();
 }
 
-int TWorld::GetSceneInstancesCount()
+int TWorld::GetSceneCount()
 {
 	return p->scene_instances.size();
 }

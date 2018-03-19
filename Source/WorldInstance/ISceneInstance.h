@@ -23,7 +23,10 @@ namespace BaluEngine
 			//void QueryAABB(BaluLib::TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui);
 
 			//virtual ISceneObjectInstance* CreateInstance(WorldDef::ISceneObject* use_class, WorldDef::TTransform transform, BaluLib::TVec2 scale) = 0;
-			virtual void DestroyInstance(ISceneObjectInstance*) = 0;
+			//virtual void DestroyInstance(ISceneObjectInstance*) = 0;
+
+			virtual size_t GetInstancesCount()=0;
+			virtual ISceneObjectInstance* GetInstance(size_t index)=0;
 
 			virtual ~IScene() {};
 		};

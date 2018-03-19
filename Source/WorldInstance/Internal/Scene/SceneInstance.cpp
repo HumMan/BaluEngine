@@ -163,7 +163,7 @@ TSceneObjectInstance::TSceneObjectInstance(IScene* scene)
 {
 	p.reset(new TPrivate());
 	p->scene = scene;
-	(dynamic_cast<TScene*>(scene))->AddInstance(this);
+	//(dynamic_cast<TScene*>(scene))->AddInstance(this);
 }
 
 bool TScene::PointCollide(TVec2 scene_space_point, ISceneObjectInstance* &result)
@@ -256,6 +256,9 @@ TScene::TScene(IWorld* world, WorldDef::IScene* source, TResources* resources)
 	{
 		auto source_instance = source->GetInstance(i);
 		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, this);
+		p->instances.push_back(std::unique_ptr<ISceneObjectInstance>(instance));
+		auto class_instance = dynamic_cast<ITransformedClassInstance*>(instance);
+		p->world->GetEventsEditor()->OnCreate(class_instance);
 	}
 
 	//source->AddChangesListener(this);
@@ -283,24 +286,27 @@ TScene::~TScene()
 	//	source->RemoveChangesListener(this);
 }
 
-void TScene::AddInstance(ISceneObjectInstance* instance)
-{
-	for (auto& v : p->instances)
-		if (v.get() == instance)
-			assert(false);
-	p->instances.push_back(std::unique_ptr<ISceneObjectInstance>(instance));
-}
+//void TScene::AddInstance(ISceneObjectInstance* instance)
+//{
+//	for (auto& v : p->instances)
+//		if (v.get() == instance)
+//			assert(false);
+//	p->instances.push_back(std::unique_ptr<ISceneObjectInstance>(instance));
+//	//auto class_instance = dynamic_cast<ITransformedClassInstance*>(instance);
+//	//if (class_instance != nullptr)
+//	//	p->world->GetEventsEditor()->OnCreate(class_instance);
+//}
 
-void TScene::DestroyInstance(ISceneObjectInstance* instance)
-{
-	for (int i = 0; i < p->instances.size(); i++)
-	{
-		if (p->instances[i].get() == instance)
-		{
-			p->instances[i].reset();
-		}
-	}
-}
+//void TScene::DestroyInstance(ISceneObjectInstance* instance)
+//{
+//	for (int i = 0; i < p->instances.size(); i++)
+//	{
+//		if (p->instances[i].get() == instance)
+//		{
+//			p->instances[i].reset();
+//		}
+//	}
+//}
 
 void TScene::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results)
 {
@@ -344,6 +350,14 @@ void TScene::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std
 	}
 }
 
+size_t TScene::GetInstancesCount()
+{
+	return p->instances.size();
+}
+ISceneObjectInstance* TScene::GetInstance(size_t index)
+{
+	return p->instances[index].get();
+}
 
 void TScene::PhysStep(float step)
 {

@@ -33,6 +33,7 @@ namespace BaluEngine
 			BeforePhysics,
 			KeyDown,
 			KeyUp,
+			Created,
 
 			Count
 		};
@@ -88,7 +89,7 @@ namespace BaluEngine
 			virtual void GlobalKeyRemove(GlobalKeyCallbackType type, int index)=0;
 
 			virtual int ClassGetCount(ClassCallbackType type)=0;
-			virtual std::tuple<TScript, std::string>& ClassGet(ClassCallbackType type, int index)=0;
+			virtual std::tuple<std::string, TScript>& ClassGet(ClassCallbackType type, int index)=0;
 			virtual void ClassInsert(ClassCallbackType type, std::string class_name, int after_index, TScript script)=0;
 			virtual void ClassRemove(ClassCallbackType type, int index)=0;
 
@@ -129,6 +130,7 @@ namespace BaluEngine
 			"func static BeforePhysics_%s(IInstance object)",
 			"func static KeyDown_%s(TKey key, IInstance object)",
 			"func static KeyUp_%s(TKey key, IInstance object)",
+			"func static Created_%s(IInstance object)",
 		};
 
 		const std::vector<std::string> ClassKeyCallbackSignature =

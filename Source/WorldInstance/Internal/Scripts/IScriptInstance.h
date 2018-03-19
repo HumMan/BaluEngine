@@ -36,7 +36,7 @@ namespace BaluEngine
 			public:
 				void Compile();
 
-				TScriptInstance(WorldDef::IEventsEditor* source);
+				TScriptInstance(IWorld* world, WorldDef::IEventsEditor* source);
 				~TScriptInstance();
 
 				void MouseDown(WorldDef::TMouseEventArgs e);
@@ -48,6 +48,8 @@ namespace BaluEngine
 
 				void KeyDown(WorldDef::TKey key);
 				void KeyUp(WorldDef::TKey key);
+
+				void OnCreate(ITransformedClassInstance* object);
 
 				//void AddMouseEventListener(TMouseEventListener*);
 				//void RemoveMouseEventListener(TMouseEventListener*);

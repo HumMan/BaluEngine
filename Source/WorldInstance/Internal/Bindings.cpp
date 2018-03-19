@@ -27,27 +27,6 @@ void Bootstrap(TMethodRunContext* run_context)
 
 }
 
-//#include "../submodules/BaluScript/Source/TreeRunner/TreeRunner.h"
-
-//#include "../../Common/IDirector.h"
-
-//using namespace BaluEngine;
-//using namespace BaluEngine::WorldInstance;
-//
-//std::string Convert_TString_to_stdstring(const TString& value)
-//{
-//	return value.AsStdString();
-//}
-//
-//TString Convert_stdstring_to_TString(const std::string& value)
-//{
-//	TString result;
-//	result.Init(value);
-//	return result;
-//}
-//
-//#include "../../../BindingGenerator/external_bindings.h"
-
 std::string PrintMethod(std::string value)
 {
 	char buf[200];

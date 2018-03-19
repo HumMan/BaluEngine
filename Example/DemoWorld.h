@@ -14,6 +14,9 @@ char* PlayerJump_source = //(IBaluTransformedClassInstance object)
 "		object.GetPhysBody().SetLinearVelocity(speed);\n"
 "	}\n";
 
+char* PlayerCreated_source =
+"	object.GetProperties().SetBool(\"can_jump\", false);";
+
 char* PlayerLeft_source = //(void* user_data, IBaluTransformedClassInstance* object)
 "	float mult = 0.8;\n"
 "	if(object.GetProperties().GetBool(\"can_jump\")) mult = 1;\n"
@@ -154,6 +157,7 @@ WorldDef::IWorld* CreateDemoWorld(std::string assets_dir)
 	player_class->GetProperties()->SetBool("can_jump", false);
 
 	world->GetEventsEditor()->ClassInsert(ClassCallbackType::BeforePhysics, player_class->GetName(), -1, TScript(PlayerPrePhysStep_source));
+	world->GetEventsEditor()->ClassInsert(ClassCallbackType::Created, player_class->GetName(), -1, TScript(PlayerCreated_source));
 	world->GetEventsEditor()->OnCollideInsert(-1, player_class->GetName(), 1, box_class->GetName(), TScript(PlayerJumpSensorCollide_source));
 
 	auto bones_player = world->CreateClass("bones");

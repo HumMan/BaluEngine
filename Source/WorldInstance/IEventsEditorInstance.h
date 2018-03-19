@@ -26,6 +26,8 @@ namespace BaluEngine
 			virtual void KeyDown(WorldDef::TKey key) = 0;
 			virtual void KeyUp(WorldDef::TKey key) = 0;
 
+			virtual void OnCreate(ITransformedClassInstance* object)=0;
+
 			virtual void WorldStart(IWorld* world_instance, IComposer* composer) = 0;
 
 			//virtual void AddMouseEventListener(TMouseEventListener*) = 0;

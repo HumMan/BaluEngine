@@ -70,12 +70,14 @@ namespace BaluEngine
 
 				//TSceneObjectInstance* CreateInstance(WorldDef::ISceneObject* use_class, WorldDef::TTransform transform, BaluLib::TVec2 scale);
 
-				void AddInstance(ISceneObjectInstance*);
-				void DestroyInstance(ISceneObjectInstance*);
+				//void AddInstance(ISceneObjectInstance*);
+				//void DestroyInstance(ISceneObjectInstance*);
 
 				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results);
 				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui);
 
+				size_t GetInstancesCount();
+				ISceneObjectInstance* GetInstance(size_t index);
 
 				void PhysStep(float step);
 

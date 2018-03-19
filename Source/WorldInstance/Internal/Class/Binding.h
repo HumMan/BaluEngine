@@ -47,7 +47,7 @@ namespace BaluEngine
 					"{\n"
 					"}\n"
 					;
-				TScriptClassesRegistry::RegisterExternal(source, "TMouseEventArgs", sizeof(void*), true, "WorldDef::TMouseEventArgs");
+				TScriptClassesRegistry::RegisterExternal(source, "TMouseEventArgs", sizeof(WorldDef::TMouseEventArgs), false, "WorldDef::TMouseEventArgs");
 
 				source =
 					"class TRot\n"

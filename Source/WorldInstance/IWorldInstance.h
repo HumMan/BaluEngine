@@ -18,7 +18,7 @@ namespace BaluEngine
 
 			virtual void StopScene(IScene*) = 0;
 
-			virtual int GetSceneInstancesCount() = 0;
+			virtual int GetSceneCount() = 0;
 			virtual IScene* GetScene(int index) = 0;
 
 			virtual IEventsEditorInstance* GetEventsEditor() = 0;

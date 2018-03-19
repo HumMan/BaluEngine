@@ -99,7 +99,6 @@ void TEventsEditor::ClassKeyRemove(ClassKeyCallbackType type, int index)
 	class_key[(int)type].erase(class_key[(int)type].begin() + index);
 }
 
-
 int TEventsEditor::OnCollideGetCount()
 {
 	return on_collide.size();

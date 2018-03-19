@@ -35,7 +35,7 @@ namespace BaluEngine
 				//IScene* RunScene();
 				//IScene* RunScene(WorldDef::ILayersManager* scene_layers);
 
-				int GetSceneInstancesCount();
+				int GetSceneCount();
 				IScene* GetScene(int index);
 
 				IComposer* GetComposer();
