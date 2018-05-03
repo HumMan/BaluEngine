@@ -26,7 +26,6 @@ public:
 
 };
 
-
 WorldDef::IWorld* TWorld::GetSource()
 {
 	return p->source;

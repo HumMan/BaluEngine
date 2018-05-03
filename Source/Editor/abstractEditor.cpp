@@ -1,6 +1,12 @@
 #include "abstractEditor.h"
 
-TAbstractEditor::TAbstractEditor(IBaluWorldInstance* world_instance)
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
+
+using namespace BaluLib;
+
+TAbstractEditor::TAbstractEditor(WorldInstance::IWorld* world_instance)
 {
 	editor_global_pos = TVec2(0, 0);
 	current_local_editor = nullptr;
@@ -15,7 +21,7 @@ TAbstractEditor::~TAbstractEditor()
 	//world_instance->RemoveMouseEventListener(this);
 }
 
-void TAbstractEditor::OnMouseMove(TMouseEventArgs e)
+void TAbstractEditor::OnMouseMove(WorldDef::TMouseEventArgs e)
 {
 	if (current_local_editor != nullptr)
 	{
@@ -28,7 +34,7 @@ void TAbstractEditor::OnMouseMove(TMouseEventArgs e)
 	}
 }
 
-void TAbstractEditor::OnMouseDown(TMouseEventArgs e)
+void TAbstractEditor::OnMouseDown(WorldDef::TMouseEventArgs e)
 {
 	if (current_local_editor != nullptr)
 	{
@@ -41,7 +47,7 @@ void TAbstractEditor::OnMouseDown(TMouseEventArgs e)
 	}
 }
 
-void TAbstractEditor::OnMouseUp(TMouseEventArgs e)
+void TAbstractEditor::OnMouseUp(WorldDef::TMouseEventArgs e)
 {
 	if (current_local_editor != nullptr)
 	{

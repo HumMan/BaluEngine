@@ -13,6 +13,16 @@ TProperties::TProperties()
 {
 }
 
+std::vector<std::string> TProperties::GetPropertyNames()
+{
+	std::vector<std::string> result;
+	for (auto& v : properties)
+	{
+		result.push_back(v.first);
+	}
+	return result;
+}
+
 bool TProperties::HasProperty(const std::string & name, PropertyType & type)const
 {
 	auto prop = GetProperty(name);

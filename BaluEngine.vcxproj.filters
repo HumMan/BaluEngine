@@ -259,6 +259,24 @@
     <ClInclude Include="Source\WorldInstance\Internal\Scripts\IScriptInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Editor\Objects\ClassEditor\classEditorTools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorTools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editor\abstractEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Editor\IAbstractEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
@@ -316,6 +334,8 @@
     <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptClassesRegistry.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Bindings.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptInstance.cpp" />
+    <ClCompile Include="Source\Editor\abstractEditor.cpp" />
+    <ClCompile Include="Source\Editor\IAbstractEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

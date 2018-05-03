@@ -85,26 +85,6 @@ namespace BaluEngine
 				virtual void LayerRemoved(int layer_id);
 				virtual void LayerChanged(int layer_id);
 			};
-
-			class TLayersManagerInstance
-			{
-			private:
-				TLayersManager* source;
-				TBaluSceneInstance* scene;
-				std::vector<TLayerInstance> layers;
-				TInstanceLayersManagerChangeListener source_changes_listener;
-			public:
-				TLayersManagerInstance(TLayersManager* source);
-				~TLayersManagerInstance();
-				TLayersManager* GetSource();
-				std::vector<TLayerInstance> GetLayers()
-				{
-					return layers;
-				}
-				void SetLayer(int id, TLayerInstance layer)
-				{
-					layers[id] = layer;
-				}
 			};*/
 		}
 	}

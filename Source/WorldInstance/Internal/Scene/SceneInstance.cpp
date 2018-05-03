@@ -126,6 +126,11 @@ public:
 	WorldDef::IScene* source;
 	std::vector<std::unique_ptr<ISceneObjectInstance>> instances;
 
+	//std::vector<std::unique_ptr<ITransformedClassInstance>> class_instances;
+	//std::vector<std::unique_ptr<IGUIVisual>> editor_gui_instances;
+	//tiles;
+	//particle systems;
+
 	std::map<std::string, std::unique_ptr<WorldDef::IViewport>> viewports;
 
 	struct TCollisionInfo
@@ -258,7 +263,8 @@ TScene::TScene(IWorld* world, WorldDef::IScene* source, TResources* resources)
 		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, this);
 		p->instances.push_back(std::unique_ptr<ISceneObjectInstance>(instance));
 		auto class_instance = dynamic_cast<ITransformedClassInstance*>(instance);
-		p->world->GetEventsEditor()->OnCreate(class_instance);
+		if(class_instance!=nullptr)
+			p->world->GetEventsEditor()->OnCreate(class_instance);
 	}
 
 	//source->AddChangesListener(this);

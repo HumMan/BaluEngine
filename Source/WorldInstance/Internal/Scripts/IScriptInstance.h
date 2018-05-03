@@ -51,8 +51,8 @@ namespace BaluEngine
 
 				void OnCreate(ITransformedClassInstance* object);
 
-				//void AddMouseEventListener(TMouseEventListener*);
-				//void RemoveMouseEventListener(TMouseEventListener*);
+				void AddMouseEventListener(IMouseEventListener*);
+				void RemoveMouseEventListener(IMouseEventListener*);
 
 				void ViewportResize(IDirector* director, BaluLib::TVec2i old_size, BaluLib::TVec2i new_size);
 

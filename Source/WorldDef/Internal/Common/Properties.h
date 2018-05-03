@@ -121,7 +121,7 @@ public:\
 				{
 					properties[name].reset(new TProperty(type, value));
 				}
-
+				std::vector<std::string> GetPropertyNames();
 				bool HasProperty(const std::string& name, PropertyType& type)const;
 				IProperty* GetProperty(const std::string& name)const;
 				void SaveProperties(pugi::xml_node& parent_node, const int version)const;

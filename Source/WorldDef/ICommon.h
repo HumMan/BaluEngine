@@ -270,6 +270,7 @@ namespace BaluEngine
 		public:
 			virtual IProperty * GetProperty(const std::string& name)const = 0;
 			virtual bool HasProperty(const std::string& name, PropertyType& type)const = 0;
+			virtual std::vector<std::string> GetPropertyNames() = 0;
 			virtual void SaveProperties(pugi::xml_node& parent_node, const int version)const=0;
 			virtual void LoadProperties(const pugi::xml_node& instance_node, const int version)=0;
 		};

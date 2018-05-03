@@ -5,7 +5,7 @@ namespace BaluEngine
 	namespace WorldInstance
 	{
 
-		class TMouseEventListener
+		class IMouseEventListener
 		{
 		public:
 			virtual void OnMouseMove(WorldDef::TMouseEventArgs e) {}
@@ -30,8 +30,8 @@ namespace BaluEngine
 
 			virtual void WorldStart(IWorld* world_instance, IComposer* composer) = 0;
 
-			//virtual void AddMouseEventListener(TMouseEventListener*) = 0;
-			//virtual void RemoveMouseEventListener(TMouseEventListener*) = 0;
+			virtual void AddMouseEventListener(IMouseEventListener*) = 0;
+			virtual void RemoveMouseEventListener(IMouseEventListener*) = 0;
 
 			virtual void ViewportResize(IDirector* director, BaluLib::TVec2i old_size, BaluLib::TVec2i new_size) = 0;
 

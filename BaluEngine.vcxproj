@@ -105,6 +105,12 @@
     <ClInclude Include="Source\Common\Director.h" />
     <ClInclude Include="Source\Common\IDirector.h" />
     <ClInclude Include="Source\Common\IResources.h" />
+    <ClInclude Include="Source\Editor\abstractEditor.h" />
+    <ClInclude Include="Source\Editor\IAbstractEditor.h" />
+    <ClInclude Include="Source\Editor\Objects\ClassEditor\classEditorTools.h" />
+    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditor.h" />
+    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorScene.h" />
+    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorTools.h" />
     <ClInclude Include="Source\Render\DrawingHelper.h" />
     <ClInclude Include="Source\Render\Render.h" />
     <ClInclude Include="Source\Render\RenderCommand.h" />
@@ -189,6 +195,8 @@
   <ItemGroup>
     <ClCompile Include="Source\Common\Director.cpp" />
     <ClCompile Include="Source\Common\Resources.cpp" />
+    <ClCompile Include="Source\Editor\abstractEditor.cpp" />
+    <ClCompile Include="Source\Editor\IAbstractEditor.cpp" />
     <ClCompile Include="Source\Render\DrawingHelper.cpp" />
     <ClCompile Include="Source\Render\Render.cpp" />
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
