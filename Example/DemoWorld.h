@@ -70,7 +70,7 @@ char* BonesPlayerPrePhysStep_source = //(void* user_data, IBaluTransformedClassI
 "		object.GetSkeletonAnimation().StopAnimation(\"walk\");\n";
 
 char* ViewportResize_source = //(IDirector director, vec2i old_size, vec2i new_size)
-"	vec2 k = vec2(new_size[0], new_size[1]) / vec2(old_size[0], old_size[1]);\n"
+"	vec2 k = (new vec2)(new_size[0], new_size[1]) / (new vec2)(old_size[0], old_size[1]);\n"
 "	var main_viewport = director.GetWorld().GetScene(0).GetSource().FindViewport(\"main_viewport\");\n"
 "	vec2 old_vieport_size = main_viewport.GetSize();\n"
 "	vec2 new_vieport_size = old_vieport_size*k;\n"

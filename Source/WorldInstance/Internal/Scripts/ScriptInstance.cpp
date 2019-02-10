@@ -30,6 +30,12 @@ TString Convert_stdstring_to_TString(const std::string& value)
 	return result;
 }
 
+template<class T>
+TPtr Convert_stdsharedptr_to_TPtr(const std::shared_ptr<T>& value)
+{
+
+}
+
 #include "../../../BindingGenerator/external_bindings.h"
 
 std::string GetMethodSignature(std::string value, int index, bool trim_start = false)
@@ -61,8 +67,11 @@ public:
 	WorldDef::IEventsEditor* source;
 	ISyntaxAnalyzer* syntax;
 	std::vector<TStaticValue> static_objects;
+	TRefsList ref_list;
 	std::vector<std::string> errors;
 	IWorld* world;
+
+	TGlobalRunContext global_context;
 
 	std::vector<IMouseEventListener*> OnMouseEventListeners;
 };
@@ -72,11 +81,13 @@ TScriptInstance::TScriptInstance(IWorld* world, WorldDef::IEventsEditor* source)
 	p.reset(new TPrivate());
 	p->source = source;
 	p->world = world;
+
+	p->global_context = TGlobalRunContext(&p->static_objects, &p->ref_list);
 }
 
 TScriptInstance::~TScriptInstance()
 {
-	TreeRunner::DeinitializeStatic(p->static_objects);
+	TreeRunner::DeinitializeStatic(p->global_context);
 	ISyntaxAnalyzer::Destroy(p->syntax);
 }
 
@@ -104,7 +115,7 @@ void TScriptInstance::MouseDown(WorldDef::TMouseEventArgs e)
 		{
 			auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
 				GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
-			ns_Script::ns_GlobalCallback::callScriptFromC_MouseDown_(&p->static_objects, method, p->syntax, p->world, e);
+			ns_Script::ns_GlobalCallback::callScriptFromC_MouseDown_(p->global_context, method, p->syntax, p->world, e);
 		}
 	}
 }
@@ -115,7 +126,7 @@ void TScriptInstance::MouseMove(WorldDef::TMouseEventArgs e)
 	{
 		auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
 			GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
-		ns_Script::ns_GlobalCallback::callScriptFromC_MouseMove_(&p->static_objects, method, p->syntax, p->world, e);
+		ns_Script::ns_GlobalCallback::callScriptFromC_MouseMove_(p->global_context, method, p->syntax, p->world, e);
 	}
 }
 void TScriptInstance::MouseUp(WorldDef::TMouseEventArgs e)
@@ -125,7 +136,7 @@ void TScriptInstance::MouseUp(WorldDef::TMouseEventArgs e)
 	{
 		auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
 			GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
-		ns_Script::ns_GlobalCallback::callScriptFromC_MouseUp_(&p->static_objects, method, p->syntax, p->world, e);
+		ns_Script::ns_GlobalCallback::callScriptFromC_MouseUp_(p->global_context, method, p->syntax, p->world, e);
 	}
 }
 void TScriptInstance::MouseVerticalWheel(int amount)
@@ -141,7 +152,7 @@ void TScriptInstance::PrePhysStep()
 		{
 			auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
 				GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
-			ns_Script::ns_GlobalCallback::callScriptFromC_BeforePhysics_(&p->static_objects, method, p->syntax);
+			ns_Script::ns_GlobalCallback::callScriptFromC_BeforePhysics_(p->global_context, method, p->syntax);
 		}
 	}
 	{
@@ -164,7 +175,7 @@ void TScriptInstance::PrePhysStep()
 						{
 							auto method = p->syntax->GetMethod((std::string("func static Script.ClassCallback.") +
 								GetMethodSignature(WorldDef::ClassCallbackSignature[(int)type], k, true)).c_str());
-							ns_Script::ns_ClassCallback::callScriptFromC_BeforePhysics_(&p->static_objects, method, p->syntax, class_instance);
+							ns_Script::ns_ClassCallback::callScriptFromC_BeforePhysics_(p->global_context, method, p->syntax, class_instance);
 						}
 					}
 				}
@@ -181,7 +192,7 @@ void TScriptInstance::KeyDown(WorldDef::TKey key)
 		{
 			auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
 				GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
-			ns_Script::ns_GlobalCallback::callScriptFromC_KeyDown_(&p->static_objects, method, p->syntax, key);
+			ns_Script::ns_GlobalCallback::callScriptFromC_KeyDown_(p->global_context, method, p->syntax, key);
 		}
 	}
 	{
@@ -193,7 +204,7 @@ void TScriptInstance::KeyDown(WorldDef::TKey key)
 			{
 				auto method = p->syntax->GetMethod((std::string("func static Script.GlobalKeyCallback.") +
 					GetMethodSignature(WorldDef::GlobalKeyCallbackSignature[(int)type], i, true)).c_str());
-				ns_Script::ns_GlobalKeyCallback::callScriptFromC_KeyDown_(&p->static_objects, method, p->syntax);
+				ns_Script::ns_GlobalKeyCallback::callScriptFromC_KeyDown_(p->global_context, method, p->syntax);
 			}
 		}
 	}
@@ -217,7 +228,7 @@ void TScriptInstance::KeyDown(WorldDef::TKey key)
 						{
 							auto method = p->syntax->GetMethod((std::string("func static Script.ClassKeyCallback.") +
 								GetMethodSignature(WorldDef::ClassKeyCallbackSignature[(int)type], k, true)).c_str());
-							ns_Script::ns_ClassKeyCallback::callScriptFromC_KeyDown_(&p->static_objects, method, p->syntax, class_instance);
+							ns_Script::ns_ClassKeyCallback::callScriptFromC_KeyDown_(p->global_context, method, p->syntax, class_instance);
 						}
 					}
 				}
@@ -234,7 +245,7 @@ void TScriptInstance::KeyUp(WorldDef::TKey key)
 		{
 			auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
 				GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
-			ns_Script::ns_GlobalCallback::callScriptFromC_KeyUp_(&p->static_objects, method, p->syntax, key);
+			ns_Script::ns_GlobalCallback::callScriptFromC_KeyUp_(p->global_context, method, p->syntax, key);
 		}
 	}
 	{
@@ -246,7 +257,7 @@ void TScriptInstance::KeyUp(WorldDef::TKey key)
 			{
 				auto method = p->syntax->GetMethod((std::string("func static Script.GlobalKeyCallback.") +
 					GetMethodSignature(WorldDef::GlobalKeyCallbackSignature[(int)type], i, true)).c_str());
-				ns_Script::ns_GlobalKeyCallback::callScriptFromC_KeyUp_(&p->static_objects, method, p->syntax);
+				ns_Script::ns_GlobalKeyCallback::callScriptFromC_KeyUp_(p->global_context, method, p->syntax);
 			}
 		}
 	}
@@ -270,7 +281,7 @@ void TScriptInstance::KeyUp(WorldDef::TKey key)
 						{
 							auto method = p->syntax->GetMethod((std::string("func static Script.ClassKeyCallback.") +
 								GetMethodSignature(WorldDef::ClassKeyCallbackSignature[(int)type], k, true)).c_str());
-							ns_Script::ns_ClassKeyCallback::callScriptFromC_KeyUp_(&p->static_objects, method, p->syntax, class_instance);
+							ns_Script::ns_ClassKeyCallback::callScriptFromC_KeyUp_(p->global_context, method, p->syntax, class_instance);
 						}
 					}
 				}
@@ -290,7 +301,7 @@ void TScriptInstance::OnCreate(ITransformedClassInstance* object)
 		{
 			auto method = p->syntax->GetMethod((std::string("func static Script.ClassCallback.") +
 				GetMethodSignature(WorldDef::ClassCallbackSignature[(int)type], i, true)).c_str());
-			ns_Script::ns_ClassCallback::callScriptFromC_Created_(&p->static_objects, method, p->syntax, object);
+			ns_Script::ns_ClassCallback::callScriptFromC_Created_(p->global_context, method, p->syntax, object);
 		}
 	}
 
@@ -303,7 +314,7 @@ void TScriptInstance::ViewportResize(IDirector* director, BaluLib::TVec2i old_si
 	{
 		auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
 			GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
-		ns_Script::ns_GlobalCallback::callScriptFromC_ViewportResize_(&p->static_objects, method, p->syntax, director, old_size, new_size);
+		ns_Script::ns_GlobalCallback::callScriptFromC_ViewportResize_(p->global_context, method, p->syntax, director, old_size, new_size);
 	}
 }
 
@@ -314,7 +325,7 @@ void TScriptInstance::WorldStart(IWorld* world_instance, IComposer* composer)
 	{
 		auto method = p->syntax->GetMethod((std::string("func static Script.GlobalCallback.") +
 			GetMethodSignature(WorldDef::GlobalCallbackSignature[(int)type], i, true)).c_str());
-		ns_Script::ns_GlobalCallback::callScriptFromC_WorldStart_(&p->static_objects, method, p->syntax, world_instance, composer);
+		ns_Script::ns_GlobalCallback::callScriptFromC_WorldStart_(p->global_context, method, p->syntax, world_instance, composer);
 	}
 }
 
@@ -338,7 +349,7 @@ void TScriptInstance::Collide(ITransformedClassInstance* object,
 		auto method = p->syntax->GetMethod((std::string("func static Script.OnCollideCallback.") +
 			GetMethodSignature(WorldDef::CollideCallbackSignature[0], 0, true)).c_str());
 
-		ns_Script::ns_OnCollideCallback::callScriptFromC_Collide(&p->static_objects, method, p->syntax,
+		ns_Script::ns_OnCollideCallback::callScriptFromC_Collide(p->global_context, method, p->syntax,
 			object, obj_a->GetPhysShape(), obj_b);
 	}
 }
@@ -419,8 +430,8 @@ void TScriptInstance::Compile()
 		p->syntax = ISyntaxAnalyzer::Create();
 		p->syntax->Compile(source.c_str(), external_classes, external_bindings);
 
-		TreeRunner::InitializeStaticClassFields(p->syntax->GetStaticFields(), p->static_objects);
-		TreeRunner::InitializeStaticVariables(p->syntax->GetStaticVariables(), p->static_objects);
+		TreeRunner::InitializeStaticClassFields(p->syntax->GetStaticFields(), p->global_context);
+		TreeRunner::InitializeStaticVariables(p->syntax->GetStaticVariables(), p->global_context);
 	}
 	catch (std::string s)
 	{
