@@ -66,8 +66,6 @@ namespace BaluEngine
 				std::map<std::string, TViewport> viewports;
 
 				TLayersManager layers;
-
-				TWorld* world;
 			public:
 				static TWorldObjectType GetWorldObjectType()
 				{
@@ -86,8 +84,10 @@ namespace BaluEngine
 				ISceneObject* GetInstance(int index);
 
 				ISceneObject* CreateInstance(IClass* balu_class);
+				void InsertInstance(ISceneObject*, int index);
 
 				void DestroyInstance(ISceneObject*);
+				void DestroyInstance(int index);
 
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);

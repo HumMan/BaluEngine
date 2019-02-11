@@ -200,3 +200,40 @@ void TWorld::LoadFromXML(const std::string& path)
 	doc.load_file(pugi::as_wide(path.c_str()).c_str());
 	LoadFromXML(doc.child("BaluEditorWorldFile"), 1);
 }
+
+IMaterial* TWorld::CreateMaterial(const char* name, const std::string& serialized)
+{
+	xml_document doc;
+	doc.load_string(serialized.c_str());
+
+	auto new_obj = dynamic_cast<IMaterial*>(CreateObject(TWorldObjectType::Material, name));
+	new_obj->Load(doc.child("Material"),1,this);
+	return new_obj;
+}
+ISprite* TWorld::CreateSprite(const char* name, const std::string& serialized)
+{
+	xml_document doc;
+	doc.load_string(serialized.c_str());
+
+	auto new_obj = dynamic_cast<ISprite*>(CreateObject(TWorldObjectType::Sprite, name));
+	new_obj->Load(doc.child("Sprite"), 1, this);
+	return new_obj;
+}
+IClass* TWorld::CreateClass(const char* name, const std::string& serialized)
+{
+	xml_document doc;
+	doc.load_string(serialized.c_str());
+
+	auto new_obj = dynamic_cast<IClass*>(CreateObject(TWorldObjectType::Class, name));
+	new_obj->Load(doc.child("Class"), 1, this);
+	return new_obj;
+}
+IScene* TWorld::CreateScene(const char* name, const std::string& serialized)
+{
+	xml_document doc;
+	doc.load_string(serialized.c_str());
+
+	auto new_obj = dynamic_cast<IScene*>(CreateObject(TWorldObjectType::Scene, name));
+	new_obj->Load(doc.child("Scene"), 1, this);
+	return new_obj;
+}

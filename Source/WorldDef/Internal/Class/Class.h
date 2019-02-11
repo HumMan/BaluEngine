@@ -58,12 +58,9 @@ namespace BaluEngine
 				BaluLib::TAABB2 GetAABB();
 
 				virtual ~TClass();
-
-				//void OnMouseMove(TMouseMoveCallback);
-
-				TTransformedSprite* AddSprite(TSprite* sprite);
-				ITransformedSprite* AddSprite(ISprite* sprite);
-				void RemoveSprite(TSprite* sprite);
+				TTransformedSprite* CreateSpriteInstance(TSprite* sprite);
+				ITransformedSprite* CreateSpriteInstance(ISprite* sprite);
+				void DestroySpriteInstance(ITransformedSprite* sprite);
 				int GetSpritesCount();
 				TTransformedSprite* GetSprite(int index);
 

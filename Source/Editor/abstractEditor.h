@@ -17,8 +17,6 @@ namespace BaluEngine
 				WorldInstance::IWorld* world_instance;
 
 			protected:
-				std::vector<TAbstractEditor*> parent_editors;
-				TAbstractEditor* current_local_editor;
 				IEditorTool* active_tool;
 				BaluLib::TVec2 editor_global_pos;
 

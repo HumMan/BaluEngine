@@ -8,6 +8,10 @@ using namespace BaluLib;
 
 #include <algorithm>
 
+#include <pugixml.hpp>
+
+using namespace pugi;
+
 TVec2 IScene::FromViewportToScene(IViewport* viewport, TVec2 viewport_coord)
 {
 	return ((viewport_coord - TVec2(0.5, 0.5))).ComponentMul(viewport->GetAABB().GetSize()) + viewport->GetAABB().GetPosition();
@@ -57,12 +61,69 @@ ISceneObject* TScene::CreateInstance(IClass* _balu_class)
 	return instances.back().get();
 }
 
+void TScene::InsertInstance(ISceneObject* obj, int index)
+{
+	instances.insert(instances.begin() + index, std::unique_ptr<ISceneObject>(obj));
+}
+
+class DestroySceneObject : public ICommand
+{
+public:
+	IWorld* world;
+	std::string scene_name;
+	std::string scene_instance_serialized;
+	int instance_id;
+
+	void Do()
+	{
+		auto scene = dynamic_cast<TScene*>(world->GetScene(scene_name));
+		scene->DestroyInstance(instance_id);
+	}
+	void Undo()
+	{
+		auto scene = dynamic_cast<TScene*>(world->GetScene(scene_name));
+		xml_document doc;
+		doc.load_string(scene_instance_serialized.c_str());
+		auto new_instance = SceneObjectFactory::Create(doc.first_child().name());
+		new_instance->Load(doc.first_child(), 1, world);
+		scene->InsertInstance(new_instance, instance_id);
+	}
+};
+
+struct xml_string_writer : pugi::xml_writer
+{
+	std::string result;
+
+	virtual void write(const void* data, size_t size)
+	{
+		result.append(static_cast<const char*>(data), size);
+	}
+};
+
+void TScene::DestroyInstance(int index)
+{
+	instances.erase(instances.begin() + index);
+}
+
 void TScene::DestroyInstance(ISceneObject* instance)
 {
 	auto iter = std::find_if(instances.begin(), instances.end(), 
 		[&](std::unique_ptr<ISceneObject>& p){return p.get() == instance; });
 	if (iter != instances.end())
 	{
+		auto command = new DestroySceneObject();
+		command->world = world;
+		command->scene_name = this->GetName();
+		command->instance_id = std::distance(instances.begin(), iter);
+
+		xml_document doc;
+		iter->get()->Save(doc, 1);
+		xml_string_writer writer;
+		doc.save(writer);
+		command->scene_instance_serialized = writer.result;
+		
+		world->GetCommandList()->AddCommmand(command);
+
 		instances.erase(iter);
 	}
 	else

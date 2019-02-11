@@ -75,7 +75,6 @@ bool TWorld::ObjectNameExists(TWorldObjectType type, const char* name)
 TWorldObject* TWorld::CreateObject(TWorldObjectType type, const char* name)
 {
 	TWorldObject* resutl = nullptr;
-	//TODO заменить фабрикой
 	switch (type)
 	{
 	case TWorldObjectType::Material:
@@ -125,6 +124,8 @@ IScene* TWorld::CreateScene(const char* name)
 	return dynamic_cast<IScene*>(CreateObject(TWorldObjectType::Scene, name));
 }
 
+
+
 IScene* TWorld::GetScene(const std::string& name)
 {
 	return dynamic_cast<IScene*>(GetObjectByName(TWorldObjectType::Scene, name.c_str()));
@@ -146,6 +147,11 @@ IClass* TWorld::GetClass(const std::string& name)
 IEventsEditor* TWorld::GetEventsEditor()
 {
 	return p->events_editor.get();
+}
+
+ICommandList* TWorld::GetCommandList()
+{
+	return p->command_list.get();
 }
 
 void TWorld::AddChangesListener(TWorldChangeListener* listener)

@@ -2,6 +2,8 @@
 
 #include "RuntimeProperties.h"
 
+#include <algorithm>
+
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 
@@ -43,7 +45,13 @@ bool SceneObjectFactory::Register(const char* name, SceneObjectClone clone)
 {
 	if (scene_object_registry == nullptr)
 		scene_object_registry = new scene_object_registry_type();
-	scene_object_registry->push_back(std::pair<const char*, SceneObjectClone>(name, clone));
+
+	auto iter = std::find_if(scene_object_registry->begin(), scene_object_registry->end(),
+		[&](std::pair<const char*, SceneObjectClone>& p) {return p.first == name; });
+	if (iter == scene_object_registry->end())
+	{
+		scene_object_registry->push_back(std::pair<const char*, SceneObjectClone>(name, clone));		
+	}
 	return true;
 }
 

@@ -4,6 +4,8 @@ using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 using namespace BaluLib;
 
+#include <algorithm>
+
 TClass::TClass(std::string name, IWorld* world)
 	:TWorldObject(world, name)
 {
@@ -67,20 +69,29 @@ TSkeleton* TClass::GetSkeleton()
 	return skeleton.get();
 }
 
-TTransformedSprite* TClass::AddSprite(TSprite* sprite)
+TTransformedSprite* TClass::CreateSpriteInstance(TSprite* sprite)
 {
 	sprites.push_back(std::unique_ptr<TTransformedSprite>(new TTransformedSprite(sprite)));
 	return sprites.back().get();
 }
 
-ITransformedSprite* TClass::AddSprite(ISprite* sprite)
+ITransformedSprite* TClass::CreateSpriteInstance(ISprite* sprite)
 {
-	return AddSprite(dynamic_cast<TSprite*>(sprite));
+	return CreateSpriteInstance(dynamic_cast<TSprite*>(sprite));
 }
 
-void TClass::RemoveSprite(TSprite* sprite)
+void TClass::DestroySpriteInstance(ITransformedSprite* sprite)
 {
-
+	auto iter = std::find_if(sprites.begin(), sprites.end(),
+		[&](std::unique_ptr<TTransformedSprite>& p) {return p.get() == sprite; });
+	if (iter != sprites.end())
+	{
+		sprites.erase(iter);
+	}
+	else
+	{
+		throw std::invalid_argument("Объект не находится в данном классе");
+	}
 }
 
 int TClass::GetSpritesCount()

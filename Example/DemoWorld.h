@@ -104,12 +104,12 @@ WorldDef::IWorld* CreateDemoWorld(std::string assets_dir)
 	box_sprite->SetPhysShape(GetPhysShapeFactory()->CreateBoxShape(1, 1)->GetPhysShape());
 
 	auto box_class = world->CreateClass("box");
-	auto box_class_instance = box_class->AddSprite(box_sprite);
+	auto box_class_instance = box_class->CreateSpriteInstance(box_sprite);
 	box_class->GetPhysBody()->SetEnabled(true);
 	box_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Static);
 
 	auto box_class_dyn = world->CreateClass("box_dyn");
-	auto box_class_instance_dyn = box_class_dyn->AddSprite(box_sprite);
+	auto box_class_instance_dyn = box_class_dyn->CreateSpriteInstance(box_sprite);
 	box_class_dyn->GetPhysBody()->SetEnabled(true);
 	box_class_dyn->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
 
@@ -140,13 +140,13 @@ WorldDef::IWorld* CreateDemoWorld(std::string assets_dir)
 	player_sprite->GetPolygon()->CreateAnimationLine("stay_left", grid_frames, TFramesRange(16 + 7 + 4, 16 + 7 + 4).ToFramesArray());
 
 	auto player_class = world->CreateClass("player");
-	auto player_class_instance = player_class->AddSprite(player_sprite);
+	auto player_class_instance = player_class->CreateSpriteInstance(player_sprite);
 	player_class->GetPhysBody()->SetEnabled(true);
 	player_class->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
 	player_class->GetPhysBody()->SetFixedRotation(true);
 
 	auto player_phys_sprite = world->CreateSprite("player_phys");
-	auto player_phys_sprite_instance = player_class->AddSprite(player_phys_sprite);
+	auto player_phys_sprite_instance = player_class->CreateSpriteInstance(player_phys_sprite);
 	player_phys_sprite->SetPhysShape(GetPhysShapeFactory()->CreateCircleShape(0.4, TVec2(0, -3.5))->GetPhysShape());
 	player_phys_sprite->GetPhysShape()->SetIsSensor(true);
 
@@ -175,7 +175,7 @@ WorldDef::IWorld* CreateDemoWorld(std::string assets_dir)
 		bones_phys_sprite->SetPhysShape(GetPhysShapeFactory()->CreateCircleShape(1.0, TVec2(0, -1.5))->GetPhysShape());
 		bones_phys_sprite->GetPolygon()->SetEnabled(false);
 
-		auto bones_player_class_instance = bones_player->AddSprite(bones_phys_sprite);
+		auto bones_player_class_instance = bones_player->CreateSpriteInstance(bones_phys_sprite);
 		bones_player->GetPhysBody()->SetEnabled(true);
 		bones_player->GetPhysBody()->SetPhysBodyType(TPhysBodyType::Dynamic);
 		bones_player->GetPhysBody()->SetFixedRotation(true);
@@ -319,10 +319,18 @@ WorldDef::IWorld* CreateDemoWorld(std::string assets_dir)
 	for (int i = -0; i < 10; i++)
 	{
 		auto inst0 = scene0->CreateInstance(box_class_dyn);
-		inst0->SetTransform(TTransform(TVec2(-5 + i*0.9 + 0.3, 7 + sinf(i*0.3) * 1), TRot(i)));
+		inst0->SetTransform(TTransform(TVec2(-5 + i * 0.9 + 0.3, 7 + sinf(i*0.3) * 1), TRot(i)));
+		//undo test
+		scene0->DestroyInstance(inst0);
+		world->GetCommandList()->Undo();
+		world->GetCommandList()->Redo();
+		world->GetCommandList()->Undo();		
 	}
 
 	auto main_viewport = scene0->CreateViewport("main_viewport");
+
+
+
 	main_viewport->SetTransform(TTransform(TVec2(0, 0), TRot(0)));
 	main_viewport->SetAspectRatio(1);
 	main_viewport->SetWidth(20);

@@ -29,8 +29,8 @@ namespace BaluEngine
 				return "class";
 			}
 			virtual BaluLib::TAABB2 GetAABB() = 0;
-			virtual ITransformedSprite* AddSprite(ISprite* sprite) = 0;
-
+			virtual ITransformedSprite* CreateSpriteInstance(ISprite* sprite) = 0;
+			virtual void DestroySpriteInstance(ITransformedSprite* sprite)=0;
 			virtual int GetSpritesCount() = 0;
 			virtual ITransformedSprite* GetSprite(int index) = 0;
 			virtual ISkeletonAnimation* GetSkeletonAnimation() = 0;

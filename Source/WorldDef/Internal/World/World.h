@@ -48,6 +48,8 @@ namespace BaluEngine
 
 				IEventsEditor * GetEventsEditor();
 
+				ICommandList* GetCommandList();
+
 				void AddChangesListener(TWorldChangeListener* listener);
 				void RemoveChangesListener(TWorldChangeListener* listener);
 
@@ -66,6 +68,11 @@ namespace BaluEngine
 				ISprite* CreateSprite(const char* name);
 				IClass* CreateClass(const char* name);
 				IScene* CreateScene(const char* name);
+
+				IMaterial* CreateMaterial(const char* name, const std::string& serialized);
+				ISprite* CreateSprite(const char* name, const std::string& serialized);
+				IClass* CreateClass(const char* name, const std::string& serialized);
+				IScene* CreateScene(const char* name, const std::string& serialized);
 
 				IScene* GetScene(const std::string& name);
 				IMaterial* GetMaterial(const std::string& name);
