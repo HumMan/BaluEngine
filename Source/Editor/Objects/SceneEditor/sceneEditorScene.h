@@ -1,37 +1,40 @@
 #pragma once
 
-#include <vector>
-#include <memory>
+#include "../../abstractEditor.h"
 
-#include <WorldDef/Objects/Scene/IScene.h>
-#include <WorldInstance/Objects/Scene/ISceneInstance.h>
-#include <WorldDef/IWorld.h>
+#include "../../../WorldDef/Internal/EditorGUI/BoxGui.h"
+#include "../../../WorldDef/Internal/EditorGUI/OBBGui.h"
+#include "../../../WorldDef/Internal/EditorGUI/PolygonGui.h"
+#include "../../../WorldDef/Internal/EditorGUI/SpriteGui.h"
 
-using namespace EngineInterface;
-
-#include "../../EditorGui/EditableBox/OBBGuiInstance.h"
-#include "../../EditorGui/BoxContour/BoxGuiInstance.h"
-
-#include <Editor/abstractEditor.h>
-
-class TSceneEditorScene
+namespace BaluEngine
 {
-public:
-	IBaluScene* source_scene;
+	namespace WorldInstance
+	{
+		namespace Internal
+		{
+			class TSceneEditorScene
+			{
+			public:
+				WorldDef::IScene* source_scene;
 
-	IBaluSceneInstance* editor_scene_instance;
-	TSceneObjectInstance* selected_instance;
-	
-	TDrawingHelper* drawing_helper;
+				WorldInstance::IScene* editor_scene_instance;
+				WorldDef::ISceneObject* selected;
 
-	//tools controls
-	TBoundaryBoxAdornment* boundary_box;
-	TOBBContour* boundary_box_contour;
+				TDrawingHelper* drawing_helper;
 
-	TSceneObjectInstance* hightlighted_instance;
+				//tools controls
+				WorldDef::Internal::TEditableOBBGui* boundary_box;
+				WorldDef::Internal::TBoxGui* boundary_box_contour;
 
-	TSelectionChangeListeners* selection_listeners;
-public:
-	void Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* source_scene_instance, TDrawingHelper* drawing_helper, TSelectionChangeListeners* selection_listeners);
-	void Deinitialize();
-};
+				WorldDef::ISceneObject* hightlighted_instance;
+
+				TSelectionChangeListeners* selection_listeners;
+
+				void Initialize(WorldDef::IWorld* world, WorldDef::IScene* source_scene,
+					TDrawingHelper* drawing_helper, TSelectionChangeListeners* selection_listeners);
+				void Deinitialize();
+			};
+		}
+	}
+}

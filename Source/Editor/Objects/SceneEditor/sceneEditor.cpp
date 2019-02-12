@@ -1,6 +1,8 @@
 #include "sceneEditor.h"
 
-#include <WorldInstance/Objects/Scene/ISceneInstance.h>
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
 TSceneEditor::TSceneEditor(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluScene* edited_scene, IBaluWorldInstance* world_instance)
 	:TAbstractEditor(world_instance), tools_registry(&scene)

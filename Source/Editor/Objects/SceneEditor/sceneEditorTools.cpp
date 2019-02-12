@@ -3,9 +3,9 @@
 
 #include "sceneEditorScene.h"
 
-#include <Editor/DrawingHelper.h>
-
-#include <WorldInstance/Objects/Scene/ISceneInstance.h>
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
 class TCreateClassInstanceTool : public IEditorTool
 {
@@ -85,7 +85,6 @@ public:
 	{
 		this->scene_editor_scene = scene_editor_scene;
 	}
-
 	void BoxResize(TOBB<float, 2> old_box, TOBB<float, 2> new_box, TVec2 scale)
 	{
 		auto new_scale = scene_editor_scene->selected_instance->GetScale().ComponentMul(scale);
@@ -103,7 +102,6 @@ public:
 		trans.angle = TRot(new_box);
 		scene_editor_scene->selected_instance->GetSource()->SetTransform(trans);
 	}
-
 	void OnMouseDown(TMouseEventArgs e)
 	{
 		if (e.button != TMouseButton::Left)

@@ -1,19 +1,28 @@
 #pragma once
 
-#include <Editor/abstractEditor.h>
 
-using namespace EngineInterface;
+#include "../../abstractEditor.h"
 
-class TSceneEditorScene;
-
-class TSceneEditorToolsRegistry
+namespace BaluEngine
 {
-public:
-	std::vector<TToolWithDescription> tools;
-	TSceneEditorScene* scene;
-public:
-	TSceneEditorToolsRegistry(TSceneEditorScene* scene);
-	TSceneEditorToolsRegistry(TSceneEditorToolsRegistry&& o);
-	const std::vector<TToolWithDescription>& GetTools();
-	~TSceneEditorToolsRegistry();
-};
+	namespace WorldInstance
+	{
+		namespace Internal
+		{
+			class TSceneEditorScene;
+
+			class TSceneEditorToolsRegistry
+			{
+			public:
+				std::vector<TToolWithDescription> tools;
+				TSceneEditorScene* scene;
+			public:
+				TSceneEditorToolsRegistry(TSceneEditorScene* scene);
+				TSceneEditorToolsRegistry(TSceneEditorToolsRegistry&& o);
+				const std::vector<TToolWithDescription>& GetTools();
+				~TSceneEditorToolsRegistry();
+			};
+
+		}
+	}
+}

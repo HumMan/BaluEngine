@@ -1,9 +1,13 @@
 #include "classEditor.h"
 
-#include <WorldInstance/Objects/Class/IClassInstance.h>
-#include <WorldInstance/Objects/Scene/ISceneInstance.h>
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
-TClassEditor::TClassEditor(TDrawingHelperContext drawing_context, IBaluWorld* world, IBaluClass* edited_class, IBaluWorldInstance* world_instance)
+using namespace BaluLib;
+
+
+TClassEditor::TClassEditor(TDrawingHelperContext drawing_context, WorldDef::IWorld* world, WorldDef::IClass* edited_class, WorldInstance::IWorld* world_instance)
 	: TAbstractEditor(world_instance), tools_registry(&scene)
 {
 	auto scene_instance = world_instance->RunScene();
@@ -19,7 +23,7 @@ TClassEditor::TClassEditor(TDrawingHelperContext drawing_context, IBaluWorld* wo
 	scene.editor_scene_class_instance = new TBaluTransformedClassInstance(scene.transformed_class.get(), dynamic_cast<TBaluSceneInstance*>(scene_instance));
 }
 
-IBaluSceneInstance* TClassEditor::GetEditorSceneInstance()
+WorldInstance::IScene* TClassEditor::GetEditorSceneInstance()
 {
 	return scene.editor_scene_instance;
 }

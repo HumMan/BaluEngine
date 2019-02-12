@@ -1,9 +1,11 @@
 #include "sceneEditorScene.h"
-#include "../../EditorGUI/EditableBox/OBBGuiInstance.h"
 
-#include <WorldInstance/Objects/Scene/ISceneInstance.h>
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
-void TSceneEditorScene::Initialize(IBaluWorld* world, IBaluScene* source_scene, IBaluSceneInstance* editor_scene_instance, TDrawingHelper* drawing_helper, TSelectionChangeListeners* selection_listeners)
+void TSceneEditorScene::Initialize(WorldDef::IWorld* world, WorldDef::IScene* source_scene,
+	TDrawingHelper* drawing_helper, TSelectionChangeListeners* selection_listeners)
 {
 	this->selection_listeners = selection_listeners;
 	this->source_scene = source_scene;
