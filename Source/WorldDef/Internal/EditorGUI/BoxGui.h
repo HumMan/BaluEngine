@@ -21,7 +21,7 @@ namespace BaluEngine
 					return "BoxGui";
 				}
 
-				static ISceneObject* Clone()
+				static ISceneObject* Clone(TScene*)
 				{
 					return new TBoxGui();
 				}

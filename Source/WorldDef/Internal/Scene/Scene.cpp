@@ -9,6 +9,7 @@ using namespace BaluLib;
 #include <algorithm>
 
 #include <pugixml.hpp>
+#include "../Common/SerializeCommon.h"
 
 using namespace pugi;
 
@@ -56,7 +57,7 @@ ISceneObject* TScene::GetInstance(int index)
 ISceneObject* TScene::CreateInstance(IClass* _balu_class)
 {
 	auto balu_class = dynamic_cast<TClass*>(_balu_class);
-	instances.push_back(std::unique_ptr<TTransformedClass>(new TTransformedClass(balu_class)));
+	instances.push_back(std::unique_ptr<TTransformedClass>(new TTransformedClass(balu_class, this)));
 	TChangeListenerArray::OnElementAdded(TWorldObjectSubType::SceneClassInstance);
 	return instances.back().get();
 }
@@ -84,19 +85,9 @@ public:
 		auto scene = dynamic_cast<TScene*>(world->GetScene(scene_name));
 		xml_document doc;
 		doc.load_string(scene_instance_serialized.c_str());
-		auto new_instance = SceneObjectFactory::Create(doc.first_child().name());
+		auto new_instance = SceneObjectFactory::Create(doc.first_child().name(), scene);
 		new_instance->Load(doc.first_child(), 1, world);
 		scene->InsertInstance(new_instance, instance_id);
-	}
-};
-
-struct xml_string_writer : pugi::xml_writer
-{
-	std::string result;
-
-	virtual void write(const void* data, size_t size)
-	{
-		result.append(static_cast<const char*>(data), size);
 	}
 };
 

@@ -60,11 +60,11 @@ void SceneObjectFactory::UnregisterAll()
 	delete scene_object_registry;
 }
 
-ISceneObject* SceneObjectFactory::Create(const char* name)
+ISceneObject* SceneObjectFactory::Create(const char* name, TScene* scene)
 {
 	for (int i = 0; i < scene_object_registry->size(); i++)
 		if (strcmp((*scene_object_registry)[i].first, name) == 0)
-			return (*scene_object_registry)[i].second();
+			return (*scene_object_registry)[i].second(scene);
 	throw std::invalid_argument("Тип не зарегистрирован");
 }
 

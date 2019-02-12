@@ -1,10 +1,12 @@
-#include "../Common/SerializeCommon.h"
+
 
 #include "Sprite.h"
 
 #include "../World/World.h"
 
 #include <pugixml.hpp>
+
+#include "../Common/SerializeCommon.h"
 
 using namespace pugi;
 using namespace BaluLib;

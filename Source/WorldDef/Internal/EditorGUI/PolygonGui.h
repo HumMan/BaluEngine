@@ -44,7 +44,7 @@ namespace BaluEngine
 					return "SpritePolygonAdornment";
 				}
 
-				static ISceneObject* Clone()
+				static ISceneObject* Clone(TScene*)
 				{
 					return new TSpritePolygonAdornment();
 				}

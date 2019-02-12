@@ -42,7 +42,7 @@ void TScene::Load(const pugi::xml_node& scene_node, const int version, IWorld* w
 		xml_node instances_node = scene_node.child("instances");
 		for (pugi::xml_node instance_node = instances_node.first_child(); instance_node; instance_node = instance_node.next_sibling())
 		{
-			auto new_instance = SceneObjectFactory::Create(instance_node.name());
+			auto new_instance = SceneObjectFactory::Create(instance_node.name(), this);
 			new_instance->Load(instance_node, version, world);
 			instances.push_back(std::unique_ptr<ISceneObject>(new_instance));
 		}

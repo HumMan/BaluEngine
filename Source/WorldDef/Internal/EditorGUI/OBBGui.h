@@ -21,7 +21,7 @@ namespace BaluEngine
 					return "EditableOBBGui";
 				}
 
-				static ISceneObject* Clone()
+				static ISceneObject* Clone(TScene*)
 				{
 					return new TEditableOBBGui();
 				}

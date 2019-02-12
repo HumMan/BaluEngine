@@ -23,7 +23,7 @@ namespace BaluEngine
 					return "SimpleSprite";
 				}
 
-				static ISceneObject* Clone()
+				static ISceneObject* Clone(TScene*)
 				{
 					return new TSimpleSprite();
 				}
