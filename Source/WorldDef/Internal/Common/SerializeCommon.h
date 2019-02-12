@@ -28,6 +28,16 @@ namespace BaluEngine
 				void SaveTransformWithScale(pugi::xml_node& parent_node, std::string name, TTransformWithScale transform);
 				TTransformWithScale LoadTransformWithScale(const pugi::xml_node& node);
 			}
+
+			struct xml_string_writer : pugi::xml_writer
+			{
+				std::string result;
+
+				virtual void write(const void* data, size_t size)
+				{
+					result.append(static_cast<const char*>(data), size);
+				}
+			};
 		}
 	}
 }

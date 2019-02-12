@@ -60,7 +60,7 @@ void SceneObjectFactory::UnregisterAll()
 	delete scene_object_registry;
 }
 
-ISceneObject* SceneObjectFactory::Create(const char* name, TScene* scene)
+ISceneObject* SceneObjectFactory::Create(const char* name, IScene* scene)
 {
 	for (int i = 0; i < scene_object_registry->size(); i++)
 		if (strcmp((*scene_object_registry)[i].first, name) == 0)

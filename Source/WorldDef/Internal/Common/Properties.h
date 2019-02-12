@@ -8,41 +8,7 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			template<int T>
-			class PropertyToTypeMap {};
 
-#define BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(prop, result)\
-			template<>\
-			class PropertyToTypeMap<(int)prop>\
-			{\
-			public:\
-				typedef result Result;\
-			};
-
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Bool, bool)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Int, int)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Number, unsigned int)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Float, float)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::String, std::string)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Color, BaluLib::TVec3)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::ColorWithAlpha, BaluLib::TVec4)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TransparentMode, TTransparentMode)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::AlphaTestFunc, TAlphaTestFunc)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::BlendFunc, TBlendFunc)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::BlendEquation, TBlendEquation)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TexFilter, TTexFilter)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TexClamp, TTexClamp)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Size, BaluLib::TVec2)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::TransformWithScale, TTransformWithScale)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Transform, TTransform)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Scale, BaluLib::TVec2)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Pos, BaluLib::TVec2)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::Rotation, TRot)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::PhysBodyType, TPhysBodyType)
-			//BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::PhysShapeType, TPhysShapeType TODO)
-			BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP(PropertyType::ImagePath, std::string)
-
-#undef BALU_ENGINE_REGISTER_PROPERTY_TO_TYPE_MAP
 
 #define BALU_ENGINE_REGISTER_PROPERTY(property_name, property_type, default_value)\
 protected:\
@@ -56,9 +22,7 @@ public:\
 	void Set##property_name(const PropertyToTypeMap<(int)property_type>::Result& value){\
 		PropertyType temp_property_type;\
 		assert(HasProperty(#property_name, temp_property_type));\
-		assert(property_type == temp_property_type);\
-		property_name##Value = value;\
-		GetProperty(#property_name)->CallOnChange();}\
+		((TProperty*)GetProperty(#property_name))->Set<(int)property_type>(value);}\
 	PropertyToTypeMap<(int)property_type>::Result Get##property_name()const {\
 		PropertyType temp_property_type;\
 		assert(HasProperty(#property_name, temp_property_type));\
@@ -66,47 +30,87 @@ public:\
 		return property_name##Value;}
 
 
+			class IPropertyChangeWatcher
+			{
+			public:
+				virtual void Change(const std::string& name, const std::string& old_value, const std::string& new_value)=0;
+			};
+
 			class TProperty :public IProperty
 			{
 			private:
 				PropertyType type;
 				void* value;
+				std::string name;
+				IPropertyChangeWatcher* watcher;
 			public:
-				TProperty(PropertyType type, void* value)
+				TProperty(PropertyType type, const std::string& name, void* value, IPropertyChangeWatcher* watcher=nullptr)
 				{
 					this->type = type;
+					this->name = name;
 					this->value = value;
+					this->watcher = watcher;
 				}
 				PropertyType GetType()const
 				{
 					return type;
 				}
+
+#define BALU_ENGINE_PROPERTY_SETGET(property_type)\
+				void SetAs##property_type(const PropertyToTypeMap<(int)PropertyType::##property_type>::Result& value)\
+				{\
+					Set<(int)PropertyType::##property_type>(value);\
+				}\
+				PropertyToTypeMap<(int)PropertyType::##property_type>::Result GetAs##property_type()const\
+				{\
+					return *(PropertyToTypeMap<(int)PropertyType::##property_type>::Result*)value;\
+				}
+
+					BALU_ENGINE_PROPERTY_SETGET(Bool)
+					BALU_ENGINE_PROPERTY_SETGET(Int)
+					BALU_ENGINE_PROPERTY_SETGET(Number)
+					BALU_ENGINE_PROPERTY_SETGET(Float)
+					BALU_ENGINE_PROPERTY_SETGET(String)
+					BALU_ENGINE_PROPERTY_SETGET(Color)
+					BALU_ENGINE_PROPERTY_SETGET(ColorWithAlpha)
+					BALU_ENGINE_PROPERTY_SETGET(TransparentMode)
+					BALU_ENGINE_PROPERTY_SETGET(AlphaTestFunc)
+					BALU_ENGINE_PROPERTY_SETGET(BlendFunc)
+					BALU_ENGINE_PROPERTY_SETGET(BlendEquation)
+					BALU_ENGINE_PROPERTY_SETGET(TexFilter)
+					BALU_ENGINE_PROPERTY_SETGET(TexClamp)
+					BALU_ENGINE_PROPERTY_SETGET(Size)
+					BALU_ENGINE_PROPERTY_SETGET(TransformWithScale)
+					BALU_ENGINE_PROPERTY_SETGET(Transform)
+					BALU_ENGINE_PROPERTY_SETGET(Scale)
+					BALU_ENGINE_PROPERTY_SETGET(Pos)
+					BALU_ENGINE_PROPERTY_SETGET(Rotation)
+					BALU_ENGINE_PROPERTY_SETGET(PhysBodyType)
+					BALU_ENGINE_PROPERTY_SETGET(ImagePath)
+
+#undef BALU_ENGINE_PROPERTY_SETGET
+
 				template<int property_type, class T>
-				void Set(T new_value)
+				void Set(const T& new_value)
 				{
-					*(PropertyToTypeMap<property_type>::Result*)value = new_value;
+					assert(property_type == (int)type);
+					auto& curr_value = *(PropertyToTypeMap<property_type>::Result*)value;
+					//TODO if (curr_value != new_value)
+					{
+						std::string old_value;
+						if (watcher != nullptr)
+						{
+							old_value = SerializeProperty();
+						}
+						curr_value = new_value;
+						if (watcher != nullptr)
+						{
+							watcher->Change(name, old_value, SerializeProperty());
+						}
+					}
 				}
-				//void Set(const void const* new_value)
-				//{
-
-				//}
-
-				void CallOnChange()
-				{
-
-				}
-
-				void SetAsBool(bool value)
-				{
-					//TODO - listener update
-					Set<(int)PropertyType::Bool>(value);
-					*(bool*)(this->value) = value;
-				}
-				//bool GetAsBool()const
-				//{
-				//	return *(bool*)value;
-				//}
-
+				std::string SerializeProperty()const;
+				void DeserializeProperty(const std::string& value);
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& parent_node, const int version);
 			};
@@ -119,13 +123,13 @@ public:\
 				TProperties();
 				void AddProperty(const std::string& name, PropertyType type, void* value)
 				{
-					properties[name].reset(new TProperty(type, value));
+					properties[name].reset(new TProperty(type, name, value));
 				}
 				std::vector<std::string> GetPropertyNames();
 				bool HasProperty(const std::string& name, PropertyType& type)const;
 				IProperty* GetProperty(const std::string& name)const;
 				void SaveProperties(pugi::xml_node& parent_node, const int version)const;
-				void LoadProperties(const pugi::xml_node& instance_node, const int version);
+				void LoadProperties(const pugi::xml_node& instance_node, const int version);				
 				~TProperties();
 			};
 		}

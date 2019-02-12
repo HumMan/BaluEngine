@@ -16,7 +16,6 @@ TClass::TClass(std::string name, IWorld* world)
 TClassPhysBody::TClassPhysBody()
 {
 	InitAllProperties();
-	EnabledValue = false;
 }
 
 bool TClass::PointCollide(TVec2 class_space_point)

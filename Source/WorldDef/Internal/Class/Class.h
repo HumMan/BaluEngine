@@ -14,7 +14,6 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-
 			class TClassPhysBody : public TProperties, public IClassPhysBody
 			{
 			protected:
@@ -73,11 +72,30 @@ namespace BaluEngine
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
 
-			class TTransformedClass : public ITransformedClass, public ISceneObject, public TChangeListenerArray
+
+			class TTransformedClassPropertyChangeCommand
+			{
+			public:
+				std::string scene_name;
+				int scene_object_id;
+				std::string property_name;
+				std::string property_value;
+			};
+
+			class TTransformedClass :public TProperties, public ITransformedClass, public ISceneObject, public TChangeListenerArray
 			{
 				TClass* balu_class;
-				TTransformWithScale transform;
+				IScene* parent;
+
+			protected:
+				void InitAllProperties()
+				{
+					InitProperty_TransformTest();
+				}
 			public:
+
+				BALU_ENGINE_REGISTER_PROPERTY(TransformTest, PropertyType::TransformWithScale, TTransformWithScale())
+
 				static const char* FactoryName()
 				{
 					return "ClassInstance";
@@ -86,35 +104,45 @@ namespace BaluEngine
 				{
 					return FactoryName();
 				}
-				TTransformedClass()
+				IScene* GetScene()
 				{
-					this->balu_class = nullptr;
+					return parent;
 				}
-				TTransformedClass(TClass* balu_class)
+				TTransformedClass(IScene* parent)
+				{
+					InitAllProperties();
+
+					this->SetTransformTest(TTransformWithScale());
+					this->balu_class = nullptr;
+					this->parent = parent;
+				}
+				TTransformedClass(TClass* balu_class, IScene* parent)
 				{
 					this->balu_class = balu_class;
+					this->parent = parent;
 				}
 				void SetTransform(TTransform transform)
 				{
-					this->transform.transform = transform;
+
+					this->TransformTestValue.transform = transform;
 					OnChanged();
 				}
 				void SetScale(BaluLib::TVec2 scale)
 				{
-					this->transform.scale = scale;
+					this->TransformTestValue.scale = scale;
 					OnChanged();
 				}
 				TTransform GetTransform()
 				{
-					return transform.transform;
+					return TransformTestValue.transform;
 				}
 				BaluLib::TVec2 GetScale()
 				{
-					return transform.scale;
+					return TransformTestValue.scale;
 				}
 				TTransformWithScale GetTransformWithScale()
 				{
-					return transform;
+					return TransformTestValue;
 				}
 				TClass* GetClass()
 				{
@@ -122,9 +150,9 @@ namespace BaluEngine
 				}
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
-				static ISceneObject* Clone()
+				static ISceneObject* Clone(IScene* scene)
 				{
-					return new TTransformedClass();
+					return new TTransformedClass(scene);
 				}
 			};
 

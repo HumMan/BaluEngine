@@ -2,16 +2,13 @@
 
 #include "../Class/Class.h"
 
+#include "Commands.h"
+
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 using namespace BaluLib;
 
 #include <algorithm>
-
-#include <pugixml.hpp>
-#include "../Common/SerializeCommon.h"
-
-using namespace pugi;
 
 TVec2 IScene::FromViewportToScene(IViewport* viewport, TVec2 viewport_coord)
 {
@@ -67,30 +64,6 @@ void TScene::InsertInstance(ISceneObject* obj, int index)
 	instances.insert(instances.begin() + index, std::unique_ptr<ISceneObject>(obj));
 }
 
-class DestroySceneObject : public ICommand
-{
-public:
-	IWorld* world;
-	std::string scene_name;
-	std::string scene_instance_serialized;
-	int instance_id;
-
-	void Do()
-	{
-		auto scene = dynamic_cast<TScene*>(world->GetScene(scene_name));
-		scene->DestroyInstance(instance_id);
-	}
-	void Undo()
-	{
-		auto scene = dynamic_cast<TScene*>(world->GetScene(scene_name));
-		xml_document doc;
-		doc.load_string(scene_instance_serialized.c_str());
-		auto new_instance = SceneObjectFactory::Create(doc.first_child().name(), scene);
-		new_instance->Load(doc.first_child(), 1, world);
-		scene->InsertInstance(new_instance, instance_id);
-	}
-};
-
 void TScene::DestroyInstance(int index)
 {
 	instances.erase(instances.begin() + index);
@@ -102,17 +75,7 @@ void TScene::DestroyInstance(ISceneObject* instance)
 		[&](std::unique_ptr<ISceneObject>& p){return p.get() == instance; });
 	if (iter != instances.end())
 	{
-		auto command = new DestroySceneObject();
-		command->world = world;
-		command->scene_name = this->GetName();
-		command->instance_id = std::distance(instances.begin(), iter);
-
-		xml_document doc;
-		iter->get()->Save(doc, 1);
-		xml_string_writer writer;
-		doc.save(writer);
-		command->scene_instance_serialized = writer.result;
-		
+		auto command = new DestroySceneObject(world, this, std::distance(instances.begin(), iter), iter->get());
 		world->GetCommandList()->AddCommmand(command);
 
 		instances.erase(iter);

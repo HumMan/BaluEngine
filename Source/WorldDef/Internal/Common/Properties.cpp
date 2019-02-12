@@ -1,6 +1,6 @@
 #include "Properties.h"
 
-#include "../Common/SerializeCommon.h"
+
 
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
@@ -8,6 +8,8 @@ using namespace BaluEngine::WorldDef::Internal;
 #include <pugixml.hpp>
 
 using namespace pugi;
+
+#include "../Common/SerializeCommon.h"
 
 TProperties::TProperties()
 {
@@ -57,6 +59,22 @@ void TProperties::SaveProperties(pugi::xml_node& parent_node, const int version)
 		v.second->Save(props_node, version);
 		props_node.last_child().append_attribute("name").set_value(v.first.c_str());
 	}
+}
+
+std::string TProperty::SerializeProperty()const
+{	
+	xml_document doc;
+	Save(doc, 1);
+	xml_string_writer writer;
+	doc.save(writer);
+	return writer.result;
+}
+
+void TProperty::DeserializeProperty(const std::string& value)
+{
+	xml_document doc;
+	doc.load_string(value.c_str());
+	Load(doc, 1);
 }
 
 void TProperties::LoadProperties(const pugi::xml_node& instance_node, const int version)

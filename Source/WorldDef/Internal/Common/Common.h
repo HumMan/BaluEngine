@@ -11,13 +11,12 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			class TScene;
-			typedef ISceneObject*(*SceneObjectClone)(TScene*);
+			typedef ISceneObject*(*SceneObjectClone)(IScene*);
 			class SceneObjectFactory
 			{
 			public:
 				static bool Register(const char* name, SceneObjectClone clone);
-				static ISceneObject* Create(const char* name, TScene* scene);
+				static ISceneObject* Create(const char* name, IScene* scene);
 				static void UnregisterAll();
 			};
 

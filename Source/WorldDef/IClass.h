@@ -5,14 +5,8 @@ namespace BaluEngine
 	namespace WorldDef
 	{
 
-		enum TPhysBodyType
-		{
-			Static,
-			Kinematic,
-			Dynamic,
-		};
 
-		class IClassPhysBody: public ISerializable
+		class IClassPhysBody: public ISerializable, public virtual IProperties
 		{
 		public:
 			BALU_ENGINE_VPROPERTY(Enabled, bool)
@@ -38,7 +32,7 @@ namespace BaluEngine
 			virtual ISkeleton* GetSkeleton() = 0;
 		};
 
-		class ITransformedClass: public virtual ISceneObject
+		class ITransformedClass: public virtual ISceneObject, public virtual IProperties
 		{
 		public:
 			virtual ~ITransformedClass() {}
@@ -48,6 +42,8 @@ namespace BaluEngine
 			virtual BaluLib::TVec2 GetScale() = 0;
 			virtual TTransformWithScale GetTransformWithScale() = 0;
 			virtual IClass* GetClass() = 0;
+
+			virtual void SetTransformTest(const TTransformWithScale& transform) = 0;
 		};
 	}
 }
