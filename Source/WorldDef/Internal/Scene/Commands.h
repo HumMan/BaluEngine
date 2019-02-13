@@ -12,6 +12,8 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
+			
+
 			class DestroySceneObject : public ICommand
 			{
 			public:
@@ -21,6 +23,16 @@ namespace BaluEngine
 				int instance_id;
 
 				DestroySceneObject(IWorld* world, IScene* scene, int instance_id, ISceneObject* instance);
+
+				void Do();
+				void Undo();
+			};
+
+			class CreateSceneObject : public DestroySceneObject
+			{
+			public:
+
+				CreateSceneObject(IWorld* world, IScene* scene, int instance_id, ISceneObject* instance);
 
 				void Do();
 				void Undo();

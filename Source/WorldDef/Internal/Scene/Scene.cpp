@@ -54,7 +54,12 @@ ISceneObject* TScene::GetInstance(int index)
 ISceneObject* TScene::CreateInstance(IClass* _balu_class)
 {
 	auto balu_class = dynamic_cast<TClass*>(_balu_class);
-	instances.push_back(std::unique_ptr<TTransformedClass>(new TTransformedClass(balu_class, this)));
+	auto new_instance = new TTransformedClass(balu_class, this);
+	instances.push_back(std::unique_ptr<TTransformedClass>(new_instance));
+
+	auto command = new CreateSceneObject(world, this, instances.size()-1, new_instance);
+	world->GetCommandList()->AddCommmand(command);
+
 	TChangeListenerArray::OnElementAdded(TWorldObjectSubType::SceneClassInstance);
 	return instances.back().get();
 }

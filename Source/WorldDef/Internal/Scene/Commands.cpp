@@ -37,3 +37,17 @@ void DestroySceneObject::Undo()
 	new_instance->Load(doc.first_child(), 1, world);
 	scene->InsertInstance(new_instance, instance_id);
 }
+
+CreateSceneObject::CreateSceneObject(IWorld* world, IScene* scene, int instance_id, ISceneObject* instance)
+	:DestroySceneObject(world, scene, instance_id, instance)
+{
+}
+void CreateSceneObject::Do()
+{
+	DestroySceneObject::Undo();
+}
+
+void CreateSceneObject::Undo()
+{
+	DestroySceneObject::Do();
+}
