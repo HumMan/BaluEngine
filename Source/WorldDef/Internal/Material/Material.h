@@ -10,7 +10,7 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			class TMaterial : public TWorldObject, public IMaterial, public TChangeListenerArray
+			class TMaterial : public TWorldObject, public IMaterial
 			{
 			protected:
 				void InitAllProperties()

@@ -11,7 +11,7 @@ namespace BaluEngine
 		namespace Internal
 		{
 
-			class TPhysShape : public TProperties, public virtual IPhysShape//, public TChangeListenerArray
+			class TPhysShape : public TProperties, public virtual IPhysShape
 			{
 			protected:
 				void InitAllProperties()

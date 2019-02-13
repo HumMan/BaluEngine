@@ -283,9 +283,11 @@ void TTransformedClass::Save(pugi::xml_node& parent_node, const int version)cons
 	xml_node new_node = parent_node.append_child("ClassInstance");
 
 	new_node.append_attribute("class_name").set_value(balu_class->GetName().c_str());
+	SaveProperties(new_node, version);
 }
 
 void TTransformedClass::Load(const pugi::xml_node& instance_node, const int version, IWorld* world)
 {
+	LoadProperties(instance_node, version);
 	balu_class = dynamic_cast<TClass*>(world->GetObjectByName(TWorldObjectType::Class, instance_node.attribute("class_name").as_string()));
 }

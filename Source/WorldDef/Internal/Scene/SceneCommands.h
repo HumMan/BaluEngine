@@ -12,7 +12,7 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			
+
 
 			class DestroySceneObject : public ICommand
 			{

@@ -121,6 +121,7 @@
     <ClInclude Include="Source\Utils\polygon_decomp.h" />
     <ClInclude Include="Source\Utils\polygon_vertices.h" />
     <ClInclude Include="Source\Utils\texture_polygon.h" />
+    <ClInclude Include="Source\WorldDef\Internal\Class\ClassCommands.h" />
     <ClInclude Include="Source\WorldDef\Internal\Common\RuntimeProperties.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\BoxGui.h" />
     <ClInclude Include="Source\WorldDef\Internal\EditorGUI\OBBGui.h" />
@@ -134,7 +135,7 @@
     <ClInclude Include="Source\WorldDef\Internal\Common\Properties.h" />
     <ClInclude Include="Source\WorldDef\Internal\Common\SerializeCommon.h" />
     <ClInclude Include="Source\WorldDef\Internal\Material\Material.h" />
-    <ClInclude Include="Source\WorldDef\Internal\Scene\Commands.h" />
+    <ClInclude Include="Source\WorldDef\Internal\Scene\SceneCommands.h" />
     <ClInclude Include="Source\WorldDef\Internal\Scene\Layers.h" />
     <ClInclude Include="Source\WorldDef\Internal\Scene\Scene.h" />
     <ClInclude Include="Source\WorldDef\Internal\Scripts\EventsEditor.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Source\Utils\texture_polygon.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\Class.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\ClassSerialize.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Class\ClassCommands.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\Skeleton.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\SkeletonAnimation.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Common\Common.cpp" />
@@ -221,7 +223,7 @@
     <ClCompile Include="Source\WorldDef\Internal\EditorGUI\SpriteGui.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Material\Material.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Material\MaterialSerialize.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Scene\Commands.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scene\SceneCommands.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\Layers.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\Scene.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\SceneSerialize.cpp" />

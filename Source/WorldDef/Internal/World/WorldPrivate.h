@@ -41,6 +41,10 @@ public:
 			list.push_back(std::unique_ptr<ICommand>(command));
 		}
 	}
+	bool CanAddCommands()
+	{
+		return can_add_commands;
+	}
 	bool CanRedo()
 	{
 		return done_index < (int(list.size())-1);
@@ -69,8 +73,6 @@ public:
 	}
 
 	std::unique_ptr<TEventsEditor> events_editor;
-
-	TWorldChangeListenerArray listeners;
 
 	std::unique_ptr<TCommandList> command_list;
 

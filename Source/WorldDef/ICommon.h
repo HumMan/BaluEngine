@@ -81,34 +81,6 @@ namespace BaluEngine
 			virtual ~IWorldObject() {}
 			//virtual TWorldObjectType GetWorldObjectType() = 0;
 		};
-
-		class IChangeListener
-		{
-		public:
-			virtual void SourceChanged() {}
-			virtual void ElementToSourceAdded(TWorldObjectSubType type) {}
-			virtual void ElementFromSourceRemoved(TWorldObjectSubType type) {}
-			virtual void BeforeDeleteSource() {}
-		};
-
-		class IChangeListenerArray
-		{
-		public:
-			virtual void AddChangesListener(IChangeListener* listener) = 0;
-			virtual void RemoveChangesListener(IChangeListener* listener) = 0;
-			virtual void OnChanged() = 0;
-			virtual void OnElementAdded(TWorldObjectSubType type) = 0;
-			virtual void OnElementRemoved(TWorldObjectSubType type) = 0;
-			virtual void OnBeforeDelete() = 0;
-		};
-
-		class TWorldChangeListener
-		{
-		public:
-			virtual void OnObjectCreate(TWorldObjectType type, const std::string& name) = 0;
-			virtual void OnObjectDestroy(TWorldObjectType type, const std::string& name) {}
-			virtual void OnObjectRename(TWorldObjectType type, const std::string& old_name, const std::string& new_name) {}
-		};
 	}
 
 }

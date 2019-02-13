@@ -43,7 +43,7 @@ namespace BaluEngine
 			virtual TTransformWithScale GetTransformWithScale() = 0;
 			virtual IClass* GetClass() = 0;
 
-			virtual void SetTransformTest(const TTransformWithScale& transform) = 0;
+			virtual void SetTransformWithScale(const TTransformWithScale& transform) = 0;
 		};
 	}
 }

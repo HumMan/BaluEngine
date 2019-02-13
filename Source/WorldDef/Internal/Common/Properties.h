@@ -33,7 +33,7 @@ public:\
 			class IPropertyChangeWatcher
 			{
 			public:
-				virtual void Change(const std::string& name, const std::string& old_value, const std::string& new_value)=0;
+				virtual void PropertyChanged(const std::string& name, const std::string& old_value, const std::string& new_value)=0;
 			};
 
 			class TProperty :public IProperty
@@ -100,17 +100,17 @@ public:\
 						std::string old_value;
 						if (watcher != nullptr)
 						{
-							old_value = SerializeProperty();
+							old_value = SerializeValue();
 						}
 						curr_value = new_value;
 						if (watcher != nullptr)
 						{
-							watcher->Change(name, old_value, SerializeProperty());
+							watcher->PropertyChanged(name, old_value, SerializeValue());
 						}
 					}
 				}
-				std::string SerializeProperty()const;
-				void DeserializeProperty(const std::string& value);
+				std::string SerializeValue()const;
+				void DeserializeValue(const std::string& value);
 				void Save(pugi::xml_node& parent_node, const int version)const;
 				void Load(const pugi::xml_node& parent_node, const int version);
 			};
@@ -119,11 +119,12 @@ public:\
 			{
 			private:
 				std::map<std::string, std::unique_ptr<TProperty>> properties;
+				IPropertyChangeWatcher* watcher;
 			public:
-				TProperties();
+				TProperties(IPropertyChangeWatcher* watcher = nullptr);
 				void AddProperty(const std::string& name, PropertyType type, void* value)
 				{
-					properties[name].reset(new TProperty(type, name, value));
+					properties[name].reset(new TProperty(type, name, value, watcher));
 				}
 				std::vector<std::string> GetPropertyNames();
 				bool HasProperty(const std::string& name, PropertyType& type)const;

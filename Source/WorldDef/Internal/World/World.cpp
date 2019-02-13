@@ -154,15 +154,6 @@ ICommandList* TWorld::GetCommandList()
 	return p->command_list.get();
 }
 
-void TWorld::AddChangesListener(TWorldChangeListener* listener)
-{
-	p->listeners.AddChangesListener(listener);
-}
-void TWorld::RemoveChangesListener(TWorldChangeListener* listener)
-{
-	p->listeners.RemoveChangesListener(listener);
-}
-
 IWorld* WorldDef::CreateWorld()
 {
 	return (new TWorld());

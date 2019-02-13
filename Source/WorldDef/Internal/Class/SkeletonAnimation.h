@@ -55,7 +55,7 @@ namespace BaluEngine
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world, ISkeleton* skeleton);
 			};
 
-			class TSkeletonAnimation : public ISkeletonAnimation, public TChangeListenerArray, public ISerializable
+			class TSkeletonAnimation : public ISkeletonAnimation, public ISerializable
 			{
 			private:
 				std::vector<std::unique_ptr<TTimeLine>> animations;

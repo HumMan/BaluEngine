@@ -2,7 +2,7 @@
 
 #include "../Class/Class.h"
 
-#include "Commands.h"
+#include "SceneCommands.h"
 
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
@@ -57,21 +57,44 @@ ISceneObject* TScene::CreateInstance(IClass* _balu_class)
 	auto new_instance = new TTransformedClass(balu_class, this);
 	instances.push_back(std::unique_ptr<TTransformedClass>(new_instance));
 
-	auto command = new CreateSceneObject(world, this, instances.size()-1, new_instance);
-	world->GetCommandList()->AddCommmand(command);
+	if (world->GetCommandList()->CanAddCommands())
+	{
+		auto command = new CreateSceneObject(world, this, instances.size() - 1, new_instance);
+		world->GetCommandList()->AddCommmand(command);
+	}
 
-	TChangeListenerArray::OnElementAdded(TWorldObjectSubType::SceneClassInstance);
 	return instances.back().get();
 }
 
 void TScene::InsertInstance(ISceneObject* obj, int index)
 {
 	instances.insert(instances.begin() + index, std::unique_ptr<ISceneObject>(obj));
+
+	if (world->GetCommandList()->CanAddCommands())
+	{
+		auto command = new CreateSceneObject(world, this, index, obj);
+		world->GetCommandList()->AddCommmand(command);
+	}
+}
+
+int TScene::GetInstanceIndex(ISceneObject* instance)const
+{
+	auto iter = std::find_if(instances.begin(), instances.end(),
+		[&](const std::unique_ptr<ISceneObject>& p) {return p.get() == instance; });
+
+	return std::distance(instances.begin(), iter);
 }
 
 void TScene::DestroyInstance(int index)
 {
-	instances.erase(instances.begin() + index);
+	auto iter = instances.begin() + index;
+	if (world->GetCommandList()->CanAddCommands())
+	{
+		auto command = new DestroySceneObject(world, this, index, iter->get());
+		world->GetCommandList()->AddCommmand(command);
+	}
+
+	instances.erase(iter);
 }
 
 void TScene::DestroyInstance(ISceneObject* instance)
@@ -80,8 +103,11 @@ void TScene::DestroyInstance(ISceneObject* instance)
 		[&](std::unique_ptr<ISceneObject>& p){return p.get() == instance; });
 	if (iter != instances.end())
 	{
-		auto command = new DestroySceneObject(world, this, std::distance(instances.begin(), iter), iter->get());
-		world->GetCommandList()->AddCommmand(command);
+		if (world->GetCommandList()->CanAddCommands())
+		{
+			auto command = new DestroySceneObject(world, this, std::distance(instances.begin(), iter), iter->get());
+			world->GetCommandList()->AddCommmand(command);
+		}
 
 		instances.erase(iter);
 	}

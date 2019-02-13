@@ -12,7 +12,7 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			class TSpritePolygon : public TProperties, public ISpritePolygon, public TChangeListenerArray
+			class TSpritePolygon : public TProperties, public ISpritePolygon
 			{
 			private:
 				TMaterial* material;

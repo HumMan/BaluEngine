@@ -10,35 +10,6 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-
-			class TWorldChangeListenerArray
-			{
-				std::vector<TWorldChangeListener*> listeners;
-			public:
-				void OnObjectCreate(TWorldObjectType type, const std::string& name)
-				{
-					for (auto v : listeners)
-						v->OnObjectCreate(type, name);
-				}
-				void OnObjectDestroy(TWorldObjectType type, const std::string& name)
-				{
-					for (auto v : listeners)
-						v->OnObjectDestroy(type, name);
-				}
-				void AddChangesListener(TWorldChangeListener* listener)
-				{
-					auto it = std::find(listeners.begin(), listeners.end(), listener);
-					assert(it == listeners.end());
-					listeners.push_back(listener);
-				}
-				void RemoveChangesListener(TWorldChangeListener* listener)
-				{
-					auto it = std::find(listeners.begin(), listeners.end(), listener);
-					assert(it != listeners.end());
-					listeners.erase(it);
-				}
-			};
-
 			class TWorld : public IWorld
 			{
 			private:
@@ -49,9 +20,6 @@ namespace BaluEngine
 				IEventsEditor * GetEventsEditor();
 
 				ICommandList* GetCommandList();
-
-				void AddChangesListener(TWorldChangeListener* listener);
-				void RemoveChangesListener(TWorldChangeListener* listener);
 
 				TWorld();
 				~TWorld();

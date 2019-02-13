@@ -82,7 +82,7 @@ namespace BaluEngine
 				std::string property_value;
 			};
 
-			class TTransformedClass :public TProperties, public ITransformedClass, public ISceneObject, public TChangeListenerArray
+			class TTransformedClass :public TProperties, public ITransformedClass, public ISceneObject, public IPropertyChangeWatcher
 			{
 				TClass* balu_class;
 				IScene* parent;
@@ -90,11 +90,11 @@ namespace BaluEngine
 			protected:
 				void InitAllProperties()
 				{
-					InitProperty_TransformTest();
+					InitProperty_TransformWithScale();
 				}
 			public:
 
-				BALU_ENGINE_REGISTER_PROPERTY(TransformTest, PropertyType::TransformWithScale, TTransformWithScale())
+				BALU_ENGINE_REGISTER_PROPERTY(TransformWithScale, PropertyType::TransformWithScale, TTransformWithScale())
 
 				static const char* FactoryName()
 				{
@@ -109,40 +109,42 @@ namespace BaluEngine
 					return parent;
 				}
 				TTransformedClass(IScene* parent)
+					:TProperties(this)
 				{
 					InitAllProperties();
 
-					this->SetTransformTest(TTransformWithScale());
 					this->balu_class = nullptr;
 					this->parent = parent;
 				}
 				TTransformedClass(TClass* balu_class, IScene* parent)
+					:TProperties(this)
 				{
+					InitAllProperties();
+
 					this->balu_class = balu_class;
 					this->parent = parent;
 				}
 				void SetTransform(TTransform transform)
 				{
-
-					this->TransformTestValue.transform = transform;
-					OnChanged();
+					auto new_transform = this->TransformWithScaleValue;
+					new_transform.transform = transform;
+					SetTransformWithScale(new_transform);
 				}
 				void SetScale(BaluLib::TVec2 scale)
 				{
-					this->TransformTestValue.scale = scale;
-					OnChanged();
+					this->TransformWithScaleValue.scale = scale;
 				}
 				TTransform GetTransform()
 				{
-					return TransformTestValue.transform;
+					return TransformWithScaleValue.transform;
 				}
 				BaluLib::TVec2 GetScale()
 				{
-					return TransformTestValue.scale;
+					return TransformWithScaleValue.scale;
 				}
 				TTransformWithScale GetTransformWithScale()
 				{
-					return TransformTestValue;
+					return TransformWithScaleValue;
 				}
 				TClass* GetClass()
 				{
@@ -154,6 +156,8 @@ namespace BaluEngine
 				{
 					return new TTransformedClass(scene);
 				}
+
+				void PropertyChanged(const std::string & name, const std::string & old_value, const std::string & new_value) override;
 			};
 
 			REGISTER_FACTORY_CLASS(SceneObjectFactory, TTransformedClass)

@@ -320,11 +320,13 @@ WorldDef::IWorld* CreateDemoWorld(std::string assets_dir)
 	{
 		auto inst0 = scene0->CreateInstance(box_class_dyn);
 		inst0->SetTransform(TTransform(TVec2(-5 + i * 0.9 + 0.3, 7 + sinf(i*0.3) * 1), TRot(i)));
+		world->GetCommandList()->Undo();
+		world->GetCommandList()->Redo();
 		//undo test
 		scene0->DestroyInstance(inst0);
 		world->GetCommandList()->Undo();
 		world->GetCommandList()->Redo();
-		world->GetCommandList()->Undo();		
+		world->GetCommandList()->Undo();
 	}
 
 	auto main_viewport = scene0->CreateViewport("main_viewport");

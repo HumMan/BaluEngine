@@ -58,7 +58,7 @@ namespace BaluEngine
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
 
-			class TScene : public IScene, public TWorldObject, public TChangeListenerArray
+			class TScene : public IScene, public TWorldObject
 			{
 			private:
 				std::vector<std::unique_ptr<ISceneObject>> instances;
@@ -85,6 +85,8 @@ namespace BaluEngine
 
 				ISceneObject* CreateInstance(IClass* balu_class);
 				void InsertInstance(ISceneObject*, int index);
+
+				int GetInstanceIndex(ISceneObject*)const;
 
 				void DestroyInstance(ISceneObject*);
 				void DestroyInstance(int index);

@@ -14,7 +14,7 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-			class TSprite : public ISprite, public TWorldObject, public TChangeListenerArray
+			class TSprite : public ISprite, public TWorldObject
 			{
 			private:
 				TSpritePolygon sprite_polygon;
@@ -38,7 +38,7 @@ namespace BaluEngine
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
 
-			class TTransformedSprite : public ITransformedSprite, public TChangeListenerArray
+			class TTransformedSprite : public ITransformedSprite
 			{
 				//TObjLocator<TSprite> sprite;
 				TSprite* sprite;

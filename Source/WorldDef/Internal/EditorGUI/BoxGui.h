@@ -11,7 +11,7 @@ namespace BaluEngine
 		namespace Internal
 		{
 
-			class TBoxGui : public TGui
+			class TBoxGui : public TGui, public TProperties
 			{
 			public:
 				BaluLib::TOBB2 boundary;

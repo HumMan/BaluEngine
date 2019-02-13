@@ -11,7 +11,6 @@ namespace BaluEngine
 		namespace Internal
 		{
 
-
 			class TLayersManager;
 
 			class TLayer: public TProperties, public ILayer
@@ -74,18 +73,6 @@ namespace BaluEngine
 				ILayer* AddLayer(int after_id, const std::string& name);
 				void RemoveLayer(int layer_id);
 			};
-
-			/*class TInstanceLayersManagerChangeListener : public TLayersManagerChangeListener
-			{
-				TLayersManagerInstance* manager;
-			public:
-				TInstanceLayersManagerChangeListener(TLayersManagerInstance* manager);
-				virtual void LayerReordered(int layer_id, int after_id);
-				virtual void LayerAdded(int layer_id);
-				virtual void LayerRemoved(int layer_id);
-				virtual void LayerChanged(int layer_id);
-			};
-			};*/
 		}
 	}
 }

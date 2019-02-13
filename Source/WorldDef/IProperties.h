@@ -313,6 +313,8 @@ namespace BaluEngine
 			virtual PropertyType GetType()const = 0;
 			virtual void Save(pugi::xml_node& parent_node, const int version)const = 0;
 			virtual void Load(const pugi::xml_node& instance_node, const int version) = 0;
+			virtual std::string SerializeValue()const=0;
+			virtual void DeserializeValue(const std::string& value)=0;
 
 #define BALU_ENGINE_PROPERTY_SETGET(property_type)\
 				virtual void SetAs##property_type(const PropertyToTypeMap<(int)PropertyType::##property_type>::Result& value)=0;\

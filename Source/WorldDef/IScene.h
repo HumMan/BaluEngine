@@ -23,6 +23,8 @@ namespace BaluEngine
 			virtual int GetInstancesCount() = 0;
 			virtual ISceneObject* GetInstance(int index) = 0;
 
+			virtual int GetInstanceIndex(ISceneObject*)const=0;
+
 			virtual ISceneObject* CreateInstance(IClass* balu_class) = 0;
 			virtual void DestroyInstance(ISceneObject* instance) = 0;
 		};

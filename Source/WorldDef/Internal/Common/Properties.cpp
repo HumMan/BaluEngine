@@ -11,8 +11,9 @@ using namespace pugi;
 
 #include "../Common/SerializeCommon.h"
 
-TProperties::TProperties()
+TProperties::TProperties(IPropertyChangeWatcher* watcher)
 {
+	this->watcher = watcher;
 }
 
 std::vector<std::string> TProperties::GetPropertyNames()
@@ -61,7 +62,7 @@ void TProperties::SaveProperties(pugi::xml_node& parent_node, const int version)
 	}
 }
 
-std::string TProperty::SerializeProperty()const
+std::string TProperty::SerializeValue()const
 {	
 	xml_document doc;
 	Save(doc, 1);
@@ -70,11 +71,11 @@ std::string TProperty::SerializeProperty()const
 	return writer.result;
 }
 
-void TProperty::DeserializeProperty(const std::string& value)
+void TProperty::DeserializeValue(const std::string& value)
 {
 	xml_document doc;
 	doc.load_string(value.c_str());
-	Load(doc, 1);
+	Load(doc.first_child(), 1);
 }
 
 void TProperties::LoadProperties(const pugi::xml_node& instance_node, const int version)

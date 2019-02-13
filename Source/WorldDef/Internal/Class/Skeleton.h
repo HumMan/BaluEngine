@@ -56,7 +56,7 @@ namespace BaluEngine
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
 
-			class TSkeleton : public ISkeleton, public TChangeListenerArray, public ISerializable
+			class TSkeleton : public ISkeleton, public ISerializable
 			{
 			private:
 				int root;

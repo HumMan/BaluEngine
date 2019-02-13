@@ -277,7 +277,10 @@
     <ClInclude Include="Source\Editor\IAbstractEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WorldDef\Internal\Scene\Commands.h">
+    <ClInclude Include="Source\WorldDef\Internal\Class\ClassCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Scene\SceneCommands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -339,7 +342,8 @@
     <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptInstance.cpp" />
     <ClCompile Include="Source\Editor\abstractEditor.cpp" />
     <ClCompile Include="Source\Editor\IAbstractEditor.cpp" />
-    <ClCompile Include="Source\WorldDef\Internal\Scene\Commands.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Class\ClassCommands.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scene\SceneCommands.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

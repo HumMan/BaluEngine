@@ -19,14 +19,12 @@ namespace BaluEngine
 			virtual void Undo() = 0;
 			virtual void Redo() = 0;
 			virtual void AddCommmand(ICommand*) = 0;
+			virtual bool CanAddCommands() = 0;
 		};
 
 		class IWorld
 		{
 		public:
-			virtual void AddChangesListener(TWorldChangeListener* listener) = 0;
-			virtual void RemoveChangesListener(TWorldChangeListener* listener) = 0;
-
 			virtual bool TryFind(const char* name, IWorldObject*& result) = 0;
 
 			virtual IWorldObject* GetObjectByName(TWorldObjectType type, const char* name) = 0;

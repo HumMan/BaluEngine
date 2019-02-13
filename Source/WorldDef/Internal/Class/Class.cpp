@@ -1,5 +1,7 @@
 #include "Class.h"
 
+#include "ClassCommands.h"
+
 using namespace BaluEngine::WorldDef;
 using namespace BaluEngine::WorldDef::Internal;
 using namespace BaluLib;
@@ -101,4 +103,15 @@ int TClass::GetSpritesCount()
 TTransformedSprite* TClass::GetSprite(int index)
 {
 	return sprites[index].get();
+}
+
+void TTransformedClass::PropertyChanged(const std::string & name, const std::string & old_value, const std::string & new_value)
+{
+	auto world = parent->GetWorld();
+	auto command_list = world->GetCommandList();
+	if (command_list->CanAddCommands())
+	{
+		auto command = new SceneObjectPropertyChange(world, parent, parent->GetInstanceIndex(this), name, old_value, new_value);
+		command_list->AddCommmand(command);
+	}
 }
