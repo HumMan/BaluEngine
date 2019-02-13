@@ -277,6 +277,9 @@
     <ClInclude Include="Source\Editor\IAbstractEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\Scene\Commands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
@@ -336,8 +339,10 @@
     <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptInstance.cpp" />
     <ClCompile Include="Source\Editor\abstractEditor.cpp" />
     <ClCompile Include="Source\Editor\IAbstractEditor.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scene\Commands.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

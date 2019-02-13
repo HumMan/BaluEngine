@@ -134,6 +134,7 @@
     <ClInclude Include="Source\WorldDef\Internal\Common\Properties.h" />
     <ClInclude Include="Source\WorldDef\Internal\Common\SerializeCommon.h" />
     <ClInclude Include="Source\WorldDef\Internal\Material\Material.h" />
+    <ClInclude Include="Source\WorldDef\Internal\Scene\Commands.h" />
     <ClInclude Include="Source\WorldDef\Internal\Scene\Layers.h" />
     <ClInclude Include="Source\WorldDef\Internal\Scene\Scene.h" />
     <ClInclude Include="Source\WorldDef\Internal\Scripts\EventsEditor.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="Source\WorldDef\Internal\EditorGUI\SpriteGui.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Material\Material.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Material\MaterialSerialize.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\Scene\Commands.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\Layers.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\Scene.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\SceneSerialize.cpp" />
@@ -252,6 +254,7 @@
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\sweep_context.cc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
