@@ -72,16 +72,6 @@ namespace BaluEngine
 				void Load(const pugi::xml_node& instance_node, const int version, IWorld* world);
 			};
 
-
-			class TTransformedClassPropertyChangeCommand
-			{
-			public:
-				std::string scene_name;
-				int scene_object_id;
-				std::string property_name;
-				std::string property_value;
-			};
-
 			class TTransformedClass :public TProperties, public ITransformedClass, public ISceneObject, public IPropertyChangeWatcher
 			{
 				TClass* balu_class;
@@ -132,7 +122,9 @@ namespace BaluEngine
 				}
 				void SetScale(BaluLib::TVec2 scale)
 				{
-					this->TransformWithScaleValue.scale = scale;
+					auto new_transform = this->TransformWithScaleValue;
+					new_transform.scale = scale;
+					SetTransformWithScale(new_transform);
 				}
 				TTransform GetTransform()
 				{

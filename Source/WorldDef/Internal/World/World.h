@@ -24,12 +24,11 @@ namespace BaluEngine
 				TWorld();
 				~TWorld();
 
-				bool TryFind(const char* name, IWorldObject*& result);
-
 				IWorldObject* GetObjectByName(TWorldObjectType type, const char* name);
 				std::vector<IWorldObject*> GetObjects(TWorldObjectType type);
 				bool ObjectNameExists(TWorldObjectType type, const char* name);
 				TWorldObject* CreateObject(TWorldObjectType type, const char* name);
+				IWorldObject* CreateObject(TWorldObjectType type, const char* name, const std::string& serialized);
 				void DestroyObject(TWorldObjectType type, const char* name);
 
 				IMaterial* CreateMaterial(const char* name);

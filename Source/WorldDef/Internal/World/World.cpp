@@ -54,11 +54,6 @@ std::vector<T*> GetObjectsFromMap(M& map)
 	return result;
 }
 
-bool TWorld::TryFind(const char* name, IWorldObject*& result)
-{
-	return false;
-}
-
 IWorldObject* TWorld::GetObjectByName(TWorldObjectType type,const char* name)
 {
 	return p->world_objects[(int)type][name].get();
@@ -97,12 +92,37 @@ TWorldObject* TWorld::CreateObject(TWorldObjectType type, const char* name)
 	p->world_objects[(int)type][name].reset(resutl);
 	return resutl;
 }
-void TWorld::DestroyObject(TWorldObjectType type, const char* name)
+
+IWorldObject* TWorld::CreateObject(TWorldObjectType type, const char* name, const std::string& serialized)
 {
-	throw std::runtime_error("not realized");
-	//p->world_objects[(int)type].erase(p->world_objects[(int)type].at(name));
+	IWorldObject* result = nullptr;
+	switch (type)
+	{
+	case TWorldObjectType::Material:
+		result = CreateMaterial(name, serialized);
+		break;
+	case TWorldObjectType::Sprite:
+		result = CreateSprite(name, serialized);
+		break;
+	case TWorldObjectType::Class:
+		result = CreateClass(name, serialized);
+		break;
+	case TWorldObjectType::Scene:
+		result = CreateScene(name, serialized);
+		break;
+	case TWorldObjectType::None:
+		break;
+	default:
+		break;
+	}
+	return result;
 }
 
+void TWorld::DestroyObject(TWorldObjectType type, const char* name)
+{
+	//TODO обновить ссылка на этот объект
+	p->world_objects[(int)type].erase(name);
+}
 
 IMaterial* TWorld::CreateMaterial(const char* name)
 {

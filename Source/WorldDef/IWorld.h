@@ -25,12 +25,11 @@ namespace BaluEngine
 		class IWorld
 		{
 		public:
-			virtual bool TryFind(const char* name, IWorldObject*& result) = 0;
-
 			virtual IWorldObject* GetObjectByName(TWorldObjectType type, const char* name) = 0;
 			virtual std::vector<IWorldObject*> GetObjects(TWorldObjectType type) = 0;
 			virtual bool ObjectNameExists(TWorldObjectType type, const char* name) = 0;
 			virtual IWorldObject* CreateObject(TWorldObjectType type, const char* name) = 0;
+			virtual IWorldObject* CreateObject(TWorldObjectType type, const char* name, const std::string& serialized)=0;
 			virtual void DestroyObject(TWorldObjectType type, const char* name) = 0;
 
 			virtual IMaterial* CreateMaterial(const char* name) = 0;

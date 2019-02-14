@@ -283,6 +283,9 @@
     <ClInclude Include="Source\WorldDef\Internal\Scene\SceneCommands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\WorldDef\Internal\World\WorldCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="submodules\poly2tri\poly2tri\common\shapes.cc" />
@@ -344,6 +347,7 @@
     <ClCompile Include="Source\Editor\IAbstractEditor.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\ClassCommands.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\SceneCommands.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\World\WorldCommands.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

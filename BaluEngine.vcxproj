@@ -144,6 +144,7 @@
     <ClInclude Include="Source\WorldDef\Internal\Sprite\Sprite.h" />
     <ClInclude Include="Source\WorldDef\Internal\Sprite\SpritePolygon.h" />
     <ClInclude Include="Source\WorldDef\Internal\World\World.h" />
+    <ClInclude Include="Source\WorldDef\Internal\World\WorldCommands.h" />
     <ClInclude Include="Source\WorldDef\Internal\World\WorldPrivate.h" />
     <ClInclude Include="Source\WorldDef\IProperties.h" />
     <ClInclude Include="Source\WorldDef\IRuntimeProperties.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="Source\WorldDef\Internal\Sprite\SpriteSerialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\World\Serialize.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\World\World.cpp" />
+    <ClCompile Include="Source\WorldDef\Internal\World\WorldCommands.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Bindings.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Class\ClassInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Class\SkeletonAnimationInstance.cpp" />

@@ -40,7 +40,6 @@ namespace BaluEngine
 
 			class TTransformedSprite : public ITransformedSprite
 			{
-				//TObjLocator<TSprite> sprite;
 				TSprite* sprite;
 				TTransformWithScale local;
 			public:
@@ -50,16 +49,13 @@ namespace BaluEngine
 				}
 				TSprite* GetSprite()
 				{
-					//return sprite.Get();
 					return sprite;
 				}
 				TTransformedSprite()
-					//:sprite(world, sprite->GetName())
 				{
 					this->sprite = nullptr;
 				}
 				TTransformedSprite(TSprite* sprite)
-					//:sprite(world, sprite->GetName())
 				{
 					this->sprite = sprite;
 				}
