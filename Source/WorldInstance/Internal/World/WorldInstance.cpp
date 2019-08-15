@@ -16,14 +16,14 @@ class TWorld::TPrivate
 {
 public:
 	WorldDef::IWorld* source;
-	std::vector<std::unique_ptr<IScene>> scene_instances;
+	std::vector<std::shared_ptr<IScene>> scene_instances;
+
+	ISceneContactListener* contacts_listener;
 
 	TResources* resources;
 
-	TComposer composer;
-
-	std::unique_ptr<TScriptInstance> script_instance;
-
+	std::shared_ptr < TComposer> composer;
+	std::weak_ptr <IWorld> this_ptr;
 };
 
 WorldDef::IWorld* TWorld::GetSource()
@@ -31,33 +31,27 @@ WorldDef::IWorld* TWorld::GetSource()
 	return p->source;
 }
 
-TWorld::TWorld(WorldDef::IWorld* source, TResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
+void TWorld::SetThisPtr(std::weak_ptr <IWorld> this_ptr)
+{
+	p->this_ptr = this_ptr;
+}
+
+TWorld::TWorld(WorldDef::IWorld* source, TResources* resources, std::string assets_dir)
 {
 	p.reset(new TWorld::TPrivate());
 	p->source = source;
 	p->resources = resources;
-
-	p->script_instance.reset(new TScriptInstance(this, source->GetEventsEditor()));
-
-	p->script_instance->Compile();
-
-	//this->events_editor.reset(new TEventsEditorInstance(source->GetEventsEditor(), assets_dir));
-
+	p->composer = std::make_shared<TComposer>();
 	std::vector<std::string> errors_list;
-	//compile_success = this->events_editor->CompileScripts(error_message);
-
-	//if (call_scripts && compile_success)
-	//{
-	//	this->events_editor->WorldStart(this, &composer);
-	//}
-	if (call_scripts)
-		p->script_instance->WorldStart(this, &p->composer);
 }
 
-IScene* TWorld::RunScene(WorldDef::IScene* scene_source)
+std::shared_ptr < IScene> TWorld::RunScene(WorldDef::IScene* scene_source)
 {
-	p->scene_instances.push_back(std::unique_ptr<IScene>(new TScene(this, scene_source, p->resources)));
-	return p->scene_instances.back().get();
+	auto new_scene = std::make_shared<TScene>(p->this_ptr, scene_source, p->resources);
+	new_scene->SetCollideListener(p->contacts_listener);
+	new_scene->InitInstances(new_scene);
+	p->scene_instances.push_back(new_scene);
+	return p->scene_instances.back();
 }
 
 //IScene* TWorld::RunScene()
@@ -71,9 +65,9 @@ IScene* TWorld::RunScene(WorldDef::IScene* scene_source)
 //	return scene_instances.back().get();
 //}
 
-void TWorld::StopScene(IScene* scene)
+void TWorld::StopScene(std::shared_ptr < IScene> scene)
 {
-	auto iter = std::find_if(p->scene_instances.begin(), p->scene_instances.end(), [&](std::unique_ptr<IScene>& p) {return p.get() == scene; });
+	auto iter = std::find_if(p->scene_instances.begin(), p->scene_instances.end(), [&](std::shared_ptr<IScene>& p) {return p == scene; });
 	if (iter != p->scene_instances.end())
 	{
 		p->scene_instances.erase(iter);
@@ -108,36 +102,36 @@ void TWorld::UpdateTransform()
 		dynamic_cast<TScene*>(v.get())->UpdateTransform();
 }
 
+void TWorld::SetCollideListener(ISceneContactListener* contacts_listener)
+{
+	p->contacts_listener = contacts_listener;
+}
+
 TWorld::~TWorld()
 {
 
-}
-
-IEventsEditorInstance* TWorld::GetEventsEditor()
-{
-	return p->script_instance.get();
 }
 
 int TWorld::GetSceneCount()
 {
 	return p->scene_instances.size();
 }
-IScene* TWorld::GetScene(int index)
+std::shared_ptr < IScene> TWorld::GetScene(int index)
 {
-	return p->scene_instances[index].get();
+	return p->scene_instances[index];
 }
 
-IComposer* TWorld::GetComposer()
+std::shared_ptr < IComposer> TWorld::GetComposer()
 {
-	return &p->composer;
+	return p->composer;
 }
 
-IWorld* WorldInstance::CreateWorld(WorldDef::IWorld* source, TResources* resources, std::string assets_dir, bool call_scripts, bool& compile_success, std::string& error_message)
+std::shared_ptr<IWorld> WorldInstance::CreateWorld(WorldDef::IWorld* source, TResources* resources, std::string assets_dir)
 {
-	return new TWorld(source, dynamic_cast<TResources*>(resources), assets_dir, call_scripts, compile_success, error_message);
+	return std::make_shared<TWorld>(source, dynamic_cast<TResources*>(resources), assets_dir);
 }
 
-void WorldInstance::DestroyWorld(IWorld* world)
+BALUENGINEDLL_API std::shared_ptr<IEventsEditorInstance> WorldInstance::CreateEventsEditor(std::shared_ptr<IWorld> world, WorldDef::IEventsEditor* source)
 {
-	delete dynamic_cast<TWorld*>(world);
+	return std::make_shared<TScriptInstance>(world, source);
 }

@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include "WorldInstance/Interface.h"
+#include "../WorldInstance/Interface.h"
 
 #include "../Interfaces/ExportMacro.h"
 
@@ -15,8 +15,9 @@ namespace BaluEngine
 		{
 		public:
 			virtual void Step(float step) = 0;
-			virtual void SetWorldInstance(IWorld* world_instance) = 0;
-			virtual IWorld* GetWorld() = 0;
+			virtual void SetWorldInstance(std::shared_ptr < IWorld> world_instance) = 0;
+			virtual void SetEventsEditor(std::shared_ptr<IEventsEditorInstance> events_editor) = 0;
+			virtual std::shared_ptr < IWorld> GetWorld() = 0;
 			//virtual void SetRenderWorldCallback(CallbackWithData<RenderWorldCallback> callback)=0;
 			//virtual void SetViewportResizeCallback(CallbackWithData<ViewportResizeCallback> callback) = 0;
 			virtual void SetSymulatePhysics(bool enable) = 0;
@@ -34,9 +35,13 @@ namespace BaluEngine
 			virtual void BeginFrame() = 0;
 			virtual void EndFrame() = 0;
 			//
+			virtual ~IDirector() {}
 
-			BALUENGINEDLL_API static IDirector* CreateDirector(std::string assets_dir);
-			BALUENGINEDLL_API static void DestroyDirector(IDirector* director, bool clear_static_data);
+			BALUENGINEDLL_API static std::shared_ptr < IDirector> Create(std::string assets_dir);
+			BALUENGINEDLL_API static void ClearStaticData();
+
+			BALUENGINEDLL_API static std::wstring as_wide(std::string utf_8_string);
+			BALUENGINEDLL_API static std::string as_utf8(std::wstring wide_string);
 		};
 	}
 }

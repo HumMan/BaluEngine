@@ -1,4 +1,4 @@
-#include "Director.h"
+п»ї#include "Director.h"
 
 #include "../Render/Render.h"
 
@@ -7,6 +7,8 @@
 #include "../WorldInstance/Internal/World/WorldInstance.h"
 
 #include "../WorldInstance/Internal/Scene/SceneInstance.h"
+
+#include "../WorldInstance/Internal/Scripts/IScriptInstance.h"
 
 #include <SDL.h>
 
@@ -37,7 +39,11 @@ using namespace BaluEngine::WorldInstance::Internal;
 
 		SDL_GLContext maincontext; /* Our opengl context handle */
 
-		TWorld* world_instance;
+		std::shared_ptr < TWorld> world_instance;
+
+		std::shared_ptr < TScriptInstance> events_editor;
+
+		std::weak_ptr<TDirector> this_ptr;
 
 		std::string assets_dir;
 
@@ -57,7 +63,7 @@ using namespace BaluEngine::WorldInstance::Internal;
 void TDirector::Render()
 {
 	if (p->world_instance != nullptr)
-		dynamic_cast<TComposer*>(p->world_instance->GetComposer())->Render(p->render.get());
+		dynamic_cast<TComposer*>(p->world_instance->GetComposer().get())->Render(p->render.get());
 }
 
 void TDirector::Step(float step)
@@ -68,7 +74,7 @@ void TDirector::Step(float step)
 			return;
 		if (p->physics_sym)
 		{
-			p->world_instance->GetEventsEditor()->PrePhysStep();
+			p->events_editor->PrePhysStep();
 			p->world_instance->PhysStep(step);
 
 		}
@@ -89,12 +95,17 @@ void TDirector::Step(float step)
 	}
 }
 
-void TDirector::SetWorldInstance(IWorld* world_instance)
+void TDirector::SetWorldInstance(std::shared_ptr<IWorld> world_instance)
 {
-	p->world_instance = dynamic_cast<TWorld*>(world_instance);
+	p->world_instance = std::dynamic_pointer_cast<TWorld>(world_instance);
 }
 
-IWorld* TDirector::GetWorld()
+void TDirector::SetEventsEditor(std::shared_ptr<IEventsEditorInstance> events_editor)
+{
+	p->events_editor = std::dynamic_pointer_cast<TScriptInstance>(events_editor);
+}
+
+std::shared_ptr < IWorld> TDirector::GetWorld()
 {
 	return p->world_instance;
 }
@@ -253,20 +264,20 @@ void TDirector::MainLoop()
 	{
 		//SDL_Delay(10);
 		auto curr_tick = SDL_GetTicks();
-		float step = (curr_tick - last_tick) / 1000.0;
+		float step = (curr_tick - last_tick) / 200.0;
 		last_tick = curr_tick;
 		p->internal_render->Set.ClearColor(0.2, 0.3, 0.3);
 		p->internal_render->Clear(true, true);
 		const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
 		if (keystate[SDL_SCANCODE_LEFT])
-			p->world_instance->GetEventsEditor()->KeyDown(WorldDef::TKey::Left);
+			p->events_editor->KeyDown(WorldDef::TKey::Left);
 		if (keystate[SDL_SCANCODE_RIGHT])
-			p->world_instance->GetEventsEditor()->KeyDown(WorldDef::TKey::Right);
+			p->events_editor->KeyDown(WorldDef::TKey::Right);
 		if (keystate[SDL_SCANCODE_UP])
-			p->world_instance->GetEventsEditor()->KeyDown(WorldDef::TKey::Up);
+			p->events_editor->KeyDown(WorldDef::TKey::Up);
 		if (keystate[SDL_SCANCODE_DOWN])
-			p->world_instance->GetEventsEditor()->KeyDown(WorldDef::TKey::Down);
+			p->events_editor->KeyDown(WorldDef::TKey::Down);
 
 		Step(step/10);
 
@@ -280,7 +291,7 @@ void TDirector::MainLoop()
 			//else if (event.type == SDL_KEYUP)
 			//{
 			//	//p->world_instance->KeyUp();
-			//	//p->world_instance->GetEventsEditor()->MouseDown();
+			//	//p->events_editor->MouseDown();
 			//}
 			//else if (event.type == SDL_KEYDOWN)
 			//{
@@ -292,19 +303,19 @@ void TDirector::MainLoop()
 				char b[100];
 				sprintf_s(b, "Mouse %i %i", event.motion.x, event.motion.y);
 				SDL_SetWindowTitle(p->mainwindow, b);
-				p->world_instance->GetEventsEditor()->MouseMove(WorldDef::TMouseEventArgs(WorldDef::TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)));
+				p->events_editor->MouseMove(WorldDef::TMouseEventArgs(WorldDef::TMouseButton::Left, TVec2i(event.motion.x, event.motion.y)));
 			}
 			else if (event.type == SDL_MOUSEBUTTONDOWN)
 			{
-				p->world_instance->GetEventsEditor()->MouseDown(WorldDef::TMouseEventArgs(WorldDef::TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
+				p->events_editor->MouseDown(WorldDef::TMouseEventArgs(WorldDef::TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
 			}
 			else if (event.type == SDL_MOUSEBUTTONUP)
 			{
-				p->world_instance->GetEventsEditor()->MouseUp(WorldDef::TMouseEventArgs(WorldDef::TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
+				p->events_editor->MouseUp(WorldDef::TMouseEventArgs(WorldDef::TMouseButton::Left, TVec2i(event.button.x, event.button.y)));
 			}
 			else if (event.type == SDL_MOUSEWHEEL)
 			{
-				//p->world_instance->GetEventsEditor()->MouseVerticalWheel(event.wheel.y);
+				//p->events_editor->MouseVerticalWheel(event.wheel.y);
 			}
 			else if (event.type == SDL_WINDOWEVENT)
 			{
@@ -313,7 +324,7 @@ void TDirector::MainLoop()
 					auto old_screen_size = p->internal_render->Get.Viewport();
 					auto new_screen_size = TVec2i(event.window.data1, event.window.data2);
 					SetScreenSize(new_screen_size);
-					p->world_instance->GetEventsEditor()->ViewportResize(this, old_screen_size, new_screen_size);
+					p->events_editor->ViewportResize(p->this_ptr.lock(), old_screen_size, new_screen_size);
 				}
 			}
 		}
@@ -336,18 +347,25 @@ TDirector::~TDirector()
 }
 
 
-IDirector* IDirector::CreateDirector(std::string assets_dir)
+std::shared_ptr < IDirector> IDirector::Create(std::string assets_dir)
 {
-	return new TDirector(assets_dir);
+	return std::make_shared<TDirector>(assets_dir);
 }
 
-void IDirector::DestroyDirector(IDirector* director, bool clear_static_data)
+void IDirector::ClearStaticData()
 {
-	delete dynamic_cast<TDirector*>(director);
-	//очистка статичных данных должна выполняться только при завершении работы
-	if (clear_static_data)
-	{
-		SceneObjectInstanceFactory::UnregisterAll();
-		WorldDef::UnregisterAll();
-	}
+	//РѕС‡РёСЃС‚РєР° СЃС‚Р°С‚РёС‡РЅС‹С… РґР°РЅРЅС‹С… РґРѕР»Р¶РЅР° РІС‹РїРѕР»РЅСЏС‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РїСЂРё Р·Р°РІРµСЂС€РµРЅРёРё СЂР°Р±РѕС‚С‹
+	SceneObjectInstanceFactory::UnregisterAll();
+	WorldDef::UnregisterAll();
+}
+
+#include <pugixml.hpp>
+
+std::wstring IDirector::as_wide(std::string utf_8_string)
+{
+	return pugi::as_wide(utf_8_string);
+}
+std::string IDirector::as_utf8(std::wstring wide_string)
+{
+	return pugi::as_utf8(wide_string);
 }

@@ -13,7 +13,7 @@ namespace BaluEngine
 			virtual void OnMouseUp(WorldDef::TMouseEventArgs e) {}
 		};
 
-		class IEventsEditorInstance
+		class IEventsEditorInstance: public ISceneContactListener
 		{
 		public:
 			virtual void MouseDown(WorldDef::TMouseEventArgs e) = 0;
@@ -23,20 +23,19 @@ namespace BaluEngine
 
 			virtual void PrePhysStep() = 0;
 
+			virtual void Compile() = 0;
+
 			virtual void KeyDown(WorldDef::TKey key) = 0;
 			virtual void KeyUp(WorldDef::TKey key) = 0;
 
-			virtual void OnCreate(ITransformedClassInstance* object)=0;
+			virtual void OnCreate(std::shared_ptr<ITransformedClassInstance> object)=0;
 
-			virtual void WorldStart(IWorld* world_instance, IComposer* composer) = 0;
+			virtual void WorldStart(std::shared_ptr<IWorld>world_instance, std::shared_ptr< IComposer> composer) = 0;
 
 			virtual void AddMouseEventListener(IMouseEventListener*) = 0;
 			virtual void RemoveMouseEventListener(IMouseEventListener*) = 0;
 
-			virtual void ViewportResize(IDirector* director, BaluLib::TVec2i old_size, BaluLib::TVec2i new_size) = 0;
-
-			virtual void Collide(ITransformedClassInstance* object,
-				ITransformedSpriteInstance* obj_a, ITransformedClassInstance* obj_b)=0;
+			virtual void ViewportResize(std::shared_ptr < IDirector> director, BaluLib::TVec2i old_size, BaluLib::TVec2i new_size) = 0;
 		};
 	}
 }

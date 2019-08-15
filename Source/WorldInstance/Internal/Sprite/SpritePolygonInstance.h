@@ -33,18 +33,18 @@ namespace BaluEngine
 
 				void UpdateGeometry();
 
-				bool enable;
+				bool enabled;
 				int layer;
 			public:
 
-				bool IsEnable()
+				bool IsEnabled()
 				{
-					return enable;
+					return enabled;
 				}
 
-				void SetEnable(bool enable)
+				void SetEnable(bool enabled)
 				{
-					this->enable = enable;
+					this->enabled = enabled;
 				}
 
 				TSpritePolygonInstance(WorldDef::ISpritePolygon* source, TResources* resources);

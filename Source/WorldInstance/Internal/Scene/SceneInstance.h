@@ -19,9 +19,9 @@ namespace BaluEngine
 				class TPrivate;
 				std::unique_ptr<TPrivate> p;
 			public:
-				IScene * GetScene();
-				TSceneObjectInstance(IScene* scene);
-				virtual void QueryAABB(BaluLib::TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results) {}
+				std::shared_ptr<IScene> GetScene();
+				TSceneObjectInstance(std::shared_ptr<IScene> scene);
+				virtual void QueryAABB(BaluLib::TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results) {}
 				virtual BaluLib::TOBB2 GetOBB() = 0;
 				virtual void SetTransform(WorldDef::TTransform transform) {}
 				virtual WorldDef::ISceneObject* GetSource() { return nullptr; };
@@ -34,16 +34,16 @@ namespace BaluEngine
 				//virtual void OnMouseDown(TMouseEventArgs e, TVec2 scene_cursor_location) {};
 				//virtual void OnMouseMove(TMouseEventArgs e, TVec2 scene_cursor_location) {};
 				virtual ~TSceneObjectInstance();
-				WorldDef::IRuntimeProperties* GetProperties();
+				std::shared_ptr<WorldDef::IRuntimeProperties> GetProperties();
 			};
 
-			typedef ISceneObjectInstance*(*SceneObjectInstanceClone)(WorldDef::ISceneObject* source_def, IScene* scene);
+			typedef std::shared_ptr<ISceneObjectInstance>(*SceneObjectInstanceClone)(WorldDef::ISceneObject* source_def, std::shared_ptr<IScene> scene);
 			class SceneObjectInstanceFactory
 			{
 			public:
 				static bool Register(const char* name, SceneObjectInstanceClone clone);
 				static void UnregisterAll();
-				static ISceneObjectInstance* Create(const char* name, WorldDef::ISceneObject* param, IScene* scene);
+				static std::shared_ptr<ISceneObjectInstance> Create(const char* name, WorldDef::ISceneObject* param, std::shared_ptr<IScene> scene);
 			};
 
 			
@@ -56,15 +56,16 @@ namespace BaluEngine
 			public:
 				TResources * GetResources();
 				b2World* GetPhysWorld();
-				bool PointCollide(BaluLib::TVec2 scene_space_point, ISceneObjectInstance* &result);
+				bool PointCollide(BaluLib::TVec2 scene_space_point, std::shared_ptr < ISceneObjectInstance> &result);
 
 				WorldDef::IScene* GetSource();
-				IWorld* GetWorld();
+				std::shared_ptr < IWorld> GetWorld();
 
 				WorldDef::IViewport* GetViewport(std::string name);
 
-				TScene(IWorld* world, WorldDef::IScene* source, TResources* resources);
-				TScene(IWorld* world, TResources* resources/*, TLayersManager* layers = nullptr*/);
+				TScene(std::weak_ptr < IWorld> world, WorldDef::IScene* source, TResources* resources);
+				void InitInstances(std::shared_ptr<IScene> this_ptr);
+				//TScene(IWorld* world, TResources* resources/*, TLayersManager* layers = nullptr*/);
 				//TSceneInstance(TSceneInstance&& right);
 				~TScene();
 
@@ -73,11 +74,13 @@ namespace BaluEngine
 				//void AddInstance(ISceneObjectInstance*);
 				//void DestroyInstance(ISceneObjectInstance*);
 
-				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results);
+				void QueryAABB(BaluLib::TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results);
 				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui);
 
 				size_t GetInstancesCount();
-				ISceneObjectInstance* GetInstance(size_t index);
+				std::shared_ptr < ISceneObjectInstance> GetInstance(size_t index);
+
+				void SetCollideListener(ISceneContactListener* contacts_listener);
 
 				void PhysStep(float step);
 

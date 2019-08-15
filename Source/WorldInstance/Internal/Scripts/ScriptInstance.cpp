@@ -17,6 +17,7 @@
 
 using namespace BaluEngine;
 using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
 std::string Convert_TString_to_stdstring(const TString& value)
 {
@@ -28,12 +29,6 @@ TString Convert_stdstring_to_TString(const std::string& value)
 	TString result;
 	result.Init(value);
 	return result;
-}
-
-template<class T>
-TPtr Convert_stdsharedptr_to_TPtr(const std::shared_ptr<T>& value)
-{
-
 }
 
 #include "../../../BindingGenerator/external_bindings.h"
@@ -69,14 +64,14 @@ public:
 	std::vector<TStaticValue> static_objects;
 	TRefsList ref_list;
 	std::vector<std::string> errors;
-	IWorld* world;
+	std::shared_ptr < IWorld> world;
 
 	TGlobalRunContext global_context;
 
 	std::vector<IMouseEventListener*> OnMouseEventListeners;
 };
 
-TScriptInstance::TScriptInstance(IWorld* world, WorldDef::IEventsEditor* source)
+TScriptInstance::TScriptInstance(std::shared_ptr < IWorld> world, WorldDef::IEventsEditor* source)
 {
 	p.reset(new TPrivate());
 	p->source = source;
@@ -163,7 +158,7 @@ void TScriptInstance::PrePhysStep()
 			for (size_t i = 0; i < count; i++)
 			{
 				auto instance = scene->GetInstance(i);
-				auto class_instance = dynamic_cast<ITransformedClassInstance*>(instance);
+				auto class_instance = std::dynamic_pointer_cast<ITransformedClassInstance>(instance);
 				if (class_instance != nullptr)
 				{
 					auto type = WorldDef::ClassCallbackType::BeforePhysics;
@@ -216,7 +211,7 @@ void TScriptInstance::KeyDown(WorldDef::TKey key)
 			for (size_t i = 0; i < count; i++)
 			{
 				auto instance = scene->GetInstance(i);
-				auto class_instance = dynamic_cast<ITransformedClassInstance*>(instance);
+				auto class_instance = std::dynamic_pointer_cast<ITransformedClassInstance>(instance);
 				if (class_instance != nullptr)
 				{
 					auto type = WorldDef::ClassKeyCallbackType::KeyDown;
@@ -269,7 +264,7 @@ void TScriptInstance::KeyUp(WorldDef::TKey key)
 			for (size_t i = 0; i < count; i++)
 			{
 				auto instance = scene->GetInstance(i);
-				auto class_instance = dynamic_cast<ITransformedClassInstance*>(instance);
+				auto class_instance = std::dynamic_pointer_cast<ITransformedClassInstance>(instance);
 				if (class_instance != nullptr)
 				{
 					auto type = WorldDef::ClassKeyCallbackType::KeyUp;
@@ -290,7 +285,7 @@ void TScriptInstance::KeyUp(WorldDef::TKey key)
 	}
 }
 
-void TScriptInstance::OnCreate(ITransformedClassInstance* object)
+void TScriptInstance::OnCreate(std::shared_ptr<ITransformedClassInstance> object)
 {
 	auto type = WorldDef::ClassCallbackType::Created;
 	for (int i = 0; i < p->source->ClassGetCount(type); i++)
@@ -307,7 +302,7 @@ void TScriptInstance::OnCreate(ITransformedClassInstance* object)
 
 }
 
-void TScriptInstance::ViewportResize(IDirector* director, BaluLib::TVec2i old_size, BaluLib::TVec2i new_size)
+void TScriptInstance::ViewportResize(std::shared_ptr<IDirector> director, BaluLib::TVec2i old_size, BaluLib::TVec2i new_size)
 {
 	auto type = WorldDef::GlobalCallbackType::ViewportResize;
 	for (int i = 0; i < p->source->GlobalGetCount(type); i++)
@@ -318,7 +313,7 @@ void TScriptInstance::ViewportResize(IDirector* director, BaluLib::TVec2i old_si
 	}
 }
 
-void TScriptInstance::WorldStart(IWorld* world_instance, IComposer* composer)
+void TScriptInstance::WorldStart(std::shared_ptr<IWorld> world_instance, std::shared_ptr<IComposer> composer)
 {
 	auto type = WorldDef::GlobalCallbackType::WorldStart;
 	for (int i = 0; i < p->source->GlobalGetCount(type); i++)
@@ -329,8 +324,8 @@ void TScriptInstance::WorldStart(IWorld* world_instance, IComposer* composer)
 	}
 }
 
-void TScriptInstance::Collide(ITransformedClassInstance* object,
-	ITransformedSpriteInstance* obj_a, ITransformedClassInstance* obj_b)
+void TScriptInstance::ProcessCollision(std::shared_ptr<ITransformedClassInstance> object,
+	std::shared_ptr < ITransformedSpriteInstance> obj_a, std::shared_ptr < ITransformedClassInstance> obj_b)
 {
 	int index = -1;
 	for (int i = 0; i < p->source->OnCollideGetCount(); i++)

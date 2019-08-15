@@ -13,8 +13,8 @@ namespace BaluEngine
 			class TComposerStage : public IComposerStage
 			{
 				friend class TComposer;
-				TComposer* composer;
-				IScene* scene_instance;
+				std::shared_ptr<TComposer> composer;
+				std::shared_ptr<IScene> scene_instance;
 				WorldDef::IViewport* viewport;
 				TView view;
 				//TODO effects, etc.
@@ -33,8 +33,8 @@ namespace BaluEngine
 			public:
 				TComposer();
 				//TComposer(TRender* render);
-				TComposerStage* AddToRender(IScene* scene_instance, WorldDef::IViewport* viewport);
-				void RemoveFromRender(IComposerStage* stage);
+				TComposerStage* AddToRender(std::shared_ptr<IScene> scene_instance, WorldDef::IViewport* viewport);
+				void RemoveFromRender(std::shared_ptr<IComposerStage> stage);
 
 				void Render(TRender* render);
 				~TComposer();

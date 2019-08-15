@@ -13,19 +13,19 @@ using namespace BaluEngine::WorldInstance::Internal;
 class TComposer::TPrivate
 {
 public:
-	std::vector<TComposerStage> stages;
+	std::vector<std::shared_ptr<TComposerStage>> stages;
 };
 
 
-TComposerStage* TComposer::AddToRender(IScene* scene_instance, WorldDef::IViewport* viewport)
+TComposerStage* TComposer::AddToRender(std::shared_ptr<IScene> scene_instance, WorldDef::IViewport* viewport)
 {
-	p->stages.emplace_back();
-	p->stages.back().scene_instance = scene_instance;
-	p->stages.back().viewport = viewport;
+	p->stages.emplace_back(std::make_shared<TComposerStage>());
+	p->stages.back()->scene_instance = scene_instance;
+	p->stages.back()->viewport = viewport;
 	return nullptr;
 }
 
-void TComposer::RemoveFromRender(IComposerStage* stage)
+void TComposer::RemoveFromRender(std::shared_ptr<IComposerStage> stage)
 {
 
 }
@@ -37,12 +37,12 @@ void TComposer::Render(TRender* render)
 
 	for (auto& v : p->stages)
 	{
-		auto main_viewport = v.viewport;
+		auto main_viewport = v->viewport;
 
 		std::vector<TRenderCommand> render_commands;
 		std::vector<IGUIVisual*> gui_draw;
 		auto viewport_aabb = main_viewport->GetAABB();
-		auto scene_instance = (dynamic_cast<BaluEngine::WorldInstance::Internal::TScene*>(v.scene_instance));
+		auto scene_instance = (dynamic_cast<BaluEngine::WorldInstance::Internal::TScene*>(v->scene_instance.get()));
 		scene_instance->QueryAABB(viewport_aabb, render_commands, gui_draw);
 
 		//TODO где то нужно хранить viewport_view

@@ -37,7 +37,10 @@ add_subdirectory(submodules/BaluScript)
 include_directories(${BaluScript_SOURCE_DIR}/Include)
 endif()
 
-add_subdirectory("submodules/Box2D/Box2D/Box2D")
+file(GLOB_RECURSE ${PROJECT_NAME}_SRC
+    "submodules/Box2D/Box2D/*.h"
+    "submodules/Box2D/Box2D/*.cpp"
+)
 
 include_directories("submodules/Box2D/Box2D")
 include_directories("submodules/Box2D/Box2D/Box2D")

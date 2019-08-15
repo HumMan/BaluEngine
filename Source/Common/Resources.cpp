@@ -1,4 +1,4 @@
-#include "IResources.h"
+п»ї#include "IResources.h"
 
 #include <baluRender.h>
 using namespace BaluRender;
@@ -16,7 +16,7 @@ using namespace BaluEngine::WorldInstance;
 };
 
 
-//TODO настройка ссылок кто использует текстуру - очистка неиспользуемых текстур
+//TODO РЅР°СЃС‚СЂРѕР№РєР° СЃСЃС‹Р»РѕРє РєС‚Рѕ РёСЃРїРѕР»СЊР·СѓРµС‚ С‚РµРєСЃС‚СѓСЂСѓ - РѕС‡РёСЃС‚РєР° РЅРµРёСЃРїРѕР»СЊР·СѓРµРјС‹С… С‚РµРєСЃС‚СѓСЂ
 TBaluTexture TResources::CreateTextureFromFile(std::string path)
 {
 	TBaluTexture tex;

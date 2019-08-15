@@ -19,7 +19,7 @@ TSpritePolygonInstance::TSpritePolygonInstance(WorldDef::ISpritePolygon* source,
 	:material(source->GetMaterial(), resources)
 {
 	this->layer = source->GetLayer();
-	enable = source->GetEnabled();
+	enabled = source->GetEnabled();
 	this->source = source;
 	//source->AddChangesListener(this);
 	tex_coords = source->GetTexCoords();
@@ -40,7 +40,7 @@ TSpritePolygonInstance::~TSpritePolygonInstance()
 
 void TSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands/*, TLayersManager& layers*/)
 {
-	if (enable && vertices.size() > 0)
+	if (enabled && vertices.size() > 0)
 	{
 		//if (layers.GetLayersCount() > 0)
 		{

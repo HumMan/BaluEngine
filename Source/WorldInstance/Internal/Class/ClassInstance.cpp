@@ -11,48 +11,57 @@ using namespace BaluLib;
 
 #include <Box2D.h>
 
-TClassInstance* TTransformedClassInstance::GetClass()
+std::shared_ptr < IClassInstance> TTransformedClassInstance::GetClass()
 {
-	return &instance_class;
+	return instance_class;
 }
 
 bool TTransformedClassInstance::PointCollide(TVec2 scene_space_point)
 {
 	TVec2 p = instance_transform.ToLocal(scene_space_point);
-	ITransformedSpriteInstance* sprite = nullptr;
-	return instance_class.PointCollide(p, sprite);
+	std::shared_ptr<ITransformedSpriteInstance> sprite;
+	return instance_class->PointCollide(p, sprite);
 }
 
 TOBB2 TTransformedClassInstance::GetOBB()
 {
-	auto aabb = instance_class.GetSource()->GetAABB();
+	auto aabb = instance_class->GetSource()->GetAABB();
 	return instance_transform.ToGlobal(aabb);
 }
 
-TClassInstance::TClassInstance(WorldDef::IClass* source, b2World* phys_world, WorldDef::TTransform parent_transform,
-	TResources* resources, ISceneObjectInstance* scene_object)
-	:skeleton(source->GetSkeleton(), resources, scene_object)
-	, skeleton_animation(&skeleton, source->GetSkeletonAnimation())
+TClassInstance::TClassInstance()
 {
+	this->source = nullptr;
+}
+
+void TClassInstance::Init(WorldDef::IClass* source, b2World* phys_world,
+	WorldDef::TTransform parent_transform,
+	TResources* resources, std::weak_ptr<ISceneObjectInstance> scene_object, std::weak_ptr< TClassInstance> this_ptr)
+{
+	skeleton = std::make_shared< TSkeletonInstance>(source->GetSkeleton(), resources, scene_object);
+	skeleton_animation = std::make_shared< TSkeletonAnimationInstance>(skeleton, source->GetSkeletonAnimation());
+
 	this->scene_object = scene_object;
 	this->source = source;
 	//this->resources = resources;
 
 	for (int i = 0; i < source->GetSpritesCount(); i++)
 	{
-		sprites.push_back(std::unique_ptr<ITransformedSpriteInstance>(new TTransformedSpriteInstance(source->GetSprite(i), resources, scene_object)));
+		auto new_sprite = std::make_shared<TTransformedSpriteInstance>();
+		new_sprite->Init(source->GetSprite(i), resources, scene_object, new_sprite);
+		sprites.push_back(new_sprite);
 	}
 
-	phys_body = std::unique_ptr<TClassPhysBodyIntance>(new TClassPhysBodyIntance(phys_world, source->GetPhysBody(),this, parent_transform));
+	phys_body = std::make_shared<TClassPhysBodyIntance>(phys_world, source->GetPhysBody(), this_ptr, parent_transform);
 }
 
-TSkeletonAnimationInstance* TClassInstance::GetSkeletonAnimation()
+std::shared_ptr <ISkeletonAnimationInstance> TClassInstance::GetSkeletonAnimation()
 {
-	return &skeleton_animation;
+	return skeleton_animation;
 }
-TClassPhysBodyIntance* TClassInstance::GetPhysBody()
+std::shared_ptr < IClassPhysBodyIntance> TClassInstance::GetPhysBody()
 {
-	return phys_body.get();
+	return phys_body;
 }
 
 WorldDef::IClass* TClassInstance::GetSource()
@@ -63,24 +72,25 @@ int TClassInstance::GetSpritesCount()
 {
 	return sprites.size();
 }
-int BaluEngine::WorldInstance::Internal::TClassInstance::ContainsSprite(ITransformedSpriteInstance * sprite)
+int BaluEngine::WorldInstance::Internal::TClassInstance::ContainsSprite(std::shared_ptr < ITransformedSpriteInstance> sprite)
 {
 	for(int i=0;i<sprites.size();i++)
-		if (sprites[i].get() == sprite)
+		if (sprites[i].get() == sprite.get())
 			return i;
 	return -1;
 }
-ITransformedSpriteInstance* TClassInstance::GetSprite(int index)
+std::shared_ptr < ITransformedSpriteInstance> TClassInstance::GetSprite(int index)
 {
-	return sprites[index].get();
+	return sprites[index];
 }
 
 void TTransformedClassInstance::SourceChanged()
 {
 	instance_transform = source->GetTransformWithScale();
-	if (instance_class.GetPhysBody()->IsEnable())
+	auto phys_body = dynamic_cast<TClassPhysBodyIntance*>(instance_class->GetPhysBody().get());
+	if (phys_body->IsEnabled())
 	{
-		instance_class.GetPhysBody()->SetTransform(instance_transform.transform);
+		phys_body->SetTransform(instance_transform.transform);
 	}
 }
 void TTransformedClassInstance::BeforeDeleteSource()
@@ -88,13 +98,19 @@ void TTransformedClassInstance::BeforeDeleteSource()
 
 }
 
-TTransformedClassInstance::TTransformedClassInstance(WorldDef::ITransformedClass* source, IScene* scene)
-	:TSceneObjectInstance(scene)
-	, instance_class(source->GetClass(), 
-		dynamic_cast<TScene*>(scene)->GetPhysWorld(), 
-		source->GetTransformWithScale().transform, 
-		dynamic_cast<TScene*>(scene)->GetResources(), this)
+TTransformedClassInstance::TTransformedClassInstance(std::shared_ptr < IScene> scene)
+:TSceneObjectInstance(scene)
 {
+	this->source = nullptr;
+}
+
+void TTransformedClassInstance::Init(WorldDef::ITransformedClass* source,  std::shared_ptr< TTransformedClassInstance> this_ptr)
+{
+	 instance_class = std::make_shared<TClassInstance>();
+	 instance_class->Init(source->GetClass(),
+		 dynamic_cast<TScene*>(this->GetScene().get())->GetPhysWorld(),
+		 source->GetTransformWithScale().transform,
+		 dynamic_cast<TScene*>(this->GetScene().get())->GetResources(), this_ptr, instance_class);
 	this->source = source;
 	instance_transform = source->GetTransformWithScale();
 	//source->AddChangesListener(this);
@@ -108,9 +124,10 @@ TTransformedClassInstance::~TTransformedClassInstance()
 void TTransformedClassInstance::SetTransform(WorldDef::TTransform transform)
 {
 	this->instance_transform.transform = transform;
-	if (instance_class.GetPhysBody()->IsEnable())
+	auto phys_body = dynamic_cast<TClassPhysBodyIntance*>(instance_class->GetPhysBody().get());
+	if (phys_body->IsEnabled())
 	{
-		instance_class.GetPhysBody()->SetTransform(transform);
+		phys_body->SetTransform(transform);
 	}
 }
 
@@ -125,9 +142,10 @@ TVec2 TTransformedClassInstance::GetScale()
 void TTransformedClassInstance::SetScale(TVec2 scale)
 {
 	this->instance_transform.scale = scale;
-	if (instance_class.GetPhysBody()->IsEnable())
+	auto phys_body = dynamic_cast<TClassPhysBodyIntance*>(instance_class->GetPhysBody().get());
+	if (phys_body->IsEnabled())
 	{
-		instance_class.GetPhysBody()->BuildAllFixtures();
+		phys_body->BuildAllFixtures();
 	}
 }
 //TProperties* TTransformedClassInstance::GetProperties()
@@ -135,19 +153,21 @@ void TTransformedClassInstance::SetScale(TVec2 scale)
 //	return &properties;
 //}
 
-TClassPhysBodyIntance* TTransformedClassInstance::GetPhysBody()
+std::shared_ptr<IClassPhysBodyIntance> TTransformedClassInstance::GetPhysBody()
 {
-	return instance_class.GetPhysBody();
+	return instance_class->GetPhysBody();
 }
 
-ISceneObjectInstance* TTransformedClassInstance::Clone(WorldDef::ISceneObject* source, IScene* scene)
+std::shared_ptr<ISceneObjectInstance> TTransformedClassInstance::Clone(WorldDef::ISceneObject* source, std::shared_ptr < IScene> scene)
 {
-	return new TTransformedClassInstance(dynamic_cast<WorldDef::ITransformedClass*>(source), scene);
+	auto result = std::make_shared<TTransformedClassInstance>(scene);
+	result->Init(dynamic_cast<WorldDef::ITransformedClass*>(source), result);
+	return result;
 }
 
-ITransformedSpriteInstance* TTransformedClassInstance::GetSprite(int index)
+std::shared_ptr < ITransformedSpriteInstance> TTransformedClassInstance::GetSprite(int index)
 {
-	return instance_class.GetSprite(index);
+	return instance_class->GetSprite(index);
 }
 
 TAABB2 TTransformedClassInstance::GetAABB()
@@ -156,54 +176,54 @@ TAABB2 TTransformedClassInstance::GetAABB()
 	return TAABB2();
 }
 
-TSkeletonAnimationInstance* TTransformedClassInstance::GetSkeletonAnimation()
+std::shared_ptr < ISkeletonAnimationInstance> TTransformedClassInstance::GetSkeletonAnimation()
 {
-	return instance_class.GetSkeletonAnimation();
+	return instance_class->GetSkeletonAnimation();
 }
 
-bool TTransformedClassInstance::PointCollide(TVec2 class_space_point, ITransformedSpriteInstance* &result)
+bool TTransformedClassInstance::PointCollide(TVec2 class_space_point, std::shared_ptr < ITransformedSpriteInstance> &result)
 {
-	return instance_class.PointCollide(class_space_point, result);
+	return instance_class->PointCollide(class_space_point, result);
 }
-bool TClassInstance::PointCollide(TVec2 class_space_point, ITransformedSpriteInstance* &result)
+bool TClassInstance::PointCollide(TVec2 class_space_point, std::shared_ptr < ITransformedSpriteInstance> &result)
 {
 	for (int i = 0; i < sprites.size(); i++)
 	{
 		bool collide = sprites[i]->GetSource()->PointCollide(class_space_point);
 		if (collide)
 		{
-			result = sprites[i].get();
+			result = sprites[i];
 			return true;
 		}
 	}
 	return false;
 }
 
-void TTransformedClassInstance::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results)
+void TTransformedClassInstance::QueryAABB(TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results)
 {
-	instance_class.QueryAABB(frustum, results);
+	instance_class->QueryAABB(frustum, results);
 }
 
-void TClassInstance::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results)
+void TClassInstance::QueryAABB(TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results)
 {
 	for (int i = 0; i < sprites.size(); i++)
 	{
-		if (dynamic_cast<TTransformedSpriteInstance*>(sprites[i].get())->GetPolygon()->IsEnable())
+		if (dynamic_cast<TTransformedSpriteInstance*>(sprites[i].get())->GetPolygon()->IsEnabled())
 		{
 			//if (sprites[i]->GetAABB().CollideWith(frustum))
 			results.push_back(sprites[i]->GetPolygon());
 		}
 	}
-	skeleton.QueryAABB(frustum, results);
+	skeleton->QueryAABB(frustum, results);
 }
 
 void TTransformedClassInstance::UpdateTransform()
 {
-	if (instance_class.GetPhysBody()->IsEnable())
+	if (instance_class->GetPhysBody()->IsEnabled())
 	{
-		instance_transform.transform = instance_class.GetPhysBody()->GetTransform();
+		instance_transform.transform = instance_class->GetPhysBody()->GetTransform();
 	}
-	instance_class.UpdateTransform(instance_transform);
+	instance_class->UpdateTransform(instance_transform);
 }
 
 void TClassInstance::UpdateTransform(WorldDef::TTransformWithScale transform)
@@ -212,28 +232,28 @@ void TClassInstance::UpdateTransform(WorldDef::TTransformWithScale transform)
 	{
 		dynamic_cast<TTransformedSpriteInstance*>(sprites[i].get())->UpdateTransform(transform);
 	}
-	skeleton.UpdateTranform(transform);
+	skeleton->UpdateTranform(transform);
 }
 
-bool TClassPhysBodyIntance::IsEnable()
+bool TClassPhysBodyIntance::IsEnabled()
 {
-	return is_enable;
+	return is_enabled;
 }
 
 void TClassPhysBodyIntance::BuildAllFixtures()
 {
-	for (int i = 0; i < sprites->GetSpritesCount(); i++)
+	for (int i = 0; i < sprites.lock()->GetSpritesCount(); i++)
 	{
-		auto sensor_source = sprites->GetSprite(i);
+		auto sensor_source = sprites.lock()->GetSprite(i);
 
-		auto phys_shape = dynamic_cast<TPhysShapeInstance*>(sensor_source->GetPhysShape());
+		auto phys_shape = dynamic_cast<TPhysShapeInstance*>(sensor_source->GetPhysShape().get());
 		phys_shape->BuildFixture(phys_body, WorldDef::TTransformWithScale(sensor_source->GetTransform(), sensor_source->GetScale()));
 	}
 }
 
-TClassPhysBodyIntance::TClassPhysBodyIntance(b2World* phys_world, WorldDef::IClassPhysBody* source, ISpritesArray* sprites, WorldDef::TTransform parent_transform)
+TClassPhysBodyIntance::TClassPhysBodyIntance(b2World* phys_world, WorldDef::IClassPhysBody* source, std::weak_ptr<ISpritesArray> sprites, WorldDef::TTransform parent_transform)
 {
-	is_enable = source->GetEnabled();
+	is_enabled = source->GetEnabled();
 	if (source->GetEnabled())
 	{
 		this->source = source;

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "IDirector.h"
 
@@ -23,8 +23,9 @@ namespace BaluEngine
 				//
 
 				TDirector(std::string assets_dir);
-				void SetWorldInstance(IWorld* world_instance);
-				IWorld* GetWorld();
+				void SetWorldInstance(std::shared_ptr < IWorld> world_instance);
+				void SetEventsEditor(std::shared_ptr<IEventsEditorInstance> events_editor);
+				std::shared_ptr<IWorld> GetWorld();
 
 				int Initialize(bool create_window);
 				TResources* GetResources();

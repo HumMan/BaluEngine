@@ -224,57 +224,87 @@ namespace ns_Script
 	}
 	namespace ns_GlobalCallback 
 	{
-		void callScriptFromC_MouseUp_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, IWorld* const p0 /*world*/, const WorldDef::TMouseEventArgs p1 /*event*/) 
+		void callScriptFromC_MouseUp_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<IWorld> const &p0 /*world*/, const WorldDef::TMouseEventArgs p1 /*event*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IWorld"))));
-			*(IWorld**)params[0].get() = p0;
+			*(TScriptSharedPointer<IWorld>*)params[0].get() = TScriptSharedPointer<IWorld>(p0);
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("TMouseEventArgs"))));
 			*(WorldDef::TMouseEventArgs*)params[1].get() = p1;
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
 		}
-		void callScriptFromC_MouseDown_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, IWorld* const p0 /*world*/, const WorldDef::TMouseEventArgs p1 /*event*/) 
+		void callScriptFromC_MouseDown_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<IWorld> const &p0 /*world*/, const WorldDef::TMouseEventArgs p1 /*event*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IWorld"))));
-			*(IWorld**)params[0].get() = p0;
+			*(TScriptSharedPointer<IWorld>*)params[0].get() = TScriptSharedPointer<IWorld>(p0);
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("TMouseEventArgs"))));
 			*(WorldDef::TMouseEventArgs*)params[1].get() = p1;
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
 		}
-		void callScriptFromC_MouseMove_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, IWorld* const p0 /*world*/, const WorldDef::TMouseEventArgs p1 /*event*/) 
+		void callScriptFromC_MouseMove_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<IWorld> const &p0 /*world*/, const WorldDef::TMouseEventArgs p1 /*event*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IWorld"))));
-			*(IWorld**)params[0].get() = p0;
+			*(TScriptSharedPointer<IWorld>*)params[0].get() = TScriptSharedPointer<IWorld>(p0);
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("TMouseEventArgs"))));
 			*(WorldDef::TMouseEventArgs*)params[1].get() = p1;
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
 		}
-		void callScriptFromC_WorldStart_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, IWorld* const p0 /*world*/, IComposer* const p1 /*composer*/) 
+		void callScriptFromC_WorldStart_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<IWorld> const &p0 /*world*/, std::shared_ptr<IComposer> const &p1 /*composer*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IWorld"))));
-			*(IWorld**)params[0].get() = p0;
+			*(TScriptSharedPointer<IWorld>*)params[0].get() = TScriptSharedPointer<IWorld>(p0);
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IComposer"))));
-			*(IComposer**)params[1].get() = p1;
+			*(TScriptSharedPointer<IComposer>*)params[1].get() = TScriptSharedPointer<IComposer>(p1);
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[1].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[1]));
+			}
 		}
-		void callScriptFromC_ViewportResize_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, IDirector* const p0 /*director*/, const BaluLib::TVec2i p1 /*old_size*/, const BaluLib::TVec2i p2 /*new_size*/) 
+		void callScriptFromC_ViewportResize_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<IDirector> const &p0 /*director*/, const BaluLib::TVec2i p1 /*old_size*/, const BaluLib::TVec2i p2 /*new_size*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IDirector"))));
-			*(IDirector**)params[0].get() = p0;
+			*(TScriptSharedPointer<IDirector>*)params[0].get() = TScriptSharedPointer<IDirector>(p0);
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("vec2i"))));
 			*(BaluLib::TVec2i*)params[1].get() = p1;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("vec2i"))));
 			*(BaluLib::TVec2i*)params[2].get() = p2;
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
 		}
 		void callScriptFromC_BeforePhysics_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax) 
 		{
@@ -316,75 +346,120 @@ namespace ns_Script
 	}
 	namespace ns_ClassCallback 
 	{
-		void callScriptFromC_BeforePhysics_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, ITransformedClassInstance* const p0 /*object*/) 
+		void callScriptFromC_BeforePhysics_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<ITransformedClassInstance> const &p0 /*object*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IInstance"))));
-			*(ITransformedClassInstance**)params[0].get() = p0;
+			*(TScriptSharedPointer<ITransformedClassInstance>*)params[0].get() = TScriptSharedPointer<ITransformedClassInstance>(p0);
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
 		}
-		void callScriptFromC_KeyDown_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, const WorldDef::TKey p0 /*key*/, ITransformedClassInstance* const p1 /*object*/) 
+		void callScriptFromC_KeyDown_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, const WorldDef::TKey p0 /*key*/, std::shared_ptr<ITransformedClassInstance> const &p1 /*object*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("TKey"))));
 			*(WorldDef::TKey*)params[0].get() = p0;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IInstance"))));
-			*(ITransformedClassInstance**)params[1].get() = p1;
+			*(TScriptSharedPointer<ITransformedClassInstance>*)params[1].get() = TScriptSharedPointer<ITransformedClassInstance>(p1);
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[1].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[1]));
+			}
 		}
-		void callScriptFromC_KeyUp_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, const WorldDef::TKey p0 /*key*/, ITransformedClassInstance* const p1 /*object*/) 
+		void callScriptFromC_KeyUp_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, const WorldDef::TKey p0 /*key*/, std::shared_ptr<ITransformedClassInstance> const &p1 /*object*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("TKey"))));
 			*(WorldDef::TKey*)params[0].get() = p0;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IInstance"))));
-			*(ITransformedClassInstance**)params[1].get() = p1;
+			*(TScriptSharedPointer<ITransformedClassInstance>*)params[1].get() = TScriptSharedPointer<ITransformedClassInstance>(p1);
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[1].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[1]));
+			}
 		}
-		void callScriptFromC_Created_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, ITransformedClassInstance* const p0 /*object*/) 
+		void callScriptFromC_Created_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<ITransformedClassInstance> const &p0 /*object*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IInstance"))));
-			*(ITransformedClassInstance**)params[0].get() = p0;
+			*(TScriptSharedPointer<ITransformedClassInstance>*)params[0].get() = TScriptSharedPointer<ITransformedClassInstance>(p0);
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
 		}
 	}
 	namespace ns_ClassKeyCallback 
 	{
-		void callScriptFromC_KeyDown_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, ITransformedClassInstance* const p0 /*object*/) 
+		void callScriptFromC_KeyDown_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<ITransformedClassInstance> const &p0 /*object*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IInstance"))));
-			*(ITransformedClassInstance**)params[0].get() = p0;
+			*(TScriptSharedPointer<ITransformedClassInstance>*)params[0].get() = TScriptSharedPointer<ITransformedClassInstance>(p0);
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
 		}
-		void callScriptFromC_KeyUp_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, ITransformedClassInstance* const p0 /*object*/) 
+		void callScriptFromC_KeyUp_(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<ITransformedClassInstance> const &p0 /*object*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IInstance"))));
-			*(ITransformedClassInstance**)params[0].get() = p0;
+			*(TScriptSharedPointer<ITransformedClassInstance>*)params[0].get() = TScriptSharedPointer<ITransformedClassInstance>(p0);
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
 		}
 	}
 	namespace ns_OnCollideCallback 
 	{
-		void callScriptFromC_Collide(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, ITransformedClassInstance* const p0 /*object*/, IPhysShapeInstance* const p1 /*source*/, ITransformedClassInstance* const p2 /*obstancle*/) 
+		void callScriptFromC_Collide(TGlobalRunContext global_context, SemanticApi::ISMethod* compiled_method, ISyntaxAnalyzer* syntax, std::shared_ptr<ITransformedClassInstance> const &p0 /*object*/, std::shared_ptr<IPhysShapeInstance> const &p1 /*source*/, std::shared_ptr<ITransformedClassInstance> const &p2 /*obstancle*/) 
 		{
 			std::vector<TStackValue> params;
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IInstance"))));
-			*(ITransformedClassInstance**)params[0].get() = p0;
+			*(TScriptSharedPointer<ITransformedClassInstance>*)params[0].get() = TScriptSharedPointer<ITransformedClassInstance>(p0);
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IPhysShape"))));
-			*(IPhysShapeInstance**)params[1].get() = p1;
+			*(TScriptSharedPointer<IPhysShapeInstance>*)params[1].get() = TScriptSharedPointer<IPhysShapeInstance>(p1);
 			params.push_back(TStackValue(false, syntax->GetCompiledBaseClass()->GetClass(syntax->GetLexer()->GetIdFromName("IInstance"))));
-			*(ITransformedClassInstance**)params[2].get() = p2;
+			*(TScriptSharedPointer<ITransformedClassInstance>*)params[2].get() = TScriptSharedPointer<ITransformedClassInstance>(p2);
 			TStackValue result, object;
 			TreeRunner::Run(compiled_method, TMethodRunContext(global_context, &params, &result, &object));
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[0].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[0]));
+			}
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[1].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[1]));
+			}
+			{
+				TStackValue destructor_result;
+				std::vector<TStackValue> without_params;
+				TreeRunner::Run(params[2].GetClass()->GetDestructor(), TMethodRunContext(global_context, &without_params, &destructor_result, &params[2]));
+			}
 		}
 	}
 	namespace ns_dword 
@@ -397,6 +472,9 @@ namespace ns_Script
 	{
 	}
 	namespace ns_string 
+	{
+	}
+	namespace ns_TPtr 
 	{
 	}
 	namespace ns_TFrame 
@@ -420,10 +498,36 @@ namespace ns_Script
 	}
 	namespace ns_IClassPhysBody 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IClassPhysBodyIntance>* obj = ((TScriptSharedPointer<IClassPhysBodyIntance>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//IClassPhysBodyIntance&  copy_from return --- nothing
+			TScriptSharedPointer<IClassPhysBodyIntance>* obj = ((TScriptSharedPointer<IClassPhysBodyIntance>*)(run_context->object->get()));
+			TScriptSharedPointer<IClassPhysBodyIntance>* param0 = ((TScriptSharedPointer<IClassPhysBodyIntance>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IClassPhysBodyIntance>* obj = ((TScriptSharedPointer<IClassPhysBodyIntance>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - IClassPhysBodyIntance&  v, IClassPhysBodyIntance&  l return --- nothing
+			TScriptSharedPointer<IClassPhysBodyIntance>* param0 = ((TScriptSharedPointer<IClassPhysBodyIntance>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<IClassPhysBodyIntance>* param1 = ((TScriptSharedPointer<IClassPhysBodyIntance>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_GetLinearVelocity(TMethodRunContext* run_context) 
 		{
 			// return --- BaluLib::TVec2
-			IClassPhysBodyIntance** obj = ((IClassPhysBodyIntance**)(run_context->object->get()));
+			TScriptSharedPointer<IClassPhysBodyIntance>* obj = ((TScriptSharedPointer<IClassPhysBodyIntance>*)(run_context->object->get()));
 			BaluLib::TVec2  result = 
 			(*obj)->GetLinearVelocity();
 			*(BaluLib::TVec2*)run_context->result->get() = result;
@@ -431,17 +535,43 @@ namespace ns_Script
 		void bind_SetLinearVelocity(TMethodRunContext* run_context) 
 		{
 			//BaluLib::TVec2  value return --- nothing
-			IClassPhysBodyIntance** obj = ((IClassPhysBodyIntance**)(run_context->object->get()));
+			TScriptSharedPointer<IClassPhysBodyIntance>* obj = ((TScriptSharedPointer<IClassPhysBodyIntance>*)(run_context->object->get()));
 			const BaluLib::TVec2&  param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
 			(*obj)->SetLinearVelocity(param0);
 		}
 	}
 	namespace ns_ISkeletonAnimation 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<ISkeletonAnimationInstance>* obj = ((TScriptSharedPointer<ISkeletonAnimationInstance>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//ISkeletonAnimationInstance&  copy_from return --- nothing
+			TScriptSharedPointer<ISkeletonAnimationInstance>* obj = ((TScriptSharedPointer<ISkeletonAnimationInstance>*)(run_context->object->get()));
+			TScriptSharedPointer<ISkeletonAnimationInstance>* param0 = ((TScriptSharedPointer<ISkeletonAnimationInstance>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<ISkeletonAnimationInstance>* obj = ((TScriptSharedPointer<ISkeletonAnimationInstance>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - ISkeletonAnimationInstance&  v, ISkeletonAnimationInstance&  l return --- nothing
+			TScriptSharedPointer<ISkeletonAnimationInstance>* param0 = ((TScriptSharedPointer<ISkeletonAnimationInstance>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<ISkeletonAnimationInstance>* param1 = ((TScriptSharedPointer<ISkeletonAnimationInstance>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_PlayAnimation(TMethodRunContext* run_context) 
 		{
 			//TString  name, float  pos return --- nothing
-			ISkeletonAnimationInstance** obj = ((ISkeletonAnimationInstance**)(run_context->object->get()));
+			TScriptSharedPointer<ISkeletonAnimationInstance>* obj = ((TScriptSharedPointer<ISkeletonAnimationInstance>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			const float&  param1 = *((float*)(*run_context->formal_params)[1].get());
@@ -450,7 +580,7 @@ namespace ns_Script
 		void bind_StopAnimation(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- nothing
-			ISkeletonAnimationInstance** obj = ((ISkeletonAnimationInstance**)(run_context->object->get()));
+			TScriptSharedPointer<ISkeletonAnimationInstance>* obj = ((TScriptSharedPointer<ISkeletonAnimationInstance>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			(*obj)->StopAnimation(param0);
@@ -519,10 +649,36 @@ namespace ns_Script
 	}
 	namespace ns_IProperties 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//WorldDef::IRuntimeProperties&  copy_from return --- nothing
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* param0 = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - WorldDef::IRuntimeProperties&  v, WorldDef::IRuntimeProperties&  l return --- nothing
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* param0 = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* param1 = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_HasProperty(TMethodRunContext* run_context) 
 		{
 			//TString  name, WorldDef::RuntimePropertyType&  type return --- bool
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::RuntimePropertyType& param1 = *((WorldDef::RuntimePropertyType*)(*run_context->formal_params)[1].get());
@@ -533,7 +689,7 @@ namespace ns_Script
 		void bind_SetBool(TMethodRunContext* run_context) 
 		{
 			//TString  name, bool  value return --- nothing
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			const bool&  param1 = *((bool*)(*run_context->formal_params)[1].get());
@@ -542,7 +698,7 @@ namespace ns_Script
 		void bind_GetBool(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- bool
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			bool  result = 
@@ -552,7 +708,7 @@ namespace ns_Script
 		void bind_SetInt(TMethodRunContext* run_context) 
 		{
 			//TString  name, int  value return --- nothing
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			const int&  param1 = *((int*)(*run_context->formal_params)[1].get());
@@ -561,7 +717,7 @@ namespace ns_Script
 		void bind_GetInt(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- int
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			int  result = 
@@ -571,7 +727,7 @@ namespace ns_Script
 		void bind_SetFloat(TMethodRunContext* run_context) 
 		{
 			//TString  name, float  value return --- nothing
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			const float&  param1 = *((float*)(*run_context->formal_params)[1].get());
@@ -580,7 +736,7 @@ namespace ns_Script
 		void bind_GetFloat(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- float
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			float  result = 
@@ -590,7 +746,7 @@ namespace ns_Script
 		void bind_SetString(TMethodRunContext* run_context) 
 		{
 			//TString  name, TString  value return --- nothing
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			const TString& temp_param1 = *((TString*)(*run_context->formal_params)[1].get());
@@ -600,7 +756,7 @@ namespace ns_Script
 		void bind_GetString(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- TString
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			std::string temp_result = 
@@ -611,7 +767,7 @@ namespace ns_Script
 		void bind_SetVec2(TMethodRunContext* run_context) 
 		{
 			//TString  name, BaluLib::TVec2  value return --- nothing
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			const BaluLib::TVec2&  param1 = *((BaluLib::TVec2*)(*run_context->formal_params)[1].get());
@@ -620,7 +776,7 @@ namespace ns_Script
 		void bind_GetVec2(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- BaluLib::TVec2
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			BaluLib::TVec2  result = 
@@ -630,7 +786,7 @@ namespace ns_Script
 		void bind_SetTransformWithScale(TMethodRunContext* run_context) 
 		{
 			//TString  name, WorldDef::TTransformWithScale  value return --- nothing
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			const WorldDef::TTransformWithScale&  param1 = *((WorldDef::TTransformWithScale*)(*run_context->formal_params)[1].get());
@@ -639,7 +795,7 @@ namespace ns_Script
 		void bind_GetTransformWithScale(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- WorldDef::TTransformWithScale
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::TTransformWithScale  result = 
@@ -649,7 +805,7 @@ namespace ns_Script
 		void bind_SetTransform(TMethodRunContext* run_context) 
 		{
 			//TString  name, WorldDef::TTransform  value return --- nothing
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			const WorldDef::TTransform&  param1 = *((WorldDef::TTransform*)(*run_context->formal_params)[1].get());
@@ -658,7 +814,7 @@ namespace ns_Script
 		void bind_GetTransform(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- WorldDef::TTransform
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::TTransform  result = 
@@ -668,7 +824,7 @@ namespace ns_Script
 		void bind_SetRotation(TMethodRunContext* run_context) 
 		{
 			//TString  name, WorldDef::TRot  value return --- nothing
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			const WorldDef::TRot&  param1 = *((WorldDef::TRot*)(*run_context->formal_params)[1].get());
@@ -677,7 +833,7 @@ namespace ns_Script
 		void bind_GetRotation(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- WorldDef::TRot
-			WorldDef::IRuntimeProperties** obj = ((WorldDef::IRuntimeProperties**)(run_context->object->get()));
+			TScriptSharedPointer<WorldDef::IRuntimeProperties>* obj = ((TScriptSharedPointer<WorldDef::IRuntimeProperties>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			WorldDef::TRot  result = 
@@ -700,10 +856,36 @@ namespace ns_Script
 	}
 	namespace ns_IScene 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IScene>* obj = ((TScriptSharedPointer<IScene>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//IScene&  copy_from return --- nothing
+			TScriptSharedPointer<IScene>* obj = ((TScriptSharedPointer<IScene>*)(run_context->object->get()));
+			TScriptSharedPointer<IScene>* param0 = ((TScriptSharedPointer<IScene>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IScene>* obj = ((TScriptSharedPointer<IScene>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - IScene&  v, IScene&  l return --- nothing
+			TScriptSharedPointer<IScene>* param0 = ((TScriptSharedPointer<IScene>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<IScene>* param1 = ((TScriptSharedPointer<IScene>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_GetSource(TMethodRunContext* run_context) 
 		{
 			// return --- WorldDef::IScene
-			IScene** obj = ((IScene**)(run_context->object->get()));
+			TScriptSharedPointer<IScene>* obj = ((TScriptSharedPointer<IScene>*)(run_context->object->get()));
 			WorldDef::IScene*  result = 
 			(*obj)->GetSource();
 			*(WorldDef::IScene**)run_context->result->get() = result;
@@ -711,14 +893,66 @@ namespace ns_Script
 	}
 	namespace ns_IComposerStage 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IComposerStage>* obj = ((TScriptSharedPointer<IComposerStage>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//IComposerStage&  copy_from return --- nothing
+			TScriptSharedPointer<IComposerStage>* obj = ((TScriptSharedPointer<IComposerStage>*)(run_context->object->get()));
+			TScriptSharedPointer<IComposerStage>* param0 = ((TScriptSharedPointer<IComposerStage>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IComposerStage>* obj = ((TScriptSharedPointer<IComposerStage>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - IComposerStage&  v, IComposerStage&  l return --- nothing
+			TScriptSharedPointer<IComposerStage>* param0 = ((TScriptSharedPointer<IComposerStage>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<IComposerStage>* param1 = ((TScriptSharedPointer<IComposerStage>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 	}
 	namespace ns_IComposer 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IComposer>* obj = ((TScriptSharedPointer<IComposer>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//IComposer&  copy_from return --- nothing
+			TScriptSharedPointer<IComposer>* obj = ((TScriptSharedPointer<IComposer>*)(run_context->object->get()));
+			TScriptSharedPointer<IComposer>* param0 = ((TScriptSharedPointer<IComposer>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IComposer>* obj = ((TScriptSharedPointer<IComposer>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - IComposer&  v, IComposer&  l return --- nothing
+			TScriptSharedPointer<IComposer>* param0 = ((TScriptSharedPointer<IComposer>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<IComposer>* param1 = ((TScriptSharedPointer<IComposer>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_AddToRender(TMethodRunContext* run_context) 
 		{
 			//IScene  scene, WorldDef::IViewport  viewport return --- nothing
-			IComposer** obj = ((IComposer**)(run_context->object->get()));
-			IScene* param0 = *((IScene**)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<IComposer>* obj = ((TScriptSharedPointer<IComposer>*)(run_context->object->get()));
+			std::shared_ptr<IScene> param0 = *((TScriptSharedPointer<IScene>*)(*run_context->formal_params)[0].get())->v;
 			WorldDef::IViewport* param1 = *((WorldDef::IViewport**)(*run_context->formal_params)[1].get());
 			(*obj)->AddToRender(param0, param1);
 		}
@@ -738,28 +972,54 @@ namespace ns_Script
 	}
 	namespace ns_IWorld 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IWorld>* obj = ((TScriptSharedPointer<IWorld>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//IWorld&  copy_from return --- nothing
+			TScriptSharedPointer<IWorld>* obj = ((TScriptSharedPointer<IWorld>*)(run_context->object->get()));
+			TScriptSharedPointer<IWorld>* param0 = ((TScriptSharedPointer<IWorld>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IWorld>* obj = ((TScriptSharedPointer<IWorld>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - IWorld&  v, IWorld&  l return --- nothing
+			TScriptSharedPointer<IWorld>* param0 = ((TScriptSharedPointer<IWorld>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<IWorld>* param1 = ((TScriptSharedPointer<IWorld>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_GetScene(TMethodRunContext* run_context) 
 		{
 			//int  index return --- IScene
-			IWorld** obj = ((IWorld**)(run_context->object->get()));
+			TScriptSharedPointer<IWorld>* obj = ((TScriptSharedPointer<IWorld>*)(run_context->object->get()));
 			const int&  param0 = *((int*)(*run_context->formal_params)[0].get());
-			IScene*  result = 
+			std::shared_ptr<IScene> result =
 			(*obj)->GetScene(param0);
-			*(IScene**)run_context->result->get() = result;
+			*(TScriptSharedPointer<IScene>*)run_context->result->get() = TScriptSharedPointer<IScene>(result);
 		}
 		void bind_RunScene(TMethodRunContext* run_context) 
 		{
 			//WorldDef::IScene  scene return --- IScene
-			IWorld** obj = ((IWorld**)(run_context->object->get()));
+			TScriptSharedPointer<IWorld>* obj = ((TScriptSharedPointer<IWorld>*)(run_context->object->get()));
 			WorldDef::IScene* param0 = *((WorldDef::IScene**)(*run_context->formal_params)[0].get());
-			IScene*  result = 
+			std::shared_ptr<IScene> result =
 			(*obj)->RunScene(param0);
-			*(IScene**)run_context->result->get() = result;
+			*(TScriptSharedPointer<IScene>*)run_context->result->get() = TScriptSharedPointer<IScene>(result);
 		}
 		void bind_GetSource(TMethodRunContext* run_context) 
 		{
 			// return --- WorldDef::IWorld
-			IWorld** obj = ((IWorld**)(run_context->object->get()));
+			TScriptSharedPointer<IWorld>* obj = ((TScriptSharedPointer<IWorld>*)(run_context->object->get()));
 			WorldDef::IWorld*  result = 
 			(*obj)->GetSource();
 			*(WorldDef::IWorld**)run_context->result->get() = result;
@@ -767,13 +1027,39 @@ namespace ns_Script
 	}
 	namespace ns_IDirector 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IDirector>* obj = ((TScriptSharedPointer<IDirector>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//IDirector&  copy_from return --- nothing
+			TScriptSharedPointer<IDirector>* obj = ((TScriptSharedPointer<IDirector>*)(run_context->object->get()));
+			TScriptSharedPointer<IDirector>* param0 = ((TScriptSharedPointer<IDirector>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IDirector>* obj = ((TScriptSharedPointer<IDirector>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - IDirector&  v, IDirector&  l return --- nothing
+			TScriptSharedPointer<IDirector>* param0 = ((TScriptSharedPointer<IDirector>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<IDirector>* param1 = ((TScriptSharedPointer<IDirector>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_GetWorld(TMethodRunContext* run_context) 
 		{
 			// return --- IWorld
-			IDirector** obj = ((IDirector**)(run_context->object->get()));
-			IWorld*  result = 
+			TScriptSharedPointer<IDirector>* obj = ((TScriptSharedPointer<IDirector>*)(run_context->object->get()));
+			std::shared_ptr<IWorld> result =
 			(*obj)->GetWorld();
-			*(IWorld**)run_context->result->get() = result;
+			*(TScriptSharedPointer<IWorld>*)run_context->result->get() = TScriptSharedPointer<IWorld>(result);
 		}
 	}
 	namespace ns_IPhysShapeDef 
@@ -796,6 +1082,32 @@ namespace ns_Script
 	}
 	namespace ns_IPhysShape 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IPhysShapeInstance>* obj = ((TScriptSharedPointer<IPhysShapeInstance>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//IPhysShapeInstance&  copy_from return --- nothing
+			TScriptSharedPointer<IPhysShapeInstance>* obj = ((TScriptSharedPointer<IPhysShapeInstance>*)(run_context->object->get()));
+			TScriptSharedPointer<IPhysShapeInstance>* param0 = ((TScriptSharedPointer<IPhysShapeInstance>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<IPhysShapeInstance>* obj = ((TScriptSharedPointer<IPhysShapeInstance>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - IPhysShapeInstance&  v, IPhysShapeInstance&  l return --- nothing
+			TScriptSharedPointer<IPhysShapeInstance>* param0 = ((TScriptSharedPointer<IPhysShapeInstance>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<IPhysShapeInstance>* param1 = ((TScriptSharedPointer<IPhysShapeInstance>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 	}
 	namespace ns_ISpritePolygonDef 
 	{
@@ -846,10 +1158,36 @@ namespace ns_Script
 	}
 	namespace ns_ISpritePolygon 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<ISpritePolygonInstance>* obj = ((TScriptSharedPointer<ISpritePolygonInstance>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//ISpritePolygonInstance&  copy_from return --- nothing
+			TScriptSharedPointer<ISpritePolygonInstance>* obj = ((TScriptSharedPointer<ISpritePolygonInstance>*)(run_context->object->get()));
+			TScriptSharedPointer<ISpritePolygonInstance>* param0 = ((TScriptSharedPointer<ISpritePolygonInstance>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<ISpritePolygonInstance>* obj = ((TScriptSharedPointer<ISpritePolygonInstance>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - ISpritePolygonInstance&  v, ISpritePolygonInstance&  l return --- nothing
+			TScriptSharedPointer<ISpritePolygonInstance>* param0 = ((TScriptSharedPointer<ISpritePolygonInstance>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<ISpritePolygonInstance>* param1 = ((TScriptSharedPointer<ISpritePolygonInstance>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_SetActiveAnimation(TMethodRunContext* run_context) 
 		{
 			//TString  name return --- nothing
-			ISpritePolygonInstance** obj = ((ISpritePolygonInstance**)(run_context->object->get()));
+			TScriptSharedPointer<ISpritePolygonInstance>* obj = ((TScriptSharedPointer<ISpritePolygonInstance>*)(run_context->object->get()));
 			const TString& temp_param0 = *((TString*)(*run_context->formal_params)[0].get());
 			std::string param0 = Convert_TString_to_stdstring(temp_param0);
 			(*obj)->SetActiveAnimation(param0);
@@ -857,10 +1195,36 @@ namespace ns_Script
 	}
 	namespace ns_ITransformedSprite 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<ITransformedSpriteInstance>* obj = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//ITransformedSpriteInstance&  copy_from return --- nothing
+			TScriptSharedPointer<ITransformedSpriteInstance>* obj = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(run_context->object->get()));
+			TScriptSharedPointer<ITransformedSpriteInstance>* param0 = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<ITransformedSpriteInstance>* obj = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - ITransformedSpriteInstance&  v, ITransformedSpriteInstance&  l return --- nothing
+			TScriptSharedPointer<ITransformedSpriteInstance>* param0 = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<ITransformedSpriteInstance>* param1 = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_GetSource(TMethodRunContext* run_context) 
 		{
 			// return --- WorldDef::ITransformedSprite
-			ITransformedSpriteInstance** obj = ((ITransformedSpriteInstance**)(run_context->object->get()));
+			TScriptSharedPointer<ITransformedSpriteInstance>* obj = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(run_context->object->get()));
 			WorldDef::ITransformedSprite*  result = 
 			(*obj)->GetSource();
 			*(WorldDef::ITransformedSprite**)run_context->result->get() = result;
@@ -868,15 +1232,15 @@ namespace ns_Script
 		void bind_GetPhysShape(TMethodRunContext* run_context) 
 		{
 			// return --- IPhysShapeInstance
-			ITransformedSpriteInstance** obj = ((ITransformedSpriteInstance**)(run_context->object->get()));
-			IPhysShapeInstance*  result = 
+			TScriptSharedPointer<ITransformedSpriteInstance>* obj = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(run_context->object->get()));
+			std::shared_ptr<IPhysShapeInstance> result =
 			(*obj)->GetPhysShape();
-			*(IPhysShapeInstance**)run_context->result->get() = result;
+			*(TScriptSharedPointer<IPhysShapeInstance>*)run_context->result->get() = TScriptSharedPointer<IPhysShapeInstance>(result);
 		}
 		void bind_GetScale(TMethodRunContext* run_context) 
 		{
 			// return --- BaluLib::TVec2
-			ITransformedSpriteInstance** obj = ((ITransformedSpriteInstance**)(run_context->object->get()));
+			TScriptSharedPointer<ITransformedSpriteInstance>* obj = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(run_context->object->get()));
 			BaluLib::TVec2  result = 
 			(*obj)->GetScale();
 			*(BaluLib::TVec2*)run_context->result->get() = result;
@@ -884,53 +1248,79 @@ namespace ns_Script
 		void bind_GetPolygon(TMethodRunContext* run_context) 
 		{
 			// return --- ISpritePolygonInstance
-			ITransformedSpriteInstance** obj = ((ITransformedSpriteInstance**)(run_context->object->get()));
-			ISpritePolygonInstance*  result = 
+			TScriptSharedPointer<ITransformedSpriteInstance>* obj = ((TScriptSharedPointer<ITransformedSpriteInstance>*)(run_context->object->get()));
+			std::shared_ptr<ISpritePolygonInstance> result =
 			(*obj)->GetPolygon();
-			*(ISpritePolygonInstance**)run_context->result->get() = result;
+			*(TScriptSharedPointer<ISpritePolygonInstance>*)run_context->result->get() = TScriptSharedPointer<ISpritePolygonInstance>(result);
 		}
 	}
 	namespace ns_IInstance 
 	{
+		void bind_def_constr(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<ITransformedClassInstance>* obj = ((TScriptSharedPointer<ITransformedClassInstance>*)(run_context->object->get()));
+			obj->def_constr();
+		}
+		void bind_copy_constr(TMethodRunContext* run_context) 
+		{
+			//ITransformedClassInstance&  copy_from return --- nothing
+			TScriptSharedPointer<ITransformedClassInstance>* obj = ((TScriptSharedPointer<ITransformedClassInstance>*)(run_context->object->get()));
+			TScriptSharedPointer<ITransformedClassInstance>* param0 = ((TScriptSharedPointer<ITransformedClassInstance>*)(*run_context->formal_params)[0].get());
+			obj->copy_constr(param0);
+		}
+		void bind_destructor(TMethodRunContext* run_context) 
+		{
+			// return --- nothing
+			TScriptSharedPointer<ITransformedClassInstance>* obj = ((TScriptSharedPointer<ITransformedClassInstance>*)(run_context->object->get()));
+			obj->destructor();
+		}
+		void bind_operator_Assign(TMethodRunContext* run_context) 
+		{
+			//static - ITransformedClassInstance&  v, ITransformedClassInstance&  l return --- nothing
+			TScriptSharedPointer<ITransformedClassInstance>* param0 = ((TScriptSharedPointer<ITransformedClassInstance>*)(*run_context->formal_params)[0].get());
+			TScriptSharedPointer<ITransformedClassInstance>* param1 = ((TScriptSharedPointer<ITransformedClassInstance>*)(*run_context->formal_params)[1].get());
+			param0->operator_Assign(param1);
+		}
 		void bind_SetScale(TMethodRunContext* run_context) 
 		{
 			//BaluLib::TVec2  scale return --- nothing
-			ITransformedClassInstance** obj = ((ITransformedClassInstance**)(run_context->object->get()));
+			TScriptSharedPointer<ITransformedClassInstance>* obj = ((TScriptSharedPointer<ITransformedClassInstance>*)(run_context->object->get()));
 			const BaluLib::TVec2&  param0 = *((BaluLib::TVec2*)(*run_context->formal_params)[0].get());
 			(*obj)->SetScale(param0);
 		}
 		void bind_GetProperties(TMethodRunContext* run_context) 
 		{
 			// return --- WorldDef::IRuntimeProperties
-			ITransformedClassInstance** obj = ((ITransformedClassInstance**)(run_context->object->get()));
-			WorldDef::IRuntimeProperties*  result = 
+			TScriptSharedPointer<ITransformedClassInstance>* obj = ((TScriptSharedPointer<ITransformedClassInstance>*)(run_context->object->get()));
+			std::shared_ptr<WorldDef::IRuntimeProperties> result =
 			(*obj)->GetProperties();
-			*(WorldDef::IRuntimeProperties**)run_context->result->get() = result;
+			*(TScriptSharedPointer<WorldDef::IRuntimeProperties>*)run_context->result->get() = TScriptSharedPointer<WorldDef::IRuntimeProperties>(result);
 		}
 		void bind_GetPhysBody(TMethodRunContext* run_context) 
 		{
 			// return --- IClassPhysBodyIntance
-			ITransformedClassInstance** obj = ((ITransformedClassInstance**)(run_context->object->get()));
-			IClassPhysBodyIntance*  result = 
+			TScriptSharedPointer<ITransformedClassInstance>* obj = ((TScriptSharedPointer<ITransformedClassInstance>*)(run_context->object->get()));
+			std::shared_ptr<IClassPhysBodyIntance> result =
 			(*obj)->GetPhysBody();
-			*(IClassPhysBodyIntance**)run_context->result->get() = result;
+			*(TScriptSharedPointer<IClassPhysBodyIntance>*)run_context->result->get() = TScriptSharedPointer<IClassPhysBodyIntance>(result);
 		}
 		void bind_GetSprite(TMethodRunContext* run_context) 
 		{
 			//int  index return --- ITransformedSpriteInstance
-			ITransformedClassInstance** obj = ((ITransformedClassInstance**)(run_context->object->get()));
+			TScriptSharedPointer<ITransformedClassInstance>* obj = ((TScriptSharedPointer<ITransformedClassInstance>*)(run_context->object->get()));
 			const int&  param0 = *((int*)(*run_context->formal_params)[0].get());
-			ITransformedSpriteInstance*  result = 
+			std::shared_ptr<ITransformedSpriteInstance> result =
 			(*obj)->GetSprite(param0);
-			*(ITransformedSpriteInstance**)run_context->result->get() = result;
+			*(TScriptSharedPointer<ITransformedSpriteInstance>*)run_context->result->get() = TScriptSharedPointer<ITransformedSpriteInstance>(result);
 		}
 		void bind_GetSkeletonAnimation(TMethodRunContext* run_context) 
 		{
 			// return --- ISkeletonAnimationInstance
-			ITransformedClassInstance** obj = ((ITransformedClassInstance**)(run_context->object->get()));
-			ISkeletonAnimationInstance*  result = 
+			TScriptSharedPointer<ITransformedClassInstance>* obj = ((TScriptSharedPointer<ITransformedClassInstance>*)(run_context->object->get()));
+			std::shared_ptr<ISkeletonAnimationInstance> result =
 			(*obj)->GetSkeletonAnimation();
-			*(ISkeletonAnimationInstance**)run_context->result->get() = result;
+			*(TScriptSharedPointer<ISkeletonAnimationInstance>*)run_context->result->get() = TScriptSharedPointer<ISkeletonAnimationInstance>(result);
 		}
 	}
 }
@@ -941,8 +1331,16 @@ namespace ns_Script
 		std::vector<SemanticApi::TExternalSMethod> result;
 		result.push_back(ns_Script::ns_TFrame::bind_GetLeftBottom);
 		result.push_back(ns_Script::ns_TFrame::bind_GetRightTop);
+		result.push_back(ns_Script::ns_IClassPhysBody::bind_def_constr);
+		result.push_back(ns_Script::ns_IClassPhysBody::bind_copy_constr);
+		result.push_back(ns_Script::ns_IClassPhysBody::bind_destructor);
+		result.push_back(ns_Script::ns_IClassPhysBody::bind_operator_Assign);
 		result.push_back(ns_Script::ns_IClassPhysBody::bind_GetLinearVelocity);
 		result.push_back(ns_Script::ns_IClassPhysBody::bind_SetLinearVelocity);
+		result.push_back(ns_Script::ns_ISkeletonAnimation::bind_def_constr);
+		result.push_back(ns_Script::ns_ISkeletonAnimation::bind_copy_constr);
+		result.push_back(ns_Script::ns_ISkeletonAnimation::bind_destructor);
+		result.push_back(ns_Script::ns_ISkeletonAnimation::bind_operator_Assign);
 		result.push_back(ns_Script::ns_ISkeletonAnimation::bind_PlayAnimation);
 		result.push_back(ns_Script::ns_ISkeletonAnimation::bind_StopAnimation);
 		result.push_back(ns_Script::ns_TRot::bind_Set);
@@ -951,6 +1349,10 @@ namespace ns_Script
 		result.push_back(ns_Script::ns_TTransform::bind_Transform);
 		result.push_back(ns_Script::ns_IViewport::bind_SetSize);
 		result.push_back(ns_Script::ns_IViewport::bind_GetSize);
+		result.push_back(ns_Script::ns_IProperties::bind_def_constr);
+		result.push_back(ns_Script::ns_IProperties::bind_copy_constr);
+		result.push_back(ns_Script::ns_IProperties::bind_destructor);
+		result.push_back(ns_Script::ns_IProperties::bind_operator_Assign);
 		result.push_back(ns_Script::ns_IProperties::bind_HasProperty);
 		result.push_back(ns_Script::ns_IProperties::bind_SetBool);
 		result.push_back(ns_Script::ns_IProperties::bind_GetBool);
@@ -969,25 +1371,61 @@ namespace ns_Script
 		result.push_back(ns_Script::ns_IProperties::bind_SetRotation);
 		result.push_back(ns_Script::ns_IProperties::bind_GetRotation);
 		result.push_back(ns_Script::ns_ISceneDef::bind_FindViewport);
+		result.push_back(ns_Script::ns_IScene::bind_def_constr);
+		result.push_back(ns_Script::ns_IScene::bind_copy_constr);
+		result.push_back(ns_Script::ns_IScene::bind_destructor);
+		result.push_back(ns_Script::ns_IScene::bind_operator_Assign);
 		result.push_back(ns_Script::ns_IScene::bind_GetSource);
+		result.push_back(ns_Script::ns_IComposerStage::bind_def_constr);
+		result.push_back(ns_Script::ns_IComposerStage::bind_copy_constr);
+		result.push_back(ns_Script::ns_IComposerStage::bind_destructor);
+		result.push_back(ns_Script::ns_IComposerStage::bind_operator_Assign);
+		result.push_back(ns_Script::ns_IComposer::bind_def_constr);
+		result.push_back(ns_Script::ns_IComposer::bind_copy_constr);
+		result.push_back(ns_Script::ns_IComposer::bind_destructor);
+		result.push_back(ns_Script::ns_IComposer::bind_operator_Assign);
 		result.push_back(ns_Script::ns_IComposer::bind_AddToRender);
 		result.push_back(ns_Script::ns_IWorldDef::bind_GetScene);
+		result.push_back(ns_Script::ns_IWorld::bind_def_constr);
+		result.push_back(ns_Script::ns_IWorld::bind_copy_constr);
+		result.push_back(ns_Script::ns_IWorld::bind_destructor);
+		result.push_back(ns_Script::ns_IWorld::bind_operator_Assign);
 		result.push_back(ns_Script::ns_IWorld::bind_GetScene);
 		result.push_back(ns_Script::ns_IWorld::bind_RunScene);
 		result.push_back(ns_Script::ns_IWorld::bind_GetSource);
+		result.push_back(ns_Script::ns_IDirector::bind_def_constr);
+		result.push_back(ns_Script::ns_IDirector::bind_copy_constr);
+		result.push_back(ns_Script::ns_IDirector::bind_destructor);
+		result.push_back(ns_Script::ns_IDirector::bind_operator_Assign);
 		result.push_back(ns_Script::ns_IDirector::bind_GetWorld);
 		result.push_back(ns_Script::ns_IPhysShapeDef::bind_SetIsSensor);
 		result.push_back(ns_Script::ns_IPhysShapeDef::bind_GetIsSensor);
+		result.push_back(ns_Script::ns_IPhysShape::bind_def_constr);
+		result.push_back(ns_Script::ns_IPhysShape::bind_copy_constr);
+		result.push_back(ns_Script::ns_IPhysShape::bind_destructor);
+		result.push_back(ns_Script::ns_IPhysShape::bind_operator_Assign);
 		result.push_back(ns_Script::ns_ISpritePolygonDef::bind_SetScale);
 		result.push_back(ns_Script::ns_ISpriteDef::bind_SetPhysShape);
 		result.push_back(ns_Script::ns_ISpriteDef::bind_GetPhysShape);
 		result.push_back(ns_Script::ns_ISpriteDef::bind_GetPolygon);
 		result.push_back(ns_Script::ns_ITransformedSpriteDef::bind_GetSprite);
+		result.push_back(ns_Script::ns_ISpritePolygon::bind_def_constr);
+		result.push_back(ns_Script::ns_ISpritePolygon::bind_copy_constr);
+		result.push_back(ns_Script::ns_ISpritePolygon::bind_destructor);
+		result.push_back(ns_Script::ns_ISpritePolygon::bind_operator_Assign);
 		result.push_back(ns_Script::ns_ISpritePolygon::bind_SetActiveAnimation);
+		result.push_back(ns_Script::ns_ITransformedSprite::bind_def_constr);
+		result.push_back(ns_Script::ns_ITransformedSprite::bind_copy_constr);
+		result.push_back(ns_Script::ns_ITransformedSprite::bind_destructor);
+		result.push_back(ns_Script::ns_ITransformedSprite::bind_operator_Assign);
 		result.push_back(ns_Script::ns_ITransformedSprite::bind_GetSource);
 		result.push_back(ns_Script::ns_ITransformedSprite::bind_GetPhysShape);
 		result.push_back(ns_Script::ns_ITransformedSprite::bind_GetScale);
 		result.push_back(ns_Script::ns_ITransformedSprite::bind_GetPolygon);
+		result.push_back(ns_Script::ns_IInstance::bind_def_constr);
+		result.push_back(ns_Script::ns_IInstance::bind_copy_constr);
+		result.push_back(ns_Script::ns_IInstance::bind_destructor);
+		result.push_back(ns_Script::ns_IInstance::bind_operator_Assign);
 		result.push_back(ns_Script::ns_IInstance::bind_SetScale);
 		result.push_back(ns_Script::ns_IInstance::bind_GetProperties);
 		result.push_back(ns_Script::ns_IInstance::bind_GetPhysBody);
@@ -995,6 +1433,6 @@ namespace ns_Script
 		result.push_back(ns_Script::ns_IInstance::bind_GetSkeletonAnimation);
 		return result;
 	}
-	const int BindingOffset = 17;
-	const int BindingCount = 54;
+	const int BindingOffset = 22;
+	const int BindingCount = 102;
 }

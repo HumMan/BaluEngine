@@ -13,8 +13,8 @@ namespace BaluEngine
 			class TBoneInstance
 			{
 			private:
-				TBoneInstance * parent;
-				std::vector<std::unique_ptr<TBoneInstance>> children;
+				std::weak_ptr < TBoneInstance> parent;
+				std::vector<std::shared_ptr<TBoneInstance>> children;
 
 				WorldDef::IBone* source;
 
@@ -25,9 +25,10 @@ namespace BaluEngine
 
 				WorldDef::TTransform global;
 			public:
-				TBoneInstance(TBoneInstance* parent, WorldDef::IBone* source);
+				TBoneInstance();
+				void Init(std::weak_ptr < TBoneInstance> parent, WorldDef::IBone* source, std::weak_ptr < TBoneInstance> this_ptr);
 				int GetChildrenCount();
-				TBoneInstance* GetChild(int index);
+				std::shared_ptr < TBoneInstance> GetChild(int index);
 
 				void SetRotationAmount(float amount);
 
@@ -40,28 +41,28 @@ namespace BaluEngine
 			class TSkinInstance
 			{
 			private:
-				std::vector<std::vector<std::unique_ptr<ITransformedSpriteInstance>>> sprites_of_bones;
+				std::vector<std::vector<std::shared_ptr<ITransformedSpriteInstance>>> sprites_of_bones;
 			public:
-				TSkinInstance(WorldDef::ISkin* source, TResources* resources, ISceneObjectInstance* scene_object);
-				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results);
-				void UpdateSpritesTransform(std::vector<TBoneInstance*> bones, WorldDef::TTransformWithScale class_transform);
+				TSkinInstance(WorldDef::ISkin* source, TResources* resources, std::weak_ptr < ISceneObjectInstance> scene_object);
+				void QueryAABB(BaluLib::TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results);
+				void UpdateSpritesTransform(std::vector< std::shared_ptr<TBoneInstance>> bones, WorldDef::TTransformWithScale class_transform);
 			};
 
 			class TSkeletonInstance : public ISkeletonInstance //public IChangeListener
 			{
 			private:
-				std::unique_ptr<TBoneInstance> root;
-				std::vector<TBoneInstance*> bones;
-				std::vector<std::unique_ptr<TSkinInstance>> skins;
+				std::shared_ptr<TBoneInstance> root;
+				std::vector< std::shared_ptr<TBoneInstance>> bones;
+				std::vector<std::shared_ptr<TSkinInstance>> skins;
 
 				WorldDef::ISkeleton* source;
 			public:
-				TSkeletonInstance(WorldDef::ISkeleton* source, TResources* resources, ISceneObjectInstance* scene_object);
+				TSkeletonInstance(WorldDef::ISkeleton* source, TResources* resources, std::weak_ptr < ISceneObjectInstance> scene_object);
 				~TSkeletonInstance();
 				void UpdateTranform(WorldDef::TTransformWithScale class_transform);
-				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results);
+				void QueryAABB(BaluLib::TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results);
 				WorldDef::ISkeleton* GetSource();
-				TBoneInstance* GetBone(int index);
+				std::shared_ptr < TBoneInstance> GetBone(int index);
 			};
 		}
 	}

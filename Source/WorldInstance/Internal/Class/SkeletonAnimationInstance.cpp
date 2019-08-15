@@ -5,7 +5,7 @@ using namespace BaluEngine::WorldInstance;
 using namespace BaluEngine::WorldInstance::Internal;
 using namespace BaluLib;
 
-TTrackInstance::TTrackInstance(TBoneInstance* bone, WorldDef::ITrack* source)
+TTrackInstance::TTrackInstance(std::shared_ptr < TBoneInstance> bone, WorldDef::ITrack* source)
 {
 	this->bone = bone;
 	this->source = source;
@@ -52,7 +52,7 @@ void TTrackInstance::Update(float time, float timeline_size)
 	}
 }
 
-TTimeLineInstance::TTimeLineInstance(TSkeletonInstance* skeleton, WorldDef::ITimeLine* source)
+TTimeLineInstance::TTimeLineInstance(std::shared_ptr<TSkeletonInstance> skeleton, WorldDef::ITimeLine* source)
 {
 	this->source = source;
 	is_active = false;
@@ -61,7 +61,7 @@ TTimeLineInstance::TTimeLineInstance(TSkeletonInstance* skeleton, WorldDef::ITim
 	{
 		auto source_track = source->GetTrack(i);
 		int bone_index = skeleton->GetSource()->GetBoneIndex(source_track->GetBone());
-		tracks.push_back(std::unique_ptr<TTrackInstance>(new TTrackInstance(skeleton->GetBone(bone_index), source_track)));
+		tracks.push_back(std::make_shared<TTrackInstance>(skeleton->GetBone(bone_index), source_track));
 	}
 }
 void TTimeLineInstance::SetAlpha()
@@ -120,7 +120,7 @@ WorldDef::ITimeLine* TTimeLineInstance::GetSource()
 	return source;
 }
 
-TSkeletonAnimationInstance::TSkeletonAnimationInstance(TSkeletonInstance* skeleton, WorldDef::ISkeletonAnimation* source)
+TSkeletonAnimationInstance::TSkeletonAnimationInstance(std::shared_ptr<TSkeletonInstance> skeleton, WorldDef::ISkeletonAnimation* source)
 {
 	this->skeleton = skeleton;
 	this->source = source;

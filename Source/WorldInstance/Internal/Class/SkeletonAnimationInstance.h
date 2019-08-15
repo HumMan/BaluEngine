@@ -13,11 +13,11 @@ namespace BaluEngine
 			class TTrackInstance
 			{
 			private:
-				TBoneInstance * bone;
+				std::shared_ptr < TBoneInstance> bone;
 				WorldDef::ITrack* source;
 				//std::set<TTrackFrame, TFrameComparer> frames;
 			public:
-				TTrackInstance(TBoneInstance* bone, WorldDef::ITrack* source);
+				TTrackInstance(std::shared_ptr < TBoneInstance> bone, WorldDef::ITrack* source);
 				void Update(float time, float timeline_size);
 			};
 
@@ -26,7 +26,7 @@ namespace BaluEngine
 			private:
 				WorldDef::ITimeLine * source;
 
-				std::vector<std::unique_ptr<TTrackInstance>> tracks;
+				std::vector<std::shared_ptr<TTrackInstance>> tracks;
 				float current_time;
 				//float alpha;
 				float active_alpha;
@@ -34,7 +34,7 @@ namespace BaluEngine
 				bool loop;
 				bool is_active;
 			public:
-				TTimeLineInstance(TSkeletonInstance* skeleton, WorldDef::ITimeLine* source);
+				TTimeLineInstance(std::shared_ptr<TSkeletonInstance> skeleton, WorldDef::ITimeLine* source);
 				void SetAlpha();
 				bool IsActive();
 				void PlayOnce();
@@ -49,13 +49,13 @@ namespace BaluEngine
 			{
 			private:
 				WorldDef::ISkeletonAnimation * source;
-				TSkeletonInstance* skeleton;
+				std::shared_ptr<TSkeletonInstance> skeleton;
 
 				std::vector<std::unique_ptr<TTimeLineInstance>> animations;
 
 				void Init();
 			public:
-				TSkeletonAnimationInstance(TSkeletonInstance* skeleton, WorldDef::ISkeletonAnimation* source);
+				TSkeletonAnimationInstance(std::shared_ptr<TSkeletonInstance> skeleton, WorldDef::ISkeletonAnimation* source);
 				~TSkeletonAnimationInstance();
 
 				void Update(float step);

@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include <memory>
 #include <string>
@@ -19,7 +19,7 @@ namespace BaluEngine
 		//};
 
 		
-		//TODO убрать из WorldInstance в Internal
+		//TODO СѓР±СЂР°С‚СЊ РёР· WorldInstance РІ Internal
 		class TBaluTexture
 		{
 			int id;

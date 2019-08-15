@@ -7,23 +7,23 @@ using namespace BaluEngine::WorldInstance;
 using namespace BaluEngine::WorldInstance::Internal;
 using namespace BaluLib;
 
-IPhysShapeInstance* TSpriteInstance::GetPhysShape()
+std::shared_ptr < IPhysShapeInstance> TSpriteInstance::GetPhysShape()
 {
-	return phys_shape.get();
+	return phys_shape;
 }
 
-TSpritePolygonInstance* TSpriteInstance::GetPolygon()
+std::shared_ptr < TSpritePolygonInstance> TSpriteInstance::GetPolygon()
 {
-	return &polygon;
+	return polygon;
 }
 
 TSpriteInstance::TSpriteInstance(WorldDef::ISprite* source, TResources* resources, 
-	ISceneObjectInstance* scene_object, ITransformedSpriteInstance* parent)
-	:polygon(source->GetPolygon(), resources)
+	std::weak_ptr < ISceneObjectInstance> scene_object, std::weak_ptr < ITransformedSpriteInstance> parent)
+	:polygon(std::make_shared<TSpritePolygonInstance>(source->GetPolygon(), resources))
 {
 	this->source = source;
 	//source->AddChangesListener(this);
-	phys_shape = std::unique_ptr<IPhysShapeInstance>(new TPhysShapeInstance(source->GetPhysShape(), TPhysShapeUserData(scene_object, parent)));
+	phys_shape = std::make_shared<TPhysShapeInstance>(source->GetPhysShape(), TPhysShapeUserData(scene_object, parent));
 }
 
 TSpriteInstance::~TSpriteInstance()
@@ -38,7 +38,7 @@ TOBB2 TSpriteInstance::GetOBB()
 
 void TSpriteInstance::UpdateTransform(WorldDef::TTransformWithScale global)
 {
-	polygon.UpdateTransform(global);
+	polygon->UpdateTransform(global);
 }
 
 WorldDef::ISprite* TSpriteInstance::GetSource()
@@ -46,19 +46,25 @@ WorldDef::ISprite* TSpriteInstance::GetSource()
 	return source;
 }
 
-IPhysShapeInstance* TTransformedSpriteInstance::GetPhysShape()
+std::shared_ptr < IPhysShapeInstance> TTransformedSpriteInstance::GetPhysShape()
 {
-	return sprite_instance.GetPhysShape();
+	return sprite_instance->GetPhysShape();
 }
 
-TSpritePolygonInstance* TTransformedSpriteInstance::GetPolygon()
+std::shared_ptr < ISpritePolygonInstance> TTransformedSpriteInstance::GetPolygon()
 {
-	return sprite_instance.GetPolygon();
+	return sprite_instance->GetPolygon();
 }
 
-TTransformedSpriteInstance::TTransformedSpriteInstance(WorldDef::ITransformedSprite* source, TResources* resources, ISceneObjectInstance* scene_object)
-	:sprite_instance(source->GetSprite(), resources, scene_object, this)
+TTransformedSpriteInstance::TTransformedSpriteInstance()
 {
+	this->source = nullptr;
+}
+
+void TTransformedSpriteInstance::Init(WorldDef::ITransformedSprite* source, TResources* resources,
+	std::weak_ptr < ISceneObjectInstance> scene_object, std::weak_ptr<ITransformedSpriteInstance> this_ptr)
+{
+	this->sprite_instance = std::make_shared<TSpriteInstance>(source->GetSprite(), resources, scene_object, this_ptr);
 	this->source = source;
 	this->transform = source->GetTransformWithScale();
 }
@@ -70,7 +76,7 @@ TOBB2 TTransformedSpriteInstance::GetOBB()
 
 void TTransformedSpriteInstance::UpdateTransform(WorldDef::TTransformWithScale global)
 {
-	sprite_instance.UpdateTransform(global.ToGlobal(transform));
+	sprite_instance->UpdateTransform(global.ToGlobal(transform));
 	//polygon.UpdateTransform(global, TBaluTransformWithScale(), TBaluTransformWithScale());
 }
 

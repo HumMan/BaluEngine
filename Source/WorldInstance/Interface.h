@@ -8,6 +8,7 @@ namespace BaluEngine
 	namespace WorldInstance
 	{
 		class IScene;
+		class ISceneContactListener;
 		class IWorld;
 		class IComposer;
 		class ISceneObjectInstance;

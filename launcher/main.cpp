@@ -1,10 +1,5 @@
 
-#include <Interfaces/BaluEngineInterface.h>
-#include <Editor\abstractEditor.h>
-
-using namespace EngineInterface;
-
-EngineInterface::IDirector* director;
+#include <baluEngine.h>
 
 #include <Windows.h>
 
@@ -23,7 +18,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	if (num_args == 3)
 	{
-		Run(EngineInterface::as_utf8(args[1]), EngineInterface::as_utf8(args[2]));
+		Run(BaluEngine::WorldInstance::IDirector::as_utf8(args[1]),
+			BaluEngine::WorldInstance::IDirector::as_utf8(args[2]));
 	}
 	else
 	{
@@ -37,26 +33,31 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 void Run(std::string assets_dir, std::string file_to_run)
 {
-	EngineInterface::ConfigureLogging();
-
 	setlocale(LC_ALL, "C");
-	director = IDirector::CreateDirector(assets_dir);
+	auto director = BaluEngine::WorldInstance::IDirector::Create(assets_dir);
 
 	director->Initialize(true);
 
-	IBaluWorld* world = CreateWorld();
+	auto world = BaluEngine::WorldDef::CreateWorld();
 
 	world->LoadFromXML(file_to_run.c_str());
 
-	bool compile_success;
-	std::string error_message;
-	auto world_instance = CreateWorldInstance(world, director->GetResources(),assets_dir, true, compile_success, error_message);
+	auto world_instance = BaluEngine::WorldInstance::CreateWorld(world, director->GetResources(), assets_dir);
+
+	auto script_instance = BaluEngine::WorldInstance::CreateEventsEditor(world_instance, world->GetEventsEditor());
+	script_instance->Compile();
+
+	world_instance->SetCollideListener(script_instance.get());
+
+	script_instance->WorldStart(world_instance, world_instance->GetComposer());
 
 	director->SetWorldInstance(world_instance);
+	director->SetEventsEditor(script_instance);
 
 	director->MainLoop();
 
-	DestroyWorldInstance(world_instance);
-	DestroyWorld(world);
-	IDirector::DestroyDirector(director, true);
+
+	BaluEngine::WorldDef::DestroyWorld(world);
+
+	BaluEngine::WorldInstance::IDirector::ClearStaticData();
 }

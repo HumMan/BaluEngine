@@ -8,7 +8,7 @@ namespace BaluEngine
 	{
 		namespace Internal
 		{
-
+			
 			//class IScriptInstance
 			//{
 			//public:
@@ -36,7 +36,7 @@ namespace BaluEngine
 			public:
 				void Compile();
 
-				TScriptInstance(IWorld* world, WorldDef::IEventsEditor* source);
+				TScriptInstance(std::shared_ptr<IWorld> world, WorldDef::IEventsEditor* source);
 				~TScriptInstance();
 
 				void MouseDown(WorldDef::TMouseEventArgs e);
@@ -49,17 +49,17 @@ namespace BaluEngine
 				void KeyDown(WorldDef::TKey key);
 				void KeyUp(WorldDef::TKey key);
 
-				void OnCreate(ITransformedClassInstance* object);
+				void OnCreate(std::shared_ptr<ITransformedClassInstance> object);
 
 				void AddMouseEventListener(IMouseEventListener*);
 				void RemoveMouseEventListener(IMouseEventListener*);
 
-				void ViewportResize(IDirector* director, BaluLib::TVec2i old_size, BaluLib::TVec2i new_size);
+				void ViewportResize(std::shared_ptr < IDirector> director, BaluLib::TVec2i old_size, BaluLib::TVec2i new_size);
 
-				void WorldStart(IWorld* world_instance, IComposer* composer);
+				void WorldStart(std::shared_ptr < IWorld> world_instance, std::shared_ptr < IComposer> composer);
 
-				void Collide(ITransformedClassInstance* object,
-						ITransformedSpriteInstance* obj_a, ITransformedClassInstance* obj_b);
+				void ProcessCollision(std::shared_ptr < ITransformedClassInstance> object,
+					std::shared_ptr < ITransformedSpriteInstance> obj_a, std::shared_ptr < ITransformedClassInstance> obj_b);
 
 				//void CallMouseUp(IWorld world, WorldDef::TMouseEventArgs event);
 				//void CallMouseDown(IWorld world, WorldDef::TMouseEventArgs event);

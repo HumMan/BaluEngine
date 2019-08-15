@@ -20,8 +20,8 @@ using namespace BaluLib;
 class TSceneObjectInstance::TPrivate
 {
 public:
-	IScene * scene;
-	WorldDef::Internal::TRuntimeProperties properties;
+	std::weak_ptr<IScene> scene;
+	std::shared_ptr<WorldDef::Internal::TRuntimeProperties> properties;
 };
 
 typedef std::vector < std::pair<const char*, SceneObjectInstanceClone>> scene_object_instance_registry_type;
@@ -40,7 +40,7 @@ void SceneObjectInstanceFactory::UnregisterAll()
 	delete scene_object_instance_registry;
 }
 
-ISceneObjectInstance* SceneObjectInstanceFactory::Create(const char* name, WorldDef::ISceneObject* param, IScene* scene)
+std::shared_ptr<ISceneObjectInstance> SceneObjectInstanceFactory::Create(const char* name, WorldDef::ISceneObject* param, std::shared_ptr<IScene> scene)
 {
 	for (int i = 0; i < scene_object_instance_registry->size(); i++)
 		if (strcmp((*scene_object_instance_registry)[i].first, name) == 0)
@@ -68,6 +68,13 @@ class TContactsHolder : public b2ContactListener
 public:
 	std::vector<TCollisionInfo> contacts;
 	std::vector<TCollisionInfo> in_step_contacts;
+
+	ISceneContactListener* events_listener;
+
+	TContactsHolder()
+	{
+		events_listener = nullptr;
+	}
 
 	void AddContact(TCollisionInfo collision)
 	{
@@ -111,7 +118,7 @@ public:
 	{
 		in_step_contacts.clear();
 	}
-	void OnProcessCollisions(IEventsEditorInstance* events);
+	void OnProcessCollisions();
 };
 
 class TScene::TPrivate
@@ -124,7 +131,7 @@ public:
 	DebugDraw phys_debug;
 
 	WorldDef::IScene* source;
-	std::vector<std::unique_ptr<ISceneObjectInstance>> instances;
+	std::vector<std::shared_ptr<ISceneObjectInstance>> instances;
 
 	//std::vector<std::unique_ptr<ITransformedClassInstance>> class_instances;
 	//std::vector<std::unique_ptr<IGUIVisual>> editor_gui_instances;
@@ -145,7 +152,7 @@ public:
 	};
 	std::vector<TCollisionInfo> begin_contact, end_contact;
 
-	IWorld* world;
+	std::weak_ptr < IWorld> world;
 
 	TContactsHolder contact_listener;
 };
@@ -155,30 +162,30 @@ TSceneObjectInstance::~TSceneObjectInstance()
 	p.reset(new TPrivate());
 }
 
-WorldDef::IRuntimeProperties* TSceneObjectInstance::GetProperties()
+std::shared_ptr<WorldDef::IRuntimeProperties> TSceneObjectInstance::GetProperties()
 {
-	return &p->properties;
+	return p->properties;
 }
 
-IScene* TSceneObjectInstance::GetScene()
+std::shared_ptr<IScene> TSceneObjectInstance::GetScene()
 {
-	return p->scene;
+	return p->scene.lock();
 }
-TSceneObjectInstance::TSceneObjectInstance(IScene* scene)
+TSceneObjectInstance::TSceneObjectInstance(std::shared_ptr<IScene> scene)
 {
 	p.reset(new TPrivate());
+	p->properties = std::make_shared<WorldDef::Internal::TRuntimeProperties>();
 	p->scene = scene;
-	//(dynamic_cast<TScene*>(scene))->AddInstance(this);
 }
 
-bool TScene::PointCollide(TVec2 scene_space_point, ISceneObjectInstance* &result)
+bool TScene::PointCollide(TVec2 scene_space_point, std::shared_ptr < ISceneObjectInstance> &result)
 {
 	for (int i = 0; i < p->instances.size(); i++)
 	{
 		bool collide = dynamic_cast<TSceneObjectInstance*>(p->instances[i].get())->PointCollide(scene_space_point);
 		if (collide)
 		{
-			result = p->instances[i].get();
+			result = p->instances[i];
 			return true;
 		}
 	}
@@ -190,9 +197,9 @@ WorldDef::IScene* TScene::GetSource()
 	return p->source;
 }
 
-IWorld* TScene::GetWorld()
+std::shared_ptr < IWorld> TScene::GetWorld()
 {
-	return p->world;
+	return p->world.lock();
 }
 
 void TContactsHolder::BeginContact(b2Contact* contact)
@@ -210,7 +217,7 @@ void TContactsHolder::EndContact(b2Contact* contact)
 	RemoveContact(collision);
 }
 
-void TContactsHolder::OnProcessCollisions(IEventsEditorInstance* events)
+void TContactsHolder::OnProcessCollisions()
 {
 	for (auto& v : contacts)
 	{
@@ -220,11 +227,13 @@ void TContactsHolder::OnProcessCollisions(IEventsEditorInstance* events)
 		auto sprite_a = user_data_a->GetSprite();
 		auto sprite_b = user_data_b->GetSprite();
 
-		auto instance_a = dynamic_cast<TTransformedClassInstance*>(user_data_a->GetSceneObject());
-		auto instance_b = dynamic_cast<TTransformedClassInstance*>(user_data_b->GetSceneObject());
-
-		events->Collide(instance_a, sprite_a, instance_b);
-		events->Collide(instance_b, sprite_b, instance_a);
+		auto instance_a = std::dynamic_pointer_cast<TTransformedClassInstance>(user_data_a->GetSceneObject());
+		auto instance_b = std::dynamic_pointer_cast<TTransformedClassInstance>(user_data_b->GetSceneObject());
+		if (events_listener != nullptr)
+		{
+			events_listener->ProcessCollision(instance_a, sprite_a, instance_b);
+			events_listener->ProcessCollision(instance_b, sprite_b, instance_a);
+		}
 	}
 }
 
@@ -244,7 +253,12 @@ WorldDef::IViewport* TScene::GetViewport(std::string name)
 	return p->viewports[name].get();
 }
 
-TScene::TScene(IWorld* world, WorldDef::IScene* source, TResources* resources)
+void TScene::SetCollideListener(ISceneContactListener* contacts_listener)
+{
+	p->contact_listener.events_listener = contacts_listener;
+}
+
+TScene::TScene(std::weak_ptr < IWorld> world, WorldDef::IScene* source, TResources* resources)
 {
 	p.reset(new TPrivate());
 	p->source = source;
@@ -256,33 +270,21 @@ TScene::TScene(IWorld* world, WorldDef::IScene* source, TResources* resources)
 
 	p->phys_world->SetDebugDraw(&p->phys_debug);
 	p->phys_world->SetContactListener(&p->contact_listener);
+}
 
-	for (int i = 0; i < source->GetInstancesCount(); i++)
+void TScene::InitInstances(std::shared_ptr<IScene> this_ptr)
+{
+	for (int i = 0; i < p->source->GetInstancesCount(); i++)
 	{
-		auto source_instance = source->GetInstance(i);
-		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, this);
-		p->instances.push_back(std::unique_ptr<ISceneObjectInstance>(instance));
-		auto class_instance = dynamic_cast<ITransformedClassInstance*>(instance);
-		if(class_instance!=nullptr)
-			p->world->GetEventsEditor()->OnCreate(class_instance);
+		auto source_instance = p->source->GetInstance(i);
+		auto instance = SceneObjectInstanceFactory::Create(source_instance->GetFactoryName(), source_instance, this_ptr);
+		p->instances.push_back(instance);
+		auto class_instance = dynamic_cast<ITransformedClassInstance*>(instance.get());
+		//if (class_instance != nullptr)
+		//	p->world.lock()->GetEventsEditor()->OnCreate(class_instance);
 	}
 
 	//source->AddChangesListener(this);
-}
-
-
-TScene::TScene(IWorld* world, TResources* resources/*, TLayersManager* layers*/)
-{
-	p.reset(new TPrivate());
-	p->source = nullptr;
-	p->world = world;
-	p->resources = resources;
-	p->phys_world = std::unique_ptr<b2World>(new b2World(b2Vec2(0, -1)));
-
-	p->phys_debug.Create();
-
-	p->phys_world->SetDebugDraw(&p->phys_debug);
-	p->phys_world->SetContactListener(&p->contact_listener);
 }
 
 TScene::~TScene()
@@ -314,7 +316,7 @@ TScene::~TScene()
 //	}
 //}
 
-void TScene::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results)
+void TScene::QueryAABB(TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results)
 {
 	for (int i = 0; i < p->instances.size(); i++)
 	{
@@ -324,27 +326,24 @@ void TScene::QueryAABB(TAABB2 frustum, std::vector<ISpritePolygonInstance*>& res
 
 void TScene::QueryAABB(TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui)
 {
-	std::vector<ISpritePolygonInstance*> polygons;
+	std::vector< std::shared_ptr<ISpritePolygonInstance>> polygons;
 	QueryAABB(frustum, polygons);
 
 	
 	if (p->source != nullptr)
 	{
-		//TLayersManager* layers = this->source->GetLayers();
 		{
 			for (int i = 0; i < polygons.size(); i++)
 			{
-				dynamic_cast<TSpritePolygonInstance*>(polygons[i])->Render(results/*, *layers*/);
+				dynamic_cast<TSpritePolygonInstance*>(polygons[i].get())->Render(results);
 			}
 		}
 	}
 	else
 	{
-		//TLayersManager without_layers(nullptr);	
-		//without_layers.AddLayer(TLayer(), -1);
 		for (int i = 0; i < polygons.size(); i++)
 		{
-			dynamic_cast<TSpritePolygonInstance*>(polygons[i])->Render(results/*, without_layers*/);
+			dynamic_cast<TSpritePolygonInstance*>(polygons[i].get())->Render(results);
 		}
 	}
 
@@ -360,9 +359,9 @@ size_t TScene::GetInstancesCount()
 {
 	return p->instances.size();
 }
-ISceneObjectInstance* TScene::GetInstance(size_t index)
+std::shared_ptr < ISceneObjectInstance> TScene::GetInstance(size_t index)
 {
-	return p->instances[index].get();
+	return p->instances[index];
 }
 
 void TScene::PhysStep(float step)
@@ -373,7 +372,7 @@ void TScene::PhysStep(float step)
 
 void TScene::OnProcessCollisions()
 {
-	p->contact_listener.OnProcessCollisions(p->world->GetEventsEditor());
+	p->contact_listener.OnProcessCollisions();
 }
 
 void TScene::OnStep(float step)

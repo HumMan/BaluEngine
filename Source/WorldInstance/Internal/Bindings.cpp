@@ -52,6 +52,7 @@ void BaluEngine::WorldInstance::GenerateScriptBindings(std::string output_path)
 
 		std::vector<SemanticApi::TExternalClassDecl> external_classes;
 		std::vector<std::string> interface_classes;
+		std::vector<std::string> shared_ptr_classes;
 
 		for (auto& v : BaluEngine::WorldInstance::Internal::TScriptClassesRegistry::get_external_class_registry())
 		{
@@ -62,6 +63,8 @@ void BaluEngine::WorldInstance::GenerateScriptBindings(std::string output_path)
 			StoC_map[v.name] = v.c_name;
 			if (v.is_interface)
 				interface_classes.push_back(v.name);
+			if (v.is_shared)
+				shared_ptr_classes.push_back(v.name);
 		}
 
 		std::vector<SemanticApi::TExternalSMethod> _external_bindings;
@@ -102,6 +105,7 @@ void BaluEngine::WorldInstance::GenerateScriptBindings(std::string output_path)
 		binding_gen_info.external_bindings = _external_bindings;
 		binding_gen_info.external_classes = external_classes;
 		binding_gen_info.interface_script_class = interface_classes;
+		binding_gen_info.shared_ptr_script_class = shared_ptr_classes;
 		binding_gen_info.script_class_to_c_map = StoC_map;
 		binding_gen_info.type_converters["TString"].in_converter = "Convert_TString_to_stdstring";
 		binding_gen_info.type_converters["TString"].out_converter = "Convert_stdstring_to_TString";

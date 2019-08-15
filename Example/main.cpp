@@ -4,13 +4,6 @@
 //#define USE_CALLBACKS
 #include "DemoWorld.h"
 
-WorldInstance::IScene* scene_instance;
-WorldInstance::TScreen* screen;
-WorldDef::IViewport* main_viewport;
-WorldInstance::TView main_viewport_view;
-
-WorldInstance::IDirector* director;
-
 #include <Windows.h>
 
 std::string WideToMultiByte(std::wstring source)
@@ -45,7 +38,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 void Run(std::string assets_dir)
 {
-	director = WorldInstance::IDirector::CreateDirector(assets_dir);
+	auto director = WorldInstance::IDirector::Create(assets_dir);
 
 	director->Initialize(true);
 
@@ -57,18 +50,20 @@ void Run(std::string assets_dir)
 	temp->SaveToXML("demo_test_2.xml");
 	WorldDef::DestroyWorld(temp);
 
-	screen = new WorldInstance::TScreen(director->GetScreenSize());
+	auto screen = new WorldInstance::TScreen(director->GetScreenSize());
 
-	main_viewport_view = WorldInstance::TView(BaluLib::TVec2(0.5, 0.5), BaluLib::TVec2(1, 1));
+	auto main_viewport_view = WorldInstance::TView(BaluLib::TVec2(0.5, 0.5), BaluLib::TVec2(1, 1));
+	
 
-	std::string error;
-	bool compile_success;
-	auto demo_world_instance = WorldInstance::CreateWorld(demo_world, director->GetResources(), assets_dir, true, compile_success, error);
+	auto demo_world_instance = WorldInstance::CreateWorld(demo_world, director->GetResources(),  assets_dir);
+
+	auto script_instance = BaluEngine::WorldInstance::CreateEventsEditor(demo_world_instance, demo_world->GetEventsEditor());
+	script_instance->Compile();
 	
 	WorldInstance::TDrawingHelperContext drawing_context;
 	drawing_context.screen = screen;
 	drawing_context.view = &main_viewport_view;
-	drawing_context.viewport = main_viewport;
+	drawing_context.viewport = nullptr;
 
 	director->SetWorldInstance(demo_world_instance);
 
@@ -76,8 +71,8 @@ void Run(std::string assets_dir)
 
 	director->MainLoop();
 
-	WorldInstance::DestroyWorld(demo_world_instance);
 	WorldDef::DestroyWorld(demo_world);
 	delete screen;
-	WorldInstance::IDirector::DestroyDirector(director, true);
+
+	director.reset();
 }

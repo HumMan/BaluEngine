@@ -55,7 +55,7 @@ namespace BaluEngine
 		public:
 			static inline const char* Get(TWorldObjectType index)
 			{
-				char* values[] =
+                                const char* values[] =
 				{
 					"Material",
 					"Sprite",

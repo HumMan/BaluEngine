@@ -7,18 +7,18 @@ namespace BaluEngine
 
 		class TPhysShapeUserData
 		{
-			ISceneObjectInstance* scene_object;
-			ITransformedSpriteInstance* sprite;
+			std::weak_ptr < ISceneObjectInstance> scene_object;
+			std::weak_ptr < ITransformedSpriteInstance> sprite;
 		public:
-			ISceneObjectInstance * GetSceneObject()
+			std::shared_ptr < ISceneObjectInstance> GetSceneObject()
 			{
-				return scene_object;
+				return scene_object.lock();
 			}
-			ITransformedSpriteInstance* GetSprite()
+			std::shared_ptr < ITransformedSpriteInstance> GetSprite()
 			{
-				return sprite;
+				return sprite.lock();
 			}
-			TPhysShapeUserData(ISceneObjectInstance* scene_object, ITransformedSpriteInstance* sprite)
+			TPhysShapeUserData(std::weak_ptr < ISceneObjectInstance> scene_object, std::weak_ptr < ITransformedSpriteInstance> sprite)
 			{
 				this->scene_object = scene_object;
 				this->sprite = sprite;

@@ -16,19 +16,19 @@ namespace BaluEngine
 			{
 			private:
 				WorldDef::ISprite * source;
-				std::unique_ptr<IPhysShapeInstance> phys_shape;
-				TSpritePolygonInstance polygon;
+				std::shared_ptr<IPhysShapeInstance> phys_shape;
+				std::shared_ptr < TSpritePolygonInstance> polygon;
 
 				//TProperties properties;
 			public:
 				WorldDef::ISprite * GetSource();
-				TSpriteInstance(WorldDef::ISprite* source, TResources* resources, ISceneObjectInstance* scene_object, ITransformedSpriteInstance* parent);
+				TSpriteInstance(WorldDef::ISprite* source, TResources* resources, std::weak_ptr < ISceneObjectInstance> scene_object, std::weak_ptr < ITransformedSpriteInstance> parent);
 				~TSpriteInstance();
 				BaluLib::TOBB2 GetOBB();
 
-				IPhysShapeInstance* GetPhysShape();
+				std::shared_ptr < IPhysShapeInstance> GetPhysShape();
 
-				TSpritePolygonInstance* GetPolygon();
+				std::shared_ptr < TSpritePolygonInstance> GetPolygon();
 
 				void PlayAnimation(std::string animation_name, bool loop);
 				void PauseAnimation(bool pause);
@@ -44,14 +44,15 @@ namespace BaluEngine
 
 				WorldDef::TTransformWithScale transform;
 
-				TSpriteInstance sprite_instance;
+				std::shared_ptr < TSpriteInstance> sprite_instance;
 			public:
 				//IProperties * GetProperties()
 				//{
 				//	return sprite_instance.GetProperties();
 				//}
-				TSpriteInstance* GetSprite();
-				TTransformedSpriteInstance(WorldDef::ITransformedSprite* source, TResources* resources, ISceneObjectInstance* scene_object);
+				std::shared_ptr < TSpriteInstance> GetSprite();
+				TTransformedSpriteInstance();
+				void Init(WorldDef::ITransformedSprite* source, TResources* resources, std::weak_ptr < ISceneObjectInstance> scene_object, std::weak_ptr<ITransformedSpriteInstance> this_ptr);
 
 				void SetTransform(WorldDef::TTransform local)
 				{
@@ -73,9 +74,9 @@ namespace BaluEngine
 
 				BaluLib::TOBB2 GetOBB();
 
-				IPhysShapeInstance* GetPhysShape();
+				std::shared_ptr < IPhysShapeInstance> GetPhysShape();
 
-				TSpritePolygonInstance* GetPolygon();
+				std::shared_ptr < ISpritePolygonInstance> GetPolygon();
 
 				void PlayAnimation(std::string animation_name, bool loop);
 				void PauseAnimation(bool pause);

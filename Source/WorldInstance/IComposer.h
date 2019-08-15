@@ -14,8 +14,8 @@ namespace BaluEngine
 		class IComposer
 		{
 		public:
-			virtual IComposerStage* AddToRender(IScene* scene_instance, WorldDef::IViewport* viewport) = 0;
-			virtual void RemoveFromRender(IComposerStage* stage) = 0;
+			virtual IComposerStage* AddToRender(std::shared_ptr<IScene> scene_instance, WorldDef::IViewport* viewport) = 0;
+			virtual void RemoveFromRender(std::shared_ptr<IComposerStage> stage) = 0;
 			virtual ~IComposer() {}
 		};
 	}

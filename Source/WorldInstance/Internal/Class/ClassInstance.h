@@ -25,18 +25,18 @@ namespace BaluEngine
 				b2Body * phys_body;
 				WorldDef::IClassPhysBody* source;
 				b2World* phys_world;
-				ISpritesArray* sprites;
+				std::weak_ptr < ISpritesArray> sprites;
 
 				WorldDef::TTransform local;
 
-				bool is_enable;
+				bool is_enabled;
 
 			public:
-				TClassPhysBodyIntance(b2World* phys_world, WorldDef::IClassPhysBody* source, ISpritesArray* sprites, WorldDef::TTransform parent_transform);
+				TClassPhysBodyIntance(b2World* phys_world, WorldDef::IClassPhysBody* source, std::weak_ptr < ISpritesArray> sprites, WorldDef::TTransform parent_transform);
 
 				void BuildAllFixtures();
 
-				bool IsEnable();
+				bool IsEnabled();
 				void SetFixedRotation(bool fixed);
 
 				BaluLib::TVec2 GetLinearVelocity();
@@ -53,26 +53,28 @@ namespace BaluEngine
 			{
 			private:
 				WorldDef::IClass * source;
-				ISceneObjectInstance* scene_object;
+				std::weak_ptr<ISceneObjectInstance> scene_object;
 				//TResources* resources;
 
-				std::vector<std::unique_ptr<ITransformedSpriteInstance>> sprites;
-				std::unique_ptr<TClassPhysBodyIntance> phys_body;
-				TSkeletonInstance skeleton;
-				TSkeletonAnimationInstance skeleton_animation;
+				std::vector<std::shared_ptr<ITransformedSpriteInstance>> sprites;
+				std::shared_ptr<TClassPhysBodyIntance> phys_body;
+				std::shared_ptr < TSkeletonInstance> skeleton;
+				std::shared_ptr < TSkeletonAnimationInstance> skeleton_animation;
 
 				//TProperties properties;
-				void BuildAllFixtures();
+				//void BuildAllFixtures();
 			public:
-				TClassInstance(WorldDef::IClass* source, b2World* phys_world, WorldDef::TTransform parent_transform, TResources* resources, ISceneObjectInstance* scene_object);
+				TClassInstance();
+				void Init(WorldDef::IClass* source, b2World* phys_world, WorldDef::TTransform parent_transform, 
+					TResources* resources, std::weak_ptr < ISceneObjectInstance> scene_object, std::weak_ptr< TClassInstance> this_ptr);
 				WorldDef::IClass* GetSource();
 				int GetSpritesCount();
-				int ContainsSprite(ITransformedSpriteInstance* sprite);
-				ITransformedSpriteInstance* GetSprite(int index);
-				TSkeletonAnimationInstance* GetSkeletonAnimation();
-				TClassPhysBodyIntance* GetPhysBody();
-				bool PointCollide(BaluLib::TVec2 class_space_point, ITransformedSpriteInstance* &result);
-				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results);
+				int ContainsSprite(std::shared_ptr<ITransformedSpriteInstance> sprite);
+				std::shared_ptr < ITransformedSpriteInstance> GetSprite(int index);
+				std::shared_ptr < ISkeletonAnimationInstance> GetSkeletonAnimation();
+				std::shared_ptr < IClassPhysBodyIntance> GetPhysBody();
+				bool PointCollide(BaluLib::TVec2 class_space_point, std::shared_ptr < ITransformedSpriteInstance> &result);
+				void QueryAABB(BaluLib::TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results);
 
 				void UpdateTransform(WorldDef::TTransformWithScale transform);
 			};
@@ -81,7 +83,7 @@ namespace BaluEngine
 			{
 			private:
 				int uid;
-				TClassInstance instance_class;
+				std::shared_ptr < TClassInstance> instance_class;
 				WorldDef::TTransformWithScale instance_transform;
 
 				WorldDef::ITransformedClass* source;
@@ -98,32 +100,33 @@ namespace BaluEngine
 				{
 					return FactoryName();
 				}
-				TClassInstance* GetClass();
+				std::shared_ptr < IClassInstance> GetClass();
 				WorldDef::ISceneObject* GetSource()
 				{
 					return source;
 				}
-				TTransformedClassInstance(WorldDef::ITransformedClass* source, IScene* scene);
+				TTransformedClassInstance(std::shared_ptr < IScene> scene);
+				void Init(WorldDef::ITransformedClass* source, std::shared_ptr< TTransformedClassInstance> this_ptr);
 				~TTransformedClassInstance();
 				void SetTransform(WorldDef::TTransform transform);
 				WorldDef::TTransform GetTransform();
 				BaluLib::TVec2 GetScale();
 				void SetScale(BaluLib::TVec2 scale);
 
-				TClassPhysBodyIntance* GetPhysBody();
+				std::shared_ptr < IClassPhysBodyIntance> GetPhysBody();
 
-				ITransformedSpriteInstance* GetSprite(int index);
+				std::shared_ptr < ITransformedSpriteInstance> GetSprite(int index);
 
-				TSkeletonAnimationInstance* GetSkeletonAnimation();
+				std::shared_ptr < ISkeletonAnimationInstance> GetSkeletonAnimation();
 
-				bool PointCollide(BaluLib::TVec2 class_space_point, ITransformedSpriteInstance* &result);
+				bool PointCollide(BaluLib::TVec2 class_space_point, std::shared_ptr < ITransformedSpriteInstance> &result);
 				bool PointCollide(BaluLib::TVec2 scene_space_point);
 				BaluLib::TOBB2 GetOBB();
 				BaluLib::TAABB2 GetAABB();
-				void QueryAABB(BaluLib::TAABB2 frustum, std::vector<ISpritePolygonInstance*>& results);
+				void QueryAABB(BaluLib::TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results);
 
 				void UpdateTransform();
-				static ISceneObjectInstance* Clone(WorldDef::ISceneObject* source, IScene* scene);
+				static std::shared_ptr<ISceneObjectInstance> Clone(WorldDef::ISceneObject* source, std::shared_ptr<IScene> scene);
 			};
 
 			REGISTER_FACTORY_CLASS(SceneObjectInstanceFactory, TTransformedClassInstance)

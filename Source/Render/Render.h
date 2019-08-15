@@ -2,12 +2,12 @@
 
 #include "RenderCommand.h"
 
-#include <Interfaces/ExportMacro.h>
+#include "../Interfaces/ExportMacro.h"
 
 #include <vector>
 
 
-#include "WorldDef/Interface.h"
+#include "../WorldDef/Interface.h"
 
 namespace BaluRender
 {
