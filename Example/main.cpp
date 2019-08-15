@@ -65,7 +65,12 @@ void Run(std::string assets_dir)
 	drawing_context.view = &main_viewport_view;
 	drawing_context.viewport = nullptr;
 
+	demo_world_instance->SetCollideListener(script_instance.get());
+
+	script_instance->WorldStart(demo_world_instance, demo_world_instance->GetComposer());
+
 	director->SetWorldInstance(demo_world_instance);
+	director->SetEventsEditor(script_instance);
 
 	director->SetSymulatePhysics(true);
 
@@ -75,4 +80,6 @@ void Run(std::string assets_dir)
 	delete screen;
 
 	director.reset();
+
+	BaluEngine::WorldInstance::IDirector::ClearStaticData();
 }
