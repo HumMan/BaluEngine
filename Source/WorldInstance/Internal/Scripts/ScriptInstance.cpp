@@ -2,8 +2,6 @@
 
 #include "ScriptClassesRegistry.h"
 
-#include <Windows.h>
-
 #include <fstream>
 #include <streambuf>
 
@@ -61,8 +59,6 @@ class TScriptInstance::TPrivate
 public:
 	WorldDef::IEventsEditor* source;
 	ISyntaxAnalyzer* syntax;
-	std::vector<TStaticValue> static_objects;
-	TRefsList ref_list;
 	std::vector<std::string> errors;
 	std::shared_ptr < IWorld> world;
 
@@ -76,8 +72,6 @@ TScriptInstance::TScriptInstance(std::shared_ptr < IWorld> world, WorldDef::IEve
 	p.reset(new TPrivate());
 	p->source = source;
 	p->world = world;
-
-	p->global_context = TGlobalRunContext(&p->static_objects, &p->ref_list);
 }
 
 TScriptInstance::~TScriptInstance()

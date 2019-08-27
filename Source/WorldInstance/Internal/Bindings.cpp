@@ -4,8 +4,6 @@
 
 #include "Scripts/ScriptClassesRegistry.h"
 
-#include <Windows.h>
-
 #include <fstream>
 #include <streambuf>
 
@@ -22,7 +20,7 @@ std::map<std::string, std::string> StoC_map = {
 	{ "vec2", "BaluLib::TVec2" },
 };
 
-void Bootstrap(TMethodRunContext* run_context)
+void Bootstrap(TMethodRunContext& run_context)
 {
 
 }
