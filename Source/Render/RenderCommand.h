@@ -107,7 +107,7 @@ namespace BaluEngine
 				BaluLib::TVec2* vertices;
 				BaluLib::TVec2* tex_coords;
 				BaluLib::TVec4* colors;
-				int layer_order;
+				//int layer_order;
 				float alpha;
 
 				TRenderCommand() {}

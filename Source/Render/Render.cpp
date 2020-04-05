@@ -46,8 +46,8 @@ void TRender::Render(std::vector<TRenderCommand>& render_commands, std::vector<I
 	render->Blend.Enable(true);
 	render->Blend.Func(TBlendEquation::BE_SRC_ALPHA, TBlendFunc::BF_ADD, TBlendEquation::BE_ONE_MINUS_SRC_ALPHA);
 	//render->Set.PolygonMode(TBaluRenderEnums::TPolygonMode::Line);
-	std::sort(render_commands.begin(), render_commands.end(),
-		[&](TRenderCommand& l, TRenderCommand& r){return l.layer_order > r.layer_order; });
+	//std::sort(render_commands.begin(), render_commands.end(),
+	//	[&](TRenderCommand& l, TRenderCommand& r){return l.layer_order > r.layer_order; });
 	render->Set.Color(1, 1, 1, 1);
 	//int current_layer = render_commands.front().layer;
 

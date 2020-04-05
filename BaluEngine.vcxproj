@@ -105,12 +105,6 @@
     <ClInclude Include="Source\Common\Director.h" />
     <ClInclude Include="Source\Common\IDirector.h" />
     <ClInclude Include="Source\Common\IResources.h" />
-    <ClInclude Include="Source\Editor\abstractEditor.h" />
-    <ClInclude Include="Source\Editor\IAbstractEditor.h" />
-    <ClInclude Include="Source\Editor\Objects\ClassEditor\classEditorTools.h" />
-    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditor.h" />
-    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorScene.h" />
-    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorTools.h" />
     <ClInclude Include="Source\Render\DrawingHelper.h" />
     <ClInclude Include="Source\Render\Render.h" />
     <ClInclude Include="Source\Render\RenderCommand.h" />
@@ -168,6 +162,7 @@
     <ClInclude Include="Source\WorldInstance\Internal\Class\SkeletonAnimationInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Class\SkeletonInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Composer\Composer.h" />
+    <ClInclude Include="Source\WorldInstance\Internal\EditorGUI\BoxContour\BoxGuiInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Material\MaterialInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Scene\SceneInstance.h" />
     <ClInclude Include="Source\WorldInstance\Internal\Scripts\IScriptInstance.h" />
@@ -198,8 +193,6 @@
   <ItemGroup>
     <ClCompile Include="Source\Common\Director.cpp" />
     <ClCompile Include="Source\Common\Resources.cpp" />
-    <ClCompile Include="Source\Editor\abstractEditor.cpp" />
-    <ClCompile Include="Source\Editor\IAbstractEditor.cpp" />
     <ClCompile Include="Source\Render\DrawingHelper.cpp" />
     <ClCompile Include="Source\Render\Render.cpp" />
     <ClCompile Include="Source\Utils\ConvexDecomposition\b2Polygon.cpp" />
@@ -242,6 +235,7 @@
     <ClCompile Include="Source\WorldInstance\Internal\Class\SkeletonAnimationInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Class\SkeletonInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Composer\Composer.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\EditorGUI\BoxContour\BoxGuiInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Material\MaterialInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Scene\SceneInstance.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptClassesRegistry.cpp" />
@@ -258,7 +252,6 @@
     <ClCompile Include="submodules\poly2tri\poly2tri\sweep\sweep_context.cc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cpp.hint" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

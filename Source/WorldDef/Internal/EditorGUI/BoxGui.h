@@ -15,6 +15,7 @@ namespace BaluEngine
 			{
 			public:
 				BaluLib::TOBB2 boundary;
+				bool enable;
 
 				static const char* FactoryName()
 				{

@@ -19,7 +19,7 @@ namespace BaluEngine
 			virtual WorldDef::IScene* GetSource() = 0;
 			virtual std::shared_ptr < IWorld> GetWorld() = 0;
 			virtual WorldDef::IViewport* GetViewport(std::string name) = 0;
-			void QueryAABB(BaluLib::TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results);
+			//void QueryAABB(BaluLib::TAABB2 frustum, std::vector< std::shared_ptr<ISpritePolygonInstance>>& results);
 			//void QueryAABB(BaluLib::TAABB2 frustum, std::vector<TRenderCommand>& results, std::vector<IGUIVisual*>& gui);
 
 			//virtual ISceneObjectInstance* CreateInstance(WorldDef::ISceneObject* use_class, WorldDef::TTransform transform, BaluLib::TVec2 scale) = 0;

@@ -1,34 +1,25 @@
 #pragma once
 
-#include <baluLib.h>
-#include <WorldInstance/Objects/Material/IMaterialInstance.h>
-#include "BoxGui.h"
+#include <WorldDef/Internal/EditorGUI/BoxGui.h>
+
+#include "../../../Interface.h"
 
 #include <Render/RenderCommand.h>
 
-using namespace EngineInterface;
-
-class TOBBContourPrivate;
-
-class TOBBContour: public EngineInterface::TSceneObjectInstance, public TBoxGuiDef, public EngineInterface::IGUIVisual
+namespace BaluEngine
 {
-public:
-	bool enable;
-	TOBB2 GetOBB()
+	namespace WorldInstance
 	{
-		return boundary;
+		namespace Internal
+		{
+
+			class TOBBContourPrivate;
+
+			class TOBBContour : public ISceneObjectInstance, public WorldDef::Internal::TBoxGui, public IGUIVisual
+			{
+			public:	
+				void Render(TDrawingHelper* helper)const;
+			};
+		}
 	}
-	void SetBox(TOBB2 box);
-
-	void SetEnable(bool enable);
-
-	void Render(TDrawingHelper* helper)const;
-
-	TOBBContour(TSceneInstance* scene);
-
-	bool PointCollide(TVec2 scene_space_point)
-	{
-		return false;
-		//return boundary.PointCollide(scene_space_point);
-	}
-};
+}

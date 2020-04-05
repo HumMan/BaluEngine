@@ -71,9 +71,9 @@ namespace BaluEngine
 				{
 					return TWorldObjectType::Scene;
 				}
-				TLayersManager* GetLayers()
+				TLayersManager& GetLayers()
 				{
-					return &layers;
+					return layers;
 				}
 				TScene(const char* name, IWorld* world);
 

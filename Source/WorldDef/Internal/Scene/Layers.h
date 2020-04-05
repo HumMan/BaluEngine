@@ -46,16 +46,11 @@ namespace BaluEngine
 			class TLayersManager :public ILayersManager
 			{
 			private:
-				IScene * scene;
 				std::vector<std::unique_ptr<TLayer>> layers;
 
 				std::vector<ILayersManagerChangeListener*> listeners;
 			public:
-				TLayersManager(IScene* scene);
-				IScene* GetScene()
-				{
-					return scene;
-				}
+				TLayersManager();
 				void AddListener(ILayersManagerChangeListener* listener)
 				{
 					auto it = std::find(listeners.begin(), listeners.end(), listener);

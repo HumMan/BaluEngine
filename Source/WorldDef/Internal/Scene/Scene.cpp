@@ -30,7 +30,7 @@ TViewport* TScene::CreateViewport(const std::string& name)
 }
 
 TScene::TScene(const char* name, IWorld* world)
-	:layers(this), TWorldObject(world, name)
+	:TWorldObject(world, name)
 {
 }
 

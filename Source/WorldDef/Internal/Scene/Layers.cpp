@@ -27,10 +27,9 @@ void TLayer::Load(const pugi::xml_node & instance_node, const int version, IWorl
 	LoadProperties(instance_node, version);
 }
 
-TLayersManager::TLayersManager(IScene* scene)
+TLayersManager::TLayersManager()
 {
 	layers.push_back(std::unique_ptr<TLayer>(new TLayer("Default", true)));
-	this->scene = scene;
 }
 
 ILayer* TLayersManager::GetLayer(int id)

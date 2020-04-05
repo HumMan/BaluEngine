@@ -23,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	}
 	else
 	{
-		Run("assets", "game.bew");
+		Run("assets", "demo_test_2.xml");
 	}
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);

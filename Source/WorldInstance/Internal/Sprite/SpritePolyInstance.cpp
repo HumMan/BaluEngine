@@ -59,7 +59,7 @@ void TSpritePolygonInstance::Render(std::vector<TRenderCommand>& commands/*, TLa
 				command.tex_coords = &tex_coords[0];
 				/*command.layer_order = layer_desc.GetOrder();
 				command.alpha = layer_desc.GetAlpha();*/
-				command.layer_order = 0;
+				//command.layer_order = 0;
 				command.alpha = 1.0f;
 			}
 		}

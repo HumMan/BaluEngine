@@ -259,24 +259,6 @@
     <ClInclude Include="Source\WorldInstance\Internal\Scripts\IScriptInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\ClassEditor\classEditorTools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\Objects\SceneEditor\sceneEditorTools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\abstractEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Editor\IAbstractEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WorldDef\Internal\Class\ClassCommands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -284,6 +266,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\WorldDef\Internal\World\WorldCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WorldInstance\Internal\EditorGUI\BoxContour\BoxGuiInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -343,14 +328,12 @@
     <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptClassesRegistry.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Bindings.cpp" />
     <ClCompile Include="Source\WorldInstance\Internal\Scripts\ScriptInstance.cpp" />
-    <ClCompile Include="Source\Editor\abstractEditor.cpp" />
-    <ClCompile Include="Source\Editor\IAbstractEditor.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Class\ClassCommands.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\Scene\SceneCommands.cpp" />
     <ClCompile Include="Source\WorldDef\Internal\World\WorldCommands.cpp" />
+    <ClCompile Include="Source\WorldInstance\Internal\EditorGUI\BoxContour\BoxGuiInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

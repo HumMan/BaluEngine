@@ -1,19 +1,11 @@
 
 #include "BoxGuiInstance.h"
 
-#include <Editor/DrawingHelper.h>
+#include <Render/DrawingHelper.h>
 
-#include <WorldInstance/Objects/Scene/ISceneInstance.h>
-
-void TOBBContour::SetBox(TOBB2 box)
-{
-	boundary = box;
-}
-
-void TOBBContour::SetEnable(bool enable)
-{
-	this->enable = enable;
-}
+using namespace BaluEngine;
+using namespace BaluEngine::WorldInstance;
+using namespace BaluEngine::WorldInstance::Internal;
 
 void TOBBContour::Render(TDrawingHelper* helper)const
 {
@@ -23,8 +15,8 @@ void TOBBContour::Render(TDrawingHelper* helper)const
 	}
 }
 
-TOBBContour::TOBBContour(TSceneInstance* scene)
-	:TSceneObjectInstance(scene)
-{
-	enable = false;
-}
+//TOBBContour::TOBBContour(TSceneInstance* scene)
+//	:TSceneObjectInstance(scene)
+//{
+//	enable = false;
+//}
